@@ -27,6 +27,11 @@ namespace Farm.UI
             _store = ServiceLocator.Get<SettingsStore>();
             var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "Options", new Vector2(620, 470), out var root);
             Root = root;
+            // Fill the canvas height (with margins) so the Back button is always on screen, whatever the window size.
+            frame.anchorMin = new Vector2(0.5f, 0f);
+            frame.anchorMax = new Vector2(0.5f, 1f);
+            frame.offsetMin = new Vector2(-310f, 24f);
+            frame.offsetMax = new Vector2(310f, -24f);
 
             var stack = UiKit.VStack(frame, "Stack", 8f, 14);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -34,6 +39,9 @@ namespace Farm.UI
 
             var scroll = UiKit.Rect("Scroll", stack.transform);
             UiKit.Size(scroll.gameObject, -1f, -1f, -1f, 1f);
+            // Invisible but raycastable: without a Graphic here the wheel does nothing over blank space.
+            var catcher = scroll.gameObject.AddComponent<Image>();
+            catcher.color = new Color(0f, 0f, 0f, 0f);
             var rect = scroll.gameObject.AddComponent<ScrollRect>();
             scroll.gameObject.AddComponent<RectMask2D>();
             var content = UiKit.VStack(scroll, "Content", 6f, 4);
@@ -48,6 +56,8 @@ namespace Farm.UI
             rect.horizontal = false;
             rect.scrollSensitivity = 30f;
             rect.movementType = ScrollRect.MovementType.Clamped;
+            rect.verticalScrollbar = UiKit.MakeScrollbar(scroll);
+            rect.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
             _content = crt;
             _scroll = rect;
 

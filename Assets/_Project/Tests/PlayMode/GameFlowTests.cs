@@ -7,6 +7,7 @@ using Farm.Data;
 using Farm.Gameplay;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -244,6 +245,51 @@ namespace Farm.Tests
             var cont = buttons.First(b => b.name == L.Get("menu.continue"));
             Assert.IsFalse(cont.interactable);
             Assert.IsTrue(buttons.Any(b => b.name == L.Get("menu.new_game") && b.interactable));
+        }
+
+        [UnityTest]
+        public IEnumerator OptionsScreen_Scrolls_WithMouseWheel_EvenOverBlankSpace()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var session = ServiceLocator.Get<GameSession>();
+            session.BeginNewGame("Tester", "Test Farm", 0);
+            yield return LoadScene(MapIds.Farm);
+            yield return WaitFrames(2);
+
+            var ui = ServiceLocator.Get<IUiService>();
+            ui.ShowOptions();
+            yield return WaitFrames(4);
+            Canvas.ForceUpdateCanvases();
+
+            var scroll = UnityEngine.Object.FindObjectsByType<ScrollRect>(FindObjectsSortMode.None).First(s => s.gameObject.activeInHierarchy);
+            Assert.Greater(scroll.content.rect.height, ((RectTransform)scroll.transform).rect.height, "options content should be taller than its viewport");
+            scroll.verticalNormalizedPosition = 1f;
+
+            // Every point of the scroll area must hand the wheel to the ScrollRect, including blank gaps between
+            // labels and controls (those have no raycastable graphic of their own).
+            var corners = new Vector3[4];
+            ((RectTransform)scroll.transform).GetWorldCorners(corners);
+            var misses = new System.Collections.Generic.List<string>();
+            RaycastResult first = default;
+            PointerEventData pointer = null;
+            for (var ix = 1; ix <= 7; ix++)
+                for (var iy = 1; iy <= 9; iy++)
+                {
+                    var world = new Vector3(Mathf.Lerp(corners[0].x, corners[2].x, ix / 8f), Mathf.Lerp(corners[0].y, corners[2].y, iy / 10f), 0f);
+                    var p = RectTransformUtility.WorldToScreenPoint(null, world);
+                    pointer = new PointerEventData(EventSystem.current) { position = p, scrollDelta = new Vector2(0f, -5f) };
+                    var hits = new System.Collections.Generic.List<RaycastResult>();
+                    EventSystem.current.RaycastAll(pointer, hits);
+                    if (hits.Count == 0 || hits[0].gameObject.GetComponentInParent<ScrollRect>() == null)
+                        misses.Add($"({ix},{iy}):{(hits.Count == 0 ? "nothing" : hits[0].gameObject.name)}");
+                    else if (first.gameObject == null) first = hits[0];
+                }
+            Assert.IsEmpty(misses, "points in the options list that would not scroll: " + string.Join(", ", misses));
+
+            pointer = new PointerEventData(EventSystem.current) { scrollDelta = new Vector2(0f, -5f) };
+            ExecuteEvents.ExecuteHierarchy(first.gameObject, pointer, ExecuteEvents.scrollHandler);
+            Assert.Less(scroll.verticalNormalizedPosition, 1f, "wheel should scroll the list down");
         }
     }
 }

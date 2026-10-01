@@ -203,6 +203,30 @@ namespace Farm.UI
             return slider;
         }
 
+        // Vertical scrollbar docked to the right edge of a ScrollRect.
+        public static Scrollbar MakeScrollbar(RectTransform scrollRoot)
+        {
+            var track = Panel(scrollRoot, "Scrollbar", new Color(0.08f, 0.06f, 0.04f, 1f));
+            track.rectTransform.anchorMin = new Vector2(1f, 0f);
+            track.rectTransform.anchorMax = new Vector2(1f, 1f);
+            track.rectTransform.pivot = new Vector2(1f, 0.5f);
+            track.rectTransform.sizeDelta = new Vector2(10f, 0f);
+            track.rectTransform.anchoredPosition = Vector2.zero;
+
+            var area = Rect("Sliding Area", track.transform);
+            Stretch(area);
+            var handle = Panel(area, "Handle", Color.white);
+            Stretch(handle.rectTransform);
+
+            var bar = track.gameObject.AddComponent<Scrollbar>();
+            bar.handleRect = handle.rectTransform;
+            bar.targetGraphic = handle;
+            bar.direction = Scrollbar.Direction.BottomToTop;
+            StyleSelectable(bar);
+            bar.navigation = new Navigation { mode = Navigation.Mode.None };   // keep gamepad focus on the rows
+            return bar;
+        }
+
         public static Toggle MakeToggle(Transform parent, string text, bool value, UnityAction<bool> onChanged, float width = 220f)
         {
             var root = Panel(parent, text, Color.white);
