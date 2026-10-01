@@ -179,6 +179,22 @@ namespace Farm.Tests
 
             var cont = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
                 .First(b => b.gameObject.activeInHierarchy && b.name == L.Get("ui.continue"));
+
+            // The screen is faded to black while the summary shows: the Continue button must still be visible and
+            // clickable, i.e. the topmost raycast hit at its position (not the fade overlay).
+            yield return WaitFrames(3);
+            var corners = new Vector3[4];
+            ((RectTransform)cont.transform).GetWorldCorners(corners);
+            var screenPoint = RectTransformUtility.WorldToScreenPoint(null, Vector3.Lerp(corners[0], corners[2], 0.5f));
+            var hits = new System.Collections.Generic.List<RaycastResult>();
+            EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current) { position = screenPoint }, hits);
+            Assert.IsNotEmpty(hits);
+            Assert.IsTrue(hits[0].gameObject.transform.IsChildOf(cont.transform),
+                $"Continue must be clickable; the topmost hit was '{hits[0].gameObject.name}'");
+            var summaryCanvas = cont.GetComponentInParent<Canvas>().rootCanvas;
+            var fade = ServiceLocator.Get<SceneLoader>().GetComponentInChildren<Canvas>();
+            Assert.Greater(summaryCanvas.sortingOrder, fade.sortingOrder, "summary UI must draw above the black fade");
+
             cont.onClick.Invoke();
 
             yield return WaitUntil(() => SceneManager.GetActiveScene().name == MapIds.FarmHouse && !session.IsSleeping, 10f, "farmhouse after sleeping");

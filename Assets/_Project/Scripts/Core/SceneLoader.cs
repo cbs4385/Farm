@@ -10,6 +10,7 @@ namespace Farm.Core
     public sealed class SceneLoader : MonoBehaviour
     {
         const float DefaultFadeSeconds = 0.25f;
+        public const int FadeSortingOrder = 50;
 
         CanvasGroup _fade;
 
@@ -79,7 +80,8 @@ namespace Farm.Core
             canvasGo.transform.SetParent(transform, false);
             var canvas = canvasGo.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = short.MaxValue;
+            // Above the HUD (10) but below menus and dialogs (100), so e.g. the day summary shows over the black fade.
+            canvas.sortingOrder = FadeSortingOrder;
             _fade = canvasGo.AddComponent<CanvasGroup>();
             canvasGo.AddComponent<GraphicRaycaster>();
 

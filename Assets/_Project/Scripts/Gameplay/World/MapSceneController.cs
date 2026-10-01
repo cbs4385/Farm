@@ -47,7 +47,7 @@ namespace Farm.Gameplay
             StartCoroutine(OpenRequestedScreen());
         }
 
-        // QA aid: `-farmOpen inventory|shop|pause|options|summary` opens a screen shortly after the scene starts.
+        // QA aid: `-farmOpen inventory|shop|pause|options|summary|sleep` opens a screen shortly after the scene starts.
         System.Collections.IEnumerator OpenRequestedScreen()
         {
             var which = CommandLine.GetArg("-farmOpen");
@@ -59,6 +59,7 @@ namespace Farm.Gameplay
                 case "shop": ui.ShowShop("general"); break;
                 case "pause": ui.ShowPause(); break;
                 case "options": ui.ShowOptions(); break;
+                case "sleep": _session.StartSleep(false); break;   // fade, summary over black, wait for Continue
                 case "summary":
                     var s = new DaySummary { Earnings = 245, GoldAfter = 745, NewWeather = WeatherIds.Rain };
                     s.Shipped.Add(new ItemStack("crop.parsnip", 4));

@@ -99,7 +99,7 @@ namespace Farm.UI
 
             CreateEventSystem();
             _hudCanvas = UiKit.CreateCanvas("HudCanvas", 10, transform);
-            _screenCanvas = UiKit.CreateCanvas("ScreenCanvas", 20, transform);
+            _screenCanvas = UiKit.CreateCanvas("ScreenCanvas", 100, transform);   // above the scene fade (SceneLoader.FadeSortingOrder)
             ApplyUiScale(settings.TextScale);
             _hud = new HudView(this, _hudCanvas.transform);
             SetHudVisible(_hudVisible);
