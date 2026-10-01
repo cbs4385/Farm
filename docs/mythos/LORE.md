@@ -1,6 +1,6 @@
 # Lore bible (DRAFT)
 
-Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F, S-X) are in GDD section 9.
+Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F, Y-AB) are in GDD section 9.
 
 ## Known (owner decisions)
 - The game is a farming/life sim and **ships with** a Lovecraftian layer, to help it stand out. Default intensity is **full**; the player can turn it down or off.
@@ -53,7 +53,7 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 - **Discovery:** the player learns of rituals by overhearing conversations between villagers, from clues in direct dialogue, and by following the participants as they travel to the clearing.
 - **Marked things:** mostly belong to the village and other farms, with a modest chance of the player's own; the marks are visible and listed in the journal.
 - **Animals:** never harmed on screen; an offering dissolves into light on the altar. At mild intensity animals are not chosen; at off there are no rituals.
-- **Staying awake:** to witness a ritual (22:00 onward) the player must stay up with the late-night challenge (decision R).
+- **Staying awake:** to witness a ritual (22:00 onward) the player must stay up with the late-night challenge (decision R: a QTE at most every 20 game minutes after 20:00). The ritual happens at its time whether or not the player is awake; only missing participants or sacrifices fail it.
 
 ### The Keepers of the Covenant
 - About a third of the 12 NPCs, including one the player meets and befriends early. Each NPC has an allegiance: unaware, Keeper, or resister. Allegiance drives hidden night schedules (including the new-moon ritual), conditional dialogue and heart-event variants.
