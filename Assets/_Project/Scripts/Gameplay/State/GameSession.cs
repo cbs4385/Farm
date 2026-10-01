@@ -12,6 +12,16 @@ namespace Farm.Gameplay
         public readonly string Message;
         public ToastRequested(string message) { Message = message; }
     }
+    public readonly struct FlagChanged
+    {
+        public readonly string Flag; public readonly bool Value;
+        public FlagChanged(string flag, bool value) { Flag = flag; Value = value; }
+    }
+    public readonly struct VarChanged
+    {
+        public readonly string Name; public readonly int OldValue; public readonly int NewValue;
+        public VarChanged(string name, int oldValue, int newValue) { Name = name; OldValue = oldValue; NewValue = newValue; }
+    }
     public readonly struct DayCycleFinished
     {
         public readonly DaySummary Summary;
@@ -38,6 +48,61 @@ namespace Farm.Gameplay
         public bool IsSleeping => _sleeping;
         public GameDatabase Db => _db;
         public IDictionary<string, FarmGrid> Grids => _grids;
+
+        // Extension points for optional layers; see GameHooks.
+        public GameHooks Hooks { get; } = new GameHooks();
+
+        // What conditions (Conditions.Evaluate) see. Live: always reflects the current game.
+        public IWorldQuery World => new StateWorldQuery(State, Clock);
+
+        public int HorrorLevel => ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current.HorrorLevel : 2;
+
+        // ---- story flags and variables -------------------------------------------------------------------------
+
+        public bool HasFlag(string flag) => InGame && State.Flags.Contains(flag);
+
+        public void SetFlag(string flag, bool on = true)
+        {
+            var changed = on ? State.Flags.Add(flag) : State.Flags.Remove(flag);
+            if (changed) _bus.Publish(new FlagChanged(flag, on));
+        }
+
+        public int GetVar(string name) => InGame && State.Vars.TryGetValue(name, out var v) ? v : 0;
+
+        public void SetVar(string name, int value)
+        {
+            var old = GetVar(name);
+            if (old == value) return;
+            State.Vars[name] = value;
+            _bus.Publish(new VarChanged(name, old, value));
+        }
+
+        // Adds `delta` and clamps to [min, max]. Returns the new value.
+        public int AddVar(string name, int delta, int min = int.MinValue, int max = int.MaxValue)
+        {
+            var value = Mathf.Clamp(GetVar(name) + delta, min, max);
+            SetVar(name, value);
+            return value;
+        }
+
+        // ---- module-owned persistent data ----------------------------------------------------------------------
+
+        // Each module keeps its own serializable object in the save under its id. Returns a fresh T when none exists.
+        public T GetModuleData<T>(string moduleId) where T : class, new()
+        {
+            if (InGame && State.ModuleData.TryGetValue(moduleId, out var json))
+            {
+                try { return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json) ?? new T(); }
+                catch (System.Exception e) { Log.Error($"Module data '{moduleId}' unreadable: {e.Message}"); }
+            }
+            return new T();
+        }
+
+        public void SetModuleData<T>(string moduleId, T data) where T : class
+        {
+            if (!InGame) return;
+            State.ModuleData[moduleId] = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+        }
 
         public void Init(EventBus bus, GameDatabase db, SaveService saves)
         {
@@ -193,7 +258,8 @@ namespace Farm.Gameplay
             var summary = DayCycle.EndDay(State, Clock, _grids,
                 id => _db.TryGetItem(id, out var i) ? i : null,
                 id => _db.TryGetCrop(id, out var c) ? c : null,
-                passedOut);
+                passedOut,
+                Hooks);
             Save();
 
             _endingDay = false;
@@ -232,7 +298,8 @@ namespace Farm.Gameplay
             Clock.Resume();
             input?.UnblockGameplay();
             _sleeping = false;
-            loader.Load(MapIds.FarmHouse, 0.4f);   // screen is already black; this fades back in once loaded
+            // The screen is already black; this fades back in once loaded. Day-cycle hooks may have moved the player.
+            loader.Load(State.CurrentMap, 0.4f);
         }
     }
 }

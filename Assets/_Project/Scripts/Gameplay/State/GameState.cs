@@ -49,6 +49,13 @@ namespace Farm.Gameplay
         public Dictionary<string, int> SkillXp = new Dictionary<string, int>();
         public HashSet<string> Flags = new HashSet<string>();
 
+        // Open-ended story state. Additive fields like these need no save migration: older saves load with
+        // empty collections.
+        public Dictionary<string, int> Vars = new Dictionary<string, int>();
+
+        // Private JSON blobs owned by modules, keyed by module id (see GameSession.GetModuleData).
+        public Dictionary<string, string> ModuleData = new Dictionary<string, string>();
+
         public GameDateTime GetDate() =>
             new GameDateTime(Year, (Season)SeasonIndex, Day, MinuteOfDay);
 

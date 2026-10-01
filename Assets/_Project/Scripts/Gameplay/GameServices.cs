@@ -59,11 +59,23 @@ namespace Farm.Gameplay
             session.Init(bus, db, saves);
             ServiceLocator.Register(session);
 
+            // Optional content packs (extra items/crops) merge into the core database.
+            foreach (var pack in Resources.LoadAll<ContentPack>(ContentPack.ResourceFolder))
+                db.Merge(pack);
+
+            ServiceLocator.Register(root.AddComponent<AtmosphereService>());
+
             var audio = root.AddComponent<AudioService>();
             ServiceLocator.Register(audio);
             audio.ApplySettings(settings.Current);
 
             DisplaySettings.ApplyAtStartup(settings.Current);
+
+            // Modules (optional layers in their own assemblies) hook in last, once every service exists.
+            GameModules.InitializeAll(new ModuleContext
+            {
+                Bus = bus, Session = session, Hooks = session.Hooks, Db = db, Settings = settings.Current,
+            });
         }
     }
 }

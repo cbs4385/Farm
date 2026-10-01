@@ -4,6 +4,12 @@ namespace Farm.Core
 {
     public enum Season { Spring = 0, Summer = 1, Fall = 2, Winter = 3 }
 
+    // One lunar cycle per season (28 days): every season starts on a new moon, and the moon is full on days 15-18.
+    public enum MoonPhase
+    {
+        New = 0, WaxingCrescent, FirstQuarter, WaxingGibbous, Full, WaningGibbous, LastQuarter, WaningCrescent,
+    }
+
     // Calendar position. Days run 06:00 to 26:00 (02:00 next morning): MinuteOfDay is 360..1559.
     // Year is 1-based, Day is 1..28.
     public readonly struct GameDateTime : IEquatable<GameDateTime>
@@ -42,6 +48,8 @@ namespace Farm.Core
         public int DayOfWeek => (Day - 1) % 7;
 
         public bool IsDayOver => MinuteOfDay >= DayEndMinute;
+
+        public MoonPhase MoonPhase => (MoonPhase)((Day - 1) * 8 / DaysPerSeason);
 
         public GameDateTime StartOfNextDay()
         {

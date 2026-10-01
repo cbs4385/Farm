@@ -14,6 +14,8 @@ namespace Farm.Data
 
         Dictionary<string, ItemDefinition> _itemLookup;
         Dictionary<string, CropDefinition> _cropLookup;
+        readonly List<ItemDefinition> _runtimeItems = new List<ItemDefinition>();
+        readonly List<CropDefinition> _runtimeCrops = new List<CropDefinition>();
 
         public IReadOnlyList<ItemDefinition> Items => _items;
         public IReadOnlyList<CropDefinition> Crops => _crops;
@@ -32,6 +34,58 @@ namespace Farm.Data
             _crops = new List<CropDefinition>(crops);
             _itemLookup = null;
             _cropLookup = null;
+        }
+
+        // Adds a pack's content at runtime (not saved into the asset). Ids must be new: a clash is skipped and
+        // reported, because replacing a core item would silently change saved games. Returns the number rejected.
+        public int Merge(ContentPack pack)
+        {
+            EnsureLookups();
+            var rejected = 0;
+            foreach (var item in pack.Items)
+            {
+                if (item == null) continue;
+                if (_itemLookup.ContainsKey(item.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines item '{item.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _itemLookup[item.Id] = item;
+                _runtimeItems.Add(item);
+            }
+            foreach (var crop in pack.Crops)
+            {
+                if (crop == null) continue;
+                if (_cropLookup.ContainsKey(crop.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines crop '{crop.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _cropLookup[crop.Id] = crop;
+                _runtimeCrops.Add(crop);
+            }
+            return rejected;
+        }
+
+        // Every item including merged pack items (Items lists only the core asset's own content).
+        public IEnumerable<ItemDefinition> AllItems
+        {
+            get
+            {
+                foreach (var i in _items) if (i != null) yield return i;
+                foreach (var i in _runtimeItems) yield return i;
+            }
+        }
+
+        public IEnumerable<CropDefinition> AllCrops
+        {
+            get
+            {
+                foreach (var c in _crops) if (c != null) yield return c;
+                foreach (var c in _runtimeCrops) yield return c;
+            }
         }
 
         public bool TryGetItem(string id, out ItemDefinition item)
@@ -63,6 +117,8 @@ namespace Farm.Data
             _cropLookup = new Dictionary<string, CropDefinition>();
             foreach (var crop in _crops)
                 if (crop != null) _cropLookup[crop.Id] = crop;
+            foreach (var item in _runtimeItems) _itemLookup[item.Id] = item;
+            foreach (var crop in _runtimeCrops) _cropLookup[crop.Id] = crop;
         }
 
         void OnEnable()

@@ -24,3 +24,6 @@ A Stardew-Valley-style farming/life sim (original content) for **Steam on Window
 
 ## Conventions
 See Tech Design section 4. Namespaces `Farm.<Module>`; private fields `_camelCase`; no per-frame allocations; no magic strings.
+
+## Extension points (planned horror layer)
+Read `docs/adr/0002-mythos-extension-points.md` before touching NPCs, dialogue, events, weather, maps or the day cycle. Use `Conditions`, flags/vars, hooks and content packs instead of hard-coding; keep horror content in `Farm.Mythos`; respect `SettingsData.HorrorLevel`.

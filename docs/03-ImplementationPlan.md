@@ -128,3 +128,24 @@ Legend: `[P]` = parallelizable with other tasks of the same milestone once deps 
 1. T-001, then T-002 + T-003 (sequential), then T-004.
 2. In parallel after T-003: T-005 (build/CI), T-008 (placeholders), T-006 (bootstrap).
 3. Then T-007, T-010, T-011, T-012 in parallel; converge on T-013/T-014.
+
+---
+
+## Extension-point requirements (apply to M2 tasks)
+The hooks in `docs/adr/0002-mythos-extension-points.md` already exist (conditions, flags/vars, day-cycle hooks, weather modifiers, atmosphere, text filters, content packs, map hook, gated warps, conditional objects, HUD widgets, module system). Milestone 2 tasks must use them rather than hard-coding: see the ADR section "Requirements for upcoming milestones" for the per-task list (T-030, T-031, T-034, T-035, T-036, T-039, T-040, T-041, T-061, T-063).
+
+## Milestone 6 - Mythos layer (outline; after 1.0 or as a 1.x update)
+All work lives in `Farm.Mythos` and data; respect `HorrorLevel` everywhere.
+
+| ID | Task | Deps |
+|---|---|---|
+| X-001 | Dread and lore variables, dread meter HUD widget, dread-driven atmosphere layers | M2 |
+| X-002 | Woods map(s) and gated entry; map-loaded hooks for fog, sounds, hidden objects | T-031 |
+| X-003 | Cult NPC secrets: allegiances, hidden schedules, conditional dialogue, heart-event variants (per NPC) | T-035, T-041 |
+| X-004 | Offerings, rituals and forbidden items (content pack), cult hall maps | T-037 |
+| X-005 | Night events and dreams (day-cycle hooks), sleepwalking, blight on crops | T-017 |
+| X-006 | Fog and blood-moon weather; moon-phase events | T-030 |
+| X-007 | Mutated and strange crops (content pack) | T-038 |
+| X-008 | Text distortion, audio and visual distortion at high dread | T-061 |
+| X-009 | HorrorLevel option in Options, content notes, safe-mode checks (HorrorLevel 0 changes nothing) | T-021 |
+| X-010 | Endings (resist / ignore / join), balance, QA at all three levels | X-001..X-009 |

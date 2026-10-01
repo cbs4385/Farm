@@ -54,7 +54,7 @@ namespace Farm.UI
             _gold.text = L.Get("hud.gold", session.State.Gold);
             UiKit.ClearChildren(_list);
 
-            var stock = session.Db.Items.Where(i => i.Category == ItemCategory.Seed && i.BuyPrice > 0)
+            var stock = session.Db.AllItems.Where(i => i.Category == ItemCategory.Seed && i.BuyPrice > 0)
                 .OrderBy(i => i.BuyPrice).ToList();
 
             foreach (var item in stock)
@@ -179,6 +179,7 @@ namespace Farm.UI
             if (summary.PassOutGoldLoss > 0) footer += "\n" + L.Get("summary.pass_out_loss", summary.PassOutGoldLoss);
             if (summary.CropsDied > 0) footer += "\n" + L.Get("summary.crops_died", summary.CropsDied);
             footer += "\n" + L.Get("summary.tomorrow", L.Get("weather." + summary.NewWeather));
+            foreach (var note in summary.Notes) footer += "\n" + L.Get(note.Key, note.Args);   // lines added by day-cycle hooks
             _footer.text = footer;
             Open();
         }

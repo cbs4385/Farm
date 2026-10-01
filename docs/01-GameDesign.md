@@ -96,3 +96,15 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 - Complete a full year without game-breaking bugs; all 12 NPCs and the Community Hall are completable.
 - Save/load round-trips at every point; saves from patch N load in patch N+1 (versioned migrations).
 - Passes the Release checklist in the Implementation Plan.
+
+## 7. Mythos layer (planned; not part of M1-M2)
+
+**Premise.** The village is remote and rural, and it hides a cult in service to an Elder God that dwells in the neighbouring woods. The farm sits on the village's edge, and the player slowly learns what the friendly community is protecting.
+
+**Principles.**
+- *Slow burn:* the game is a cozy farming sim first. Wrongness accumulates in small details (odd schedules, things in the fog, dreams) before anything is explicit.
+- *Mundane vs. wrong:* the horror depends on the warmth of the daily loop being real.
+- *Player agency:* investigate and resist, ignore it, or join. Standing with the cult, knowledge gathered and dread are tracked separately (flags and variables), and different endings follow.
+- *Intensity is the player's choice:* a HorrorLevel setting (off / mild / full). Off yields the plain farming game, so the layer must never gate core progress.
+
+**Touchpoints** (all through generic hooks, see `docs/adr/0002-mythos-extension-points.md`): NPCs with secret allegiances, hidden schedules and conditional dialogue; the woods as a gated map; fog and blood-moon weather and moon-phase events; overnight dreams and blight; offerings and forbidden items (content packs); a dread meter and mood tinting; distorted text; cult halls and altars appearing as flags change.

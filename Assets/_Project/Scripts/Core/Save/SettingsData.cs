@@ -20,8 +20,13 @@ namespace Farm.Core
         public float TextScale = 1f;
         public string BindingOverridesJson = "";
 
+        // Content intensity for the planned horror layer: 0 = off (a plain farming game), 1 = mild, 2 = full.
+        // Every horror hook must respect this; see docs/adr/0002-mythos-extension-points.md.
+        public int HorrorLevel = 2;
+
         public void Clamp()
         {
+            HorrorLevel = Mathf.Clamp(HorrorLevel, 0, 2);
             MasterVolume = Mathf.Clamp01(MasterVolume);
             MusicVolume = Mathf.Clamp01(MusicVolume);
             SfxVolume = Mathf.Clamp01(SfxVolume);

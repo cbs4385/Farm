@@ -16,6 +16,29 @@ namespace Farm.Core
         static Dictionary<string, string> _table = new Dictionary<string, string>();
         static readonly HashSet<string> Reported = new HashSet<string>();
 
+        // Strings added by modules (e.g. extra weather names), re-applied whenever the language changes.
+        static readonly Dictionary<string, Dictionary<string, string>> ExtraTables = new Dictionary<string, Dictionary<string, string>>();
+
+        // Post-processing of every looked-up string: key and text in, text out. Used for effects such as
+        // text corruption at high dread. Filters run in registration order and must be cheap.
+        static readonly List<Func<string, string, string>> Filters = new List<Func<string, string, string>>();
+
+        public static void AddFilter(Func<string, string, string> filter)
+        {
+            if (filter != null && !Filters.Contains(filter)) Filters.Add(filter);
+        }
+
+        public static void RemoveFilter(Func<string, string, string> filter) => Filters.Remove(filter);
+
+        // Adds (or overrides) strings for one language. Safe to call before or after SetLanguage.
+        public static void AddTable(string language, Dictionary<string, string> table)
+        {
+            if (!ExtraTables.TryGetValue(language, out var existing)) ExtraTables[language] = existing = new Dictionary<string, string>();
+            foreach (var kv in table) existing[kv.Key] = kv.Value;
+            if (language == Language || language == DefaultLanguage)
+                foreach (var kv in table) _table[kv.Key] = kv.Value;
+        }
+
         public static string Language { get; private set; } = DefaultLanguage;
         public static int EntryCount => _table.Count;
 
@@ -28,6 +51,9 @@ namespace Farm.Core
                         ?? Resources.Load<TextAsset>(ResourceFolder + DefaultLanguage);
             _table = asset != null ? Parse(asset.text) : new Dictionary<string, string>();
             if (asset == null) Log.Error($"Localization table '{Language}' not found.");
+            foreach (var lang in new[] { DefaultLanguage, Language })
+                if (ExtraTables.TryGetValue(lang, out var extra))
+                    foreach (var kv in extra) _table[kv.Key] = kv.Value;
             Reported.Clear();
             LanguageChanged?.Invoke();
         }
@@ -52,9 +78,13 @@ namespace Farm.Core
                 if (Reported.Add(key)) Log.Warn($"Missing localization key '{key}' ({Language}).");
                 return key;
             }
-            if (args == null || args.Length == 0) return text;
-            try { return string.Format(text, args); }
-            catch (FormatException) { return text; }
+            if (args != null && args.Length > 0)
+            {
+                try { text = string.Format(text, args); }
+                catch (FormatException) { /* keep the unformatted text */ }
+            }
+            for (var i = 0; i < Filters.Count; i++) text = Filters[i](key, text);
+            return text;
         }
     }
 }

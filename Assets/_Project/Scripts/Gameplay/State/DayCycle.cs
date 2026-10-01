@@ -13,6 +13,7 @@ namespace Farm.Gameplay
         public int PassOutGoldLoss;
         public bool PassedOut;
         public int CropsDied;
+        public List<SummaryNote> Notes = new List<SummaryNote>();   // extra lines added by day-cycle hooks
         public GameDateTime NewDate;
         public string NewWeather;
     }
@@ -49,9 +50,16 @@ namespace Farm.Gameplay
             IDictionary<string, FarmGrid> grids,
             Func<string, ItemDefinition> itemLookup,
             Func<string, CropDefinition> cropLookup,
-            bool passedOut)
+            bool passedOut,
+            GameHooks hooks = null)
         {
             var summary = new DaySummary { PassedOut = passedOut };
+            var context = new DayCycleContext
+            {
+                State = state, Clock = clock, Grids = grids, Items = itemLookup, Crops = cropLookup,
+                Summary = summary, PassedOut = passedOut, World = new StateWorldQuery(state, clock),
+                WakeMap = MapIds.FarmHouse, WakeSpawn = BedSpawn,
+            };
 
             // 1. Shipping bin pays out.
             foreach (var stack in state.ShippingBin)
@@ -63,6 +71,9 @@ namespace Farm.Gameplay
             }
             state.ShippingBin.Clear();
             state.Gold += summary.Earnings;
+
+            // 1b. Night hooks: dreams, blight, offerings...
+            hooks?.RunNightFalls(context);
 
             // 2. Crops grow (or die in the new season) using today's weather.
             var rainedToday = state.Weather == WeatherIds.Rain;
@@ -76,6 +87,7 @@ namespace Farm.Gameplay
 
             // 4. Tomorrow's weather.
             state.Weather = RollWeather(clock.Now);
+            if (hooks != null) state.Weather = hooks.ApplyWeather(clock.Now, state.Weather, state);
             summary.NewWeather = state.Weather;
             if (state.Weather == WeatherIds.Rain)
                 foreach (var grid in grids.Values) grid.WaterAll();
@@ -93,9 +105,12 @@ namespace Farm.Gameplay
             }
             state.Health = state.MaxHealth;
 
-            // 6. Wake up in bed.
-            state.CurrentMap = MapIds.FarmHouse;
-            state.SpawnPoint = BedSpawn;
+            // 5b. Dawn hooks may add summary notes or change where the player wakes up.
+            hooks?.RunDawn(context);
+
+            // 6. Wake up (in bed unless a hook moved the player).
+            state.CurrentMap = context.WakeMap;
+            state.SpawnPoint = context.WakeSpawn;
             state.SetDate(clock.Now);
 
             summary.GoldAfter = state.Gold;

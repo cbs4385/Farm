@@ -24,6 +24,7 @@ namespace Farm.UI
         readonly UiService _ui;
         readonly HotbarSlot[] _slots = new HotbarSlot[InputNames.HotbarSlots];
         readonly Queue<string> _toasts = new Queue<string>();
+        readonly List<IHudWidget> _widgets = new List<IHudWidget>();
 
         TextMeshProUGUI _date, _time, _weather, _gold, _energyLabel, _toast;
         Image _energyFill;
@@ -38,11 +39,14 @@ namespace Farm.UI
             BuildEnergy(canvas);
             BuildHotbar(canvas);
             BuildToast(canvas);
+            BuildExtensions(canvas);
 
             ui.Bus.Subscribe<StatsChanged>(_ => _dirty = true);
             ui.Bus.Subscribe<MinuteChanged>(_ => _dirty = true);
             ui.Bus.Subscribe<DayStarted>(_ => _dirty = true);
             ui.Bus.Subscribe<ToastRequested>(e => _toasts.Enqueue(e.Message));
+            ui.Bus.Subscribe<FlagChanged>(_ => _dirty = true);
+            ui.Bus.Subscribe<VarChanged>(_ => _dirty = true);
             L.LanguageChanged += () => _dirty = true;
 
             _driver = canvas.gameObject.AddComponent<HudDriver>();
@@ -116,6 +120,20 @@ namespace Farm.UI
 
         static string KeyLabel(int i) => i < 9 ? (i + 1).ToString() : i == 9 ? "0" : i == 10 ? "-" : "=";
 
+        // Top-left stack that hosts widgets supplied by modules through GameHooks.AddHudWidget.
+        void BuildExtensions(Transform canvas)
+        {
+            if (_ui.Session.Hooks.HudWidgets.Count == 0) return;
+            var stack = UiKit.VStack(canvas, "ExtensionWidgets", 4f);
+            UiKit.Place((RectTransform)stack.transform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(220, 200), new Vector2(10, -10));
+            foreach (var factory in _ui.Session.Hooks.HudWidgets)
+            {
+                var widget = factory();
+                widget.Build(stack.transform);
+                _widgets.Add(widget);
+            }
+        }
+
         void BuildToast(Transform canvas)
         {
             _toast = UiKit.Label(canvas, "", 20f, TextAlignmentOptions.Center, UiKit.Accent);
@@ -130,6 +148,8 @@ namespace Farm.UI
             _dirty = false;
             var s = _ui.Session;
             if (s == null || !s.InGame) return;
+
+            foreach (var widget in _widgets) widget.Refresh(s);
 
             var d = s.Clock.Now;
             _date.text = L.Get("hud.date", L.Get(DayKeys[d.DayOfWeek]), d.Day, L.Get(SeasonKeys[(int)d.Season]));

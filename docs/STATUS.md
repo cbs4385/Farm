@@ -35,3 +35,7 @@ T-024 | done (partial) | claude/2026-10-01 | M1 gate: 70 EditMode + 7 PlayMode p
 ## Human playtest results (2026-10-01)
 Confirmed working by hand on Windows: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, save and load from the main menu and after a full restart.
 Still untested by a human: gamepad, passing out at 2 AM, rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
+
+## Extension points (ADR 0002, 2026-10-01)
+Built and tested: Conditions language, MoonPhase, flags/vars/module data in GameState + GameSession, GameHooks (day-cycle, weather modifiers, MapLoaded, HUD widgets), module system (`Farm.Mythos` skeleton, inert), AtmosphereStack/Service wired into day/night light, L.AddFilter/L.AddTable, ContentPack merge, Warp.Condition, ConditionalObject, HorrorLevel setting. 118 EditMode + 15 PlayMode tests pass.
+Not built yet: NPC/dialogue/event/weather-definition/journal hooks (they come with M2; requirements listed in the ADR), HorrorLevel control in Options (X-009).
