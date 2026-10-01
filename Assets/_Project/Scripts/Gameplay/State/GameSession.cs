@@ -12,6 +12,12 @@ namespace Farm.Gameplay
         public readonly string Message;
         public ToastRequested(string message) { Message = message; }
     }
+    // Published after the player finishes an action that spent energy (a tool use that worked).
+    public readonly struct EnergyActionCompleted
+    {
+        public readonly string Action; public readonly int Cost;
+        public EnergyActionCompleted(string action, int cost) { Action = action; Cost = cost; }
+    }
     public readonly struct FlagChanged
     {
         public readonly string Flag; public readonly bool Value;

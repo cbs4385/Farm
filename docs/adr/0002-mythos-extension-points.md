@@ -53,6 +53,8 @@ Not built yet; each must be designed to use the hooks above.
 - **T-045 luck:** every roll-based system reads `GameSession.Luck`, so dread can lean outcomes negative.
 - **T-034 dialogue:** options accept conditions on variables such as `dread`, so dread can remove favourable choices.
 - **T-037 / T-038 / T-053 world objects:** chests, machines, crops and animals expose their contents through `IWorldObjectSource`, so a module can pick, mark and later consume items (animals without on-screen harm).
+- **T-046 stay-awake challenge:** staying up for the ritual (22:00 onward) relies on the late-night challenge: a policy decides whether it replaces the 02:00 pass-out; `StayAwakeScheduler` and the `EnergyActionCompleted` event exist. It must be off, or assisted, according to the horror setting and accessibility options.
+- **T-034 / T-035 discovery:** ambient NPC-to-NPC conversations can be overheard, direct dialogue can carry clue lines (both through conditions), and NPCs on their way to a destination stay followable (visible walking, no teleporting in view), so the player can follow ritual participants.
 - **T-035 NPC availability:** an NPC can be made unavailable (illness, absence, other reasons) through flags that schedule conditions read; rituals fail when a required Keeper is not at the altar.
 - **T-041 timed scenes:** timed multi-step scenes (a ritual lasting a set time) can be built from events plus the clock's `MinuteChanged` event; module state (offerings on the altar, what has dissolved) is saved as module data.
 - **T-043 developer tools:** can set flags/variables and skip time, so story logic is testable in seconds.

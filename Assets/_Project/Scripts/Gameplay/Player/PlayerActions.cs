@@ -126,6 +126,10 @@ namespace Farm.Gameplay
                     return;
             }
             _view.RefreshCell(cell);
+
+            // Lets other systems react to the player finishing an action that cost energy (for example the late-night
+            // stay-awake check, T-046).
+            if (cost > 0) ServiceLocator.Get<EventBus>().Publish(new EnergyActionCompleted(tool.ToString(), cost));
         }
 
         // Returns true if a seed was planted. Explains with a toast when it was not.

@@ -1,6 +1,6 @@
 # Lore bible (DRAFT)
 
-Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F, O-Q) are in GDD section 9.
+Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F, S-X) are in GDD section 9.
 
 ## Known (owner decisions)
 - The game is a farming/life sim and **ships with** a Lovecraftian layer, to help it stand out. Default intensity is **full**; the player can turn it down or off.
@@ -48,8 +48,12 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 - On the new moon night, at the altar deep in Harrow Wood, the leader speaks for 30 minutes, then each participant in turn lays their offering on the altar, where it dissolves over 20 minutes. The ritual succeeds only if every offering is fully sacrificed and every required Keeper is present.
 - Ways the player can affect it (proposals): **help** (supply or recover an offering, keep a Keeper healthy and unobstructed, defend the altar), **disrupt** (take an offering from the altar, make a Keeper unavailable through illness, absence, or revealing a secret, damage the altar), or **observe** (learn the offering list from lore and overheard dialogue). Making a Keeper unavailable ties into NPC schedules and conditions (a Keeper with a "sick" or "away" flag is simply not at the altar).
 - Outcomes: success lowers wakefulness 30-40%; failure lowers nothing, so the season's 25% rise stands and a year without a success wakes Nharoth.
-- Offerings are drawn from what exists in the world: animals, plant products and crafted items. Core systems expose them through `IWorldObjectSource`, and a marked stack carries `ItemStack.Mark`. Whether the player's own things can be chosen (open question P), and how animal offerings are handled (open question Q, no on-screen harm), still need decisions.
-- The ritual's date and start time, and how the first year works, are open question O.
+- Offerings are drawn from what exists in the world: animals, plant products and crafted items. Core systems expose them through `IWorldObjectSource`, and a marked stack carries `ItemStack.Mark`. The player's own things can be chosen, with modest odds, and animal offerings never show harm.
+- **When:** the last night of the new-moon phase (day 4 of each season), starting at 22:00. The first ritual (spring, year 1) is off-stage or merely observed; the player can interfere from the first summer. Wakefulness starts at 0.
+- **Discovery:** the player learns of rituals by overhearing conversations between villagers, from clues in direct dialogue, and by following the participants as they travel to the clearing.
+- **Marked things:** mostly belong to the village and other farms, with a modest chance of the player's own; the marks are visible and listed in the journal.
+- **Animals:** never harmed on screen; an offering dissolves into light on the altar. At mild intensity animals are not chosen; at off there are no rituals.
+- **Staying awake:** to witness a ritual (22:00 onward) the player must stay up with the late-night challenge (decision R).
 
 ### The Keepers of the Covenant
 - About a third of the 12 NPCs, including one the player meets and befriends early. Each NPC has an allegiance: unaware, Keeper, or resister. Allegiance drives hidden night schedules (including the new-moon ritual), conditional dialogue and heart-event variants.

@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 160 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 170 EditMode + 16 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -59,7 +59,7 @@ Bugs found by playing and fixed (each has a test): options not scrolling, avatar
 Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
 
 ## Milestone 3b - Mythos layer (required for 1.0; not started)
-X-000..X-011 | todo | | see the plan. X-000 (lore bible) needs open questions O-Q answered; the draft already holds the decided names, numbers and ritual rules
+X-000..X-011 | todo | | see the plan. X-000 (lore bible) has no open questions left; the draft holds the decided names, numbers, ritual rules, timing and discovery
 
 ## Decisions and open questions (owner)
 Decided 2026-10-01 (GDD section 9, 1-8 and A-E): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; Nharoth, a sleeping cosmic entity, is kept asleep by the Keepers of the Covenant's rituals, and full awakening ends the world; wakefulness rises 25% per season and each ritual lowers it 30-40%, rituals each new moon in Harrow Wood, world changes every 5%; the cult looks menacing but protects the world; resisting risks waking the god unless another way is found; about a third of NPCs are Keepers (romance allowed, never exploitative); dread (mild, optional, never blocking) affects luck, dialogue options, seasonal events, weather and NPC attitude decay, gates crops, and ordinary crops may mutate; the main shop does not sell horror seeds; default intensity full; New England village Wetherell.
@@ -68,4 +68,6 @@ Decided 2026-10-01 (G-K): one ritual per season; rituals need specific Keepers e
 Code: `RitualModel` (offering counts, plan validation, resolution, wakefulness after a ritual) with tests; village name changed. 147 EditMode + 15 PlayMode tests pass.
 Decided 2026-10-01 (L-N): a failed ritual adds no spike; offerings are chosen at season start from animals, plant products and crafted items on the map and are marked; the ritual is at an altar deep in the wood, 30 minutes of the leader speaking then 20 minutes per sacrifice; the player can take or use marked items before the ritual or from the altar before consumption; participants can become unavailable; no HUD meter for dread.
 Code: `ItemStack.Mark` (marked stacks merge only with identical marks, saved), world-object source registry (`IWorldObjectSource`, `GameHooks.EnumerateWorldObjects/WorldObjectExists/ConsumeWorldObject`), ritual timeline functions in `RitualModel` (durations 70/90/110/130 minutes, phases, takeable-until-consumed window, latest start 23:50 in winter). 160 EditMode + 15 PlayMode tests pass. Core systems that own animals, produce and crafted items will implement the sources (T-037, T-038, T-053).
-Still open (GDD section 9): F scope protection (needed before M3); O ritual date/hour and how the first year works; P whether the player's own things can be marked; Q how animal offerings avoid on-screen harm.
+Decided 2026-10-01 (O-R): ritual on the last night of the new-moon phase (day 4) starting 22:00, first ritual off-stage or observed, player can interfere from the first summer, wakefulness starts at 0; the player learns of rituals by overhearing villagers, direct-dialogue clues and following participants; mostly village/other-farm items are marked, with a modest chance of the player's; animals never harmed on screen (dissolve into light; not chosen at mild; no rituals at off); **new mechanic R:** after 20:00 the player must solve progressively harder quick-time events to stay awake (instead of a forced 02:00 sleep), due after each energy-spending action or every half hour, whichever is first.
+Code: `EnergyActionCompleted` event (published when a tool action spends energy), `StayAwakeScheduler` (the owner's timing rule, pure and tested). The challenge itself is not built (T-046); the game still passes out at 02:00. 170 EditMode + 16 PlayMode tests pass.
+Still open (GDD section 9): F scope protection (needed before M3); S who gets the challenge (proposed: setting independent of horror level, on at mild/full, off at off); T what failing does; U how long the night can last (proposed: until 06:00); V QTE design and difficulty, minimum gap between checks; W accessibility; X rewards, costs and suspension rules.

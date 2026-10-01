@@ -122,6 +122,44 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator FinishingAnEnergyAction_PublishesTheEvent_OncePerSuccessfulAction()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var session = ServiceLocator.Get<GameSession>();
+            session.BeginNewGame("Tester", "Test Farm", 0);
+            var op = SceneManager.LoadSceneAsync(MapIds.Farm);
+            while (!op.isDone) yield return null;
+            for (var i = 0; i < 10; i++) yield return null;
+
+            var events = new System.Collections.Generic.List<EnergyActionCompleted>();
+            ServiceLocator.Get<EventBus>().Subscribe<EnergyActionCompleted>(events.Add);
+
+            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            player.transform.position = new Vector3(20.5f, 10.5f, 0f);
+            player.Face(Vector2Int.right);
+            yield return null;
+
+            yield return Tap(_keyboard.digit1Key);   // hoe
+            yield return Tap(_keyboard.cKey);        // tills: spends energy
+            Assert.AreEqual(1, events.Count);
+            Assert.AreEqual(PlayerActions.HoeEnergy, events[0].Cost);
+            Assert.AreEqual("Hoe", events[0].Action);
+
+            yield return Tap(_keyboard.cKey);        // already tilled: refused, no energy spent
+            Assert.AreEqual(1, events.Count, "a refused action is not an energy action");
+
+            yield return Tap(_keyboard.digit2Key);   // watering can
+            yield return Tap(_keyboard.cKey);
+            Assert.AreEqual(2, events.Count);
+            Assert.AreEqual("WateringCan", events[1].Action);
+
+            yield return Tap(_keyboard.digit3Key);   // axe has no target: nothing happens
+            yield return Tap(_keyboard.cKey);
+            Assert.AreEqual(2, events.Count);
+        }
+
+        [UnityTest]
         public IEnumerator Mouse_Click_Hoes_And_Plants()
         {
             Bootstrapper.InitializeServices();

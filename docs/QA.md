@@ -5,8 +5,8 @@ Editor must be closed. Commands and flags are in `docs/BUILD.md`.
 
 | Check | How | Covers |
 |---|---|---|
-| EditMode tests (~160) | `-runTests -testPlatform EditMode` | clock/calendar/moon, inventory, farm growth, day cycle, save/load/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content and sprite-import validation, condition language, hooks, modules, atmosphere, content packs, session flags/vars/module data |
-| PlayMode tests (~15) | `-runTests -testPlatform PlayMode` (needs graphics) | boot to menu, new game, farming loop, sleep through the UI (Continue clickable over the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, avatar/cursor alignment, **simulated keyboard and mouse input**, a test module using every extension point |
+| EditMode tests (~170) | `-runTests -testPlatform EditMode` | clock/calendar/moon, inventory, farm growth, day cycle, save/load/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content and sprite-import validation, condition language, hooks, modules, atmosphere, content packs, session flags/vars/module data |
+| PlayMode tests (~16) | `-runTests -testPlatform PlayMode` (needs graphics) | boot to menu, new game, farming loop, sleep through the UI (Continue clickable over the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, avatar/cursor alignment, **simulated keyboard and mouse input**, a test module using every extension point |
 | Windows + Linux builds | `BuildScript.BuildWindows` / `BuildLinux` | player builds compile and boot |
 | Player capture | `-farmScene <Scene> -farmOpen <screen> -farmCapture <dir>` | look at the screenshots for every screen; the `[Perf]` log line shows avg/max frame time and GC |
 | Pixel-perfect check | BUILD.md "QA flags" | integer scaling at 1x-4x |
