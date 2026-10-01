@@ -1,6 +1,6 @@
 # Farm - agent instructions
 
-A cozy farming/life sim (original content) for **Steam on Windows and Linux**, with a planned optional cosmic-horror layer (a cult in a remote village serving an Elder God in the woods). Unity 6000.6.2f1, URP 2D, Input System. Milestones 0 and 1 are done; Milestone 2 is next.
+A cozy farming/life sim (original content) for **Steam on Windows and Linux**, with a cosmic-horror layer that **ships with 1.0** (a New England village whose cult keeps a sleeping Elder God in the woods from waking). The horror is player-tunable (intensity off/mild/full, default full) and the cozy game must stay complete at "off". Unity 6000.6.2f1, URP 2D, Input System. Milestones 0 and 1 are done; Milestone 2 is next, then 3 and 3b (the horror layer), then polish and release.
 
 ## Read first
 1. `docs/README.md` - index of all documents.
@@ -23,7 +23,8 @@ A cozy farming/life sim (original content) for **Steam on Windows and Linux**, w
 - Do not hand-edit scene/prefab YAML; generate them with the editor scripts (`SceneSetup`, `MapBuilder`, `ContentGenerator`, ...).
 - When you change scenes, scene components, UI layering or serialization, also build the Windows player and look at capture screenshots (`docs/QA.md`): the Editor and tests can miss build-only problems.
 
-## Extension points and the horror layer (ADR 0002)
+## Extension points and the horror layer (ADR 0002; lore in `docs/mythos/LORE.md`)
+- Two meters: the god's **wakefulness** (world) and the player's **dread** (personal). Horror crops and rare goods are never sold by the general store (items opt in to shops via `SoldIn`).
 - Optional layers plug in through generic hooks: conditions, flags/vars, module data, day-cycle hooks, weather modifiers, atmosphere layers, text filters, content packs, map hook, gated warps, conditional objects, HUD widgets, modules.
 - **Do not put horror/cult content in core assemblies** (`Farm.Core/Data/Gameplay/UI`). It belongs in `Farm.Mythos` and data. Nothing may depend on `Farm.Mythos`.
 - NPC, dialogue, event, quest, weather, schedule and map work must use conditions and the hooks, not hard-coded checks.

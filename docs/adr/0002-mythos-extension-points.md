@@ -3,7 +3,7 @@
 Status: accepted (2026-10-01).
 
 ## Context
-The game will eventually carry a Lovecraftian layer: the remote village hides a cult serving an Elder God that lives in the neighbouring woods. The base game must stay a complete, shippable cozy farming game, and the horror must be addable, tunable and removable without rewriting core code. This ADR records the hooks built now (before NPCs, dialogue, events and more maps exist) and the requirements they place on later milestones.
+The game carries a Lovecraftian layer that **ships with 1.0** (owner decision, GDD section 9): a remote New England village hides a cult whose rituals keep a sleeping Elder God in the neighbouring woods from waking; the layer's influence follows the god's wakefulness, and a full awakening ends the world in fire and chaos. The base game must stay a complete, shippable cozy farming game, and the horror must be tunable and removable (intensity off) without rewriting core code. This ADR records the hooks built before NPCs, dialogue, events and more maps exist, and the requirements they place on later milestones. Owner answers added two hooks (below): grow conditions on crops and shop opt-in/conditions on items.
 
 ## Decision
 1. **Everything horror-specific lives outside core code**, in its own assembly `Farm.Mythos` (`Assets/_Project/Scripts/Mythos`) plus data. Core code may know about *generic* hooks, never about cults or gods. `MythosModule` exists today but is inert (it only registers English names for the reserved weather ids).
@@ -23,6 +23,8 @@ The game will eventually carry a Lovecraftian layer: the remote village hides a 
 | New weather (fog, blood moon) | Weather modifiers | `IWeatherModifier` chain over the deterministic roll; new ids need `weather.<id>` strings (`L.AddTable`) |
 | Mood: tint, dread | Atmosphere | `AtmosphereService.Stack.Set(id, tint, strength, priority)`; the day/night light blends it in, indoors too |
 | Distorted or secret text | Localization | `L.AddFilter((key, text) => ...)` post-processes every string (keys let you target `npc.*`); `L.AddTable` adds strings |
+| Crops that only grow at certain dread levels; ordinary crops that mutate | Crop grow condition | `CropDefinition.GrowCondition` keeps a crop dormant while a condition fails; day-cycle hooks change crops in place (swap `CropInstance.CropId`) |
+| Horror seeds must never appear in the main shop | Shop opt-in | `ItemDefinition.SoldIn` (shop ids) and `SaleCondition`; `ShopCatalog.For(db, shopId, world)`. An item that lists no shop is sold nowhere |
 | Extra items and crops (offerings, strange seeds) | Content packs | `ContentPack` assets under `Resources/Packs` merge into `GameDatabase`; id clashes with core are rejected |
 | Reacting to a map | Map hook | `GameHooks.MapLoaded` (spawn objects, push atmosphere, show/hide things) |
 | Gated paths and hidden objects | Scene components | `Warp.Condition` (+ blocked message), `ConditionalObject` (shows children while a condition holds; updates on flags, vars, hour, new day) |
@@ -55,7 +57,10 @@ Modules decide per feature which level it needs and check `ModuleContext.HorrorL
 Unit and PlayMode tests cover each hook (ordering, failure isolation, saving of flags/vars/module data, older saves loading), the condition language, and a test module that uses every extension point inside the real game. The inert `Farm.Mythos` module is tested to add no hooks. T-044 extends this to full playthroughs.
 
 ## Related
-GDD section 7 (content guidelines), section 8 (the layer), section 9 (open questions); Tech Design section 3.18; `docs/mythos/LORE.md`; plan Milestone 6.
+GDD section 7 (content guidelines), section 8 (the layer), section 9 (decisions and open questions); Tech Design section 3.18; `docs/mythos/LORE.md`; plan Milestone 3b.
+
+## Story state the layer will use
+Two separate meters: the god's **wakefulness** (world, `mythos.wakefulness`) and the player's **dread** (personal, `dread`), plus `lore`, `cult.standing`, and flags such as `mythos.cult_known` and `mythos.woods_open` (see `MythosIds`; placeholders). Wakefulness is saved like any variable and read through conditions; reaching its maximum triggers the awakening ending (X-010).
 
 ## Rules for contributors
 - No cult, god or horror content in core assemblies (`Farm.Core/Data/Gameplay/UI`): only generic hooks.

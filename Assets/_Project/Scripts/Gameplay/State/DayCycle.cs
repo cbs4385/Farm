@@ -79,7 +79,7 @@ namespace Farm.Gameplay
             var rainedToday = state.Weather == WeatherIds.Rain;
             var newSeason = clock.Now.StartOfNextDay().Season;
             foreach (var grid in grids.Values)
-                summary.CropsDied += grid.AdvanceDay(newSeason, rainedToday, cropLookup);
+                summary.CropsDied += grid.AdvanceDay(newSeason, rainedToday, cropLookup, context.World);
 
             // 3. Calendar moves to 06:00 tomorrow (publishes DayEnded / SeasonChanged / DayStarted).
             clock.StartNextDay(passedOut);

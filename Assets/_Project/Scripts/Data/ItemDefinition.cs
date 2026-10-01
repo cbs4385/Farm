@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Farm.Data
@@ -18,6 +19,12 @@ namespace Farm.Data
         [SerializeField] ToolType _toolType;
         [SerializeField] string _cropId;         // for seeds: the crop this plants
 
+        // Shops that stock this item (shop ids such as "general"). Empty = sold nowhere: content must opt in to a
+        // shop, so items from optional content packs never appear in the main store by accident.
+        [SerializeField] string[] _soldIn = new string[0];
+        // Optional extra condition (see Conditions) that must hold for the shop to offer it today.
+        [SerializeField] string _saleCondition;
+
         public string Id => _id;
         public string NameKey => _nameKey;
         public string DescriptionKey => _descriptionKey;
@@ -29,11 +36,14 @@ namespace Farm.Data
         public int EnergyRestore => _energyRestore;
         public ToolType ToolType => _toolType;
         public string CropId => _cropId;
+        public IReadOnlyList<string> SoldIn => _soldIn;
+        public string SaleCondition => _saleCondition;
         public bool IsTool => _toolType != ToolType.None;
 
         // Used by editor content generation and tests.
         public static ItemDefinition Create(string id, ItemCategory category, int maxStack = 999, int sellPrice = 0,
-            int buyPrice = 0, int energyRestore = 0, ToolType toolType = ToolType.None, string cropId = null, Sprite icon = null)
+            int buyPrice = 0, int energyRestore = 0, ToolType toolType = ToolType.None, string cropId = null, Sprite icon = null,
+            string[] soldIn = null, string saleCondition = null)
         {
             var item = CreateInstance<ItemDefinition>();
             item._id = id;
@@ -48,6 +58,8 @@ namespace Farm.Data
             item._toolType = toolType;
             item._cropId = cropId;
             item._icon = icon;
+            item._soldIn = soldIn ?? new string[0];
+            item._saleCondition = saleCondition;
             return item;
         }
 

@@ -1,6 +1,6 @@
 # Game Design Document (GDD)
 
-Working title: **Farm** (rename before the Steam page). A cozy farming / life sim in a remote rural village, top-down 2D pixel art, single-player first (co-op is explicitly post-1.0). Beneath the cozy surface sits an **optional, player-tunable cosmic-horror layer** (section 8): the village hides a cult that serves an Elder God living in the neighbouring woods.
+Working title: **Farm** (rename before the Steam page). A cozy farming / life sim in a remote rural village, top-down 2D pixel art, single-player first (co-op is explicitly post-1.0). Beneath the cozy surface sits a **player-tunable cosmic-horror layer that ships with 1.0** (section 8) and is meant to make the game stand out: the village hides a cult whose rituals keep an Elder God, sleeping in the neighbouring woods, from waking.
 Platforms: **Windows x64 and Linux x64 (Steam)**, Steam Deck as a Linux target. Engine: Unity 6000.6.2f1, URP 2D.
 
 > This is a *genre clone*, not an asset clone. All names, characters, maps, art, music, dialogue, and item designs must be **original**. Do not copy Stardew Valley's characters, town layout, text, sprites, or sounds. Mechanics (farming, seasons, NPC friendships, mining) are genre conventions and are fine to implement. The horror layer likewise uses original creations; Lovecraftian *themes* (cosmic dread, forbidden knowledge, cults) are fine, but do not reproduce text or named characters from existing works.
@@ -13,7 +13,7 @@ Related documents: `02-TechnicalDesign.md` (how), `03-ImplementationPlan.md` (ba
 2. **Long-term growth** – farm, tools, skills, and relationships visibly improve over a 4-year-ish horizon.
 3. **A living village** – NPCs have schedules, gifts, heart events, and festivals.
 4. **Respect the player's time** – autosave each night, generous controls, gamepad support, rebindable keys.
-5. **Something is wrong beneath the warmth** – the horror is a slow burn that depends on the cozy loop feeling real, and the player decides how much of it they want (HorrorLevel). It must never get in the way of the base game: with it off, this is a complete farming sim.
+5. **Something is wrong beneath the warmth** – the horror is a slow burn that depends on the cozy loop feeling real, and the player decides how much of it they want (HorrorLevel, default full). It ships with the game and is a selling point, yet it must never get in the way of the base game: with it off, this is a complete farming sim.
 
 ## 2. Core loop
 
@@ -44,6 +44,7 @@ Session loops: **Day** (~14 real minutes, 6:00 to 02:00 game time), **Season** (
 - Quality tiers on harvest: Normal, Silver, Gold, Iridium (driven by Farming level and fertilizer).
 - Fertilizer, sprinklers (tiers), scarecrows (crow event), greenhouse (all-season) as unlockables.
 - Seeds from the general store. Out-of-season crops die on season change.
+- Crops can carry a **grow condition** (data): while it does not hold the plant stays dormant. The horror layer uses this for crops that only grow at certain dread levels, and can change ordinary crops into strange variants as dread rises (see 8).
 - Farm animals (post-MVP milestone): coop (chicken) and barn (cow, goat), daily feeding/petting, products.
 - Farm clutter: trees, weeds, stones, stumps. Clearable with tools; regenerates slowly.
 
@@ -53,7 +54,7 @@ Session loops: **Day** (~14 real minutes, 6:00 to 02:00 game time), **Season** (
 - **Mining**: procedurally generated floors (seeded per day), 40 floors in the first mine, stairs, ladders, ore nodes (copper, iron, gold), gems, simple enemies (5 types + 1 boss at 1.0). Elevator checkpoints every 5 floors. Dying drops some items and returns the player to the village.
 
 ### 3.5 Economy and items
-- Gold currency. Shipping bin pays at day end (summary screen). Shops: general store, blacksmith, carpenter, fish shop, traveling merchant (random days).
+- Gold currency. Shipping bin pays at day end (summary screen). Shops: general store, blacksmith, carpenter, fish shop, traveling merchant (random days). Each item lists the shops that sell it (and may add a daily condition), so **the general store never sells horror seeds**: those come from the woods, the cult and rituals.
 - Item categories: seed, crop, forage, fish, ore/gem, resource (wood, stone, fiber, coal), artisan good, food, tool, tool-upgrade, furniture, fertilizer, machine, quest item.
 - **Crafting** (learned recipes, inventory ingredients): sprinklers, fences, chests, furnaces, kegs, preserves jars.
 - **Cooking** (kitchen in house): food buffs (speed, luck, max energy).
@@ -61,11 +62,11 @@ Session loops: **Day** (~14 real minutes, 6:00 to 02:00 game time), **Season** (
 - Optional layers can add items and crops through content packs without touching the core item data.
 
 ### 3.6 The village and its people
-- One village map (remote, rural, a little too quiet), the farm, farmhouse interior, 6 buildings (general store, blacksmith, clinic/library, saloon, carpenter, fish shop), forest, beach, mine entrance. The **woods** bordering the village are a gated area (see 8).
+- One village map (a non-descript, remote, rural New England community, a little too quiet), the farm, farmhouse interior, 6 buildings (general store, blacksmith, clinic/library, saloon, carpenter, fish shop), forest, beach, mine entrance. The **woods** bordering the village are a gated area (see 8).
 - **12 NPCs at 1.0** (8 romanceable-optional, 4 non-romance; keep romance optional and all-ages friendly), each with: daily schedule per season/weather/day-of-week, 3 loved / liked / disliked gifts, dialogue pools by friendship tier, 3-4 heart events (cutscenes).
 - Every schedule entry, dialogue line, event and shop stock entry can carry a **condition** (flags, variables, time, weather, moon, friendship...). This is what lets a friendly neighbour keep a hidden night schedule, or say different things once the player knows more. NPC data also carries an optional allegiance (unaware / cult / resister), unused by the base game.
 - Friendship 0-10 hearts (250 points/heart). Gifting twice a week, birthdays 8x points. Talking daily gives a small amount.
-- Marriage/spouse is a post-1.0 stretch (do not block 1.0). How romance interacts with the cult is an open question (section 9).
+- Marriage/spouse is a post-1.0 stretch (do not block 1.0). Romanceable NPCs may be cultists; this is handled in heart events and is never exploitative (section 9).
 
 ### 3.7 Quests and progression
 - Main goal: restore the **Community Hall** (bundle-style collection quests, ~6 rooms) -> unlocks story ending and rewards.
@@ -95,19 +96,20 @@ Session loops: **Day** (~14 real minutes, 6:00 to 02:00 game time), **Season** (
 - Art is produced by humans or licensed/AI-assisted per project policy; agents use **placeholder art** (see Tech Design section 9) until final art is dropped in using the same sprite names.
 
 ## 4. Out of scope for 1.0
-Multiplayer co-op, marriage/children, modding API, console ports, mobile, more than 1 village map. The full horror layer is **not required for 1.0** (see open question 1); the hooks for it are.
+Multiplayer co-op, marriage/children, modding API, console ports, mobile, more than 1 village map. (The horror layer is **in** scope for 1.0, see 8 and the plan's Milestone 3b.)
 
 ## 5. Steam release requirements
 - Steamworks via **Steamworks.NET** (or Facepunch) with achievements (~30), cloud saves, rich presence (optional), Steam Input friendly.
 - Windows x64 + Linux x64 depot builds, tested on Ubuntu LTS and SteamOS (Steam Deck verified target).
 - Store page assets, trailer, capsule art, age rating questionnaire, EULA/privacy text.
-- **Content disclosure:** if the horror layer ships, fill in Steam's content survey honestly (horror themes, cult imagery), describe the intensity setting on the store page, and keep spoilers out of achievement names and descriptions.
+- **Content disclosure (required, the horror layer ships):** fill in Steam's content survey honestly (horror themes, cult imagery), describe the intensity setting on the store page, and keep spoilers out of achievement names and descriptions. Market the unease without misleading cozy-game players: say clearly that the horror can be turned down or off.
 - Performance: 60 FPS on integrated GPU / Steam Deck at 1280x800; <2 GB RAM; load times < 5 s between maps.
 
 ## 6. Success criteria (Definition of Done for 1.0)
 - Complete a full year without game-breaking bugs; all 12 NPCs and the Community Hall are completable.
 - Save/load round-trips at every point; saves from patch N load in patch N+1 (versioned migrations; additive fields need none).
 - Passes the Release checklist in the Implementation Plan.
+- The horror layer is complete: woods, cult NPCs, rituals, the Elder God's wakefulness, dread-gated crops, and all endings work at intensity 0, 1 and 2.
 - With the horror intensity at **off**, every system behaves exactly as without the horror layer (enforced by tests, T-044).
 
 ## 7. Content guidelines
@@ -116,33 +118,49 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 - The player is never forced into horror content: it is gated by the intensity setting, and the game must remain fully playable and completable at "off".
 - Romance and relationships stay all-ages.
 
-## 8. Mythos layer (planned; hooks built, content not started)
+## 8. Mythos layer (ships with 1.0; hooks built, content not started)
 
-**Premise.** The village is remote and rural, and it hides a cult in service to an Elder God that dwells in the neighbouring woods. The farm sits on the village's edge, and the player slowly learns what the friendly community is protecting. Details live in `mythos/LORE.md` (draft).
+**Premise.** The village is a non-descript, remote, rural New England community that hides a cult. The cult serves an Elder God that **sleeps** in the neighbouring woods: a cosmic entity older than the present world. The cult's rituals exist to keep it asleep. The farm sits on the village's edge, and the player slowly learns what the friendly community is protecting, and what protecting it costs. Details live in `mythos/LORE.md` (draft).
+
+**The Elder God's wakefulness.** The horror layer's influence on the world is tied to how awake the god is. Rituals move it (a successful ritual keeps it deeply asleep; an unsuccessful one stirs it; see open question A). Should it ever fully awaken, the world is consumed in fire and chaos: the worst ending. The wakefulness is a world-level value, distinct from the player's personal **dread**.
 
 **Principles.**
 - *Slow burn:* wrongness accumulates in small details (odd schedules, things in the fog, dreams) before anything is explicit.
 - *Mundane vs. wrong:* the horror depends on the warmth of the daily loop being real.
+- *The cult is not simply evil:* its members are neighbours doing something terrible for a reason that may be right. This is what makes "resist / ignore / join" a real choice.
 - *Player agency:* investigate and resist, ignore it, or join. Cult standing, knowledge gathered and dread are tracked separately (flags and variables), and different endings follow.
-- *Intensity is the player's choice:* off / mild / full. Off yields the plain farming game; mild keeps the unease but removes the most disturbing imagery and text; full is the whole experience.
+- *Intensity is the player's choice:* off / mild / full (default **full**). Off yields the plain farming game; mild keeps the unease but removes the most disturbing imagery and text; full is the whole experience.
+- *Never blocking:* dread's effects on play are mild and optional, and never stop progress.
 
 **Touchpoints** (all through generic hooks, see `adr/0002-mythos-extension-points.md`):
-- NPCs with secret allegiances, hidden night schedules and conditional dialogue and heart events.
-- The woods as a gated map; hidden altars and symbols that appear as flags change.
+- NPCs with secret allegiances (about a third are cultists, including at least one the player is likely to befriend first), hidden night schedules, conditional dialogue and heart events. Romanceable NPCs may be cultists; this is handled in heart events and is never exploitative.
+- The Community Hall stays a cozy arc that the cult quietly uses (hidden meetings, altars appearing as flags change).
+- The woods as a gated map.
 - Fog and blood-moon weather; moon-phase events.
 - Overnight dreams, sleepwalking and blight (the night is when the layer acts on the farm).
-- Offerings, forbidden items and strange crops (content packs).
-- A dread meter, mood tinting, distorted text and audio at high dread.
-- Endings that depend on the player's path.
+- **Crops:** specific crops grow only at certain dread levels; ordinary plants may change (mutate) as dread rises. Horror seeds are **never** sold by the main shop; they come from the woods, the cult and rituals.
+- Offerings and forbidden items (content packs).
+- A dread meter, a wakefulness indicator for the god (how visible is a design choice), mood tinting, distorted text and audio at high dread.
+- Endings that depend on the player's path and on whether the god stays asleep.
 
-## 9. Open design questions (owner decisions needed)
-Recommended defaults are used until decided; none blocks Milestones 2-3.
+## 9. Design decisions and remaining open questions
 
-1. **Release strategy.** Ship 1.0 as the cozy game and add the mythos layer in an update (recommended: smaller 1.0, lower risk, and a story to market later), or ship with it. This affects the store page, age rating and scope.
-2. **The Community Hall.** Is it the cozy main arc, a cult front, or both? (Default: a cozy arc the cult quietly uses.)
-3. **The Elder God and the cult's aim.** What the god is, what the cult wants, and what the three paths (resist / ignore / join) cost and reward. See LORE.md.
-4. **Which NPCs are cultists.** Proportion and who (default: about a third, including at least one NPC the player is likely to befriend first).
-5. **Romance and the cult.** Whether romanceable NPCs can be cultists, and what that means (default: allowed, handled in heart events, never exploitative).
-6. **Mechanical effects of dread.** Cosmetic only, or does it affect play (energy, crop luck)? (Default: mild, optional effects only, never blocking progress.)
-7. **Default intensity.** Full (current) or mild for a first launch.
-8. **Setting.** Region, era and naming of the village and the woods.
+### Decided (owner answers)
+| # | Question | Decision |
+|---|---|---|
+| 1 | Release strategy | **Ship the horror layer with 1.0**, as a way to stand out. (Plan: Milestone 3b is required for 1.0; the cozy base game remains complete at intensity "off".) |
+| 2 | The Community Hall | A cozy arc that the cult quietly uses. |
+| 3 | The god and the cult's aim | A sleeping cosmic entity from before the current world. The cult's rituals keep it asleep. The layer's influence is tied to its wakefulness. If it fully awakens, the world is consumed in fire and chaos. (Wording of the ritual outcomes needs confirming: open question A.) |
+| 4 | Which NPCs are cultists | About a third, including at least one NPC the player is likely to befriend first. |
+| 5 | Romance and the cult | Allowed, handled in heart events, never exploitative. |
+| 6 | Mechanical effects of dread | Mild, optional effects only, never blocking progress. Specific crops may only grow at certain dread levels; ordinary plants may change as dread increases; the main shop does not sell horror seeds. |
+| 7 | Default intensity | Full. |
+| 8 | Setting | A non-descript New England rural community (original names; avoid places and names from existing Lovecraft stories). |
+
+### Still open
+A. **Ritual outcomes.** The answer reads "when successful, keep the god asleep, and when unsuccessful, keep the god asleep". Presumably the second half means an unsuccessful ritual *stirs or wakes* it. Please confirm.
+B. **What "resist" does.** If the cult's rituals keep the world safe, resisting them is dangerous. Proposed: resisting means disrupting rituals and risking the god waking, unless the player finds another way to keep it asleep (see LORE.md). Confirm or change.
+C. **Wakefulness mechanics.** How it rises and falls (rituals, player actions, moon phase, time), what its thresholds do, and whether the player can see it.
+D. **Names.** The village, the woods, the god and the cult need original names.
+E. **Dread's concrete effects** beyond crops (visual, audio, text; any energy or luck effects), and what "mild" removes.
+F. **Scope protection.** Because the horror layer now ships with 1.0, decide what to cut from the base game if the schedule slips (see the plan's scope notes).

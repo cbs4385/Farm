@@ -2,7 +2,7 @@
 
 Read `CLAUDE.md`, `docs/01-GameDesign.md`, `docs/02-TechnicalDesign.md`, and the ADRs in `docs/adr/` first. This plan is an ordered backlog of **tasks**. Each task has an ID, dependencies, deliverables, and acceptance criteria (AC). Track status in `docs/STATUS.md` (one line per task: `T-xxx | status | agent/date | notes`).
 
-**Where we are:** Milestones 0 and 1 are complete (git tags `m0`, `m1`); the extension points for the optional horror layer (ADR 0002) are built. **Next: Milestone 2.** Task rows for finished milestones keep their original wording with an "As built" note where the result differs; see `STATUS.md` for details and `adr/0001-m1-design-deviations.md` for why.
+**Where we are:** Milestones 0 and 1 are complete (git tags `m0`, `m1`); the extension points for the horror layer (ADR 0002) are built. **The horror layer ships with 1.0** (GDD section 9, decision 1), so it is now Milestone 3b, required before the Release Candidate gate. **Next: Milestone 2.** Task rows for finished milestones keep their original wording with an "As built" note where the result differs; see `STATUS.md` for details and `adr/0001-m1-design-deviations.md` for why.
 
 ## How agents work this plan
 
@@ -71,14 +71,14 @@ Every task below must also meet the extension-point rule in the Definition of Do
 |---|---|---|---|---|
 | **T-043** | **Developer/QA tools** (development builds only): in-game console or hotkeys to skip time (hour/day/season), set weather, set/clear flags and variables, give items/gold, teleport; launch flag `-farmDebug`; stripped from release | T-011 | Season change, rain, passing out, flags testable in seconds; excluded from release builds (test) | Set flags/vars through `GameSession` |
 | T-030 | Weather system (sunny/rain/storm/snow/wind): **weather as data** (`WeatherDefinition`: id, name key, tint, particles, waters crops...), deterministic roll, forecast, VFX, lighting from the definition | T-017 | Deterministic with seed; tests; no weather special cases in lighting code | Modifiers and new weather definitions can be added by modules |
-| T-031 | Village, Forest, Beach maps + 6 building interiors (placeholder art, colliders, warps, ambience); move the general store into the village | T-014 | All warps round-trip; no stuck spots | Forest has a condition-gated warp slot for a future Woods map (closed in the base game); map ids reserved |
+| T-031 | Village, Forest, Beach maps + 6 building interiors (placeholder art, colliders, warps, ambience); move the general store into the village (stock from `ShopCatalog`, shop id `general`) | T-014 | All warps round-trip; no stuck spots | Forest has a condition-gated warp slot for a future Woods map (closed in the base game); map ids reserved |
 | T-032 | Skills + XP + levels, tool upgrades, energy/backpack upgrades, axe/pickaxe/scythe interactions with trees/rocks/weeds | T-015 | Skill XP persisted; upgrade flow end-to-end | - |
 | T-033 | Foraging + resource nodes; farm clutter regrowth | T-031 | Data-driven spawn tables; saved state | Spawn tables accept conditions |
 | T-034 | Dialogue system (Yarn Spinner ADR first) + portrait UI + choices | T-022 | Test dialogue with branches and flags | Lines/choices accept `Condition`; can set flags/vars; text via `L.Get` (filters apply); a `Dialogue` input map |
 | T-035 | NPC framework: definitions, schedules, A* pathing, off-screen simulation, friendship, talk, gifts, birthdays | T-031, T-034 | 3 NPCs with full-week schedules; tests for schedule resolution | Schedule entries, dialogue sets, gift reactions accept `Condition`; optional allegiance field (unused by the base game) |
 | T-036 | Calendar UI, Social tab, Map screen, Skills page, Journal/quests UI | T-035, T-032 | Gamepad navigable | Journal supports extra pages from modules |
 | T-037 | Crafting + cooking + recipes, chests, furnace, keg, preserves jar | T-032 | Machines process across day boundaries; tests | Recipes accept conditions |
-| T-038 | Remaining crops (24 + 4 trees), quality, fertilizer, sprinklers, scarecrow, greenhouse | T-016, T-037 | Data complete; growth tests per crop | Crop data supports content packs |
+| T-038 | Remaining crops (24 + 4 trees), quality, fertilizer, sprinklers, scarecrow, greenhouse | T-016, T-037 | Data complete; growth tests per crop | Crop data supports content packs and grow conditions (core support exists); every seed lists the shops that sell it |
 | T-039 | Quest/flag system + mailbox letters + Help Wanted board + tutorial chain | T-034 | Quests persisted; tutorial teaches the loop | Availability accepts `Condition` |
 | T-040 | **Data validator** (`Farm/Validate Data` + test): ids unique, refs resolve, string keys exist, sprites assigned, schedules valid | T-035 | Fails build on invalid data | Validates every `Condition` string (`Conditions.Validate`), warp/object conditions in scenes, and string keys from modules |
 | T-041 | Event/cutscene engine + 1 sample heart event | T-035 | Data-driven script plays; skip works | Events have a `Condition` and "once" flag; steps can set flags/vars |
@@ -99,12 +99,32 @@ Every task below must also meet the extension-point rule in the Definition of Do
 | T-057 | Traveling merchant, collections tab, shipping stats, professions | T-032 | - |
 | **T-058** | **M3 gate**: content-complete alpha; 2-year playthrough; perf pass; builds Win+Linux; tag `m3` | all M3 | Perf budgets met; T-044 still passes |
 
+## Milestone 3b - Mythos layer (REQUIRED FOR 1.0)
+The horror layer ships with the game (GDD section 8-9). All content lives in `Farm.Mythos` and data; it uses only the generic hooks (ADR 0002) and respects `HorrorLevel` (default full) everywhere. It runs after M2 gives it NPCs, dialogue, events and maps, can overlap with M3, and **must be finished before the M4 gate**. Lore is in `docs/mythos/LORE.md`; open questions A-F in GDD section 9 must be answered before the tasks that depend on them (noted below).
+
+| ID | Task | Deps | Needs answers |
+|---|---|---|---|
+| X-000 | Finish the lore bible: village (original names), the god, rituals and what makes them succeed or fail, wakefulness model and thresholds, which third of the NPCs are cultists, endings, per-level content lists | GDD s9 A-E | A, B, C, D, E |
+| X-001 | Two story meters: **god wakefulness** (world) and **player dread** (personal): variables, change rules, HUD widgets (dread meter; a subtle wakefulness indicator), atmosphere layers, thresholds that trigger world effects | M2, X-000 | C, E |
+| X-002 | The woods: gated map(s), the Forest gate opening through a flag, map-loaded hooks for fog, sound and hidden objects | T-031 | - |
+| X-003 | Cult NPC secrets for the chosen third of the NPCs: allegiances, hidden night schedules, conditional dialogue, heart-event variants (per NPC); at least one early-friend cultist; romance handled without exploitation | T-035, T-041, X-000 | D |
+| X-004 | Rituals as systems (they succeed or fail and move wakefulness), offerings, forbidden items (content pack), the Community Hall's hidden cult use (rooms, altars via conditional objects) | T-037, T-039, X-001 | A, B |
+| X-005 | Night events: dreams, sleepwalking, blight (day-cycle hooks) | T-017, X-001 | - |
+| X-006 | Fog and blood-moon weather; moon-phase events | T-030 | - |
+| X-007 | **Horror crops and mutations:** crops with grow conditions tied to dread (content pack), ordinary crops that change as dread rises (day-cycle hook), obtained from the woods/cult/rituals and **not** from the main shop (shop data opts in) | T-038, X-001 | E |
+| X-008 | Presentation: text distortion filter, audio and visual distortion at high dread (mild vs full variants) | T-061, X-001 | E |
+| X-009 | Options control for horror intensity (off/mild/full, default full), content notes screen, "level 0 changes nothing" and "level 1 removes the most disturbing content" checks; **lands before any horror content is playable** | T-021 | - |
+| X-010 | Endings: resist / ignore / join, plus the fiery ending when the god awakens; balance (wakefulness should be recoverable and the failure state avoidable by an attentive player); QA at all three levels | X-001..X-009 | A, B |
+| X-011 | Hook conformance for the finished layer: extend T-044 to full playthroughs per level; save compatibility for story state; failure-isolation checks | T-044, X-010 | - |
+
+**Scope protection.** The base game (M2-M3) plus this milestone is a large 1.0. The cozy game must remain complete at intensity "off", so cuts must come from breadth, not the core loop. Candidates the owner can choose to drop or defer if the schedule slips (GDD open question F): farm animals (T-053), part of the fishing breadth (T-050), the number of NPCs below 12 (but keep the cultist proportion), the number of crops below 24, extra festivals (T-056), the traveling merchant and collections (T-057). Decide before M3 starts; record the decision in an ADR.
+
 ## Milestone 4 - Polish and platform
 
 | ID | Task | Deps | Deliverables / AC |
 |---|---|---|---|
-| T-060 | Final art integration pass (swap placeholders by name; atlases; animations; lighting polish) | art ready | No missing sprites; visual QA on both OS |
-| T-061 | Audio pass: music per season/location, ambience, full SFX set, real `AudioMixer` | audio ready | Mixer snapshots; music/ambience layers switchable by condition or mood layer |
+| T-060 | Final art integration pass (swap placeholders by name; atlases; animations; lighting polish), **including the mythos art** (woods, cult spaces, horror crops and variants, dread/wakefulness UI) | art ready | No missing sprites; visual QA on both OS |
+| T-061 | Audio pass: music per season/location, ambience, full SFX set, real `AudioMixer`, **mythos audio** (woods, rituals, dread and wakefulness layers) | audio ready | Mixer snapshots; music/ambience layers switchable by condition or mood layer |
 | T-062 | Steamworks integration (`FARM_STEAM`): achievements, Auto-Cloud, overlay-safe pause, Steam Input glyphs | T-020 | Runs without Steam; verified with Steam on Win+Linux; achievement text spoiler-free |
 | T-063 | Accessibility + controller polish: UI size, colorblind aids, full gamepad coverage, Steam Deck layout, on-screen keyboard | M3 | Steam Deck checklist |
 | T-064 | Performance optimization; use `unity:optimize-*` skills | M3 | Budgets met; `docs/PERF.md` |
@@ -112,7 +132,7 @@ Every task below must also meet the extension-point rule in the Definition of Do
 | T-066 | Balance pass (economy, XP, energy, time), difficulty/QoL options | M3 | `docs/balance/` |
 | T-067 | Localization audit; swap the `L` backend to Unity Localization if more languages are wanted | T-022 | - |
 | T-068 | Bug-fix burn-down; soak tests ("bot plays 1 year") | M3 | Zero known S1/S2 bugs |
-| **T-069** | **M4 gate - Release Candidate** | all M4 | Release checklist below |
+| **T-069** | **M4 gate - Release Candidate** | all M4 **and all of Milestone 3b** | Release checklist below |
 
 ## Milestone 5 - Steam release
 
@@ -120,7 +140,7 @@ Every task below must also meet the extension-point rule in the Definition of Do
 |---|---|---|---|
 | T-070 | Steamworks partner setup (human): App ID, depots, branches | human | VDFs for Windows and Linux in `Steam/` |
 | T-071 | SteamPipe upload scripts + `docs/RELEASE.md`; test on `beta` on both OSes (incl. Steam Deck) | T-070 | Download -> install -> play verified |
-| T-072 | Store page assets, trailer, screenshots, description, age rating, EULA/privacy, **content survey and intensity-setting description if the horror layer ships** | - | Checklist complete |
+| T-072 | Store page assets, trailer, screenshots, description, age rating, EULA/privacy, **content survey, intensity-setting description and honest horror marketing (the horror layer ships)** | - | Checklist complete |
 | T-073 | Demo build (optional, spring only) | T-069 | Separate app/branch |
 | T-074 | Release, hotfix process, patch pipeline, `CHANGELOG.md` | T-071 | Live |
 
@@ -134,27 +154,14 @@ Every task below must also meet the extension-point rule in the Definition of Do
 - [ ] Controller-only and keyboard-only playthroughs
 - [ ] Localization keys complete; no missing-key strings visible
 - [ ] Crash log location documented; no debug UI or developer tools (T-043) in release
-- [ ] Equivalence test (T-044) passes; if the horror layer ships: playthroughs at HorrorLevel 0, 1 and 2, intensity option and content notes present, store content survey filled
-
-## Milestone 6 - Mythos layer (outline; after 1.0 or as an update; see GDD open question 1)
-All work lives in `Farm.Mythos` and data; respect `HorrorLevel` everywhere. **Decision gates first:** answer GDD section 9 (at least questions 1-4) and write the lore bible before implementing content.
-
-| ID | Task | Deps |
-|---|---|---|
-| X-000 | Lore bible and content boundaries (`docs/mythos/LORE.md` finished; setting, god, cult, paths, NPC roles, endings) | GDD s9 answers |
-| X-001 | Dread and lore variables, dread meter HUD widget, dread-driven atmosphere layers | M2, X-000 |
-| X-002 | Woods map(s) and gated entry; map-loaded hooks for fog, sounds, hidden objects | T-031 |
-| X-003 | Cult NPC secrets: allegiances, hidden schedules, conditional dialogue, heart-event variants (per NPC) | T-035, T-041 |
-| X-004 | Offerings, rituals and forbidden items (content pack), cult hall maps | T-037 |
-| X-005 | Night events and dreams (day-cycle hooks), sleepwalking, blight on crops | T-017 |
-| X-006 | Fog and blood-moon weather; moon-phase events | T-030 |
-| X-007 | Mutated and strange crops (content pack) | T-038 |
-| X-008 | Text distortion, audio and visual distortion at high dread | T-061 |
-| X-009 | HorrorLevel option in Options, content notes, safe-mode checks (level 0 changes nothing, level 1 removes the most disturbing text/imagery); **must land before any content ships** | T-021 |
-| X-010 | Endings (resist / ignore / join), balance, QA at all three levels, store/content-survey updates | X-001..X-009 |
+- [ ] Equivalence test (T-044) passes; playthroughs at HorrorLevel 0, 1 and 2, with the cozy game complete at 0
+- [ ] Intensity option and content notes present; Steam content survey filled; store page describes the intensity setting; achievements spoiler-free
+- [ ] All endings reachable, including the god's awakening; wakefulness recoverable; no horror seed sold by the general store (test)
+- [ ] Story state (flags, variables, module data) loads from saves of every earlier milestone
 
 ## Suggested next agent actions (start here)
 1. **T-043** (developer/QA tools) first: it makes every later check faster (skip days, set flags).
 2. In parallel: **T-030** (weather as data), **T-031** (village maps) and **T-034** (dialogue ADR + system).
 3. Then **T-035** (NPC framework, needs T-031 and T-034), with **T-040** (validator) growing alongside, **T-044** as soon as NPCs exist, and T-036/T-039/T-041 after that.
-4. Update `docs/STATUS.md` and the QA checklist as each lands.
+4. Alongside M2, write the lore bible (X-000) as soon as the owner answers open questions A-E in GDD section 9, so Milestone 3b can start the moment NPCs, dialogue and events exist.
+5. Update `docs/STATUS.md` and the QA checklist as each lands.

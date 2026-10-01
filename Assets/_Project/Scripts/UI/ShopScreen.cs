@@ -15,6 +15,7 @@ namespace Farm.UI
         readonly RectTransform _list;
         readonly TextMeshProUGUI _gold;
         readonly TextMeshProUGUI _title;
+        string _shopId = "general";
 
         public ShopScreen(UiService ui) : base(ui)
         {
@@ -37,6 +38,7 @@ namespace Farm.UI
 
         public void OpenShop(string shopId)
         {
+            _shopId = shopId;
             _title.text = L.Get("shop." + shopId + ".title");
             Rebuild();
             Open();
@@ -54,8 +56,7 @@ namespace Farm.UI
             _gold.text = L.Get("hud.gold", session.State.Gold);
             UiKit.ClearChildren(_list);
 
-            var stock = session.Db.AllItems.Where(i => i.Category == ItemCategory.Seed && i.BuyPrice > 0)
-                .OrderBy(i => i.BuyPrice).ToList();
+            var stock = ShopCatalog.For(session.Db, _shopId, session.World);
 
             foreach (var item in stock)
             {

@@ -121,7 +121,7 @@ namespace Farm.Gameplay
 
         // Called once per night. Crops watered today (or any crop if it rained today) advance a day; crops that are
         // out of season in `newSeason` die. Watering resets. Returns the number of crops that died.
-        public int AdvanceDay(Season newSeason, bool rainedToday, Func<string, CropDefinition> cropLookup)
+        public int AdvanceDay(Season newSeason, bool rainedToday, Func<string, CropDefinition> cropLookup, IWorldQuery world = null)
         {
             var died = 0;
             foreach (var tile in _tiles.Values)
@@ -135,7 +135,7 @@ namespace Farm.Gameplay
                         tile.Crop = null;
                         died++;
                     }
-                    else if ((tile.Watered || rainedToday) && crop.Stage < def.MatureStage)
+                    else if ((tile.Watered || rainedToday) && crop.Stage < def.MatureStage && CanGrow(def, world))
                     {
                         crop.DaysInStage++;
                         var needed = crop.Regrowing && crop.Stage == def.MatureStage - 1
@@ -153,6 +153,10 @@ namespace Farm.Gameplay
             }
             return died;
         }
+
+        // A crop with a GrowCondition stays dormant while it does not hold. Without a world to ask, it grows normally.
+        static bool CanGrow(CropDefinition def, IWorldQuery world) =>
+            string.IsNullOrEmpty(def.GrowCondition) || world == null || Conditions.Evaluate(def.GrowCondition, world);
 
         // Rain at dawn: every tilled tile starts the day watered.
         public void WaterAll()

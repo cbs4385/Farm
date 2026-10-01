@@ -82,13 +82,14 @@ Dependencies: `Core <- Data <- Gameplay <- UI`; `Platform` and `Mythos` depend o
 ### 3.6 Items and inventory
 - `ItemDefinition` (stable string id, name/description keys, icon, category, stack size, prices, tool type, crop id) and `CropDefinition` ScriptableObjects, generated from the tables in `ContentGenerator`. Ids look like `crop.parsnip`, `seed.parsnip`, `tool.hoe`; **never rename shipped ids**.
 - `GameDatabase` (`Resources/GameDatabase`) is the registry; `ContentPack` assets under `Resources/Packs` are merged in at startup (id clashes with core are rejected and logged).
+- **Shops are data.** Each `ItemDefinition` lists the shops that sell it (`SoldIn`, e.g. `general`) and may add a `SaleCondition`; `ShopCatalog.For(db, shopId, world)` builds a shop's stock. Content that does not opt in is sold nowhere, so pack items (e.g. horror seeds) can never leak into the general store.
 - `ItemStack { itemId, count, quality }` and `Inventory` (slots, add/remove/move with stack limits, change event). Backpack uses it; chests and shops will too.
 
 ### 3.7 Tools and actions
 - `PlayerActions` turns input into world actions on the tile in front of the player: tools by `ToolType` (hoe, watering can implemented; axe, pickaxe, scythe await targets), seeds, food, harvesting and interaction (`IInteractable`). Failures explain themselves with a toast. A formal `IToolAction` strategy arrives with T-032.
 
 ### 3.8 Farming
-- `FarmGrid` rules (pure, tested): till, water, plant (season check), growth per watered day (or any rainy day), regrow crops, harvest, out-of-season death on the night the season changes. Nightly processing is called from `DayCycle`.
+- `FarmGrid` rules (pure, tested): till, water, plant (season check), growth per watered day (or any rainy day), regrow crops, harvest, out-of-season death on the night the season changes. Nightly processing is called from `DayCycle`. A `CropDefinition.GrowCondition` keeps a crop dormant (no growth, no death) while it does not hold; day-cycle hooks can change crops in place (swap `CropInstance.CropId`) to mutate them.
 
 ### 3.9 NPCs (design, M2)
 - `NpcDefinition` (id, schedules, dialogue sets, gift tastes, portraits/sprites, optional allegiance). Schedules are data: entries of `(time, mapId, tile, facing, animation)` each with an optional **condition**. Pathing: A* on map walkability grids; NPCs are simulated off-screen by teleporting along the schedule. `FriendshipState` per NPC in `GameState`. Dialogue sets, gift reactions and heart events also accept conditions.
@@ -139,10 +140,12 @@ The horror layer (and any future optional content) plugs into the base game thro
 | Atmosphere | `AtmosphereStack.Set(id, tint, strength, priority)` | Mood tinting of the light |
 | Text | `L.AddFilter`, `L.AddTable` | Distorted text, strings for new content |
 | Content | `ContentPack` under `Resources/Packs` | Extra items and crops |
+| Crops | `CropDefinition.GrowCondition`; in-place crop changes from day-cycle hooks | Crops that only grow at certain dread levels; mutating ordinary crops |
+| Shops | `ItemDefinition.SoldIn` / `SaleCondition`, `ShopCatalog` | Keeping horror seeds out of the general store; special sellers |
 | Maps | `GameHooks.MapLoaded`, `Warp.Condition`, `ConditionalObject` | Gated areas, hidden objects, spawning |
 | HUD | `GameHooks.AddHudWidget` | Meters and indicators |
 
-**Rules.** Hooks run in registration order sorted by `Order`; each is wrapped so a failure is logged and skipped. Modules must check `HorrorLevel`. Never rename shipped flag, variable, weather or map ids. Story state goes in flags/vars/module data, not new `GameState` fields. `MythosModule` today is inert (it only registers weather names).
+**Rules.** Hooks run in registration order sorted by `Order`; each is wrapped so a failure is logged and skipped. Modules must check `HorrorLevel`. Never rename shipped flag, variable, weather or map ids. Story state goes in flags/vars/module data, not new `GameState` fields. `MythosModule` today is inert (it only registers weather names); the horror layer ships with 1.0 (plan Milestone 3b), so it will gain real hooks there.
 
 **Requirements for upcoming systems** are listed in ADR 0002 (weather as data, gated woods path, conditions on dialogue/events/schedules/quests, journal pages, validator coverage, audio layers, the Options control).
 
@@ -158,7 +161,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 - Comments only for non-obvious "why".
 
 ## 5. Testing strategy
-- **EditMode (NUnit, ~118 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
+- **EditMode (NUnit, ~125 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
 - **PlayMode (~15 tests)**: boot to menu, new game, the full farming loop, sleep through the UI (including that the Continue button is on top of the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, the avatar/cursor alignment, **real simulated keyboard and mouse input** (`InputTestFixture`), and a test module that exercises every extension point in the real game.
 - **Player-build checks**: the Editor and tests can miss build-only failures (scene serialization, stripping, draw order). For changes touching scenes, scripts on scenes, or UI layering, also build and run the player with the QA flags in `docs/QA.md` (`-farmScene`, `-farmOpen`, `-farmCapture`) and look at the screenshots.
 - **Data validators**: `Farm/Validate Data` (T-040) will check ids, references, localization keys, schedules and every `Condition` string.
@@ -201,7 +204,9 @@ Removed: `com.unity.learn.iet-framework`, the template Welcome folder and sample
 | Art volume | Placeholder pipeline; art tracked as separate backlog; consistent specs |
 | Steamworks lock-in | `IPlatformService` abstraction; game runs without Steam |
 | Agents conflicting edits to scenes/prefabs | Task ownership by area, small scenes, avoid concurrent scene edits |
-| Horror content hurts the cozy audience or the age rating | HorrorLevel setting with "off"; content guidelines in the GDD; honest Steam content disclosure; mythos not required for 1.0 |
+| Horror content hurts the cozy audience or the age rating | HorrorLevel setting with "off"; content guidelines in the GDD; honest Steam content disclosure and marketing; the cozy game stays complete at "off" |
+| 1.0 is large now that the horror layer ships with it | Hooks already built; Milestone 3b scheduled before the RC gate; scope-protection list in the plan (cut breadth, not the core loop); decide cuts before M3 |
+| The god's awakening ending feels unfair or hits players who never engaged | Wakefulness reachable only through the player's own choices over a long time, recoverable, foreshadowed, and tested for avoidability (X-010) |
 | Hooks rot while nothing uses them | A test module exercises every hook in PlayMode; hook-parity requirements on M2 tasks |
 | Horror layer leaks into core code | Separate assembly, dependency rule (nothing depends on Mythos), review rule in CLAUDE.md |
-| Lore undecided blocks content | Open questions in the GDD with recommended defaults; lore bible task X-000 comes first |
+| Lore undecided blocks content | Decisions recorded in GDD section 9; open questions A-F answered before the dependent X tasks; lore bible X-000 comes first |

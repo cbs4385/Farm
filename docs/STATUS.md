@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 118 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 125 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -58,5 +58,10 @@ Confirmed by hand: options scrolling, avatar/cursor alignment, sleep + day summa
 Bugs found by playing and fixed (each has a test): options not scrolling, avatar drawn a tile below its logical position (sprite import mode), sleep ending on a black screen (fade drawn over the summary), seedling nearly invisible and silent failed actions; earlier, a scene that crashed player builds (two MonoBehaviours in one file).
 Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
 
-## Open decisions (owner)
-See GDD section 9: release strategy for the mythos layer, Community Hall relation, the god and cult's aim, which NPCs are cultists, romance and the cult, dread's mechanical effects, default intensity, setting.
+## Milestone 3b - Mythos layer (required for 1.0; not started)
+X-000..X-011 | todo | | see the plan. X-000 (lore bible) needs open questions A-E answered
+
+## Decisions and open questions (owner)
+Decided 2026-10-01 (GDD section 9): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; the god is a sleeping cosmic entity kept asleep by the cult's rituals, its wakefulness drives the layer, and full awakening ends the world in fire and chaos; about a third of NPCs are cultists; romance with cultists allowed (never exploitative); dread effects mild and optional, specific crops grow only at certain dread levels, ordinary crops may mutate, and the main shop does not sell horror seeds; default intensity full; setting is a non-descript New England rural community.
+Hooks added because of those answers: crop grow conditions, shop opt-in and conditions (`ShopCatalog`), the `mythos.wakefulness` variable id. 125 EditMode + 15 PlayMode tests pass.
+Still open (GDD section 9, A-F): the exact meaning of an unsuccessful ritual (the wording reads as a typo), what resisting does, wakefulness mechanics and visibility, original names, dread's concrete effects and what mild removes, and what to cut if the schedule slips.

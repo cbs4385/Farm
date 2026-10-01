@@ -16,6 +16,10 @@ namespace Farm.Data
         [SerializeField] int _harvestXp = 8;
         [SerializeField] Sprite[] _stageSprites;
 
+        // Optional condition (see Conditions) for the crop to grow overnight, e.g. "var:dread>=20". While it does
+        // not hold the plant stays dormant: it neither grows nor dies (unless the season is wrong).
+        [SerializeField] string _growCondition;
+
         public string Id => _id;
         public string SeedItemId => _seedItemId;
         public string HarvestItemId => _harvestItemId;
@@ -24,6 +28,7 @@ namespace Farm.Data
         public int RegrowDays => _regrowDays;
         public int HarvestXp => _harvestXp;
         public Sprite[] StageSprites => _stageSprites;
+        public string GrowCondition => _growCondition;
         public int MatureStage => _growthDays.Length;
 
         public Sprite SpriteForStage(int stage)
@@ -48,5 +53,6 @@ namespace Farm.Data
         }
 
         public void SetStageSprites(Sprite[] sprites) => _stageSprites = sprites;
+        public void SetGrowCondition(string condition) => _growCondition = condition;
     }
 }

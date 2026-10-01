@@ -60,7 +60,7 @@ namespace Farm.Editor
                 var sprites = Enumerable.Range(0, row.Days.Length + 1).Select(i => Sprite($"crop_{row.Id}_{i}")).ToArray();
                 SaveCrop(crops, CropDefinition.Create(row.Id, row.Days, row.Seasons, row.Regrow, sprites));
                 Save(items, ItemDefinition.Create(ItemIds.Seed(row.Id), ItemCategory.Seed, buyPrice: row.SeedPrice,
-                    cropId: row.Id, icon: Sprite($"item_seed_{row.Id}")));
+                    cropId: row.Id, icon: Sprite($"item_seed_{row.Id}"), soldIn: new[] { "general" }));
                 Save(items, ItemDefinition.Create(ItemIds.Crop(row.Id), ItemCategory.Crop, sellPrice: row.SellPrice,
                     icon: Sprite($"item_crop_{row.Id}")));
             }
