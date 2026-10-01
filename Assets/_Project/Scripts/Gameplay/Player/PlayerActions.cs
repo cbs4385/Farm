@@ -106,7 +106,8 @@ namespace Farm.Gameplay
             switch (tool)
             {
                 case ToolType.Hoe:
-                    if (!_map.IsTillable(cell) || grid.IsTilled(cell.x, cell.y)) return;
+                    if (grid.IsTilled(cell.x, cell.y)) return;
+                    if (!_map.IsTillable(cell)) { Session.Toast(L.Get("toast.cannot_till")); return; }
                     if (!SpendEnergy(cost)) return;
                     grid.Till(cell.x, cell.y);
                     AudioService.PlayIfAvailable(Sfx.Hoe);
@@ -127,20 +128,27 @@ namespace Farm.Gameplay
             _view.RefreshCell(cell);
         }
 
-        void Plant(ItemDefinition seed)
+        // Returns true if a seed was planted. Explains with a toast when it was not.
+        bool Plant(ItemDefinition seed)
         {
             var cell = TargetCell;
-            if (!Session.Db.TryGetCrop(seed.CropId, out var crop)) return;
+            if (!Session.Db.TryGetCrop(seed.CropId, out var crop)) return false;
             var grid = Session.GetGrid(_map.MapId);
             var season = Session.Clock.Now.Season;
 
-            if (!grid.IsTilled(cell.x, cell.y)) return;
-            if (!crop.Seasons.Includes(season)) { Session.Toast(L.Get("toast.wrong_season")); return; }
-            if (!grid.Plant(cell.x, cell.y, crop, season)) return;
+            if (!grid.IsTilled(cell.x, cell.y)) { Session.Toast(L.Get("toast.plant_needs_soil")); return false; }
+            if (grid.TryGetTile(cell.x, cell.y, out var existing) && existing.Crop != null)
+            {
+                Session.Toast(L.Get("toast.already_planted"));
+                return false;
+            }
+            if (!crop.Seasons.Includes(season)) { Session.Toast(L.Get("toast.wrong_season")); return false; }
+            if (!grid.Plant(cell.x, cell.y, crop, season)) return false;
 
             Session.Backpack.Remove(seed.Id, 1);
             AudioService.PlayIfAvailable(Sfx.Plant);
             _view.RefreshCell(cell);
+            return true;
         }
 
         void Eat(ItemDefinition food)
@@ -194,6 +202,10 @@ namespace Farm.Gameplay
                     return;
                 }
             }
+
+            // 3. Convenience: Interact also plants the selected seeds (the main way is Use Tool).
+            var stack = Session.Backpack.Get(Session.State.SelectedHotbar);
+            if (stack != null && Session.Db.TryGetItem(stack.ItemId, out var item) && item.Category == ItemCategory.Seed) Plant(item);
         }
 
         CropDefinition CropLookup(string id) => id != null && Session.Db.TryGetCrop(id, out var c) ? c : null;

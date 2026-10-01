@@ -60,6 +60,7 @@ namespace Farm.Gameplay
                 case "pause": ui.ShowPause(); break;
                 case "options": ui.ShowOptions(); break;
                 case "sleep": _session.StartSleep(false); break;   // fade, summary over black, wait for Continue
+                case "crops": PlantShowcase(); break;
                 case "summary":
                     var s = new DaySummary { Earnings = 245, GoldAfter = 745, NewWeather = WeatherIds.Rain };
                     s.Shipped.Add(new ItemStack("crop.parsnip", 4));
@@ -67,6 +68,21 @@ namespace Farm.Gameplay
                     ui.ShowDaySummary(s, () => { });
                     break;
             }
+        }
+
+        // QA aid: one parsnip at every growth stage in a row near the spawn point.
+        void PlantShowcase()
+        {
+            var grid = _session.GetGrid(_map.MapId);
+            if (!_session.Db.TryGetCrop("parsnip", out var parsnip)) return;
+            for (var stage = 0; stage <= parsnip.MatureStage; stage++)
+            {
+                var x = 9 + stage * 2;
+                grid.Till(x, 15);
+                grid.Plant(x, 15, parsnip, Season.Spring);
+                if (grid.TryGetTile(x, 15, out var tile)) tile.Crop.Stage = stage;
+            }
+            _view.RefreshAll();
         }
 
         void OnDestroy()

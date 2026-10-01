@@ -159,10 +159,24 @@ namespace Farm.Editor
         {
             var t = NewTex(16, 16);
             var green = new Color(0.30f, 0.70f, 0.25f);
-            int height = 2 + stage * 9 / Mathf.Max(1, maxStage);
-            Rect(t, 7, 0, 2, height, green);
-            if (stage >= 2) { Rect(t, 4, height / 2, 3, 2, green); Rect(t, 9, height / 2 + 1, 3, 2, green); }
-            if (stage == maxStage) Rect(t, 5, Mathf.Min(height, 12), 6, 4, fruit);
+            if (stage == 0)
+            {
+                // Freshly planted: a visible mound with a small sprout (must read clearly at 1x).
+                var dirt = new Color(0.62f, 0.46f, 0.30f);
+                Rect(t, 4, 0, 8, 4, dirt);
+                Rect(t, 5, 4, 6, 1, dirt);
+                Rect(t, 7, 4, 2, 4, green);
+                Rect(t, 5, 6, 2, 2, green);
+                Rect(t, 9, 7, 2, 2, green);
+            }
+            else
+            {
+                int height = 5 + stage * 8 / Mathf.Max(1, maxStage);
+                Rect(t, 7, 0, 2, height, green);
+                Rect(t, 4, height / 2, 3, 2, green);
+                Rect(t, 9, height / 2 + 1, 3, 2, green);
+                if (stage == maxStage) Rect(t, 5, Mathf.Min(height, 12), 6, 4, fruit);
+            }
             Save(written, name, t);
         }
 
