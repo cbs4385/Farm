@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 125 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 138 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -59,9 +59,9 @@ Bugs found by playing and fixed (each has a test): options not scrolling, avatar
 Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
 
 ## Milestone 3b - Mythos layer (required for 1.0; not started)
-X-000..X-011 | todo | | see the plan. X-000 (lore bible) needs open questions A-E answered
+X-000..X-011 | todo | | see the plan. X-000 (lore bible) needs open questions G-K answered; the draft already holds the decided names and numbers
 
 ## Decisions and open questions (owner)
-Decided 2026-10-01 (GDD section 9): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; the god is a sleeping cosmic entity kept asleep by the cult's rituals, its wakefulness drives the layer, and full awakening ends the world in fire and chaos; about a third of NPCs are cultists; romance with cultists allowed (never exploitative); dread effects mild and optional, specific crops grow only at certain dread levels, ordinary crops may mutate, and the main shop does not sell horror seeds; default intensity full; setting is a non-descript New England rural community.
-Hooks added because of those answers: crop grow conditions, shop opt-in and conditions (`ShopCatalog`), the `mythos.wakefulness` variable id. 125 EditMode + 15 PlayMode tests pass.
-Still open (GDD section 9, A-F): the exact meaning of an unsuccessful ritual (the wording reads as a typo), what resisting does, wakefulness mechanics and visibility, original names, dread's concrete effects and what mild removes, and what to cut if the schedule slips.
+Decided 2026-10-01 (GDD section 9, 1-8 and A-E): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; Nharoth, a sleeping cosmic entity, is kept asleep by the Keepers of the Covenant's rituals, and full awakening ends the world; wakefulness rises 25% per season and each ritual lowers it 30-40%, rituals each new moon in Harrow Wood, world changes every 5%; the cult looks menacing but protects the world; resisting risks waking the god unless another way is found; about a third of NPCs are Keepers (romance allowed, never exploitative); dread (mild, optional, never blocking) affects luck, dialogue options, seasonal events, weather and NPC attitude decay, gates crops, and ordinary crops may mutate; the main shop does not sell horror seeds; default intensity full; New England village Bellweather.
+Hooks and code added because of the answers: crop grow conditions, shop opt-in and conditions (`ShopCatalog`), luck modifiers (`ILuckModifier`, `GameSession.Luck`), `WakefulnessModel` (the owner's numbers as tested pure functions, not yet driving the game), reserved ids and names (`village.name`, `mythos.*`, map id `HarrowWood`). 138 EditMode + 15 PlayMode tests pass.
+Still open (GDD section 9): F scope protection (needed before M3), G ritual cadence on the 28-day lunar cycle, H what an unsuccessful ritual does and what decides success, I what mild removes, J wakefulness visibility, K spelling of "Bellweather".

@@ -63,6 +63,14 @@ namespace Farm.Gameplay
         string Modify(GameDateTime date, string weather, GameState state);
     }
 
+    // Adjusts the player's luck, a value from -1 (very unlucky) to +1 (very lucky), 0 being neutral. Systems that roll
+    // for good or bad outcomes (forage quality, drops, random events, fishing) read GameSession.Luck.
+    public interface ILuckModifier
+    {
+        int Order { get; }
+        float Modify(float luck, GameState state);
+    }
+
     public sealed class MapLoadedContext
     {
         public string MapId;
@@ -85,8 +93,10 @@ namespace Farm.Gameplay
         readonly List<IDayCycleHook> _dayCycle = new List<IDayCycleHook>();
         readonly List<IWeatherModifier> _weather = new List<IWeatherModifier>();
         readonly List<Func<IHudWidget>> _hudWidgets = new List<Func<IHudWidget>>();
+        readonly List<ILuckModifier> _luck = new List<ILuckModifier>();
 
         public IReadOnlyList<IDayCycleHook> DayCycleHooks => _dayCycle;
+        public IReadOnlyList<ILuckModifier> LuckModifiers => _luck;
         public IReadOnlyList<Func<IHudWidget>> HudWidgets => _hudWidgets;
 
         // Raised by the map scene controller once a map is set up (player placed, farm drawn).
@@ -111,10 +121,30 @@ namespace Farm.Gameplay
             if (factory != null) _hudWidgets.Add(factory);
         }
 
+        public void AddLuckModifier(ILuckModifier modifier)
+        {
+            if (modifier == null || _luck.Contains(modifier)) return;
+            _luck.Add(modifier);
+            _luck.Sort((a, b) => a.Order.CompareTo(b.Order));
+        }
+
+        // Neutral luck (0) passed through every modifier in order, clamped to [-1, 1].
+        public float ComputeLuck(GameState state, float baseLuck = 0f)
+        {
+            var luck = Mathf.Clamp(baseLuck, -1f, 1f);
+            foreach (var m in _luck)
+            {
+                try { luck = Mathf.Clamp(m.Modify(luck, state), -1f, 1f); }
+                catch (Exception e) { Log.Error($"Luck modifier {m.GetType().Name} failed: {e}"); }
+            }
+            return luck;
+        }
+
         public void Clear()
         {
             _dayCycle.Clear();
             _weather.Clear();
+            _luck.Clear();
             _hudWidgets.Clear();
             MapLoaded = null;
         }

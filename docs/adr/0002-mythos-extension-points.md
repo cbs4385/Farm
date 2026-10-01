@@ -24,6 +24,7 @@ The game carries a Lovecraftian layer that **ships with 1.0** (owner decision, G
 | Mood: tint, dread | Atmosphere | `AtmosphereService.Stack.Set(id, tint, strength, priority)`; the day/night light blends it in, indoors too |
 | Distorted or secret text | Localization | `L.AddFilter((key, text) => ...)` post-processes every string (keys let you target `npc.*`); `L.AddTable` adds strings |
 | Crops that only grow at certain dread levels; ordinary crops that mutate | Crop grow condition | `CropDefinition.GrowCondition` keeps a crop dormant while a condition fails; day-cycle hooks change crops in place (swap `CropInstance.CropId`) |
+| Dread makes outcomes less favourable (luck, rolls) | Luck modifiers | `ILuckModifier` chain; `GameSession.Luck` (-1..+1, neutral 0) is what roll-based systems read |
 | Horror seeds must never appear in the main shop | Shop opt-in | `ItemDefinition.SoldIn` (shop ids) and `SaleCondition`; `ShopCatalog.For(db, shopId, world)`. An item that lists no shop is sold nowhere |
 | Extra items and crops (offerings, strange seeds) | Content packs | `ContentPack` assets under `Resources/Packs` merge into `GameDatabase`; id clashes with core are rejected |
 | Reacting to a map | Map hook | `GameHooks.MapLoaded` (spawn objects, push atmosphere, show/hide things) |
@@ -44,6 +45,11 @@ Not built yet; each must be designed to use the hooks above.
 - **T-061 audio:** music and ambience layers can be switched by condition or atmosphere layer; leave room for an audio filter.
 - **T-063 accessibility and T-021 options:** add the HorrorLevel control (X-009), plus content notes on the store page.
 
+- **T-030 weather odds:** weather is rolled from a weighted table so modules can bias probabilities (dread leans toward worse weather) as well as override the result.
+- **T-035 friendship decay:** goes through a modifier hook (base rate in, adjusted rate out) so dread can speed up the decay of NPC attitudes.
+- **T-041 random events:** seasonal random events are drawn from a weighted table with a weight-modifier hook, and use `GameSession.Luck`.
+- **T-045 luck:** every roll-based system reads `GameSession.Luck`, so dread can lean outcomes negative.
+- **T-034 dialogue:** options accept conditions on variables such as `dread`, so dread can remove favourable choices.
 - **T-043 developer tools:** can set flags/variables and skip time, so story logic is testable in seconds.
 - **T-044 conformance tests:** a scripted playthrough with test modules registered, versus none, and at `HorrorLevel` 0 must produce identical game state; hooks stay exercised in PlayMode.
 
@@ -60,7 +66,7 @@ Unit and PlayMode tests cover each hook (ordering, failure isolation, saving of 
 GDD section 7 (content guidelines), section 8 (the layer), section 9 (decisions and open questions); Tech Design section 3.18; `docs/mythos/LORE.md`; plan Milestone 3b.
 
 ## Story state the layer will use
-Two separate meters: the god's **wakefulness** (world, `mythos.wakefulness`) and the player's **dread** (personal, `dread`), plus `lore`, `cult.standing`, and flags such as `mythos.cult_known` and `mythos.woods_open` (see `MythosIds`; placeholders). Wakefulness is saved like any variable and read through conditions; reaching its maximum triggers the awakening ending (X-010).
+Two separate meters: the god's **wakefulness** (world, `mythos.wakefulness`, stored in permille 0..1000, steps of 50 = 5%, numbers in `WakefulnessModel`) and the player's **dread** (personal, `dread`, 0..100), plus `lore`, `cult.standing`, and flags such as `mythos.cult_known` and `mythos.woods_open` (see `MythosIds`; placeholders). Wakefulness is saved like any variable and read through conditions; reaching its maximum triggers the awakening ending (X-010).
 
 ## Rules for contributors
 - No cult, god or horror content in core assemblies (`Farm.Core/Data/Gameplay/UI`): only generic hooks.

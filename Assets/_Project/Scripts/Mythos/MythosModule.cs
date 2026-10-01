@@ -27,6 +27,12 @@ namespace Farm.Mythos
         {
             { "weather." + MythosIds.Weather.Fog, "Fog" },
             { "weather." + MythosIds.Weather.BloodMoon, "Blood Moon" },
+
+            // Names chosen by the owner (GDD section 9, answer D). The village's own name, Bellweather, is a core
+            // string ("village.name") because the village exists in the base game too.
+            { "mythos.god.name", "Nharoth" },
+            { "mythos.cult.name", "Keepers of the Covenant" },
+            { "mythos.woods.name", "Harrow Wood" },
         };
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

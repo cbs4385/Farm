@@ -55,6 +55,9 @@ namespace Farm.Gameplay
         // What conditions (Conditions.Evaluate) see. Live: always reflects the current game.
         public IWorldQuery World => new StateWorldQuery(State, Clock);
 
+        // The player's luck, -1..+1 (0 neutral), after every module's modifiers. Roll-based systems should use it.
+        public float Luck => InGame ? Hooks.ComputeLuck(State) : 0f;
+
         public int HorrorLevel => ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current.HorrorLevel : 2;
 
         // ---- story flags and variables -------------------------------------------------------------------------

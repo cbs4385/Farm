@@ -11,7 +11,8 @@ namespace Farm.Mythos
         // Story variables (GameSession.GetVar / SetVar, and "var:<name>>=n" in conditions)
         public static class Vars
         {
-            public const string Wakefulness = "mythos.wakefulness"; // the Elder God's state (0..100); 100 = it wakes
+            // The Elder God's wakefulness in permille (0..1000); 1000 = it wakes. See WakefulnessModel.
+            public const string Wakefulness = "mythos.wakefulness";
             public const string Dread = "dread";               // the player's creeping unease (0..100)
             public const string Lore = "lore";                 // forbidden knowledge gathered
             public const string CultStanding = "cult.standing"; // how the cult regards the player
@@ -44,7 +45,7 @@ namespace Farm.Mythos
         // Maps the layer is expected to add (scenes named after the map id)
         public static class Maps
         {
-            public const string Woods = "Woods";
+            public const string Woods = "HarrowWood";
             public const string CultHall = "CultHall";
         }
     }
