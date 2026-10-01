@@ -291,5 +291,36 @@ namespace Farm.Tests
             ExecuteEvents.ExecuteHierarchy(first.gameObject, pointer, ExecuteEvents.scrollHandler);
             Assert.Less(scroll.verticalNormalizedPosition, 1f, "wheel should scroll the list down");
         }
+
+        [UnityTest]
+        public IEnumerator Player_Sprite_StandsOnItsTile_AndCursorIsTheTileInFront()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var session = ServiceLocator.Get<GameSession>();
+            session.BeginNewGame("Tester", "Test Farm", 0);
+            yield return LoadScene(MapIds.Farm);
+            yield return WaitFrames(2);
+
+            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var renderer = player.GetComponent<SpriteRenderer>();
+            var cursor = GameObject.Find("TargetCursor").transform;
+
+            var facings = new[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+            foreach (var facing in facings)
+            {
+                player.transform.position = new Vector3(20.5f, 10.5f, 0f);   // centre of cell (20, 10)
+                player.Face(facing);
+                yield return WaitFrames(3);
+
+                // The avatar's feet are drawn at its transform: the sprite's bottom edge is the transform y.
+                Assert.AreEqual(player.transform.position.y, renderer.bounds.min.y, 0.02f, "sprite pivot must be at the feet");
+                Assert.AreEqual(player.transform.position.x, renderer.bounds.center.x, 0.02f);
+
+                // The cursor sits on the cell in front of the cell the player stands in.
+                var expected = new Vector3(20.5f + facing.x, 10.5f + facing.y, 0f);
+                Assert.Less(Vector3.Distance(cursor.position, expected), 0.01f, $"cursor for facing {facing}");
+            }
+        }
     }
 }

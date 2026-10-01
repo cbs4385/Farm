@@ -10,7 +10,7 @@ namespace Farm.Editor
         public const int PixelsPerUnit = 16;
 
         // Bump when import rules change so existing art is reimported.
-        public override uint GetVersion() => 2;
+        public override uint GetVersion() => 3;
 
         void OnPreprocessTexture()
         {
@@ -18,6 +18,8 @@ namespace Farm.Editor
 
             var importer = (TextureImporter)assetImporter;
             importer.textureType = TextureImporterType.Sprite;
+            // The project's default texture preset imports as Multiple, which ignores the single-sprite pivot below.
+            importer.spriteImportMode = SpriteImportMode.Single;
             importer.spritePixelsPerUnit = PixelsPerUnit;
             importer.filterMode = FilterMode.Point;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
