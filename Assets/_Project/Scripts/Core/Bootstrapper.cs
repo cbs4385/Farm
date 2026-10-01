@@ -10,7 +10,9 @@ namespace Farm.Core
         void Start()
         {
             var sceneLoader = InitializeServices();
-            sceneLoader.Load(SceneNames.MainMenu, 0f);
+            ScreenshotCapture.StartIfRequested(sceneLoader);
+            // `-farmScene <name>` lets QA/automation start in another scene.
+            sceneLoader.Load(CommandLine.GetArg("-farmScene") ?? SceneNames.MainMenu, 0f);
         }
 
         // Safe to call repeatedly (e.g. from tests).

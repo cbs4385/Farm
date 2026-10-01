@@ -51,6 +51,7 @@ namespace Farm.Editor
             cam.transform.position = new Vector3(0, 0, -10);
             go.AddComponent<AudioListener>();
             go.AddComponent<UniversalAdditionalCameraData>();
+            go.AddComponent<PixelSnapCamera>();
 
             var ppc = go.AddComponent<PixelPerfectCamera>();
             ppc.assetsPPU = TextureImportPostprocessor.PixelsPerUnit;

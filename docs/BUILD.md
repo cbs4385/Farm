@@ -36,3 +36,8 @@ Exit code 0 = success. `Builds/` is git-ignored.
 
 ## Linux verification
 Linux player cannot run on Windows directly. Use WSL2 (WSLg) with Ubuntu: `./Builds/Linux/<ver>/Farm` (needs `libgtk-3-0`/Vulkan or Mesa), or run `-batchmode -nographics` for a headless boot check. Real GPU testing on a Linux machine/Steam Deck is a Milestone 4 requirement.
+
+## Visual QA capture
+Players accept `-farmScene <SceneName>` and `-farmCapture <dir>` (saves 6 screenshots, then quits). Example pixel-perfect check at 2x:
+`Farm.exe -screen-width 960 -screen-height 540 -screen-fullscreen 0 -farmScene PixelPerfectTest -farmCapture <dir>`
+A frame is pixel-perfect if downsampling by the scale factor and upsampling back reproduces it exactly.
