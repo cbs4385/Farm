@@ -31,3 +31,7 @@ T-021 | done | claude/2026-10-01 | Main menu, new/load/continue, options (audio,
 T-022 | done | claude/2026-10-01 | `L.Get` + en.json with lint tests; not Unity Localization (ADR 0001)
 T-023 | done (partial) | claude/2026-10-01 | AudioService with logical buses and generated blips; no mixer/music (ADR 0001)
 T-024 | done (partial) | claude/2026-10-01 | M1 gate: 70 EditMode + 7 PlayMode pass; Win + Linux (Mono) builds run and render all screens (Linux via WSLg); ~60 fps on Windows at 1280x800. NOT verified: human playthrough, gamepad on hardware, IL2CPP, Steam Deck, real Linux GPU
+
+## Human playtest results (2026-10-01)
+Confirmed working by hand on Windows: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, save and load from the main menu and after a full restart.
+Still untested by a human: gamepad, passing out at 2 AM, rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
