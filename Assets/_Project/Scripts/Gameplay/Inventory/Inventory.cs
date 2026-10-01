@@ -9,17 +9,19 @@ namespace Farm.Gameplay
         public string ItemId;
         public int Count;
         public int Quality;   // 0 normal, 1 silver, 2 gold, 3 iridium
+        public string Mark;   // optional tag set by modules (e.g. a sacrificial mark); only identically marked stacks merge
 
         public ItemStack() { }
 
-        public ItemStack(string itemId, int count, int quality = 0)
+        public ItemStack(string itemId, int count, int quality = 0, string mark = null)
         {
             ItemId = itemId;
             Count = count;
             Quality = quality;
+            Mark = string.IsNullOrEmpty(mark) ? null : mark;
         }
 
-        public ItemStack Clone() => new ItemStack(ItemId, Count, Quality);
+        public ItemStack Clone() => new ItemStack(ItemId, Count, Quality, Mark);
     }
 
     [Serializable]
@@ -43,6 +45,8 @@ namespace Farm.Gameplay
             _slots = new ItemStack[capacity];
         }
 
+        static string Normalize(string mark) => string.IsNullOrEmpty(mark) ? null : mark;
+
         public int Capacity => _slots.Length;
 
         public event Action Changed;
@@ -60,21 +64,21 @@ namespace Farm.Gameplay
 
         public bool Has(string itemId, int count = 1) => Count(itemId) >= count;
 
-        public bool CanAdd(string itemId, int count, int quality = 0)
+        public bool CanAdd(string itemId, int count, int quality = 0, string mark = null)
         {
             var space = 0;
             var max = _maxStack(itemId);
             foreach (var s in _slots)
             {
                 if (s == null) space += max;
-                else if (s.ItemId == itemId && s.Quality == quality) space += max - s.Count;
+                else if (s.ItemId == itemId && s.Quality == quality && s.Mark == Normalize(mark)) space += max - s.Count;
                 if (space >= count) return true;
             }
             return space >= count;
         }
 
         // Returns how many items did NOT fit.
-        public int Add(string itemId, int count, int quality = 0)
+        public int Add(string itemId, int count, int quality = 0, string mark = null)
         {
             if (string.IsNullOrEmpty(itemId)) throw new ArgumentException("itemId required", nameof(itemId));
             if (count <= 0) return 0;
@@ -85,7 +89,7 @@ namespace Farm.Gameplay
             for (var i = 0; i < _slots.Length && remaining > 0; i++)
             {
                 var s = _slots[i];
-                if (s == null || s.ItemId != itemId || s.Quality != quality || s.Count >= max) continue;
+                if (s == null || s.ItemId != itemId || s.Quality != quality || s.Mark != Normalize(mark) || s.Count >= max) continue;
                 var add = Math.Min(remaining, max - s.Count);
                 s.Count += add;
                 remaining -= add;
@@ -96,7 +100,7 @@ namespace Farm.Gameplay
             {
                 if (_slots[i] != null) continue;
                 var add = Math.Min(remaining, max);
-                _slots[i] = new ItemStack(itemId, add, quality);
+                _slots[i] = new ItemStack(itemId, add, quality, mark);
                 remaining -= add;
                 changed = true;
             }
@@ -130,7 +134,7 @@ namespace Farm.Gameplay
             var s = _slots[slot];
             if (s == null || count <= 0) return null;
             var take = Math.Min(count, s.Count);
-            var removed = new ItemStack(s.ItemId, take, s.Quality);
+            var removed = new ItemStack(s.ItemId, take, s.Quality, s.Mark);
             s.Count -= take;
             if (s.Count == 0) _slots[slot] = null;
             Changed?.Invoke();
@@ -145,7 +149,7 @@ namespace Farm.Gameplay
             var b = _slots[to];
             if (a == null) return;
 
-            if (b != null && a.ItemId == b.ItemId && a.Quality == b.Quality)
+            if (b != null && a.ItemId == b.ItemId && a.Quality == b.Quality && a.Mark == b.Mark)
             {
                 var max = _maxStack(a.ItemId);
                 var moved = Math.Min(a.Count, max - b.Count);

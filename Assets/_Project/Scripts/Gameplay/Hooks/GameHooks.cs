@@ -121,6 +121,52 @@ namespace Farm.Gameplay
             if (factory != null) _hudWidgets.Add(factory);
         }
 
+        // ---- world objects (animals, produce, crafted items) ---------------------------------------------------
+
+        readonly List<IWorldObjectSource> _worldSources = new List<IWorldObjectSource>();
+
+        public IReadOnlyList<IWorldObjectSource> WorldObjectSources => _worldSources;
+
+        public void AddWorldObjectSource(IWorldObjectSource source)
+        {
+            if (source != null && !_worldSources.Contains(source)) _worldSources.Add(source);
+        }
+
+        // Every object of the given kinds (all kinds when none are given). A failing source is logged and skipped.
+        public List<WorldObjectRef> EnumerateWorldObjects(params string[] kinds)
+        {
+            var result = new List<WorldObjectRef>();
+            foreach (var source in _worldSources)
+            {
+                if (kinds != null && kinds.Length > 0 && Array.IndexOf(kinds, source.Kind) < 0) continue;
+                try { result.AddRange(source.Enumerate()); }
+                catch (Exception e) { Log.Error($"World object source {source.GetType().Name} failed: {e}"); }
+            }
+            return result;
+        }
+
+        public bool WorldObjectExists(WorldObjectRef reference)
+        {
+            foreach (var source in _worldSources)
+            {
+                if (source.Kind != reference.Kind) continue;
+                try { if (source.Exists(reference)) return true; }
+                catch (Exception e) { Log.Error($"World object source {source.GetType().Name} failed: {e}"); }
+            }
+            return false;
+        }
+
+        public bool ConsumeWorldObject(WorldObjectRef reference)
+        {
+            foreach (var source in _worldSources)
+            {
+                if (source.Kind != reference.Kind) continue;
+                try { if (source.TryConsume(reference)) return true; }
+                catch (Exception e) { Log.Error($"World object source {source.GetType().Name} failed: {e}"); }
+            }
+            return false;
+        }
+
         public void AddLuckModifier(ILuckModifier modifier)
         {
             if (modifier == null || _luck.Contains(modifier)) return;
@@ -145,6 +191,7 @@ namespace Farm.Gameplay
             _dayCycle.Clear();
             _weather.Clear();
             _luck.Clear();
+            _worldSources.Clear();
             _hudWidgets.Clear();
             MapLoaded = null;
         }

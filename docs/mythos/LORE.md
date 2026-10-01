@@ -1,6 +1,6 @@
 # Lore bible (DRAFT)
 
-Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F, L-N) are in GDD section 9.
+Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F, O-Q) are in GDD section 9.
 
 ## Known (owner decisions)
 - The game is a farming/life sim and **ships with** a Lovecraftian layer, to help it stand out. Default intensity is **full**; the player can turn it down or off.
@@ -9,8 +9,9 @@ Status: draft. **Known** items are decisions from the owner (GDD section 9). **P
 - Nharoth is a **sleeping cosmic entity from before the current world**, living in Harrow Wood.
 - The Keepers **perform rituals to keep it asleep**. If it **fully awakens, the world is consumed in fire and chaos**.
 - **Wakefulness:** rises 25% per season untouched (full in one game year); each ritual lowers it by 30-40% (floor 0); several successful rituals can undo an unsuccessful one. Rituals happen **each new moon in Harrow Wood** (one per season on the current calendar), attended by the Keepers. The layer's **visual changes follow wakefulness**, with a threshold change at **every 5%**.
-- **Rituals are specific.** Each needs particular Keepers as participants, each laying a particular offering on an altar where it slowly dissolves during the timed ritual. The offerings are chosen at the start of the season: 2 in spring, 3 in summer, 4 in autumn, 5 in winter. A ritual fails if any offering is not sacrificed or a required Keeper is not available. A failure lowers nothing (assumed; no extra spike).
-- **No wakefulness meter.** The player reads Nharoth's state from visuals, lore and gameplay.
+- **Rituals are specific.** Each needs particular Keepers as participants, each laying a particular offering on an altar where it slowly dissolves during the timed ritual. The offerings are chosen at the start of the season: 2 in spring, 3 in summer, 4 in autumn, 5 in winter. A ritual fails if any offering is not sacrificed or a required Keeper is not available. A failure lowers nothing and adds no spike (decided).
+- **No meters.** Neither Nharoth's wakefulness nor the player's dread is a HUD meter; both are shown through the world and the journal.
+- **Ritual timeline.** An altar deep in Harrow Wood, in a small clearing. 30 minutes of the leader speaking, then 20 minutes per sacrifice (70/90/110/130 game minutes by season). Offerings are chosen at season start from the animals, plant products and crafted items on the map, and are marked; the player can take or use a marked item before the ritual or take it from the altar before it is consumed at the end of its 20 minutes.
 - **Mild intensity** halves dread's effects and removes text distortion and explicit ritual imagery and dialogue.
 - **The cult looks nefarious.** Its style, mannerisms and symbology are spooky or menacing so the player assumes it is evil; the reveal is that it protects the world.
 - **Resisting** means disrupting rituals and risking the god waking, unless the player finds another way to keep it asleep.
@@ -43,11 +44,12 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 - Wakefulness is raised by the calendar (25% per season) and lowered by successful rituals (30-40% each). A failed or disrupted ritual simply does not lower it (assumed, open question L).
 
 ### The ritual, as a system (to design in X-000 and X-004)
-- At the start of each season the Keepers' offerings for the coming ritual are chosen (2 to 5 depending on season), each tied to a specific Keeper who must attend.
-- On the new moon night, in Harrow Wood, each participant lays their offering on the altar; it dissolves slowly. The ritual succeeds only if every offering is fully sacrificed and every required Keeper is present.
+- At the start of each season the offerings for the coming ritual are chosen (2 to 5 depending on season) from the animals, plant products and crafted items on the map, and marked; each is tied to a specific Keeper who must attend. The marks are visible, so an observant player can notice them.
+- On the new moon night, at the altar deep in Harrow Wood, the leader speaks for 30 minutes, then each participant in turn lays their offering on the altar, where it dissolves over 20 minutes. The ritual succeeds only if every offering is fully sacrificed and every required Keeper is present.
 - Ways the player can affect it (proposals): **help** (supply or recover an offering, keep a Keeper healthy and unobstructed, defend the altar), **disrupt** (take an offering from the altar, make a Keeper unavailable through illness, absence, or revealing a secret, damage the altar), or **observe** (learn the offering list from lore and overheard dialogue). Making a Keeper unavailable ties into NPC schedules and conditions (a Keeper with a "sick" or "away" flag is simply not at the altar).
 - Outcomes: success lowers wakefulness 30-40%; failure lowers nothing, so the season's 25% rise stands and a year without a success wakes Nharoth.
-- Offering items are a content pack that the general store never sells; where they come from (gathered by the Keepers, or suppliable by the player) is open question M.
+- Offerings are drawn from what exists in the world: animals, plant products and crafted items. Core systems expose them through `IWorldObjectSource`, and a marked stack carries `ItemStack.Mark`. Whether the player's own things can be chosen (open question P), and how animal offerings are handled (open question Q, no on-screen harm), still need decisions.
+- The ritual's date and start time, and how the first year works, are open question O.
 
 ### The Keepers of the Covenant
 - About a third of the 12 NPCs, including one the player meets and befriends early. Each NPC has an allegiance: unaware, Keeper, or resister. Allegiance drives hidden night schedules (including the new-moon ritual), conditional dialogue and heart-event variants.

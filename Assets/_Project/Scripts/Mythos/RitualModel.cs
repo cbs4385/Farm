@@ -79,6 +79,46 @@ namespace Farm.Mythos
         public static int WakefulnessAfter(int wakefulness, RitualResult result, double roll) =>
             result.Succeeded ? WakefulnessModel.AfterSuccessfulRitual(wakefulness, roll) : wakefulness;
 
+        // ---- timeline (GDD section 9, answer M) ----------------------------------------------------------------
+        // The ritual is at an altar in a clearing deep in Harrow Wood. It opens with 30 minutes of the leader speaking,
+        // then 20 minutes per sacrifice: the offering is laid on the altar at the start of its 20 minutes and is
+        // consumed at the end of them. Times are game minutes from the start of the ritual.
+
+        public const int LeaderMinutes = 30;
+        public const int MinutesPerSacrifice = 20;
+
+        public enum RitualPhase { NotStarted, LeaderSpeaking, Sacrificing, Finished }
+
+        public static int DurationMinutes(int participants) => LeaderMinutes + MinutesPerSacrifice * participants;
+
+        // When sacrifice `index` (0-based) is laid on the altar and when it is consumed.
+        public static int SacrificeStart(int index) => LeaderMinutes + MinutesPerSacrifice * index;
+        public static int SacrificeEnd(int index) => LeaderMinutes + MinutesPerSacrifice * (index + 1);
+
+        public static RitualPhase PhaseAt(int offsetMinutes, int participants)
+        {
+            if (offsetMinutes < 0) return RitualPhase.NotStarted;
+            if (offsetMinutes < LeaderMinutes) return RitualPhase.LeaderSpeaking;
+            return offsetMinutes < DurationMinutes(participants) ? RitualPhase.Sacrificing : RitualPhase.Finished;
+        }
+
+        // Which sacrifice is under way (0-based), or -1 during the leader's speech and outside the ritual.
+        public static int CurrentSacrifice(int offsetMinutes, int participants) =>
+            PhaseAt(offsetMinutes, participants) == RitualPhase.Sacrificing ? (offsetMinutes - LeaderMinutes) / MinutesPerSacrifice : -1;
+
+        public static bool IsOnAltar(int index, int offsetMinutes) =>
+            offsetMinutes >= SacrificeStart(index) && offsetMinutes < SacrificeEnd(index);
+
+        public static bool IsConsumed(int index, int offsetMinutes) => offsetMinutes >= SacrificeEnd(index);
+
+        // The player may take (or use) a marked offering from the moment it is chosen until the end of its own
+        // 20 minutes on the altar: before the ritual, or from the altar before it is consumed.
+        public static bool CanStillBeTaken(int index, int offsetMinutes) => !IsConsumed(index, offsetMinutes);
+
+        // The latest minute-of-day at which a ritual of this season can start and still end before the day does (02:00).
+        public static int LatestStartMinuteOfDay(Season season) =>
+            GameDateTime.DayEndMinute - DurationMinutes(OfferingCount(season));
+
         // Is this night a ritual night: the new moon (days 1-4 of a season). X-004 picks the exact night.
         public static bool IsNewMoon(GameDateTime date) => date.MoonPhase == MoonPhase.New;
     }

@@ -114,6 +114,7 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 
 ## 7. Content guidelines
 - Tone: atmospheric and psychological dread, folk-horror and cosmic unease. No graphic gore or torture, no sexual violence, no harm to animals shown on screen.
+- Sacrifices are never shown harming animals or people: offerings dissolve on the altar (see open question Q).
 - The cult and its god are fictional. No real-world religions, groups or hate content; no depiction of self-harm.
 - The player is never forced into horror content: it is gated by the intensity setting, and the game must remain fully playable and completable at "off".
 - Romance and relationships stay all-ages.
@@ -128,6 +129,9 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 - Left alone it rises **25% per season** (full wakefulness in one game year, about 0.9% per day).
 - Each **successful ritual lowers it by 30-40%** (never below 0), so several successful rituals can recover from an unsuccessful one. A failed ritual lowers nothing, so that season's 25% rise stands.
 - **Rituals** take place **each new moon in Harrow Wood**, attended by the Keepers: **one per season** (the calendar has one lunar cycle per season), four per year. Each ritual needs **specific participants who offer specific sacrifices**: every participant lays their offering on an altar, where it slowly dissolves during the timed ritual. The offerings are **chosen at the start of the season**, and there are **2 in spring, 3 in summer, 4 in autumn and 5 in winter**. The ritual **fails if any offering is not sacrificed in time or a required Keeper is not available**, which is where the player can intervene: help it succeed, or disrupt it.
+  - *Where and how long:* an altar deep in Harrow Wood, in a small clearing. The ritual opens with **30 minutes of the leader speaking**, then **20 minutes for each sacrifice** (70, 90, 110 and 130 game minutes by season). Each offering is laid on the altar at the start of its 20 minutes and consumed at the end.
+  - *The offerings:* chosen at the start of the season from the **animals, plant products and crafted items on the map**, and **marked** so they can be noticed.
+  - *The player's options:* take or use a marked item before the ritual, or take it from the altar before it is consumed; make a participant unavailable (illness, absence, trust, locked away); or help by guarding the altar and the Keepers.
 - **Every 5% of wakefulness is a threshold** (20 steps) at which the world visibly changes: the layer's visual changes are tied to wakefulness.
 - **There is no wakefulness meter.** The player learns how awake Nharoth is from visuals, lore and gameplay (the world's changes, what villagers say and do, journal entries, how rituals go).
 - At 100% the god awakens fully and the world is consumed in fire and chaos: the worst ending.
@@ -149,7 +153,7 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 - Overnight dreams, sleepwalking and blight (the night is when the layer acts on the farm).
 - **Crops:** specific crops grow only at certain dread levels; ordinary plants may change (mutate) as dread rises. Horror seeds are **never** sold by the main shop; they come from the woods, the cult and rituals.
 - Offerings and forbidden items (content packs).
-- A dread meter for the player's own unease (the god's wakefulness has no meter, it is shown by the world), mood tinting that advances with each 5% step, distorted text and audio at high dread.
+- No meters: neither the god's wakefulness nor the player's dread is shown as a HUD meter; both are shown through the world and the journal. Mood tinting that advances with each 5% step, distorted text and audio at high dread.
 - Ritual sites: an altar in Harrow Wood where offerings dissolve, an offerings list that the player can discover, and Keepers whose availability (illness, absence, trust) the player can influence.
 - Luck, dialogue and seasonal random events that lean on dread; friendship decay that speeds up with dread.
 - Endings that depend on the player's path and on whether the god stays asleep.
@@ -178,9 +182,12 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 | I | What "mild" removes | Confirmed: dread effects at half strength, no text distortion, no explicit ritual imagery or dialogue. |
 | J | Wakefulness visibility | No meter. Wakefulness is shown through visuals, lore and gameplay. |
 | K | Village name | **Wetherell** (replaces the earlier "Bellweather"). |
+| L | Failed rituals | Confirmed: a failed ritual adds no wakefulness beyond the season's rise (no spike). |
+| M | Ritual details | The sacrificial items are selected at the start of the season from the **animals, plant products and crafted items on the map**, and are **marked**. The ritual happens at an **altar deep in the wood, in a small clearing**. It lasts **30 minutes of the leader talking, then 20 minutes per sacrifice**. The player can attempt to **take or use marked items before the ritual, or take them from the altar before they are consumed** at the end of their 20 minutes. Each participant can become unavailable (illness, absence, trust, locked away). |
+| N | Dread display | **No HUD meter.** The player's dread is shown only through the world and the journal. |
 
 ### Still open
 F. **Scope protection.** Because the horror layer ships with 1.0, decide what to cut from the base game if the schedule slips (see the plan's scope notes). Needed before Milestone 3.
-L. **Failed-ritual consequence.** Assumed: a failed ritual adds no wakefulness beyond the season's rise. Confirm, or specify a spike.
-M. **Offering and Keeper design** (for the lore bible, X-000): where offerings come from (the Keepers gather them, or the player can supply them), how they are chosen each season, how a Keeper can be made unavailable (illness, absence, trust, locked away), what the player can do to the altar, and what a "timed" ritual looks like (how long, how visible).
-N. **Dread display.** The god has no meter; should the player's own dread have one (a HUD meter), or also be shown only through the world and the journal?
+O. **Ritual timing and the first ritual.** Proposed: the ritual is on the last night of the new-moon phase (day 4 of each season) and starts at 22:00 (the longest, winter, takes 130 minutes, so it must start by 23:50 to end before 02:00). The very first ritual (spring, year 1, day 4) is far too early for the player to understand or affect. Proposed: the player can only interfere from the first summer; the first ritual happens off-stage or is simply observed, and wakefulness starts a little low. How should the first year work, and what tells the player a ritual is coming (a lore hint, a changed NPC schedule, the offerings list in the journal)?
+P. **Whose things are marked.** "On the map" can include the player's own farm. Does the selection include the player's animals, harvested produce and crafted goods (a Keeper marks something of yours)? Proposed: mostly things belonging to the village and other farms, with a modest chance of something of the player's; marked things are visibly marked and listed in the journal so the player can act.
+Q. **Animals and the content guideline.** Section 7 says no harm to animals is shown on screen, and animals are among the offerings. Proposed: animals are never harmed on screen; an offering simply dissolves into light on the altar; at mild intensity animals are not chosen at all (only produce and crafted goods); at off there are no rituals.

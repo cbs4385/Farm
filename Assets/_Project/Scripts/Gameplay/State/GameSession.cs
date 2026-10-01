@@ -237,7 +237,7 @@ namespace Farm.Gameplay
             var removed = Backpack.RemoveFromSlot(slot, stack.Count);
             foreach (var existing in State.ShippingBin)
             {
-                if (existing.ItemId == removed.ItemId && existing.Quality == removed.Quality)
+                if (existing.ItemId == removed.ItemId && existing.Quality == removed.Quality && existing.Mark == removed.Mark)
                 {
                     existing.Count += removed.Count;
                     _bus.Publish(new StatsChanged());

@@ -24,6 +24,8 @@ The game carries a Lovecraftian layer that **ships with 1.0** (owner decision, G
 | Mood: tint, dread | Atmosphere | `AtmosphereService.Stack.Set(id, tint, strength, priority)`; the day/night light blends it in, indoors too |
 | Distorted or secret text | Localization | `L.AddFilter((key, text) => ...)` post-processes every string (keys let you target `npc.*`); `L.AddTable` adds strings |
 | Crops that only grow at certain dread levels; ordinary crops that mutate | Crop grow condition | `CropDefinition.GrowCondition` keeps a crop dormant while a condition fails; day-cycle hooks change crops in place (swap `CropInstance.CropId`) |
+| Tagging individual items (e.g. a sacrificial mark) | Item marks | `ItemStack.Mark`: only identically marked stacks merge; marks persist through saves, moves and shipping |
+| Finding, marking and removing animals, produce and crafted items | World objects | `IWorldObjectSource` per kind (`animal`, `plant`, `crafted`) implemented by the owning core system; `GameHooks.EnumerateWorldObjects/WorldObjectExists/ConsumeWorldObject` |
 | Dread makes outcomes less favourable (luck, rolls) | Luck modifiers | `ILuckModifier` chain; `GameSession.Luck` (-1..+1, neutral 0) is what roll-based systems read |
 | Horror seeds must never appear in the main shop | Shop opt-in | `ItemDefinition.SoldIn` (shop ids) and `SaleCondition`; `ShopCatalog.For(db, shopId, world)`. An item that lists no shop is sold nowhere |
 | Extra items and crops (offerings, strange seeds) | Content packs | `ContentPack` assets under `Resources/Packs` merge into `GameDatabase`; id clashes with core are rejected |
@@ -50,6 +52,7 @@ Not built yet; each must be designed to use the hooks above.
 - **T-041 random events:** seasonal random events are drawn from a weighted table with a weight-modifier hook, and use `GameSession.Luck`.
 - **T-045 luck:** every roll-based system reads `GameSession.Luck`, so dread can lean outcomes negative.
 - **T-034 dialogue:** options accept conditions on variables such as `dread`, so dread can remove favourable choices.
+- **T-037 / T-038 / T-053 world objects:** chests, machines, crops and animals expose their contents through `IWorldObjectSource`, so a module can pick, mark and later consume items (animals without on-screen harm).
 - **T-035 NPC availability:** an NPC can be made unavailable (illness, absence, other reasons) through flags that schedule conditions read; rituals fail when a required Keeper is not at the altar.
 - **T-041 timed scenes:** timed multi-step scenes (a ritual lasting a set time) can be built from events plus the clock's `MinuteChanged` event; module state (offerings on the altar, what has dissolved) is saved as module data.
 - **T-043 developer tools:** can set flags/variables and skip time, so story logic is testable in seconds.
