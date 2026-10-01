@@ -34,13 +34,28 @@ Reserved names (flags, vars, weather, atmosphere layers, map ids) are in `Mythos
 Not built yet; each must be designed to use the hooks above.
 
 - **T-030 weather:** weather is data (id, name key, tint, particles, effects) rather than special cases in lighting code, so modules can add weather.
-- **T-031 maps:** include a gated woods path. Town and farm exits use `Warp.Condition`; add a `Woods` map (placeholder) reachable through such a warp.
+- **T-031 maps:** the Forest map carries a condition-gated warp slot for a future `Woods` map (closed in the base game; the Woods scene itself ships with the mythos content, X-002). Village exits use `Warp.Condition` wherever a door might later be locked. Reserve the map ids.
 - **T-034 dialogue and T-041 events:** lines, choices, events and cutscene steps accept a `Condition` and can set flags and variables. Text goes through `L.Get` so filters apply.
 - **T-035 NPCs:** `NpcDefinition` gets an allegiance/secret field; schedule entries, dialogue sets and gift reactions accept a `Condition`, so a cultist can have a hidden night schedule and different lines once a flag is set.
 - **T-036/T-039 UI and quests:** the journal supports extra pages (a lore page); quest availability accepts a `Condition`.
 - **T-040 data validator:** validates every `Condition` string with `Conditions.Validate`, and every `weather.*` / hook-supplied string key.
 - **T-061 audio:** music and ambience layers can be switched by condition or atmosphere layer; leave room for an audio filter.
 - **T-063 accessibility and T-021 options:** add the HorrorLevel control (X-009), plus content notes on the store page.
+
+- **T-043 developer tools:** can set flags/variables and skip time, so story logic is testable in seconds.
+- **T-044 conformance tests:** a scripted playthrough with test modules registered, versus none, and at `HorrorLevel` 0 must produce identical game state; hooks stay exercised in PlayMode.
+
+## What the intensity levels mean
+- **0 (off):** the layer is inert: no hooks registered, no content visible, no foreshadowing. The game is the plain farming sim.
+- **1 (mild):** unease without the most disturbing text and imagery: dread tinting, fog, hints, odd NPC behaviour; no explicit ritual content, no distortion of text.
+- **2 (full):** everything.
+Modules decide per feature which level it needs and check `ModuleContext.HorrorLevel`. The level can change between sessions; saved story state must remain valid at any level (a flag set at level 2 must not break a level 0 session).
+
+## Verification
+Unit and PlayMode tests cover each hook (ordering, failure isolation, saving of flags/vars/module data, older saves loading), the condition language, and a test module that uses every extension point inside the real game. The inert `Farm.Mythos` module is tested to add no hooks. T-044 extends this to full playthroughs.
+
+## Related
+GDD section 7 (content guidelines), section 8 (the layer), section 9 (open questions); Tech Design section 3.18; `docs/mythos/LORE.md`; plan Milestone 6.
 
 ## Rules for contributors
 - No cult, god or horror content in core assemblies (`Farm.Core/Data/Gameplay/UI`): only generic hooks.

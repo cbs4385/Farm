@@ -1,29 +1,43 @@
 # Farm - agent instructions
 
-A Stardew-Valley-style farming/life sim (original content) for **Steam on Windows and Linux**. Unity 6000.6.2f1, URP 2D, Input System.
+A cozy farming/life sim (original content) for **Steam on Windows and Linux**, with a planned optional cosmic-horror layer (a cult in a remote village serving an Elder God in the woods). Unity 6000.6.2f1, URP 2D, Input System. Milestones 0 and 1 are done; Milestone 2 is next.
 
 ## Read first
-1. `docs/01-GameDesign.md` - what we are building (scope caps are binding).
-2. `docs/02-TechnicalDesign.md` - architecture, conventions, tooling.
-3. `docs/03-ImplementationPlan.md` - ordered task backlog and Definition of Done.
-4. `docs/STATUS.md` - current task status (create if missing). Claim a task here before starting.
+1. `docs/README.md` - index of all documents.
+2. `docs/01-GameDesign.md` - what we are building (scope caps and content guidelines are binding; open questions in section 9).
+3. `docs/02-TechnicalDesign.md` - architecture as built, conventions, tooling.
+4. `docs/03-ImplementationPlan.md` - ordered task backlog and Definition of Done.
+5. `docs/adr/` - decisions: `0001` deviations from the original design, `0002` extension points for the horror layer.
+6. `docs/STATUS.md` - current task status. Claim a task there before starting.
+7. `docs/BUILD.md` (commands) and `docs/QA.md` (checks) before running or verifying anything.
 
 ## Non-negotiables
-- Original assets, names, text only. Never copy Stardew Valley content.
+- Original assets, names, text only. Never copy Stardew Valley content, or text/characters from existing Lovecraft-inspired works.
 - Data-driven (ScriptableObjects/JSON), game state in plain serializable C#, assembly definitions per module.
-- Stable string IDs for items/maps/NPCs/flags; never rename once shipped (save compatibility).
-- Linux-safe: `Application.persistentDataPath`, case-correct paths, no Windows-only APIs. Game must run without Steam.
-- Commit `.meta` files with assets; never commit `Library/`, `Temp/`, `Logs/`, `UserSettings/`.
-- Every task leaves the project compiling with tests green. Add tests for logic.
-- Do not hand-edit scene/prefab YAML unless trivial; use Unity MCP or editor scripts.
+- Stable string ids for items/maps/NPCs/flags/variables/weather; never rename once shipped (save compatibility).
+- Linux-safe: `Application.persistentDataPath`, case-correct paths, no Windows-only APIs. The game must run without Steam.
+- Commit `.meta` files with assets; never commit `Library/`, `Temp/`, `Logs/`, `UserSettings/`, `Builds/`, `BuildsDev/`.
+- Every task leaves the project compiling with all tests green. Add tests for logic; a bug fix needs a test that failed first.
+- **One MonoBehaviour per file, named like the file.** (Breaking this corrupted a scene in player builds only.)
+- User-facing text only through `L.Get(key)` with keys in `Resources/Localization/en.json`.
+- Do not hand-edit scene/prefab YAML; generate them with the editor scripts (`SceneSetup`, `MapBuilder`, `ContentGenerator`, ...).
+- When you change scenes, scene components, UI layering or serialization, also build the Windows player and look at capture screenshots (`docs/QA.md`): the Editor and tests can miss build-only problems.
+
+## Extension points and the horror layer (ADR 0002)
+- Optional layers plug in through generic hooks: conditions, flags/vars, module data, day-cycle hooks, weather modifiers, atmosphere layers, text filters, content packs, map hook, gated warps, conditional objects, HUD widgets, modules.
+- **Do not put horror/cult content in core assemblies** (`Farm.Core/Data/Gameplay/UI`). It belongs in `Farm.Mythos` and data. Nothing may depend on `Farm.Mythos`.
+- NPC, dialogue, event, quest, weather, schedule and map work must use conditions and the hooks, not hard-coded checks.
+- Respect `SettingsData.HorrorLevel` (0 off, 1 mild, 2 full) in every module; at 0 the game must behave exactly like the base game.
+- Hooks must be failure-isolated and tested; new story state goes in flags/vars/module data, not new `GameState` fields.
 
 ## Unity operation
-- Only one Unity instance may open this project. If the Editor is open (`Temp/UnityLockfile`, `Unity.exe` running), use the Unity MCP server (`unity-mcp`); if it is not connected, ask the user to start it rather than launching a second instance.
-- Headless runs: use the `unity:unity-cli` and `unity:unity-package-management` skills. Package installs via manifest edit are acceptable only while the Editor is open (it resolves them).
-- Tests: EditMode first (`-runTests -testPlatform EditMode`, no `-quit` problems documented in the skill).
+- Only one Unity instance may open this project. Close the Editor before headless runs (`Temp/UnityLockfile` and `Unity.exe` show whether it is open).
+- No Unity MCP server is configured for this project; work through headless Editor runs and editor scripts (`docs/BUILD.md`). Skills: `unity:unity-cli`, `unity:unity-package-management`. Package manifest edits are acceptable only while the Editor is open.
+- Tests: `-runTests -testPlatform EditMode` (add `-nographics`) and `PlayMode` (needs graphics); never pass `-quit` with `-runTests`.
+- Player QA flags: `-farmScene`, `-farmOpen`, `-farmCapture` (see `docs/QA.md`).
 
 ## Conventions
-See Tech Design section 4. Namespaces `Farm.<Module>`; private fields `_camelCase`; no per-frame allocations; no magic strings.
+See Tech Design section 4. Namespaces `Farm.<Module>`; private fields `_camelCase`; no per-frame allocations; no magic strings; comments only for non-obvious "why".
 
-## Extension points (planned horror layer)
-Read `docs/adr/0002-mythos-extension-points.md` before touching NPCs, dialogue, events, weather, maps or the day cycle. Use `Conditions`, flags/vars, hooks and content packs instead of hard-coding; keep horror content in `Farm.Mythos`; respect `SettingsData.HorrorLevel`.
+## Working with the owner
+The owner playtests by hand and reports problems; reproduce first, fix, and add a test (ideally with simulated real input). Keep `docs/STATUS.md` honest about what was verified by a person versus by automation.

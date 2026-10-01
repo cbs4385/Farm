@@ -1,41 +1,62 @@
-# Task status
+# Status
 
-Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 118 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034).
 
-T-001 | done | claude/2026-10-01 | repo initialized, LFS attrs, gitignore
-T-002 | done | claude/2026-10-01 | `ProjectConfigurator` applied. Standalone backend is Mono for dev; release builds pass `-scriptingBackend il2cpp` (see docs/BUILD.md)
-T-003 | done | claude/2026-10-01 | asmdefs + tests; 8 EditMode + 1 PlayMode pass
-T-004 | done | claude/2026-10-01 | Welcome/SampleScene/iet-framework removed; Localization 1.5.13, Newtonsoft 3.2.2, Cinemachine 3.1.7 added
-T-005 | done (partial) | claude/2026-10-01 | `BuildScript` Win+Linux Mono builds succeed. NOT verified: IL2CPP builds (Linux IL2CPP module not installed locally), CI workflow (no git remote yet)
-T-006 | done | claude/2026-10-01 | Bootstrap -> MainMenu works; ServiceLocator, EventBus, SceneLoader(fade), Log
-T-007 | done (partial) | claude/2026-10-01 | PixelPerfectCamera (480x270, PPU16) + `PixelPerfectTest` scene + texture postprocessor. Automated check: player screenshots at 1x-4x are pixel-block aligned on Windows and on Linux (WSLg, OpenGL Core). Found+fixed camera sub-pixel offset by adding `PixelSnapCamera`. Stutter seen with sine-curve pan was resolved by a constant-speed pan (user-confirmed smooth at 5 u/s, 3x window)
-T-008 | done (partial) | claude/2026-10-01 | 43 placeholder PNGs (individual files, not sliced sheets/atlases; sprite atlases deferred to T-060)
-T-009 | done (partial) | claude/2026-10-01 | Win + Linux builds boot to Bootstrap->MainMenu headless (Linux via WSL2 Ubuntu). Tag m0 applied. Linux not tested with a real GPU window
+Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
-T-007 follow-up | done | claude/2026-10-01 | Stutter was from the sine-curve test pan (uneven px steps). Constant 5 u/s pan is smooth. Watch for judder again in T-013 with real player movement; if seen, add sub-pixel smoothing (render at ref res, offset upscale by camera remainder)
+## Milestone 0 - Foundation (done)
+T-001 | done | claude/2026-10-01 | repo initialized, LFS attributes, gitignore
+T-002 | done | claude/2026-10-01 | `ProjectConfigurator`; Mono for dev, IL2CPP via build flag
+T-003 | done | claude/2026-10-01 | asmdefs and test assemblies
+T-004 | done | claude/2026-10-01 | template cruft removed; Localization, Newtonsoft, Cinemachine added
+T-005 | done (partial) | claude/2026-10-01 | Win + Linux Mono builds verified. NOT verified: IL2CPP builds (Linux module not installed), CI workflow (no remote)
+T-006 | done | claude/2026-10-01 | Bootstrap, ServiceLocator, EventBus, SceneLoader, Log
+T-007 | done | claude/2026-10-01 | PixelPerfectCamera + `PixelSnapCamera`; verified at 1x-4x on Windows and Linux (WSLg); constant-speed pan confirmed smooth by the owner. Re-check judder with real movement; if seen, add sub-pixel smoothing (render at reference res, offset the upscale)
+T-008 | done (partial) | claude/2026-10-01 | placeholder sprites as individual PNGs; atlases deferred to T-060
+T-009 | done (partial) | claude/2026-10-01 | both builds boot; Linux only under WSLg, not on a real GPU
 
+## Milestone 1 - Vertical slice (done)
+T-010 | done (partial) | claude/2026-10-01 | generated input asset, rebinding persisted. NOT verified: gamepad on hardware, rebinding persistence by a person
+T-011 | done | claude/2026-10-01 | clock/calendar/pause/pass-out; debug overlay moved to T-043
+T-012 | done | claude/2026-10-01 | items, crops, database, inventory
+T-013 | done | claude/2026-10-01 | player, camera follow + bounds + pixel snap (custom camera, ADR 0001)
+T-014 | done | claude/2026-10-01 | Farm + FarmHouse, warps, spawn points
+T-015 | done (partial) | claude/2026-10-01 | hoe, watering can, seeds, hotbar, energy; axe/pickaxe/scythe have no targets (T-032)
+T-016 | done | claude/2026-10-01 | growth/regrow/season death, 6 spring crops
+T-017 | done | claude/2026-10-01 | sleep, summary, pass-out, lighting, sunny/rain weather
+T-018 | done | claude/2026-10-01 | HUD, backpack, tooltips, toasts (click-to-move)
+T-019 | done | claude/2026-10-01 | shipping bin, selling, temporary shop stall
+T-020 | done | claude/2026-10-01 | 3 slots, atomic writes, `.bak`, migrations, autosave
+T-021 | done | claude/2026-10-01 | main menu, options, settings
+T-022 | done | claude/2026-10-01 | `L.Get` + string table + lint tests (ADR 0001)
+T-023 | done (partial) | claude/2026-10-01 | logical buses + placeholder blips; no mixer/music
+T-024 | done (partial) | claude/2026-10-01 | M1 gate. NOT verified: IL2CPP, Steam Deck, real Linux GPU
 
-## Milestone 1
-T-010 | done | claude/2026-10-01 | Generated FarmInput asset (KB/M + gamepad), InputService, rebinding persisted via settings; tests. Gamepad not tested on hardware
-T-011 | done | claude/2026-10-01 | GameDateTime/GameClock with pause stack, pass-out, events; debug overlay skipped (ADR 0001)
-T-012 | done | claude/2026-10-01 | Items, crops, GameDatabase, Inventory + tests; 20 items/6 crops generated by ContentGenerator
-T-013 | done | claude/2026-10-01 | Player movement, collision, facing, camera follow + bounds + pixel snap. Custom camera instead of Cinemachine (ADR 0001)
-T-014 | done | claude/2026-10-01 | Farm + FarmHouse scenes (MapBuilder), warps, spawn points, state kept across warps
-T-015 | done (partial) | claude/2026-10-01 | Hoe, watering can, seeds, hotbar, energy. Axe/pickaxe/scythe have no targets yet (T-032)
-T-016 | done | claude/2026-10-01 | FarmGrid growth/regrow/season death, 6 spring crops, tile rendering, harvest
-T-017 | done | claude/2026-10-01 | Sleep flow, day summary, 2 AM pass-out, day/night light gradient, deterministic sunny/rain weather
-T-018 | done | claude/2026-10-01 | HUD, backpack, tooltips, toasts. Click-to-move instead of drag/drop (ADR 0001)
-T-019 | done | claude/2026-10-01 | Shipping bin + sell on sleep; temporary general store stall on the farm
-T-020 | done | claude/2026-10-01 | GameState, 3 slots, atomic writes + .bak, migrations, autosave on sleep, save/load tested in PlayMode
-T-021 | done | claude/2026-10-01 | Main menu, new/load/continue, options (audio, resolution, fullscreen, vsync, UI size, rebinding)
-T-022 | done | claude/2026-10-01 | `L.Get` + en.json with lint tests; not Unity Localization (ADR 0001)
-T-023 | done (partial) | claude/2026-10-01 | AudioService with logical buses and generated blips; no mixer/music (ADR 0001)
-T-024 | done (partial) | claude/2026-10-01 | M1 gate: 70 EditMode + 7 PlayMode pass; Win + Linux (Mono) builds run and render all screens (Linux via WSLg); ~60 fps on Windows at 1280x800. NOT verified: human playthrough, gamepad on hardware, IL2CPP, Steam Deck, real Linux GPU
+## Extension points (ADR 0002, done)
+Conditions language, moon phase, flags/vars/module data (saved), day-cycle hooks, weather modifiers, atmosphere layers, text filters/extra tables, content packs, map-loaded event, `Warp.Condition`, `ConditionalObject`, HUD widgets, module system, inert `Farm.Mythos`, `HorrorLevel` setting. Tested in EditMode and PlayMode (including a test module using every hook in the real game).
+Not built yet: hooks for NPCs/dialogue/events/weather definitions/journal (come with M2, requirements in the plan and ADR 0002); HorrorLevel control in Options (X-009).
 
-## Human playtest results (2026-10-01)
-Confirmed working by hand on Windows: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, save and load from the main menu and after a full restart.
-Still untested by a human: gamepad, passing out at 2 AM, rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
+## Milestone 2 - World and living village (next)
+T-043 | todo | | developer/QA tools (dev builds only)
+T-030 | todo | | weather as data
+T-031 | todo | | village, forest, beach, interiors
+T-032 | todo | |
+T-033 | todo | |
+T-034 | todo | | dialogue (ADR first)
+T-035 | todo | |
+T-036 | todo | |
+T-037 | todo | |
+T-038 | todo | |
+T-039 | todo | |
+T-040 | todo | | data validator incl. conditions
+T-041 | todo | |
+T-044 | todo | | hook conformance / HorrorLevel-0 equivalence
+T-042 | todo | | M2 gate
 
-## Extension points (ADR 0002, 2026-10-01)
-Built and tested: Conditions language, MoonPhase, flags/vars/module data in GameState + GameSession, GameHooks (day-cycle, weather modifiers, MapLoaded, HUD widgets), module system (`Farm.Mythos` skeleton, inert), AtmosphereStack/Service wired into day/night light, L.AddFilter/L.AddTable, ContentPack merge, Warp.Condition, ConditionalObject, HorrorLevel setting. 118 EditMode + 15 PlayMode tests pass.
-Not built yet: NPC/dialogue/event/weather-definition/journal hooks (they come with M2; requirements listed in the ADR), HorrorLevel control in Options (X-009).
+## Human playtest results (Windows, 2026-10-01)
+Confirmed by hand: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, energy bar and exhaustion message, save and load from the main menu and after a full restart, seeds planting with clearer feedback.
+Bugs found by playing and fixed (each has a test): options not scrolling, avatar drawn a tile below its logical position (sprite import mode), sleep ending on a black screen (fade drawn over the summary), seedling nearly invisible and silent failed actions; earlier, a scene that crashed player builds (two MonoBehaviours in one file).
+Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
+
+## Open decisions (owner)
+See GDD section 9: release strategy for the mythos layer, Community Hall relation, the god and cult's aim, which NPCs are cultists, romance and the cult, dread's mechanical effects, default intensity, setting.
