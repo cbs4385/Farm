@@ -12,6 +12,23 @@ namespace Farm.Editor
     {
         const string OutDir = "Assets/_Project/Art/Placeholders";
 
+        public readonly struct CropArt
+        {
+            public readonly string Name; public readonly int Stages; public readonly Color Color;
+            public CropArt(string name, int stages, Color color) { Name = name; Stages = stages; Color = color; }
+        }
+
+        // Stage counts must match the crop growth tables in ContentGenerator.
+        public static readonly CropArt[] Crops =
+        {
+            new CropArt("parsnip", 4, new Color(0.93f, 0.85f, 0.65f)),
+            new CropArt("potato", 5, new Color(0.72f, 0.55f, 0.32f)),
+            new CropArt("cauliflower", 4, new Color(0.94f, 0.94f, 0.88f)),
+            new CropArt("greenbean", 5, new Color(0.35f, 0.75f, 0.30f)),
+            new CropArt("strawberry", 5, new Color(0.90f, 0.22f, 0.28f)),
+            new CropArt("kale", 4, new Color(0.20f, 0.50f, 0.30f)),
+        };
+
         static readonly Color Clear = new Color(0, 0, 0, 0);
         static readonly Color Outline = new Color(0.1f, 0.1f, 0.12f, 1f);
 
@@ -38,12 +55,17 @@ namespace Farm.Editor
                 Character(written, $"npc_generic_idle_{dir}", new Color(0.85f, 0.45f, 0.25f), dir);
             }
 
-            // Crops: 5 growth stages (16x16)
-            foreach (var crop in new[] { "parsnip", "potato", "cauliflower" })
-                for (int stage = 0; stage < 5; stage++)
-                    Crop(written, $"crop_{crop}_{stage}", stage);
+            // Crops: <stages + 1> growth sprites each, plus seed and harvest item icons (16x16)
+            foreach (var crop in Crops)
+            {
+                for (int stage = 0; stage <= crop.Stages; stage++)
+                    Crop(written, $"crop_{crop.Name}_{stage}", stage, crop.Stages, crop.Color);
+                Item(written, $"item_seed_{crop.Name}", Color.Lerp(crop.Color, new Color(0.85f, 0.78f, 0.45f), 0.6f));
+                Item(written, $"item_crop_{crop.Name}", crop.Color);
+            }
 
             // Items (16x16)
+            Item(written, "item_resource_fiber", new Color(0.55f, 0.70f, 0.30f));
             Item(written, "item_seed_generic", new Color(0.85f, 0.78f, 0.45f));
             Item(written, "item_crop_generic", new Color(0.55f, 0.80f, 0.30f));
             Item(written, "item_tool_hoe", new Color(0.65f, 0.65f, 0.70f));
@@ -53,6 +75,12 @@ namespace Farm.Editor
             Item(written, "item_tool_scythe", new Color(0.80f, 0.80f, 0.85f));
             Item(written, "item_resource_wood", new Color(0.55f, 0.38f, 0.22f));
             Item(written, "item_resource_stone", new Color(0.60f, 0.60f, 0.62f));
+
+            // World objects (16x16)
+            WorldObject(written, "obj_bin", new Color(0.55f, 0.36f, 0.20f), new Color(0.35f, 0.22f, 0.12f));
+            WorldObject(written, "obj_bed", new Color(0.85f, 0.45f, 0.45f), new Color(0.95f, 0.90f, 0.85f));
+            WorldObject(written, "obj_shop", new Color(0.30f, 0.55f, 0.75f), new Color(0.95f, 0.85f, 0.40f));
+            Cursor(written, "ui_cursor");
 
             // UI (small 9-slice-friendly frames)
             UiFrame(written, "ui_frame_panel", 24, new Color(0.93f, 0.85f, 0.65f), new Color(0.45f, 0.30f, 0.15f));
@@ -127,15 +155,14 @@ namespace Farm.Editor
             Save(written, name, t);
         }
 
-        static void Crop(List<string> written, string name, int stage)
+        static void Crop(List<string> written, string name, int stage, int maxStage, Color fruit)
         {
             var t = NewTex(16, 16);
             var green = new Color(0.30f, 0.70f, 0.25f);
-            var fruit = new Color(0.90f, 0.75f, 0.30f);
-            int height = 2 + stage * 2;
+            int height = 2 + stage * 9 / Mathf.Max(1, maxStage);
             Rect(t, 7, 0, 2, height, green);
             if (stage >= 2) { Rect(t, 4, height / 2, 3, 2, green); Rect(t, 9, height / 2 + 1, 3, 2, green); }
-            if (stage == 4) Rect(t, 6, height, 4, 3, fruit);
+            if (stage == maxStage) Rect(t, 5, Mathf.Min(height, 12), 6, 4, fruit);
             Save(written, name, t);
         }
 
@@ -144,6 +171,24 @@ namespace Farm.Editor
             var t = NewTex(16, 16);
             Rect(t, 3, 3, 10, 10, Outline);
             Rect(t, 4, 4, 8, 8, c);
+            Save(written, name, t);
+        }
+
+        static void WorldObject(List<string> written, string name, Color body, Color trim)
+        {
+            var t = NewTex(16, 16);
+            Rect(t, 0, 0, 16, 16, Outline);
+            Rect(t, 1, 1, 14, 14, body);
+            Rect(t, 1, 10, 14, 5, trim);
+            Save(written, name, t);
+        }
+
+        static void Cursor(List<string> written, string name)
+        {
+            var t = NewTex(16, 16);
+            var c = new Color(1f, 0.9f, 0.3f, 0.95f);
+            Rect(t, 0, 0, 16, 1, c); Rect(t, 0, 15, 16, 1, c);
+            Rect(t, 0, 0, 1, 16, c); Rect(t, 15, 0, 1, 16, c);
             Save(written, name, t);
         }
 

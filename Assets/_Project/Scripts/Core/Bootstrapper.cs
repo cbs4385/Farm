@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Farm.Core
@@ -6,6 +7,9 @@ namespace Farm.Core
     public sealed class Bootstrapper : MonoBehaviour
     {
         static bool _initialized;
+
+        // Higher layers (Gameplay, Platform) register here to create their services on the persistent root.
+        public static event Action<GameObject> ServicesCreated;
 
         void Start()
         {
@@ -29,9 +33,20 @@ namespace Farm.Core
             var loader = root.AddComponent<SceneLoader>();
             ServiceLocator.Register(loader);
 
+            ServicesCreated?.Invoke(root);
+
             _initialized = true;
             Log.Info("Services initialized.");
             return loader;
+        }
+
+        // Tests only: tear down the persistent services so the next InitializeServices starts clean.
+        public static void ResetForTests()
+        {
+            var root = GameObject.Find("Services");
+            if (root != null) DestroyImmediate(root);
+            ServiceLocator.Clear();
+            _initialized = false;
         }
 
         // Domain reload may be disabled in Enter Play Mode settings; reset statics defensively.

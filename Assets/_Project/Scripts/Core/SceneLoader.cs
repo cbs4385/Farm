@@ -47,6 +47,9 @@ namespace Farm.Core
             IsLoading = false;
         }
 
+        // Public so flows like sleeping can fade the screen without loading a scene.
+        public IEnumerator FadeTo(float target, float seconds) => Fade(target, seconds);
+
         IEnumerator Fade(float target, float seconds)
         {
             EnsureFade();

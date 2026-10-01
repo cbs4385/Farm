@@ -56,6 +56,9 @@ namespace Farm.Gameplay
 
         public bool Exists(int slot) => File.Exists(SlotPath(slot)) || File.Exists(SlotPath(slot) + ".bak");
 
+        public DateTime LastWriteUtc(int slot) =>
+            File.Exists(SlotPath(slot)) ? File.GetLastWriteTimeUtc(SlotPath(slot)) : DateTime.MinValue;
+
         public void Save(int slot, GameState state)
         {
             state.SaveVersion = GameState.CurrentVersion;

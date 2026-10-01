@@ -1,0 +1,238 @@
+using System.Collections;
+using System.Collections.Generic;
+using Farm.Core;
+using Farm.Data;
+using UnityEngine;
+
+namespace Farm.Gameplay
+{
+    public readonly struct StatsChanged { }
+    public readonly struct ToastRequested
+    {
+        public readonly string Message;
+        public ToastRequested(string message) { Message = message; }
+    }
+    public readonly struct DayCycleFinished
+    {
+        public readonly DaySummary Summary;
+        public DayCycleFinished(DaySummary summary) { Summary = summary; }
+    }
+
+    // The running game: state + clock + backpack + per-map farm grids. A persistent service.
+    // Scene objects read from and write to this; it is the only thing that touches GameState directly.
+    public sealed class GameSession : MonoBehaviour
+    {
+        readonly Dictionary<string, FarmGrid> _grids = new Dictionary<string, FarmGrid>();
+
+        EventBus _bus;
+        GameDatabase _db;
+        SaveService _saves;
+        bool _endingDay;
+        bool _sleeping;
+
+        public GameState State { get; private set; }
+        public GameClock Clock { get; private set; }
+        public Inventory Backpack { get; private set; }
+        public int ActiveSlot { get; private set; } = -1;
+        public bool InGame => State != null;
+        public bool IsSleeping => _sleeping;
+        public GameDatabase Db => _db;
+        public IDictionary<string, FarmGrid> Grids => _grids;
+
+        public void Init(EventBus bus, GameDatabase db, SaveService saves)
+        {
+            _bus = bus;
+            _db = db;
+            _saves = saves;
+        }
+
+        void Update()
+        {
+            if (InGame) Clock.Tick(Time.deltaTime);
+        }
+
+        // ---- lifecycle -----------------------------------------------------------------------------------------
+
+        public void BeginNewGame(string playerName, string farmName, int slot)
+        {
+            Begin(GameState.NewGame(playerName, farmName, _db.MaxStack), slot);
+            Save();
+        }
+
+        // For starting a map scene directly in the Editor: a throwaway game that is never saved (slot -1).
+        public void BeginDevGame() => Begin(GameState.NewGame("Dev", "Dev Farm", _db.MaxStack), -1);
+
+        public bool BeginLoad(int slot, out string error)
+        {
+            if (!_saves.TryLoad(slot, out var state, out error)) return false;
+            Begin(state, slot);
+            return true;
+        }
+
+        public void EndGame()
+        {
+            State = null;
+            Clock = null;
+            Backpack = null;
+            ActiveSlot = -1;
+            _grids.Clear();
+        }
+
+        void Begin(GameState state, int slot)
+        {
+            if (_endingDay) _endingDay = false;
+            State = state;
+            ActiveSlot = slot;
+            Clock = new GameClock(state.GetDate(), _bus);
+            Backpack = Inventory.FromData(state.Backpack, _db.MaxStack);
+            Backpack.Changed += OnBackpackChanged;
+            _grids.Clear();
+            foreach (var kv in state.Maps) _grids[kv.Key] = FarmGrid.FromTiles(kv.Value.Tiles);
+            _bus.Publish(new StatsChanged());
+        }
+
+        void OnBackpackChanged() => _bus.Publish(new StatsChanged());
+
+        public FarmGrid GetGrid(string mapId)
+        {
+            if (!_grids.TryGetValue(mapId, out var grid))
+            {
+                grid = new FarmGrid();
+                _grids[mapId] = grid;
+            }
+            return grid;
+        }
+
+        // ---- saving --------------------------------------------------------------------------------------------
+
+        public void SyncToState()
+        {
+            State.SetDate(Clock.Now);
+            State.Backpack = Backpack.ToData();
+            foreach (var kv in _grids) State.GetMap(kv.Key).Tiles = kv.Value.ToList();
+        }
+
+        public bool Save()
+        {
+            if (!InGame || ActiveSlot < 0) return false;
+            SyncToState();
+            _saves.Save(ActiveSlot, State);
+            return true;
+        }
+
+        // ---- player stats --------------------------------------------------------------------------------------
+
+        public bool TrySpendEnergy(int amount)
+        {
+            if (State.Energy < amount) return false;
+            State.Energy -= amount;
+            _bus.Publish(new StatsChanged());
+            return true;
+        }
+
+        public void RestoreEnergy(int amount)
+        {
+            State.Energy = Mathf.Min(State.MaxEnergy, State.Energy + amount);
+            _bus.Publish(new StatsChanged());
+        }
+
+        public void AddGold(int amount)
+        {
+            State.Gold += amount;
+            _bus.Publish(new StatsChanged());
+        }
+
+        public bool TrySpendGold(int amount)
+        {
+            if (State.Gold < amount) return false;
+            State.Gold -= amount;
+            _bus.Publish(new StatsChanged());
+            return true;
+        }
+
+        public void AddSkillXp(string skill, int xp)
+        {
+            State.SkillXp.TryGetValue(skill, out var current);
+            State.SkillXp[skill] = current + xp;
+        }
+
+        public void Toast(string message) => _bus.Publish(new ToastRequested(message));
+
+        // ---- shipping ------------------------------------------------------------------------------------------
+
+        // Moves the whole stack in a backpack slot into the shipping bin. Returns false if it cannot be sold.
+        public bool ShipSlot(int slot)
+        {
+            var stack = Backpack.Get(slot);
+            if (stack == null || !_db.TryGetItem(stack.ItemId, out var item) || item.IsTool || item.SellPrice <= 0) return false;
+
+            var removed = Backpack.RemoveFromSlot(slot, stack.Count);
+            foreach (var existing in State.ShippingBin)
+            {
+                if (existing.ItemId == removed.ItemId && existing.Quality == removed.Quality)
+                {
+                    existing.Count += removed.Count;
+                    _bus.Publish(new StatsChanged());
+                    return true;
+                }
+            }
+            State.ShippingBin.Add(removed);
+            _bus.Publish(new StatsChanged());
+            return true;
+        }
+
+        // ---- day cycle -----------------------------------------------------------------------------------------
+
+        // Runs the overnight logic, autosaves, and tells the UI to show the summary. Re-entrancy safe.
+        public DaySummary EndDay(bool passedOut)
+        {
+            if (!InGame || _endingDay) return null;
+            _endingDay = true;
+
+            SyncToState();
+            var summary = DayCycle.EndDay(State, Clock, _grids,
+                id => _db.TryGetItem(id, out var i) ? i : null,
+                id => _db.TryGetCrop(id, out var c) ? c : null,
+                passedOut);
+            Save();
+
+            _endingDay = false;
+            _bus.Publish(new StatsChanged());
+            _bus.Publish(new DayCycleFinished(summary));
+            return summary;
+        }
+
+        // ---- sleeping ------------------------------------------------------------------------------------------
+
+        // Fade out, run the overnight logic, show the summary, then wake up in the farmhouse.
+        public void StartSleep(bool passedOut)
+        {
+            if (!InGame || _sleeping) return;
+            StartCoroutine(SleepRoutine(passedOut));
+        }
+
+        IEnumerator SleepRoutine(bool passedOut)
+        {
+            _sleeping = true;
+            ServiceLocator.TryGet<InputService>(out var input);
+            input?.BlockGameplay();
+            Clock.Pause();
+
+            var loader = ServiceLocator.Get<SceneLoader>();
+            yield return loader.FadeTo(1f, 0.6f);
+
+            var summary = EndDay(passedOut);
+            if (summary != null && ServiceLocator.TryGet<IUiService>(out var ui))
+            {
+                var done = false;
+                ui.ShowDaySummary(summary, () => done = true);
+                while (!done) yield return null;
+            }
+
+            Clock.Resume();
+            input?.UnblockGameplay();
+            _sleeping = false;
+            loader.Load(MapIds.FarmHouse, 0.4f);   // screen is already black; this fades back in once loaded
+        }
+    }
+}

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Farm.Core;
 using Farm.Gameplay;
+using Farm.UI;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -27,6 +28,7 @@ namespace Farm.Editor
             CreateBootstrap();
             CreateMainMenu();
             CreatePixelPerfectTest();
+            MapBuilder.BuildAll();
             RegisterBuildScenes();
             AssetDatabase.SaveAssets();
             Debug.Log("[SceneSetup] M0 scenes created and registered.");
@@ -75,7 +77,7 @@ namespace Farm.Editor
         {
             var scene = NewScene();
             AddPixelPerfectCamera("Main Camera");
-            new GameObject("MainMenu").AddComponent<MainMenuPlaceholder>();
+            new GameObject("MainMenu").AddComponent<MainMenuController>();
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{SceneNames.MainMenu}.unity");
         }
 
@@ -119,6 +121,8 @@ namespace Farm.Editor
             {
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.Bootstrap}.unity", true),
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.MainMenu}.unity", true),
+                new EditorBuildSettingsScene($"{SceneDir}/{MapIds.Farm}.unity", true),
+                new EditorBuildSettingsScene($"{SceneDir}/{MapIds.FarmHouse}.unity", true),
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.PixelPerfectTest}.unity", true),
             };
             EditorBuildSettings.scenes = scenes.ToArray();
