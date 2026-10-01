@@ -1,14 +1,17 @@
 # Lore bible (DRAFT)
 
-Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F-K) are in GDD section 9.
+Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; remaining open questions (F, L-N) are in GDD section 9.
 
 ## Known (owner decisions)
 - The game is a farming/life sim and **ships with** a Lovecraftian layer, to help it stand out. Default intensity is **full**; the player can turn it down or off.
-- **Names:** the elder god is **Nharoth**; the village is **Bellweather** (spelling to confirm); the cult is the **Keepers of the Covenant**; the forest is **Harrow Wood**. (Check originality and trademarks before the store page. Avoid places and names from existing Lovecraft stories.)
+- **Names:** the elder god is **Nharoth**; the village is **Wetherell**; the cult is the **Keepers of the Covenant**; the forest is **Harrow Wood**. (Check originality and trademarks before the store page. Avoid places and names from existing Lovecraft stories.)
 - **Setting:** a non-descript, remote, rural New England community.
 - Nharoth is a **sleeping cosmic entity from before the current world**, living in Harrow Wood.
 - The Keepers **perform rituals to keep it asleep**. If it **fully awakens, the world is consumed in fire and chaos**.
-- **Wakefulness:** rises 25% per season untouched (full in one game year); each ritual lowers it by 30-40% (floor 0); several successful rituals can undo an unsuccessful one. Rituals happen **each new moon in Harrow Wood**, attended by the Keepers. The layer's **visual changes follow wakefulness**, with a threshold change at **every 5%**.
+- **Wakefulness:** rises 25% per season untouched (full in one game year); each ritual lowers it by 30-40% (floor 0); several successful rituals can undo an unsuccessful one. Rituals happen **each new moon in Harrow Wood** (one per season on the current calendar), attended by the Keepers. The layer's **visual changes follow wakefulness**, with a threshold change at **every 5%**.
+- **Rituals are specific.** Each needs particular Keepers as participants, each laying a particular offering on an altar where it slowly dissolves during the timed ritual. The offerings are chosen at the start of the season: 2 in spring, 3 in summer, 4 in autumn, 5 in winter. A ritual fails if any offering is not sacrificed or a required Keeper is not available. A failure lowers nothing (assumed; no extra spike).
+- **No wakefulness meter.** The player reads Nharoth's state from visuals, lore and gameplay.
+- **Mild intensity** halves dread's effects and removes text distortion and explicit ritual imagery and dialogue.
 - **The cult looks nefarious.** Its style, mannerisms and symbology are spooky or menacing so the player assumes it is evil; the reveal is that it protects the world.
 - **Resisting** means disrupting rituals and risking the god waking, unless the player finds another way to keep it asleep.
 - About **a third of the NPCs are Keepers**, including at least one the player is likely to befriend first. Romanceable NPCs may be Keepers (heart events, never exploitative).
@@ -18,8 +21,8 @@ Status: draft. **Known** items are decisions from the owner (GDD section 9). **P
 ## What this implies (design consequences)
 - **Two different meters.** *Wakefulness* is Nharoth's state: a world value on a fixed schedule (rising by calendar, lowered by rituals) that decides the world's fate. *Dread* is the player's personal unease: it drives mood, luck, dialogue, events, weather, friendship decay and crop gating. They are related (a restless god raises dread) but separate.
 - **The Keepers protect the world.** A first impression of menace plus a late reveal is a classic structure; the early game must sell the menace convincingly while planting clues (they tend the woods, they look after the village, their rituals have costs) that make the reveal land.
-- **Resisting is dangerous.** Disrupting a ritual removes a 30-40% reduction at the very time wakefulness is rising 25% per season. A good resistance path needs an alternative way to keep Nharoth asleep (proposed below).
-- **A built-in failure state with a clock.** Untended, the world ends in a game year. Rituals are the main brake, so players who ignore the cult still benefit from its work; players who disrupt it must replace it. The pacing (one new moon, so one ritual, per season on the current calendar) makes each ritual a major event; see open question G.
+- **Resisting is dangerous.** Disrupting a ritual removes a 30-40% reduction at the very time wakefulness is rising 25% per season. A good resistance path needs an alternative way to keep Nharoth asleep (proposed below), or the player must take over the Keepers' work.
+- **A built-in failure state with a clock.** Untended, the world ends in a game year. Rituals are the main brake, so players who ignore the cult still benefit from its work; players who disrupt it must replace it. The pacing (one new moon, so one ritual, per season: decided) makes each ritual a major event, and each season's required offerings (2, 3, 4, 5) make later rituals harder to pull off and easier to sabotage.
 - **Wakefulness steps are content slots.** Twenty thresholds (5% each) mean twenty escalating changes to the look, sound and behaviour of the world, from barely noticeable to apocalyptic. Plan them as a ladder (X-001, X-008).
 - **Dread is a general-purpose modifier.** It needs hooks in luck, dialogue conditions, seasonal event weights, weather rolls and friendship decay (ADR 0002), applied at mild strength at intensity 1 and not at all at 0.
 - **Seeds and rare goods** come through Harrow Wood, the Keepers and rituals, never the general store (enforced by data: items opt in to shops).
@@ -29,7 +32,7 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 
 ## Proposed structure (to confirm)
 
-### Bellweather
+### Wetherell
 - A specific region of New England and an era are still to decide (suggested: present day or recent past, hill country, stone walls and old farmhouses, long winters, few visitors, a strong sense of custom).
 - Seasonal festivals double as cover for Keeper observances (festival conditions switch to variants).
 - The Community Hall (the cozy main arc) is where the Keepers quietly meet: hidden rooms and altars appear as flags change.
@@ -37,7 +40,14 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 ### Harrow Wood and Nharoth
 - Harrow Wood borders the village and is reached from the Forest map through a gate that stays closed in the base game.
 - Nharoth is never fully shown. It is felt through fog, silence, dreams, crops that grow wrong, and how villagers behave on certain nights. The 20 wakefulness steps escalate this from "something is off" to open catastrophe.
-- Wakefulness is raised by the calendar and by failed or disrupted rituals (amount to decide, open question H), lowered by successful rituals.
+- Wakefulness is raised by the calendar (25% per season) and lowered by successful rituals (30-40% each). A failed or disrupted ritual simply does not lower it (assumed, open question L).
+
+### The ritual, as a system (to design in X-000 and X-004)
+- At the start of each season the Keepers' offerings for the coming ritual are chosen (2 to 5 depending on season), each tied to a specific Keeper who must attend.
+- On the new moon night, in Harrow Wood, each participant lays their offering on the altar; it dissolves slowly. The ritual succeeds only if every offering is fully sacrificed and every required Keeper is present.
+- Ways the player can affect it (proposals): **help** (supply or recover an offering, keep a Keeper healthy and unobstructed, defend the altar), **disrupt** (take an offering from the altar, make a Keeper unavailable through illness, absence, or revealing a secret, damage the altar), or **observe** (learn the offering list from lore and overheard dialogue). Making a Keeper unavailable ties into NPC schedules and conditions (a Keeper with a "sick" or "away" flag is simply not at the altar).
+- Outcomes: success lowers wakefulness 30-40%; failure lowers nothing, so the season's 25% rise stands and a year without a success wakes Nharoth.
+- Offering items are a content pack that the general store never sells; where they come from (gathered by the Keepers, or suppliable by the player) is open question M.
 
 ### The Keepers of the Covenant
 - About a third of the 12 NPCs, including one the player meets and befriends early. Each NPC has an allegiance: unaware, Keeper, or resister. Allegiance drives hidden night schedules (including the new-moon ritual), conditional dialogue and heart-event variants.
@@ -58,7 +68,9 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 | Story state | Where |
 |---|---|
 | `dread` (0..100) | player variable; drives luck, dialogue options, seasonal event weights, weather bias, friendship decay, mood, grow conditions |
-| `mythos.wakefulness` (permille, 0..1000) | world variable; Nharoth's state; steps of 50 (5%); model in `WakefulnessModel` |
+| `mythos.wakefulness` (permille, 0..1000) | world variable; Nharoth's state; steps of 50 (5%); model in `WakefulnessModel`; not shown as a meter |
+| season offerings plan | module data: the 2-5 (Keeper, offering) pairs chosen at season start (`RitualModel`); the altar's dissolving offerings |
+| Keeper availability | per-NPC flags (for example `npc.<id>.sick`, `npc.<id>.away`) used by schedule conditions |
 | `lore` | variable; unlocks journal pages and dialogue |
 | `cult.standing` | variable; changes how the Keepers treat the player |
 | `mythos.cult_known`, `mythos.cult_revealed`, `mythos.woods_open`, `mythos.initiated` | flags that open doors, change dialogue and show hidden objects |
@@ -69,4 +81,4 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 Atmospheric folk-horror and cosmic dread, not gore. Original fiction only; no real-world religions; no text or named characters from existing works. See GDD section 7.
 
 ## To write (X-000)
-Village and character bible (names, ages, roles, secrets, schedules and which third are Keepers), Nharoth's nature and rules, the Keepers' beliefs and rituals (what makes one succeed or fail), the 20 wakefulness steps with the world change at each, how dread's effects scale at mild and full, a timeline of the first year, per-level (mild/full) content lists, and the endings.
+Village and character bible (names, ages, roles, secrets, schedules and which third are Keepers), Nharoth's nature and rules, the Keepers' beliefs, the ritual details (offering pool, how offerings are chosen and found, how a Keeper becomes unavailable, what the timed ritual looks like), the 20 wakefulness steps with the world change at each, how dread's effects scale at mild and full, a timeline of the first year, per-level (mild/full) content lists, and the endings.

@@ -162,7 +162,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 - Comments only for non-obvious "why".
 
 ## 5. Testing strategy
-- **EditMode (NUnit, ~138 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
+- **EditMode (NUnit, ~147 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
 - **PlayMode (~15 tests)**: boot to menu, new game, the full farming loop, sleep through the UI (including that the Continue button is on top of the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, the avatar/cursor alignment, **real simulated keyboard and mouse input** (`InputTestFixture`), and a test module that exercises every extension point in the real game.
 - **Player-build checks**: the Editor and tests can miss build-only failures (scene serialization, stripping, draw order). For changes touching scenes, scripts on scenes, or UI layering, also build and run the player with the QA flags in `docs/QA.md` (`-farmScene`, `-farmOpen`, `-farmCapture`) and look at the screenshots.
 - **Data validators**: `Farm/Validate Data` (T-040) will check ids, references, localization keys, schedules and every `Condition` string.
@@ -210,4 +210,4 @@ Removed: `com.unity.learn.iet-framework`, the template Welcome folder and sample
 | The god's awakening ending feels unfair or hits players who never engaged | Wakefulness reachable only through the player's own choices over a long time, recoverable, foreshadowed, and tested for avoidability (X-010) |
 | Hooks rot while nothing uses them | A test module exercises every hook in PlayMode; hook-parity requirements on M2 tasks |
 | Horror layer leaks into core code | Separate assembly, dependency rule (nothing depends on Mythos), review rule in CLAUDE.md |
-| Lore undecided blocks content | Decisions recorded in GDD section 9; open questions F-K answered before the dependent X tasks (A-E are decided); lore bible X-000 comes first |
+| Lore undecided blocks content | Decisions recorded in GDD section 9; open questions F and L-N answered before the dependent X tasks (A-E and G-K are decided); lore bible X-000 comes first |

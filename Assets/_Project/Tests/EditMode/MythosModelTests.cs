@@ -103,7 +103,7 @@ namespace Farm.Tests
             Assert.AreEqual("Nharoth", L.Get("mythos.god.name"));
             Assert.AreEqual("Keepers of the Covenant", L.Get("mythos.cult.name"));
             Assert.AreEqual("Harrow Wood", L.Get("mythos.woods.name"));
-            Assert.AreEqual("Bellweather", L.Get("village.name"), "the village is part of the base game");
+            Assert.AreEqual("Wetherell", L.Get("village.name"), "the village is part of the base game");
             Assert.AreEqual("HarrowWood", MythosIds.Maps.Woods);
         }
     }

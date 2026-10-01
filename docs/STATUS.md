@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 138 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 147 EditMode + 15 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -59,9 +59,11 @@ Bugs found by playing and fixed (each has a test): options not scrolling, avatar
 Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
 
 ## Milestone 3b - Mythos layer (required for 1.0; not started)
-X-000..X-011 | todo | | see the plan. X-000 (lore bible) needs open questions G-K answered; the draft already holds the decided names and numbers
+X-000..X-011 | todo | | see the plan. X-000 (lore bible) needs open questions L-N answered; the draft already holds the decided names, numbers and ritual rules
 
 ## Decisions and open questions (owner)
-Decided 2026-10-01 (GDD section 9, 1-8 and A-E): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; Nharoth, a sleeping cosmic entity, is kept asleep by the Keepers of the Covenant's rituals, and full awakening ends the world; wakefulness rises 25% per season and each ritual lowers it 30-40%, rituals each new moon in Harrow Wood, world changes every 5%; the cult looks menacing but protects the world; resisting risks waking the god unless another way is found; about a third of NPCs are Keepers (romance allowed, never exploitative); dread (mild, optional, never blocking) affects luck, dialogue options, seasonal events, weather and NPC attitude decay, gates crops, and ordinary crops may mutate; the main shop does not sell horror seeds; default intensity full; New England village Bellweather.
+Decided 2026-10-01 (GDD section 9, 1-8 and A-E): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; Nharoth, a sleeping cosmic entity, is kept asleep by the Keepers of the Covenant's rituals, and full awakening ends the world; wakefulness rises 25% per season and each ritual lowers it 30-40%, rituals each new moon in Harrow Wood, world changes every 5%; the cult looks menacing but protects the world; resisting risks waking the god unless another way is found; about a third of NPCs are Keepers (romance allowed, never exploitative); dread (mild, optional, never blocking) affects luck, dialogue options, seasonal events, weather and NPC attitude decay, gates crops, and ordinary crops may mutate; the main shop does not sell horror seeds; default intensity full; New England village Wetherell.
 Hooks and code added because of the answers: crop grow conditions, shop opt-in and conditions (`ShopCatalog`), luck modifiers (`ILuckModifier`, `GameSession.Luck`), `WakefulnessModel` (the owner's numbers as tested pure functions, not yet driving the game), reserved ids and names (`village.name`, `mythos.*`, map id `HarrowWood`). 138 EditMode + 15 PlayMode tests pass.
-Still open (GDD section 9): F scope protection (needed before M3), G ritual cadence on the 28-day lunar cycle, H what an unsuccessful ritual does and what decides success, I what mild removes, J wakefulness visibility, K spelling of "Bellweather".
+Decided 2026-10-01 (G-K): one ritual per season; rituals need specific Keepers each laying a specific offering on an altar where it dissolves (2/3/4/5 offerings by season, chosen at season start), failing if any offering is not sacrificed or a Keeper is unavailable; "mild" confirmed (half-strength dread, no text distortion, no explicit ritual imagery); no wakefulness meter (shown through visuals, lore, gameplay); the village is now **Wetherell**.
+Code: `RitualModel` (offering counts, plan validation, resolution, wakefulness after a ritual) with tests; village name changed. 147 EditMode + 15 PlayMode tests pass.
+Still open (GDD section 9): F scope protection (needed before M3); L whether a failed ritual adds a spike (assumed no); M offering and Keeper design details; N whether the player's own dread has a HUD meter.

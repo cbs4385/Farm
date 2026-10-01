@@ -50,6 +50,8 @@ Not built yet; each must be designed to use the hooks above.
 - **T-041 random events:** seasonal random events are drawn from a weighted table with a weight-modifier hook, and use `GameSession.Luck`.
 - **T-045 luck:** every roll-based system reads `GameSession.Luck`, so dread can lean outcomes negative.
 - **T-034 dialogue:** options accept conditions on variables such as `dread`, so dread can remove favourable choices.
+- **T-035 NPC availability:** an NPC can be made unavailable (illness, absence, other reasons) through flags that schedule conditions read; rituals fail when a required Keeper is not at the altar.
+- **T-041 timed scenes:** timed multi-step scenes (a ritual lasting a set time) can be built from events plus the clock's `MinuteChanged` event; module state (offerings on the altar, what has dissolved) is saved as module data.
 - **T-043 developer tools:** can set flags/variables and skip time, so story logic is testable in seconds.
 - **T-044 conformance tests:** a scripted playthrough with test modules registered, versus none, and at `HorrorLevel` 0 must produce identical game state; hooks stay exercised in PlayMode.
 
@@ -66,7 +68,7 @@ Unit and PlayMode tests cover each hook (ordering, failure isolation, saving of 
 GDD section 7 (content guidelines), section 8 (the layer), section 9 (decisions and open questions); Tech Design section 3.18; `docs/mythos/LORE.md`; plan Milestone 3b.
 
 ## Story state the layer will use
-Two separate meters: the god's **wakefulness** (world, `mythos.wakefulness`, stored in permille 0..1000, steps of 50 = 5%, numbers in `WakefulnessModel`) and the player's **dread** (personal, `dread`, 0..100), plus `lore`, `cult.standing`, and flags such as `mythos.cult_known` and `mythos.woods_open` (see `MythosIds`; placeholders). Wakefulness is saved like any variable and read through conditions; reaching its maximum triggers the awakening ending (X-010).
+Two separate meters: the god's **wakefulness** (world, `mythos.wakefulness`, stored in permille 0..1000, steps of 50 = 5%, numbers in `WakefulnessModel`, never shown as a meter; ritual rules in `RitualModel`) and the player's **dread** (personal, `dread`, 0..100), plus `lore`, `cult.standing`, and flags such as `mythos.cult_known` and `mythos.woods_open` (see `MythosIds`; placeholders). Wakefulness is saved like any variable and read through conditions; reaching its maximum triggers the awakening ending (X-010).
 
 ## Rules for contributors
 - No cult, god or horror content in core assemblies (`Farm.Core/Data/Gameplay/UI`): only generic hooks.

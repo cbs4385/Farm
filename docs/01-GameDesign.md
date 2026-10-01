@@ -1,6 +1,6 @@
 # Game Design Document (GDD)
 
-Working title: **Farm** (rename before the Steam page). A cozy farming / life sim in a remote rural village, top-down 2D pixel art, single-player first (co-op is explicitly post-1.0). Beneath the cozy surface sits a **player-tunable cosmic-horror layer that ships with 1.0** (section 8) and is meant to make the game stand out: the village of Bellweather hides a cult, the Keepers of the Covenant, whose rituals keep an Elder God, Nharoth, sleeping in Harrow Wood from waking.
+Working title: **Farm** (rename before the Steam page). A cozy farming / life sim in a remote rural village, top-down 2D pixel art, single-player first (co-op is explicitly post-1.0). Beneath the cozy surface sits a **player-tunable cosmic-horror layer that ships with 1.0** (section 8) and is meant to make the game stand out: the village of Wetherell hides a cult, the Keepers of the Covenant, whose rituals keep an Elder God, Nharoth, sleeping in Harrow Wood from waking.
 Platforms: **Windows x64 and Linux x64 (Steam)**, Steam Deck as a Linux target. Engine: Unity 6000.6.2f1, URP 2D.
 
 > This is a *genre clone*, not an asset clone. All names, characters, maps, art, music, dialogue, and item designs must be **original**. Do not copy Stardew Valley's characters, town layout, text, sprites, or sounds. Mechanics (farming, seasons, NPC friendships, mining) are genre conventions and are fine to implement. The horror layer likewise uses original creations; Lovecraftian *themes* (cosmic dread, forbidden knowledge, cults) are fine, but do not reproduce text or named characters from existing works.
@@ -62,7 +62,7 @@ Session loops: **Day** (~14 real minutes, 6:00 to 02:00 game time), **Season** (
 - Optional layers can add items and crops through content packs without touching the core item data.
 
 ### 3.6 The village and its people
-- One village map (**Bellweather**, a non-descript, remote, rural New England community, a little too quiet), the farm, farmhouse interior, 6 buildings (general store, blacksmith, clinic/library, saloon, carpenter, fish shop), forest, beach, mine entrance. The **woods** bordering the village are a gated area (see 8).
+- One village map (**Wetherell**, a non-descript, remote, rural New England community, a little too quiet), the farm, farmhouse interior, 6 buildings (general store, blacksmith, clinic/library, saloon, carpenter, fish shop), forest, beach, mine entrance. The **woods** bordering the village are a gated area (see 8).
 - **12 NPCs at 1.0** (8 romanceable-optional, 4 non-romance; keep romance optional and all-ages friendly), each with: daily schedule per season/weather/day-of-week, 3 loved / liked / disliked gifts, dialogue pools by friendship tier, 3-4 heart events (cutscenes).
 - Every schedule entry, dialogue line, event and shop stock entry can carry a **condition** (flags, variables, time, weather, moon, friendship...). This is what lets a friendly neighbour keep a hidden night schedule, or say different things once the player knows more. NPC data also carries an optional allegiance (unaware / cult / resister), unused by the base game.
 - Friendship 0-10 hearts (250 points/heart). Gifting twice a week, birthdays 8x points. Talking daily gives a small amount.
@@ -120,15 +120,16 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 
 ## 8. Mythos layer (ships with 1.0; hooks built, content not started)
 
-**Premise.** The village of **Bellweather** is a non-descript, remote, rural New England community that hides a cult, the **Keepers of the Covenant**. The cult serves an Elder God, **Nharoth**, that **sleeps** in the neighbouring **Harrow Wood**: a cosmic entity older than the present world. The cult's rituals exist to keep it asleep. The farm sits on the village's edge, and the player slowly learns what the friendly community is protecting, and what protecting it costs. Details live in `mythos/LORE.md` (draft).
+**Premise.** The village of **Wetherell** is a non-descript, remote, rural New England community that hides a cult, the **Keepers of the Covenant**. The cult serves an Elder God, **Nharoth**, that **sleeps** in the neighbouring **Harrow Wood**: a cosmic entity older than the present world. The cult's rituals exist to keep it asleep. The farm sits on the village's edge, and the player slowly learns what the friendly community is protecting, and what protecting it costs. Details live in `mythos/LORE.md` (draft).
 
 **The cult looks like the villain, but is not.** The Keepers' style, mannerisms and symbology are deliberately spooky and menacing, so the player's first impulse is to assume the cult is nefarious. The slow reveal is that they are protecting the world. This is what makes resist / ignore / join a real choice.
 
 **Nharoth's wakefulness.** The layer's influence on the world is tied to how awake the god is. It is a world-level value, distinct from the player's personal **dread**.
 - Left alone it rises **25% per season** (full wakefulness in one game year, about 0.9% per day).
-- Each **successful ritual lowers it by 30-40%** (never below 0), so several successful rituals can recover from an unsuccessful one.
-- Rituals take place **each new moon in Harrow Wood**, attended by the cultists. (With the current 28-day lunar cycle that is once per season; see open question G.)
+- Each **successful ritual lowers it by 30-40%** (never below 0), so several successful rituals can recover from an unsuccessful one. A failed ritual lowers nothing, so that season's 25% rise stands.
+- **Rituals** take place **each new moon in Harrow Wood**, attended by the Keepers: **one per season** (the calendar has one lunar cycle per season), four per year. Each ritual needs **specific participants who offer specific sacrifices**: every participant lays their offering on an altar, where it slowly dissolves during the timed ritual. The offerings are **chosen at the start of the season**, and there are **2 in spring, 3 in summer, 4 in autumn and 5 in winter**. The ritual **fails if any offering is not sacrificed in time or a required Keeper is not available**, which is where the player can intervene: help it succeed, or disrupt it.
 - **Every 5% of wakefulness is a threshold** (20 steps) at which the world visibly changes: the layer's visual changes are tied to wakefulness.
+- **There is no wakefulness meter.** The player learns how awake Nharoth is from visuals, lore and gameplay (the world's changes, what villagers say and do, journal entries, how rituals go).
 - At 100% the god awakens fully and the world is consumed in fire and chaos: the worst ending.
 
 **Dread** (the player's personal unease) affects, in mild and optional ways that never block progress: **luck, dialogue options, the seasonal random events, and the weather**. As dread rises each of these tends toward less favourable outcomes for the player. Dread also raises **the rate at which NPC attitudes toward the player decay**. Dread also gates crops (below).
@@ -148,7 +149,8 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 - Overnight dreams, sleepwalking and blight (the night is when the layer acts on the farm).
 - **Crops:** specific crops grow only at certain dread levels; ordinary plants may change (mutate) as dread rises. Horror seeds are **never** sold by the main shop; they come from the woods, the cult and rituals.
 - Offerings and forbidden items (content packs).
-- A dread meter, a wakefulness indicator for the god (how visible is a design choice), mood tinting that advances with each 5% step, distorted text and audio at high dread.
+- A dread meter for the player's own unease (the god's wakefulness has no meter, it is shown by the world), mood tinting that advances with each 5% step, distorted text and audio at high dread.
+- Ritual sites: an altar in Harrow Wood where offerings dissolve, an offerings list that the player can discover, and Keepers whose availability (illness, absence, trust) the player can influence.
 - Luck, dialogue and seasonal random events that lean on dread; friendship decay that speeds up with dread.
 - Endings that depend on the player's path and on whether the god stays asleep.
 
@@ -168,13 +170,17 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 | A | Wakefulness numbers | Full slumber to fully awake in one game year (25% per season). Each ritual lowers wakefulness by 30-40%, floored at 0, so several successful rituals recover from an unsuccessful one. |
 | B | What "resist" does | Disrupt rituals and risk the god waking, unless the player finds another way to keep it asleep. The cult's style, mannerisms and symbology are spooky or menacing, so the player's first impulse is to assume it is nefarious. |
 | C | Wakefulness mechanics | The layer's visual changes are tied to wakefulness. Rituals occur each new moon in the forest, attended by the cultists. Threshold changes occur at every 5% of wakefulness. |
-| D | Names | Nharoth (elder god), Bellweather (village), Keepers of the Covenant (cult), Harrow Wood (forest). Names are original; do a trademark and Steam-search check before the store page. |
+| D | Names | Nharoth (elder god), Wetherell (village), Keepers of the Covenant (cult), Harrow Wood (forest). Names are original; do a trademark and Steam-search check before the store page. |
 | E | Dread's effects | Dread affects luck, dialogue options, the options for seasonal random events, and the weather, each tending toward less favourable outcomes as dread rises. Dread level also affects the rate at which NPC attitudes toward the player decay. |
+| F | Scope protection | *Still open*: see below. |
+| G | Ritual cadence | Keep the current calendar: one new moon, so one ritual, per season (four per year). |
+| H | Rituals | Each ritual needs specific participants (Keepers) who offer specific sacrifices during the timed ritual. Each places their offering on an altar where it slowly dissolves. The offerings are selected at the start of the season: 2 in spring, 3 in summer, 4 in autumn, 5 in winter. The ritual fails if any offering is not sacrificed or the required Keeper is not available. *Assumed, to confirm:* a failure only lowers nothing (the season's +25% stands) and adds no extra spike. |
+| I | What "mild" removes | Confirmed: dread effects at half strength, no text distortion, no explicit ritual imagery or dialogue. |
+| J | Wakefulness visibility | No meter. Wakefulness is shown through visuals, lore and gameplay. |
+| K | Village name | **Wetherell** (replaces the earlier "Bellweather"). |
 
 ### Still open
 F. **Scope protection.** Because the horror layer ships with 1.0, decide what to cut from the base game if the schedule slips (see the plan's scope notes). Needed before Milestone 3.
-G. **Ritual cadence.** With the current calendar (one lunar cycle per 28-day season) there is one new moon, so one ritual, per season: four per year. Wakefulness then falls about 10% per season if every ritual succeeds (+25%, -30% to -40%), and a missed ritual is a +25% swing. Keep this, or shorten the lunar cycle (for example 14 days, so two rituals per season) for more frequent ritual play and a faster recovery?
-H. **Unsuccessful rituals.** The answers say what a successful ritual does (-30% to -40%). What does an unsuccessful one do: nothing (the +25% season rise is the only pressure), or does it also raise wakefulness (a spike, and by how much)? And what decides success or failure: the player's involvement (disrupting or joining), offerings, the moon, randomness?
-I. **What "mild" removes.** Proposed: dread effects at half strength, no text distortion, and no explicit ritual imagery or dialogue. Confirm or change.
-J. **Wakefulness visibility.** Should the player be able to see the god's wakefulness (a meter, signs in the world only, or discoverable through lore)?
-K. **Spelling.** The village name is recorded as "Bellweather" as written (the common English word is "bellwether"). Confirm the intended spelling.
+L. **Failed-ritual consequence.** Assumed: a failed ritual adds no wakefulness beyond the season's rise. Confirm, or specify a spike.
+M. **Offering and Keeper design** (for the lore bible, X-000): where offerings come from (the Keepers gather them, or the player can supply them), how they are chosen each season, how a Keeper can be made unavailable (illness, absence, trust, locked away), what the player can do to the altar, and what a "timed" ritual looks like (how long, how visible).
+N. **Dread display.** The god has no meter; should the player's own dread have one (a HUD meter), or also be shown only through the world and the journal?
