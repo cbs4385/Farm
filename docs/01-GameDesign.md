@@ -201,10 +201,24 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 | Y | Real-time cadence of checks | *Moot* (no quick-time events). |
 | Z | Balance when the challenge is off | *Moot*: there is no toggle, and fatigue applies to everyone, so staying up is never free. |
 | AB-a | Shops and villagers after hours | **Shops close after business hours (09:00-17:00).** Villagers follow a **night schedule**: going home, eating, visiting friends and neighbours. |
+| AA | How fatigue applies | (a) **Linear** growth from 22:00 to 06:00 (midnight 25%, 02:00 50%). (b) Fatigue scales how much of the missing energy sleep restores (none at 100%). (c) Luck effectiveness (1 minus the penalty) **scales good luck and bonus chances and leaves bad luck unchanged** (so at neutral luck the penalty has nothing to scale). (d) **The penalties clear after a sleep period in a bed.** |
+| AB | The 06:00 collapse | The player **falls asleep in the current location**, as in the current pass-out. (Taken together with AA-d: a collapse is not sleeping in a bed, so the fatigue is carried into the next day and keeps luck reduced, and the meter showing, until the player next sleeps in a bed. See open question AE.) |
+| AC | Business hours | Businesses keep **hours appropriate to the business type** (the saloon behaves as a saloon, not as a 09:00-17:00 shop), and **shopkeepers have a regular day off**. |
+| AD | The first warning | Confirmed: "It is getting late. If you stay up, you will grow tired: you will recover less energy when you sleep, and your luck will suffer." Shown once per save when the clock first reaches 22:00. |
 
 ### Still open
 F. **Scope protection.** Because the horror layer ships with 1.0, decide what to cut from the base game if the schedule slips (see the plan's scope notes). Needed before Milestone 3.
-AA. **How fatigue applies.** (a) *Growth:* assumed linear from 22:00 (0) to 06:00 (maximum), so midnight is 25%, 02:00 is 50%. Confirm, or choose a different curve (for example slower at first). (b) *Energy:* assumed that fatigue scales how much of the missing energy sleep restores (100% = none, so waking energy equals energy at bedtime). (c) *Luck:* at neutral luck, "half effectiveness" of zero is zero, so proposed that luck effectiveness (1 minus the penalty) scales good luck and bonus chances, leaving bad luck unchanged. (d) *Duration:* does the luck penalty last through the next day and clear on the next normal sleep, or end when the player wakes?
-AB. **The 06:00 collapse.** At 06:00 the player falls asleep automatically. Does that still lose some gold and recover only 75% of energy (before fatigue), as the 02:00 pass-out does today? Does it wake the player in bed rather than where they collapsed?
-AC. **Shop hours in detail.** Business hours are 09:00-17:00. Do all shops keep them (the saloon, a place people visit in the evening, is the obvious exception)? Does the traveling merchant? Do closed shops lock their doors, or can the player still enter and find nobody? Is there a shop day off? The temporary seed stall on the farm is a placeholder and not a shop.
-AD. **The first warning.** Proposed text: "It is getting late. If you stay up, you will grow tired: you will recover less energy when you sleep, and your luck will suffer." Shown once per save (a story flag), when the clock first reaches 22:00. Confirm, or reword.
+AE. **Waking up after a collapse, and what it costs.** The player falls asleep where they are at 06:00 (decided). Open: (a) Where do they wake? Today a pass-out wakes the player in the farmhouse bed. Proposed: keep that (they are carried home), but it does *not* count as sleeping in a bed, so fatigue carries into the next day until the next bed sleep. Or do they wake where they fell? (b) Does the collapse still lose gold (5%, at most 500) and recover only 75% of energy (before the fatigue scaling), as the 02:00 pass-out does today? Assumed yes, since the answer said "as in the current pass-out".
+AF. **Business hours per type and days off.** Proposed starting table (to confirm or change; the data lives in the village task T-031):
+
+| Business | Hours | Day off |
+|---|---|---|
+| General store | 09:00-17:00 | Sunday |
+| Blacksmith | 09:00-17:00 | Monday |
+| Carpenter | 09:00-17:00 | Wednesday |
+| Fish shop | 06:00-14:00 (early, for the morning catch) | Thursday |
+| Clinic and library | 09:00-17:00 | Saturday |
+| Saloon | 12:00-02:00 | Tuesday |
+| Traveling merchant | on its random days, 09:00-21:00 | n/a |
+
+Days off are staggered so something is always open. A shopkeeper's day off is also a night-schedule question for T-035 (where do they spend it?). Closed shops: proposed that the door is locked with a note giving the hours, and the player cannot enter until they open.

@@ -72,7 +72,8 @@ Dependencies: `Core <- Data <- Gameplay <- UI`; `Platform` and `Mythos` depend o
 
 ### 3.3b Late-night fatigue (design, T-046)
 - Today the clock stops at 02:00 and the player passes out. The decided replacement (GDD decisions R-X): the day runs 06:00 to 06:00. The first time the clock reaches 22:00 a one-time message is shown; from 22:00 a fatigue rating grows with time awake (assumed linear to its maximum at 06:00); it reduces the energy recovered by sleeping (up to 100%) and luck (up to 50%); a fatigue meter beside the energy bar shows it, only while it is positive; at 06:00 the player falls asleep. It is part of the base game, not the horror layer. (An earlier quick-time-event design was withdrawn.)
-- Built and tested (pure logic, `Gameplay/Night/FatigueModel`): the fatigue rating by time of day, meter visibility, penalty arithmetic, energy after sleep, and the one-time warning trigger. `EnergyActionCompleted` is still published by `PlayerActions` (no system uses it now).
+- Built and tested (pure logic, `Gameplay/Night`): `FatigueModel` (the rating by time of day, linear from 22:00 to 06:00; meter visibility; penalty arithmetic; luck applied to good luck only; energy after sleep; the one-time warning trigger) and `FatigueState` (what is carried across sleeps: a sleep in a bed clears it, a collapse elsewhere carries the fatigue into the next day, and only the luck penalty and meter use the carried value, not the next night's energy recovery). `EnergyActionCompleted` is still published by `PlayerActions` (no system uses it now).
+- Business hours (`Gameplay/Shop`): `BusinessHours` (open and close minute, weekly day off) and `BusinessHoursRegistry`, with the condition atom `open:<shopId>` (an unregistered shop is always open). The village maps (T-031) register each business and use the condition on doors and shop screens.
 - Still to build: the longer `GameDateTime` day (touches the clock, lighting, HUD and tests), the HUD meter and message, applying fatigue to sleeping and to luck (through `ILuckModifier`), the 06:00 automatic sleep, shop hours (09:00-17:00) and NPC night schedules.
 
 ### 3.4 Input
@@ -139,7 +140,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 |---|---|---|
 | Module | `IGameModule`, `GameModules.Register/InitializeAll`, `ModuleContext` (bus, session, hooks, db, settings, `HorrorLevel`) | The entry point of an optional layer, in its own assembly |
 | Story state | `GameSession.SetFlag/HasFlag/SetVar/GetVar/AddVar`, `FlagChanged`/`VarChanged`, `GetModuleData<T>/SetModuleData` | Cult standing, dread, knowledge, a module's private data |
-| Conditions | `Conditions.Evaluate(expr, session.World)`; atoms `flag var season weather moon map hour day year`; `Conditions.Register` for more; `Validate` for tools | Gating in data: schedules, dialogue, warps, events, shop stock, quests |
+| Conditions | `Conditions.Evaluate(expr, session.World)`; atoms `flag var season weather moon map hour day year open`; `Conditions.Register` for more; `Validate` for tools | Gating in data: schedules, dialogue, warps, events, shop stock, quests |
 | Day cycle | `IDayCycleHook` (`OnNightFalls`, `OnDawn`), `DayCycleContext` (notes, wake location) | Dreams, blight, offerings, sleepwalking |
 | Weather | `IWeatherModifier` chain | Fog, blood moon |
 | Atmosphere | `AtmosphereStack.Set(id, tint, strength, priority)` | Mood tinting of the light |
@@ -168,7 +169,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 - Comments only for non-obvious "why".
 
 ## 5. Testing strategy
-- **EditMode (NUnit, ~169 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
+- **EditMode (NUnit, ~184 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
 - **PlayMode (~16 tests)**: boot to menu, new game, the full farming loop, sleep through the UI (including that the Continue button is on top of the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, the avatar/cursor alignment, **real simulated keyboard and mouse input** (`InputTestFixture`), and a test module that exercises every extension point in the real game.
 - **Player-build checks**: the Editor and tests can miss build-only failures (scene serialization, stripping, draw order). For changes touching scenes, scripts on scenes, or UI layering, also build and run the player with the QA flags in `docs/QA.md` (`-farmScene`, `-farmOpen`, `-farmCapture`) and look at the screenshots.
 - **Data validators**: `Farm/Validate Data` (T-040) will check ids, references, localization keys, schedules and every `Condition` string.

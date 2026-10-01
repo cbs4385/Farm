@@ -36,6 +36,11 @@ namespace Farm.Gameplay
         // 1 minus the penalty: 1 is fully effective, 0.5 is half effective.
         public static float LuckEffectiveness(float fatigue) => 1f - LuckPenalty(fatigue);
 
+        // Luck as the player experiences it. Fatigue scales good luck and bonus chances by the luck effectiveness and
+        // leaves bad luck unchanged (decision AA-c). At neutral luck (0) there is nothing to scale.
+        public static float ApplyToLuck(float luck, float fatigue) =>
+            luck > 0f ? luck * LuckEffectiveness(fatigue) : luck;
+
         // Sleeping restores energy towards `target` (full when going to bed, less when passing out). Fatigue scales how
         // much of the missing energy comes back: none at full fatigue. Never lowers energy.
         public static int EnergyAfterSleep(int current, int target, float fatigue)
