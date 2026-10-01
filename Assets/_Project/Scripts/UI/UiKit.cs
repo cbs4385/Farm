@@ -12,7 +12,7 @@ namespace Farm.UI
     {
         public static readonly Vector2 ReferenceResolution = new Vector2(960, 540);
 
-        public static readonly Color PanelColor = new Color(0.16f, 0.11f, 0.08f, 0.96f);
+        public static readonly Color PanelColor = new Color(0.16f, 0.11f, 0.08f, 1f);
         public static readonly Color PanelLight = new Color(0.30f, 0.21f, 0.14f, 1f);
         public static readonly Color TextColor = new Color(0.97f, 0.92f, 0.80f, 1f);
         public static readonly Color DimText = new Color(0.75f, 0.68f, 0.55f, 1f);
@@ -144,7 +144,7 @@ namespace Farm.UI
 
         public static Button MakeButton(Transform parent, string text, UnityAction onClick, float width = 220f, float height = 34f)
         {
-            var img = Panel(parent, text, PanelLight);
+            var img = Panel(parent, text, Color.white);   // Selectable tint colours are multiplied onto this
             var button = img.gameObject.AddComponent<Button>();
             button.targetGraphic = img;
             StyleSelectable(button);
@@ -183,12 +183,13 @@ namespace Farm.UI
             fill.rectTransform.anchorMax = new Vector2(0, 1);
             fill.rectTransform.sizeDelta = new Vector2(10f, 0f);
 
+            // Slider forces the handle's vertical anchors to stretch, so the handle is as tall as this area.
             var handleArea = Rect("Handle Slide Area", root);
-            Stretch(handleArea);
-            handleArea.offsetMin = new Vector2(6f, 0f);
-            handleArea.offsetMax = new Vector2(-6f, 0f);
-            var handle = Panel(handleArea, "Handle", TextColor);
-            handle.rectTransform.sizeDelta = new Vector2(12f, 22f);
+            handleArea.anchorMin = new Vector2(0f, 0.5f);
+            handleArea.anchorMax = new Vector2(1f, 0.5f);
+            handleArea.sizeDelta = new Vector2(-12f, 20f);
+            var handle = Panel(handleArea, "Handle", Color.white);
+            handle.rectTransform.sizeDelta = new Vector2(12f, 0f);
 
             slider.fillRect = fill.rectTransform;
             slider.handleRect = handle.rectTransform;
@@ -204,7 +205,7 @@ namespace Farm.UI
 
         public static Toggle MakeToggle(Transform parent, string text, bool value, UnityAction<bool> onChanged, float width = 220f)
         {
-            var root = Panel(parent, text, PanelLight);
+            var root = Panel(parent, text, Color.white);
             Size(root.gameObject, width, 30f);
             var toggle = root.gameObject.AddComponent<Toggle>();
             toggle.targetGraphic = root;
@@ -227,7 +228,7 @@ namespace Farm.UI
 
         public static TMP_InputField MakeInput(Transform parent, string placeholder, string value, int maxLength, float width = 260f)
         {
-            var root = Panel(parent, "Input", new Color(0.08f, 0.06f, 0.04f, 1f));
+            var root = Panel(parent, "Input", Color.white);
             Size(root.gameObject, width, 34f);
             var input = root.gameObject.AddComponent<TMP_InputField>();
 
@@ -249,6 +250,11 @@ namespace Farm.UI
             input.text = value;
             input.targetGraphic = root;
             StyleSelectable(input);
+            var c = input.colors;
+            c.normalColor = new Color(0.08f, 0.06f, 0.04f, 1f);
+            c.highlightedColor = new Color(0.16f, 0.12f, 0.08f, 1f);
+            c.selectedColor = new Color(0.22f, 0.16f, 0.10f, 1f);
+            input.colors = c;
             return input;
         }
 

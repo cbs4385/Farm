@@ -21,24 +21,4 @@ namespace Farm.Gameplay
             else session.Toast(L.Get("toast.cannot_ship", name));
         }
     }
-
-    // Opens the shop UI. M1 has no town yet, so the general store stall stands on the farm (replaced in M2).
-    public sealed class ShopCounter : MonoBehaviour, IInteractable
-    {
-        [SerializeField] string _shopId = "general";
-
-        public void Interact(PlayerActions player)
-        {
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowShop(_shopId);
-        }
-    }
-
-    public sealed class Bed : MonoBehaviour, IInteractable
-    {
-        public void Interact(PlayerActions player)
-        {
-            if (!ServiceLocator.TryGet<IUiService>(out var ui)) { player.Session.StartSleep(false); return; }
-            ui.ShowConfirm("confirm.sleep", () => player.Session.StartSleep(false));
-        }
-    }
 }

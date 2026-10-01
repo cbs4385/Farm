@@ -11,6 +11,7 @@ namespace Farm.Gameplay
         void ShowConfirm(string messageKey, Action onYes, Action onNo = null);
         void ShowDaySummary(DaySummary summary, Action onContinue);
         void ShowPause();
+        void ShowOptions();
         bool AnyModalOpen { get; }
     }
 }

@@ -44,6 +44,28 @@ namespace Farm.Gameplay
             _bus.Subscribe<PassOutTimeReached>(OnPassOut);
             if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetHudVisible(true);
             ServiceLocator.Get<InputService>().EnableGameplay();
+            StartCoroutine(OpenRequestedScreen());
+        }
+
+        // QA aid: `-farmOpen inventory|shop|pause|options|summary` opens a screen shortly after the scene starts.
+        System.Collections.IEnumerator OpenRequestedScreen()
+        {
+            var which = CommandLine.GetArg("-farmOpen");
+            if (string.IsNullOrEmpty(which) || !ServiceLocator.TryGet<IUiService>(out var ui)) yield break;
+            for (var i = 0; i < 5; i++) yield return null;   // let the UI service finish its own startup
+            switch (which)
+            {
+                case "inventory": ui.ToggleInventory(); break;
+                case "shop": ui.ShowShop("general"); break;
+                case "pause": ui.ShowPause(); break;
+                case "options": ui.ShowOptions(); break;
+                case "summary":
+                    var s = new DaySummary { Earnings = 245, GoldAfter = 745, NewWeather = WeatherIds.Rain };
+                    s.Shipped.Add(new ItemStack("crop.parsnip", 4));
+                    s.Shipped.Add(new ItemStack("crop.potato", 2, 1));
+                    ui.ShowDaySummary(s, () => { });
+                    break;
+            }
         }
 
         void OnDestroy()

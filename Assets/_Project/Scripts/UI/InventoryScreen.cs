@@ -93,8 +93,12 @@ namespace Farm.UI
                 label.text = string.Empty;
 
                 var stack = inv.Get(i);
-                Image image = button.targetGraphic as Image;
-                if (_picked == i) image.color = UiKit.Accent;
+                if (_picked == i)
+                {
+                    var mark = UiKit.Panel(button.transform, "Picked", new Color(UiKit.Accent.r, UiKit.Accent.g, UiKit.Accent.b, 0.6f));
+                    UiKit.Stretch(mark.rectTransform);
+                    mark.raycastTarget = false;
+                }
 
                 if (stack != null && Ui.Session.Db.TryGetItem(stack.ItemId, out var item))
                 {
@@ -121,7 +125,8 @@ namespace Farm.UI
 
             _hint.text = _picked >= 0 ? L.Get("inventory.hint_place") : L.Get("inventory.hint");
             ShowTooltip(-1);
-            if (_grid.childCount > 0)
+            // While closed, Open() -> PushModal focuses the first slot once the screen is active (so Select fires).
+            if (IsOpen && _grid.childCount > 0)
                 EventSystem.current?.SetSelectedGameObject(_grid.GetChild(Mathf.Clamp(selectedIndex, 0, _grid.childCount - 1)).gameObject);
         }
 

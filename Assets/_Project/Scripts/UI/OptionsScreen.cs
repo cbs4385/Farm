@@ -18,6 +18,7 @@ namespace Farm.UI
 
         readonly SettingsStore _store;
         readonly RectTransform _content;
+        readonly ScrollRect _scroll;
         InputActionRebindingExtensions.RebindingOperation _rebind;
         bool _rebinding;
 
@@ -48,6 +49,7 @@ namespace Farm.UI
             rect.scrollSensitivity = 30f;
             rect.movementType = ScrollRect.MovementType.Clamped;
             _content = crt;
+            _scroll = rect;
 
             UiKit.MakeButton(stack.transform, L.Get("ui.back"), Close, 160f, 34f);
             root.SetActive(false);
@@ -70,6 +72,27 @@ namespace Farm.UI
         {
             if (_rebinding) return;
             Close();
+        }
+
+        // Keep the gamepad/keyboard-selected row inside the scroll viewport.
+        public override void Tick()
+        {
+            var selected = UnityEngine.EventSystems.EventSystem.current?.currentSelectedGameObject;
+            if (selected == null || !selected.transform.IsChildOf(_content)) return;
+            var viewport = (RectTransform)_scroll.transform;
+            var item = (RectTransform)selected.transform;
+            var corners = new Vector3[4];
+            item.GetWorldCorners(corners);
+            var view = new Vector3[4];
+            viewport.GetWorldCorners(view);
+            var overTop = corners[1].y - view[1].y;
+            var underBottom = view[0].y - corners[0].y;
+            if (overTop <= 0f && underBottom <= 0f) return;
+            var contentHeight = _content.rect.height - viewport.rect.height;
+            if (contentHeight <= 0f) return;
+            var worldPerUnit = viewport.lossyScale.y;
+            var delta = (overTop > 0f ? overTop : -underBottom) / worldPerUnit;
+            _scroll.verticalNormalizedPosition = Mathf.Clamp01(_scroll.verticalNormalizedPosition + delta / contentHeight);
         }
 
         void Build()

@@ -220,6 +220,8 @@ namespace Farm.UI
             _summary.OpenSummary(summary, onContinue);
         }
 
+        public void ShowOptions() => Options.Open();
+
         public void ShowPause()
         {
             _pause ??= new PauseScreen(this);

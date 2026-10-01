@@ -8,26 +8,6 @@ using UnityEngine.UI;
 
 namespace Farm.UI
 {
-    // MainMenu scene entry point: builds the title menu on the persistent UI canvas.
-    public sealed class MainMenuController : MonoBehaviour
-    {
-        MainMenuScreen _menu;
-
-        void Start()
-        {
-            var ui = ServiceLocator.Get<UiService>();
-            ui.SetHudVisible(false);
-            ServiceLocator.Get<GameSession>().EndGame();
-            _menu = new MainMenuScreen(ui);
-            _menu.Open();
-        }
-
-        void OnDestroy()
-        {
-            _menu?.Close();
-        }
-    }
-
     public sealed class MainMenuScreen : UiScreen
     {
         readonly Button _continue;
@@ -67,6 +47,8 @@ namespace Farm.UI
         }
 
         public override void OnCancel() { }
+
+        public void OpenNewGame() => _newGame.Open();
 
         void Continue()
         {

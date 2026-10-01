@@ -8,9 +8,7 @@ namespace Farm.Gameplay
     public sealed class CameraFollow : MonoBehaviour
     {
         [SerializeField] Transform _target;
-        [SerializeField] float _viewHalfWidth = 15f;    // 480 / 16 / 2
-        [SerializeField] float _viewHalfHeight = 8.4375f; // 270 / 16 / 2
-
+        Camera _camera;
         bool _hasBounds;
         Bounds _bounds;
 
@@ -33,8 +31,12 @@ namespace Farm.Gameplay
             var p = _target.position + Vector3.up * 0.5f;
             if (_hasBounds)
             {
-                p.x = Clamp(p.x, _bounds.min.x, _bounds.max.x, _viewHalfWidth);
-                p.y = Clamp(p.y, _bounds.min.y, _bounds.max.y, _viewHalfHeight);
+                // The pixel-perfect camera changes the ortho size to fit the window, so read the real view size.
+                if (_camera == null) _camera = GetComponent<Camera>();
+                var halfHeight = _camera.orthographicSize;
+                var halfWidth = halfHeight * _camera.aspect;
+                p.x = Clamp(p.x, _bounds.min.x, _bounds.max.x, halfWidth);
+                p.y = Clamp(p.y, _bounds.min.y, _bounds.max.y, halfHeight);
             }
             transform.position = new Vector3(p.x, p.y, transform.position.z);
         }

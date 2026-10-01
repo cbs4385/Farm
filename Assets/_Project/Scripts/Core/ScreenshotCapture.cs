@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
@@ -24,6 +25,13 @@ namespace Farm.Core
             Directory.CreateDirectory(dir);
             for (int i = 0; i < WarmupFrames; i++) yield return null;
 
+            // Rough performance sample: frame times and managed allocation over the capture run.
+            var frames = 0;
+            var totalDt = 0f;
+            var maxDt = 0f;
+            var memStart = GC.GetTotalMemory(false);
+            var gcStart = GC.CollectionCount(0);
+
             for (int shot = 0; shot < ShotCount; shot++)
             {
                 yield return new WaitForEndOfFrame();
@@ -32,8 +40,19 @@ namespace Farm.Core
                 File.WriteAllBytes(path, tex.EncodeToPNG());
                 Destroy(tex);
                 Log.Info($"[Capture] {path}");
-                for (int i = 0; i < FrameSpacing; i++) yield return null;
+                for (int i = 0; i < FrameSpacing; i++)
+                {
+                    yield return null;
+                    frames++;
+                    totalDt += Time.unscaledDeltaTime;
+                    maxDt = Mathf.Max(maxDt, Time.unscaledDeltaTime);
+                }
             }
+
+            if (frames > 0)
+                Log.Info($"[Perf] frames={frames} avg={totalDt / frames * 1000f:F2}ms ({frames / totalDt:F0} fps) max={maxDt * 1000f:F2}ms " +
+                         $"gc0={GC.CollectionCount(0) - gcStart} managedDelta={(GC.GetTotalMemory(false) - memStart) / 1024}KB " +
+                         $"vsync={QualitySettings.vSyncCount}");
 
             Application.Quit(0);
         }
