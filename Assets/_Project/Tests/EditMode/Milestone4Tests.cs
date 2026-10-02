@@ -26,6 +26,7 @@ namespace Farm.Tests
             PlatformServices.Reset();
             Achievements.ClearExtraForTests();
             Conditions.ClearCustomForTests();
+            RealDb().ClearMergedPacks();
         }
 
         // ---- crash log -----------------------------------------------------------------------------------------------------

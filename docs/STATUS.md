@@ -110,3 +110,11 @@ T-066 | done (partial) | claude/2026-10-02 | `docs/balance/economy.md`, relaxed 
 T-067 | done | claude/2026-10-02 | audit by the existing key lints plus a spoiler-free achievements check; the `L` backend stays (English only)
 T-068 | done (partial) | claude/2026-10-02 | one-year bot soak at levels 0, 1, 2 (`Milestone4Tests`) plus the earlier two-year run. NOT done: a bug-bash by a person, so "zero known S1/S2 bugs" is unproven
 T-069 | not done | | release candidate gate needs T-060, T-061, the human checks listed in QA.md and Steam verification
+
+## Milestone 5 - Steam release (prepared; cannot be completed without the owner)
+T-070 | blocked (human) | | Steamworks partner setup: App ID, depots and branches. `Steam/*.vdf` are templates with placeholder ids (0); `upload.sh` refuses them
+T-071 | done (partial) | claude/2026-10-02 | `Steam/upload.sh` and the release process in `docs/RELEASE.md`. NOT verified: no upload has run, no download/install/play on `beta` on Windows, Linux or Steam Deck
+T-072 | draft | claude/2026-10-02 | `docs/store/`: store text, intensity description, honest content notes, content survey answers, EULA and privacy drafts (need legal review). Missing: capsule art, screenshots, trailer, age-rating submission, name/trademark checks
+T-073 | not started | | demo build needs T-069 first
+T-074 | not done | | not released. `CHANGELOG.md` and the hotfix/patch process are written
+Release checklist: the automatable lines have tests (`ReleaseChecklistTests`: no horror item in any shop, every ending reachable from data, version and release files present, store text mentions the intensity setting, runs without Steam). The rest (IL2CPP builds from CI, full playthroughs on both OS, Steam Deck, no placeholder art/audio, controller-only playthrough) is open.

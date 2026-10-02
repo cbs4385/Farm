@@ -49,6 +49,7 @@ namespace Farm.Tests
             Farm.Mythos.MythosContent.Load(input.Story);
             Assert.IsNotNull(input.Story.Dialogue("mythos.altar"));
             var problems = StoryValidator.Run(input);
+            input.Db.ClearMergedPacks();
             CollectionAssert.IsEmpty(problems, string.Join("\n", problems));
         }
 

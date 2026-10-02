@@ -63,6 +63,16 @@ namespace Farm.Data
             _cropLookup = null;
         }
 
+        // Drops everything merged from packs (tests that merge into the shared database asset call this afterwards).
+        public void ClearMergedPacks()
+        {
+            _mergedPacks.Clear();
+            _runtimeItems.Clear(); _runtimeCrops.Clear(); _runtimeWeather.Clear(); _runtimeNodes.Clear(); _runtimeUpgrades.Clear();
+            _runtimeSpawnTables.Clear(); _runtimeNpcs.Clear(); _runtimeRecipes.Clear(); _runtimePlaceables.Clear();
+            _itemLookup = null;
+            _cropLookup = null;
+        }
+
         // Adds a pack's content at runtime (not saved into the asset). Ids must be new: a clash is skipped and
         // reported, because replacing a core item would silently change saved games. Returns the number rejected.
         public int Merge(ContentPack pack)
