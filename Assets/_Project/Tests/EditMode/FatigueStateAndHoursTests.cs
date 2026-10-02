@@ -167,6 +167,46 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheAgreedTable_IsRegistered_WithStaggeredDaysOff()
+        {
+            BusinessHoursRegistry.RegisterDefaults();
+            string[] shops = { "general", "blacksmith", "carpenter", "fish", "clinic", "saloon" };
+
+            // Noon on each weekday of the first week (Monday = day 1): the table's day-off pattern.
+            var closedOn = new Dictionary<string, int>();
+            foreach (var id in shops)
+                for (var day = 1; day <= 7; day++)
+                    if (!BusinessHoursRegistry.IsOpen(id, At(day, 12, 30))) closedOn[id] = day - 1;   // DayOfWeek 0..6
+
+            Assert.AreEqual(6, closedOn["general"], "Sunday");
+            Assert.AreEqual(0, closedOn["blacksmith"], "Monday");
+            Assert.AreEqual(2, closedOn["carpenter"], "Wednesday");
+            Assert.AreEqual(3, closedOn["fish"], "Thursday");
+            Assert.AreEqual(5, closedOn["clinic"], "Saturday");
+            Assert.AreEqual(1, closedOn["saloon"], "Tuesday");
+
+            for (var day = 1; day <= 7; day++)
+            {
+                var openCount = 0;
+                foreach (var id in shops) if (BusinessHoursRegistry.IsOpen(id, At(day, 12, 30))) openCount++;
+                Assert.GreaterOrEqual(openCount, shops.Length - 1, $"day {day}: at most one business closed, so something is always open");
+            }
+        }
+
+        [Test]
+        public void TheAgreedHours_SuitEachBusiness()
+        {
+            BusinessHoursRegistry.RegisterDefaults();
+            Assert.IsTrue(BusinessHoursRegistry.IsOpen("fish", At(2, 6, 30)), "the fish shop opens early");
+            Assert.IsFalse(BusinessHoursRegistry.IsOpen("fish", At(2, 15)), "and closes in the afternoon");
+            Assert.IsFalse(BusinessHoursRegistry.IsOpen("saloon", At(3, 11)), "the saloon opens at noon");
+            Assert.IsTrue(BusinessHoursRegistry.IsOpen("saloon", At(3, 21)), "and is busy in the evening");
+            Assert.IsTrue(BusinessHoursRegistry.IsOpen("saloon", At(3, 25, 30)), "until 02:00");
+            Assert.IsFalse(BusinessHoursRegistry.IsOpen("general", At(3, 18)), "the general store closes at 17:00");
+            Assert.IsTrue(BusinessHoursRegistry.IsOpen("merchant", At(3, 20)), "the merchant keeps late hours on the days it visits");
+        }
+
+        [Test]
         public void TheOpenConditionAtom_WorksInExpressions()
         {
             BusinessHoursRegistry.RegisterConditionAtom();

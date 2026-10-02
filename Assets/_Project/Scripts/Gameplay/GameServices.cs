@@ -35,6 +35,7 @@ namespace Farm.Gameplay
             ServiceLocator.Register(settings);
 
             BusinessHoursRegistry.RegisterConditionAtom();   // `open:<shopId>` in conditions
+            BusinessHoursRegistry.RegisterDefaults();
 
             var db = Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
             if (db == null)

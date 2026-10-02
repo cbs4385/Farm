@@ -44,6 +44,32 @@ namespace Farm.Gameplay
 
         public static void Clear() => Hours.Clear();
 
+        // The hours agreed with the owner (GDD decision AF). Days off are staggered so something is always open:
+        // Monday blacksmith, Tuesday saloon, Wednesday carpenter, Thursday fish shop, Saturday clinic and library,
+        // Sunday general store. Day numbers follow GameDateTime.DayOfWeek (0 = Monday).
+        public static class Ids
+        {
+            public const string General = "general";
+            public const string Blacksmith = "blacksmith";
+            public const string Carpenter = "carpenter";
+            public const string FishShop = "fish";
+            public const string Clinic = "clinic";
+            public const string Saloon = "saloon";
+            public const string TravelingMerchant = "merchant";
+        }
+
+        public static void RegisterDefaults()
+        {
+            Register(Ids.General, BusinessHours.Standard(dayOff: 6));
+            Register(Ids.Blacksmith, BusinessHours.Standard(dayOff: 0));
+            Register(Ids.Carpenter, BusinessHours.Standard(dayOff: 2));
+            Register(Ids.FishShop, new BusinessHours(6 * 60, 14 * 60, dayOff: 3));       // early, for the morning catch
+            Register(Ids.Clinic, BusinessHours.Standard(dayOff: 5));                      // clinic and library
+            Register(Ids.Saloon, new BusinessHours(12 * 60, 26 * 60, dayOff: 1));         // 12:00 to 02:00
+            // The traveling merchant appears only on random days (T-057); these are the hours it keeps when it does.
+            Register(Ids.TravelingMerchant, new BusinessHours(9 * 60, 21 * 60));
+        }
+
         // Makes `open:<shopId>` available in condition expressions. Safe to call more than once.
         public static void RegisterConditionAtom() =>
             Conditions.Register("open", (shopId, world) => IsOpen(shopId, world.Now));
