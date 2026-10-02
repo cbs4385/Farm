@@ -35,7 +35,7 @@ A cozy farming/life sim (original content) for **Steam on Windows and Linux**, w
 - Only one Unity instance may open this project. Close the Editor before headless runs (`Temp/UnityLockfile` and `Unity.exe` show whether it is open).
 - No Unity MCP server is configured for this project; work through headless Editor runs and editor scripts (`docs/BUILD.md`). Skills: `unity:unity-cli`, `unity:unity-package-management`. Package manifest edits are acceptable only while the Editor is open.
 - Tests: `-runTests -testPlatform EditMode` (add `-nographics`) and `PlayMode` (needs graphics); never pass `-quit` with `-runTests`.
-- Player QA flags: `-farmScene`, `-farmOpen`, `-farmCapture` (see `docs/QA.md`).
+- Player QA flags: `-farmScene`, `-farmOpen`, `-farmCapture` (see `docs/QA.md`). For hard-to-reach states build with `-development` (output `BuildsDev/`) and use the developer console (F1) or `-farmCommands`; never let developer tools into a release build (the build guard fails if they do).
 
 ## Conventions
 See Tech Design section 4. Namespaces `Farm.<Module>`; private fields `_camelCase`; no per-frame allocations; no magic strings; comments only for non-obvious "why".

@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 186 EditMode + 16 PlayMode pass. Next: Milestone 2 (start with T-043, T-030, T-031, T-034). The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 205 EditMode + 17 PlayMode pass. Milestone 2 in progress: T-043 done; next T-030, T-031, T-034. The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -36,8 +36,8 @@ T-024 | done (partial) | claude/2026-10-01 | M1 gate. NOT verified: IL2CPP, Stea
 Conditions language, moon phase, flags/vars/module data (saved), day-cycle hooks, weather modifiers, atmosphere layers, text filters/extra tables, content packs, map-loaded event, `Warp.Condition`, `ConditionalObject`, HUD widgets, module system, inert `Farm.Mythos`, `HorrorLevel` setting. Tested in EditMode and PlayMode (including a test module using every hook in the real game).
 Not built yet: hooks for NPCs/dialogue/events/weather definitions/journal (come with M2, requirements in the plan and ADR 0002); HorrorLevel control in Options (X-009).
 
-## Milestone 2 - World and living village (next)
-T-043 | todo | | developer/QA tools (dev builds only)
+## Milestone 2 - World and living village (in progress)
+T-043 | done | claude/2026-10-01 | developer console (F1) and -farmCommands (Editor and development builds only), release guard, BuildsDev output; 21 command tests + PlayMode F1 test. Verified: release builds (Windows, Linux) free of debug types, development build contains them
 T-030 | todo | | weather as data
 T-031 | todo | | village, forest, beach, interiors
 T-032 | todo | |
