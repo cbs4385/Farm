@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 205 EditMode + 17 PlayMode pass. Milestone 2 in progress: T-043 done; next T-030, T-031, T-034. The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 209 EditMode + 28 PlayMode pass. Milestone 2 in progress: T-043 done; next T-030, T-031, T-034. The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -9,14 +9,14 @@ T-001 | done | claude/2026-10-01 | repo initialized, LFS attributes, gitignore
 T-002 | done | claude/2026-10-01 | `ProjectConfigurator`; Mono for dev, IL2CPP via build flag
 T-003 | done | claude/2026-10-01 | asmdefs and test assemblies
 T-004 | done | claude/2026-10-01 | template cruft removed; Localization, Newtonsoft, Cinemachine added
-T-005 | done (partial) | claude/2026-10-01 | Win + Linux Mono builds verified. NOT verified: IL2CPP builds (Linux module not installed), CI workflow (no remote)
+T-005 | done (partial) | claude/2026-10-01 | Win + Linux Mono and IL2CPP builds verified (release guard passes; Windows IL2CPP player runs at 60 fps, Linux IL2CPP player runs headless under WSL2, no exceptions). NOT verified: CI workflow (no remote)
 T-006 | done | claude/2026-10-01 | Bootstrap, ServiceLocator, EventBus, SceneLoader, Log
 T-007 | done | claude/2026-10-01 | PixelPerfectCamera + `PixelSnapCamera`; verified at 1x-4x on Windows and Linux (WSLg); constant-speed pan confirmed smooth by the owner. Re-check judder with real movement; if seen, add sub-pixel smoothing (render at reference res, offset the upscale)
-T-008 | done (partial) | claude/2026-10-01 | placeholder sprites as individual PNGs; atlases deferred to T-060
+T-008 | done (partial) | claude/2026-10-01 | placeholder sprites in six Sprite Atlas V2 assets (`AtlasBuilder`, pixel-art packing, tests); player capture at 1x-4x is pixel-perfect (only Unity's dev-build watermark differs)
 T-009 | done (partial) | claude/2026-10-01 | both builds boot; Linux only under WSLg, not on a real GPU
 
 ## Milestone 1 - Vertical slice (done)
-T-010 | done (partial) | claude/2026-10-01 | generated input asset, rebinding persisted. NOT verified: gamepad on hardware, rebinding persistence by a person
+T-010 | done (partial) | claude/2026-10-01 | generated input asset, rebinding persisted; simulated gamepad and rebind-restart PlayMode tests. NOT verified: gamepad on hardware
 T-011 | done | claude/2026-10-01 | clock/calendar/pause/pass-out; debug overlay moved to T-043
 T-012 | done | claude/2026-10-01 | items, crops, database, inventory
 T-013 | done | claude/2026-10-01 | player, camera follow + bounds + pixel snap (custom camera, ADR 0001)
@@ -30,7 +30,7 @@ T-020 | done | claude/2026-10-01 | 3 slots, atomic writes, `.bak`, migrations, a
 T-021 | done | claude/2026-10-01 | main menu, options, settings
 T-022 | done | claude/2026-10-01 | `L.Get` + string table + lint tests (ADR 0001)
 T-023 | done (partial) | claude/2026-10-01 | logical buses + placeholder blips; no mixer/music
-T-024 | done (partial) | claude/2026-10-01 | M1 gate. NOT verified: IL2CPP, Steam Deck, real Linux GPU
+T-024 | done (partial) | claude/2026-10-01 | M1 gate. NOT verified: Steam Deck, real Linux GPU
 
 ## Extension points (ADR 0002, done)
 Conditions language, moon phase, flags/vars/module data (saved), day-cycle hooks, weather modifiers, atmosphere layers, text filters/extra tables, content packs, map-loaded event, `Warp.Condition`, `ConditionalObject`, HUD widgets, module system, inert `Farm.Mythos`, `HorrorLevel` setting. Tested in EditMode and PlayMode (including a test module using every hook in the real game).
@@ -56,7 +56,7 @@ T-042 | todo | | M2 gate
 ## Human playtest results (Windows, 2026-10-01)
 Confirmed by hand: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, energy bar and exhaustion message, save and load from the main menu and after a full restart, seeds planting with clearer feedback.
 Bugs found by playing and fixed (each has a test): options not scrolling, avatar drawn a tile below its logical position (sprite import mode), sleep ending on a black screen (fade drawn over the summary), seedling nearly invisible and silent failed actions; earlier, a scene that crashed player builds (two MonoBehaviours in one file).
-Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, key rebinding persistence, season change (spring -> summer crop death), real Linux hardware/Steam Deck, IL2CPP builds, CI.
+Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, season change (spring -> summer crop death), real Linux hardware/Steam Deck, CI. Backpack drag and drop is covered by simulated-input tests, not yet by a person.
 
 ## Milestone 3b - Mythos layer (required for 1.0; not started)
 X-000..X-011 | todo | | see the plan. X-000 (lore bible) has no open questions left; the draft holds the decided names, numbers, ritual rules, timing and discovery

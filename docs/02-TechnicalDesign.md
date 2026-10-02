@@ -169,7 +169,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 - Comments only for non-obvious "why".
 
 ## 5. Testing strategy
-- **EditMode (NUnit, ~205 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
+- **EditMode (NUnit, ~209 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
 - **PlayMode (~17 tests)**: boot to menu, new game, the full farming loop, sleep through the UI (including that the Continue button is on top of the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, the avatar/cursor alignment, **real simulated keyboard and mouse input** (`InputTestFixture`), and a test module that exercises every extension point in the real game.
 - **Player-build checks**: the Editor and tests can miss build-only failures (scene serialization, stripping, draw order). For changes touching scenes, scripts on scenes, or UI layering, also build and run the player with the QA flags in `docs/QA.md` (`-farmScene`, `-farmOpen`, `-farmCapture`) and look at the screenshots.
 - **Data validators**: `Farm/Validate Data` (T-040) will check ids, references, localization keys, schedules and every `Condition` string.
@@ -190,13 +190,13 @@ Removed: `com.unity.learn.iet-framework`, the template Welcome folder and sample
 
 ## 8. Build and release engineering
 - `Farm.Editor.BuildScript`: `BuildWindows`, `BuildLinux` (and `BuildFromCI` for GameCI) with `-scriptingBackend il2cpp|mono` (default Mono), `-development`, `-buildOutput <dir>`; output `Builds/<Windows|Linux>/<version>/`. Version from `PlayerSettings.bundleVersion`. Scenes come from Build Settings (kept in sync by `SceneSetup`).
-- **IL2CPP release builds are not yet verified** (the Linux IL2CPP module is not installed locally). Linux builds also need a real-GPU check (Vulkan primary, OpenGL Core fallback); WSLg runs have used OpenGL Core.
+- IL2CPP release builds for Windows and Linux are verified (Linux cross-compiles with the `com.unity.toolchain.win-x86_64-linux-x86_64` and `com.unity.sysroot.linux-x86_64` packages). Linux builds also need a real-GPU check (Vulkan primary, OpenGL Core fallback); WSLg runs have used OpenGL Core.
 - Steam: SteamPipe depots per OS (`app_build.vdf`, `depot_build_windows.vdf`, `depot_build_linux.vdf`), Linux executable bit, launch options per OS, Steam Runtime ("sniper") considerations.
 - CI: `.github/workflows/ci.yml` (GameCI tests + Windows/Linux IL2CPP builds). Written, **not yet run** (no remote, no Unity license secrets).
 - Source control: git with the Unity `.gitignore` and **Git LFS** for binary art/audio (initialized in M0).
 
 ## 9. Placeholder art policy
-- Agents must be able to progress without final art. `PlaceholderArtGenerator` writes simple sprites to `Art/Placeholders` (one PNG per sprite, named `<category>_<name>[_<frame>]`, e.g. `crop_parsnip_2`, `player_idle_down`), imported under the rules in 3.14, and `ContentGenerator`/`MapBuilder` wire them into data and scenes. Final art replaces them by name. Atlases come with the art pass (T-060).
+- Agents must be able to progress without final art. `PlaceholderArtGenerator` writes simple sprites to `Art/Placeholders` (one PNG per sprite, named `<category>_<name>[_<frame>]`, e.g. `crop_parsnip_2`, `player_idle_down`), imported under the rules in 3.14, and `ContentGenerator`/`MapBuilder` wire them into data and scenes. Final art replaces them by name. `AtlasBuilder` (Farm/Setup/Create Sprite Atlases) packs them into six Sprite Atlas V2 assets by name prefix (Tiles, Characters, Crops, Items, World, UI) with pixel-art settings; a test requires every sprite to belong to exactly one group.
 - Placeholder crop sprites must stay clearly visible (test-enforced). All art/audio/font sources and licenses are recorded in `docs/ASSET_LICENSES.md`. Only CC0 / properly licensed / owned assets are allowed.
 
 ## 10. Performance budgets

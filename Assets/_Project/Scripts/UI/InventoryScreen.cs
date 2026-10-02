@@ -22,6 +22,8 @@ namespace Farm.UI
         readonly TextMeshProUGUI _hint;
         int _picked = -1;
         int _builtCapacity;
+        int _dragFrom = -1;
+        Image _dragIcon;
 
         public InventoryScreen(UiService ui) : base(ui)
         {
@@ -63,7 +65,57 @@ namespace Farm.UI
         public override void Close()
         {
             _picked = -1;
+            EndDrag();
             base.Close();
+        }
+
+        // ---- mouse drag and drop (keyboard and gamepad use click-to-pick) ------------------------------------------
+
+        public bool IsDragging => _dragFrom >= 0;
+
+        public void BeginDrag(int index, PointerEventData eventData)
+        {
+            var stack = Ui.Session.Backpack.Get(index);
+            if (stack == null || !Ui.Session.Db.TryGetItem(stack.ItemId, out var item)) return;
+
+            _dragFrom = index;
+            _picked = -1;
+            if (_dragIcon == null)
+            {
+                _dragIcon = UiKit.Panel(Ui.ScreenCanvas.transform, "DragIcon", Color.white);
+                _dragIcon.raycastTarget = false;      // so the slot underneath still receives the drop
+                _dragIcon.preserveAspect = true;
+                _dragIcon.rectTransform.sizeDelta = new Vector2(SlotSize - 8f, SlotSize - 8f);
+            }
+            _dragIcon.sprite = item.Icon;
+            _dragIcon.gameObject.SetActive(true);
+            _dragIcon.transform.SetAsLastSibling();
+            UpdateDrag(eventData);
+        }
+
+        public void UpdateDrag(PointerEventData eventData)
+        {
+            if (_dragIcon == null || !IsDragging) return;
+            var canvas = (RectTransform)Ui.ScreenCanvas.transform;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, eventData.position, null, out var local))
+                _dragIcon.rectTransform.localPosition = local;
+        }
+
+        // The slot under the pointer calls this when the stack is released over it.
+        public void DropOn(int targetIndex)
+        {
+            if (!IsDragging) return;
+            var from = _dragFrom;
+            _dragFrom = -1;
+            if (from != targetIndex) Ui.Session.Backpack.Move(from, targetIndex);
+        }
+
+        // Always called when the drag ends (dropped on a slot or released elsewhere).
+        public void EndDrag()
+        {
+            _dragFrom = -1;
+            if (_dragIcon != null) _dragIcon.gameObject.SetActive(false);
+            if (IsOpen) Rebuild();
         }
 
         public override void Tick()
@@ -113,6 +165,8 @@ namespace Farm.UI
                         UiKit.Stretch(count.rectTransform, 3f);
                     }
                 }
+
+                button.gameObject.AddComponent<InventorySlotDrag>().Bind(this, index);
 
                 var trigger = button.gameObject.AddComponent<EventTrigger>();
                 var enter = new EventTrigger.Entry { eventID = EventTriggerType.Select };

@@ -20,9 +20,9 @@ Re-run Generate Content and Create Scenes after changing sprite import rules, co
 | Target | Module (Hub name) | Notes |
 |---|---|---|
 | Windows | Windows Build Support (Mono) | Installed |
-| Windows IL2CPP | Windows Build Support (IL2CPP) + Visual Studio C++ workload | Needed for release builds; not verified |
+| Windows IL2CPP | Windows Build Support (IL2CPP) + Visual Studio C++ workload | Needed for release builds; installed and verified |
 | Linux | Linux Build Support (Mono) | Installed on the dev machine |
-| Linux IL2CPP | Linux Build Support (IL2CPP) | **Not installed locally**; CI has it. Add via Hub > Installs > Add modules |
+| Linux IL2CPP | Linux Build Support (IL2CPP) | Installed locally (Hub: `Unity Hub.exe -- --headless install-modules -v 6000.6.2f1 -m linux-il2cpp`). Cross-compiling from Windows also needs the UPM packages `com.unity.toolchain.win-x86_64-linux-x86_64` and `com.unity.sysroot.linux-x86_64` (in `Packages/manifest.json`). Output for IL2CPP checks goes to `BuildsIL2CPP/` (git-ignored) |
 
 ## Commands (Editor closed)
 ```bash
