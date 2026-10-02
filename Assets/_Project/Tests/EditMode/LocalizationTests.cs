@@ -44,6 +44,10 @@ namespace Farm.Tests
             expected.AddRange(WeatherCatalog.BuiltIn.Ids.Select(w => "weather." + w));
             expected.AddRange(InputNames.Rebindable.Select(a => "action." + a));
             expected.AddRange(new[] { "general", "blacksmith", "carpenter", "fish", "clinic", "library", "saloon", "merchant" }.Select(b => "business." + b));
+            expected.AddRange(new[] { "skills", "social", "calendar", "map", "journal", "crafting" }.Select(t => "menu.tab." + t));
+            expected.AddRange(MapIds.All.Concat(new[] { MapIds.Woods }).Select(m => "map." + m));
+            expected.AddRange(SkillIds.All.Select(sk => "skill." + sk));
+            expected.AddRange(NpcDefaults.CreateAll().Select(n => n.NameKey));
             expected.Add("shop.general.title");
             expected.Add("language.en");
             CollectionAssert.IsEmpty(expected.Where(k => !table.ContainsKey(k)).ToList());

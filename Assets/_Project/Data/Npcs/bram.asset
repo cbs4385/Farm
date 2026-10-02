@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adf4e23c079d524a9b66c2bf52543b3, type: 3}
+  m_Name: bram
+  m_EditorClassIdentifier: Farm.Data::Farm.Data.NpcDefinition
+  _id: bram
+  _nameKey: npc.bram.name
+  _birthdaySeason: 2
+  _birthdayDay: 4
+  _romanceable: 0
+  _allegiance: 
+  _homeMap: Blacksmith
+  _homeX: 6
+  _homeY: 3
+  _business: blacksmith
+  _down: {fileID: 21300000, guid: 86e42a43ce6a05143a962e095e39656a, type: 3}
+  _up: {fileID: 21300000, guid: 68a62a04e7820114984177301c699216, type: 3}
+  _left: {fileID: 21300000, guid: d20b9e2865e01ba42bd410e55cde2ce3, type: 3}
+  _right: {fileID: 21300000, guid: 19085b500c0b27748a90f987ca4373c6, type: 3}
+  _portrait: {fileID: 21300000, guid: c5df520c1a29db8438e6ba51eef9aa6d, type: 3}
+  _loved:
+  - forage.truffle
+  - forage.mushroom
+  _liked:
+  - resource.copperbar
+  - forage.hazelnut
+  - crop.potato
+  _disliked:
+  - forage.dandelion
+  - crop.kale
+  _lovedCategories: []
+  _dislikedCategories: []
+  _schedule:
+  - Id: rainy_day_off
+    Condition: weekday:mon && weather:rain
+    Priority: 10
+    Stops:
+    - Minute: 360
+      Map: Blacksmith
+      X: 6
+      Y: 3
+      Facing: down
+    - Minute: 1260
+      Map: Blacksmith
+      X: 6
+      Y: 3
+      Facing: down
+  - Id: day_off
+    Condition: weekday:mon
+    Priority: 5
+    Stops:
+    - Minute: 360
+      Map: Blacksmith
+      X: 6
+      Y: 3
+      Facing: down
+    - Minute: 600
+      Map: Forest
+      X: 19
+      Y: 10
+      Facing: up
+    - Minute: 840
+      Map: Village
+      X: 30
+      Y: 17
+      Facing: left
+    - Minute: 1080
+      Map: Saloon
+      X: 8
+      Y: 4
+      Facing: up
+    - Minute: 1260
+      Map: Blacksmith
+      X: 6
+      Y: 3
+      Facing: down
+  - Id: workday
+    Condition: 
+    Priority: 0
+    Stops:
+    - Minute: 360
+      Map: Blacksmith
+      X: 6
+      Y: 3
+      Facing: down
+    - Minute: 530
+      Map: Blacksmith
+      X: 6
+      Y: 4
+      Facing: down
+    - Minute: 1050
+      Map: Saloon
+      X: 8
+      Y: 4
+      Facing: up
+    - Minute: 1260
+      Map: Blacksmith
+      X: 6
+      Y: 3
+      Facing: down

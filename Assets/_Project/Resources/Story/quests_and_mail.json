@@ -1,0 +1,454 @@
+{
+  "quests": [
+    {
+      "id": "tut_farm",
+      "titleKey": "quest.tut_farm.title",
+      "descriptionKey": "quest.tut_farm.desc",
+      "category": "tutorial",
+      "autoStart": true,
+      "autoComplete": true,
+      "objectives": [
+        {
+          "text": "quest.tut_farm.o0",
+          "condition": "var:stat.tilled>=3"
+        },
+        {
+          "text": "quest.tut_farm.o1",
+          "condition": "var:stat.planted>=3"
+        },
+        {
+          "text": "quest.tut_farm.o2",
+          "condition": "var:stat.watered>=3"
+        }
+      ],
+      "rewards": [
+        "gold:50"
+      ]
+    },
+    {
+      "id": "tut_harvest",
+      "titleKey": "quest.tut_harvest.title",
+      "descriptionKey": "quest.tut_harvest.desc",
+      "category": "tutorial",
+      "autoStart": true,
+      "autoComplete": true,
+      "objectives": [
+        {
+          "text": "quest.tut_harvest.o0",
+          "condition": "var:stat.harvested>=1"
+        },
+        {
+          "text": "quest.tut_harvest.o1",
+          "condition": "var:stat.shipped>=1"
+        }
+      ],
+      "rewards": [
+        "gold:100",
+        "give:fertilizer.quality,3"
+      ],
+      "available": "quest:tut_farm=done"
+    },
+    {
+      "id": "tut_village",
+      "titleKey": "quest.tut_village.title",
+      "descriptionKey": "quest.tut_village.desc",
+      "category": "tutorial",
+      "autoStart": true,
+      "autoComplete": true,
+      "objectives": [
+        {
+          "text": "quest.tut_village.o0",
+          "condition": "flag:met.tilda"
+        }
+      ],
+      "rewards": [
+        "friend:tilda,50",
+        "give:seed.potato,5"
+      ],
+      "available": "quest:tut_farm=done"
+    },
+    {
+      "id": "tut_forage",
+      "titleKey": "quest.tut_forage.title",
+      "descriptionKey": "quest.tut_forage.desc",
+      "category": "tutorial",
+      "autoStart": true,
+      "autoComplete": true,
+      "objectives": [
+        {
+          "text": "quest.tut_forage.o0",
+          "condition": "var:stat.foraged>=3"
+        }
+      ],
+      "rewards": [
+        "gold:60"
+      ],
+      "available": "quest:tut_harvest=done"
+    },
+    {
+      "id": "tut_craft",
+      "titleKey": "quest.tut_craft.title",
+      "descriptionKey": "quest.tut_craft.desc",
+      "category": "tutorial",
+      "autoStart": true,
+      "autoComplete": true,
+      "objectives": [
+        {
+          "text": "quest.tut_craft.o0",
+          "condition": "var:stat.crafted>=1"
+        }
+      ],
+      "rewards": [
+        "xp:farming,20"
+      ],
+      "available": "quest:tut_harvest=done"
+    },
+    {
+      "id": "bram_stone",
+      "titleKey": "quest.bram_stone.title",
+      "descriptionKey": "quest.bram_stone.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.bram_stone.o0",
+          "condition": "has:resource.stone>=10",
+          "takeItem": "resource.stone",
+          "takeCount": 10
+        }
+      ],
+      "rewards": [
+        "gold:150",
+        "friend:bram,80"
+      ],
+      "giver": "bram"
+    }
+  ],
+  "letters": [
+    {
+      "id": "welcome",
+      "sender": "tilda",
+      "subjectKey": "letter.welcome.subject",
+      "bodyKey": "letter.welcome.body",
+      "effects": [
+        "gold:100"
+      ]
+    },
+    {
+      "id": "tilda_thanks",
+      "sender": "tilda",
+      "subjectKey": "letter.tilda_thanks.subject",
+      "bodyKey": "letter.tilda_thanks.body",
+      "condition": "quest:tut_village=done",
+      "effects": [
+        "give:seed.potato,10"
+      ]
+    },
+    {
+      "id": "bram_tools",
+      "sender": "bram",
+      "subjectKey": "letter.bram_tools.subject",
+      "bodyKey": "letter.bram_tools.body",
+      "condition": "hearts:bram>=2",
+      "effects": [
+        "give:resource.copperbar,1"
+      ]
+    },
+    {
+      "id": "ione_recipe",
+      "sender": "ione",
+      "subjectKey": "letter.ione_recipe.subject",
+      "bodyKey": "letter.ione_recipe.body",
+      "condition": "hearts:ione>=3",
+      "effects": [
+        "learn:cook_pumpkin_pie"
+      ]
+    },
+    {
+      "id": "summer_seeds",
+      "sender": "tilda",
+      "subjectKey": "letter.summer_seeds.subject",
+      "bodyKey": "letter.summer_seeds.body",
+      "condition": "season:summer"
+    }
+  ],
+  "boardJobs": [
+    {
+      "id": "jobs_0",
+      "items": [
+        "crop.parsnip",
+        "crop.potato",
+        "crop.kale",
+        "crop.cauliflower",
+        "crop.strawberry"
+      ],
+      "minCount": 2,
+      "maxCount": 5,
+      "rewardPercent": 250,
+      "condition": "season:spring"
+    },
+    {
+      "id": "jobs_1",
+      "items": [
+        "crop.tomato",
+        "crop.melon",
+        "crop.pepper",
+        "crop.radish",
+        "crop.blueberry"
+      ],
+      "minCount": 2,
+      "maxCount": 5,
+      "rewardPercent": 250,
+      "condition": "season:summer"
+    },
+    {
+      "id": "jobs_2",
+      "items": [
+        "crop.pumpkin",
+        "crop.yam",
+        "crop.beet",
+        "crop.eggplant",
+        "crop.cranberry"
+      ],
+      "minCount": 2,
+      "maxCount": 5,
+      "rewardPercent": 250,
+      "condition": "season:fall"
+    },
+    {
+      "id": "jobs_3",
+      "items": [
+        "forage.winterroot",
+        "forage.snowdrop",
+        "resource.wood",
+        "resource.stone"
+      ],
+      "minCount": 2,
+      "maxCount": 5,
+      "rewardPercent": 250,
+      "condition": "season:winter"
+    },
+    {
+      "id": "jobs_4",
+      "items": [
+        "forage.mushroom",
+        "forage.hazelnut",
+        "artisan.jam",
+        "artisan.pickles"
+      ],
+      "minCount": 2,
+      "maxCount": 5,
+      "rewardPercent": 250
+    }
+  ],
+  "randomEvents": [
+    {
+      "id": "crows",
+      "weight": 8,
+      "textKey": "random.crows",
+      "mood": "bad",
+      "effects": [
+        "crows:3"
+      ],
+      "seasons": "Spring,Summer,Fall"
+    },
+    {
+      "id": "found_coins",
+      "weight": 10,
+      "textKey": "random.found_coins",
+      "mood": "good",
+      "effects": [
+        "gold:80"
+      ]
+    },
+    {
+      "id": "lost_purse",
+      "weight": 10,
+      "textKey": "random.lost_purse",
+      "mood": "bad",
+      "effects": [
+        "gold:-40"
+      ]
+    },
+    {
+      "id": "wild_seeds_spring",
+      "weight": 10,
+      "textKey": "random.wild_seeds_spring",
+      "mood": "good",
+      "effects": [
+        "give:seed.potato,3"
+      ],
+      "seasons": "Spring"
+    },
+    {
+      "id": "wild_seeds_summer",
+      "weight": 10,
+      "textKey": "random.wild_seeds_summer",
+      "mood": "good",
+      "effects": [
+        "give:seed.tomato,3"
+      ],
+      "seasons": "Summer"
+    },
+    {
+      "id": "wild_seeds_fall",
+      "weight": 10,
+      "textKey": "random.wild_seeds_fall",
+      "mood": "good",
+      "effects": [
+        "give:seed.pumpkin,2"
+      ],
+      "seasons": "Fall"
+    },
+    {
+      "id": "winter_gift",
+      "weight": 10,
+      "textKey": "random.winter_gift",
+      "mood": "good",
+      "effects": [
+        "give:forage.winterroot,2"
+      ],
+      "seasons": "Winter"
+    },
+    {
+      "id": "fence",
+      "weight": 10,
+      "textKey": "random.fence",
+      "mood": "bad",
+      "effects": [
+        "gold:-60"
+      ],
+      "condition": "weather:storm"
+    },
+    {
+      "id": "quiet_night",
+      "weight": 10,
+      "textKey": "random.quiet_night",
+      "mood": "neutral",
+      "effects": [
+        "xp:farming,10"
+      ]
+    },
+    {
+      "id": "dream",
+      "weight": 10,
+      "textKey": "random.dream",
+      "mood": "neutral",
+      "effects": []
+    }
+  ],
+  "events": [
+    {
+      "id": "tilda_heart2",
+      "trigger": "map",
+      "map": "GeneralStore",
+      "priority": 5,
+      "condition": "hearts:tilda>=2 && !weekday:sun && hour>=9 && hour<17",
+      "steps": [
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.tilda_heart2.0"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 7,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.tilda_heart2.1"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "learn:cook_gratin",
+            "friend:tilda,50",
+            "flag:event.tilda_heart2"
+          ]
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "id": "bram.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "bram",
+          "text": "dlg.bram.ask.1",
+          "choices": [
+            {
+              "text": "dlg.bram.ask.c0",
+              "effects": [
+                "quest.start:bram_stone"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.bram.ask.c1",
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "bram",
+          "text": "dlg.bram.ask.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "bram",
+          "text": "dlg.bram.ask.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "bram.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.turnin.0",
+          "effects": [
+            "quest.done:bram_stone"
+          ]
+        }
+      ]
+    }
+  ],
+  "sets": []
+}

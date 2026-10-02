@@ -44,6 +44,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
+            session.Story = new StoryContent();      // no letters, quests or random events: these tests are about fatigue
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;

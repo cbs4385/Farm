@@ -38,6 +38,7 @@ namespace Farm.Gameplay
             PlacePlayer(_session.State.SpawnPoint);
 
             if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
+            _session.RunSpawns(_map.MapId, SpawnCandidates);
             _view.Bind(_session.GetGrid(_map.MapId), _session.Db, _session.GetNodes(_map.MapId), _session.Nodes);
 
             _camera.SetTarget(_player.transform);
@@ -53,6 +54,14 @@ namespace Farm.Gameplay
             {
                 MapId = _map.MapId, Session = _session, Map = _map, View = _view, Player = _player, Camera = _camera,
             });
+
+            // Chests, machines, sprinklers and scarecrows the player has placed here.
+            new GameObject("PlacedObjects").AddComponent<PlacedObjectsView>().Init(_map, _session);
+
+            // Villagers whose schedule puts them on this map (they walk in and out as the clock runs).
+            var npcs = new GameObject("Npcs").AddComponent<NpcManager>();
+            npcs.Init(_map, _session);
+            new GameObject("Events").AddComponent<EventDirector>().Init(_map, _session, npcs, _player);
 
             // Outdoor maps show the day's weather (rain, snow, wind...) drawn from its WeatherDefinition.
             var lighting = FindFirstObjectByType<DayNightLighting>();
@@ -128,24 +137,47 @@ namespace Farm.Gameplay
             _view.RefreshAll();
         }
 
-        // Cells where starting clutter may grow: open grass or dirt, away from doors, spawns and anything usable.
-        System.Collections.Generic.IEnumerable<(int x, int y)> ClutterCandidates()
+        // Free cells a spawn table may use: its ground tiles, away from doors, spawn points and anything usable.
+        System.Collections.Generic.IReadOnlyList<(int x, int y)> SpawnCandidates(Farm.Data.SpawnTableDefinition table)
+        {
+            var keepClear = KeepClearCells();
+            var grid = _session.GetGrid(_map.MapId);
+            var cells = new System.Collections.Generic.List<(int x, int y)>();
+            foreach (var cell in _map.CellsOn(table.GroundTiles))
+            {
+                if (grid.IsTilled(cell.x, cell.y) || NearAny(keepClear, cell, 3)) continue;
+                cells.Add((cell.x, cell.y));
+            }
+            return cells;
+        }
+
+        System.Collections.Generic.List<Vector3Int> KeepClearCells()
         {
             var keepClear = new System.Collections.Generic.List<Vector3Int>();
             foreach (var w in FindObjectsByType<Warp>(FindObjectsSortMode.None)) keepClear.Add(_map.WorldToCell(w.transform.position));
             foreach (var s in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None)) keepClear.Add(_map.WorldToCell(s.transform.position));
             foreach (var u in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
                 if (u is IInteractable) keepClear.Add(_map.WorldToCell(u.transform.position));
+            return keepClear;
+        }
 
+        static bool NearAny(System.Collections.Generic.List<Vector3Int> points, Vector3Int cell, int radius)
+        {
+            foreach (var k in points)
+                if (Mathf.Abs(k.x - cell.x) <= radius && Mathf.Abs(k.y - cell.y) <= radius) return true;
+            return false;
+        }
+
+        // Cells where starting clutter may grow: open grass or dirt, away from doors, spawns and anything usable.
+        System.Collections.Generic.IEnumerable<(int x, int y)> ClutterCandidates()
+        {
+            var keepClear = KeepClearCells();
             var grid = _session.GetGrid(_map.MapId);
             _map.Ground.CompressBounds();
             foreach (var cell in _map.Ground.cellBounds.allPositionsWithin)
             {
                 if (!_map.IsOpenGround(cell) || grid.IsTilled(cell.x, cell.y)) continue;
-                var near = false;
-                foreach (var k in keepClear)
-                    if (Mathf.Abs(k.x - cell.x) <= 3 && Mathf.Abs(k.y - cell.y) <= 3) { near = true; break; }
-                if (!near) yield return (cell.x, cell.y);
+                if (!NearAny(keepClear, cell, 3)) yield return (cell.x, cell.y);
             }
         }
 

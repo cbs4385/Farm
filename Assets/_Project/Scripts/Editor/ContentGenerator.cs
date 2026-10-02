@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Farm.Data;
+using Farm.Gameplay;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,25 +18,12 @@ namespace Farm.Editor
         const string WeatherDir = Root + "/Data/Weather";
         const string NodeDir = Root + "/Data/Nodes";
         const string UpgradeDir = Root + "/Data/Upgrades";
+        const string SpawnDir = Root + "/Data/Spawns";
+        const string NpcDir = Root + "/Data/Npcs";
+        const string RecipeDir = Root + "/Data/Recipes";
+        const string PlaceableDir = Root + "/Data/Placeables";
         const string DbPath = Root + "/Resources/GameDatabase.asset";
         const string ArtDir = Root + "/Art/Placeholders";
-
-        struct CropRow
-        {
-            public string Id; public int[] Days; public SeasonMask Seasons; public int Regrow;
-            public int SeedPrice; public int SellPrice;
-        }
-
-        // growth stages must match PlaceholderArtGenerator.Crops
-        static readonly CropRow[] CropTable =
-        {
-            new CropRow { Id = "parsnip",     Days = new[] { 1, 1, 1, 1 },    Seasons = SeasonMask.Spring, SeedPrice = 20, SellPrice = 35 },
-            new CropRow { Id = "potato",      Days = new[] { 1, 1, 1, 2, 1 }, Seasons = SeasonMask.Spring, SeedPrice = 50, SellPrice = 80 },
-            new CropRow { Id = "cauliflower", Days = new[] { 2, 4, 4, 2 },    Seasons = SeasonMask.Spring, SeedPrice = 80, SellPrice = 175 },
-            new CropRow { Id = "greenbean",   Days = new[] { 1, 1, 1, 3, 4 }, Seasons = SeasonMask.Spring, Regrow = 3, SeedPrice = 60, SellPrice = 40 },
-            new CropRow { Id = "strawberry",  Days = new[] { 1, 1, 2, 2, 2 }, Seasons = SeasonMask.Spring, Regrow = 4, SeedPrice = 100, SellPrice = 120 },
-            new CropRow { Id = "kale",        Days = new[] { 1, 2, 2, 1 },    Seasons = SeasonMask.Spring, SeedPrice = 70, SellPrice = 110 },
-        };
 
         [MenuItem("Farm/Setup/Generate Content")]
         public static void GenerateAll()
@@ -46,6 +34,10 @@ namespace Farm.Editor
             Directory.CreateDirectory(WeatherDir);
             Directory.CreateDirectory(NodeDir);
             Directory.CreateDirectory(UpgradeDir);
+            Directory.CreateDirectory(SpawnDir);
+            Directory.CreateDirectory(NpcDir);
+            Directory.CreateDirectory(RecipeDir);
+            Directory.CreateDirectory(PlaceableDir);
             Directory.CreateDirectory(Path.GetDirectoryName(DbPath));
 
             var items = new List<ItemDefinition>();
@@ -64,34 +56,55 @@ namespace Farm.Editor
             Save(items, ItemDefinition.Create(ItemIds.GoldBar, ItemCategory.Resource, sellPrice: 250, icon: Sprite("item_resource_goldbar")));
             Save(items, ItemDefinition.Create(ItemIds.Fiber, ItemCategory.Resource, sellPrice: 1, icon: Sprite("item_resource_fiber")));
 
-            foreach (var row in CropTable)
+            foreach (var row in ForageDefaults.Rows)
+                Save(items, ItemDefinition.Create(row.ItemId, ItemCategory.Forage, sellPrice: row.Price, icon: Sprite("item_forage_" + row.Id)));
+
+            foreach (var row in CropDefaults.Rows)
             {
-                var sprites = Enumerable.Range(0, row.Days.Length + 1).Select(i => Sprite($"crop_{row.Id}_{i}")).ToArray();
-                SaveCrop(crops, CropDefinition.Create(row.Id, row.Days, row.Seasons, row.Regrow, sprites));
+                var sprites = Enumerable.Range(0, row.Stages + 1).Select(i => Sprite($"crop_{row.Id}_{i}")).ToArray();
+                var crop = CropDefinition.Create(row.Id, row.Days, row.Seasons, row.Regrow, sprites).WithKind(row.Kind);
+                if (row.IsTree) crop.AsTree(row.Seasons);
+                SaveCrop(crops, crop);
+                // Seeds are sold only while they can be planted (saplings any time).
                 Save(items, ItemDefinition.Create(ItemIds.Seed(row.Id), ItemCategory.Seed, buyPrice: row.SeedPrice,
-                    cropId: row.Id, icon: Sprite($"item_seed_{row.Id}"), soldIn: new[] { "general" }));
+                    cropId: row.Id, icon: Sprite($"item_seed_{row.Id}"), soldIn: new[] { "general" },
+                    saleCondition: row.IsTree ? null : CropDefaults.SeasonCondition(row.Seasons)));
                 Save(items, ItemDefinition.Create(ItemIds.Crop(row.Id), ItemCategory.Crop, sellPrice: row.SellPrice,
                     icon: Sprite($"item_crop_{row.Id}")));
             }
 
+            // Crafting: ore, machines, artisan goods, dishes, fertilizer.
+            foreach (var row in CraftingDefaults.CreateItems())
+                Save(items, ItemDefinition.Create(row.Id, row.Category, sellPrice: row.Sell, buyPrice: row.Buy, energyRestore: row.Energy,
+                    icon: Sprite(row.IconName), soldIn: row.SoldIn, placeableId: row.PlaceableId));
+
             var weather = WeatherDefaults.CreateAll().Select(SaveWeather).ToList();
             var nodes = NodeDefaults.CreateAll().Select(SaveNode).ToList();
             var upgrades = UpgradeDefaults.CreateAll().Select(SaveUpgrade).ToList();
+            var spawns = ForageDefaults.CreateTables().Select(SaveSpawnTable).ToList();
+            var npcs = NpcDefaults.CreateAll().Select(SaveNpc).ToList();
+            var placeables = CraftingDefaults.CreatePlaceables().Select(SavePlaceable).ToList();
+            var recipes = CraftingDefaults.CreateRecipes().Select(SaveRecipe).ToList();
 
             var db = AssetDatabase.LoadAssetAtPath<GameDatabase>(DbPath);
             if (db == null)
             {
-                db = GameDatabase.Create(items, crops, weather, nodes, upgrades);
+                db = GameDatabase.Create(items, crops, weather, nodes, upgrades, spawns);
                 AssetDatabase.CreateAsset(db, DbPath);
             }
             else
             {
-                db.SetContents(items, crops, weather, nodes, upgrades);
+                db.SetContents(items, crops, weather, nodes, upgrades, spawns);
                 EditorUtility.SetDirty(db);
             }
 
+            db.SetNpcs(npcs);
+            db.SetPlaceables(placeables);
+            db.SetRecipes(recipes);
+            EditorUtility.SetDirty(db);
+
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers, {nodes.Count} resource nodes, {upgrades.Count} upgrades.");
+            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers, {nodes.Count} resource nodes, {upgrades.Count} upgrades, {spawns.Count} spawn tables, {npcs.Count} npcs, {recipes.Count} recipes, {placeables.Count} placeables.");
         }
 
         public static void GenerateAllAndExit()
@@ -119,6 +132,38 @@ namespace Farm.Editor
         {
             var path = $"{WeatherDir}/{fresh.Id}.asset";
             var existing = AssetDatabase.LoadAssetAtPath<WeatherDefinition>(path);
+            if (existing != null)
+            {
+                Object.DestroyImmediate(fresh);
+                return existing;
+            }
+            AssetDatabase.CreateAsset(fresh, path);
+            return fresh;
+        }
+
+        // Villagers: schedules, tastes and birthdays are written in NpcDefaults and applied on every run; the sprites are
+        // looked up by name.
+        static NpcDefinition SaveNpc(NpcDefinition fresh)
+        {
+            fresh.SetSprites(Sprite($"npc_{fresh.Id}_idle_down"), Sprite($"npc_{fresh.Id}_idle_up"),
+                Sprite($"npc_{fresh.Id}_idle_left"), Sprite($"npc_{fresh.Id}_idle_right"), Sprite($"ui_portrait_{fresh.Id}"));
+            return Persist(fresh, $"{NpcDir}/{fresh.Id}.asset");
+        }
+
+        // Recipes and placeables are written in CraftingDefaults and applied on every run.
+        static RecipeDefinition SaveRecipe(RecipeDefinition fresh) => Persist(fresh, $"{RecipeDir}/{fresh.Id}.asset");
+
+        static PlaceableDefinition SavePlaceable(PlaceableDefinition fresh)
+        {
+            fresh.SetSprite(Sprite("obj_" + fresh.Id));
+            return Persist(fresh, $"{PlaceableDir}/{fresh.Id}.asset");
+        }
+
+        // Spawn tables are tuned in the inspector: an existing asset is kept.
+        static SpawnTableDefinition SaveSpawnTable(SpawnTableDefinition fresh)
+        {
+            var path = $"{SpawnDir}/{fresh.Id}.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<SpawnTableDefinition>(path);
             if (existing != null)
             {
                 Object.DestroyImmediate(fresh);

@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+
+namespace Farm.Gameplay
+{
+    // Data classes for story JSON (ADR 0003). All text fields are string-table keys; every Condition is a
+    // condition expression and every effect an effect string (see Effects).
+
+    [Serializable]
+    public sealed class QuestObjective
+    {
+        public string Text;                 // key shown in the journal
+        public string Condition;            // done while it holds, e.g. "has:crop.parsnip>=5" or "flag:x"
+        public string TakeItem;             // handed over (removed) when the quest is turned in
+        public int TakeCount;
+    }
+
+    [Serializable]
+    public sealed class QuestDefinition
+    {
+        public string Id;
+        public string TitleKey;
+        public string DescriptionKey;
+        public string Category = "story";   // story, tutorial, board
+        public string Giver;                // npc id (display only)
+        public string Available;            // condition: the quest can be started / is offered
+        public bool AutoStart;              // starts by itself as soon as Available holds (tutorial chain)
+        public bool AutoComplete;           // completes by itself when every objective holds
+        public bool Repeatable;
+        public List<QuestObjective> Objectives = new List<QuestObjective>();
+        public List<string> OnStart = new List<string>();
+        public List<string> Rewards = new List<string>();   // effects run on completion
+    }
+
+    [Serializable]
+    public sealed class LetterDefinition
+    {
+        public string Id;
+        public string Condition;            // the letter arrives in the mailbox once this holds (at dawn)
+        public string Sender;               // npc id, or empty
+        public string SubjectKey;
+        public string BodyKey;
+        public List<string> Effects = new List<string>();   // run when the letter is taken from the mailbox (gifts, quests)
+    }
+
+    [Serializable]
+    public sealed class EventStep
+    {
+        public string Type;                 // say, dialogue, move, face, wait, advance, fadeout, fadein, effects, place
+        public string Actor;                // "player" or an npc id
+        public string Speaker;              // for say
+        public string Text;                 // key, for say
+        public string Dialogue;             // dialogue id, for dialogue
+        public int X, Y;
+        public string Facing;               // up, down, left, right
+        public float Seconds;               // for wait, and the length of a fade
+        public int Minutes;                 // for advance: game minutes the clock moves on
+        public List<string> Effects = new List<string>();
+    }
+
+    [Serializable]
+    public sealed class EventDefinition
+    {
+        public string Id;
+        public string Trigger = "map";      // map (on entering Map), dawn (picked in the morning), manual (effect "event:<id>")
+        public string Map;
+        public string Condition;
+        public bool Once = true;
+        public bool RunClock;               // keep the clock running during the scene (timed scenes use "advance" steps)
+        public int Priority;
+        public List<EventStep> Steps = new List<EventStep>();
+        public List<string> SkipEffects = new List<string>();   // run if the player skips the scene and these were not run
+    }
+
+    // A seasonal random event drawn at dawn from a weighted table (weights can be shifted by a hook and by luck).
+    [Serializable]
+    public sealed class RandomEventDefinition
+    {
+        public string Id;
+        public float Weight = 10f;
+        public string Seasons;              // "spring,summer"; empty = all
+        public string Condition;
+        public string TextKey;              // shown in the day summary
+        public string Mood = "neutral";     // good, bad or neutral: luck shifts weight toward good (or bad) events
+        public List<string> Effects = new List<string>();
+    }
+
+    // A template for a help-wanted board job: bring N of one of these items for a reward.
+    [Serializable]
+    public sealed class BoardJobTemplate
+    {
+        public string Id;
+        public List<string> Items = new List<string>();
+        public int MinCount = 1;
+        public int MaxCount = 3;
+        public int RewardPercent = 250;     // of the items' total sell price
+        public string Condition;
+    }
+}

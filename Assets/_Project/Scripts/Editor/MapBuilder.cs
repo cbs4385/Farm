@@ -22,6 +22,8 @@ namespace Farm.Editor
         // Farm: 44 x 32 cells. House block at x 4..11, y 20..24, door at (7, 20). The east edge opens onto the village.
         const int FarmW = 44, FarmH = 32;
         const int HouseX0 = 4, HouseX1 = 11, HouseY0 = 20, HouseY1 = 24, DoorX = 7;
+        // The greenhouse stands beside the house; its door is locked until the carpenter has built it.
+        const int GhX0 = 15, GhX1 = 23, GhY0 = 20, GhY1 = 24, GhDoorX = 19;
         const int FarmExitY0 = 14, FarmExitY1 = 16;
 
         // FarmHouse interior: 12 x 9 cells.
@@ -63,6 +65,7 @@ namespace Farm.Editor
             Directory.CreateDirectory(TileDir);
             BuildFarm();
             BuildFarmHouse();
+            BuildGreenhouse();
             BuildVillage();
             BuildForest();
             BuildBeach();
@@ -84,7 +87,7 @@ namespace Farm.Editor
             });
             BuildInterior(MapIds.Carpenter, 10, 8, 4, new[]
             {
-                new Prop("Counter1", "obj_counter", 3, 4), new Prop("Counter2", "obj_counter", 4, 4), new Prop("Counter3", "obj_counter", 5, 4),
+                new Prop("Counter1", "obj_counter", 3, 4), new Prop("Counter2", "obj_counter", 4, 4, upgradesAt: "carpenter"), new Prop("Counter3", "obj_counter", 5, 4),
                 new Prop("Shelf1", "obj_shelf", 1, 6), new Prop("Shelf2", "obj_shelf", 2, 6), new Prop("Bench", "obj_table", 7, 5),
                 new Prop("Bench2", "obj_table", 8, 5), new Prop("Planks", "obj_bin", 8, 2),
             });
@@ -128,15 +131,21 @@ namespace Farm.Editor
                     var exit = x == FarmW - 1 && y >= FarmExitY0 && y <= FarmExitY1;
                     var edge = (x == 0 || y == 0 || x == FarmW - 1 || y == FarmH - 1) && !exit;
                     var house = x >= HouseX0 && x <= HouseX1 && y >= HouseY0 && y <= HouseY1 && !(x == DoorX && y == HouseY0);
-                    if (edge || house) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
+                    var greenhouse = x >= GhX0 && x <= GhX1 && y >= GhY0 && y <= GhY1 && !(x == GhDoorX && y == GhY0);
+                    if (edge || house || greenhouse) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(greenhouse && y == GhY1 ? "tile_roof" : "tile_wall"));
                 }
             rig.Ground.SetTile(new Vector3Int(DoorX, HouseY0, 0), GetTile("tile_floor_wood"));
+            rig.Ground.SetTile(new Vector3Int(GhDoorX, GhY0, 0), GetTile("tile_door"));
 
             AddSpawn("default", Center(DoorX, HouseY0 - 3));
             AddSpawn("fromHouse", Center(DoorX, HouseY0 - 2));
             AddSpawn("fromVillage", Center(FarmW - 3, 15));
+            AddSpawn("fromGreenhouse", Center(GhDoorX, GhY0 - 2));
             AddWarp(Center(DoorX, HouseY0), MapIds.FarmHouse, "default");
+            AddWarp(Center(GhDoorX, GhY0), MapIds.Greenhouse, "default", condition: "flag:" + MapIds.GreenhouseFlag, blockedKey: "greenhouse.locked");
             AddWarp(Center(FarmW - 1, 15), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
+
+            AddObject("Mailbox", "obj_mailbox", Center(10, 19), solid: true).AddComponent<Mailbox>();
 
             // The shipping bin stays on the farm; the general store now lives in the village.
             var bin = AddObject("ShippingBin", "obj_bin", Center(13, 17), solid: true);
@@ -168,7 +177,35 @@ namespace Farm.Editor
             var bed = AddObject("Bed", "obj_bed", Center(2, 6), solid: true);
             bed.AddComponent<Bed>();
 
+            // The kitchen: cook with what is in the backpack.
+            var kitchen = AddObject("Kitchen", "obj_kitchen", Center(9, 7), solid: true);
+            kitchen.AddComponent<Kitchen>();
+
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.FarmHouse}.unity");
+        }
+
+        // ---- Greenhouse ---------------------------------------------------------------------------------------
+
+        const int GreenW = 16, GreenH = 10;
+
+        static void BuildGreenhouse()
+        {
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            var rig = CreateMapRig(MapIds.Greenhouse, indoor: true, allowFarming: true);
+
+            for (var y = 0; y < GreenH; y++)
+                for (var x = 0; x < GreenW; x++)
+                {
+                    var door = y == 0 && x == 7;
+                    var edge = x == 0 || y == 0 || x == GreenW - 1 || y == GreenH - 1;
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(door ? "tile_floor_wood" : "tile_dirt"));
+                    if (edge && !door) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
+                }
+
+            AddSpawn("default", Center(7, 2));
+            AddWarp(Center(7, 0), MapIds.Farm, "fromGreenhouse");
+
+            EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Greenhouse}.unity");
         }
 
         // ---- Village ------------------------------------------------------------------------------------------
@@ -208,6 +245,7 @@ namespace Farm.Editor
             AddWarp(Center(25, 0), MapIds.Beach, "fromVillage", new Vector2(3f, 1f));
 
             foreach (var b in Buildings) PlaceBuilding(rig, b);
+            AddObject("HelpWantedBoard", "obj_board", Center(22, 19), solid: true).AddComponent<HelpWantedBoard>();
 
             // A few trees at the corners so the village is not a bare lawn.
             foreach (var t in new[] { new Vector2Int(3, 31), new Vector2Int(46, 33), new Vector2Int(3, 3), new Vector2Int(46, 3), new Vector2Int(20, 4), new Vector2Int(30, 33) })

@@ -29,6 +29,8 @@ namespace Farm.Gameplay
         public InputAction HotbarPrev => Gameplay[InputNames.HotbarPrev];
         public InputAction Inventory => Gameplay[InputNames.Inventory];
         public InputAction Pause => Gameplay[InputNames.Pause];
+        public InputAction Menu => Gameplay[InputNames.Menu];
+        public InputAction Journal => Gameplay[InputNames.Journal];
 
         // Ref-counted so overlapping menus do not re-enable gameplay input prematurely.
         int _gameplayBlockers;

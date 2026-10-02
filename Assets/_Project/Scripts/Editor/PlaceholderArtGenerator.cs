@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Farm.Data;
+using Farm.Gameplay;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,21 +15,18 @@ namespace Farm.Editor
     {
         const string OutDir = "Assets/_Project/Art/Placeholders";
 
-        public readonly struct CropArt
+        public readonly struct NpcArt
         {
-            public readonly string Name; public readonly int Stages; public readonly Color Color;
-            public CropArt(string name, int stages, Color color) { Name = name; Stages = stages; Color = color; }
+            public readonly string Id; public readonly Color Body, Hair;
+            public NpcArt(string id, Color body, Color hair) { Id = id; Body = body; Hair = hair; }
         }
 
-        // Stage counts must match the crop growth tables in ContentGenerator.
-        public static readonly CropArt[] Crops =
+        // One distinct colour scheme per villager (placeholder art).
+        public static readonly NpcArt[] Npcs =
         {
-            new CropArt("parsnip", 4, new Color(0.93f, 0.85f, 0.65f)),
-            new CropArt("potato", 5, new Color(0.72f, 0.55f, 0.32f)),
-            new CropArt("cauliflower", 4, new Color(0.94f, 0.94f, 0.88f)),
-            new CropArt("greenbean", 5, new Color(0.35f, 0.75f, 0.30f)),
-            new CropArt("strawberry", 5, new Color(0.90f, 0.22f, 0.28f)),
-            new CropArt("kale", 4, new Color(0.20f, 0.50f, 0.30f)),
+            new NpcArt("tilda", new Color(0.30f, 0.62f, 0.38f), new Color(0.50f, 0.28f, 0.15f)),
+            new NpcArt("bram", new Color(0.35f, 0.36f, 0.42f), new Color(0.12f, 0.10f, 0.10f)),
+            new NpcArt("ione", new Color(0.58f, 0.40f, 0.75f), new Color(0.90f, 0.80f, 0.45f)),
         };
 
         static readonly Color Clear = new Color(0, 0, 0, 0);
@@ -58,15 +58,18 @@ namespace Farm.Editor
             {
                 Character(written, $"player_idle_{dir}", new Color(0.25f, 0.45f, 0.85f), dir);
                 Character(written, $"npc_generic_idle_{dir}", new Color(0.85f, 0.45f, 0.25f), dir);
+                foreach (var npc in Npcs)
+                    Character(written, $"npc_{npc.Id}_idle_{dir}", npc.Body, dir, npc.Hair);
             }
+            foreach (var npc in Npcs) Portrait(written, $"ui_portrait_{npc.Id}", npc.Body, npc.Hair);
 
             // Crops: <stages + 1> growth sprites each, plus seed and harvest item icons (16x16)
-            foreach (var crop in Crops)
+            foreach (var crop in CropDefaults.Rows)
             {
                 for (int stage = 0; stage <= crop.Stages; stage++)
-                    Crop(written, $"crop_{crop.Name}_{stage}", stage, crop.Stages, crop.Color);
-                Item(written, $"item_seed_{crop.Name}", Color.Lerp(crop.Color, new Color(0.85f, 0.78f, 0.45f), 0.6f));
-                Item(written, $"item_crop_{crop.Name}", crop.Color);
+                    Crop(written, $"crop_{crop.Id}_{stage}", stage, crop.Stages, crop.Color);
+                Item(written, $"item_seed_{crop.Id}", Color.Lerp(crop.Color, new Color(0.85f, 0.78f, 0.45f), 0.6f));
+                Item(written, $"item_crop_{crop.Id}", crop.Color);
             }
 
             // Items (16x16)
@@ -83,6 +86,21 @@ namespace Farm.Editor
             Item(written, "item_resource_copperbar", new Color(0.80f, 0.50f, 0.30f));
             Item(written, "item_resource_ironbar", new Color(0.62f, 0.64f, 0.70f));
             Item(written, "item_resource_goldbar", new Color(0.95f, 0.80f, 0.25f));
+
+            // Forage: the item icon and the thing on the ground, per wild plant
+            foreach (var row in ForageDefaults.Rows)
+            {
+                Item(written, $"item_forage_{row.Id}", row.Color);
+                WorldObject(written, $"obj_{row.Id}", Color.Lerp(row.Color, new Color(0.2f, 0.45f, 0.2f), 0.45f), row.Color);
+            }
+
+            // Crafting items and the objects they place
+            foreach (var row in CraftingDefaults.CreateItems()) Item(written, row.IconName, row.Color);
+            foreach (var id in CraftingDefaults.PlaceableIds)
+                WorldObject(written, "obj_" + id, CraftingDefaults.CreateItems().First(r => r.PlaceableId == id).Color, new Color(0.9f, 0.85f, 0.7f));
+            WorldObject(written, "obj_mailbox", new Color(0.30f, 0.40f, 0.65f), new Color(0.85f, 0.30f, 0.25f));
+            WorldObject(written, "obj_board", new Color(0.55f, 0.38f, 0.20f), new Color(0.90f, 0.85f, 0.65f));
+            WorldObject(written, "obj_kitchen", new Color(0.75f, 0.72f, 0.68f), new Color(0.85f, 0.45f, 0.30f));
 
             // World objects (16x16)
             WorldObject(written, "obj_bin", new Color(0.55f, 0.36f, 0.20f), new Color(0.35f, 0.22f, 0.12f));
@@ -154,21 +172,34 @@ namespace Farm.Editor
             Save(written, name, t);
         }
 
-        static void Character(List<string> written, string name, Color body, string dir)
+        static void Portrait(List<string> written, string name, Color body, Color hair)
+        {
+            var t = NewTex(32, 32);
+            var skin = new Color(0.95f, 0.78f, 0.62f);
+            Rect(t, 4, 0, 24, 12, body);
+            Rect(t, 8, 8, 16, 18, skin);
+            Rect(t, 6, 20, 20, 10, hair);
+            Rect(t, 11, 14, 3, 3, Outline); Rect(t, 18, 14, 3, 3, Outline);
+            Rect(t, 13, 10, 6, 1, Outline);
+            Save(written, name, t);
+        }
+
+        static void Character(List<string> written, string name, Color body, string dir, Color? hairColor = null)
         {
             var t = NewTex(16, 32);
             var skin = new Color(0.95f, 0.78f, 0.62f);
+            var hair = hairColor ?? new Color(0.30f, 0.20f, 0.12f);
             Rect(t, 4, 0, 8, 12, body);              // legs/body
             Rect(t, 3, 12, 10, 8, body);             // torso
             Rect(t, 4, 20, 8, 8, skin);              // head
-            Rect(t, 4, 26, 8, 3, new Color(0.30f, 0.20f, 0.12f)); // hair
+            Rect(t, 4, 26, 8, 3, hair); // hair
             // facing marker: eyes/back/side
             switch (dir)
             {
                 case "down": Rect(t, 5, 22, 2, 2, Outline); Rect(t, 9, 22, 2, 2, Outline); break;
                 case "left": Rect(t, 4, 22, 2, 2, Outline); break;
                 case "right": Rect(t, 10, 22, 2, 2, Outline); break;
-                case "up": Rect(t, 4, 20, 8, 3, new Color(0.30f, 0.20f, 0.12f)); break;
+                case "up": Rect(t, 4, 20, 8, 3, hair); break;
             }
             Save(written, name, t);
         }

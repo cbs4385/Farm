@@ -3,7 +3,8 @@ using Farm.Core;
 
 namespace Farm.Data
 {
-    public enum ItemCategory { Misc = 0, Seed, Crop, Forage, Fish, Resource, Tool, Food, Artisan }
+    // Append only: the numbers are saved in item assets.
+    public enum ItemCategory { Misc = 0, Seed, Crop, Forage, Fish, Resource, Tool, Food, Artisan, Machine, Fertilizer }
 
     public enum ToolType { None = 0, Hoe, WateringCan, Axe, Pickaxe, Scythe, Rod }
 

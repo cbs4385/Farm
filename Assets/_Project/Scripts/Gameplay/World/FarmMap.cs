@@ -24,6 +24,7 @@ namespace Farm.Gameplay
         public Tilemap Soil => _soil;
         public Tilemap Crops => _crops;
         public Tilemap Nodes => _nodes;
+        public Tilemap Walls => _walls;
         public float ClutterDensity { get => _clutterDensity; set => _clutterDensity = value; }
 
         // Grass or dirt with no wall tile on it (does not depend on physics colliders having been built yet).
@@ -52,6 +53,29 @@ namespace Farm.Gameplay
                 bounds.SetMinMax(min, max);
                 return bounds;
             }
+        }
+
+        // Ground cells whose tile is one of `tileNames`, with no wall tile on them.
+        public IEnumerable<Vector3Int> CellsOn(IReadOnlyCollection<string> tileNames)
+        {
+            _ground.CompressBounds();
+            foreach (var cell in _ground.cellBounds.allPositionsWithin)
+            {
+                var tile = _ground.GetTile(cell);
+                if (tile == null || !System.Linq.Enumerable.Contains(tileNames, tile.name)) continue;
+                if (_walls != null && _walls.GetTile(cell) != null) continue;
+                yield return cell;
+            }
+        }
+
+        // Any floor (not only farmland) with no wall tile and nothing solid on it: chests, machines and the like may go here.
+        public bool CanPlaceAt(Vector3Int cell)
+        {
+            if (_ground.GetTile(cell) == null) return false;
+            if (_walls != null && _walls.GetTile(cell) != null) return false;
+            foreach (var h in Physics2D.OverlapPointAll(CellCenter(cell)))
+                if (!h.isTrigger && !h.CompareTag("Player")) return false;
+            return true;
         }
 
         public bool IsTillable(Vector3Int cell)

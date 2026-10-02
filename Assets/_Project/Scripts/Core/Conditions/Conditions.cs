@@ -37,6 +37,7 @@ namespace Farm.Core
 
         static readonly Dictionary<string, AtomEvaluator> Custom = new Dictionary<string, AtomEvaluator>();
         static readonly Dictionary<string, Node> Cache = new Dictionary<string, Node>();
+        static readonly string[] WeekdayNames = { "mon", "tue", "wed", "thu", "fri", "sat", "sun" };
 
         public static void Register(string key, AtomEvaluator evaluator)
         {
@@ -217,6 +218,12 @@ namespace Farm.Core
                     case "flag": return new Atom(w => w.HasFlag(arg));
                     case "weather": return new Atom(w => w.Weather == arg);
                     case "map": return new Atom(w => w.MapId == arg);
+                    case "weekday":
+                    {
+                        var day = Array.IndexOf(WeekdayNames, arg.ToLowerInvariant());
+                        if (day < 0) throw Error($"unknown weekday '{arg}' (use mon..sun)");
+                        return new Atom(w => w.Now.DayOfWeek == day);
+                    }
                     case "season":
                         if (!Enum.TryParse<Season>(arg, true, out var season)) throw Error($"unknown season '{arg}'");
                         return new Atom(w => w.Now.Season == season);

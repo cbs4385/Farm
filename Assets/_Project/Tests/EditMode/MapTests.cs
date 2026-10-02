@@ -130,13 +130,13 @@ namespace Farm.Tests
         [Test]
         public void OnlyTheFarmAllowsFarming()
         {
-            foreach (var info in Maps.Values) Assert.AreEqual(info.Id == MapIds.Farm, info.AllowFarming, info.Id);
+            foreach (var info in Maps.Values) Assert.AreEqual(info.Id == MapIds.Farm || info.Id == MapIds.Greenhouse, info.AllowFarming, info.Id);
         }
 
         [Test]
         public void InteriorsAreIndoor_AndOutdoorMapsAreNot()
         {
-            var indoor = new[] { MapIds.FarmHouse, MapIds.GeneralStore, MapIds.Blacksmith, MapIds.Carpenter, MapIds.Saloon, MapIds.Clinic, MapIds.Library };
+            var indoor = new[] { MapIds.FarmHouse, MapIds.Greenhouse, MapIds.GeneralStore, MapIds.Blacksmith, MapIds.Carpenter, MapIds.Saloon, MapIds.Clinic, MapIds.Library };
             foreach (var info in Maps.Values) Assert.AreEqual(indoor.Contains(info.Id), info.Indoor, info.Id);
         }
 

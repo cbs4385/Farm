@@ -11,6 +11,8 @@ namespace Farm.Gameplay
         public List<FarmTile> Tiles = new List<FarmTile>();
         public List<NodeInstance> Nodes = new List<NodeInstance>();   // trees, rocks, weeds standing on the map
         public bool ClutterSeeded;                                    // starting clutter has been scattered
+        public int LastSpawnDay = -1;                                 // the last day (TotalDays) the spawn tables ran here
+        public List<PlacedObject> Objects = new List<PlacedObject>(); // chests, machines, sprinklers, scarecrows the player placed
     }
 
     // The complete, serializable state of one playthrough. MonoBehaviours are views over this, never the source of truth.
@@ -74,6 +76,15 @@ namespace Farm.Gameplay
         // Private JSON blobs owned by modules, keyed by module id (see GameSession.GetModuleData).
         public Dictionary<string, string> ModuleData = new Dictionary<string, string>();
 
+        // Village life (M2). All additive: older saves load with empty collections.
+        public Dictionary<string, NpcState> Npcs = new Dictionary<string, NpcState>();
+        public Dictionary<string, QuestProgress> Quests = new Dictionary<string, QuestProgress>();
+        public List<string> Mailbox = new List<string>();        // letters waiting in the mailbox
+        public List<string> MailKept = new List<string>();       // letters already taken, readable in the journal
+        public HashSet<string> EventsSeen = new HashSet<string>();
+        public HashSet<string> Recipes = new HashSet<string>();  // recipes the player has learned
+        public List<BoardJob> Board = new List<BoardJob>();      // help-wanted jobs currently posted
+
         public GameDateTime GetDate() =>
             new GameDateTime(Year, (Season)SeasonIndex, Day, MinuteOfDay);
 
@@ -129,16 +140,20 @@ namespace Farm.Gameplay
         public const string Saloon = "Saloon";
         public const string Clinic = "Clinic";
         public const string Library = "Library";
+        public const string Greenhouse = "Greenhouse";
 
         // The gated slot at the top of the Forest. Nothing is behind it in the base game (the gate is brambles
         // while the flag `woods.open` is off); an optional layer ships the scene and opens the gate.
         public const string Woods = "Woods";
         public const string WoodsOpenFlag = "woods.open";
 
+        // Set when the carpenter has built the greenhouse on the farm.
+        public const string GreenhouseFlag = "farm.greenhouse";
+
         // Every map scene that ships in the base game, in a stable order.
         public static readonly string[] All =
         {
-            Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library,
+            Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library, Greenhouse,
         };
     }
 }

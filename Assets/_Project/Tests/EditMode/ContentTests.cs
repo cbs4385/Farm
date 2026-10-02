@@ -23,7 +23,7 @@ namespace Farm.Tests
         {
             var ids = _db.Items.Select(i => i.Id).ToList();
             CollectionAssert.AllItemsAreUnique(ids);
-            foreach (var id in ids) StringAssert.IsMatch(@"^[a-z]+\.[a-z]+$", id);
+            foreach (var id in ids) StringAssert.IsMatch(@"^[a-z]+\.[a-z0-9_]+$", id);
         }
 
         [Test]
@@ -76,7 +76,8 @@ namespace Farm.Tests
             {
                 var seed = _db.GetItem(crop.SeedItemId);
                 var harvest = _db.GetItem(crop.HarvestItemId);
-                Assert.Greater(harvest.SellPrice, seed.BuyPrice * 0.5f, crop.Id);
+                // A fruit tree pays back over many seasons of daily fruit, so its single fruit may be cheap.
+                Assert.Greater(harvest.SellPrice, seed.BuyPrice * (crop.IsTree ? 0.2f : 0.5f), crop.Id);
             }
         }
 

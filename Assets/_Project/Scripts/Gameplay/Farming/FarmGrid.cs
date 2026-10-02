@@ -12,6 +12,7 @@ namespace Farm.Gameplay
         public int Stage;
         public int DaysInStage;
         public bool Regrowing;   // true after a harvest of a regrowing crop: the last stage then takes RegrowDays
+        public bool Fruit;       // fruit trees: there is fruit to pick
     }
 
     [Serializable]
@@ -20,6 +21,7 @@ namespace Farm.Gameplay
         public int X;
         public int Y;
         public bool Watered;
+        public string Fertilizer;   // item id of the fertilizer worked into the soil (quality or speed), or null
         public CropInstance Crop;   // null when nothing is planted
     }
 
@@ -36,6 +38,9 @@ namespace Farm.Gameplay
     public sealed class FarmGrid
     {
         readonly Dictionary<(int, int), FarmTile> _tiles = new Dictionary<(int, int), FarmTile>();
+
+        // A greenhouse: every crop may be planted in every season and none dies with the season.
+        public bool AllSeasons { get; set; }
 
         public int Count => _tiles.Count;
         public IEnumerable<FarmTile> Tiles => _tiles.Values;
@@ -71,7 +76,20 @@ namespace Farm.Gameplay
         }
 
         public bool CanPlant(int x, int y, CropDefinition crop, Season season) =>
-            _tiles.TryGetValue((x, y), out var tile) && tile.Crop == null && crop.Seasons.Includes(season);
+            _tiles.TryGetValue((x, y), out var tile) && tile.Crop == null && Plantable(crop, season);
+
+        // Trees can be planted any time; ordinary crops need their season (anything goes in a greenhouse).
+        public bool Plantable(CropDefinition crop, Season season) => AllSeasons || crop.IsTree || crop.Seasons.Includes(season);
+
+        // Works fertilizer into a tilled tile (replacing any earlier one). Returns false when the tile is not tilled.
+        public bool Fertilize(int x, int y, string fertilizerItemId)
+        {
+            if (!_tiles.TryGetValue((x, y), out var tile)) return false;
+            tile.Fertilizer = fertilizerItemId;
+            return true;
+        }
+
+        public string FertilizerAt(int x, int y) => _tiles.TryGetValue((x, y), out var tile) ? tile.Fertilizer : null;
 
         public bool Plant(int x, int y, CropDefinition crop, Season season)
         {
@@ -84,7 +102,7 @@ namespace Farm.Gameplay
         {
             if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop == null) return false;
             var def = cropLookup(tile.Crop.CropId);
-            return def != null && tile.Crop.Stage >= def.MatureStage;
+            return def != null && tile.Crop.Stage >= def.MatureStage && (!def.IsTree || tile.Crop.Fruit);
         }
 
         // Returns false if there is nothing mature to harvest.
@@ -94,10 +112,15 @@ namespace Farm.Gameplay
             if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop == null) return false;
             var def = cropLookup(tile.Crop.CropId);
             if (def == null || tile.Crop.Stage < def.MatureStage) return false;
+            if (def.IsTree && !tile.Crop.Fruit) return false;
 
             result = new HarvestResult(def.HarvestItemId, 1, def.HarvestXp);
 
-            if (def.RegrowDays > 0)
+            if (def.IsTree)
+            {
+                tile.Crop.Fruit = false;    // the tree stays; there is more fruit tomorrow while it is in season
+            }
+            else if (def.RegrowDays > 0)
             {
                 // Drop back to the last growth stage so it matures again after RegrowDays watered days.
                 tile.Crop.Stage = def.MatureStage - 1;
@@ -107,6 +130,7 @@ namespace Farm.Gameplay
             else
             {
                 tile.Crop = null;
+                tile.Fertilizer = null;
             }
             return true;
         }
@@ -116,6 +140,7 @@ namespace Farm.Gameplay
         {
             if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop == null) return false;
             tile.Crop = null;
+            tile.Fertilizer = null;
             return true;
         }
 
@@ -130,17 +155,20 @@ namespace Farm.Gameplay
                 if (crop != null)
                 {
                     var def = cropLookup(crop.CropId);
-                    if (def == null || !def.Seasons.Includes(newSeason))
+                    if (def == null || !(AllSeasons || def.IsTree || def.Seasons.Includes(newSeason)))
                     {
                         tile.Crop = null;
+                        tile.Fertilizer = null;
                         died++;
                     }
-                    else if ((tile.Watered || rainedToday) && crop.Stage < def.MatureStage && CanGrow(def, world))
+                    else if ((def.IsTree || tile.Watered || rainedToday) && crop.Stage < def.MatureStage && CanGrow(def, world))
                     {
                         crop.DaysInStage++;
                         var needed = crop.Regrowing && crop.Stage == def.MatureStage - 1
                             ? def.RegrowDays
                             : def.GrowthDays[crop.Stage];
+                        // Speed-gro takes a day off every stage that lasts two days or more.
+                        if (tile.Fertilizer == ItemIds.FertilizerSpeed && needed >= 2) needed--;
                         if (crop.DaysInStage >= needed)
                         {
                             crop.Stage++;
@@ -148,6 +176,10 @@ namespace Farm.Gameplay
                             crop.Regrowing = false;
                         }
                     }
+
+                    // A mature tree bears fruit overnight while it is in season.
+                    if (tile.Crop != null && def != null && def.IsTree && crop.Stage >= def.MatureStage)
+                        crop.Fruit = def.FruitSeasons.Includes(newSeason);
                 }
                 tile.Watered = false;
             }

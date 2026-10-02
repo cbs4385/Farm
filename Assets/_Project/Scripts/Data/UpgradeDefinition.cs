@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Farm.Data
 {
-    public enum UpgradeKind { Tool = 0, Backpack = 1, Energy = 2 }
+    public enum UpgradeKind { Tool = 0, Backpack = 1, Energy = 2, Unlock = 3 }
 
     // Something the player can pay for at a counter: a better tool (handed over and returned after a few days), a
     // bigger backpack, a larger energy reserve. Upgrades of one kind are bought in order of Tier (a copper tool before
@@ -21,6 +21,7 @@ namespace Farm.Data
         [SerializeField] int _materialCount;
         [SerializeField] int _days;               // Tool: days until it is ready to collect
         [SerializeField] int _value;              // Backpack: new slot count; Energy: maximum energy gained
+        [SerializeField] string _flagId;          // Unlock: the story flag it sets (the greenhouse)
 
         public string Id => _id;
         public UpgradeKind Kind => _kind;
@@ -32,10 +33,11 @@ namespace Farm.Data
         public int MaterialCount => _materialCount;
         public int Days => _days;
         public int Value => _value;
+        public string FlagId => _flagId;
         public string NameKey => "upgrade." + _id + ".name";   // for the kinds that are not tools
 
         public static UpgradeDefinition Create(string id, UpgradeKind kind, string shopId, string toolItemId, int tier,
-            int goldCost, string materialItemId, int materialCount, int days, int value)
+            int goldCost, string materialItemId, int materialCount, int days, int value, string flagId = null)
         {
             var u = CreateInstance<UpgradeDefinition>();
             u._id = id;
@@ -49,6 +51,7 @@ namespace Farm.Data
             u._materialCount = materialCount;
             u._days = days;
             u._value = value;
+            u._flagId = flagId;
             return u;
         }
     }
@@ -76,6 +79,7 @@ namespace Farm.Data
             all.Add(UpgradeDefinition.Create("energy.1", UpgradeKind.Energy, "clinic", null, 1, 1500, null, 0, 0, 20));
             all.Add(UpgradeDefinition.Create("energy.2", UpgradeKind.Energy, "clinic", null, 2, 4000, null, 0, 0, 20));
             all.Add(UpgradeDefinition.Create("energy.3", UpgradeKind.Energy, "clinic", null, 3, 9000, null, 0, 0, 20));
+            all.Add(UpgradeDefinition.Create("greenhouse", UpgradeKind.Unlock, "carpenter", null, 1, 10000, ItemIds.Wood, 150, 0, 0, "farm.greenhouse"));
             return all.ToArray();
         }
     }

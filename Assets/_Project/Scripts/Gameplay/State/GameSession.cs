@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Farm.Core;
@@ -45,8 +46,13 @@ namespace Farm.Gameplay
     {
         readonly Dictionary<string, FarmGrid> _grids = new Dictionary<string, FarmGrid>();
         readonly Dictionary<string, NodeGrid> _nodeGrids = new Dictionary<string, NodeGrid>();
+        readonly Dictionary<string, ObjectGrid> _objectGrids = new Dictionary<string, ObjectGrid>();
+        RecipeCatalog _recipeCatalog;
+        PlaceableCatalog _placeableCatalog;
         NodeCatalog _nodeCatalog;
+        NpcCatalog _npcCatalog;
         UpgradeCatalog _upgradeCatalog;
+        SpawnCatalog _spawnCatalog;
 
         EventBus _bus;
         GameDatabase _db;
@@ -65,6 +71,30 @@ namespace Farm.Gameplay
 
         // Weather definitions (core assets plus module packs). Built on first use, after packs have merged.
         // Resource node definitions (core assets plus module packs), built on first use.
+        public SpawnCatalog SpawnTables => _spawnCatalog ?? (_spawnCatalog = SpawnCatalog.From(_db));
+
+        // Runs the map's spawn tables for the days since the player was last here (at most three; three on a first
+        // visit, so a new map has something on it). `candidatesFor` gives the free cells a table may use.
+        public int RunSpawns(string mapId, Func<SpawnTableDefinition, IReadOnlyList<(int x, int y)>> candidatesFor)
+        {
+            if (!InGame) return 0;
+            var map = State.GetMap(mapId);
+            var today = Clock.Now.TotalDays;
+            var rounds = map.LastSpawnDay < 0 ? 3 : Mathf.Min(3, today - map.LastSpawnDay);
+            if (rounds <= 0) return 0;
+            map.LastSpawnDay = today;
+
+            var placed = 0;
+            var grid = GetNodes(mapId);
+            foreach (var table in SpawnTables.For(mapId))
+            {
+                var cells = candidatesFor(table);
+                for (var r = 0; r < rounds; r++)
+                    placed += SpawnModel.Spawn(grid, table, cells, Nodes, World, Clock.Now.Season, Luck, State.WorldSeed, today - r);
+            }
+            return placed;
+        }
+
         public UpgradeCatalog UpgradeTable => _upgradeCatalog ?? (_upgradeCatalog = UpgradeCatalog.From(_db));
 
         // Buys an upgrade at a counter (gold, materials, effect). Explains a refusal with a toast.
@@ -77,6 +107,7 @@ namespace Farm.Gameplay
                 case UpgradeCheck.NoMaterials: Toast(L.Get("toast.upgrade_materials")); break;
                 case UpgradeCheck.NotOffered: break;
                 default:
+                    if (def.Kind == UpgradeKind.Unlock && !string.IsNullOrEmpty(def.FlagId)) SetFlag(def.FlagId);
                     _bus.Publish(new StatsChanged());
                     Toast(L.Get(def.Kind == UpgradeKind.Tool ? "toast.upgrade_started" : "toast.upgrade_done"));
                     break;
@@ -101,6 +132,18 @@ namespace Farm.Gameplay
             return tier <= 0 ? name : L.Get("upgrade.tool", L.Get(ToolModel.TierKey(tier)), name);
         }
 
+        // Events waiting to play (the `event:` effect); the event director on the loaded map plays them in order. Not saved.
+        public List<string> PendingEvents { get; } = new List<string>();
+
+        // Authored story data (dialogue, quests, letters, events); loaded from Resources/Story by GameServices.
+        public StoryContent Story { get; set; } = new StoryContent();
+
+        public RecipeCatalog Recipes => _recipeCatalog ?? (_recipeCatalog = RecipeCatalog.From(_db));
+        public PlaceableCatalog Placeables => _placeableCatalog ?? (_placeableCatalog = PlaceableCatalog.From(_db));
+
+        // The villagers (core assets plus module packs). Built on first use, after packs have merged.
+        public NpcCatalog Npcs => _npcCatalog ?? (_npcCatalog = NpcCatalog.From(_db));
+
         public NodeCatalog Nodes => _nodeCatalog ?? (_nodeCatalog = NodeCatalog.From(_db));
 
         public WeatherCatalog Weather => _weatherCatalog ?? (_weatherCatalog = WeatherCatalog.From(_db));
@@ -110,7 +153,7 @@ namespace Farm.Gameplay
         public GameHooks Hooks { get; } = new GameHooks();
 
         // What conditions (Conditions.Evaluate) see. Live: always reflects the current game.
-        public IWorldQuery World => new StateWorldQuery(State, Clock);
+        public IWorldQuery World => new StateWorldQuery(State, Clock) { ItemCounter = id => Backpack != null ? Backpack.Count(id) : 0 };
 
         // The player's luck, -1..+1 (0 neutral), after every module's modifiers. Roll-based systems should use it.
         public float Luck => InGame ? Hooks.ComputeLuck(State) : 0f;
@@ -174,10 +217,29 @@ namespace Farm.Gameplay
             _db = db;
             _saves = saves;
             Hooks.AddLuckModifier(new FatigueLuckModifier(() => Clock != null ? Clock.Now.MinuteOfDay : GameDateTime.DayStartMinute));
+            Hooks.AddWorldObjectSource(new StoredItemsSource(this, WorldObjectKinds.CraftedItem));
+            Hooks.AddWorldObjectSource(new StoredItemsSource(this, WorldObjectKinds.PlantProduct));
+            Hooks.AddWorldObjectSource(new StandingCropsSource(this));
             _bus.Subscribe<MinuteChanged>(OnMinuteChanged);
+            _bus.Subscribe<VarChanged>(OnStoryStateChanged);
+            _bus.Subscribe<FlagChanged>(OnStoryStateChanged);
+            _bus.Subscribe<StatsChanged>(OnStoryStateChanged);
         }
 
-        void OnDestroy() => _bus?.Unsubscribe<MinuteChanged>(OnMinuteChanged);
+        void OnDestroy()
+        {
+            _bus?.Unsubscribe<MinuteChanged>(OnMinuteChanged);
+            _bus?.Unsubscribe<VarChanged>(OnStoryStateChanged);
+            _bus?.Unsubscribe<FlagChanged>(OnStoryStateChanged);
+            _bus?.Unsubscribe<StatsChanged>(OnStoryStateChanged);
+        }
+
+        // Quests that start or finish by themselves react to anything that changes the game.
+        void OnStoryStateChanged<T>(T _)
+        {
+            if (!InGame || _sleeping || _endingDay) return;
+            QuestLog.Tick(this);
+        }
 
         // The first time the clock passes 22:00 in a save, tell the player what staying up costs (once).
         void OnMinuteChanged(MinuteChanged e)
@@ -198,6 +260,7 @@ namespace Farm.Gameplay
         public void BeginNewGame(string playerName, string farmName, int slot)
         {
             Begin(GameState.NewGame(playerName, farmName, _db.MaxStack), slot);
+            StoryDay.NewGame(this);
             Save();
         }
 
@@ -218,6 +281,7 @@ namespace Farm.Gameplay
             Backpack = null;
             ActiveSlot = -1;
             _grids.Clear();
+            _objectGrids.Clear();
         }
 
         void Begin(GameState state, int slot)
@@ -233,15 +297,30 @@ namespace Farm.Gameplay
             Backpack.Changed += OnBackpackChanged;
             _grids.Clear();
             _nodeGrids.Clear();
+            _objectGrids.Clear();
             foreach (var kv in state.Maps)
             {
                 _grids[kv.Key] = FarmGrid.FromTiles(kv.Value.Tiles);
+                _grids[kv.Key].AllSeasons = kv.Key == MapIds.Greenhouse;
                 _nodeGrids[kv.Key] = NodeGrid.FromNodes(kv.Value.Nodes);
+                _objectGrids[kv.Key] = ObjectGrid.FromList(kv.Value.Objects, _db.MaxStack);
             }
             _bus.Publish(new StatsChanged());
         }
 
         void OnBackpackChanged() => _bus.Publish(new StatsChanged());
+
+        public IEnumerable<KeyValuePair<string, ObjectGrid>> AllObjectGrids => _objectGrids;
+
+        public ObjectGrid GetObjects(string mapId)
+        {
+            if (!_objectGrids.TryGetValue(mapId, out var grid))
+            {
+                grid = ObjectGrid.FromList(null, _db.MaxStack);
+                _objectGrids[mapId] = grid;
+            }
+            return grid;
+        }
 
         public NodeGrid GetNodes(string mapId)
         {
@@ -266,7 +345,7 @@ namespace Farm.Gameplay
         {
             if (!_grids.TryGetValue(mapId, out var grid))
             {
-                grid = new FarmGrid();
+                grid = new FarmGrid { AllSeasons = mapId == MapIds.Greenhouse };
                 _grids[mapId] = grid;
             }
             return grid;
@@ -280,6 +359,7 @@ namespace Farm.Gameplay
             State.Backpack = Backpack.ToData();
             foreach (var kv in _grids) State.GetMap(kv.Key).Tiles = kv.Value.ToList();
             foreach (var kv in _nodeGrids) State.GetMap(kv.Key).Nodes = kv.Value.ToList();
+            foreach (var kv in _objectGrids) State.GetMap(kv.Key).Objects = kv.Value.ToList();
         }
 
         public bool Save()
@@ -321,6 +401,60 @@ namespace Farm.Gameplay
             _bus.Publish(new StatsChanged());
         }
 
+        // Text from the string table with the player's and farm's names filled in ("[player]", "[farm]").
+        public string StoryText(string key, object[] args)
+        {
+            var text = L.Get(key, args);
+            return InGame ? text.Replace("[player]", State.PlayerName).Replace("[farm]", State.FarmName) : text;
+        }
+
+        // Starts a conversation (modal; the clock is paused while it is open). Returns false when there is no such
+        // dialogue or no UI to show it.
+        public bool BeginDialogue(string dialogueId, Action onFinished = null)
+        {
+            var graph = Story.Dialogue(dialogueId);
+            if (graph == null) { Log.Warn($"Unknown dialogue '{dialogueId}'."); return false; }
+            if (!ServiceLocator.TryGet<IUiService>(out var ui)) return false;
+            var runner = new DialogueRunner(graph, World, StoryText, effect => Effects.Run(this, effect));
+            ui.ShowDialogue(runner, onFinished);
+            return true;
+        }
+
+        // Teaches a recipe (a letter, a villager). Returns false when it is already known or does not exist.
+        public bool LearnRecipe(string recipeId)
+        {
+            var recipe = Recipes.Get(recipeId);
+            if (recipe == null || State.Recipes.Contains(recipeId)) return false;
+            State.Recipes.Add(recipeId);
+            if (_db.TryGetItem(recipe.OutputItemId, out var made)) Toast(L.Get("toast.recipe_learned", L.Get(made.NameKey)));
+            return true;
+        }
+
+        // Crafts or cooks a recipe at a station; counts it for quests.
+        public CraftResult Craft(RecipeDefinition recipe, string station)
+        {
+            var result = CraftingRules.TryCraft(recipe, station, State, Backpack, GetSkillLevel);
+            if (result == CraftResult.Ok) AddVar(QuestLog.Stats.Crafted, 1);
+            return result;
+        }
+
+        public bool KnowsRecipe(RecipeDefinition recipe) => CraftingRules.Knows(recipe, State, GetSkillLevel);
+
+        // Adds or removes gold (a story effect); never goes below zero.
+        public void ChangeGold(int delta)
+        {
+            State.Gold = System.Math.Max(0, State.Gold + delta);
+            _bus.Publish(new StatsChanged());
+        }
+
+        // Puts items in the backpack (a reward, a gift). What does not fit is lost, with a toast saying so.
+        public void GiveItem(string itemId, int count = 1, int quality = 0)
+        {
+            if (!InGame || count <= 0) return;
+            if (!_db.TryGetItem(itemId, out _)) { Log.Error($"give: unknown item '{itemId}'"); return; }
+            if (Backpack.Add(itemId, count, quality) > 0) Toast(L.Get("toast.inventory_full"));
+        }
+
         public bool TrySpendGold(int amount)
         {
             if (State.Gold < amount) return false;
@@ -344,10 +478,16 @@ namespace Farm.Gameplay
                 _bus.Publish(new SkillLevelUp(skill, level));
                 Toast(L.Get("toast.skill_level", L.Get("skill." + skill), level));
             }
+            // Levels unlock recipes: say what can be made now.
+            foreach (var recipe in CraftingRules.NewlyUnlocked(Recipes, skill, before, after))
+                if (_db.TryGetItem(recipe.OutputItemId, out var made)) Toast(L.Get("toast.recipe_unlocked", L.Get(made.NameKey)));
         }
 
         // The upgrade tier of a tool item the player owns (0 = basic).
         public int ToolTier(string itemId) => InGame && itemId != null && State.ToolTiers.TryGetValue(itemId, out var t) ? t : 0;
+
+        // Publishes an event on the game's bus (for systems that only hold the session).
+        public void Publish<T>(T evt) => _bus.Publish(evt);
 
         public void Toast(string message) => _bus.Publish(new ToastRequested(message));
 
@@ -360,6 +500,7 @@ namespace Farm.Gameplay
             if (stack == null || !_db.TryGetItem(stack.ItemId, out var item) || item.IsTool || item.SellPrice <= 0) return false;
 
             var removed = Backpack.RemoveFromSlot(slot, stack.Count);
+            AddVar(QuestLog.Stats.Shipped, removed.Count);
             foreach (var existing in State.ShippingBin)
             {
                 if (existing.ItemId == removed.ItemId && existing.Quality == removed.Quality && existing.Mark == removed.Mark)
@@ -388,7 +529,10 @@ namespace Farm.Gameplay
                 id => _db.TryGetCrop(id, out var c) ? c : null,
                 passedOut,
                 Hooks,
-                Weather);
+                Weather,
+                Placeables);
+            try { StoryDay.Dawn(this, summary); }
+            catch (Exception e) { Log.Error($"Story dawn failed: {e}"); }
             Save();
 
             _endingDay = false;

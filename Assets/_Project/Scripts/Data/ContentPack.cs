@@ -17,6 +17,10 @@ namespace Farm.Data
         [SerializeField] List<WeatherDefinition> _weather = new List<WeatherDefinition>();
         [SerializeField] List<ResourceNodeDefinition> _nodes = new List<ResourceNodeDefinition>();
         [SerializeField] List<UpgradeDefinition> _upgrades = new List<UpgradeDefinition>();
+        [SerializeField] List<SpawnTableDefinition> _spawnTables = new List<SpawnTableDefinition>();
+        [SerializeField] List<NpcDefinition> _npcs = new List<NpcDefinition>();
+        [SerializeField] List<RecipeDefinition> _recipes = new List<RecipeDefinition>();
+        [SerializeField] List<PlaceableDefinition> _placeables = new List<PlaceableDefinition>();
 
         public string PackId => _packId;
         public IReadOnlyList<ItemDefinition> Items => _items;
@@ -24,6 +28,10 @@ namespace Farm.Data
         public IReadOnlyList<WeatherDefinition> Weather => _weather;
         public IReadOnlyList<ResourceNodeDefinition> Nodes => _nodes;
         public IReadOnlyList<UpgradeDefinition> Upgrades => _upgrades;
+        public IReadOnlyList<SpawnTableDefinition> SpawnTables => _spawnTables;
+        public IReadOnlyList<NpcDefinition> Npcs => _npcs;
+        public IReadOnlyList<RecipeDefinition> Recipes => _recipes;
+        public IReadOnlyList<PlaceableDefinition> Placeables => _placeables;
 
         public static ContentPack Create(string packId, IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
             IEnumerable<WeatherDefinition> weather = null)

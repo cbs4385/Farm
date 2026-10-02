@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Farm.Data
@@ -70,7 +71,9 @@ namespace Farm.Data
         public const string Tree = "tree";
         public const string Stump = "stump";
 
-        public static ResourceNodeDefinition[] CreateAll() => new[]
+        public static ResourceNodeDefinition[] CreateAll() => Clutter().Concat(ForageDefaults.CreateNodes()).ToArray();
+
+        static ResourceNodeDefinition[] Clutter() => new[]
         {
             ResourceNodeDefinition.Create(Weed, ToolType.Scythe, 1, 0, ItemIds.Fiber, 1, 2, "foraging", 1, null, false, 55f),
             ResourceNodeDefinition.Create(Rock, ToolType.Pickaxe, 2, 0, ItemIds.Stone, 1, 2, "mining", 3, null, true, 25f),

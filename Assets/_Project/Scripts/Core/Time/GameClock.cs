@@ -38,6 +38,10 @@ namespace Farm.Core
 
         public GameDateTime Now => _now;
         public bool IsPaused => _pauseCount > 0;
+
+        // The minute of the day including the part of the current step that has elapsed, so things that move with the
+        // clock (villagers walking) are smooth instead of jumping every ten minutes.
+        public float PreciseMinuteOfDay => _now.MinuteOfDay + (_now.IsDayOver ? 0f : _accumulator / SecondsPerStep * MinutesPerStep);
         public float SecondsPerStep { get; set; } = DefaultSecondsPerStep;
 
         // Ref-counted: every Pause() must be matched by a Resume() (menus, dialogue, cutscenes).

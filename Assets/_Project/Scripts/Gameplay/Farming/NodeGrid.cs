@@ -20,7 +20,7 @@ namespace Farm.Gameplay
         static NodeCatalog _builtIn;
         readonly Dictionary<string, ResourceNodeDefinition> _byId = new Dictionary<string, ResourceNodeDefinition>();
 
-        public static NodeCatalog BuiltIn => _builtIn ?? (_builtIn = new NodeCatalog(NodeDefaults.CreateAll()));
+        public static NodeCatalog BuiltIn => _builtIn ?? (_builtIn = new NodeCatalog(BuiltInAssets.Keep(NodeDefaults.CreateAll())));
 
         public NodeCatalog(IEnumerable<ResourceNodeDefinition> definitions)
         {
@@ -81,6 +81,17 @@ namespace Farm.Gameplay
         }
 
         public bool Remove(int x, int y) => _nodes.Remove((x, y));
+
+        // Picking something up by hand (forage): no tool involved. Returns the drop, or None when there is nothing to pick.
+        public NodeHitResult Gather(int x, int y, Func<string, ResourceNodeDefinition> lookup, float dropRoll)
+        {
+            if (!_nodes.TryGetValue((x, y), out var node)) return new NodeHitResult(NodeHit.None);
+            var def = lookup(node.TypeId);
+            if (def == null || def.Tool != ToolType.None) return new NodeHitResult(NodeHit.None);
+            _nodes.Remove((x, y));
+            var count = def.DropMin + (int)Math.Min(def.DropMax - def.DropMin, Math.Floor(dropRoll * (def.DropMax - def.DropMin + 1)));
+            return new NodeHitResult(NodeHit.Cleared, def.DropItemId, Math.Max(0, count), def.Skill, def.Xp);
+        }
 
         // One swing of `tool` (of the given tier) at a cell. `dropRoll` (0..1) picks the drop count in the node's range.
         public NodeHitResult Hit(int x, int y, ToolType tool, int tier, Func<string, ResourceNodeDefinition> lookup, float dropRoll)

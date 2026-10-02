@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adf4e23c079d524a9b66c2bf52543b3, type: 3}
+  m_Name: tilda
+  m_EditorClassIdentifier: Farm.Data::Farm.Data.NpcDefinition
+  _id: tilda
+  _nameKey: npc.tilda.name
+  _birthdaySeason: 0
+  _birthdayDay: 12
+  _romanceable: 0
+  _allegiance: 
+  _homeMap: GeneralStore
+  _homeX: 6
+  _homeY: 3
+  _business: general
+  _down: {fileID: 21300000, guid: 50835ef51dc634e438afef86ce8d35da, type: 3}
+  _up: {fileID: 21300000, guid: 3233548e66b54a2458eb884730b6b8da, type: 3}
+  _left: {fileID: 21300000, guid: 2391abf5c81dfb046815b844d766f632, type: 3}
+  _right: {fileID: 21300000, guid: 0094dfa731777db468d5490ef7560546, type: 3}
+  _portrait: {fileID: 21300000, guid: 2fc697c2c1f3cbc4387ff0983e7e31fb, type: 3}
+  _loved:
+  - crop.strawberry
+  - forage.elderflower
+  _liked:
+  - crop.cauliflower
+  - crop.potato
+  - forage.raspberry
+  _disliked:
+  - resource.stone
+  - forage.clam
+  _lovedCategories: []
+  _dislikedCategories:
+  - Fish
+  _schedule:
+  - Id: rainy_sunday
+    Condition: weekday:sun && weather:rain
+    Priority: 10
+    Stops:
+    - Minute: 360
+      Map: GeneralStore
+      X: 6
+      Y: 3
+      Facing: down
+    - Minute: 1320
+      Map: GeneralStore
+      X: 6
+      Y: 3
+      Facing: down
+  - Id: sunday
+    Condition: weekday:sun
+    Priority: 5
+    Stops:
+    - Minute: 360
+      Map: GeneralStore
+      X: 6
+      Y: 3
+      Facing: down
+    - Minute: 600
+      Map: Beach
+      X: 14
+      Y: 12
+      Facing: up
+    - Minute: 900
+      Map: Village
+      X: 25
+      Y: 20
+      Facing: down
+    - Minute: 1140
+      Map: Saloon
+      X: 5
+      Y: 4
+      Facing: up
+    - Minute: 1320
+      Map: GeneralStore
+      X: 6
+      Y: 3
+      Facing: down
+  - Id: workday
+    Condition: 
+    Priority: 0
+    Stops:
+    - Minute: 360
+      Map: GeneralStore
+      X: 6
+      Y: 3
+      Facing: down
+    - Minute: 520
+      Map: GeneralStore
+      X: 7
+      Y: 5
+      Facing: down
+    - Minute: 1050
+      Map: Village
+      X: 25
+      Y: 20
+      Facing: down
+    - Minute: 1140
+      Map: Saloon
+      X: 5
+      Y: 4
+      Facing: up
+    - Minute: 1320
+      Map: GeneralStore
+      X: 6
+      Y: 3
+      Facing: down

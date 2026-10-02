@@ -18,6 +18,7 @@ namespace Farm.Data
         [SerializeField] int _energyRestore;
         [SerializeField] ToolType _toolType;
         [SerializeField] string _cropId;         // for seeds: the crop this plants
+        [SerializeField] string _placeableId;    // for machines and the like: the object this places in the world
 
         // Shops that stock this item (shop ids such as "general"). Empty = sold nowhere: content must opt in to a
         // shop, so items from optional content packs never appear in the main store by accident.
@@ -36,6 +37,7 @@ namespace Farm.Data
         public int EnergyRestore => _energyRestore;
         public ToolType ToolType => _toolType;
         public string CropId => _cropId;
+        public string PlaceableId => _placeableId;
         public IReadOnlyList<string> SoldIn => _soldIn;
         public string SaleCondition => _saleCondition;
         public bool IsTool => _toolType != ToolType.None;
@@ -43,7 +45,7 @@ namespace Farm.Data
         // Used by editor content generation and tests.
         public static ItemDefinition Create(string id, ItemCategory category, int maxStack = 999, int sellPrice = 0,
             int buyPrice = 0, int energyRestore = 0, ToolType toolType = ToolType.None, string cropId = null, Sprite icon = null,
-            string[] soldIn = null, string saleCondition = null)
+            string[] soldIn = null, string saleCondition = null, string placeableId = null)
         {
             var item = CreateInstance<ItemDefinition>();
             item._id = id;
@@ -60,6 +62,7 @@ namespace Farm.Data
             item._icon = icon;
             item._soldIn = soldIn ?? new string[0];
             item._saleCondition = saleCondition;
+            item._placeableId = placeableId;
             return item;
         }
 

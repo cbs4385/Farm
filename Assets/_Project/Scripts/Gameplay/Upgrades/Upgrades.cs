@@ -23,7 +23,7 @@ namespace Farm.Gameplay
         static UpgradeCatalog _builtIn;
         readonly List<UpgradeDefinition> _all = new List<UpgradeDefinition>();
 
-        public static UpgradeCatalog BuiltIn => _builtIn ?? (_builtIn = new UpgradeCatalog(UpgradeDefaults.CreateAll()));
+        public static UpgradeCatalog BuiltIn => _builtIn ?? (_builtIn = new UpgradeCatalog(BuiltInAssets.Keep(UpgradeDefaults.CreateAll())));
 
         public UpgradeCatalog(IEnumerable<UpgradeDefinition> definitions)
         {
@@ -99,6 +99,9 @@ namespace Farm.Gameplay
                     state.MaxEnergy += def.Value;
                     state.Energy += def.Value;
                     state.UpgradesDone.Add(def.Id);
+                    break;
+                case UpgradeKind.Unlock:
+                    state.UpgradesDone.Add(def.Id);     // the session sets the flag, so listeners hear about it
                     break;
             }
             return UpgradeCheck.Ok;

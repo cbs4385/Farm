@@ -6,6 +6,17 @@ using Farm.Data;
 
 namespace Farm.Gameplay
 {
+    // The built-in catalogs keep ScriptableObjects alive only through static fields, which Unity's unused-asset
+    // cleanup (run on scene loads) does not see. Marking them DontSave stops them being destroyed under us.
+    public static class BuiltInAssets
+    {
+        public static T[] Keep<T>(T[] objects) where T : UnityEngine.Object
+        {
+            foreach (var o in objects) if (o != null) o.hideFlags = UnityEngine.HideFlags.HideAndDontSave;
+            return objects;
+        }
+    }
+
     // Looks weather definitions up by id. Built from the game database (core assets plus module packs); when the
     // database has none, the built-in defaults are used so tests and bare projects still work.
     public sealed class WeatherCatalog
@@ -13,7 +24,7 @@ namespace Farm.Gameplay
         static WeatherCatalog _builtIn;
         readonly Dictionary<string, WeatherDefinition> _byId = new Dictionary<string, WeatherDefinition>();
 
-        public static WeatherCatalog BuiltIn => _builtIn ?? (_builtIn = new WeatherCatalog(WeatherDefaults.CreateAll()));
+        public static WeatherCatalog BuiltIn => _builtIn ?? (_builtIn = new WeatherCatalog(BuiltInAssets.Keep(WeatherDefaults.CreateAll())));
 
         public WeatherCatalog(IEnumerable<WeatherDefinition> definitions)
         {

@@ -52,7 +52,8 @@ namespace Farm.Gameplay
             Func<string, CropDefinition> cropLookup,
             bool passedOut,
             GameHooks hooks = null,
-            WeatherCatalog weather = null)
+            WeatherCatalog weather = null,
+            PlaceableCatalog placeables = null)
         {
             weather = weather ?? WeatherCatalog.BuiltIn;
             var summary = new DaySummary { PassedOut = passedOut };
@@ -80,15 +81,21 @@ namespace Farm.Gameplay
             // 1b. Night hooks: dreams, blight, offerings...
             hooks?.RunNightFalls(context);
 
-            // 2. Crops grow (or die in the new season) using today's weather.
+            // 1c. Sprinklers water their tiles.
+            placeables = placeables ?? PlaceableCatalog.BuiltIn;
+            foreach (var kv in grids)
+                if (state.Maps.TryGetValue(kv.Key, out var mapState)) Sprinklers.WaterAll(mapState.Objects, placeables, kv.Value);
+
+            // 2. Crops grow (or die in the new season) using today's weather. The greenhouse stays dry in the rain.
             var rainedToday = weather.Get(state.Weather).WateringCrops;
             var newSeason = clock.Now.StartOfNextDay().Season;
-            foreach (var grid in grids.Values)
-                summary.CropsDied += grid.AdvanceDay(newSeason, rainedToday, cropLookup, context.World);
+            foreach (var kv in grids)
+                summary.CropsDied += kv.Value.AdvanceDay(newSeason, rainedToday && kv.Key != MapIds.Greenhouse, cropLookup, context.World);
 
             // 3. Calendar moves to 06:00 tomorrow (publishes DayEnded / SeasonChanged / DayStarted).
             clock.StartNextDay(passedOut);
             summary.NewDate = clock.Now;
+            NpcInteractions.NewDay(state, clock.Now, hooks);
 
             // 4. The new day's weather is the forecast made yesterday (rolled now if there is none, e.g. after a date
             // jump), which modules may still override. Then the next day is forecast.
@@ -99,7 +106,8 @@ namespace Farm.Gameplay
             state.ForecastWeather = WeatherRoller.Roll(clock.Now.StartOfNextDay(), weather, state.WorldSeed, hooks, state);
             summary.NewWeather = state.Weather;
             if (weather.Get(state.Weather).WateringCrops)
-                foreach (var grid in grids.Values) grid.WaterAll();
+                foreach (var kv in grids)
+                    if (kv.Key != MapIds.Greenhouse) kv.Value.WaterAll();
 
             // 5. Rest.
             // Sleeping restores energy (full in bed, 75% after collapsing), less the more tired the player was when they

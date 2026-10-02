@@ -58,6 +58,12 @@ namespace Farm.UI
         ShopScreen _shop;
         ConfirmDialog _confirm;
         MessageDialog _message;
+        DialogueScreen _dialogue;
+        GameMenuScreen _menu;
+        CraftingScreen _crafting;
+        ChestScreen _chest;
+        LetterScreen _letter;
+        BoardScreen _board;
         UpgradeScreen _upgrades;
         DaySummaryScreen _summary;
         PauseScreen _pause;
@@ -234,6 +240,43 @@ namespace Farm.UI
             if (_inventory.IsOpen) _inventory.Close(); else _inventory.Open();
         }
 
+        public void ShowGameMenu(string tab = null)
+        {
+            _menu ??= new GameMenuScreen(this, CreateMenuPages());
+            _menu.OpenTab(tab ?? MenuTabs.Skills);
+        }
+
+        public GameMenuScreen GameMenu => _menu;
+
+        static MenuPage[] CreateMenuPages() => new MenuPage[]
+        {
+            new SkillsPage(), new SocialPage(), new CalendarPage(), new MapPage(), new JournalPage(), new CraftingPage(),
+        };
+
+        public void ShowCrafting(string station)
+        {
+            _crafting ??= new CraftingScreen(this);
+            _crafting.OpenStation(station);
+        }
+
+        public void ShowLetter(LetterDefinition letter, Action onClosed)
+        {
+            _letter ??= new LetterScreen(this);
+            _letter.OpenLetter(letter, onClosed);
+        }
+
+        public void ShowBoard()
+        {
+            _board ??= new BoardScreen(this);
+            _board.OpenBoard();
+        }
+
+        public void ShowChest(string objectId)
+        {
+            _chest ??= new ChestScreen(this);
+            _chest.OpenChest(objectId);
+        }
+
         public void ShowShop(string shopId)
         {
             _shop ??= new ShopScreen(this);
@@ -256,6 +299,12 @@ namespace Farm.UI
         {
             _message ??= new MessageDialog(this);
             _message.OpenMessage(messageKey, onClose);
+        }
+
+        public void ShowDialogue(DialogueRunner runner, Action onClosed = null)
+        {
+            _dialogue ??= new DialogueScreen(this);
+            _dialogue.OpenDialogue(runner, onClosed);
         }
 
         public void ShowDaySummary(DaySummary summary, Action onContinue)

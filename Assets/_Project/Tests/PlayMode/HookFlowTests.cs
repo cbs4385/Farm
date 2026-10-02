@@ -106,6 +106,8 @@ namespace Farm.Tests
 
             // Day cycle: night note appears in the summary, and a full-moon dawn is foggy.
             session.Clock.SetTime(new GameDateTime(1, Season.Spring, 14, 1000));
+            session.State.Mailbox.Clear();
+            session.Story = new StoryContent();      // the story's own morning notes are tested elsewhere
             var summary = session.EndDay(false);
             Assert.AreEqual(1, summary.Notes.Count);
             Assert.AreEqual("test.dream", summary.Notes[0].Key);

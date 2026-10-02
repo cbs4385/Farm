@@ -15,7 +15,8 @@ namespace Farm.Tests
             public HashSet<string> Flags = new HashSet<string>();
             public bool HasFlag(string f) => Flags.Contains(f);
             public int GetVar(string n) => 0;
-            public GameDateTime Now => GameDateTime.NewGame;
+            public GameDateTime Date = GameDateTime.NewGame;
+            public GameDateTime Now => Date;
             public string Weather => "sunny";
             public string MapId => "Farm";
         }
@@ -66,8 +67,29 @@ namespace Farm.Tests
             var db = Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
             var seeds = db.AllItems.Where(i => i.Category == ItemCategory.Seed).ToList();
             Assert.IsNotEmpty(seeds);
-            var stock = ShopCatalog.For(db, "general", new World()).Select(i => i.Id).ToList();
-            foreach (var seed in seeds) CollectionAssert.Contains(stock, seed.Id);
+            // Seeds are on sale only while they can be planted; saplings any time.
+            foreach (Season season in System.Enum.GetValues(typeof(Season)))
+            {
+                var stock = ShopCatalog.For(db, "general", new World { Date = new GameDateTime(1, season, 5) }).Select(i => i.Id).ToList();
+                foreach (var seed in seeds)
+                {
+                    db.TryGetCrop(seed.CropId, out var crop);
+                    var expected = crop.IsTree || crop.Seasons.Includes(season);
+                    Assert.AreEqual(expected, stock.Contains(seed.Id), $"{seed.Id} in {season}");
+                }
+            }
+        }
+
+        [Test]
+        public void EveryCrop_CanBeBoughtInItsSeason()
+        {
+            var db = Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
+            foreach (var crop in db.Crops)
+            {
+                var season = crop.IsTree ? Season.Spring : System.Enum.GetValues(typeof(Season)).Cast<Season>().First(s => crop.Seasons.Includes(s));
+                var stock = ShopCatalog.For(db, "general", new World { Date = new GameDateTime(1, season, 5) }).Select(i => i.Id);
+                CollectionAssert.Contains(stock, crop.SeedItemId, crop.Id);
+            }
         }
     }
 

@@ -15,6 +15,15 @@ namespace Farm.Data
         public const string CopperBar = "resource.copperbar";
         public const string IronBar = "resource.ironbar";
         public const string GoldBar = "resource.goldbar";
+        public const string Coal = "resource.coal";
+        public const string CopperOre = "resource.copperore";
+        public const string IronOre = "resource.ironore";
+        public const string GoldOre = "resource.goldore";
+
+        public const string FertilizerQuality = "fertilizer.quality";
+        public const string FertilizerSpeed = "fertilizer.speed";
+
+        public static string Machine(string placeableId) => $"machine.{placeableId}";
 
         public static string Seed(string cropId) => $"seed.{cropId}";
         public static string Crop(string cropId) => $"crop.{cropId}";

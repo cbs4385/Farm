@@ -79,6 +79,22 @@ namespace Farm.Gameplay
         float Modify(float luck, GameState state);
     }
 
+    // Adjusts how fast an NPC's attitude toward the player decays when the player ignores them: the base rate (points
+    // per day) goes in, the rate to use comes out. Dread can speed it up.
+    public interface IFriendshipDecayModifier
+    {
+        int Order { get; }
+        float Modify(string npcId, float rate, GameState state);
+    }
+
+    // Reshapes the odds of a seasonal random event: its weight goes in, the weight to use comes out (0 removes it).
+    // Dread shifts weight toward unfavourable events (see RandomEventDefinition.Mood).
+    public interface IEventWeightModifier
+    {
+        int Order { get; }
+        float Modify(RandomEventDefinition def, float weight, GameState state);
+    }
+
     public sealed class MapLoadedContext
     {
         public string MapId;
@@ -103,6 +119,8 @@ namespace Farm.Gameplay
         readonly List<IWeatherWeightModifier> _weatherWeights = new List<IWeatherWeightModifier>();
         readonly List<Func<IHudWidget>> _hudWidgets = new List<Func<IHudWidget>>();
         readonly List<ILuckModifier> _luck = new List<ILuckModifier>();
+        readonly List<IFriendshipDecayModifier> _decay = new List<IFriendshipDecayModifier>();
+        readonly List<IEventWeightModifier> _eventWeights = new List<IEventWeightModifier>();
 
         public IReadOnlyList<IDayCycleHook> DayCycleHooks => _dayCycle;
         public IReadOnlyList<ILuckModifier> LuckModifiers => _luck;
@@ -202,8 +220,46 @@ namespace Farm.Gameplay
             return luck;
         }
 
+        public void AddFriendshipDecayModifier(IFriendshipDecayModifier modifier)
+        {
+            if (modifier == null || _decay.Contains(modifier)) return;
+            _decay.Add(modifier);
+            _decay.Sort((a, b) => a.Order.CompareTo(b.Order));
+        }
+
+        // The daily friendship loss for an ignored NPC after every modifier (never negative).
+        public float ComputeFriendshipDecay(string npcId, float baseRate, GameState state)
+        {
+            var rate = baseRate;
+            foreach (var m in _decay)
+            {
+                try { rate = Mathf.Max(0f, m.Modify(npcId, rate, state)); }
+                catch (Exception e) { Log.Error($"Friendship decay modifier {m.GetType().Name} failed: {e}"); }
+            }
+            return rate;
+        }
+
+        public void AddEventWeightModifier(IEventWeightModifier modifier)
+        {
+            if (modifier == null || _eventWeights.Contains(modifier)) return;
+            _eventWeights.Add(modifier);
+            _eventWeights.Sort((a, b) => a.Order.CompareTo(b.Order));
+        }
+
+        public float ComputeEventWeight(RandomEventDefinition def, float weight, GameState state)
+        {
+            foreach (var m in _eventWeights)
+            {
+                try { weight = Mathf.Max(0f, m.Modify(def, weight, state)); }
+                catch (Exception e) { Log.Error($"Event weight modifier {m.GetType().Name} failed: {e}"); }
+            }
+            return weight;
+        }
+
         public void Clear()
         {
+            _decay.Clear();
+            _eventWeights.Clear();
             _dayCycle.Clear();
             _weather.Clear();
             _weatherWeights.Clear();

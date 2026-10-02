@@ -15,6 +15,8 @@ namespace Farm.Gameplay
         public const string HotbarPrev = "HotbarPrev";
         public const string Inventory = "Inventory";
         public const string Pause = "Pause";
+        public const string Menu = "Menu";               // the game menu: skills, social, calendar, map, journal, crafting
+        public const string Journal = "Journal";         // the game menu opened on the journal
         public const string HotbarPrefix = "Hotbar";     // Hotbar1 .. Hotbar12
 
         public const string Navigate = "Navigate";
@@ -23,13 +25,15 @@ namespace Farm.Gameplay
         public const string Point = "Point";
         public const string Click = "Click";
         public const string ScrollWheel = "ScrollWheel";
+        public const string TabPrev = "TabPrev";         // previous / next tab in the game menu
+        public const string TabNext = "TabNext";
 
         public const int HotbarSlots = 12;
 
         // Actions the player may rebind from the options screen (button actions only).
         public static readonly string[] Rebindable =
         {
-            UseTool, Interact, Inventory, HotbarPrev, HotbarNext,
+            UseTool, Interact, Inventory, Menu, Journal, HotbarPrev, HotbarNext,
         };
     }
 }

@@ -35,6 +35,7 @@ namespace Farm.Gameplay
             ServiceLocator.Register(settings);
 
             BusinessHoursRegistry.RegisterConditionAtom();   // `open:<shopId>` in conditions
+            StoryConditions.Register();                       // hearts, has, quest, knows in conditions
             BusinessHoursRegistry.RegisterDefaults();
 
             var db = Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
@@ -60,6 +61,7 @@ namespace Farm.Gameplay
 
             var session = root.AddComponent<GameSession>();
             session.Init(bus, db, saves);
+            session.Story = StoryContent.LoadFromResources();
             ServiceLocator.Register(session);
 
             // Optional content packs (extra items/crops) merge into the core database.

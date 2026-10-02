@@ -53,6 +53,8 @@ namespace Farm.Editor
             Button(map, InputNames.HotbarPrev, ("<Mouse>/scroll/down", Kbm), ("<Keyboard>/comma", Kbm), ("<Gamepad>/leftShoulder", Pad));
             Button(map, InputNames.Inventory, ("<Keyboard>/tab", Kbm), ("<Keyboard>/i", Kbm), ("<Gamepad>/buttonNorth", Pad));
             Button(map, InputNames.Pause, ("<Keyboard>/escape", Kbm), ("<Gamepad>/start", Pad));
+            Button(map, InputNames.Menu, ("<Keyboard>/m", Kbm), ("<Gamepad>/select", Pad));
+            Button(map, InputNames.Journal, ("<Keyboard>/j", Kbm), ("<Gamepad>/rightStickPress", Pad));
 
             var keys = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "minus", "equals" };
             for (var i = 0; i < keys.Length; i++)
@@ -74,6 +76,8 @@ namespace Farm.Editor
 
             Button(map, InputNames.Submit, ("<Keyboard>/enter", Kbm), ("<Keyboard>/space", Kbm), ("<Gamepad>/buttonSouth", Pad));
             Button(map, InputNames.Cancel, ("<Keyboard>/escape", Kbm), ("<Gamepad>/buttonEast", Pad));
+            Button(map, InputNames.TabPrev, ("<Keyboard>/q", Kbm), ("<Keyboard>/leftBracket", Kbm), ("<Gamepad>/leftShoulder", Pad));
+            Button(map, InputNames.TabNext, ("<Keyboard>/e", Kbm), ("<Keyboard>/rightBracket", Kbm), ("<Gamepad>/rightShoulder", Pad));
             map.AddAction(InputNames.Point, InputActionType.PassThrough, expectedControlLayout: "Vector2")
                 .AddBinding("<Mouse>/position", groups: Kbm);
             map.AddAction(InputNames.Click, InputActionType.PassThrough)

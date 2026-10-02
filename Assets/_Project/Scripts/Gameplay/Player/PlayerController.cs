@@ -66,6 +66,13 @@ namespace Farm.Gameplay
             UpdateSprite();
         }
 
+        // Moves the player to a position without physics (cutscenes).
+        public void Teleport(Vector3 position)
+        {
+            transform.position = position;
+            if (_rb != null) { _rb.position = position; _rb.linearVelocity = Vector2.zero; }
+        }
+
         public void Stop()
         {
             _move = Vector2.zero;

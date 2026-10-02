@@ -14,6 +14,10 @@ namespace Farm.Data
         [SerializeField] List<WeatherDefinition> _weather = new List<WeatherDefinition>();
         [SerializeField] List<ResourceNodeDefinition> _nodes = new List<ResourceNodeDefinition>();
         [SerializeField] List<UpgradeDefinition> _upgrades = new List<UpgradeDefinition>();
+        [SerializeField] List<SpawnTableDefinition> _spawnTables = new List<SpawnTableDefinition>();
+        [SerializeField] List<NpcDefinition> _npcs = new List<NpcDefinition>();
+        [SerializeField] List<RecipeDefinition> _recipes = new List<RecipeDefinition>();
+        [SerializeField] List<PlaceableDefinition> _placeables = new List<PlaceableDefinition>();
 
         Dictionary<string, ItemDefinition> _itemLookup;
         Dictionary<string, CropDefinition> _cropLookup;
@@ -22,13 +26,17 @@ namespace Farm.Data
         readonly List<WeatherDefinition> _runtimeWeather = new List<WeatherDefinition>();
         readonly List<ResourceNodeDefinition> _runtimeNodes = new List<ResourceNodeDefinition>();
         readonly List<UpgradeDefinition> _runtimeUpgrades = new List<UpgradeDefinition>();
+        readonly List<SpawnTableDefinition> _runtimeSpawnTables = new List<SpawnTableDefinition>();
+        readonly List<NpcDefinition> _runtimeNpcs = new List<NpcDefinition>();
+        readonly List<RecipeDefinition> _runtimeRecipes = new List<RecipeDefinition>();
+        readonly List<PlaceableDefinition> _runtimePlaceables = new List<PlaceableDefinition>();
 
         public IReadOnlyList<ItemDefinition> Items => _items;
         public IReadOnlyList<CropDefinition> Crops => _crops;
 
         public static GameDatabase Create(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
             IEnumerable<WeatherDefinition> weather = null, IEnumerable<ResourceNodeDefinition> nodes = null,
-            IEnumerable<UpgradeDefinition> upgrades = null)
+            IEnumerable<UpgradeDefinition> upgrades = null, IEnumerable<SpawnTableDefinition> spawnTables = null)
         {
             var db = CreateInstance<GameDatabase>();
             db._items.AddRange(items);
@@ -36,13 +44,15 @@ namespace Farm.Data
             if (weather != null) db._weather.AddRange(weather);
             if (nodes != null) db._nodes.AddRange(nodes);
             if (upgrades != null) db._upgrades.AddRange(upgrades);
+            if (spawnTables != null) db._spawnTables.AddRange(spawnTables);
             return db;
         }
 
         public void SetContents(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
             IEnumerable<WeatherDefinition> weather = null, IEnumerable<ResourceNodeDefinition> nodes = null,
-            IEnumerable<UpgradeDefinition> upgrades = null)
+            IEnumerable<UpgradeDefinition> upgrades = null, IEnumerable<SpawnTableDefinition> spawnTables = null)
         {
+            _spawnTables = spawnTables != null ? new List<SpawnTableDefinition>(spawnTables) : new List<SpawnTableDefinition>();
             _upgrades = upgrades != null ? new List<UpgradeDefinition>(upgrades) : new List<UpgradeDefinition>();
             _nodes = nodes != null ? new List<ResourceNodeDefinition>(nodes) : new List<ResourceNodeDefinition>();
             _items = new List<ItemDefinition>(items);
@@ -121,7 +131,107 @@ namespace Farm.Data
                 }
                 _runtimeUpgrades.Add(upgrade);
             }
+            var knownTables = new HashSet<string>();
+            foreach (var t in AllSpawnTables) knownTables.Add(t.Id);
+            foreach (var table in pack.SpawnTables)
+            {
+                if (table == null) continue;
+                if (!knownTables.Add(table.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines spawn table '{table.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _runtimeSpawnTables.Add(table);
+            }
+            var knownNpcs = new HashSet<string>();
+            foreach (var n in AllNpcs) knownNpcs.Add(n.Id);
+            foreach (var npc in pack.Npcs)
+            {
+                if (npc == null) continue;
+                if (!knownNpcs.Add(npc.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines NPC '{npc.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _runtimeNpcs.Add(npc);
+            }
+            var knownRecipes = new HashSet<string>();
+            foreach (var r in AllRecipes) knownRecipes.Add(r.Id);
+            foreach (var recipe in pack.Recipes)
+            {
+                if (recipe == null) continue;
+                if (!knownRecipes.Add(recipe.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines recipe '{recipe.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _runtimeRecipes.Add(recipe);
+            }
+            var knownPlaceables = new HashSet<string>();
+            foreach (var pl in AllPlaceables) knownPlaceables.Add(pl.Id);
+            foreach (var placeable in pack.Placeables)
+            {
+                if (placeable == null) continue;
+                if (!knownPlaceables.Add(placeable.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines placeable '{placeable.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _runtimePlaceables.Add(placeable);
+            }
             return rejected;
+        }
+
+        public void SetPlaceables(IEnumerable<PlaceableDefinition> placeables) => _placeables = new List<PlaceableDefinition>(placeables);
+
+        // Every placeable object type, including pack ones.
+        public IEnumerable<PlaceableDefinition> AllPlaceables
+        {
+            get
+            {
+                foreach (var p in _placeables) if (p != null) yield return p;
+                foreach (var p in _runtimePlaceables) if (p != null) yield return p;
+            }
+        }
+
+        // Replaces the core recipe list (content generation).
+        public void SetRecipes(IEnumerable<RecipeDefinition> recipes) => _recipes = new List<RecipeDefinition>(recipes);
+
+        // Every recipe, including pack ones.
+        public IEnumerable<RecipeDefinition> AllRecipes
+        {
+            get
+            {
+                foreach (var r in _recipes) if (r != null) yield return r;
+                foreach (var r in _runtimeRecipes) if (r != null) yield return r;
+            }
+        }
+
+        // Replaces the core NPC list (content generation).
+        public void SetNpcs(IEnumerable<NpcDefinition> npcs) => _npcs = new List<NpcDefinition>(npcs);
+
+        // Every villager, including pack ones.
+        public IEnumerable<NpcDefinition> AllNpcs
+        {
+            get
+            {
+                foreach (var n in _npcs) if (n != null) yield return n;
+                foreach (var n in _runtimeNpcs) if (n != null) yield return n;
+            }
+        }
+
+        // Every spawn table, including pack ones. Empty means "use ForageDefaults".
+        public IEnumerable<SpawnTableDefinition> AllSpawnTables
+        {
+            get
+            {
+                foreach (var t in _spawnTables) if (t != null) yield return t;
+                foreach (var t in _runtimeSpawnTables) if (t != null) yield return t;
+            }
         }
 
         // Every upgrade definition, including pack ones. Empty means "use UpgradeDefaults".
