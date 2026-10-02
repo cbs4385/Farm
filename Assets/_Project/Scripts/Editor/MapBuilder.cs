@@ -359,10 +359,12 @@ namespace Farm.Editor
             var soil = TilemapLayer(gridGo, "Soil", 1, collider: false);
             var crops = TilemapLayer(gridGo, "Crops", 2, collider: false);
             var walls = TilemapLayer(gridGo, "Walls", 3, collider: true);
+            var nodes = TilemapLayer(gridGo, "Nodes", 2, collider: true);   // trees, rocks, weeds (drawn at runtime)
 
             var mapGo = new GameObject("Map");
             var map = mapGo.AddComponent<FarmMap>();
-            map.Configure(mapId, ground, soil, crops, allowFarming);
+            map.Configure(mapId, ground, soil, crops, allowFarming, nodes, walls);
+            map.ClutterDensity = mapId == MapIds.Farm ? 0.07f : 0f;
 
             var view = mapGo.AddComponent<FarmMapView>();
             view.Configure(map, Sprite("tile_tilled"), Sprite("tile_tilled_watered"));

@@ -101,12 +101,14 @@ namespace Farm.Gameplay
         {
             var cell = TargetCell;
             var grid = Session.GetGrid(_map.MapId);
-            var cost = EnergyCost(tool);
+            var tier = Session.ToolTier(ToolModel.ItemId(tool));
+            var cost = ToolModel.EnergyCost(EnergyCost(tool), tier);
 
             switch (tool)
             {
                 case ToolType.Hoe:
                     if (grid.IsTilled(cell.x, cell.y)) return;
+                    if (Session.GetNodes(_map.MapId).Has(cell.x, cell.y)) { Session.Toast(L.Get("toast.clear_first")); return; }
                     if (!_map.IsTillable(cell)) { Session.Toast(L.Get("toast.cannot_till")); return; }
                     if (!SpendEnergy(cost)) return;
                     grid.Till(cell.x, cell.y);
@@ -121,8 +123,15 @@ namespace Farm.Gameplay
                     AudioService.PlayIfAvailable(Sfx.Water);
                     break;
 
+                case ToolType.Axe:
+                case ToolType.Pickaxe:
+                case ToolType.Scythe:
+                    cost = ToolModel.EnergyCost(EnergyCost(tool), tier);
+                    if (!SwingAtNode(tool, tier, cost, cell)) return;
+                    _view.RefreshNode(cell);
+                    break;
+
                 default:
-                    // Axe, pickaxe and scythe have no targets until trees, rocks and weeds arrive (T-032/T-033).
                     return;
             }
             _view.RefreshCell(cell);
@@ -130,6 +139,40 @@ namespace Farm.Gameplay
             // Lets other systems react to the player finishing an action that cost energy (for example the late-night
             // stay-awake check, T-046).
             if (cost > 0) ServiceLocator.Get<EventBus>().Publish(new EnergyActionCompleted(tool.ToString(), cost));
+        }
+
+        // A swing of the axe, pickaxe or scythe at the node on a cell. Returns true if the swing happened (and cost energy).
+        bool SwingAtNode(ToolType tool, int tier, int cost, Vector3Int cell)
+        {
+            var nodes = Session.GetNodes(_map.MapId);
+            if (!nodes.TryGet(cell.x, cell.y, out var node)) return false;
+            var def = Session.Nodes.Get(node.TypeId);
+            if (def == null || def.Tool != tool) return false;          // the wrong tool for this: nothing happens
+            if (tier < def.MinToolTier) { Session.Toast(L.Get("toast.tool_too_weak")); return false; }
+
+            // Clearing it must not lose the loot: check the backpack before spending energy.
+            var clears = node.Hp - ToolModel.Damage(tier) <= 0;
+            if (clears && !string.IsNullOrEmpty(def.DropItemId) && !Session.Backpack.CanAdd(def.DropItemId, def.DropMax))
+            {
+                Session.Toast(L.Get("toast.inventory_full"));
+                return false;
+            }
+            if (!SpendEnergy(cost)) return false;
+
+            var roll = WeatherRoller.Unit(cell.x * 131 + cell.y * 17 + Session.Clock.Now.TotalDays * 7, Session.State.WorldSeed);
+            var result = nodes.Hit(cell.x, cell.y, tool, tier, Session.Nodes.Get, roll);
+            if (result.Outcome == NodeHit.Cleared)
+            {
+                if (!string.IsNullOrEmpty(result.DropItemId) && result.DropCount > 0)
+                    Session.Backpack.Add(result.DropItemId, result.DropCount);
+                Session.AddSkillXp(result.Skill, result.Xp);
+                AudioService.PlayIfAvailable(Sfx.Harvest);
+            }
+            else
+            {
+                AudioService.PlayIfAvailable(tool == ToolType.Scythe ? Sfx.Harvest : Sfx.Hoe);
+            }
+            return true;
         }
 
         // Returns true if a seed was planted. Explains with a toast when it was not.
@@ -189,7 +232,7 @@ namespace Farm.Gameplay
                 if (grid.TryHarvest(cell.x, cell.y, CropLookup, out var result))
                 {
                     Session.Backpack.Add(result.ItemId, result.Count);
-                    Session.AddSkillXp("farming", result.Xp);
+                    Session.AddSkillXp(SkillIds.Farming, result.Xp);
                     AudioService.PlayIfAvailable(Sfx.Harvest);
                     _view.RefreshCell(cell);
                 }

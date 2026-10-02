@@ -37,7 +37,8 @@ namespace Farm.Gameplay
             _session.State.CurrentMap = _map.MapId;
             PlacePlayer(_session.State.SpawnPoint);
 
-            _view.Bind(_session.GetGrid(_map.MapId), _session.Db);
+            if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
+            _view.Bind(_session.GetGrid(_map.MapId), _session.Db, _session.GetNodes(_map.MapId), _session.Nodes);
 
             _camera.SetTarget(_player.transform);
             _camera.SetBounds(_map.WorldBounds);
@@ -124,6 +125,27 @@ namespace Farm.Gameplay
                 if (grid.TryGetTile(x, 15, out var tile)) tile.Crop.Stage = stage;
             }
             _view.RefreshAll();
+        }
+
+        // Cells where starting clutter may grow: open grass or dirt, away from doors, spawns and anything usable.
+        System.Collections.Generic.IEnumerable<(int x, int y)> ClutterCandidates()
+        {
+            var keepClear = new System.Collections.Generic.List<Vector3Int>();
+            foreach (var w in FindObjectsByType<Warp>(FindObjectsSortMode.None)) keepClear.Add(_map.WorldToCell(w.transform.position));
+            foreach (var s in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None)) keepClear.Add(_map.WorldToCell(s.transform.position));
+            foreach (var u in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+                if (u is IInteractable) keepClear.Add(_map.WorldToCell(u.transform.position));
+
+            var grid = _session.GetGrid(_map.MapId);
+            _map.Ground.CompressBounds();
+            foreach (var cell in _map.Ground.cellBounds.allPositionsWithin)
+            {
+                if (!_map.IsOpenGround(cell) || grid.IsTilled(cell.x, cell.y)) continue;
+                var near = false;
+                foreach (var k in keepClear)
+                    if (Mathf.Abs(k.x - cell.x) <= 3 && Mathf.Abs(k.y - cell.y) <= 3) { near = true; break; }
+                if (!near) yield return (cell.x, cell.y);
+            }
         }
 
         void OnDestroy()

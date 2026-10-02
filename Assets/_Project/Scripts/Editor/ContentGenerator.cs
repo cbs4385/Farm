@@ -15,6 +15,7 @@ namespace Farm.Editor
         const string ItemDir = Root + "/Data/Items";
         const string CropDir = Root + "/Data/Crops";
         const string WeatherDir = Root + "/Data/Weather";
+        const string NodeDir = Root + "/Data/Nodes";
         const string DbPath = Root + "/Resources/GameDatabase.asset";
         const string ArtDir = Root + "/Art/Placeholders";
 
@@ -42,6 +43,7 @@ namespace Farm.Editor
             Directory.CreateDirectory(ItemDir);
             Directory.CreateDirectory(CropDir);
             Directory.CreateDirectory(WeatherDir);
+            Directory.CreateDirectory(NodeDir);
             Directory.CreateDirectory(Path.GetDirectoryName(DbPath));
 
             var items = new List<ItemDefinition>();
@@ -68,21 +70,22 @@ namespace Farm.Editor
             }
 
             var weather = WeatherDefaults.CreateAll().Select(SaveWeather).ToList();
+            var nodes = NodeDefaults.CreateAll().Select(SaveNode).ToList();
 
             var db = AssetDatabase.LoadAssetAtPath<GameDatabase>(DbPath);
             if (db == null)
             {
-                db = GameDatabase.Create(items, crops, weather);
+                db = GameDatabase.Create(items, crops, weather, nodes);
                 AssetDatabase.CreateAsset(db, DbPath);
             }
             else
             {
-                db.SetContents(items, crops, weather);
+                db.SetContents(items, crops, weather, nodes);
                 EditorUtility.SetDirty(db);
             }
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers.");
+            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers, {nodes.Count} resource nodes.");
         }
 
         public static void GenerateAllAndExit()
@@ -115,6 +118,23 @@ namespace Farm.Editor
                 Object.DestroyImmediate(fresh);
                 return existing;
             }
+            AssetDatabase.CreateAsset(fresh, path);
+            return fresh;
+        }
+
+        // Resource nodes are tuned in the inspector too: keep an existing asset, but make sure it has its sprite.
+        static ResourceNodeDefinition SaveNode(ResourceNodeDefinition fresh)
+        {
+            var path = $"{NodeDir}/{fresh.Id}.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<ResourceNodeDefinition>(path);
+            var sprite = Sprite("obj_" + fresh.Id);
+            if (existing != null)
+            {
+                Object.DestroyImmediate(fresh);
+                if (existing.Sprite == null && sprite != null) { existing.SetSprite(sprite); EditorUtility.SetDirty(existing); }
+                return existing;
+            }
+            fresh.SetSprite(sprite);
             AssetDatabase.CreateAsset(fresh, path);
             return fresh;
         }

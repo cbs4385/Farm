@@ -47,6 +47,7 @@ namespace Farm.Gameplay
                 ["skip"] = ("skip <minutes>", "advance the clock by game minutes", Skip),
                 ["day"] = ("day [N]", "sleep through N days (default 1), running the overnight logic each time", Days),
                 ["date"] = ("date <season> [day]", "jump forward to a season and day (spring 1 ... winter 28)", Date),
+                ["xp"] = ("xp <skill> <amount>", "add skill XP (farming, foraging, mining, fishing, combat)", AddXp),
                 ["weather"] = ("weather <id>", "set today's weather (for example sunny, rain)", Weather),
                 ["flag"] = ("flag <id> [on|off]", "set or clear a story flag", Flag),
                 ["var"] = ("var <name> <value|+N|-N>", "set or change a story variable", Var),
@@ -133,6 +134,15 @@ namespace Farm.Gameplay
                 _session.EndDay(false);
             }
             return DebugCommandResult.Success($"Now {_session.Clock.Now}. Skipped {steps} day(s).", reload: steps > 0);
+        }
+
+        DebugCommandResult AddXp(string[] a)
+        {
+            if (a.Length != 2 || !int.TryParse(a[1], out var amount) || amount < 1) return DebugCommandResult.Fail("Usage: xp <skill> <amount>");
+            var skill = a[0].ToLowerInvariant();
+            if (!SkillModel.IsKnown(skill)) return DebugCommandResult.Fail($"Unknown skill '{skill}'. Known: {string.Join(", ", SkillIds.All)}");
+            _session.AddSkillXp(skill, amount);
+            return DebugCommandResult.Success($"{skill} is now level {_session.GetSkillLevel(skill)} ({_session.GetSkillXp(skill)} XP).");
         }
 
         DebugCommandResult Weather(string[] a)

@@ -39,6 +39,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             session.State.Weather = weather;
             var op = SceneManager.LoadSceneAsync(map);
             while (!op.isDone) yield return null;

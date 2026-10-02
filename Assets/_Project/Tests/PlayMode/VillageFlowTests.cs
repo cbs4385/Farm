@@ -47,6 +47,7 @@ namespace Farm.Tests
             yield return null;
             _session = ServiceLocator.Get<GameSession>();
             _session.BeginNewGame("Tester", "Test Farm", 0);
+            _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.Clock.SetTime(new GameDateTime(1, Season.Spring, day, hour * 60));
             _session.State.SetDate(_session.Clock.Now);

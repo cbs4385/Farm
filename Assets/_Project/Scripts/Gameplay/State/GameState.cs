@@ -9,6 +9,8 @@ namespace Farm.Gameplay
     public sealed class MapState
     {
         public List<FarmTile> Tiles = new List<FarmTile>();
+        public List<NodeInstance> Nodes = new List<NodeInstance>();   // trees, rocks, weeds standing on the map
+        public bool ClutterSeeded;                                    // starting clutter has been scattered
     }
 
     // The complete, serializable state of one playthrough. MonoBehaviours are views over this, never the source of truth.
@@ -56,6 +58,9 @@ namespace Farm.Gameplay
         // Seeds everything that must be random per playthrough but repeatable within it (weather so far).
         public int WorldSeed;
         public Dictionary<string, int> SkillXp = new Dictionary<string, int>();
+
+        // Upgrade tier of each tool the player owns, by item id: 0 basic, 1 copper, 2 iron, 3 gold.
+        public Dictionary<string, int> ToolTiers = new Dictionary<string, int>();
         public HashSet<string> Flags = new HashSet<string>();
 
         // Open-ended story state. Additive fields like these need no save migration: older saves load with

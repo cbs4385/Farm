@@ -28,6 +28,11 @@ namespace Farm.Gameplay
         public readonly string Name; public readonly int OldValue; public readonly int NewValue;
         public VarChanged(string name, int oldValue, int newValue) { Name = name; OldValue = oldValue; NewValue = newValue; }
     }
+    public readonly struct SkillLevelUp
+    {
+        public readonly string Skill; public readonly int Level;
+        public SkillLevelUp(string skill, int level) { Skill = skill; Level = level; }
+    }
     public readonly struct DayCycleFinished
     {
         public readonly DaySummary Summary;
@@ -39,6 +44,8 @@ namespace Farm.Gameplay
     public sealed class GameSession : MonoBehaviour
     {
         readonly Dictionary<string, FarmGrid> _grids = new Dictionary<string, FarmGrid>();
+        readonly Dictionary<string, NodeGrid> _nodeGrids = new Dictionary<string, NodeGrid>();
+        NodeCatalog _nodeCatalog;
 
         EventBus _bus;
         GameDatabase _db;
@@ -56,6 +63,9 @@ namespace Farm.Gameplay
         public GameDatabase Db => _db;
 
         // Weather definitions (core assets plus module packs). Built on first use, after packs have merged.
+        // Resource node definitions (core assets plus module packs), built on first use.
+        public NodeCatalog Nodes => _nodeCatalog ?? (_nodeCatalog = NodeCatalog.From(_db));
+
         public WeatherCatalog Weather => _weatherCatalog ?? (_weatherCatalog = WeatherCatalog.From(_db));
         public IDictionary<string, FarmGrid> Grids => _grids;
 
@@ -185,11 +195,35 @@ namespace Farm.Gameplay
             Backpack = Inventory.FromData(state.Backpack, _db.MaxStack);
             Backpack.Changed += OnBackpackChanged;
             _grids.Clear();
-            foreach (var kv in state.Maps) _grids[kv.Key] = FarmGrid.FromTiles(kv.Value.Tiles);
+            _nodeGrids.Clear();
+            foreach (var kv in state.Maps)
+            {
+                _grids[kv.Key] = FarmGrid.FromTiles(kv.Value.Tiles);
+                _nodeGrids[kv.Key] = NodeGrid.FromNodes(kv.Value.Nodes);
+            }
             _bus.Publish(new StatsChanged());
         }
 
         void OnBackpackChanged() => _bus.Publish(new StatsChanged());
+
+        public NodeGrid GetNodes(string mapId)
+        {
+            if (!_nodeGrids.TryGetValue(mapId, out var grid))
+            {
+                grid = new NodeGrid();
+                _nodeGrids[mapId] = grid;
+            }
+            return grid;
+        }
+
+        // Scatters the starting clutter on a map the first time it is visited (the cells are chosen by the scene).
+        public void EnsureClutter(string mapId, IEnumerable<(int x, int y)> candidates, float density)
+        {
+            var map = State.GetMap(mapId);
+            if (map.ClutterSeeded) return;
+            map.ClutterSeeded = true;
+            NodeSpawner.Generate(GetNodes(mapId), candidates, Nodes.All, State.WorldSeed, mapId, density);
+        }
 
         public FarmGrid GetGrid(string mapId)
         {
@@ -208,6 +242,7 @@ namespace Farm.Gameplay
             State.SetDate(Clock.Now);
             State.Backpack = Backpack.ToData();
             foreach (var kv in _grids) State.GetMap(kv.Key).Tiles = kv.Value.ToList();
+            foreach (var kv in _nodeGrids) State.GetMap(kv.Key).Nodes = kv.Value.ToList();
         }
 
         public bool Save()
@@ -257,11 +292,25 @@ namespace Farm.Gameplay
             return true;
         }
 
+        public int GetSkillXp(string skill) => InGame && State.SkillXp.TryGetValue(skill, out var xp) ? xp : 0;
+        public int GetSkillLevel(string skill) => SkillModel.LevelForXp(GetSkillXp(skill));
+
+        // Adds XP; announces each level gained (event and a toast).
         public void AddSkillXp(string skill, int xp)
         {
-            State.SkillXp.TryGetValue(skill, out var current);
-            State.SkillXp[skill] = current + xp;
+            if (!InGame || xp <= 0 || string.IsNullOrEmpty(skill)) return;
+            var before = SkillModel.LevelForXp(GetSkillXp(skill));
+            State.SkillXp[skill] = GetSkillXp(skill) + xp;
+            var after = SkillModel.LevelForXp(State.SkillXp[skill]);
+            for (var level = before + 1; level <= after; level++)
+            {
+                _bus.Publish(new SkillLevelUp(skill, level));
+                Toast(L.Get("toast.skill_level", L.Get("skill." + skill), level));
+            }
         }
+
+        // The upgrade tier of a tool item the player owns (0 = basic).
+        public int ToolTier(string itemId) => InGame && itemId != null && State.ToolTiers.TryGetValue(itemId, out var t) ? t : 0;
 
         public void Toast(string message) => _bus.Publish(new ToastRequested(message));
 

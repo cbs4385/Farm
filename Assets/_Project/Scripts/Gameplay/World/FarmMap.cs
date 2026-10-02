@@ -11,6 +11,9 @@ namespace Farm.Gameplay
         [SerializeField] Tilemap _ground;
         [SerializeField] Tilemap _soil;
         [SerializeField] Tilemap _crops;
+        [SerializeField] Tilemap _nodes;
+        [SerializeField] Tilemap _walls;
+        [SerializeField] float _clutterDensity;   // share of open cells that start with a tree, rock or weed (0 = none)
         [SerializeField] string[] _tillableTileNames = { "tile_grass", "tile_dirt" };
         [SerializeField] bool _allowFarming = true;
 
@@ -20,6 +23,17 @@ namespace Farm.Gameplay
         public Tilemap Ground => _ground;
         public Tilemap Soil => _soil;
         public Tilemap Crops => _crops;
+        public Tilemap Nodes => _nodes;
+        public float ClutterDensity { get => _clutterDensity; set => _clutterDensity = value; }
+
+        // Grass or dirt with no wall tile on it (does not depend on physics colliders having been built yet).
+        public bool IsOpenGround(Vector3Int cell)
+        {
+            var tile = _ground.GetTile(cell);
+            if (tile == null) return false;
+            _tillable ??= new HashSet<string>(_tillableTileNames);
+            return _tillable.Contains(tile.name) && (_walls == null || _walls.GetTile(cell) == null);
+        }
         public bool AllowFarming => _allowFarming;
 
         public Vector3Int WorldToCell(Vector3 world) => _ground.WorldToCell(world);
@@ -55,8 +69,10 @@ namespace Farm.Gameplay
             return true;
         }
 
-        public void Configure(string mapId, Tilemap ground, Tilemap soil, Tilemap crops, bool allowFarming)
+        public void Configure(string mapId, Tilemap ground, Tilemap soil, Tilemap crops, bool allowFarming, Tilemap nodes = null, Tilemap walls = null)
         {
+            _nodes = nodes;
+            _walls = walls;
             _mapId = mapId;
             _ground = ground;
             _soil = soil;

@@ -75,6 +75,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 1);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
 
             var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
@@ -133,6 +134,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
 
             var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
@@ -170,6 +172,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 2);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
             var ui = ServiceLocator.Get<IUiService>();
@@ -214,6 +217,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             session.GetGrid(MapIds.Farm).Till(30, 8);
 
@@ -236,6 +240,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
             var ui = ServiceLocator.Get<IUiService>();
@@ -272,6 +277,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
 
@@ -317,6 +323,7 @@ namespace Farm.Tests
             yield return null;
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
+            session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
 

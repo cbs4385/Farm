@@ -86,6 +86,10 @@ namespace Farm.Editor
             WorldObject(written, "obj_bed", new Color(0.85f, 0.45f, 0.45f), new Color(0.95f, 0.90f, 0.85f));
             WorldObject(written, "obj_shop", new Color(0.30f, 0.55f, 0.75f), new Color(0.95f, 0.85f, 0.40f));
             WorldObject(written, "obj_tree", new Color(0.15f, 0.45f, 0.18f), new Color(0.25f, 0.60f, 0.25f));
+            WorldObject(written, "obj_stump", new Color(0.45f, 0.30f, 0.18f), new Color(0.65f, 0.48f, 0.28f));
+            WorldObject(written, "obj_rock", new Color(0.50f, 0.50f, 0.54f), new Color(0.68f, 0.68f, 0.72f));
+            WorldObject(written, "obj_boulder", new Color(0.38f, 0.38f, 0.44f), new Color(0.55f, 0.55f, 0.62f));
+            WorldObject(written, "obj_weed", new Color(0.25f, 0.55f, 0.20f), new Color(0.45f, 0.75f, 0.30f));
             WorldObject(written, "obj_counter", new Color(0.60f, 0.42f, 0.25f), new Color(0.80f, 0.65f, 0.40f));
             WorldObject(written, "obj_shelf", new Color(0.45f, 0.30f, 0.18f), new Color(0.70f, 0.55f, 0.30f));
             WorldObject(written, "obj_table", new Color(0.65f, 0.48f, 0.30f), new Color(0.75f, 0.60f, 0.38f));
