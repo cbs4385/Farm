@@ -150,7 +150,8 @@ namespace Farm.Gameplay
 
         void UpdateLightning(WeatherDefinition def, Vector2 center, Vector2 viewSize, float dt)
         {
-            if (def.Lightning && Time.time >= _nextFlash)
+            var calm = Core.ServiceLocator.TryGet<Core.SettingsStore>(out var settings) && settings.Current.ReduceFlashes;
+            if (def.Lightning && !calm && Time.time >= _nextFlash)
             {
                 _flashLevel = 0.55f;
                 _nextFlash = Time.time + Random.Range(6f, 14f);

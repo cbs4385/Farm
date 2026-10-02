@@ -24,9 +24,19 @@ namespace Farm.Core
         // Every horror hook must respect this; see docs/adr/0002-mythos-extension-points.md.
         public int HorrorLevel = 2;
 
+        // Accessibility and quality of life (T-063, T-066).
+        public bool ColorblindPalette;      // bars and warnings use colours that stay apart for red-green colour blindness
+        public bool ReduceFlashes;          // no lightning flashes
+        public bool RelaxedEnergy;          // tools and combat cost half the energy
+        public int DayLength = 1;           // 0 = long days, 1 = normal, 2 = short
+
+        public static readonly float[] SecondsPerStepByDayLength = { 10f, 7f, 5f };
+        public float SecondsPerStep => SecondsPerStepByDayLength[Mathf.Clamp(DayLength, 0, 2)];
+
         public void Clamp()
         {
             HorrorLevel = Mathf.Clamp(HorrorLevel, 0, 2);
+            DayLength = Mathf.Clamp(DayLength, 0, 2);
             MasterVolume = Mathf.Clamp01(MasterVolume);
             MusicVolume = Mathf.Clamp01(MusicVolume);
             SfxVolume = Mathf.Clamp01(SfxVolume);

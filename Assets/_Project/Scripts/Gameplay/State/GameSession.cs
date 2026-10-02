@@ -230,6 +230,8 @@ namespace Farm.Gameplay
             _bus.Subscribe<VarChanged>(OnStoryStateChanged);
             _bus.Subscribe<FlagChanged>(OnStoryStateChanged);
             _bus.Subscribe<StatsChanged>(OnStoryStateChanged);
+            _bus.Subscribe<DayCycleFinished>(e => Achievements.Check(this));
+            _bus.Subscribe<FlagChanged>(e => Achievements.Check(this));
         }
 
         void OnDestroy()
@@ -256,6 +258,16 @@ namespace Farm.Gameplay
             if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowMessage("late_night.warning");
         }
 
+        // The game stops while its window is not in focus (the Steam overlay, alt-tab): the clock must not run away.
+        bool _focusPaused;
+
+        void OnApplicationFocus(bool focused)
+        {
+            if (Clock == null || !InGame) return;
+            if (!focused && !_focusPaused) { _focusPaused = true; Clock.Pause(); }
+            else if (focused && _focusPaused) { _focusPaused = false; Clock.Resume(); }
+        }
+
         void Update()
         {
             if (InGame) Clock.Tick(Time.deltaTime);
@@ -272,6 +284,9 @@ namespace Farm.Gameplay
 
         // For starting a map scene directly in the Editor: a throwaway game that is never saved (slot -1).
         public void BeginDevGame() => Begin(GameState.NewGame("Dev", "Dev Farm", _db.MaxStack), -1);
+
+        // Starts play from an already loaded state without a save slot (tests and tools).
+        public void BeginState(GameState state) => Begin(state, -1);
 
         public bool BeginLoad(int slot, out string error)
         {
@@ -299,6 +314,8 @@ namespace Farm.Gameplay
             if (string.IsNullOrEmpty(state.ForecastWeather))
                 state.ForecastWeather = WeatherRoller.Roll(state.GetDate().StartOfNextDay(), Weather, state.WorldSeed, Hooks, state);
             Clock = new GameClock(state.GetDate(), _bus);
+            ApplySettings();
+            Achievements.SyncToPlatform(this);
             Backpack = Inventory.FromData(state.Backpack, _db.MaxStack);
             Backpack.Changed += OnBackpackChanged;
             _grids.Clear();
@@ -385,10 +402,19 @@ namespace Farm.Gameplay
             return true;
         }
 
+        // The player's quality-of-life settings (day length, energy cost) read live from the settings store.
+        public static SettingsData Settings => ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current : null;
+
+        public void ApplySettings()
+        {
+            if (Clock != null && Settings != null) Clock.SecondsPerStep = Settings.SecondsPerStep;
+        }
+
         // ---- player stats --------------------------------------------------------------------------------------
 
         public bool TrySpendEnergy(int amount)
         {
+            if (amount > 0 && Settings != null && Settings.RelaxedEnergy) amount = Mathf.Max(1, amount / 2);
             if (State.Energy < amount) return false;
             State.Energy -= amount;
             _bus.Publish(new StatsChanged());

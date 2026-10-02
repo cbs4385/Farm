@@ -107,7 +107,7 @@ namespace Farm.UI
             UiKit.Place(frame.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(170, 22), new Vector2(12, 70));
             var back = UiKit.Panel(frame.transform, "Back", new Color(0.08f, 0.06f, 0.04f, 1f));
             UiKit.Stretch(back.rectTransform, 4f);
-            _healthFill = UiKit.Panel(back.transform, "Fill", new Color(0.85f, 0.25f, 0.30f));
+            _healthFill = UiKit.Panel(back.transform, "Fill", UiPalette.Health);
             UiKit.Stretch(_healthFill.rectTransform);
             _healthLabel = UiKit.Label(frame.transform, "", 13f, TextAlignmentOptions.Center);
             UiKit.Stretch(_healthLabel.rectTransform);
@@ -125,7 +125,7 @@ namespace Farm.UI
             back.rectTransform.offsetMax = new Vector2(-5f, -5f);
             back.rectTransform.offsetMin = new Vector2(5f, 18f);
 
-            _fatigueFill = UiKit.Panel(back.transform, "Fill", new Color(0.55f, 0.45f, 0.85f));
+            _fatigueFill = UiKit.Panel(back.transform, "Fill", UiPalette.Fatigue);
             UiKit.Stretch(_fatigueFill.rectTransform);
 
             _fatigueLabel = UiKit.Label(frame.transform, "", 12f, TextAlignmentOptions.Center);
@@ -205,13 +205,14 @@ namespace Farm.UI
 
             var fraction = s.State.MaxEnergy > 0 ? Mathf.Clamp01((float)s.State.Energy / s.State.MaxEnergy) : 0f;
             _energyFill.rectTransform.anchorMax = new Vector2(1f, fraction);
-            _energyFill.color = fraction > 0.25f ? new Color(0.45f, 0.80f, 0.30f) : UiKit.Danger;
+            _energyFill.color = fraction > 0.25f ? UiPalette.Energy : UiPalette.Low;
             _energyLabel.text = s.State.Energy.ToString();
 
             var hurt = s.State.Health < s.State.MaxHealth || s.State.Mine.Floor > 0;
             _healthFrame.SetActive(hurt);
             if (hurt)
             {
+                _healthFill.color = UiPalette.Health;
                 _healthFill.rectTransform.anchorMax = new Vector2(Mathf.Clamp01((float)s.State.Health / Mathf.Max(1, s.State.MaxHealth)), 1f);
                 _healthLabel.text = L.Get("hud.health", s.State.Health, s.State.MaxHealth);
             }
@@ -220,6 +221,7 @@ namespace Farm.UI
             _fatigueFrame.SetActive(tired > 0f);
             if (tired > 0f)
             {
+                _fatigueFill.color = UiPalette.Fatigue;
                 _fatigueFill.rectTransform.anchorMax = new Vector2(1f, Mathf.Clamp01(tired));
                 _fatigueLabel.text = L.Get("hud.fatigue", Mathf.RoundToInt(tired * 100f));
             }

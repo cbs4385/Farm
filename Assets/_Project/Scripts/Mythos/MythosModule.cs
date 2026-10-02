@@ -40,6 +40,8 @@ namespace Farm.Mythos
         {
             RegisterConditions();
             MythosEffects.Register();
+            foreach (var ending in new[] { "sealed", "joined", "ignored", "awakened" })
+                Achievements.Register(new AchievementDefinition("end_" + ending, "horror:1 && flag:ending." + ending));
             MythosContent.Load(session.Story);
 
             hooks.AddDayCycleHook(new MythosDayHook(session));

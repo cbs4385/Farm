@@ -154,6 +154,25 @@ namespace Farm.UI
             var notes = Row(L.Get("options.content_notes"));
             UiKit.MakeButton(notes, L.Get("options.show"), () => Ui.ShowMessage("content.notes"), 220f, 30f).name = "ContentNotes";
 
+            Section(L.Get("options.access"));
+            var cb = Row(L.Get("options.colorblind"));
+            UiKit.MakeToggle(cb, L.Get("ui.on"), s.ColorblindPalette, on => s.ColorblindPalette = on, 220f);
+            var calm = Row(L.Get("options.reduce_flashes"));
+            UiKit.MakeToggle(calm, L.Get("ui.on"), s.ReduceFlashes, on => s.ReduceFlashes = on, 220f);
+
+            Section(L.Get("options.gameplay"));
+            var easy = Row(L.Get("options.relaxed_energy"));
+            UiKit.MakeToggle(easy, L.Get("ui.on"), s.RelaxedEnergy, on => s.RelaxedEnergy = on, 220f);
+            var dl = Row(L.Get("options.day_length"));
+            Button dlButton = null;
+            dlButton = UiKit.MakeButton(dl, L.Get("options.day_length." + s.DayLength), () =>
+            {
+                s.DayLength = (s.DayLength + 1) % 3;
+                UiKit.SetButtonText(dlButton, L.Get("options.day_length." + s.DayLength));
+                if (ServiceLocator.TryGet<GameSession>(out var session)) session.ApplySettings();
+            }, 220f, 30f);
+            dlButton.name = "DayLength";
+
             var lang = Row(L.Get("options.language"));
             UiKit.Label(lang, L.Get("language.en"), 18f, TextAlignmentOptions.Left, UiKit.DimText);
 

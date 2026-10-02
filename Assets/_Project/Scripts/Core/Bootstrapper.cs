@@ -13,6 +13,7 @@ namespace Farm.Core
 
         void Start()
         {
+            CrashLog.Install(System.IO.Path.Combine(Application.persistentDataPath, "logs"));
             var sceneLoader = InitializeServices();
             ScreenshotCapture.StartIfRequested(sceneLoader);
             // `-farmScene <name>` lets QA/automation start in another scene.

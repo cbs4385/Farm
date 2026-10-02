@@ -125,8 +125,8 @@ The horror layer ships with the game (GDD section 8-9). All content lives in `Fa
 
 | ID | Task | Deps | Deliverables / AC |
 |---|---|---|---|
-| T-060 | Final art integration pass (swap placeholders by name; atlases; animations; lighting polish), **including the mythos art** (woods, cult spaces, horror crops and variants, dread/wakefulness UI) | art ready | No missing sprites; visual QA on both OS |
-| T-061 | Audio pass: music per season/location, ambience, full SFX set, real `AudioMixer`, **mythos audio** (woods, rituals, dread and wakefulness layers) | audio ready | Mixer snapshots; music/ambience layers switchable by condition or mood layer |
+| T-060 | (BLOCKED: art) Final art integration pass (swap placeholders by name; atlases; animations; lighting polish), **including the mythos art** (woods, cult spaces, horror crops and variants, dread/wakefulness UI) | art ready | No missing sprites; visual QA on both OS |
+| T-061 | (BLOCKED: audio) Audio pass: music per season/location, ambience, full SFX set, real `AudioMixer`, **mythos audio** (woods, rituals, dread and wakefulness layers) | audio ready | Mixer snapshots; music/ambience layers switchable by condition or mood layer |
 | T-062 | Steamworks integration (`FARM_STEAM`): achievements, Auto-Cloud, overlay-safe pause, Steam Input glyphs | T-020 | Runs without Steam; verified with Steam on Win+Linux; achievement text spoiler-free |
 | T-063 | Accessibility + controller polish: UI size, colorblind aids, full gamepad coverage, Steam Deck layout, on-screen keyboard | M3 | Steam Deck checklist |
 | T-064 | Performance optimization; use `unity:optimize-*` skills | M3 | Budgets met; `docs/PERF.md` |
