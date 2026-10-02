@@ -29,6 +29,8 @@ namespace Farm.Gameplay
             {
                 Log.Warn($"Scene '{_map.MapId}' started without a game; creating a throwaway dev game.");
                 _session.BeginDevGame();
+                var spawn = CommandLine.GetArg("-farmSpawn");   // QA aid: start at a named spawn point
+                if (!string.IsNullOrEmpty(spawn)) _session.State.SpawnPoint = spawn;
             }
             L.SetLanguage(ServiceLocator.Get<SettingsStore>().Current.Language);
 

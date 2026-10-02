@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Farm.Core;
 
@@ -26,6 +27,16 @@ namespace Farm.Gameplay
 
         public bool IsOpen(GameDateTime now) =>
             now.DayOfWeek != DayOff && now.MinuteOfDay >= OpenMinute && now.MinuteOfDay < CloseMinute;
+
+        static readonly string[] DayKeys = { "day.mon", "day.tue", "day.wed", "day.thu", "day.fri", "day.sat", "day.sun" };
+
+        // "9:00 AM - 5:00 PM, closed Sun" for a door note.
+        public string Describe()
+        {
+            string Clock(int minute) => new GameDateTime(1, Season.Spring, 1, Math.Max(GameDateTime.DayStartMinute, Math.Min(GameDateTime.DayEndMinute, minute))).ClockString();
+            var text = $"{Clock(OpenMinute)} - {Clock(CloseMinute)}";
+            return DayOff >= 0 && DayOff < DayKeys.Length ? L.Get("door.hours_with_day_off", text, L.Get(DayKeys[DayOff])) : text;
+        }
     }
 
     // Shop id -> hours. Data registers its businesses here (the village maps, T-031); the condition atom
@@ -42,6 +53,13 @@ namespace Farm.Gameplay
         public static bool IsOpen(string shopId, GameDateTime now) =>
             !Hours.TryGetValue(shopId, out var h) || h.IsOpen(now);
 
+        // What a locked door or counter tells the player: which business, and when it keeps hours.
+        public static string ClosedMessage(string shopId)
+        {
+            var name = L.Get("business." + shopId);
+            return TryGet(shopId, out var h) ? L.Get("door.closed", name, h.Describe()) : L.Get("door.closed_plain", name);
+        }
+
         public static void Clear() => Hours.Clear();
 
         // The hours agreed with the owner (GDD decision AF). Days off are staggered so something is always open:
@@ -54,6 +72,7 @@ namespace Farm.Gameplay
             public const string Carpenter = "carpenter";
             public const string FishShop = "fish";
             public const string Clinic = "clinic";
+            public const string Library = "library";
             public const string Saloon = "saloon";
             public const string TravelingMerchant = "merchant";
         }
@@ -65,6 +84,7 @@ namespace Farm.Gameplay
             Register(Ids.Carpenter, BusinessHours.Standard(dayOff: 2));
             Register(Ids.FishShop, new BusinessHours(6 * 60, 14 * 60, dayOff: 3));       // early, for the morning catch
             Register(Ids.Clinic, BusinessHours.Standard(dayOff: 5));                      // clinic and library
+            Register(Ids.Library, BusinessHours.Standard(dayOff: 5));
             Register(Ids.Saloon, new BusinessHours(12 * 60, 26 * 60, dayOff: 1));         // 12:00 to 02:00
             // The traveling merchant appears only on random days (T-057); these are the hours it keeps when it does.
             Register(Ids.TravelingMerchant, new BusinessHours(9 * 60, 21 * 60));

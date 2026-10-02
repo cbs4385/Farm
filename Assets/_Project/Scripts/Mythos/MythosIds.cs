@@ -24,7 +24,7 @@ namespace Farm.Mythos
         {
             public const string CultKnown = "mythos.cult_known";
             public const string CultRevealed = "mythos.cult_revealed";
-            public const string WoodsOpen = "mythos.woods_open";
+            public const string WoodsOpen = Farm.Gameplay.MapIds.WoodsOpenFlag;   // the Forest gate (core)
             public const string Initiated = "mythos.initiated";
         }
 
@@ -45,7 +45,7 @@ namespace Farm.Mythos
         // Maps the layer is expected to add (scenes named after the map id)
         public static class Maps
         {
-            public const string Woods = "HarrowWood";
+            public const string Woods = Farm.Gameplay.MapIds.Woods;                  // scene shipped with the layer
             public const string CultHall = "CultHall";
         }
     }

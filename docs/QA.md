@@ -23,11 +23,11 @@ Run on Windows and Linux. Keyboard/mouse first, then gamepad. Items marked (veri
 3. Hotbar: keys 1-0/-/= and mouse wheel / `,` `.` change the selected slot. Gamepad: shoulder buttons.
 4. Select the hoe, face a grass tile, use tool (LMB / C / gamepad X): tile tills, energy drops by 2 (verified). Out of energy: message, no action (verified).
 5. Watering can on tilled tile: darker soil. Seeds on tilled tile: crop appears, seed count drops (verified). Seeds on untilled ground: explanatory message.
-6. Walk into the house door: fade to the farmhouse; walk out: back on the farm, soil unchanged.
+6. Walk into the house door: fade to the farmhouse; walk out: back on the farm, soil unchanged. Walk east along the farm road to the village, and into each door: the general store, blacksmith, carpenter, library, saloon and clinic open and close by their hours (a locked door shows a message with the hours and the day off), each interior has a way out back to its door. The lane leads north to the forest (the path ends at brambles) and south to the beach (fish stall: 06:00-14:00, closed Thursday). Nothing blocks the way between any two places.
 7. Interact (E / RMB / gamepad A) on the bed -> confirm -> fade -> day summary visible -> Continue -> wake in farmhouse, next day, energy full (verified).
 8. After 4 watered days a parsnip is mature: Interact harvests it (verified).
 9. Interact on the shipping bin with a crop selected; sleep: summary lists it and gold increases (verified).
-10. Shop stall (blue box): buy seeds; gold drops; "backpack full" and "not enough gold" messages (buying verified).
+10. General store counter (village, open 09:00-17:00, closed Sunday): buy seeds; gold drops; "backpack full" and "not enough gold" messages (buying verified).
 11. Tab/I opens the backpack; select a slot then another to move items; Esc closes.
 12. Stay up until 2:00 AM: pass out, lose some gold, wake in bed at 75% energy. (Development build: `time 01:40`, then `skip 20`.)
 13. Esc pauses: Save Game, Options (sliders, scrolling, resolution, fullscreen, UI size, rebind a key), Main Menu.

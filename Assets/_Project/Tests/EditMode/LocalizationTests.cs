@@ -43,6 +43,7 @@ namespace Farm.Tests
             expected.AddRange(new[] { "mon", "tue", "wed", "thu", "fri", "sat", "sun" }.Select(d => "day." + d));
             expected.AddRange(WeatherCatalog.BuiltIn.Ids.Select(w => "weather." + w));
             expected.AddRange(InputNames.Rebindable.Select(a => "action." + a));
+            expected.AddRange(new[] { "general", "blacksmith", "carpenter", "fish", "clinic", "library", "saloon", "merchant" }.Select(b => "business." + b));
             expected.Add("shop.general.title");
             expected.Add("language.en");
             CollectionAssert.IsEmpty(expected.Where(k => !table.ContainsKey(k)).ToList());

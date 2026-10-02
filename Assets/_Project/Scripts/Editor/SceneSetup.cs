@@ -121,10 +121,9 @@ namespace Farm.Editor
             {
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.Bootstrap}.unity", true),
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.MainMenu}.unity", true),
-                new EditorBuildSettingsScene($"{SceneDir}/{MapIds.Farm}.unity", true),
-                new EditorBuildSettingsScene($"{SceneDir}/{MapIds.FarmHouse}.unity", true),
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.PixelPerfectTest}.unity", true),
             };
+            foreach (var map in MapIds.All) scenes.Add(new EditorBuildSettingsScene($"{SceneDir}/{map}.unity", true));
             EditorBuildSettings.scenes = scenes.ToArray();
         }
     }

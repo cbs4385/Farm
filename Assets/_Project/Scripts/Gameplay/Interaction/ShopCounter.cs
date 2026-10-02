@@ -1,16 +1,22 @@
 using Farm.Core;
-using Farm.Data;
 using UnityEngine;
 
 namespace Farm.Gameplay
 {
-    // Opens the shop UI. M1 has no town yet, so the general store stall stands on the farm (replaced in M2).
+    // Opens a shop's buy screen while the business is open; a closed counter says when it opens again.
     public sealed class ShopCounter : MonoBehaviour, IInteractable
     {
         [SerializeField] string _shopId = "general";
 
+        public string ShopId { get => _shopId; set => _shopId = value; }
+
         public void Interact(PlayerActions player)
         {
+            if (!BusinessHoursRegistry.IsOpen(_shopId, player.Session.Clock.Now))
+            {
+                player.Session.Toast(BusinessHoursRegistry.ClosedMessage(_shopId));
+                return;
+            }
             if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowShop(_shopId);
         }
     }

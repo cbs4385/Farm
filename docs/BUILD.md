@@ -79,6 +79,7 @@ Launch options for development builds: `-farmCommands "date summer 15;time 22:30
 |---|---|
 | `-farmScene <Scene>` | Start in a scene after bootstrapping services (`Farm`, `FarmHouse`, `MainMenu`, `PixelPerfectTest`) |
 | `-farmOpen <what>` | After the scene starts: `inventory`, `shop`, `pause`, `options`, `summary`, `sleep` (full sleep flow), `crops` (one crop per growth stage); in the main menu `newgame`, `options` |
+| `-farmSpawn <id>` | With `-farmScene`: start at a named spawn point of that map (for example `-farmScene Village -farmSpawn fromGeneralStore`) |
 | `-farmCapture <dir>` | Save 6 screenshots (`shot_<w>x<h>_<n>.png`), log a `[Perf]` line, then quit |
 | `-screen-width/-height/-screen-fullscreen` | Standard Unity window flags (also stop saved display settings overriding the window) |
 

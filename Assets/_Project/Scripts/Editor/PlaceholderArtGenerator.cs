@@ -47,6 +47,11 @@ namespace Farm.Editor
             Tile(written, "tile_water", new Color(0.25f, 0.48f, 0.80f), new Color(0.30f, 0.54f, 0.86f));
             Tile(written, "tile_wall", new Color(0.45f, 0.40f, 0.42f), new Color(0.38f, 0.34f, 0.36f), border: true);
             Tile(written, "tile_floor_wood", new Color(0.62f, 0.45f, 0.28f), new Color(0.56f, 0.40f, 0.25f), border: true);
+            Tile(written, "tile_sand", new Color(0.88f, 0.80f, 0.58f), new Color(0.82f, 0.74f, 0.52f));
+            Tile(written, "tile_cobble", new Color(0.60f, 0.58f, 0.56f), new Color(0.52f, 0.50f, 0.49f), border: true);
+            Tile(written, "tile_forest", new Color(0.22f, 0.42f, 0.22f), new Color(0.18f, 0.36f, 0.19f));
+            Tile(written, "tile_roof", new Color(0.62f, 0.25f, 0.22f), new Color(0.52f, 0.20f, 0.18f), border: true);
+            Tile(written, "tile_door", new Color(0.40f, 0.26f, 0.15f), new Color(0.33f, 0.21f, 0.12f), border: true);
 
             // Characters (16x32)
             foreach (var dir in new[] { "down", "up", "left", "right" })
@@ -80,6 +85,12 @@ namespace Farm.Editor
             WorldObject(written, "obj_bin", new Color(0.55f, 0.36f, 0.20f), new Color(0.35f, 0.22f, 0.12f));
             WorldObject(written, "obj_bed", new Color(0.85f, 0.45f, 0.45f), new Color(0.95f, 0.90f, 0.85f));
             WorldObject(written, "obj_shop", new Color(0.30f, 0.55f, 0.75f), new Color(0.95f, 0.85f, 0.40f));
+            WorldObject(written, "obj_tree", new Color(0.15f, 0.45f, 0.18f), new Color(0.25f, 0.60f, 0.25f));
+            WorldObject(written, "obj_counter", new Color(0.60f, 0.42f, 0.25f), new Color(0.80f, 0.65f, 0.40f));
+            WorldObject(written, "obj_shelf", new Color(0.45f, 0.30f, 0.18f), new Color(0.70f, 0.55f, 0.30f));
+            WorldObject(written, "obj_table", new Color(0.65f, 0.48f, 0.30f), new Color(0.75f, 0.60f, 0.38f));
+            WorldObject(written, "obj_stall", new Color(0.25f, 0.55f, 0.60f), new Color(0.95f, 0.85f, 0.40f));
+            WorldObject(written, "obj_bramble", new Color(0.30f, 0.22f, 0.12f), new Color(0.20f, 0.45f, 0.15f));
             Cursor(written, "ui_cursor");
 
             // UI (small 9-slice-friendly frames)

@@ -24,7 +24,7 @@ Assets/
     Audio/          (empty until real audio)
     Data/           Items/, Crops/ (generated ScriptableObjects)
     Resources/      FarmInput.inputactions, GameDatabase.asset, Localization/en.json, Packs/ (optional ContentPacks)
-    Scenes/         Bootstrap, MainMenu, Farm, FarmHouse, PixelPerfectTest
+    Scenes/         Bootstrap, MainMenu, PixelPerfectTest, and one scene per map id in `MapIds.All` (Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library)
     Scripts/
       Core/         Farm.Core      Bootstrapper, SceneLoader, ServiceLocator, EventBus, Log, CommandLine, ScreenshotCapture
         Time/       GameDateTime (calendar, MoonPhase), GameClock
@@ -83,6 +83,7 @@ Dependencies: `Core <- Data <- Gameplay <- UI`; `Platform` and `Mythos` depend o
 - Each map is a scene with Tilemap layers (Ground, Soil, Crops, Walls) and a `FarmMap` describing them; `MapSceneController` binds the scene to the running game (places the player at the spawn point, draws the farm grid, sets camera bounds, raises `GameHooks.MapLoaded`).
 - **Farm tile data** lives in `FarmGrid` (dictionary of tilled tiles, each with an optional crop), stored per map in `GameState.Maps`. `FarmMapView` draws it onto tilemaps; no GameObject per tile.
 - Warps (`Warp`, with optional **condition** and blocked-message) move between map scenes through `MapTravel`; state persists in `GameSession`. `ConditionalObject` shows or hides scene content from a condition.
+- Maps (T-031): `MapIds.All` lists the base game's scenes; `MapBuilder` generates them all (layout constants at the top: the village's road, lane and `Buildings` table, the forest, the beach, and `BuildInterior` with props). Every door has a spawn outside it named `from<MapId>`; every interior exits to the village. A door or counter can carry a business id (`Warp.BusinessId`, `ShopCounter.ShopId`): it is locked outside the hours in `BusinessHoursRegistry` and a closed one toasts `BusinessHoursRegistry.ClosedMessage` (name, hours, day off). `MapTravel.GoTo` refuses a map whose scene is not in the build (toast), which is how the Forest's gated slot (`flag:woods.open`, target `MapIds.Woods`, brambles via an inverted `ConditionalObject`) stays closed in the base game while an optional layer can ship the scene. `MapTests` (EditMode) opens every scene and checks round-trip warps, spawns, reachability and the business wiring.
 - Camera: `CameraFollow` clamps to map bounds using the real ortho size; `PixelSnapCamera` snaps to the art-pixel grid (see 3.14). Collision uses Tilemap colliders and Physics2D.
 
 ### 3.6 Items and inventory
@@ -170,7 +171,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 - Comments only for non-obvious "why".
 
 ## 5. Testing strategy
-- **EditMode (NUnit, ~248 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
+- **EditMode (NUnit, ~266 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
 - **PlayMode (~17 tests)**: boot to menu, new game, the full farming loop, sleep through the UI (including that the Continue button is on top of the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, the avatar/cursor alignment, **real simulated keyboard and mouse input** (`InputTestFixture`), and a test module that exercises every extension point in the real game.
 - **Player-build checks**: the Editor and tests can miss build-only failures (scene serialization, stripping, draw order). For changes touching scenes, scripts on scenes, or UI layering, also build and run the player with the QA flags in `docs/QA.md` (`-farmScene`, `-farmOpen`, `-farmCapture`) and look at the screenshots.
 - **Data validators**: `Farm/Validate Data` (T-040) will check ids, references, localization keys, schedules and every `Condition` string.

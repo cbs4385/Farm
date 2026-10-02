@@ -111,5 +111,25 @@ namespace Farm.Gameplay
     {
         public const string Farm = "Farm";
         public const string FarmHouse = "FarmHouse";
+        public const string Village = "Village";
+        public const string Forest = "Forest";
+        public const string Beach = "Beach";
+        public const string GeneralStore = "GeneralStore";
+        public const string Blacksmith = "Blacksmith";
+        public const string Carpenter = "Carpenter";
+        public const string Saloon = "Saloon";
+        public const string Clinic = "Clinic";
+        public const string Library = "Library";
+
+        // The gated slot at the top of the Forest. Nothing is behind it in the base game (the gate is brambles
+        // while the flag `woods.open` is off); an optional layer ships the scene and opens the gate.
+        public const string Woods = "Woods";
+        public const string WoodsOpenFlag = "woods.open";
+
+        // Every map scene that ships in the base game, in a stable order.
+        public static readonly string[] All =
+        {
+            Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library,
+        };
     }
 }
