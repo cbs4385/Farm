@@ -8,7 +8,7 @@ namespace Farm.Gameplay
     {
         public static NpcPlacement Where(GameSession session, NpcDefinition npc)
         {
-            var plan = NpcSchedule.PlanFor(npc, session.World);
+            var plan = NpcSchedule.PlanFor(npc, session.World, session.Hooks.ScheduleEntriesFor(npc));
             return NpcSchedule.Where(npc, plan, session.Clock.PreciseMinuteOfDay);
         }
 

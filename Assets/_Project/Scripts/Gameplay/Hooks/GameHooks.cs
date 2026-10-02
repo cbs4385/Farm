@@ -95,6 +95,21 @@ namespace Farm.Gameplay
         float Modify(RandomEventDefinition def, float weight, GameState state);
     }
 
+    // Extra schedule entries for a villager, supplied by an optional layer (a hidden night schedule). They compete with the
+    // NPC's own entries by priority and condition, like any other entry.
+    public interface INpcScheduleSource
+    {
+        IEnumerable<NpcScheduleEntry> EntriesFor(NpcDefinition npc);
+    }
+
+    // An extra page in the journal supplied by a module (a lore page). Hidden while `Visible` is false.
+    public interface IJournalPage
+    {
+        string TitleKey { get; }
+        bool Visible { get; }
+        string Body();
+    }
+
     public sealed class MapLoadedContext
     {
         public string MapId;
@@ -119,6 +134,8 @@ namespace Farm.Gameplay
         readonly List<IWeatherWeightModifier> _weatherWeights = new List<IWeatherWeightModifier>();
         readonly List<Func<IHudWidget>> _hudWidgets = new List<Func<IHudWidget>>();
         readonly List<ILuckModifier> _luck = new List<ILuckModifier>();
+        readonly List<IJournalPage> _journalPages = new List<IJournalPage>();
+        readonly List<INpcScheduleSource> _scheduleSources = new List<INpcScheduleSource>();
         readonly List<IFriendshipDecayModifier> _decay = new List<IFriendshipDecayModifier>();
         readonly List<IEventWeightModifier> _eventWeights = new List<IEventWeightModifier>();
 
@@ -220,6 +237,29 @@ namespace Farm.Gameplay
             return luck;
         }
 
+        public IReadOnlyList<IJournalPage> JournalPages => _journalPages;
+
+        public void AddJournalPage(IJournalPage page)
+        {
+            if (page != null && !_journalPages.Contains(page)) _journalPages.Add(page);
+        }
+
+        public void AddScheduleSource(INpcScheduleSource source)
+        {
+            if (source != null && !_scheduleSources.Contains(source)) _scheduleSources.Add(source);
+        }
+
+        public List<NpcScheduleEntry> ScheduleEntriesFor(NpcDefinition npc)
+        {
+            var all = new List<NpcScheduleEntry>();
+            foreach (var source in _scheduleSources)
+            {
+                try { var entries = source.EntriesFor(npc); if (entries != null) all.AddRange(entries); }
+                catch (Exception e) { Log.Error($"Schedule source {source.GetType().Name} failed: {e}"); }
+            }
+            return all;
+        }
+
         public void AddFriendshipDecayModifier(IFriendshipDecayModifier modifier)
         {
             if (modifier == null || _decay.Contains(modifier)) return;
@@ -258,6 +298,8 @@ namespace Farm.Gameplay
 
         public void Clear()
         {
+            _scheduleSources.Clear();
+            _journalPages.Clear();
             _decay.Clear();
             _eventWeights.Clear();
             _dayCycle.Clear();

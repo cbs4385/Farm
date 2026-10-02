@@ -73,6 +73,7 @@ namespace Farm.Editor
             BuildAnimalHouse(MapIds.Barn);
             BuildVillage();
             BuildForest();
+            BuildWoods();
             BuildBeach();
             BuildMine();
 
@@ -386,6 +387,59 @@ namespace Farm.Editor
                 condition: "flag:" + MapIds.WoodsOpenFlag, blockedKey: "forest.path_blocked");
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Forest}.unity");
+        }
+
+        // ---- Harrow Wood (the horror layer's map; shipped with the game, reachable only through the gate flag) ---------
+
+        const int WoodsW = 40, WoodsH = 30;
+
+        static void BuildWoods()
+        {
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            var rig = CreateMapRig(MapIds.Woods, indoor: false, allowFarming: false);
+
+            for (var y = 0; y < WoodsH; y++)
+                for (var x = 0; x < WoodsW; x++)
+                {
+                    var path = x >= 18 && x <= 20 && y < 14 || x >= 14 && x <= 24 && y >= 14 && y <= 23;   // the track and the clearing
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(path ? "tile_dirt" : "tile_forest"));
+                    var edge = x == 0 || y == 0 || x == WoodsW - 1 || y == WoodsH - 1;
+                    var gap = x >= 18 && x <= 20 && y == 0;
+                    if (edge && !gap) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
+                }
+
+            AddSpawn("default", Center(19, 2));
+            AddWarp(Center(19, 0), MapIds.Forest, "fromWoods", new Vector2(3f, 1f));
+
+            // Dense trees everywhere except the track and the clearing.
+            for (var y = 3; y < WoodsH - 1; y++)
+                for (var x = 1; x < WoodsW - 1; x++)
+                {
+                    if (x >= 17 && x <= 21 && y < 14) continue;
+                    if (x >= 13 && x <= 25 && y >= 13 && y <= 24) continue;
+                    if ((x * 5 + y * 11) % 4 != 0) continue;
+                    AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
+                }
+
+            // The altar and the carved stones around the clearing.
+            AddObject("Altar", "obj_altar", Center(19, 18), solid: true).AddComponent<Farm.Mythos.AltarObject>();
+            var stones = new[] { (14, 15), (24, 22), (11, 9) };
+            for (var i = 0; i < stones.Length; i++)
+            {
+                var stone = AddObject($"Stone_{i + 1}", "obj_stone", Center(stones[i].Item1, stones[i].Item2), solid: true).AddComponent<Farm.Mythos.LoreStone>();
+                stone.Key = $"mythos.stone.{(i % 2) + 1}";
+                stone.FlagId = $"mythos.stone.read.{i + 1}";
+            }
+            // The three relics that can seal the god away, hidden in the wood.
+            var relicCells = new[] { (6, 20), (33, 12), (30, 26) };
+            for (var i = 0; i < Farm.Mythos.MythosData.Relics.Length; i++)
+            {
+                var relic = AddObject($"Relic_{i + 1}", "obj_relic", Center(relicCells[i].Item1, relicCells[i].Item2), solid: true).AddComponent<Farm.Mythos.RelicPickup>();
+                relic.ItemId = Farm.Mythos.MythosData.Relics[i];
+                relic.FlagId = $"mythos.relic.found.{i + 1}";
+            }
+
+            EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Woods}.unity");
         }
 
         // ---- Mine ---------------------------------------------------------------------------------------------

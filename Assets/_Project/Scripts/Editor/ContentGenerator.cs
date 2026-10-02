@@ -122,6 +122,8 @@ namespace Farm.Editor
             db.SetRecipes(recipes);
             EditorUtility.SetDirty(db);
 
+            MythosGenerator.Generate();
+
             AssetDatabase.SaveAssets();
             Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers, {nodes.Count} resource nodes, {upgrades.Count} upgrades, {spawns.Count} spawn tables, {npcs.Count} npcs, {recipes.Count} recipes, {placeables.Count} placeables.");
         }
@@ -135,7 +137,7 @@ namespace Farm.Editor
         static void Tool(List<ItemDefinition> items, string id, ToolType type, string sprite) =>
             Save(items, ItemDefinition.Create(id, ItemCategory.Tool, maxStack: 1, toolType: type, icon: Sprite(sprite)));
 
-        static Sprite Sprite(string name)
+        internal static Sprite Sprite(string name)
         {
             var s = AssetDatabase.LoadAssetAtPath<Sprite>($"{ArtDir}/{name}.png");
             if (s == null) Debug.LogWarning($"[ContentGenerator] Missing placeholder sprite '{name}'.");
@@ -223,7 +225,7 @@ namespace Farm.Editor
             return fresh;
         }
 
-        static T Persist<T>(T fresh, string path) where T : ScriptableObject
+        internal static T Persist<T>(T fresh, string path) where T : ScriptableObject
         {
             var existing = AssetDatabase.LoadAssetAtPath<T>(path);
             if (existing == null)

@@ -62,6 +62,10 @@ namespace Farm.Gameplay
             Pair(new RouteEdge(MapIds.Farm, 35, 20, MapIds.Barn, 6, 2, "default"),
                  new RouteEdge(MapIds.Barn, 6, 0, MapIds.Farm, 35, 18, "fromBarn"));
 
+            // Forest <-> Harrow Wood (the gated path at the top of the forest; only an optional layer ships the scene).
+            Pair(new RouteEdge(MapIds.Forest, 19, 27, MapIds.Woods, 19, 2, "default"),
+                 new RouteEdge(MapIds.Woods, 19, 0, MapIds.Forest, 19, 26, "fromWoods"));
+
             // Village <-> forest (south end of the lane) and beach (north end).
             Pair(new RouteEdge(MapIds.Village, 25, 35, MapIds.Forest, 19, 2, "fromVillage"),
                  new RouteEdge(MapIds.Forest, 19, 0, MapIds.Village, 25, 33, "fromForest"));

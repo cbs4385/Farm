@@ -124,7 +124,7 @@ namespace Farm.Editor
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.MainMenu}.unity", true),
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.PixelPerfectTest}.unity", true),
             };
-            foreach (var map in MapIds.All.Concat(MapIds.Dungeons)) scenes.Add(new EditorBuildSettingsScene($"{SceneDir}/{map}.unity", true));
+            foreach (var map in MapIds.All.Concat(MapIds.Dungeons).Append(MapIds.Woods)) scenes.Add(new EditorBuildSettingsScene($"{SceneDir}/{map}.unity", true));
             EditorBuildSettings.scenes = scenes.ToArray();
         }
     }

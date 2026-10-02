@@ -34,7 +34,7 @@ T-024 | done (partial) | claude/2026-10-01 | M1 gate. NOT verified: Steam Deck, 
 
 ## Extension points (ADR 0002, done)
 Conditions language, moon phase, flags/vars/module data (saved), day-cycle hooks, weather modifiers, atmosphere layers, text filters/extra tables, content packs, map-loaded event, `Warp.Condition`, `ConditionalObject`, HUD widgets, module system, inert `Farm.Mythos`, `HorrorLevel` setting. Tested in EditMode and PlayMode (including a test module using every hook in the real game).
-Not built yet: hooks for NPCs/dialogue/events/weather definitions/journal (come with M2, requirements in the plan and ADR 0002); HorrorLevel control in Options (X-009).
+Not built yet: hooks for NPCs/dialogue/events/weather definitions/journal (come with M2, requirements in the plan and ADR 0002); HorrorLevel control in Options (done in X-009).
 
 ## Milestone 2 - World and living village (in progress)
 T-043 | done | claude/2026-10-01 | developer console (F1) and -farmCommands (Editor and development builds only), release guard, BuildsDev output; 21 command tests + PlayMode F1 test. Verified: release builds (Windows, Linux) free of debug types, development build contains them
@@ -72,8 +72,19 @@ Confirmed by hand: options scrolling, avatar/cursor alignment, sleep + day summa
 Bugs found by playing and fixed (each has a test): options not scrolling, avatar drawn a tile below its logical position (sprite import mode), sleep ending on a black screen (fade drawn over the summary), seedling nearly invisible and silent failed actions; earlier, a scene that crashed player builds (two MonoBehaviours in one file).
 Still untested by a human: gamepad, late-night fatigue (warning, meter, collapse at 06:00), rain days, season change (spring -> summer crop death), real Linux hardware/Steam Deck, CI. Backpack drag and drop is covered by simulated-input tests, not yet by a person.
 
-## Milestone 3b - Mythos layer (required for 1.0; not started)
-X-000..X-011 | todo | | see the plan. X-000 (lore bible) has no open questions left; the draft holds the decided names, numbers, ritual rules, timing and discovery
+## Milestone 3b - Mythos layer (required for 1.0)
+X-000 | done | claude/2026-10-02 | lore bible finalised (`docs/mythos/LORE.md`), decisions in ADR 0004
+X-001 | done | claude/2026-10-02 | wakefulness (permille var, rises overnight, 20 steps, `WakefulnessStepChanged`, atmosphere layer) and dread (var, morning decay, luck, fog/storm odds, event weights, friendship decay); no HUD meters
+X-002 | done | claude/2026-10-02 | Harrow Wood scene (`MapBuilder.BuildWoods`): track, clearing, altar, three lore stones, three relics; the Forest gate opens when the layer sets `woods.open` (first summer)
+X-003 | done | claude/2026-10-02 | five Keepers + Hazel (`MythosCast`), ritual-night and unavailable schedules through `INpcScheduleSource`, three clue lines each via `setEntries`, the leader's invitation, Hazel's sabotage and sealing clues
+X-004 | done | claude/2026-10-02 | rituals as systems (`RitualDirector`): season plan, real or village offerings, timeline, take from altar, failure by absence, success lowers wakefulness
+X-005 | done | claude/2026-10-02 | dreams at dawn (mild and full), overheard saloon event, warning letter, eerie random events. Sleepwalking and blight NOT done
+X-006 | done (partial) | claude/2026-10-02 | fog and blood-moon weather (pack weathers, weight and override modifiers). No moon-phase events beyond the ritual
+X-007 | done | claude/2026-10-02 | three horror crops gated by dread and three mutants (`MythosData`, `MythosMutation`), pack `Resources/Packs/mythos`, no shop sells them
+X-008 | done (partial) | claude/2026-10-02 | 20-step ladder of tint/fog/dread floor, mild vs full variants. NOT done: sound layers, text distortion filter
+X-009 | done | claude/2026-10-02 | Options control (off/mild/full) and content notes screen
+X-010 | done (partial) | claude/2026-10-02 | endings: awakened, sealed, joined, ignored (events + effects). Balance checked by a six-year simulation only; no art or music for the endings
+X-011 | done | claude/2026-10-02 | `MythosLayerTests` (level 0 inert, levels 1 and 2 run, ritual rules, ignoring never wakes the god, hook isolation), validator covers the Mythos JSON and strings, PlayMode Woods test. NOT verified by a person: a playthrough at each level, the look of the Woods, the pacing of dread, the mood of the endings
 
 ## Decisions and open questions (owner)
 Decided 2026-10-01 (GDD section 9, 1-8 and A-E): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; Nharoth, a sleeping cosmic entity, is kept asleep by the Keepers of the Covenant's rituals, and full awakening ends the world; wakefulness rises 25% per season and each ritual lowers it 30-40%, rituals each new moon in Harrow Wood, world changes every 5%; the cult looks menacing but protects the world; resisting risks waking the god unless another way is found; about a third of NPCs are Keepers (romance allowed, never exploitative); dread (mild, optional, never blocking) affects luck, dialogue options, seasonal events, weather and NPC attitude decay, gates crops, and ordinary crops may mutate; the main shop does not sell horror seeds; default intensity full; New England village Wetherell.

@@ -30,10 +30,10 @@ namespace Farm.Gameplay
     {
         // The day's plan: the highest-priority entry whose condition holds (list order breaks ties); null when the NPC
         // has no schedule. Callers keep the answer for the whole day so a flag changing mid-day cannot make an NPC jump.
-        public static NpcScheduleEntry PlanFor(NpcDefinition npc, IWorldQuery world)
+        public static NpcScheduleEntry PlanFor(NpcDefinition npc, IWorldQuery world, IEnumerable<NpcScheduleEntry> extra = null)
         {
             NpcScheduleEntry best = null;
-            foreach (var entry in npc.Schedule)
+            foreach (var entry in extra == null ? npc.Schedule : System.Linq.Enumerable.Concat(npc.Schedule, extra))
             {
                 if (entry == null || entry.Stops.Count == 0) continue;
                 if (best != null && entry.Priority <= best.Priority) continue;

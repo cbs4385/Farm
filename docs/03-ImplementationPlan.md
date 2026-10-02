@@ -56,7 +56,7 @@ Legend: `[P]` = parallelizable with other tasks of the same milestone once deps 
 | T-018 | HUD + backpack UI | T-012, T-015 | As built: click-to-move instead of drag/drop |
 | T-019 | Shipping bin, selling, shop | T-018, T-016 | As built: temporary stall on the farm until T-031 |
 | T-020 | Save system: slots, atomic writes, `.bak`, migrations, autosave | T-016, T-017 | Done |
-| T-021 | Main menu, options, settings | T-010, T-020 | Done; HorrorLevel control arrives with X-009 |
+| T-021 | Main menu, options, settings | T-010, T-020 | Done; HorrorLevel control added with X-009 |
 | T-022 | Localization: string tables, `L.Get`, lint tests | T-018 | As built: in-house table (ADR 0001) |
 | T-023 | Audio service | T-006 | As built: logical buses + placeholder blips |
 | **T-024** | **M1 gate** | all M1 | Done; tag `m1` |

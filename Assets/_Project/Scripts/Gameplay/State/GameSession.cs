@@ -162,7 +162,12 @@ namespace Farm.Gameplay
         public FatigueState Fatigue => new FatigueState(InGame ? State.FatigueCarried : 0f);
         public float FatigueRating => InGame ? Fatigue.LuckRating(Clock.Now.MinuteOfDay) : 0f;
 
-        public int HorrorLevel => ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current.HorrorLevel : 2;
+        public int HorrorLevel => CurrentHorrorLevel;
+
+        // The intensity setting (0 off, 1 mild, 2 full), read live. Tests can force a level with HorrorLevelOverride.
+        public static int? HorrorLevelOverride;
+        public static int CurrentHorrorLevel =>
+            HorrorLevelOverride ?? (ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current.HorrorLevel : 2);
 
         // ---- story flags and variables -------------------------------------------------------------------------
 

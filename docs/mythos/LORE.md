@@ -1,6 +1,6 @@
-# Lore bible (DRAFT)
+# Lore bible
 
-Status: draft. **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; the only remaining open question (F, scope protection) is in GDD section 9.
+Status: final for 1.0 (X-000 done; the as-built layer is in ADR 0004). **Known** items are decisions from the owner (GDD section 9). **Proposed** items are suggestions to accept, change or reject; nothing proposed is implemented, and ids in `Farm.Mythos/MythosIds.cs` are placeholders. Task X-000 finishes this document before any horror content is built. Content boundaries are in GDD section 7; the only remaining open question (F, scope protection) is in GDD section 9.
 
 ## Known (owner decisions)
 - The game is a farming/life sim and **ships with** a Lovecraftian layer, to help it stand out. Default intensity is **full**; the player can turn it down or off.
@@ -86,5 +86,16 @@ A slow-burn undertone beneath a genuinely cozy loop. The player's choices (resis
 ## Tone and boundaries
 Atmospheric folk-horror and cosmic dread, not gore. Original fiction only; no real-world religions; no text or named characters from existing works. See GDD section 7.
 
-## To write (X-000)
-Village and character bible (names, ages, roles, secrets, schedules and which third are Keepers), Nharoth's nature and rules, the Keepers' beliefs, the ritual details (offering pool, how offerings are chosen and found, how a Keeper becomes unavailable, what the timed ritual looks like), the 20 wakefulness steps with the world change at each, how dread's effects scale at mild and full, a timeline of the first year, per-level (mild/full) content lists, and the endings.
+## As built (X-000, final)
+
+**The Keepers (five of the twelve villagers).** Tilda (the general-store keeper the player meets first), Marcus (the carpenter), Dr. Odalys Penn (the clinic; the leader), Dorian (the library), Wren (the saloon). Hazel is the one villager who has worked out what is happening and works against them. The other six are unaware. Keepers are menacing in manner (silence, watching, leaving their work early on ritual nights) and protective in purpose. Their beliefs: Nharoth is not evil, it is *vast*; its waking would unmake the world; the Covenant has kept it asleep for as long as Wetherell has stood, and each keeper carries the cost privately.
+
+**Rituals.** Day 4 of every season, 22:00, at the altar in the Harrow Wood clearing. Offerings 2/3/4/5 by season; the Keepers are drawn in rotation. Each offering is laid on the altar and dissolves into light over 20 minutes after 30 minutes of the leader's speech. Offerings are village goods, with a one-in-four chance of being something real that the player owns or made. A sick or away Keeper, or a taken or missing offering, fails the ritual. A failure lowers nothing; rituals simply keep out-running the god (the year adds 100%, four rituals take 120-160%).
+
+**Wakefulness ladder (20 steps of 5%).** Tint and fog grow with each step; the journal records what the player has understood (lore gates which lines): birds quieter; longer morning fog; dogs avoid the forest path; milk sours; lamps lit early; the new moon looks large; odd crop shapes; a low hum at night; hushed voices after dark; red-edged full moon (a blood moon from step 10 at full intensity); iron-tasting wells; Keepers abroad at all hours; wrong-leaning shadows; fog that stays at noon; animals facing the wood; the hum nearly a voice; no one sleeps through the night; the woods closer; warm ground; the sky waiting. At 100% the world ends in fire.
+
+**Dread at mild and full.** The same model, all effects halved at mild. Mild also removes the strangest dream text, explicit ritual imagery (the offerings are plain lights), the blood moon, and the more disturbing stone inscriptions (`.mild` variants). Level 1 keeps the clues, the Keepers and the endings. Level 0 removes the layer entirely.
+
+**First-year timeline.** Spring 1: nothing visible; the overheard whisper in the saloon; the first ritual runs off-stage (the player cannot interfere yet). Summer 1: the Woods open (the brambles in the forest give way); the player can interfere; Hazel's second clue. Fall 1: mutations begin once dread passes 20. Winter 1: five offerings; without the rituals wakefulness would reach 100% by the end of the year. Year 2+: the Keepers' invitation (after standing and lore), the relics, the sealing.
+
+**Endings.** *Sealed*: the three relics (seal, bell, thread) found in the Woods and the true words (lore 8) at the altar, quest `mythos_seal`; the god sleeps for good and dread falls. *Joined*: initiated, standing 20, the offering of oneself at the altar. *Ignored*: year 3 with neither, a quiet, slightly dimmer life. *Awakened*: wakefulness reaches 1000 (only possible if rituals are broken); fire, then the main menu.

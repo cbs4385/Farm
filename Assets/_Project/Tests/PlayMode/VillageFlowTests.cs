@@ -210,7 +210,7 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator WithTheWoodsFlagOn_TheGateOpens_ButTheBaseGameHasNothingBehindIt()
+        public IEnumerator WithTheWoodsFlagOn_TheGateOpens_AndLeadsToTheWoods()
         {
             yield return Start(MapIds.Forest, "default", 1, 10);
             _session.SetFlag(MapIds.WoodsOpenFlag);
@@ -220,8 +220,17 @@ namespace Farm.Tests
 
             Player.transform.position = new Vector3(19.5f, 22.5f, 0f);
             yield return WalkUp(2.5f);
-            Assert.AreEqual(MapIds.Forest, SceneManager.GetActiveScene().name, "no Woods scene ships in the base game");
-            CollectionAssert.Contains(_toasts, "You cannot go that way.");
+            for (var i = 0; i < 30 && SceneManager.GetActiveScene().name != MapIds.Woods; i++) yield return new WaitForSeconds(0.1f);
+            Assert.AreEqual(MapIds.Woods, SceneManager.GetActiveScene().name);
+        }
+
+        [UnityTest]
+        public IEnumerator TheWoods_HoldTheAltar_TheStonesAndTheThreeRelics()
+        {
+            yield return Start(MapIds.Woods, "default", 1, 10);
+            Assert.AreEqual(1, UnityEngine.Object.FindObjectsByType<Farm.Mythos.AltarObject>(UnityEngine.FindObjectsSortMode.None).Length);
+            Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.LoreStone>(UnityEngine.FindObjectsSortMode.None).Length);
+            Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.RelicPickup>(UnityEngine.FindObjectsSortMode.None).Length);
         }
     }
 }

@@ -154,8 +154,11 @@ The horror layer (and any future optional content) plugs into the base game thro
 | Luck | `ILuckModifier`, `GameHooks.ComputeLuck`, `GameSession.Luck` (-1..+1, neutral 0) | Dread making outcomes less favourable in every roll-based system |
 | Maps | `GameHooks.MapLoaded`, `Warp.Condition`, `ConditionalObject` | Gated areas, hidden objects, spawning |
 | HUD | `GameHooks.AddHudWidget` | Meters and indicators |
+| Schedules | `INpcScheduleSource`, `NpcSchedule.PlanFor(npc, world, extra)` | Hidden night schedules for a layer's NPCs |
+| Journal | `IJournalPage`, `GameHooks.AddJournalPage` | Extra sections in the journal tab |
+| Story data | `StoryContent` `setEntries` | Layers appending lines to existing dialogue sets |
 
-**Rules.** Hooks run in registration order sorted by `Order`; each is wrapped so a failure is logged and skipped. Modules must check `HorrorLevel`. Never rename shipped flag, variable, weather or map ids. Story state goes in flags/vars/module data, not new `GameState` fields. `MythosModule` today is inert (it only registers weather names); the horror layer ships with 1.0 (plan Milestone 3b), so it will gain real hooks there.
+**Rules.** Hooks run in registration order sorted by `Order`; each is wrapped so a failure is logged and skipped. Modules must check `HorrorLevel`. Never rename shipped flag, variable, weather or map ids. Story state goes in flags/vars/module data, not new `GameState` fields. `MythosModule` is the horror layer (Milestone 3b, ADR 0004): `MythosHooks` (day, luck, weather, events, friendship, schedules), `RitualDirector`, `MythosEffects`/`MythosEnding`, `MythosData` (crops, relics, mutation, journal page), scene objects (`AltarObject`, `LoreStone`, `RelicPickup`), and story data in `Resources/Mythos`. It reads `GameSession.CurrentHorrorLevel` live; level 0 changes nothing.
 
 **Requirements for upcoming systems** are listed in ADR 0002 (weather as data, gated woods path, conditions on dialogue/events/schedules/quests, journal pages, validator coverage, audio layers, the Options control).
 

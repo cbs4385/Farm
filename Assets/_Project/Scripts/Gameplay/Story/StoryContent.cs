@@ -67,7 +67,22 @@ namespace Farm.Gameplay
             Merge(root, "events", source, (EventDefinition e) => e.Id, _events);
             Merge(root, "randomEvents", source, (RandomEventDefinition r) => r.Id, _randomEvents);
             Merge(root, "boardJobs", source, (BoardJobTemplate b) => b.Id, _jobs);
+            AddSetEntries(root, source);
             return true;
+        }
+
+        // "setEntries": [{ "set": "npc.tilda.talk", "entries": [...] }] adds entries to a dialogue set from another file (an optional
+        // layer's lines for an existing villager).
+        void AddSetEntries(JObject root, string source)
+        {
+            if (!root.TryGetValue("setEntries", StringComparison.OrdinalIgnoreCase, out var token) || !(token is JArray array)) return;
+            foreach (var item in array)
+            {
+                var id = (string)item["set"];
+                if (!_sets.TryGetValue(id ?? string.Empty, out var set)) { Fail($"{source}: setEntries for unknown set '{id}'"); continue; }
+                var entries = item["entries"]?.ToObject<List<DialogueSetEntry>>();
+                if (entries != null) set.Entries.AddRange(entries);
+            }
         }
 
         void Merge<T>(JObject root, string property, string source, Func<T, string> idOf, Dictionary<string, T> into)

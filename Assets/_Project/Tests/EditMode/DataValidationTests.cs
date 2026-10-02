@@ -40,6 +40,19 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void MythosData_HasNoProblems_AndItsStringsExist()
+        {
+            var input = Real();
+            Farm.Mythos.MythosModule.RegisterConditions();
+            Farm.Mythos.MythosEffects.Register();
+            foreach (var pack in Resources.LoadAll<ContentPack>(ContentPack.ResourceFolder)) input.Db.Merge(pack);
+            Farm.Mythos.MythosContent.Load(input.Story);
+            Assert.IsNotNull(input.Story.Dialogue("mythos.altar"));
+            var problems = StoryValidator.Run(input);
+            CollectionAssert.IsEmpty(problems, string.Join("\n", problems));
+        }
+
+        [Test]
         public void ShippedStory_IsLoadedFromTheResourcesFolder()
         {
             var story = StoryContent.LoadFromResources();

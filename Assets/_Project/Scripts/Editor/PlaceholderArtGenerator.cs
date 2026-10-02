@@ -135,6 +135,16 @@ namespace Farm.Editor
             WorldObject(written, "obj_table", new Color(0.65f, 0.48f, 0.30f), new Color(0.75f, 0.60f, 0.38f));
             WorldObject(written, "obj_stall", new Color(0.25f, 0.55f, 0.60f), new Color(0.95f, 0.85f, 0.40f));
             WorldObject(written, "obj_bramble", new Color(0.30f, 0.22f, 0.12f), new Color(0.20f, 0.45f, 0.15f));
+            WorldObject(written, "obj_altar", new Color(0.25f, 0.24f, 0.28f), new Color(0.55f, 0.15f, 0.15f));
+            WorldObject(written, "obj_stone", new Color(0.35f, 0.38f, 0.36f), new Color(0.50f, 0.55f, 0.50f));
+            WorldObject(written, "obj_relic", new Color(0.20f, 0.18f, 0.22f), new Color(0.80f, 0.75f, 0.35f));
+            foreach (var crop in Farm.Mythos.MythosData.Crops)
+            {
+                for (var stage = 0; stage <= crop.Days.Length; stage++) Crop(written, $"crop_{crop.Id}_{stage}", stage, crop.Days.Length, crop.Color);
+                Item(written, $"item_seed_{crop.Id}", Color.Lerp(crop.Color, new Color(0.85f, 0.78f, 0.45f), 0.6f));
+                Item(written, $"item_crop_{crop.Id}", crop.Color);
+            }
+            foreach (var relic in Farm.Mythos.MythosData.Relics) Item(written, "item_" + relic.Replace('.', '_'), new Color(0.80f, 0.75f, 0.35f));
             Cursor(written, "ui_cursor");
 
             // UI (small 9-slice-friendly frames)

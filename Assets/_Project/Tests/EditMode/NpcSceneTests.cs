@@ -91,6 +91,7 @@ namespace Farm.Tests
         {
             foreach (var edge in MapRoutes.All)
             {
+                if (!Maps.ContainsKey(edge.From) || !Maps.ContainsKey(edge.To)) continue;     // optional layers ship their own maps
                 var from = Maps[edge.From];
                 var to = Maps[edge.To];
                 var exit = new Vector2Int(edge.ExitX, edge.ExitY);

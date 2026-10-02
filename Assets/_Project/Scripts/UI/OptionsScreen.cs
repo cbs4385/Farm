@@ -141,6 +141,19 @@ namespace Farm.UI
             });
             tsSlider.name = "TextScale";
 
+            // Content intensity (X-009): off, mild or full. Takes effect at once; saved with the other settings.
+            Section(L.Get("options.content"));
+            var horror = Row(L.Get("options.horror"));
+            Button horrorButton = null;
+            horrorButton = UiKit.MakeButton(horror, L.Get("options.horror." + s.HorrorLevel), () =>
+            {
+                s.HorrorLevel = (s.HorrorLevel + 1) % 3;
+                UiKit.SetButtonText(horrorButton, L.Get("options.horror." + s.HorrorLevel));
+            }, 220f, 30f);
+            horrorButton.name = "HorrorLevel";
+            var notes = Row(L.Get("options.content_notes"));
+            UiKit.MakeButton(notes, L.Get("options.show"), () => Ui.ShowMessage("content.notes"), 220f, 30f).name = "ContentNotes";
+
             var lang = Row(L.Get("options.language"));
             UiKit.Label(lang, L.Get("language.en"), 18f, TextAlignmentOptions.Left, UiKit.DimText);
 

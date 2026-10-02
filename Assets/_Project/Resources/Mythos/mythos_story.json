@@ -1,0 +1,1001 @@
+{
+  "dialogues": [
+    {
+      "id": "mythos.altar",
+      "start": "a",
+      "nodes": [
+        {
+          "id": "a",
+          "text": "dlg.mythos.altar.0",
+          "choices": [
+            {
+              "text": "dlg.mythos.altar.c0",
+              "condition": "horror:1 && quest:mythos_seal=active && has:mythos.relic_seal>=1 && has:mythos.relic_bell>=1 && has:mythos.relic_thread>=1 && !flag:mythos.sealed",
+              "effects": [
+                "quest.done:mythos_seal",
+                "seal",
+                "event:mythos_ending_resist"
+              ],
+              "next": ""
+            },
+            {
+              "text": "dlg.mythos.altar.c1",
+              "condition": "horror:1 && flag:mythos.initiated && var:cult.standing>=20 && !flag:ending.joined && !flag:mythos.sealed",
+              "effects": [
+                "event:mythos_ending_join"
+              ],
+              "next": ""
+            },
+            {
+              "text": "dlg.mythos.altar.c2",
+              "next": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.tilda.clue1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.mythos.tilda.clue1.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.tilda.1",
+            "dread:2"
+          ],
+          "choices": [
+            {
+              "text": "dlg.mythos.tilda.clue1.c0",
+              "effects": [
+                "standing:3"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.mythos.tilda.clue1.c1",
+              "effects": [
+                "dread:2"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "tilda",
+          "text": "dlg.mythos.tilda.clue1.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "tilda",
+          "text": "dlg.mythos.tilda.clue1.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "mythos.tilda.clue2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.mythos.tilda.clue2.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.tilda.2",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.tilda.clue3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.mythos.tilda.clue3.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.tilda.3",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.marcus.clue1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.mythos.marcus.clue1.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.marcus.1",
+            "dread:2"
+          ],
+          "choices": [
+            {
+              "text": "dlg.mythos.marcus.clue1.c0",
+              "effects": [
+                "standing:3"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.mythos.marcus.clue1.c1",
+              "effects": [
+                "dread:2"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "marcus",
+          "text": "dlg.mythos.marcus.clue1.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "marcus",
+          "text": "dlg.mythos.marcus.clue1.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "mythos.marcus.clue2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.mythos.marcus.clue2.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.marcus.2",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.marcus.clue3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.mythos.marcus.clue3.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.marcus.3",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.odalys.clue1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.clue1.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.odalys.1",
+            "dread:2"
+          ],
+          "choices": [
+            {
+              "text": "dlg.mythos.odalys.clue1.c0",
+              "effects": [
+                "standing:3"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.mythos.odalys.clue1.c1",
+              "effects": [
+                "dread:2"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.clue1.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.clue1.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "mythos.odalys.clue2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.clue2.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.odalys.2",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.odalys.clue3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.clue3.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.odalys.3",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.dorian.clue1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.mythos.dorian.clue1.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.dorian.1",
+            "dread:2"
+          ],
+          "choices": [
+            {
+              "text": "dlg.mythos.dorian.clue1.c0",
+              "effects": [
+                "standing:3"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.mythos.dorian.clue1.c1",
+              "effects": [
+                "dread:2"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "dorian",
+          "text": "dlg.mythos.dorian.clue1.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "dorian",
+          "text": "dlg.mythos.dorian.clue1.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "mythos.dorian.clue2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.mythos.dorian.clue2.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.dorian.2",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.dorian.clue3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.mythos.dorian.clue3.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.dorian.3",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.wren.clue1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.mythos.wren.clue1.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.wren.1",
+            "dread:2"
+          ],
+          "choices": [
+            {
+              "text": "dlg.mythos.wren.clue1.c0",
+              "effects": [
+                "standing:3"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.mythos.wren.clue1.c1",
+              "effects": [
+                "dread:2"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "wren",
+          "text": "dlg.mythos.wren.clue1.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "wren",
+          "text": "dlg.mythos.wren.clue1.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "mythos.wren.clue2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.mythos.wren.clue2.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.wren.2",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.wren.clue3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.mythos.wren.clue3.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.wren.3",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.odalys.join",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.join.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.join.1",
+          "choices": [
+            {
+              "text": "dlg.mythos.odalys.join.c0",
+              "effects": [
+                "flag:mythos.initiated",
+                "standing:5",
+                "lore:2",
+                "dread:5"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.mythos.odalys.join.c1",
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.join.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.join.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "mythos.hazel.clue1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.clue1.0",
+          "effects": [
+            "lore:1",
+            "flag:clue.hazel.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.hazel.clue2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.clue2.0",
+          "effects": [
+            "lore:2",
+            "flag:clue.hazel.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.hazel.clue3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.clue3.0",
+          "effects": [
+            "lore:2",
+            "flag:clue.hazel.3",
+            "quest.start:mythos_seal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.hazel.sabotage",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.sabotage.0",
+          "choices": [
+            {
+              "text": "dlg.mythos.hazel.sabotage.c0",
+              "effects": [
+                "sick:tilda",
+                "dread:6",
+                "standing:-5"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.mythos.hazel.sabotage.c1",
+              "effects": [
+                "sick:marcus",
+                "dread:6",
+                "standing:-5"
+              ],
+              "next": "r1_0"
+            },
+            {
+              "text": "dlg.mythos.hazel.sabotage.c2",
+              "next": "r2_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.sabotage.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.sabotage.r1_0"
+        },
+        {
+          "id": "r2_0",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.sabotage.r2_0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:tilda && var:lore>=1 && !flag:clue.tilda.1",
+          "priority": 8,
+          "dialogue": "mythos.tilda.clue1"
+        }
+      ]
+    },
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:tilda && var:lore>=3 && !flag:clue.tilda.2 && flag:clue.tilda.1",
+          "priority": 9,
+          "dialogue": "mythos.tilda.clue2"
+        }
+      ]
+    },
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:tilda && var:lore>=5 && !flag:clue.tilda.3 && flag:clue.tilda.2",
+          "priority": 10,
+          "dialogue": "mythos.tilda.clue3"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:marcus && var:lore>=1 && !flag:clue.marcus.1",
+          "priority": 8,
+          "dialogue": "mythos.marcus.clue1"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:marcus && var:lore>=3 && !flag:clue.marcus.2 && flag:clue.marcus.1",
+          "priority": 9,
+          "dialogue": "mythos.marcus.clue2"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:marcus && var:lore>=5 && !flag:clue.marcus.3 && flag:clue.marcus.2",
+          "priority": 10,
+          "dialogue": "mythos.marcus.clue3"
+        }
+      ]
+    },
+    {
+      "set": "npc.odalys.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:odalys && var:lore>=1 && !flag:clue.odalys.1",
+          "priority": 8,
+          "dialogue": "mythos.odalys.clue1"
+        }
+      ]
+    },
+    {
+      "set": "npc.odalys.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:odalys && var:lore>=3 && !flag:clue.odalys.2 && flag:clue.odalys.1",
+          "priority": 9,
+          "dialogue": "mythos.odalys.clue2"
+        }
+      ]
+    },
+    {
+      "set": "npc.odalys.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:odalys && var:lore>=5 && !flag:clue.odalys.3 && flag:clue.odalys.2",
+          "priority": 10,
+          "dialogue": "mythos.odalys.clue3"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:dorian && var:lore>=1 && !flag:clue.dorian.1",
+          "priority": 8,
+          "dialogue": "mythos.dorian.clue1"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:dorian && var:lore>=3 && !flag:clue.dorian.2 && flag:clue.dorian.1",
+          "priority": 9,
+          "dialogue": "mythos.dorian.clue2"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:dorian && var:lore>=5 && !flag:clue.dorian.3 && flag:clue.dorian.2",
+          "priority": 10,
+          "dialogue": "mythos.dorian.clue3"
+        }
+      ]
+    },
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:wren && var:lore>=1 && !flag:clue.wren.1",
+          "priority": 8,
+          "dialogue": "mythos.wren.clue1"
+        }
+      ]
+    },
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:wren && var:lore>=3 && !flag:clue.wren.2 && flag:clue.wren.1",
+          "priority": 9,
+          "dialogue": "mythos.wren.clue2"
+        }
+      ]
+    },
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:wren && var:lore>=5 && !flag:clue.wren.3 && flag:clue.wren.2",
+          "priority": 10,
+          "dialogue": "mythos.wren.clue3"
+        }
+      ]
+    },
+    {
+      "set": "npc.odalys.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && var:cult.standing>=8 && var:lore>=5 && !flag:mythos.initiated && !flag:mythos.sealed",
+          "priority": 12,
+          "dialogue": "mythos.odalys.join"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && !flag:clue.hazel.1 && var:lore>=1",
+          "priority": 9,
+          "dialogue": "mythos.hazel.clue1"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && flag:clue.hazel.1 && !flag:clue.hazel.2 && var:lore>=2",
+          "priority": 10,
+          "dialogue": "mythos.hazel.clue2"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && flag:clue.hazel.2 && !flag:clue.hazel.3 && var:lore>=5",
+          "priority": 11,
+          "dialogue": "mythos.hazel.clue3"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "horror:2 && flag:clue.hazel.2 && flag:mythos.interference && !flag:mythos.sealed && var:lore>=6",
+          "priority": 14,
+          "dialogue": "mythos.hazel.sabotage"
+        }
+      ]
+    }
+  ],
+  "quests": [
+    {
+      "id": "mythos_investigate",
+      "titleKey": "quest.mythos_investigate.title",
+      "descriptionKey": "quest.mythos_investigate.desc",
+      "category": "story",
+      "autoStart": true,
+      "autoComplete": true,
+      "available": "horror:1 && var:lore>=1",
+      "objectives": [
+        {
+          "text": "quest.mythos_investigate.o0",
+          "condition": "var:lore>=5"
+        }
+      ],
+      "rewards": [
+        "give:seed.nightbloom,3"
+      ]
+    },
+    {
+      "id": "mythos_seal",
+      "titleKey": "quest.mythos_seal.title",
+      "descriptionKey": "quest.mythos_seal.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.mythos_seal.o0",
+          "condition": "has:mythos.relic_seal>=1",
+          "takeItem": "mythos.relic_seal",
+          "takeCount": 1
+        },
+        {
+          "text": "quest.mythos_seal.o1",
+          "condition": "has:mythos.relic_bell>=1",
+          "takeItem": "mythos.relic_bell",
+          "takeCount": 1
+        },
+        {
+          "text": "quest.mythos_seal.o2",
+          "condition": "has:mythos.relic_thread>=1",
+          "takeItem": "mythos.relic_thread",
+          "takeCount": 1
+        },
+        {
+          "text": "quest.mythos_seal.o3",
+          "condition": "var:lore>=8"
+        }
+      ],
+      "rewards": []
+    }
+  ],
+  "letters": [
+    {
+      "id": "mythos_warning",
+      "subjectKey": "letter.mythos_warning.subject",
+      "bodyKey": "letter.mythos_warning.body",
+      "condition": "horror:1 && var:lore>=2",
+      "effects": [
+        "lore:1",
+        "dread:3"
+      ]
+    },
+    {
+      "id": "mythos_gift",
+      "sender": "odalys",
+      "subjectKey": "letter.mythos_gift.subject",
+      "bodyKey": "letter.mythos_gift.body",
+      "condition": "horror:1 && flag:mythos.initiated",
+      "effects": [
+        "give:seed.hollowroot,3"
+      ]
+    }
+  ],
+  "randomEvents": [
+    {
+      "id": "eerie_silence",
+      "weight": 7,
+      "textKey": "random.eerie_silence",
+      "mood": "bad",
+      "condition": "horror:1",
+      "effects": [
+        "dread:3"
+      ]
+    },
+    {
+      "id": "footprints",
+      "weight": 5,
+      "textKey": "random.footprints",
+      "mood": "neutral",
+      "condition": "horror:1 && var:lore>=1",
+      "effects": [
+        "lore:1",
+        "dread:3"
+      ]
+    },
+    {
+      "id": "wilted_row",
+      "weight": 5,
+      "textKey": "random.wilted_row",
+      "mood": "bad",
+      "condition": "horror:2",
+      "effects": [
+        "crows:2",
+        "dread:2"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "mythos_overheard",
+      "trigger": "map",
+      "map": "Saloon",
+      "priority": 4,
+      "condition": "horror:1 && hour>=20 && var:lore<3 && !flag:mythos.heard1",
+      "steps": [
+        {
+          "type": "say",
+          "text": "event.mythos_overheard.0"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard.1"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "lore:1",
+            "flag:mythos.heard1",
+            "dread:3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos_ending_awakening",
+      "trigger": "manual",
+      "steps": [
+        {
+          "type": "fadeout",
+          "seconds": 1.2
+        },
+        {
+          "type": "say",
+          "text": "event.awakening.0"
+        },
+        {
+          "type": "say",
+          "text": "event.awakening.1"
+        },
+        {
+          "type": "say",
+          "text": "event.awakening.2"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "ending:awakened"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos_ending_resist",
+      "trigger": "manual",
+      "steps": [
+        {
+          "type": "fadeout",
+          "seconds": 1.0
+        },
+        {
+          "type": "say",
+          "text": "event.resist.0"
+        },
+        {
+          "type": "say",
+          "text": "event.resist.1"
+        },
+        {
+          "type": "say",
+          "text": "event.resist.2"
+        },
+        {
+          "type": "fadein",
+          "seconds": 1.0
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "ending:sealed",
+            "toast:mythos.found.sealed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos_ending_join",
+      "trigger": "manual",
+      "steps": [
+        {
+          "type": "fadeout",
+          "seconds": 1.0
+        },
+        {
+          "type": "say",
+          "text": "event.join.0"
+        },
+        {
+          "type": "say",
+          "text": "event.join.1"
+        },
+        {
+          "type": "say",
+          "text": "event.join.2"
+        },
+        {
+          "type": "fadein",
+          "seconds": 1.0
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "ending:joined",
+            "standing:10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos_ending_ignore",
+      "trigger": "dawn",
+      "priority": 2,
+      "condition": "horror:1 && year>=3 && !flag:ending.sealed && !flag:ending.joined && !flag:ending.ignored && !flag:mythos.initiated",
+      "steps": [
+        {
+          "type": "say",
+          "text": "event.ignore.0"
+        },
+        {
+          "type": "say",
+          "text": "event.ignore.1"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "ending:ignored"
+          ]
+        }
+      ]
+    }
+  ]
+}

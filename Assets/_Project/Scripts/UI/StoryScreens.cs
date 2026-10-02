@@ -129,6 +129,13 @@ namespace Farm.UI
             foreach (var job in s.State.Board.Where(j => j.Accepted))
                 UiKit.Label(_list, L.Get("board.job", job.Count, s.Db.TryGetItem(job.ItemId, out var it) ? L.Get(it.NameKey) : job.ItemId), 15f);
 
+            foreach (var page in s.Hooks.JournalPages)
+            {
+                if (!page.Visible) continue;
+                UiKit.Label(_list, L.Get(page.TitleKey), 20f, TextAlignmentOptions.Left, UiKit.Accent);
+                UiKit.Label(_list, page.Body(), 14f, TextAlignmentOptions.Left, UiKit.DimText);
+            }
+
             UiKit.Label(_list, L.Get("journal.letters"), 20f, TextAlignmentOptions.Left, UiKit.Accent);
             foreach (var id in s.State.MailKept)
             {

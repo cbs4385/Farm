@@ -73,7 +73,7 @@ namespace Farm.Gameplay
         NpcScheduleEntry PlanFor(NpcDefinition npc, int day)
         {
             if (_plans.TryGetValue(npc.Id, out var cached) && cached.day == day) return cached.plan;
-            var plan = NpcSchedule.PlanFor(npc, _session.World);
+            var plan = NpcSchedule.PlanFor(npc, _session.World, _session.Hooks.ScheduleEntriesFor(npc));
             _plans[npc.Id] = (day, plan);
             return plan;
         }

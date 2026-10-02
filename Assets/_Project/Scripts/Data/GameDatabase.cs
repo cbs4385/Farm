@@ -23,6 +23,7 @@ namespace Farm.Data
         Dictionary<string, CropDefinition> _cropLookup;
         readonly List<ItemDefinition> _runtimeItems = new List<ItemDefinition>();
         readonly List<CropDefinition> _runtimeCrops = new List<CropDefinition>();
+        readonly HashSet<ContentPack> _mergedPacks = new HashSet<ContentPack>();
         readonly List<WeatherDefinition> _runtimeWeather = new List<WeatherDefinition>();
         readonly List<ResourceNodeDefinition> _runtimeNodes = new List<ResourceNodeDefinition>();
         readonly List<UpgradeDefinition> _runtimeUpgrades = new List<UpgradeDefinition>();
@@ -66,6 +67,7 @@ namespace Farm.Data
         // reported, because replacing a core item would silently change saved games. Returns the number rejected.
         public int Merge(ContentPack pack)
         {
+            if (!_mergedPacks.Add(pack)) return 0;   // the database asset outlives sessions in the Editor; a pack merges once
             EnsureLookups();
             var rejected = 0;
             foreach (var item in pack.Items)
