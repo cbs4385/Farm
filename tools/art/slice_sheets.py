@@ -11,6 +11,7 @@ GEN = os.path.join(ROOT, "Assets", "_Project", "Art", "Generated")
 PH = os.path.join(ROOT, "Assets", "_Project", "Art", "Placeholders")
 COLORS = 128
 ASSIGN_PATH = os.path.join(os.path.dirname(__file__), 'assign.json')
+FACES_RIGHT = {'player', 'npc_generic', 'npc_piper', 'npc_elara'}
 DILATE = {'goods1': 2, 'crp_2': 2}
 ASSIGN = json.load(open(ASSIGN_PATH, encoding='utf-8')) if os.path.exists(ASSIGN_PATH) else {}          # palette size per sheet
 
@@ -238,6 +239,11 @@ def slice_sheet(sheet, out_dir, preview=False):
         # the generator rarely draws a true right profile: mirror the left one so the pair always matches
         for n in [n for n in result if n.endswith("_idle_left")]:
             result[n.replace("_idle_left", "_idle_right")] = np.ascontiguousarray(result[n][:, ::-1])
+        # in these sheets the generated "left" view actually faces right (checked by eye): swap the pair
+        for who in FACES_RIGHT:
+            l, r = who + "_idle_left", who + "_idle_right"
+            if l in result and r in result:
+                result[l], result[r] = result[r], result[l]
     os.makedirs(out_dir, exist_ok=True)
     for name, a in result.items():
         Image.fromarray(a, "RGBA").save(os.path.join(out_dir, name + ".png"))
