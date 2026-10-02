@@ -26,6 +26,9 @@ namespace Farm.UI
         readonly Queue<string> _toasts = new Queue<string>();
         readonly List<IHudWidget> _widgets = new List<IHudWidget>();
 
+        GameObject _fatigueFrame;
+        Image _fatigueFill;
+        TextMeshProUGUI _fatigueLabel;
         TextMeshProUGUI _date, _time, _weather, _forecast, _gold, _energyLabel, _toast;
         Image _energyFill;
         bool _dirty = true;
@@ -88,6 +91,27 @@ namespace Farm.UI
 
             _energyLabel = UiKit.Label(frame.transform, "", 13f, TextAlignmentOptions.Center);
             UiKit.Place(_energyLabel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(34, 16), new Vector2(0, 1));
+
+            BuildFatigue(canvas);
+        }
+
+        // The late-night fatigue meter, beside the energy bar. Shown only while the rating is above zero.
+        void BuildFatigue(Transform canvas)
+        {
+            var frame = UiKit.Panel(canvas, "FatigueBar", UiKit.PanelColor);
+            _fatigueFrame = frame.gameObject;
+            UiKit.Place(frame.rectTransform, new Vector2(1, 0), new Vector2(1, 0), new Vector2(34, 140), new Vector2(-52, 12));
+            var back = UiKit.Panel(frame.transform, "Back", new Color(0.08f, 0.06f, 0.04f, 1f));
+            UiKit.Stretch(back.rectTransform, 5f);
+            back.rectTransform.offsetMax = new Vector2(-5f, -5f);
+            back.rectTransform.offsetMin = new Vector2(5f, 18f);
+
+            _fatigueFill = UiKit.Panel(back.transform, "Fill", new Color(0.55f, 0.45f, 0.85f));
+            UiKit.Stretch(_fatigueFill.rectTransform);
+
+            _fatigueLabel = UiKit.Label(frame.transform, "", 12f, TextAlignmentOptions.Center);
+            UiKit.Place(_fatigueLabel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(34, 16), new Vector2(0, 1));
+            _fatigueFrame.SetActive(false);
         }
 
         void BuildHotbar(Transform canvas)
@@ -164,6 +188,14 @@ namespace Farm.UI
             _energyFill.rectTransform.anchorMax = new Vector2(1f, fraction);
             _energyFill.color = fraction > 0.25f ? new Color(0.45f, 0.80f, 0.30f) : UiKit.Danger;
             _energyLabel.text = s.State.Energy.ToString();
+
+            var tired = s.FatigueRating;
+            _fatigueFrame.SetActive(tired > 0f);
+            if (tired > 0f)
+            {
+                _fatigueFill.rectTransform.anchorMax = new Vector2(1f, Mathf.Clamp01(tired));
+                _fatigueLabel.text = L.Get("hud.fatigue", Mathf.RoundToInt(tired * 100f));
+            }
 
             for (var i = 0; i < _slots.Length; i++)
             {

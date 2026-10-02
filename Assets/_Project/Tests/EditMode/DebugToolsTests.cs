@@ -61,7 +61,9 @@ namespace Farm.Tests
             Assert.IsTrue(Run("time 01:30").Ok);
             Assert.AreEqual(25 * 60 + 30, _session.Clock.Now.MinuteOfDay, "01:30 is after midnight");
             Assert.IsTrue(Run("time 3:00").Ok);
-            Assert.AreEqual(GameDateTime.DayEndMinute, _session.Clock.Now.MinuteOfDay, "clamped to the end of the day");
+            Assert.AreEqual(27 * 60, _session.Clock.Now.MinuteOfDay, "03:00 is in the small hours of the same day");
+            Assert.IsTrue(Run("time 30:30").Ok);
+            Assert.AreEqual(GameDateTime.DayEndMinute, _session.Clock.Now.MinuteOfDay, "clamped to the end of the day (06:00)");
             Assert.IsTrue(Run("time 8:15").Ok);
             Assert.AreEqual(8 * 60 + 15, _session.Clock.Now.MinuteOfDay);
             Assert.IsFalse(Run("time banana").Ok);

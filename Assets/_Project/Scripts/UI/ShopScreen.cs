@@ -132,6 +132,43 @@ namespace Farm.UI
         }
     }
 
+    // A message the player reads and dismisses (the one-time late-night warning, later tutorials).
+    public sealed class MessageDialog : UiScreen
+    {
+        readonly TextMeshProUGUI _message;
+        System.Action _onClose;
+
+        public MessageDialog(UiService ui) : base(ui)
+        {
+            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "Message", new Vector2(520, 230), out var root);
+            Root = root;
+
+            var stack = UiKit.VStack(frame, "Stack", 14f, 18, TextAnchor.MiddleCenter);
+            UiKit.Stretch((RectTransform)stack.transform);
+            _message = UiKit.Label(stack.transform, "", 19f, TextAlignmentOptions.Center);
+            var row = UiKit.HStack(stack.transform, "Buttons", 12f, TextAnchor.MiddleCenter);
+            UiKit.MakeButton(row.transform, L.Get("ui.close"), Dismiss, 160f, 36f);
+            root.SetActive(false);
+        }
+
+        public void OpenMessage(string messageKey, System.Action onClose)
+        {
+            _message.text = L.Get(messageKey);
+            _onClose = onClose;
+            Open();
+        }
+
+        public override void OnCancel() => Dismiss();
+
+        void Dismiss()
+        {
+            var callback = _onClose;
+            _onClose = null;
+            Close();
+            callback?.Invoke();
+        }
+    }
+
     public sealed class DaySummaryScreen : UiScreen
     {
         readonly RectTransform _list;

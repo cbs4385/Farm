@@ -230,7 +230,7 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator PassingOut_At_Two_Am_Triggers_Sleep()
+        public IEnumerator PassingOut_At_Six_Am_Triggers_Sleep()
         {
             Bootstrapper.InitializeServices();
             yield return null;
@@ -240,7 +240,9 @@ namespace Farm.Tests
             yield return WaitFrames(2);
             var ui = ServiceLocator.Get<IUiService>();
 
-            session.Clock.AdvanceMinutes(GameDateTime.DayEndMinute);   // jump to 2:00 AM
+            session.State.Energy = 100;
+            session.SetFlag(FatigueModel.WarnedFlag);
+            session.Clock.AdvanceMinutes(GameDateTime.DayEndMinute);   // jump to 6:00 AM, the end of the day
             yield return WaitUntil(() => ui.AnyModalOpen, 10f, "summary after passing out");
             Assert.IsTrue(session.IsSleeping);
 
@@ -248,7 +250,7 @@ namespace Farm.Tests
                 .First(b => b.gameObject.activeInHierarchy && b.name == L.Get("ui.continue")).onClick.Invoke();
             yield return WaitUntil(() => !session.IsSleeping && SceneManager.GetActiveScene().name == MapIds.FarmHouse, 10f, "wake up");
             Assert.AreEqual(2, session.Clock.Now.Day);
-            Assert.AreEqual((int)(session.State.MaxEnergy * 0.75f), session.State.Energy);
+            Assert.AreEqual(100, session.State.Energy, "a whole night awake recovers nothing");
         }
 
         [UnityTest]

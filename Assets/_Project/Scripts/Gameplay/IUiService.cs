@@ -9,6 +9,7 @@ namespace Farm.Gameplay
         void ToggleInventory();
         void ShowShop(string shopId);
         void ShowConfirm(string messageKey, Action onYes, Action onNo = null);
+        void ShowMessage(string messageKey, Action onClose = null);
         void ShowDaySummary(DaySummary summary, Action onContinue);
         void ShowPause();
         void ShowOptions();

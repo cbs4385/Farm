@@ -6,7 +6,7 @@ Editor must be closed. Commands and flags are in `docs/BUILD.md`.
 | Check | How | Covers |
 |---|---|---|
 | EditMode tests (~205) | `-runTests -testPlatform EditMode` | clock/calendar/moon, inventory, farm growth, day cycle, save/load/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content and sprite-import validation, condition language, hooks, modules, atmosphere, content packs, session flags/vars/module data |
-| PlayMode tests (~17) | `-runTests -testPlatform PlayMode` (needs graphics) | boot to menu, new game, farming loop, sleep through the UI (Continue clickable over the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, avatar/cursor alignment, **simulated keyboard and mouse input**, a test module using every extension point |
+| PlayMode tests (~17) | `-runTests -testPlatform PlayMode` (needs graphics) | boot to menu, new game, farming loop, sleep through the UI (Continue clickable over the fade), pass-out at 6 AM, late-night warning and fatigue, warps keep state, save/load, options scrolling, avatar/cursor alignment, **simulated keyboard and mouse input**, a test module using every extension point |
 | Windows + Linux builds | `BuildScript.BuildWindows` / `BuildLinux` | player builds compile and boot |
 | Player capture | `-farmScene <Scene> -farmOpen <screen> -farmCapture <dir>` | look at the screenshots for every screen; the `[Perf]` log line shows avg/max frame time and GC |
 | Pixel-perfect check | BUILD.md "QA flags" | integer scaling at 1x-4x |
@@ -33,6 +33,7 @@ Run on Windows and Linux. Keyboard/mouse first, then gamepad. Items marked (veri
 13. Esc pauses: Save Game, Options (sliders, scrolling, resolution, fullscreen, UI size, rebind a key), Main Menu.
 14. Quit to menu -> Continue loads the latest save; also after closing and restarting the game (verified).
 15. Spring 28 -> Summer 1: spring crops wither. (Development build: plant crops, then `date summer 1`.)
+15b. Late night (development build: `time 21:50`, then wait): at 22:00 a message explains tiredness once per save (Esc or Close dismisses it, it never returns); a purple fatigue meter appears beside the energy bar and grows towards 06:00; the HUD clock shows 6:00 AM at the end of the day. Sleeping late restores less energy (none after a whole night) and the summary says so; staying up until 06:00 collapses the farmer (gold lost, wakes in the farmhouse, still exhausted until a bed sleep). Good luck is reduced while tired (`state` shows luck).
 16. Rain day: soil already watered, bluish tint, falling rain. Also check `weather storm` (darker, heavier, lightning flashes), `weather snow` and `weather wind`; the HUD shows tomorrow's forecast under the weather. Inside buildings there is no weather. (Development build: `weather <id>`.)
 
 ## Developer tools (development builds and the Editor)

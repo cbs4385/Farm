@@ -57,6 +57,7 @@ namespace Farm.UI
         InventoryScreen _inventory;
         ShopScreen _shop;
         ConfirmDialog _confirm;
+        MessageDialog _message;
         DaySummaryScreen _summary;
         PauseScreen _pause;
         OptionsScreen _options;
@@ -242,6 +243,12 @@ namespace Farm.UI
         {
             _confirm ??= new ConfirmDialog(this);
             _confirm.OpenConfirm(messageKey, onYes, onNo);
+        }
+
+        public void ShowMessage(string messageKey, Action onClose = null)
+        {
+            _message ??= new MessageDialog(this);
+            _message.OpenMessage(messageKey, onClose);
         }
 
         public void ShowDaySummary(DaySummary summary, Action onContinue)

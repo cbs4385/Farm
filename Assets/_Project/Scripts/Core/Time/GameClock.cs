@@ -17,7 +17,7 @@ namespace Farm.Core
     }
 
     // Owns the in-game time. Plain C#: the game drives it with Tick(deltaTime) so it is fully unit-testable.
-    // At 02:00 the clock stops and publishes PassOutTimeReached; whoever handles that calls StartNextDay(true).
+    // At 06:00 the next morning the clock stops and publishes PassOutTimeReached; whoever handles that calls StartNextDay(true).
     public sealed class GameClock
     {
         public const int MinutesPerStep = 10;

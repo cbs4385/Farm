@@ -85,7 +85,7 @@ namespace Farm.Gameplay
         }
 #endif
 
-        // QA aid: `-farmOpen inventory|shop|pause|options|summary|sleep` opens a screen shortly after the scene starts.
+        // QA aid: `-farmOpen inventory|shop|pause|options|message|summary|sleep` opens a screen shortly after the scene starts.
         System.Collections.IEnumerator OpenRequestedScreen()
         {
             var which = CommandLine.GetArg("-farmOpen");
@@ -97,6 +97,7 @@ namespace Farm.Gameplay
                 case "shop": ui.ShowShop("general"); break;
                 case "pause": ui.ShowPause(); break;
                 case "options": ui.ShowOptions(); break;
+                case "message": ui.ShowMessage("late_night.warning"); break;
                 case "sleep": _session.StartSleep(false); break;   // fade, summary over black, wait for Continue
                 case "crops": PlantShowcase(); break;
                 case "summary":

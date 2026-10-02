@@ -54,6 +54,11 @@ namespace Farm.Gameplay
         public static bool ShouldWarn(int previousMinuteOfDay, int currentMinuteOfDay, bool alreadyWarned) =>
             !alreadyWarned && previousMinuteOfDay < StartMinuteOfDay && currentMinuteOfDay >= StartMinuteOfDay;
 
+        // True while the warning is still owed: from 22:00 until the player has seen it (also covers loading a save
+        // that is already past 22:00 without the flag).
+        public static bool NeedsWarning(int minuteOfDay, bool alreadyWarned) =>
+            !alreadyWarned && minuteOfDay >= StartMinuteOfDay && minuteOfDay < EndMinuteOfDay;
+
         // Story flag that records the one-time warning in the save.
         public const string WarnedFlag = "tutorial.late_night_warned";
 

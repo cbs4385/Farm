@@ -10,7 +10,7 @@ namespace Farm.Core
         New = 0, WaxingCrescent, FirstQuarter, WaxingGibbous, Full, WaningGibbous, LastQuarter, WaningCrescent,
     }
 
-    // Calendar position. Days run 06:00 to 26:00 (02:00 next morning): MinuteOfDay is 360..1559.
+    // Calendar position. Days run 06:00 to 30:00 (06:00 next morning): MinuteOfDay is 360..1799.
     // Year is 1-based, Day is 1..28.
     public readonly struct GameDateTime : IEquatable<GameDateTime>
     {
@@ -18,7 +18,7 @@ namespace Farm.Core
         public const int SeasonsPerYear = 4;
         public const int DaysPerYear = DaysPerSeason * SeasonsPerYear;
         public const int DayStartMinute = 6 * 60;
-        public const int DayEndMinute = 26 * 60;
+        public const int DayEndMinute = 30 * 60;
 
         public readonly int Year;
         public readonly Season Season;

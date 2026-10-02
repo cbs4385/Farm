@@ -49,7 +49,7 @@ namespace Farm.Gameplay
             _light.intensity = 1f;
         }
 
-        // Piecewise gradient: 6:00 dawn, 9:00 day, 17:00 day, 19:30 dusk, 22:00 night, 26:00 night.
+        // Piecewise gradient: 6:00 dawn, 9:00 day, 17:00 day, 19:30 dusk, 22:00 night, 28:00 night, 30:00 dawn.
         public static Color ColorAt(int minuteOfDay)
         {
             var h = minuteOfDay / 60f;
@@ -57,7 +57,8 @@ namespace Farm.Gameplay
             if (h < 17f) return Day;
             if (h < 19.5f) return Color.Lerp(Day, Dusk, Mathf.InverseLerp(17f, 19.5f, h));
             if (h < 22f) return Color.Lerp(Dusk, Night, Mathf.InverseLerp(19.5f, 22f, h));
-            return Night;
+            if (h < 28f) return Night;
+            return Color.Lerp(Night, Dawn, Mathf.InverseLerp(28f, 30f, h));   // the sky lightens before 06:00
         }
     }
 }

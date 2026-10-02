@@ -16,6 +16,7 @@ namespace Farm.Gameplay
         public List<SummaryNote> Notes = new List<SummaryNote>();   // extra lines added by day-cycle hooks
         public GameDateTime NewDate;
         public string NewWeather;
+        public float FatigueAtSleep;      // 0..1, how tired the player was when they fell asleep
     }
 
     public static class WeatherIds
@@ -62,6 +63,9 @@ namespace Farm.Gameplay
                 WakeMap = MapIds.FarmHouse, WakeSpawn = BedSpawn,
             };
 
+            var sleepMinute = clock.Now.MinuteOfDay;
+            summary.FatigueAtSleep = new FatigueState(state.FatigueCarried).RecoveryRating(sleepMinute);
+
             // 1. Shipping bin pays out.
             foreach (var stack in state.ShippingBin)
             {
@@ -98,17 +102,22 @@ namespace Farm.Gameplay
                 foreach (var grid in grids.Values) grid.WaterAll();
 
             // 5. Rest.
+            // Sleeping restores energy (full in bed, 75% after collapsing), less the more tired the player was when they
+            // fell asleep: nothing after a whole night awake. A bed sleep clears fatigue; a collapse carries it over.
+            var fatigue = new FatigueState(state.FatigueCarried);
             if (passedOut)
             {
                 summary.PassOutGoldLoss = Math.Min(state.Gold / 20, 500);
                 state.Gold -= summary.PassOutGoldLoss;
-                state.Energy = (int)(state.MaxEnergy * 0.75f);
             }
-            else
-            {
-                state.Energy = state.MaxEnergy;
-            }
+            var energyTarget = passedOut ? (int)(state.MaxEnergy * 0.75f) : state.MaxEnergy;
+            state.Energy = fatigue.EnergyAfterSleep(state.Energy, energyTarget, sleepMinute);
+            fatigue.AfterSleep(!passedOut, sleepMinute);
+            state.FatigueCarried = fatigue.Carried;
             state.Health = state.MaxHealth;
+
+            if (passedOut) summary.Notes.Add(new SummaryNote("summary.collapsed", new object[0]));
+            else if (summary.FatigueAtSleep >= 0.05f) summary.Notes.Add(new SummaryNote("summary.late_night", new object[0]));
 
             // 5b. Dawn hooks may add summary notes or change where the player wakes up.
             hooks?.RunDawn(context);

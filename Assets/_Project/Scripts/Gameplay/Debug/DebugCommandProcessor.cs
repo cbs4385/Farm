@@ -97,7 +97,7 @@ namespace Farm.Gameplay
             minuteOfDay = 0;
             var p = text.Split(':');
             if (p.Length != 2 || !int.TryParse(p[0], out var h) || !int.TryParse(p[1], out var m)) return false;
-            if (h < 0 || h > 25 || m < 0 || m > 59) return false;
+            if (h < 0 || h > 30 || m < 0 || m > 59) return false;
             if (h < GameDateTime.DayStartMinute / 60) h += 24;     // 00:00-05:59 are the small hours after midnight
             minuteOfDay = Math.Max(GameDateTime.DayStartMinute, Math.Min(GameDateTime.DayEndMinute, h * 60 + m));
             return true;

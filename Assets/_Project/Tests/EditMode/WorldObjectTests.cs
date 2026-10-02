@@ -186,7 +186,7 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void EverySeasonsRitualCanFinishBeforeTwoAm()
+        public void EverySeasonsRitualCanFinishBeforeTheDayEnds()
         {
             foreach (Season s in Enum.GetValues(typeof(Season)))
             {
@@ -194,7 +194,7 @@ namespace Farm.Tests
                 Assert.Greater(latest, 20 * 60, $"{s}: leaves a reasonable evening to start in");
                 Assert.AreEqual(GameDateTime.DayEndMinute, latest + RitualModel.DurationMinutes(RitualModel.OfferingCount(s)));
             }
-            Assert.AreEqual(23 * 60 + 50, RitualModel.LatestStartMinuteOfDay(Season.Winter));
+            Assert.AreEqual(27 * 60 + 50, RitualModel.LatestStartMinuteOfDay(Season.Winter), "03:50, with the day ending at 06:00");
         }
     }
 }

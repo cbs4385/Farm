@@ -115,7 +115,7 @@ namespace Farm.Mythos
         // 20 minutes on the altar: before the ritual, or from the altar before it is consumed.
         public static bool CanStillBeTaken(int index, int offsetMinutes) => !IsConsumed(index, offsetMinutes);
 
-        // The latest minute-of-day at which a ritual of this season can start and still end before the day does (02:00).
+        // The latest minute-of-day at which a ritual of this season can start and still end before the day does (06:00).
         public static int LatestStartMinuteOfDay(Season season) =>
             GameDateTime.DayEndMinute - DurationMinutes(OfferingCount(season));
 

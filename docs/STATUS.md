@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 234 EditMode + 32 PlayMode pass. Milestone 2 in progress: T-043 and T-030 done; next T-046 (fatigue), T-031, T-034. The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 248 EditMode + 36 PlayMode pass. Milestone 2 in progress: T-043, T-030 and T-046 (mostly) done; next T-031, T-034. The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -39,6 +39,7 @@ Not built yet: hooks for NPCs/dialogue/events/weather definitions/journal (come 
 ## Milestone 2 - World and living village (in progress)
 T-043 | done | claude/2026-10-01 | developer console (F1) and -farmCommands (Editor and development builds only), release guard, BuildsDev output; 21 command tests + PlayMode F1 test. Verified: release builds (Windows, Linux) free of debug types, development build contains them
 T-030 | done | claude/2026-10-01 | weather as data: `WeatherDefinition` assets (sunny, rain, storm, snow, wind; tint, watering, particles, lightning, per-season weights) in `GameDatabase`/content packs; seeded weighted roll (`WeatherRoller`, `GameState.WorldSeed`), forecast a day ahead (`GameState.ForecastWeather`, shown in the HUD), `IWeatherWeightModifier` hook beside `IWeatherModifier`; lighting, crop watering and `WeatherEffects` (pooled pixel sprites, outdoor maps only) all read the definition. 25 EditMode + 4 PlayMode tests; Windows development build captured for all five weathers at 60 fps. Not seen by a person yet
+T-046 | done (partial) | claude/2026-10-01 | late-night fatigue wired in: the day now runs 06:00 to 06:00 (`DayEndMinute` 30:00, lighting lightens before dawn); one-time 22:00 message (`MessageDialog`, flag `tutorial.late_night_warned`, also for saves loaded after 22:00); fatigue meter beside the energy bar, shown only while fatigue is above zero; `FatigueLuckModifier` (registered by `GameSession`, scales good luck by up to 50%); sleep energy scaled by fatigue and `GameState.FatigueCarried` (cleared by a bed sleep, carried over by a 06:00 collapse; collapse costs gold and wakes in the farmhouse bed); day-summary notes. 14 EditMode + 4 PlayMode tests (simulated Esc dismisses the message; a full collapse flow). Rituals can now start as late as 03:50. Windows development build captured (meter, forecast line, message). NOT done: shop hours and night schedules (T-031/T-035). Not seen by a person yet
 T-031 | todo | | village, forest, beach, interiors
 T-032 | todo | |
 T-033 | todo | |
@@ -58,7 +59,7 @@ Decided 2026-10-01 (F): no scope cuts; the schedule is forgiving. No open design
 ## Human playtest results (Windows, 2026-10-01)
 Confirmed by hand: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, energy bar and exhaustion message, save and load from the main menu and after a full restart, seeds planting with clearer feedback.
 Bugs found by playing and fixed (each has a test): options not scrolling, avatar drawn a tile below its logical position (sprite import mode), sleep ending on a black screen (fade drawn over the summary), seedling nearly invisible and silent failed actions; earlier, a scene that crashed player builds (two MonoBehaviours in one file).
-Still untested by a human: gamepad, passing out at 2 AM (in progress), rain days, season change (spring -> summer crop death), real Linux hardware/Steam Deck, CI. Backpack drag and drop is covered by simulated-input tests, not yet by a person.
+Still untested by a human: gamepad, late-night fatigue (warning, meter, collapse at 06:00), rain days, season change (spring -> summer crop death), real Linux hardware/Steam Deck, CI. Backpack drag and drop is covered by simulated-input tests, not yet by a person.
 
 ## Milestone 3b - Mythos layer (required for 1.0; not started)
 X-000..X-011 | todo | | see the plan. X-000 (lore bible) has no open questions left; the draft holds the decided names, numbers, ritual rules, timing and discovery

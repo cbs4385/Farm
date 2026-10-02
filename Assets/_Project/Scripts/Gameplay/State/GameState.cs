@@ -50,6 +50,9 @@ namespace Farm.Gameplay
         // Tomorrow's weather, rolled a day ahead so it can be shown as a forecast. Empty until the first roll.
         public string ForecastWeather = "";
 
+        // Fatigue carried over from a sleep that was not in a bed (collapsing at 06:00); 0..1. See FatigueState.
+        public float FatigueCarried;
+
         // Seeds everything that must be random per playthrough but repeatable within it (weather so far).
         public int WorldSeed;
         public Dictionary<string, int> SkillXp = new Dictionary<string, int>();

@@ -68,6 +68,10 @@ namespace Farm.Gameplay
         // The player's luck, -1..+1 (0 neutral), after every module's modifiers. Roll-based systems should use it.
         public float Luck => InGame ? Hooks.ComputeLuck(State) : 0f;
 
+        // Fatigue: what is carried from a collapse, and the rating right now (0 = rested, 1 = a whole night awake).
+        public FatigueState Fatigue => new FatigueState(InGame ? State.FatigueCarried : 0f);
+        public float FatigueRating => InGame ? Fatigue.LuckRating(Clock.Now.MinuteOfDay) : 0f;
+
         public int HorrorLevel => ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current.HorrorLevel : 2;
 
         // ---- story flags and variables -------------------------------------------------------------------------
@@ -122,6 +126,19 @@ namespace Farm.Gameplay
             _bus = bus;
             _db = db;
             _saves = saves;
+            Hooks.AddLuckModifier(new FatigueLuckModifier(() => Clock != null ? Clock.Now.MinuteOfDay : GameDateTime.DayStartMinute));
+            _bus.Subscribe<MinuteChanged>(OnMinuteChanged);
+        }
+
+        void OnDestroy() => _bus?.Unsubscribe<MinuteChanged>(OnMinuteChanged);
+
+        // The first time the clock passes 22:00 in a save, tell the player what staying up costs (once).
+        void OnMinuteChanged(MinuteChanged e)
+        {
+            if (!InGame || _sleeping) return;
+            if (!FatigueModel.NeedsWarning(e.Now.MinuteOfDay, HasFlag(FatigueModel.WarnedFlag))) return;
+            SetFlag(FatigueModel.WarnedFlag);
+            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowMessage("late_night.warning");
         }
 
         void Update()
