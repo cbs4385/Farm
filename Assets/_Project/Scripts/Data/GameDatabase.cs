@@ -13,6 +13,7 @@ namespace Farm.Data
         [SerializeField] List<CropDefinition> _crops = new List<CropDefinition>();
         [SerializeField] List<WeatherDefinition> _weather = new List<WeatherDefinition>();
         [SerializeField] List<ResourceNodeDefinition> _nodes = new List<ResourceNodeDefinition>();
+        [SerializeField] List<UpgradeDefinition> _upgrades = new List<UpgradeDefinition>();
 
         Dictionary<string, ItemDefinition> _itemLookup;
         Dictionary<string, CropDefinition> _cropLookup;
@@ -20,24 +21,29 @@ namespace Farm.Data
         readonly List<CropDefinition> _runtimeCrops = new List<CropDefinition>();
         readonly List<WeatherDefinition> _runtimeWeather = new List<WeatherDefinition>();
         readonly List<ResourceNodeDefinition> _runtimeNodes = new List<ResourceNodeDefinition>();
+        readonly List<UpgradeDefinition> _runtimeUpgrades = new List<UpgradeDefinition>();
 
         public IReadOnlyList<ItemDefinition> Items => _items;
         public IReadOnlyList<CropDefinition> Crops => _crops;
 
         public static GameDatabase Create(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
-            IEnumerable<WeatherDefinition> weather = null, IEnumerable<ResourceNodeDefinition> nodes = null)
+            IEnumerable<WeatherDefinition> weather = null, IEnumerable<ResourceNodeDefinition> nodes = null,
+            IEnumerable<UpgradeDefinition> upgrades = null)
         {
             var db = CreateInstance<GameDatabase>();
             db._items.AddRange(items);
             db._crops.AddRange(crops);
             if (weather != null) db._weather.AddRange(weather);
             if (nodes != null) db._nodes.AddRange(nodes);
+            if (upgrades != null) db._upgrades.AddRange(upgrades);
             return db;
         }
 
         public void SetContents(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
-            IEnumerable<WeatherDefinition> weather = null, IEnumerable<ResourceNodeDefinition> nodes = null)
+            IEnumerable<WeatherDefinition> weather = null, IEnumerable<ResourceNodeDefinition> nodes = null,
+            IEnumerable<UpgradeDefinition> upgrades = null)
         {
+            _upgrades = upgrades != null ? new List<UpgradeDefinition>(upgrades) : new List<UpgradeDefinition>();
             _nodes = nodes != null ? new List<ResourceNodeDefinition>(nodes) : new List<ResourceNodeDefinition>();
             _items = new List<ItemDefinition>(items);
             _crops = new List<CropDefinition>(crops);
@@ -102,7 +108,30 @@ namespace Farm.Data
                 }
                 _runtimeNodes.Add(node);
             }
+            var knownUpgrades = new HashSet<string>();
+            foreach (var u in AllUpgrades) knownUpgrades.Add(u.Id);
+            foreach (var upgrade in pack.Upgrades)
+            {
+                if (upgrade == null) continue;
+                if (!knownUpgrades.Add(upgrade.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines upgrade '{upgrade.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _runtimeUpgrades.Add(upgrade);
+            }
             return rejected;
+        }
+
+        // Every upgrade definition, including pack ones. Empty means "use UpgradeDefaults".
+        public IEnumerable<UpgradeDefinition> AllUpgrades
+        {
+            get
+            {
+                foreach (var u in _upgrades) if (u != null) yield return u;
+                foreach (var u in _runtimeUpgrades) if (u != null) yield return u;
+            }
         }
 
         // Every resource node definition, including pack ones. Empty means "use NodeDefaults".

@@ -46,6 +46,7 @@ namespace Farm.Gameplay
         readonly Dictionary<string, FarmGrid> _grids = new Dictionary<string, FarmGrid>();
         readonly Dictionary<string, NodeGrid> _nodeGrids = new Dictionary<string, NodeGrid>();
         NodeCatalog _nodeCatalog;
+        UpgradeCatalog _upgradeCatalog;
 
         EventBus _bus;
         GameDatabase _db;
@@ -64,6 +65,42 @@ namespace Farm.Gameplay
 
         // Weather definitions (core assets plus module packs). Built on first use, after packs have merged.
         // Resource node definitions (core assets plus module packs), built on first use.
+        public UpgradeCatalog UpgradeTable => _upgradeCatalog ?? (_upgradeCatalog = UpgradeCatalog.From(_db));
+
+        // Buys an upgrade at a counter (gold, materials, effect). Explains a refusal with a toast.
+        public bool BuyUpgrade(UpgradeDefinition def)
+        {
+            var result = Upgrades.Buy(UpgradeTable, def, State, Backpack, Clock.Now);
+            switch (result)
+            {
+                case UpgradeCheck.NoGold: Toast(L.Get("toast.not_enough_gold")); break;
+                case UpgradeCheck.NoMaterials: Toast(L.Get("toast.upgrade_materials")); break;
+                case UpgradeCheck.NotOffered: break;
+                default:
+                    _bus.Publish(new StatsChanged());
+                    Toast(L.Get(def.Kind == UpgradeKind.Tool ? "toast.upgrade_started" : "toast.upgrade_done"));
+                    break;
+            }
+            return result == UpgradeCheck.Ok;
+        }
+
+        // Takes back every finished tool the backpack has room for.
+        public int CollectUpgrades()
+        {
+            var collected = Upgrades.Collect(State, Backpack, Clock.Now);
+            foreach (var p in collected) Toast(L.Get("toast.upgrade_collected", ToolTitle(p.ToolItemId, p.Tier)));
+            if (collected.Count == 0 && Upgrades.Ready(State, Clock.Now).Count > 0) Toast(L.Get("toast.inventory_full"));
+            if (collected.Count > 0) _bus.Publish(new StatsChanged());
+            return collected.Count;
+        }
+
+        // "Copper Axe" for a tool item at a tier ("Axe" for basic).
+        public string ToolTitle(string toolItemId, int tier)
+        {
+            var name = _db.TryGetItem(toolItemId, out var item) ? L.Get(item.NameKey) : toolItemId;
+            return tier <= 0 ? name : L.Get("upgrade.tool", L.Get(ToolModel.TierKey(tier)), name);
+        }
+
         public NodeCatalog Nodes => _nodeCatalog ?? (_nodeCatalog = NodeCatalog.From(_db));
 
         public WeatherCatalog Weather => _weatherCatalog ?? (_weatherCatalog = WeatherCatalog.From(_db));

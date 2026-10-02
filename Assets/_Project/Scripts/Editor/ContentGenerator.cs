@@ -16,6 +16,7 @@ namespace Farm.Editor
         const string CropDir = Root + "/Data/Crops";
         const string WeatherDir = Root + "/Data/Weather";
         const string NodeDir = Root + "/Data/Nodes";
+        const string UpgradeDir = Root + "/Data/Upgrades";
         const string DbPath = Root + "/Resources/GameDatabase.asset";
         const string ArtDir = Root + "/Art/Placeholders";
 
@@ -44,6 +45,7 @@ namespace Farm.Editor
             Directory.CreateDirectory(CropDir);
             Directory.CreateDirectory(WeatherDir);
             Directory.CreateDirectory(NodeDir);
+            Directory.CreateDirectory(UpgradeDir);
             Directory.CreateDirectory(Path.GetDirectoryName(DbPath));
 
             var items = new List<ItemDefinition>();
@@ -57,6 +59,9 @@ namespace Farm.Editor
 
             Save(items, ItemDefinition.Create(ItemIds.Wood, ItemCategory.Resource, sellPrice: 2, icon: Sprite("item_resource_wood")));
             Save(items, ItemDefinition.Create(ItemIds.Stone, ItemCategory.Resource, sellPrice: 2, icon: Sprite("item_resource_stone")));
+            Save(items, ItemDefinition.Create(ItemIds.CopperBar, ItemCategory.Resource, sellPrice: 60, icon: Sprite("item_resource_copperbar")));
+            Save(items, ItemDefinition.Create(ItemIds.IronBar, ItemCategory.Resource, sellPrice: 120, icon: Sprite("item_resource_ironbar")));
+            Save(items, ItemDefinition.Create(ItemIds.GoldBar, ItemCategory.Resource, sellPrice: 250, icon: Sprite("item_resource_goldbar")));
             Save(items, ItemDefinition.Create(ItemIds.Fiber, ItemCategory.Resource, sellPrice: 1, icon: Sprite("item_resource_fiber")));
 
             foreach (var row in CropTable)
@@ -71,21 +76,22 @@ namespace Farm.Editor
 
             var weather = WeatherDefaults.CreateAll().Select(SaveWeather).ToList();
             var nodes = NodeDefaults.CreateAll().Select(SaveNode).ToList();
+            var upgrades = UpgradeDefaults.CreateAll().Select(SaveUpgrade).ToList();
 
             var db = AssetDatabase.LoadAssetAtPath<GameDatabase>(DbPath);
             if (db == null)
             {
-                db = GameDatabase.Create(items, crops, weather, nodes);
+                db = GameDatabase.Create(items, crops, weather, nodes, upgrades);
                 AssetDatabase.CreateAsset(db, DbPath);
             }
             else
             {
-                db.SetContents(items, crops, weather, nodes);
+                db.SetContents(items, crops, weather, nodes, upgrades);
                 EditorUtility.SetDirty(db);
             }
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers, {nodes.Count} resource nodes.");
+            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers, {nodes.Count} resource nodes, {upgrades.Count} upgrades.");
         }
 
         public static void GenerateAllAndExit()
@@ -113,6 +119,20 @@ namespace Farm.Editor
         {
             var path = $"{WeatherDir}/{fresh.Id}.asset";
             var existing = AssetDatabase.LoadAssetAtPath<WeatherDefinition>(path);
+            if (existing != null)
+            {
+                Object.DestroyImmediate(fresh);
+                return existing;
+            }
+            AssetDatabase.CreateAsset(fresh, path);
+            return fresh;
+        }
+
+        // Upgrade prices are tuned in the inspector: an existing asset is kept.
+        static UpgradeDefinition SaveUpgrade(UpgradeDefinition fresh)
+        {
+            var path = $"{UpgradeDir}/{fresh.Id}.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<UpgradeDefinition>(path);
             if (existing != null)
             {
                 Object.DestroyImmediate(fresh);

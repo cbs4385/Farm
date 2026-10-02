@@ -61,6 +61,10 @@ namespace Farm.Gameplay
 
         // Upgrade tier of each tool the player owns, by item id: 0 basic, 1 copper, 2 iron, 3 gold.
         public Dictionary<string, int> ToolTiers = new Dictionary<string, int>();
+
+        // Tools handed in for upgrading, and the one-off upgrades (backpack, energy) already bought.
+        public List<PendingUpgrade> PendingUpgrades = new List<PendingUpgrade>();
+        public HashSet<string> UpgradesDone = new HashSet<string>();
         public HashSet<string> Flags = new HashSet<string>();
 
         // Open-ended story state. Additive fields like these need no save migration: older saves load with

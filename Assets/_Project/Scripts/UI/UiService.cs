@@ -58,6 +58,7 @@ namespace Farm.UI
         ShopScreen _shop;
         ConfirmDialog _confirm;
         MessageDialog _message;
+        UpgradeScreen _upgrades;
         DaySummaryScreen _summary;
         PauseScreen _pause;
         OptionsScreen _options;
@@ -243,6 +244,12 @@ namespace Farm.UI
         {
             _confirm ??= new ConfirmDialog(this);
             _confirm.OpenConfirm(messageKey, onYes, onNo);
+        }
+
+        public void ShowUpgrades(string shopId)
+        {
+            _upgrades ??= new UpgradeScreen(this);
+            _upgrades.OpenFor(shopId);
         }
 
         public void ShowMessage(string messageKey, Action onClose = null)

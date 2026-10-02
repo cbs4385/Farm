@@ -209,7 +209,7 @@ namespace Farm.UI
                 _tooltipBody.text = string.Empty;
                 return;
             }
-            _tooltipName.text = L.Get(item.NameKey);
+            _tooltipName.text = item.IsTool ? Ui.Session.ToolTitle(item.Id, Ui.Session.ToolTier(item.Id)) : L.Get(item.NameKey);
             var body = L.Get(item.DescriptionKey);
             if (item.SellPrice > 0) body += "\n" + L.Get("inventory.sell_value", item.SellPrice);
             _tooltipBody.text = body;

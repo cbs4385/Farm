@@ -52,10 +52,10 @@ namespace Farm.Editor
         // A piece of furniture in an interior. ShopId makes it a working counter.
         struct Prop
         {
-            public string Name, Sprite, ShopId;
+            public string Name, Sprite, ShopId, UpgradesAt;   // UpgradesAt: a counter selling upgrades for that business
             public int X, Y;
-            public Prop(string name, string sprite, int x, int y, string shopId = null)
-            { Name = name; Sprite = sprite; X = x; Y = y; ShopId = shopId; }
+            public Prop(string name, string sprite, int x, int y, string shopId = null, string upgradesAt = null)
+            { Name = name; Sprite = sprite; X = x; Y = y; ShopId = shopId; UpgradesAt = upgradesAt; }
         }
 
         public static void BuildAll()
@@ -74,10 +74,11 @@ namespace Farm.Editor
                 new Prop("Shelf1", "obj_shelf", 2, 7), new Prop("Shelf2", "obj_shelf", 3, 7), new Prop("Shelf3", "obj_shelf", 4, 7),
                 new Prop("Shelf4", "obj_shelf", 7, 7), new Prop("Shelf5", "obj_shelf", 8, 7), new Prop("Shelf6", "obj_shelf", 9, 7),
                 new Prop("Crate1", "obj_bin", 1, 2), new Prop("Crate2", "obj_bin", 10, 2),
+                new Prop("PackCounter", "obj_counter", 9, 4, upgradesAt: "general"),
             });
             BuildInterior(MapIds.Blacksmith, 10, 8, 4, new[]
             {
-                new Prop("Counter1", "obj_counter", 3, 4), new Prop("Counter2", "obj_counter", 4, 4), new Prop("Counter3", "obj_counter", 5, 4),
+                new Prop("Counter1", "obj_counter", 3, 4), new Prop("Counter2", "obj_counter", 4, 4, upgradesAt: "blacksmith"), new Prop("Counter3", "obj_counter", 5, 4),
                 new Prop("Shelf1", "obj_shelf", 1, 6), new Prop("Shelf2", "obj_shelf", 2, 6), new Prop("Shelf3", "obj_shelf", 7, 6),
                 new Prop("Shelf4", "obj_shelf", 8, 6), new Prop("Anvil", "obj_table", 7, 2),
             });
@@ -97,7 +98,7 @@ namespace Farm.Editor
             BuildInterior(MapIds.Clinic, 10, 8, 4, new[]
             {
                 new Prop("Bed1", "obj_bed", 2, 6), new Prop("Bed2", "obj_bed", 4, 6), new Prop("Bed3", "obj_bed", 6, 6),
-                new Prop("Desk1", "obj_counter", 7, 3), new Prop("Desk2", "obj_counter", 8, 3), new Prop("Shelf", "obj_shelf", 1, 4),
+                new Prop("Desk1", "obj_counter", 7, 3, upgradesAt: "clinic"), new Prop("Desk2", "obj_counter", 8, 3), new Prop("Shelf", "obj_shelf", 1, 4),
             });
             BuildInterior(MapIds.Library, 12, 9, 5, new[]
             {
@@ -340,6 +341,7 @@ namespace Farm.Editor
             {
                 var go = AddObject(p.Name, p.Sprite, Center(p.X, p.Y), solid: true);
                 if (p.ShopId != null) go.AddComponent<ShopCounter>().ShopId = p.ShopId;
+                if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
             }
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");

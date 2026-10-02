@@ -116,6 +116,11 @@ namespace Farm.Gameplay
             state.FatigueCarried = fatigue.Carried;
             state.Health = state.MaxHealth;
 
+            foreach (var ready in state.PendingUpgrades)
+                if (ready.ReadyDay == clock.Now.TotalDays && itemLookup(ready.ToolItemId) is ItemDefinition tool)
+                    summary.Notes.Add(new SummaryNote("summary.upgrade_ready",
+                        new object[] { L.Get("upgrade.tool", L.Get(ToolModel.TierKey(ready.Tier)), L.Get(tool.NameKey)) }));
+
             if (passedOut) summary.Notes.Add(new SummaryNote("summary.collapsed", new object[0]));
             else if (summary.FatigueAtSleep >= 0.05f) summary.Notes.Add(new SummaryNote("summary.late_night", new object[0]));
 

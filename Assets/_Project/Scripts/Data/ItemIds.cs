@@ -12,6 +12,9 @@ namespace Farm.Data
         public const string Wood = "resource.wood";
         public const string Stone = "resource.stone";
         public const string Fiber = "resource.fiber";
+        public const string CopperBar = "resource.copperbar";
+        public const string IronBar = "resource.ironbar";
+        public const string GoldBar = "resource.goldbar";
 
         public static string Seed(string cropId) => $"seed.{cropId}";
         public static string Crop(string cropId) => $"crop.{cropId}";

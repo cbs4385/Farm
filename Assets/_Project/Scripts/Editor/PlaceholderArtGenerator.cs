@@ -80,6 +80,9 @@ namespace Farm.Editor
             Item(written, "item_tool_scythe", new Color(0.80f, 0.80f, 0.85f));
             Item(written, "item_resource_wood", new Color(0.55f, 0.38f, 0.22f));
             Item(written, "item_resource_stone", new Color(0.60f, 0.60f, 0.62f));
+            Item(written, "item_resource_copperbar", new Color(0.80f, 0.50f, 0.30f));
+            Item(written, "item_resource_ironbar", new Color(0.62f, 0.64f, 0.70f));
+            Item(written, "item_resource_goldbar", new Color(0.95f, 0.80f, 0.25f));
 
             // World objects (16x16)
             WorldObject(written, "obj_bin", new Color(0.55f, 0.36f, 0.20f), new Color(0.35f, 0.22f, 0.12f));

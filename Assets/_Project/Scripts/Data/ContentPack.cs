@@ -16,12 +16,14 @@ namespace Farm.Data
         [SerializeField] List<CropDefinition> _crops = new List<CropDefinition>();
         [SerializeField] List<WeatherDefinition> _weather = new List<WeatherDefinition>();
         [SerializeField] List<ResourceNodeDefinition> _nodes = new List<ResourceNodeDefinition>();
+        [SerializeField] List<UpgradeDefinition> _upgrades = new List<UpgradeDefinition>();
 
         public string PackId => _packId;
         public IReadOnlyList<ItemDefinition> Items => _items;
         public IReadOnlyList<CropDefinition> Crops => _crops;
         public IReadOnlyList<WeatherDefinition> Weather => _weather;
         public IReadOnlyList<ResourceNodeDefinition> Nodes => _nodes;
+        public IReadOnlyList<UpgradeDefinition> Upgrades => _upgrades;
 
         public static ContentPack Create(string packId, IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
             IEnumerable<WeatherDefinition> weather = null)
