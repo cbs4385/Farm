@@ -20,7 +20,7 @@ namespace Farm.Gameplay
         static NodeCatalog _builtIn;
         readonly Dictionary<string, ResourceNodeDefinition> _byId = new Dictionary<string, ResourceNodeDefinition>();
 
-        public static NodeCatalog BuiltIn => _builtIn ?? (_builtIn = new NodeCatalog(BuiltInAssets.Keep(NodeDefaults.CreateAll())));
+        public static NodeCatalog BuiltIn => _builtIn ?? (_builtIn = new NodeCatalog(BuiltInAssets.Keep(NodeDefaults.CreateAll().Concat(MineGenerator.CreateNodes()).ToArray())));
 
         public NodeCatalog(IEnumerable<ResourceNodeDefinition> definitions)
         {
@@ -81,6 +81,8 @@ namespace Farm.Gameplay
         }
 
         public bool Remove(int x, int y) => _nodes.Remove((x, y));
+
+        public void Clear() => _nodes.Clear();
 
         // Picking something up by hand (forage): no tool involved. Returns the drop, or None when there is nothing to pick.
         public NodeHitResult Gather(int x, int y, Func<string, ResourceNodeDefinition> lookup, float dropRoll)

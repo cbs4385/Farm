@@ -15,7 +15,7 @@ namespace Farm.Gameplay
         public NpcCatalog Npcs;
         public Func<string, bool> HasKey;            // does the string table contain this key?
         public Func<string, bool> RecipeExists = id => false;
-        public IEnumerable<string> MapIdList = MapIds.All;
+        public IEnumerable<string> MapIdList = MapIds.All.Concat(MapIds.Dungeons);
     }
 
     public static class StoryValidator

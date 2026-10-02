@@ -136,7 +136,7 @@ namespace Farm.Tests
         [Test]
         public void InteriorsAreIndoor_AndOutdoorMapsAreNot()
         {
-            var indoor = new[] { MapIds.FarmHouse, MapIds.Greenhouse, MapIds.GeneralStore, MapIds.Blacksmith, MapIds.Carpenter, MapIds.Saloon, MapIds.Clinic, MapIds.Library };
+            var indoor = new[] { MapIds.FarmHouse, MapIds.Greenhouse, MapIds.Coop, MapIds.Barn, MapIds.CommunityHall, MapIds.GeneralStore, MapIds.Blacksmith, MapIds.Carpenter, MapIds.Saloon, MapIds.Clinic, MapIds.Library };
             foreach (var info in Maps.Values) Assert.AreEqual(indoor.Contains(info.Id), info.Indoor, info.Id);
         }
 
@@ -148,7 +148,7 @@ namespace Farm.Tests
             foreach (var info in Maps.Values)
                 foreach (var warp in info.Warps)
                 {
-                    if (warp.Target == MapIds.Woods) continue;   // the gated slot, tested below
+                    if (warp.Target == MapIds.Woods || MapIds.Dungeons.Contains(warp.Target)) continue;   // the gated slot, tested below; dungeons build their own stairs
                     Assert.IsTrue(Maps.TryGetValue(warp.Target, out var target), $"{info.Id} warps to unknown map {warp.Target}");
                     Assert.IsTrue(target.Spawns.Any(s => s.Id == warp.Spawn), $"{info.Id} -> {warp.Target}: no spawn {warp.Spawn}");
                     Assert.IsTrue(target.Warps.Any(w => w.Target == info.Id), $"{warp.Target} has no way back to {info.Id}");
@@ -161,7 +161,7 @@ namespace Farm.Tests
             foreach (var info in Maps.Values)
                 foreach (var warp in info.Warps)
                 {
-                    if (warp.Target == MapIds.Woods) continue;
+                    if (warp.Target == MapIds.Woods || MapIds.Dungeons.Contains(warp.Target)) continue;
                     var target = Maps[warp.Target];
                     var spawn = target.Spawns.First(s => s.Id == warp.Spawn);
                     foreach (var back in target.Warps)

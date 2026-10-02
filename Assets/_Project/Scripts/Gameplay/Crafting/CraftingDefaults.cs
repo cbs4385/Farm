@@ -15,10 +15,12 @@ namespace Farm.Gameplay
         public readonly Color Color;
         public readonly string PlaceableId;
         public readonly string[] SoldIn;
+        public readonly string SaleCondition;
 
-        public ExtraItemRow(string id, ItemCategory category, int sell, Color color, int buy = 0, int energy = 0, string placeableId = null, string[] soldIn = null)
+        public ExtraItemRow(string id, ItemCategory category, int sell, Color color, int buy = 0, int energy = 0, string placeableId = null, string[] soldIn = null,
+            string saleCondition = null)
         {
-            Id = id; Category = category; Sell = sell; Buy = buy; Energy = energy; Color = color; PlaceableId = placeableId; SoldIn = soldIn;
+            Id = id; Category = category; Sell = sell; Buy = buy; Energy = energy; Color = color; PlaceableId = placeableId; SoldIn = soldIn; SaleCondition = saleCondition;
         }
 
         // The icon sprite name: item_<id with dots as underscores>.
@@ -67,10 +69,11 @@ namespace Farm.Gameplay
         {
             var rows = new List<ExtraItemRow>
             {
-                new ExtraItemRow(ItemIds.Coal, ItemCategory.Resource, 15, C(0.15f, 0.15f, 0.18f)),
-                new ExtraItemRow(ItemIds.CopperOre, ItemCategory.Resource, 10, C(0.75f, 0.45f, 0.30f)),
-                new ExtraItemRow(ItemIds.IronOre, ItemCategory.Resource, 25, C(0.55f, 0.58f, 0.65f)),
-                new ExtraItemRow(ItemIds.GoldOre, ItemCategory.Resource, 50, C(0.90f, 0.75f, 0.25f)),
+                // The traveling merchant sells ore and coal (when the stall is up; the ore rotates).
+                new ExtraItemRow(ItemIds.Coal, ItemCategory.Resource, 15, C(0.15f, 0.15f, 0.18f), buy: 60, soldIn: new[] { "merchant" }, saleCondition: "merchant:today"),
+                new ExtraItemRow(ItemIds.CopperOre, ItemCategory.Resource, 10, C(0.75f, 0.45f, 0.30f), buy: 40, soldIn: new[] { "merchant" }, saleCondition: "merchant:today && rotate:0"),
+                new ExtraItemRow(ItemIds.IronOre, ItemCategory.Resource, 25, C(0.55f, 0.58f, 0.65f), buy: 90, soldIn: new[] { "merchant" }, saleCondition: "merchant:today && rotate:1"),
+                new ExtraItemRow(ItemIds.GoldOre, ItemCategory.Resource, 50, C(0.90f, 0.75f, 0.25f), buy: 200, soldIn: new[] { "merchant" }, saleCondition: "merchant:today && rotate:2"),
                 new ExtraItemRow("artisan.juice", ItemCategory.Artisan, 150, C(0.85f, 0.55f, 0.20f)),
                 new ExtraItemRow("artisan.wine", ItemCategory.Artisan, 300, C(0.55f, 0.15f, 0.35f)),
                 new ExtraItemRow("artisan.pickles", ItemCategory.Artisan, 100, C(0.45f, 0.65f, 0.30f)),

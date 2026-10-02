@@ -78,6 +78,12 @@ namespace Farm.Gameplay
             return true;
         }
 
+        public bool IsWater(Vector3Int cell)
+        {
+            var tile = _ground.GetTile(cell);
+            return tile != null && tile.name == "tile_water";
+        }
+
         public bool IsTillable(Vector3Int cell)
         {
             if (!_allowFarming) return false;

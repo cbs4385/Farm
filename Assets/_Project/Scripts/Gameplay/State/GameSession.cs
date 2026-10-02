@@ -220,6 +220,7 @@ namespace Farm.Gameplay
             Hooks.AddWorldObjectSource(new StoredItemsSource(this, WorldObjectKinds.CraftedItem));
             Hooks.AddWorldObjectSource(new StoredItemsSource(this, WorldObjectKinds.PlantProduct));
             Hooks.AddWorldObjectSource(new StandingCropsSource(this));
+            Hooks.AddWorldObjectSource(new AnimalSource(this));
             _bus.Subscribe<MinuteChanged>(OnMinuteChanged);
             _bus.Subscribe<VarChanged>(OnStoryStateChanged);
             _bus.Subscribe<FlagChanged>(OnStoryStateChanged);
@@ -308,7 +309,16 @@ namespace Farm.Gameplay
             _bus.Publish(new StatsChanged());
         }
 
-        void OnBackpackChanged() => _bus.Publish(new StatsChanged());
+        void OnBackpackChanged()
+        {
+            if (InGame && Backpack != null)
+                for (var i = 0; i < Backpack.Capacity; i++)
+                {
+                    var stack = Backpack.Get(i);
+                    if (stack != null) State.Collected.Add(stack.ItemId);
+                }
+            _bus.Publish(new StatsChanged());
+        }
 
         public IEnumerable<KeyValuePair<string, ObjectGrid>> AllObjectGrids => _objectGrids;
 
@@ -477,6 +487,7 @@ namespace Farm.Gameplay
             {
                 _bus.Publish(new SkillLevelUp(skill, level));
                 Toast(L.Get("toast.skill_level", L.Get("skill." + skill), level));
+                if (level == 5 || level == 10) Toast(L.Get("toast.profession_ready", L.Get("skill." + skill)));
             }
             // Levels unlock recipes: say what can be made now.
             foreach (var recipe in CraftingRules.NewlyUnlocked(Recipes, skill, before, after))

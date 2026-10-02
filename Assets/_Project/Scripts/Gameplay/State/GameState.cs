@@ -84,6 +84,12 @@ namespace Farm.Gameplay
         public HashSet<string> EventsSeen = new HashSet<string>();
         public HashSet<string> Recipes = new HashSet<string>();  // recipes the player has learned
         public List<BoardJob> Board = new List<BoardJob>();      // help-wanted jobs currently posted
+        public MineState Mine = new MineState();                 // progress underground (M3)
+        public List<AnimalState> Animals = new List<AnimalState>(); // the farm's animals (M3)
+        public HashSet<string> Collected = new HashSet<string>();   // every item the player has ever held (collections tab)
+        public Dictionary<string, int> ShippedTotals = new Dictionary<string, int>();   // items sold through the bin, by item id
+        public int TotalEarned;                                     // gold earned from the bin, ever
+        public HashSet<string> Professions = new HashSet<string>(); // chosen professions
 
         public GameDateTime GetDate() =>
             new GameDateTime(Year, (Season)SeasonIndex, Day, MinuteOfDay);
@@ -122,6 +128,7 @@ namespace Farm.Gameplay
             pack.Add(ItemIds.Pickaxe, 1);
             pack.Add(ItemIds.Scythe, 1);
             pack.Add(ItemIds.Seed("parsnip"), 15);
+            pack.Add(ItemIds.Sword, 1);
             state.Backpack = pack.ToData();
             return state;
         }
@@ -141,6 +148,10 @@ namespace Farm.Gameplay
         public const string Clinic = "Clinic";
         public const string Library = "Library";
         public const string Greenhouse = "Greenhouse";
+        public const string Coop = "Coop";
+        public const string Barn = "Barn";
+        public const string CommunityHall = "CommunityHall";
+        public const string Mine = "Mine";
 
         // The gated slot at the top of the Forest. Nothing is behind it in the base game (the gate is brambles
         // while the flag `woods.open` is off); an optional layer ships the scene and opens the gate.
@@ -150,10 +161,13 @@ namespace Farm.Gameplay
         // Set when the carpenter has built the greenhouse on the farm.
         public const string GreenhouseFlag = "farm.greenhouse";
 
+        // Dungeon scenes: built, but not part of the village's walkable world (no schedule routes lead to them).
+        public static readonly string[] Dungeons = { Mine };
+
         // Every map scene that ships in the base game, in a stable order.
         public static readonly string[] All =
         {
-            Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library, Greenhouse,
+            Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library, Greenhouse, Coop, Barn, CommunityHall,
         };
     }
 }

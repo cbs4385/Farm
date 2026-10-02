@@ -35,6 +35,10 @@ namespace Farm.Gameplay
             L.SetLanguage(ServiceLocator.Get<SettingsStore>().Current.Language);
 
             _session.State.CurrentMap = _map.MapId;
+            if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
+            if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
+            var mine = FindFirstObjectByType<MineController>();
+            if (mine != null) mine.Build(_session, _map);
             PlacePlayer(_session.State.SpawnPoint);
 
             if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
@@ -54,6 +58,8 @@ namespace Farm.Gameplay
             {
                 MapId = _map.MapId, Session = _session, Map = _map, View = _view, Player = _player, Camera = _camera,
             });
+
+            if (_map.MapId == MapIds.Coop || _map.MapId == MapIds.Barn) new GameObject("Animals").AddComponent<AnimalManager>().Init(_map, _session);
 
             // Chests, machines, sprinklers and scarecrows the player has placed here.
             new GameObject("PlacedObjects").AddComponent<PlacedObjectsView>().Init(_map, _session);

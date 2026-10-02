@@ -90,6 +90,7 @@ namespace Farm.Tests
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
+            session.State.GetMap(MapIds.Farm).LastSpawnDay = session.Clock.Now.TotalDays;   // and so would random forage
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 10; i++) yield return null;

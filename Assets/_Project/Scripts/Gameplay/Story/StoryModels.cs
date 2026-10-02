@@ -66,6 +66,9 @@ namespace Farm.Gameplay
         public string Map;
         public string Condition;
         public bool Once = true;
+        public string Calendar;             // festivals: string key of the name shown on the calendar ...
+        public int CalendarSeason = -1;     // ... on this season (0 spring .. 3 winter)
+        public int CalendarDay;             // ... and day
         public bool RunClock;               // keep the clock running during the scene (timed scenes use "advance" steps)
         public int Priority;
         public List<EventStep> Steps = new List<EventStep>();

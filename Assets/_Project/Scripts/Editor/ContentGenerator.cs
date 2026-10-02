@@ -73,13 +73,32 @@ namespace Farm.Editor
                     icon: Sprite($"item_crop_{row.Id}")));
             }
 
+            // Combat: weapons, monster drops.
+            foreach (var w in CombatModel.Weapons)
+                Save(items, ItemDefinition.Create(w.ItemId, ItemCategory.Tool, 1, buyPrice: w.ItemId == ItemIds.Sword ? 0 : w.Price,
+                    toolType: ToolType.Sword, icon: Sprite("item_" + w.ItemId.Replace('.', '_')),
+                    soldIn: w.ItemId == ItemIds.Sword ? null : new[] { "blacksmith" }));
+            foreach (var row in EnemyDefaults.CreateItems())
+                Save(items, ItemDefinition.Create(row.Id, row.Category, sellPrice: row.Sell, icon: Sprite(row.IconName)));
+
+            // Animals and what they make.
+            foreach (var row in AnimalDefaults.CreateItems())
+                Save(items, ItemDefinition.Create(row.Id, row.Category, sellPrice: row.Sell, buyPrice: row.Buy, icon: Sprite(row.IconName),
+                    soldIn: row.SoldIn, placeableId: row.PlaceableId));
+
+            // Fishing: the rod, bait and every fish.
+            Save(items, ItemDefinition.Create(FishDefaults.Rod, ItemCategory.Tool, 1, buyPrice: 100, toolType: ToolType.Rod,
+                icon: Sprite("item_tool_rod"), soldIn: new[] { "fish" }));
+            foreach (var row in FishDefaults.CreateItems())
+                Save(items, ItemDefinition.Create(row.Id, row.Category, sellPrice: row.Sell, buyPrice: row.Buy, icon: Sprite(row.IconName), soldIn: row.SoldIn));
+
             // Crafting: ore, machines, artisan goods, dishes, fertilizer.
             foreach (var row in CraftingDefaults.CreateItems())
                 Save(items, ItemDefinition.Create(row.Id, row.Category, sellPrice: row.Sell, buyPrice: row.Buy, energyRestore: row.Energy,
-                    icon: Sprite(row.IconName), soldIn: row.SoldIn, placeableId: row.PlaceableId));
+                    icon: Sprite(row.IconName), soldIn: row.SoldIn, saleCondition: row.SaleCondition, placeableId: row.PlaceableId));
 
             var weather = WeatherDefaults.CreateAll().Select(SaveWeather).ToList();
-            var nodes = NodeDefaults.CreateAll().Select(SaveNode).ToList();
+            var nodes = NodeDefaults.CreateAll().Concat(MineGenerator.CreateNodes()).Select(SaveNode).ToList();
             var upgrades = UpgradeDefaults.CreateAll().Select(SaveUpgrade).ToList();
             var spawns = ForageDefaults.CreateTables().Select(SaveSpawnTable).ToList();
             var npcs = NpcDefaults.CreateAll().Select(SaveNpc).ToList();

@@ -24,6 +24,8 @@ namespace Farm.Editor
         const int HouseX0 = 4, HouseX1 = 11, HouseY0 = 20, HouseY1 = 24, DoorX = 7;
         // The greenhouse stands beside the house; its door is locked until the carpenter has built it.
         const int GhX0 = 15, GhX1 = 23, GhY0 = 20, GhY1 = 24, GhDoorX = 19;
+        // The coop and the barn stand east of the greenhouse; their doors are locked until the carpenter has built them.
+        const int CoopX0 = 26, CoopX1 = 30, CoopDoorX = 28, BarnX0 = 32, BarnX1 = 38, BarnDoorX = 35, OutY0 = 20, OutY1 = 24;
         const int FarmExitY0 = 14, FarmExitY1 = 16;
 
         // FarmHouse interior: 12 x 9 cells.
@@ -49,6 +51,7 @@ namespace Farm.Editor
             new Building { MapId = MapIds.Library,      Business = "library",    X0 = 39, X1 = 46, Y0 = 24, Y1 = 29, DoorX = 42, FacesSouth = true },
             new Building { MapId = MapIds.Saloon,       Business = "saloon",     X0 = 6,  X1 = 15, Y0 = 6,  Y1 = 11, DoorX = 10, FacesSouth = false },
             new Building { MapId = MapIds.Clinic,       Business = "clinic",     X0 = 31, X1 = 39, Y0 = 6,  Y1 = 11, DoorX = 35, FacesSouth = false },
+            new Building { MapId = MapIds.CommunityHall, Business = null,        X0 = 41, X1 = 48, Y0 = 6,  Y1 = 11, DoorX = 44, FacesSouth = false },
         };
 
         // A piece of furniture in an interior. ShopId makes it a working counter.
@@ -66,9 +69,12 @@ namespace Farm.Editor
             BuildFarm();
             BuildFarmHouse();
             BuildGreenhouse();
+            BuildAnimalHouse(MapIds.Coop);
+            BuildAnimalHouse(MapIds.Barn);
             BuildVillage();
             BuildForest();
             BuildBeach();
+            BuildMine();
 
             BuildInterior(MapIds.GeneralStore, 12, 9, 5, new[]
             {
@@ -87,7 +93,7 @@ namespace Farm.Editor
             });
             BuildInterior(MapIds.Carpenter, 10, 8, 4, new[]
             {
-                new Prop("Counter1", "obj_counter", 3, 4), new Prop("Counter2", "obj_counter", 4, 4, upgradesAt: "carpenter"), new Prop("Counter3", "obj_counter", 5, 4),
+                new Prop("Counter1", "obj_counter", 3, 4, "carpenter"), new Prop("Counter2", "obj_counter", 4, 4, upgradesAt: "carpenter"), new Prop("Counter3", "obj_counter", 5, 4),
                 new Prop("Shelf1", "obj_shelf", 1, 6), new Prop("Shelf2", "obj_shelf", 2, 6), new Prop("Bench", "obj_table", 7, 5),
                 new Prop("Bench2", "obj_table", 8, 5), new Prop("Planks", "obj_bin", 8, 2),
             });
@@ -102,6 +108,11 @@ namespace Farm.Editor
             {
                 new Prop("Bed1", "obj_bed", 2, 6), new Prop("Bed2", "obj_bed", 4, 6), new Prop("Bed3", "obj_bed", 6, 6),
                 new Prop("Desk1", "obj_counter", 7, 3, upgradesAt: "clinic"), new Prop("Desk2", "obj_counter", 8, 3), new Prop("Shelf", "obj_shelf", 1, 4),
+            });
+            BuildInterior(MapIds.CommunityHall, 14, 10, 7, new[]
+            {
+                new Prop("Board", "obj_board", 7, 7), new Prop("Table1", "obj_table", 3, 4), new Prop("Table2", "obj_table", 10, 4),
+                new Prop("Shelf1", "obj_shelf", 2, 8), new Prop("Shelf2", "obj_shelf", 11, 8),
             });
             BuildInterior(MapIds.Library, 12, 9, 5, new[]
             {
@@ -132,14 +143,23 @@ namespace Farm.Editor
                     var edge = (x == 0 || y == 0 || x == FarmW - 1 || y == FarmH - 1) && !exit;
                     var house = x >= HouseX0 && x <= HouseX1 && y >= HouseY0 && y <= HouseY1 && !(x == DoorX && y == HouseY0);
                     var greenhouse = x >= GhX0 && x <= GhX1 && y >= GhY0 && y <= GhY1 && !(x == GhDoorX && y == GhY0);
-                    if (edge || house || greenhouse) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(greenhouse && y == GhY1 ? "tile_roof" : "tile_wall"));
+                    var coop = x >= CoopX0 && x <= CoopX1 && y >= OutY0 && y <= OutY1 && !(x == CoopDoorX && y == OutY0);
+                    var barn = x >= BarnX0 && x <= BarnX1 && y >= OutY0 && y <= OutY1 && !(x == BarnDoorX && y == OutY0);
+                    var roof = (greenhouse || coop || barn) && y == OutY1;
+                    if (edge || house || greenhouse || coop || barn) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(roof ? "tile_roof" : "tile_wall"));
                 }
             rig.Ground.SetTile(new Vector3Int(DoorX, HouseY0, 0), GetTile("tile_floor_wood"));
             rig.Ground.SetTile(new Vector3Int(GhDoorX, GhY0, 0), GetTile("tile_door"));
+            rig.Ground.SetTile(new Vector3Int(CoopDoorX, OutY0, 0), GetTile("tile_door"));
+            rig.Ground.SetTile(new Vector3Int(BarnDoorX, OutY0, 0), GetTile("tile_door"));
 
             AddSpawn("default", Center(DoorX, HouseY0 - 3));
             AddSpawn("fromHouse", Center(DoorX, HouseY0 - 2));
             AddSpawn("fromVillage", Center(FarmW - 3, 15));
+            AddSpawn("fromCoop", Center(CoopDoorX, OutY0 - 2));
+            AddSpawn("fromBarn", Center(BarnDoorX, OutY0 - 2));
+            AddWarp(Center(CoopDoorX, OutY0), MapIds.Coop, "default", condition: "flag:" + AnimalRules.BuildingFlag(MapIds.Coop), blockedKey: "coop.locked");
+            AddWarp(Center(BarnDoorX, OutY0), MapIds.Barn, "default", condition: "flag:" + AnimalRules.BuildingFlag(MapIds.Barn), blockedKey: "barn.locked");
             AddSpawn("fromGreenhouse", Center(GhDoorX, GhY0 - 2));
             AddWarp(Center(DoorX, HouseY0), MapIds.FarmHouse, "default");
             AddWarp(Center(GhDoorX, GhY0), MapIds.Greenhouse, "default", condition: "flag:" + MapIds.GreenhouseFlag, blockedKey: "greenhouse.locked");
@@ -210,6 +230,24 @@ namespace Farm.Editor
 
         // ---- Village ------------------------------------------------------------------------------------------
 
+        static void BuildAnimalHouse(string mapId)
+        {
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            var rig = CreateMapRig(mapId, indoor: true, allowFarming: false);
+            const int w = 12, h = 8;
+            for (var y = 0; y < h; y++)
+                for (var x = 0; x < w; x++)
+                {
+                    var door = y == 0 && x == 6;
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_floor_wood"));
+                    if ((x == 0 || y == 0 || x == w - 1 || y == h - 1) && !door) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
+                }
+            AddSpawn("default", Center(6, 2));
+            AddWarp(Center(6, 0), MapIds.Farm, "from" + mapId);
+            AddObject("Trough", "obj_trough", Center(10, 6), solid: true).AddComponent<FeedTrough>();
+            EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");
+        }
+
         static void BuildVillage()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -246,6 +284,14 @@ namespace Farm.Editor
 
             foreach (var b in Buildings) PlaceBuilding(rig, b);
             AddObject("HelpWantedBoard", "obj_board", Center(22, 19), solid: true).AddComponent<HelpWantedBoard>();
+
+            // The traveling merchant's stall appears on some days only (the condition `merchant`).
+            var merchant = new GameObject("MerchantStall");
+            var visible = merchant.AddComponent<ConditionalObject>();
+            visible.Condition = "merchant:today";
+            var stall = AddObject("Stall", "obj_stall", Center(30, 19), solid: true);
+            stall.AddComponent<ShopCounter>().ShopId = "merchant";
+            stall.transform.SetParent(merchant.transform, true);
 
             // A few trees at the corners so the village is not a bare lawn.
             foreach (var t in new[] { new Vector2Int(3, 31), new Vector2Int(46, 33), new Vector2Int(3, 3), new Vector2Int(46, 3), new Vector2Int(20, 4), new Vector2Int(30, 33) })
@@ -304,8 +350,25 @@ namespace Farm.Editor
                 for (var x = 1; x < ForestW - 1; x++)
                 {
                     if (x >= ForestPathX0 - 2 && x <= ForestPathX1 + 2) continue;
+                    if (x >= 3 && x <= 11 && y >= 6 && y <= 14) continue;            // the pond and its shore
+                    if (x >= 21 && x <= 36 && y >= 3 && y <= 7) continue;             // the way to the cave
                     if ((x * 7 + y * 13) % 9 != 0) continue;
                     AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
+                }
+
+            // The cave: a path east from the main path to the mouth of the mine.
+            for (var x = ForestPathX1 + 1; x <= 34; x++)
+                for (var y = 4; y <= 6; y++) rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_path"));
+            AddSpawn("fromMine", Center(33, 5));
+            AddWarp(Center(35, 5), MapIds.Mine, "default", new Vector2(1f, 3f));
+            AddObject("CaveMouth", "obj_boulder", Center(36, 5), solid: true);
+
+            // A pond to fish in (placeholder water, walled so the player stops at the shore).
+            for (var y = 8; y <= 12; y++)
+                for (var x = 4; x <= 9; x++)
+                {
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_water"));
+                    rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_water"));
                 }
 
             // The gate at the top of the path: brambles block it while the flag `woods.open` is off. An optional
@@ -323,6 +386,24 @@ namespace Farm.Editor
                 condition: "flag:" + MapIds.WoodsOpenFlag, blockedKey: "forest.path_blocked");
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Forest}.unity");
+        }
+
+        // ---- Mine ---------------------------------------------------------------------------------------------
+
+        static void BuildMine()
+        {
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            var rig = CreateMapRig(MapIds.Mine, indoor: true, allowFarming: false);
+            for (var y = 0; y < MineGenerator.Height; y++)
+                for (var x = 0; x < MineGenerator.Width; x++)
+                {
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_floor_wood"));
+                    var edge = x == 0 || y == 0 || x == MineGenerator.Width - 1 || y == MineGenerator.Height - 1;
+                    if (edge) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
+                }
+            AddSpawn("default", Center(3, MineGenerator.Height / 2));
+            new GameObject("MineController").AddComponent<MineController>();
+            EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Mine}.unity");
         }
 
         // ---- Beach --------------------------------------------------------------------------------------------
@@ -380,6 +461,7 @@ namespace Farm.Editor
                 var go = AddObject(p.Name, p.Sprite, Center(p.X, p.Y), solid: true);
                 if (p.ShopId != null) go.AddComponent<ShopCounter>().ShopId = p.ShopId;
                 if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
+                if (p.Name == "Board" && mapId == MapIds.CommunityHall) go.AddComponent<HallBoard>();
             }
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");

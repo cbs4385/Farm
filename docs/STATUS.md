@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 461 EditMode + 97 PlayMode pass. Milestone 2 built (tag `m2`); not yet played by a person. The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-02. Tags: `m0`, `m1`, `m2`, `m3`. Tests: 521 EditMode + 106 PlayMode pass. Milestones 2 and 3 are built; none of it has been played by a person yet. Next: Milestone 3b (the horror layer), then polish.
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -55,6 +55,17 @@ T-044 | done (partial) | claude/2026-10-02 | idle hook does not change a 40-day 
 T-042 | done (partial) | claude/2026-10-02 | Windows and Linux release builds pass the guard; development build captured (village, 60 fps). NOT done: a human playthrough, Linux run on real hardware, a hand-played year
 
 Decided 2026-10-01 (F): no scope cuts; the schedule is forgiving. No open design questions remain.
+
+## Milestone 3 - Adventure content (built; tag `m3`)
+T-050 | done | claude/2026-10-02 | fishing: 20 fish (`FishDefaults`, conditions for season/weather/night/moon), rod and bait at the fish stall, a pond in the forest, `FishingModel` + `FishingSession` (bite window, timing bar, quality from level/luck/perfect), `FishingScreen`. Cast with the rod at water (Beach, forest pond); Enter/Space/A/click to react
+T-051 | done | claude/2026-10-02 | the mine: `MineGenerator` (seeded, deterministic, ladder always reachable on all 40 floors, ore by depth, boss arena on floor 40), `Mine` scene built by `MineController`, stairs and an elevator every 5th floor, entrance in the forest (east path), floors regenerate daily; ore nodes as data
+T-052 | done | claude/2026-10-02 | combat: swords (3 tiers, bought at the blacksmith; the farmer starts with one), `EnemyBrain` FSM, 5 enemy types + the Cavern Warden boss (data in `EnemyDefaults`), loot with luck, knock-out sends you to the clinic (10% gold), health bar, food heals. Placeholder monsters are runtime-coloured squares
+T-053 | done | claude/2026-10-02 | coop and barn (built by the carpenter, 4 animals each), 6 animal types bought at the carpenter, feed trough (fibre), petting, daily products with quality by happiness, `animal` world-object source
+T-054 | done | claude/2026-10-02 | 9 more villagers (12 total: 8 romanceable, 4 not): schedules, tastes, dialogue, 2 heart events each (Tilda, Bram, Ione now too). Allegiance fields stay empty for the horror layer
+T-055 | done | claude/2026-10-02 | Community Hall (village, east): six bundle rooms as quests (`HallRooms`, `HallScreen`), restoring all sets `hall.restored` and plays the ending. Mythos relation is flags only
+T-056 | done | claude/2026-10-02 | four festivals (events, once a year via `mark:`/`unseen:`; shown on the calendar; participation flags saved)
+T-057 | done | claude/2026-10-02 | traveling merchant (some days, rotating ore stock, `merchant:today` and `rotate:n` atoms), collections tab, shipping totals, 20 professions at levels 5 and 10
+T-058 | done (partial) | claude/2026-10-02 | gate: two-year simulation with every M3 system (repeatable, idle hook changes nothing), mine generator speed guard, builds. NOT done: a two-year playthrough by a person, a real-device perf pass (Steam Deck), the dungeon and festivals have no art or audio beyond placeholders
 
 ## Human playtest results (Windows, 2026-10-01)
 Confirmed by hand: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, energy bar and exhaustion message, save and load from the main menu and after a full restart, seeds planting with clearer feedback.

@@ -1,0 +1,54 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Farm.Gameplay
+{
+    // On the coop and barn maps: one AnimalActor per animal in that building.
+    public sealed class AnimalManager : MonoBehaviour
+    {
+        GameSession _session;
+        readonly List<AnimalActor> _actors = new List<AnimalActor>();
+
+        public static AnimalManager Current { get; private set; }
+        public FarmMap Map { get; private set; }
+        public bool Running => _session != null && _session.InGame && !_session.Clock.IsPaused;
+
+        public void Init(FarmMap map, GameSession session)
+        {
+            Map = map;
+            _session = session;
+            Current = this;
+            var n = 0;
+            foreach (var a in AnimalRules.In(session.State, map.MapId)) Spawn(a, 3 + (n++ % 4) * 2, 3 + n % 3);
+        }
+
+        void OnDestroy()
+        {
+            if (Current == this) Current = null;
+        }
+
+        public AnimalActor Spawn(AnimalState state, int x, int y)
+        {
+            var go = new GameObject("animal", typeof(SpriteRenderer));
+            go.transform.position = Map.CellCenter(new Vector3Int(x, y, 0));
+            var actor = go.AddComponent<AnimalActor>();
+            actor.Setup(state, this);
+            _actors.Add(actor);
+            return actor;
+        }
+
+        public AnimalActor ActorAt(Vector3Int cell)
+        {
+            foreach (var a in _actors) if (a != null && a.Cell == cell) return a;
+            return null;
+        }
+
+        // A cell an animal may step into: floor, no wall, nothing solid, no other animal.
+        public bool Free(Vector3Int cell, AnimalActor self)
+        {
+            if (!Map.CanPlaceAt(cell)) return false;
+            foreach (var a in _actors) if (a != null && a != self && a.Cell == cell) return false;
+            return true;
+        }
+    }
+}

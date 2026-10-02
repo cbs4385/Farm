@@ -79,6 +79,8 @@ namespace Farm.Data
             all.Add(UpgradeDefinition.Create("energy.1", UpgradeKind.Energy, "clinic", null, 1, 1500, null, 0, 0, 20));
             all.Add(UpgradeDefinition.Create("energy.2", UpgradeKind.Energy, "clinic", null, 2, 4000, null, 0, 0, 20));
             all.Add(UpgradeDefinition.Create("energy.3", UpgradeKind.Energy, "clinic", null, 3, 9000, null, 0, 0, 20));
+            all.Add(UpgradeDefinition.Create("coop", UpgradeKind.Unlock, "carpenter", null, 1, 4000, ItemIds.Wood, 300, 0, 0, "farm.coop"));
+            all.Add(UpgradeDefinition.Create("barn", UpgradeKind.Unlock, "carpenter", null, 1, 8000, ItemIds.Wood, 500, 0, 0, "farm.barn"));
             all.Add(UpgradeDefinition.Create("greenhouse", UpgradeKind.Unlock, "carpenter", null, 1, 10000, ItemIds.Wood, 150, 0, 0, "farm.greenhouse"));
             return all.ToArray();
         }

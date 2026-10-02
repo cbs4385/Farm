@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adf4e23c079d524a9b66c2bf52543b3, type: 3}
+  m_Name: elara
+  m_EditorClassIdentifier: Farm.Data::Farm.Data.NpcDefinition
+  _id: elara
+  _nameKey: npc.elara.name
+  _birthdaySeason: 0
+  _birthdayDay: 18
+  _romanceable: 1
+  _allegiance: 
+  _homeMap: Clinic
+  _homeX: 2
+  _homeY: 3
+  _business: clinic
+  _down: {fileID: 21300000, guid: f40fee102b73d5b41977182c04fe2ff2, type: 3}
+  _up: {fileID: 21300000, guid: 3825c420b443a034e905ac5c09492f9e, type: 3}
+  _left: {fileID: 21300000, guid: 4c3c988db3900df43997c5ecbdcb7d96, type: 3}
+  _right: {fileID: 21300000, guid: d6322fa3d99cd334d84129c1df7db9ca, type: 3}
+  _portrait: {fileID: 21300000, guid: b0ab8f344a391954ca246966c24096a8, type: 3}
+  _loved:
+  - forage.snowdrop
+  - crop.cranberry
+  _liked:
+  - forage.seashell
+  - crop.spinach
+  _disliked:
+  - resource.bone
+  - resource.bat_wing
+  _lovedCategories: []
+  _dislikedCategories: []
+  _schedule:
+  - Id: rainy_day_off
+    Condition: weekday:sat && weather:rain
+    Priority: 10
+    Stops:
+    - Minute: 360
+      Map: Clinic
+      X: 2
+      Y: 3
+      Facing: down
+    - Minute: 1260
+      Map: Clinic
+      X: 2
+      Y: 3
+      Facing: down
+  - Id: day_off
+    Condition: weekday:sat
+    Priority: 5
+    Stops:
+    - Minute: 360
+      Map: Clinic
+      X: 2
+      Y: 3
+      Facing: down
+    - Minute: 600
+      Map: Beach
+      X: 20
+      Y: 9
+      Facing: up
+    - Minute: 1080
+      Map: Village
+      X: 28
+      Y: 17
+      Facing: down
+    - Minute: 1260
+      Map: Clinic
+      X: 2
+      Y: 3
+      Facing: down
+  - Id: workday
+    Condition: 
+    Priority: 0
+    Stops:
+    - Minute: 360
+      Map: Clinic
+      X: 2
+      Y: 3
+      Facing: down
+    - Minute: 520
+      Map: Clinic
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 1050
+      Map: Village
+      X: 28
+      Y: 17
+      Facing: down
+    - Minute: 1290
+      Map: Clinic
+      X: 2
+      Y: 3
+      Facing: down

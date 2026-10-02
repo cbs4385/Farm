@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Core;
 using Farm.Data;
 
@@ -15,7 +16,8 @@ namespace Farm.Gameplay
         public const string Tilda = "tilda";    // runs the general store
         public const string Bram = "bram";      // the blacksmith
         public const string Ione = "ione";      // the librarian
-        public static readonly string[] All = { Tilda, Bram, Ione };
+        public static readonly string[] All = { Tilda, Bram, Ione, NpcRoster.Marcus, NpcRoster.Odalys, NpcRoster.Wren, NpcRoster.Felix,
+            NpcRoster.Juno, NpcRoster.Hazel, NpcRoster.Piper, NpcRoster.Dorian, NpcRoster.Elara };
     }
 
     public static class NpcDefaults
@@ -23,7 +25,7 @@ namespace Farm.Gameplay
         const int Six = 6 * 60, Eight40 = 8 * 60 + 40, Eight50 = 8 * 60 + 50, Noon = 12 * 60;
         const int Half5 = 17 * 60 + 30, Seven = 19 * 60, Nine = 21 * 60, Ten = 22 * 60;
 
-        public static NpcDefinition[] CreateAll() => new[] { Tilda(), Bram(), Ione() };
+        public static NpcDefinition[] CreateAll() => new[] { Tilda(), Bram(), Ione() }.Concat(NpcRoster.CreateAll()).ToArray();
 
         static NpcStop Stop(int minute, string map, int x, int y, string facing = "down") =>
             new NpcStop { Minute = minute, Map = map, X = x, Y = y, Facing = facing };

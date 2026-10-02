@@ -47,6 +47,7 @@ namespace Farm.Tests
             _s.BeginNewGame("Tester", "Test Farm", 0);
             _s.SetFlag(FatigueModel.WarnedFlag);
             _s.State.GetMap(MapIds.Farm).ClutterSeeded = true;
+            _s.State.GetMap(map).LastSpawnDay = _s.Clock.Now.TotalDays;     // no random forage on the cells the test uses
             _s.State.CurrentMap = map;
             _s.State.SpawnPoint = "default";
             var op = SceneManager.LoadSceneAsync(map);
@@ -88,6 +89,7 @@ namespace Farm.Tests
             for (var i = 0; i < 4; i++) yield return null;
             yield return Tap(Key.E);
             for (var i = 0; i < 3; i++) yield return null;
+            Assert.IsTrue(Ui.AnyModalOpen, "the board opens; player at " + Player.transform.position + " map " + SceneManager.GetActiveScene().name + " toasts");
             var deliver = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).First(b => b.gameObject.activeInHierarchy && b.name == "Deliver");
             var gold = _s.State.Gold;
             deliver.onClick.Invoke();

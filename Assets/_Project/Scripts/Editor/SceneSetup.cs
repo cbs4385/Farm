@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Core;
 using Farm.Gameplay;
 using Farm.UI;
@@ -123,7 +124,7 @@ namespace Farm.Editor
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.MainMenu}.unity", true),
                 new EditorBuildSettingsScene($"{SceneDir}/{SceneNames.PixelPerfectTest}.unity", true),
             };
-            foreach (var map in MapIds.All) scenes.Add(new EditorBuildSettingsScene($"{SceneDir}/{map}.unity", true));
+            foreach (var map in MapIds.All.Concat(MapIds.Dungeons)) scenes.Add(new EditorBuildSettingsScene($"{SceneDir}/{map}.unity", true));
             EditorBuildSettings.scenes = scenes.ToArray();
         }
     }

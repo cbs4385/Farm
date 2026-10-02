@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adf4e23c079d524a9b66c2bf52543b3, type: 3}
+  m_Name: piper
+  m_EditorClassIdentifier: Farm.Data::Farm.Data.NpcDefinition
+  _id: piper
+  _nameKey: npc.piper.name
+  _birthdaySeason: 0
+  _birthdayDay: 5
+  _romanceable: 1
+  _allegiance: 
+  _homeMap: Saloon
+  _homeX: 12
+  _homeY: 7
+  _business: saloon
+  _down: {fileID: 21300000, guid: 04da60962a21db44ba08eee9f0b770ca, type: 3}
+  _up: {fileID: 21300000, guid: 9d63155977e92854ea695692ca07ee38, type: 3}
+  _left: {fileID: 21300000, guid: 9141473a26c86164ba3fcf38250e1f4f, type: 3}
+  _right: {fileID: 21300000, guid: 634a50dacf87de14888de9740e754826, type: 3}
+  _portrait: {fileID: 21300000, guid: 7957814683baa024ba72c9917152fc9a, type: 3}
+  _loved:
+  - crop.sunflower
+  - artisan.jam
+  _liked:
+  - crop.strawberry
+  - forage.raspberry
+  _disliked:
+  - resource.coal
+  - resource.slime
+  _lovedCategories: []
+  _dislikedCategories: []
+  _schedule:
+  - Id: rainy_day_off
+    Condition: weekday:tue && weather:rain
+    Priority: 10
+    Stops:
+    - Minute: 360
+      Map: Saloon
+      X: 12
+      Y: 7
+      Facing: down
+    - Minute: 1260
+      Map: Saloon
+      X: 12
+      Y: 7
+      Facing: down
+  - Id: day_off
+    Condition: weekday:tue
+    Priority: 5
+    Stops:
+    - Minute: 360
+      Map: Saloon
+      X: 12
+      Y: 7
+      Facing: down
+    - Minute: 600
+      Map: Beach
+      X: 25
+      Y: 12
+      Facing: up
+    - Minute: 1080
+      Map: Village
+      X: 25
+      Y: 22
+      Facing: down
+    - Minute: 1260
+      Map: Saloon
+      X: 12
+      Y: 7
+      Facing: down
+  - Id: workday
+    Condition: 
+    Priority: 0
+    Stops:
+    - Minute: 360
+      Map: Saloon
+      X: 12
+      Y: 7
+      Facing: down
+    - Minute: 1060
+      Map: Saloon
+      X: 11
+      Y: 7
+      Facing: down
+    - Minute: 1440
+      Map: Saloon
+      X: 12
+      Y: 7
+      Facing: down

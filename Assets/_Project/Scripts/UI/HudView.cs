@@ -26,6 +26,9 @@ namespace Farm.UI
         readonly Queue<string> _toasts = new Queue<string>();
         readonly List<IHudWidget> _widgets = new List<IHudWidget>();
 
+        GameObject _healthFrame;
+        Image _healthFill;
+        TextMeshProUGUI _healthLabel;
         GameObject _fatigueFrame;
         Image _fatigueFill;
         TextMeshProUGUI _fatigueLabel;
@@ -93,6 +96,22 @@ namespace Farm.UI
             UiKit.Place(_energyLabel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(34, 16), new Vector2(0, 1));
 
             BuildFatigue(canvas);
+            BuildHealth(canvas);
+        }
+
+        // The health bar (bottom left, above the hotbar): shown while hurt or underground.
+        void BuildHealth(Transform canvas)
+        {
+            var frame = UiKit.Panel(canvas, "HealthBar", UiKit.PanelColor);
+            _healthFrame = frame.gameObject;
+            UiKit.Place(frame.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(170, 22), new Vector2(12, 70));
+            var back = UiKit.Panel(frame.transform, "Back", new Color(0.08f, 0.06f, 0.04f, 1f));
+            UiKit.Stretch(back.rectTransform, 4f);
+            _healthFill = UiKit.Panel(back.transform, "Fill", new Color(0.85f, 0.25f, 0.30f));
+            UiKit.Stretch(_healthFill.rectTransform);
+            _healthLabel = UiKit.Label(frame.transform, "", 13f, TextAlignmentOptions.Center);
+            UiKit.Stretch(_healthLabel.rectTransform);
+            _healthFrame.SetActive(false);
         }
 
         // The late-night fatigue meter, beside the energy bar. Shown only while the rating is above zero.
@@ -188,6 +207,14 @@ namespace Farm.UI
             _energyFill.rectTransform.anchorMax = new Vector2(1f, fraction);
             _energyFill.color = fraction > 0.25f ? new Color(0.45f, 0.80f, 0.30f) : UiKit.Danger;
             _energyLabel.text = s.State.Energy.ToString();
+
+            var hurt = s.State.Health < s.State.MaxHealth || s.State.Mine.Floor > 0;
+            _healthFrame.SetActive(hurt);
+            if (hurt)
+            {
+                _healthFill.rectTransform.anchorMax = new Vector2(Mathf.Clamp01((float)s.State.Health / Mathf.Max(1, s.State.MaxHealth)), 1f);
+                _healthLabel.text = L.Get("hud.health", s.State.Health, s.State.MaxHealth);
+            }
 
             var tired = s.FatigueRating;
             _fatigueFrame.SetActive(tired > 0f);

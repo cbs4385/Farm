@@ -19,10 +19,11 @@ MonoBehaviour:
   _category: 5
   _maxStack: 999
   _sellPrice: 10
-  _buyPrice: 0
+  _buyPrice: 40
   _energyRestore: 0
   _toolType: 0
   _cropId: 
   _placeableId: 
-  _soldIn: []
-  _saleCondition: 
+  _soldIn:
+  - merchant
+  _saleCondition: merchant:today && rotate:0

@@ -72,11 +72,14 @@ namespace Farm.Gameplay
             {
                 var item = itemLookup(stack.ItemId);
                 if (item == null) continue;
-                summary.Earnings += SellValue(item, stack.Quality, stack.Count);
+                var value = (int)(SellValue(item, stack.Quality, stack.Count) * Professions.SellMultiplier(state, item));
+                summary.Earnings += value;
+                state.ShippedTotals[stack.ItemId] = (state.ShippedTotals.TryGetValue(stack.ItemId, out var shipped) ? shipped : 0) + stack.Count;
                 summary.Shipped.Add(stack.Clone());
             }
             state.ShippingBin.Clear();
             state.Gold += summary.Earnings;
+            state.TotalEarned += summary.Earnings;
 
             // 1b. Night hooks: dreams, blight, offerings...
             hooks?.RunNightFalls(context);
@@ -96,6 +99,7 @@ namespace Farm.Gameplay
             clock.StartNextDay(passedOut);
             summary.NewDate = clock.Now;
             NpcInteractions.NewDay(state, clock.Now, hooks);
+            AnimalRules.NewDay(state);
 
             // 4. The new day's weather is the forecast made yesterday (rolled now if there is none, e.g. after a date
             // jump), which modules may still override. Then the next day is forecast.
@@ -123,6 +127,7 @@ namespace Farm.Gameplay
             fatigue.AfterSleep(!passedOut, sleepMinute);
             state.FatigueCarried = fatigue.Carried;
             state.Health = state.MaxHealth;
+            state.Mine.Floor = 0;
 
             foreach (var ready in state.PendingUpgrades)
                 if (ready.ReadyDay == clock.Now.TotalDays && itemLookup(ready.ToolItemId) is ItemDefinition tool)

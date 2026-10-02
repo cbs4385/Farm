@@ -27,6 +27,15 @@ namespace Farm.Editor
             new NpcArt("tilda", new Color(0.30f, 0.62f, 0.38f), new Color(0.50f, 0.28f, 0.15f)),
             new NpcArt("bram", new Color(0.35f, 0.36f, 0.42f), new Color(0.12f, 0.10f, 0.10f)),
             new NpcArt("ione", new Color(0.58f, 0.40f, 0.75f), new Color(0.90f, 0.80f, 0.45f)),
+            new NpcArt("marcus", new Color(0.65f, 0.45f, 0.25f), new Color(0.35f, 0.25f, 0.15f)),
+            new NpcArt("odalys", new Color(0.85f, 0.85f, 0.90f), new Color(0.25f, 0.20f, 0.25f)),
+            new NpcArt("wren", new Color(0.75f, 0.30f, 0.30f), new Color(0.55f, 0.20f, 0.15f)),
+            new NpcArt("felix", new Color(0.25f, 0.50f, 0.65f), new Color(0.80f, 0.70f, 0.35f)),
+            new NpcArt("juno", new Color(0.45f, 0.45f, 0.50f), new Color(0.60f, 0.30f, 0.15f)),
+            new NpcArt("hazel", new Color(0.40f, 0.55f, 0.35f), new Color(0.45f, 0.30f, 0.20f)),
+            new NpcArt("piper", new Color(0.85f, 0.65f, 0.25f), new Color(0.15f, 0.12f, 0.12f)),
+            new NpcArt("dorian", new Color(0.35f, 0.40f, 0.30f), new Color(0.50f, 0.50f, 0.50f)),
+            new NpcArt("elara", new Color(0.55f, 0.75f, 0.80f), new Color(0.20f, 0.15f, 0.30f)),
         };
 
         static readonly Color Clear = new Color(0, 0, 0, 0);
@@ -93,6 +102,16 @@ namespace Farm.Editor
                 Item(written, $"item_forage_{row.Id}", row.Color);
                 WorldObject(written, $"obj_{row.Id}", Color.Lerp(row.Color, new Color(0.2f, 0.45f, 0.2f), 0.45f), row.Color);
             }
+
+            foreach (var row in AnimalDefaults.CreateItems()) Item(written, row.IconName, row.Color);
+            WorldObject(written, "obj_trough", new Color(0.55f, 0.4f, 0.25f), new Color(0.85f, 0.75f, 0.35f));
+            Item(written, "item_tool_rod", new Color(0.6f, 0.45f, 0.25f));
+            foreach (var w in CombatModel.Weapons) Item(written, "item_" + w.ItemId.Replace('.', '_'), w.Color);
+            foreach (var row in EnemyDefaults.CreateItems()) Item(written, row.IconName, row.Color);
+            foreach (var n in MineGenerator.CreateNodes())
+                WorldObject(written, "obj_" + n.Id, new Color(0.38f, 0.38f, 0.44f), n.Id == MineGenerator.Copper ? new Color(0.85f, 0.5f, 0.3f)
+                    : n.Id == MineGenerator.Iron ? new Color(0.75f, 0.78f, 0.85f) : n.Id == MineGenerator.Gold ? new Color(0.95f, 0.8f, 0.25f) : new Color(0.1f, 0.1f, 0.12f));
+            foreach (var row in FishDefaults.CreateItems()) Item(written, row.IconName, row.Color);
 
             // Crafting items and the objects they place
             foreach (var row in CraftingDefaults.CreateItems()) Item(written, row.IconName, row.Color);

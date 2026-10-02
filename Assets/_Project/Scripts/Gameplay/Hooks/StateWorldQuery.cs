@@ -27,5 +27,6 @@ namespace Farm.Gameplay
         public int ItemCount(string itemId) => ItemCounter != null ? ItemCounter(itemId) : 0;
         public string QuestState(string questId) => _state.Quests.TryGetValue(questId, out var q) ? q.Status : "new";
         public bool KnowsRecipe(string recipeId) => _state.Recipes.Contains(recipeId);
+        public bool MerchantHere() => Merchant.IsHere(_state.WorldSeed, Now.TotalDays);
     }
 }

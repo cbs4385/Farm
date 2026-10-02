@@ -1,0 +1,244 @@
+{
+  "events": [
+    {
+      "id": "tilda_heart5",
+      "trigger": "map",
+      "map": "GeneralStore",
+      "priority": 6,
+      "condition": "hearts:tilda>=5 && !weekday:sun && hour>=9 && hour<17",
+      "steps": [
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.tilda_heart5.0"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 7,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.tilda_heart5.1"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.tilda_heart5.2"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "give:food.mashed_potato,2",
+            "friend:tilda,60",
+            "flag:event.tilda_heart5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bram_heart2",
+      "trigger": "map",
+      "map": "Blacksmith",
+      "priority": 6,
+      "condition": "hearts:bram>=2 && !weekday:mon && hour>=9 && hour<17",
+      "steps": [
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.bram_heart2.0"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 6,
+          "y": 3
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.bram_heart2.1"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.bram_heart2.2"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "give:resource.copperbar,1",
+            "friend:bram,40",
+            "flag:event.bram_heart2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bram_heart5",
+      "trigger": "map",
+      "map": "Blacksmith",
+      "priority": 6,
+      "condition": "hearts:bram>=5 && !weekday:mon && hour>=9 && hour<17",
+      "steps": [
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.bram_heart5.0"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 6,
+          "y": 3
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.bram_heart5.1"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.bram_heart5.2"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "give:resource.ironbar,2",
+            "friend:bram,60",
+            "flag:event.bram_heart5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ione_heart2",
+      "trigger": "map",
+      "map": "Library",
+      "priority": 6,
+      "condition": "hearts:ione>=2 && !weekday:sat && hour>=9 && hour<17",
+      "steps": [
+        {
+          "type": "face",
+          "actor": "ione",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.ione_heart2.0"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 6,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.ione_heart2.1"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.ione_heart2.2"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "give:forage.seashell,2",
+            "friend:ione,40",
+            "flag:event.ione_heart2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ione_heart5",
+      "trigger": "map",
+      "map": "Library",
+      "priority": 6,
+      "condition": "hearts:ione>=5 && !weekday:sat && hour>=9 && hour<17",
+      "steps": [
+        {
+          "type": "face",
+          "actor": "ione",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.ione_heart5.0"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 6,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.ione_heart5.1"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.ione_heart5.2"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "give:forage.pearl,1",
+            "friend:ione,60",
+            "flag:event.ione_heart5"
+          ]
+        }
+      ]
+    }
+  ]
+}

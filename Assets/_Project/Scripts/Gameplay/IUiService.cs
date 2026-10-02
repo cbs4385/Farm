@@ -19,6 +19,9 @@ namespace Farm.Gameplay
         void ShowChest(string objectId);
         void ShowLetter(LetterDefinition letter, Action onClosed);
         void ShowBoard();
+        void ShowElevator();
+        void ShowHall();
+        void ShowFishing(FishingSession session, Action<FishingSession> onDone);
         void ShowDaySummary(DaySummary summary, Action onContinue);
         void ShowPause();
         void ShowOptions();
@@ -36,6 +39,7 @@ namespace Farm.Gameplay
         public const string Calendar = "calendar";
         public const string Map = "map";
         public const string Journal = "journal";
+        public const string Collections = "collections";
         public const string Crafting = "crafting";
     }
 }

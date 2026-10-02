@@ -48,3 +48,8 @@ F1 opens the console (see `docs/BUILD.md`). Use it to reach states quickly: `dat
 
 ## Known limits
 See `docs/adr/0001-m1-design-deviations.md`.
+
+
+## Milestone 3 additions
+Manual checks (not yet done by a person): cast a rod at the beach and the forest pond and finish the timing bar; build the coop (carpenter), buy a chicken, feed and collect; go into the mine through the forest cave (east path), fight, mine ore, take the ladder, use the elevator after floor 5; knock yourself out and wake at the clinic; talk to all 12 villagers and trigger a heart event; donate to a hall room; visit the village on a festival day (spring 13, summer 11, fall 16, winter 25); open the Collections and Skills tabs (professions at level 5).
+Automated: `MineAndCombatTests`, `FishingTests`, `AnimalTests`, `HallAndFestivalTests`, `Milestone3Tests` (EditMode, including the two-year simulation); `MineFlowTests`, `AdventureFlowTests` (PlayMode).

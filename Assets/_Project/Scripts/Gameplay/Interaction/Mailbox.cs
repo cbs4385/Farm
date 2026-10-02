@@ -14,13 +14,4 @@ namespace Farm.Gameplay
             if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowLetter(letter, () => { Mail.Finish(s, letter); });
         }
     }
-
-    // The help-wanted board in the village.
-    public sealed class HelpWantedBoard : MonoBehaviour, IInteractable
-    {
-        public void Interact(PlayerActions player)
-        {
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowBoard();
-        }
-    }
 }

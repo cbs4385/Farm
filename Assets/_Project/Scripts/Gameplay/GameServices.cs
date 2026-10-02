@@ -36,6 +36,7 @@ namespace Farm.Gameplay
 
             BusinessHoursRegistry.RegisterConditionAtom();   // `open:<shopId>` in conditions
             StoryConditions.Register();                       // hearts, has, quest, knows in conditions
+            Merchant.RegisterConditions();                    // merchant, rotate in conditions
             BusinessHoursRegistry.RegisterDefaults();
 
             var db = Resources.Load<GameDatabase>(GameDatabase.ResourcePath);

@@ -1,0 +1,528 @@
+{
+  "quests": [
+    {
+      "id": "hall_pantry",
+      "titleKey": "quest.hall_pantry.title",
+      "descriptionKey": "quest.hall_pantry.desc",
+      "category": "story",
+      "objectives": [
+        {
+          "text": "quest.hall_pantry.o0",
+          "condition": "has:crop.parsnip>=3",
+          "takeItem": "crop.parsnip",
+          "takeCount": 3
+        },
+        {
+          "text": "quest.hall_pantry.o1",
+          "condition": "has:crop.potato>=3",
+          "takeItem": "crop.potato",
+          "takeCount": 3
+        },
+        {
+          "text": "quest.hall_pantry.o2",
+          "condition": "has:crop.kale>=3",
+          "takeItem": "crop.kale",
+          "takeCount": 3
+        },
+        {
+          "text": "quest.hall_pantry.o3",
+          "condition": "has:crop.cauliflower>=3",
+          "takeItem": "crop.cauliflower",
+          "takeCount": 3
+        }
+      ],
+      "rewards": [
+        "gold:500",
+        "friend:tilda,100",
+        "flag:hall.pantry"
+      ]
+    },
+    {
+      "id": "hall_crafts",
+      "titleKey": "quest.hall_crafts.title",
+      "descriptionKey": "quest.hall_crafts.desc",
+      "category": "story",
+      "objectives": [
+        {
+          "text": "quest.hall_crafts.o0",
+          "condition": "has:resource.wood>=100",
+          "takeItem": "resource.wood",
+          "takeCount": 100
+        },
+        {
+          "text": "quest.hall_crafts.o1",
+          "condition": "has:resource.stone>=100",
+          "takeItem": "resource.stone",
+          "takeCount": 100
+        },
+        {
+          "text": "quest.hall_crafts.o2",
+          "condition": "has:resource.fiber>=50",
+          "takeItem": "resource.fiber",
+          "takeCount": 50
+        },
+        {
+          "text": "quest.hall_crafts.o3",
+          "condition": "has:resource.copperbar>=2",
+          "takeItem": "resource.copperbar",
+          "takeCount": 2
+        }
+      ],
+      "rewards": [
+        "gold:600",
+        "give:machine.chest,2",
+        "friend:marcus,100",
+        "flag:hall.crafts"
+      ]
+    },
+    {
+      "id": "hall_fishtank",
+      "titleKey": "quest.hall_fishtank.title",
+      "descriptionKey": "quest.hall_fishtank.desc",
+      "category": "story",
+      "objectives": [
+        {
+          "text": "quest.hall_fishtank.o0",
+          "condition": "has:fish.carp>=1",
+          "takeItem": "fish.carp",
+          "takeCount": 1
+        },
+        {
+          "text": "quest.hall_fishtank.o1",
+          "condition": "has:fish.sardine>=1",
+          "takeItem": "fish.sardine",
+          "takeCount": 1
+        },
+        {
+          "text": "quest.hall_fishtank.o2",
+          "condition": "has:fish.trout>=1",
+          "takeItem": "fish.trout",
+          "takeCount": 1
+        },
+        {
+          "text": "quest.hall_fishtank.o3",
+          "condition": "has:fish.sea_bass>=1",
+          "takeItem": "fish.sea_bass",
+          "takeCount": 1
+        }
+      ],
+      "rewards": [
+        "gold:600",
+        "give:resource.bait,50",
+        "friend:felix,100",
+        "flag:hall.fishtank"
+      ]
+    },
+    {
+      "id": "hall_boiler",
+      "titleKey": "quest.hall_boiler.title",
+      "descriptionKey": "quest.hall_boiler.desc",
+      "category": "story",
+      "objectives": [
+        {
+          "text": "quest.hall_boiler.o0",
+          "condition": "has:resource.copperore>=5",
+          "takeItem": "resource.copperore",
+          "takeCount": 5
+        },
+        {
+          "text": "quest.hall_boiler.o1",
+          "condition": "has:resource.ironore>=5",
+          "takeItem": "resource.ironore",
+          "takeCount": 5
+        },
+        {
+          "text": "quest.hall_boiler.o2",
+          "condition": "has:resource.coal>=5",
+          "takeItem": "resource.coal",
+          "takeCount": 5
+        },
+        {
+          "text": "quest.hall_boiler.o3",
+          "condition": "has:resource.goldore>=2",
+          "takeItem": "resource.goldore",
+          "takeCount": 2
+        }
+      ],
+      "rewards": [
+        "gold:800",
+        "give:machine.furnace,1",
+        "friend:bram,100",
+        "flag:hall.boiler"
+      ]
+    },
+    {
+      "id": "hall_bulletin",
+      "titleKey": "quest.hall_bulletin.title",
+      "descriptionKey": "quest.hall_bulletin.desc",
+      "category": "story",
+      "objectives": [
+        {
+          "text": "quest.hall_bulletin.o0",
+          "condition": "hearts:tilda>=3"
+        },
+        {
+          "text": "quest.hall_bulletin.o1",
+          "condition": "hearts:bram>=3"
+        },
+        {
+          "text": "quest.hall_bulletin.o2",
+          "condition": "hearts:ione>=3"
+        },
+        {
+          "text": "quest.hall_bulletin.o3",
+          "condition": "hearts:marcus>=3"
+        },
+        {
+          "text": "quest.hall_bulletin.o4",
+          "condition": "hearts:wren>=3"
+        },
+        {
+          "text": "quest.hall_bulletin.o5",
+          "condition": "hearts:odalys>=3"
+        }
+      ],
+      "rewards": [
+        "gold:700",
+        "give:food.berry_tart,3",
+        "flag:hall.bulletin"
+      ]
+    },
+    {
+      "id": "hall_vault",
+      "titleKey": "quest.hall_vault.title",
+      "descriptionKey": "quest.hall_vault.desc",
+      "category": "story",
+      "objectives": [
+        {
+          "text": "quest.hall_vault.o0",
+          "condition": "has:resource.goldbar>=2",
+          "takeItem": "resource.goldbar",
+          "takeCount": 2
+        },
+        {
+          "text": "quest.hall_vault.o1",
+          "condition": "has:artisan.wine>=2",
+          "takeItem": "artisan.wine",
+          "takeCount": 2
+        },
+        {
+          "text": "quest.hall_vault.o2",
+          "condition": "has:food.pumpkin_pie>=1",
+          "takeItem": "food.pumpkin_pie",
+          "takeCount": 1
+        }
+      ],
+      "rewards": [
+        "gold:2000",
+        "flag:hall.vault"
+      ]
+    },
+    {
+      "id": "hall_complete",
+      "titleKey": "quest.hall_complete.title",
+      "descriptionKey": "quest.hall_complete.desc",
+      "category": "story",
+      "autoStart": true,
+      "autoComplete": true,
+      "available": "quest:hall_pantry=done && quest:hall_crafts=done && quest:hall_fishtank=done && quest:hall_boiler=done && quest:hall_bulletin=done && quest:hall_vault=done",
+      "objectives": [],
+      "rewards": [
+        "flag:hall.restored",
+        "gold:5000",
+        "event:hall_ending"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "hall_ending",
+      "trigger": "manual",
+      "once": true,
+      "steps": [
+        {
+          "type": "fadeout",
+          "seconds": 1.0
+        },
+        {
+          "type": "say",
+          "text": "event.hall_ending.0"
+        },
+        {
+          "type": "say",
+          "text": "event.hall_ending.1"
+        },
+        {
+          "type": "say",
+          "text": "event.hall_ending.2"
+        },
+        {
+          "type": "fadein",
+          "seconds": 1.0
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:ending.hall",
+            "friend:tilda,100",
+            "friend:bram,100",
+            "friend:ione,100",
+            "toast:hall.restored"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "festival_spring",
+      "trigger": "map",
+      "map": "Village",
+      "once": false,
+      "priority": 20,
+      "condition": "season:spring && day==13 && unseen:festival.spring",
+      "calendar": "calendar.festival.spring",
+      "calendarSeason": 0,
+      "calendarDay": 13,
+      "steps": [
+        {
+          "type": "say",
+          "text": "event.festival_spring.0"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "festival.spring.join"
+        }
+      ]
+    },
+    {
+      "id": "festival_summer",
+      "trigger": "map",
+      "map": "Village",
+      "once": false,
+      "priority": 20,
+      "condition": "season:summer && day==11 && unseen:festival.summer",
+      "calendar": "calendar.festival.summer",
+      "calendarSeason": 1,
+      "calendarDay": 11,
+      "steps": [
+        {
+          "type": "say",
+          "text": "event.festival_summer.0"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "festival.summer.join"
+        }
+      ]
+    },
+    {
+      "id": "festival_fall",
+      "trigger": "map",
+      "map": "Village",
+      "once": false,
+      "priority": 20,
+      "condition": "season:fall && day==16 && unseen:festival.fall",
+      "calendar": "calendar.festival.fall",
+      "calendarSeason": 2,
+      "calendarDay": 16,
+      "steps": [
+        {
+          "type": "say",
+          "text": "event.festival_fall.0"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "festival.fall.join"
+        }
+      ]
+    },
+    {
+      "id": "festival_winter",
+      "trigger": "map",
+      "map": "Village",
+      "once": false,
+      "priority": 20,
+      "condition": "season:winter && day==25 && unseen:festival.winter",
+      "calendar": "calendar.festival.winter",
+      "calendarSeason": 3,
+      "calendarDay": 25,
+      "steps": [
+        {
+          "type": "say",
+          "text": "event.festival_winter.0"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "festival.winter.join"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "id": "festival.spring.join",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "",
+          "text": "dlg.festival.spring.join.0",
+          "choices": [
+            {
+              "text": "dlg.festival.spring.join.c0",
+              "effects": [
+                "friend:ione,25",
+                "friend:piper,25",
+                "gold:100",
+                "flag:festival.spring.joined",
+                "mark:festival.spring"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.festival.spring.join.c1",
+              "effects": [
+                "mark:festival.spring"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "",
+          "text": "dlg.festival.spring.join.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "",
+          "text": "dlg.festival.spring.join.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "festival.summer.join",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "",
+          "text": "dlg.festival.summer.join.0",
+          "choices": [
+            {
+              "text": "dlg.festival.summer.join.c0",
+              "effects": [
+                "friend:felix,30",
+                "gold:200",
+                "flag:festival.summer.joined",
+                "mark:festival.summer"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.festival.summer.join.c1",
+              "effects": [
+                "mark:festival.summer"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "",
+          "text": "dlg.festival.summer.join.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "",
+          "text": "dlg.festival.summer.join.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "festival.fall.join",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "",
+          "text": "dlg.festival.fall.join.0",
+          "choices": [
+            {
+              "text": "dlg.festival.fall.join.c0",
+              "effects": [
+                "friend:tilda,30",
+                "gold:300",
+                "flag:festival.fall.joined",
+                "mark:festival.fall"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.festival.fall.join.c1",
+              "effects": [
+                "mark:festival.fall"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "",
+          "text": "dlg.festival.fall.join.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "",
+          "text": "dlg.festival.fall.join.r1_0"
+        }
+      ]
+    },
+    {
+      "id": "festival.winter.join",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "",
+          "text": "dlg.festival.winter.join.0",
+          "choices": [
+            {
+              "text": "dlg.festival.winter.join.c0",
+              "effects": [
+                "energy:200",
+                "friend:tilda,15",
+                "friend:bram,15",
+                "friend:ione,15",
+                "friend:wren,15",
+                "friend:marcus,15",
+                "friend:hazel,15",
+                "flag:festival.winter.joined",
+                "mark:festival.winter"
+              ],
+              "next": "r0_0"
+            },
+            {
+              "text": "dlg.festival.winter.join.c1",
+              "effects": [
+                "mark:festival.winter"
+              ],
+              "next": "r1_0"
+            }
+          ]
+        },
+        {
+          "id": "r0_0",
+          "speaker": "",
+          "text": "dlg.festival.winter.join.r0_0"
+        },
+        {
+          "id": "r1_0",
+          "speaker": "",
+          "text": "dlg.festival.winter.join.r1_0"
+        }
+      ]
+    }
+  ]
+}

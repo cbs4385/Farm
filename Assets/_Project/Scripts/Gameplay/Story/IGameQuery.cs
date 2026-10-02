@@ -10,6 +10,7 @@ namespace Farm.Gameplay
         int ItemCount(string itemId);
         string QuestState(string questId);       // "active", "done", "failed" or "new"
         bool KnowsRecipe(string recipeId);
+        bool MerchantHere() => false;           // the traveling merchant's stall is up today
     }
 
     // Condition atoms used by story data (dialogue, schedules, quests, events). Safe to call more than once.
@@ -30,6 +31,8 @@ namespace Farm.Gameplay
                 return state == arg.Substring(eq + 1);
             });
             Conditions.Register("knows", (arg, w) => w is IGameQuery q && q.KnowsRecipe(arg));
+            Conditions.Register("unseen", (arg, w) => w.GetVar(arg) < w.Now.Year);
+            Merchant.RegisterConditions();
         }
 
         // "tilda>=4" -> id, op, number. The operator is required.

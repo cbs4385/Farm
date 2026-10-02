@@ -15,6 +15,7 @@ namespace Farm.UI
     {
         sealed class Row { public TextMeshProUGUI Level, Xp; public RectTransform Fill; }
         readonly Dictionary<string, Row> _rows = new Dictionary<string, Row>();
+        RectTransform _offers;
 
         public override string Id => MenuTabs.Skills;
 
@@ -43,6 +44,8 @@ namespace Farm.UI
                 UiKit.Size(xp.gameObject, 150f, 40f);
                 _rows[skill] = new Row { Level = level, Xp = xp, Fill = fill.rectTransform };
             }
+            var offers = UiKit.VStack(stack.transform, "Offers", 4f);
+            _offers = (RectTransform)offers.transform;
         }
 
         public override void Refresh(UiService ui)
@@ -56,6 +59,27 @@ namespace Farm.UI
                 pair.Value.Xp.text = level >= SkillModel.MaxLevel
                     ? L.Get("skills.max")
                     : L.Get("skills.xp", xp - SkillModel.XpForLevel(level), SkillModel.XpForLevel(level + 1) - SkillModel.XpForLevel(level));
+            }
+
+            // Professions: chosen ones, and the choices waiting at levels 5 and 10.
+            UiKit.ClearChildren(_offers);
+            foreach (var skill in SkillIds.All)
+            {
+                var chosen = Professions.Rows.Where(r => r.Skill == skill && ui.Session.State.Professions.Contains(r.Id)).ToList();
+                if (chosen.Count > 0)
+                    UiKit.Label(_offers, L.Get("skill." + skill) + ": " + string.Join(", ", chosen.Select(c => L.Get("profession." + c.Id))), 14f, TextAlignmentOptions.Left, UiKit.DimText);
+                var offers = Professions.Offers(ui.Session.State, skill, ui.Session.GetSkillLevel(skill));
+                foreach (var tier in offers.GroupBy(o => o.Level))
+                {
+                    var row = UiKit.HStack(_offers, "Offer_" + skill + tier.Key, 6f);
+                    UiKit.Size(row.gameObject, -1f, 30f);
+                    UiKit.Label(row.transform, L.Get("skills.choose", L.Get("skill." + skill), tier.Key), 15f, TextAlignmentOptions.Left, UiKit.Accent);
+                    foreach (var option in tier)
+                    {
+                        var id = option.Id;
+                        UiKit.MakeButton(row.transform, L.Get("profession." + id), () => { Professions.Choose(ui.Session, id); Refresh(ui); }, 150f, 28f).name = "Choose_" + id;
+                    }
+                }
             }
         }
     }
@@ -198,6 +222,8 @@ namespace Farm.UI
                 if (phase == MoonPhase.New && day == 1) notes.Add(L.Get("calendar.new_moon"));
                 if (phase == MoonPhase.Full && (day == 15)) notes.Add(L.Get("calendar.full_moon"));
                 if (names.TryGetValue(day, out var birthdays)) notes.AddRange(birthdays.Select(n => L.Get("calendar.birthday", n)));
+                foreach (var fest in ui.Session.Story.Events)
+                    if (!string.IsNullOrEmpty(fest.Calendar) && fest.CalendarSeason == _season && fest.CalendarDay == day) notes.Add(L.Get(fest.Calendar));
                 if (notes.Count > 0)
                 {
                     var note = UiKit.Label(cell.transform, string.Join("\n", notes), 12f, TextAlignmentOptions.BottomRight, UiKit.Accent);

@@ -442,7 +442,7 @@ namespace Farm.Tests
                 Assert.IsTrue(s.HasFlag(MapIds.GreenhouseFlag));
                 Assert.AreEqual(10000, s.State.Gold);
                 Assert.AreEqual(0, s.Backpack.Count(ItemIds.Wood));
-                Assert.IsEmpty(Upgrades.Offered(s.UpgradeTable, "carpenter", s.State, s.Backpack), "it is bought once");
+                CollectionAssert.DoesNotContain(Upgrades.Offered(s.UpgradeTable, "carpenter", s.State, s.Backpack).Select(u => u.Id), "greenhouse", "it is bought once");
             }
         }
     }

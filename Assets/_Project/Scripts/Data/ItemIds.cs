@@ -15,6 +15,7 @@ namespace Farm.Data
         public const string CopperBar = "resource.copperbar";
         public const string IronBar = "resource.ironbar";
         public const string GoldBar = "resource.goldbar";
+        public const string Sword = "tool.sword";
         public const string Coal = "resource.coal";
         public const string CopperOre = "resource.copperore";
         public const string IronOre = "resource.ironore";

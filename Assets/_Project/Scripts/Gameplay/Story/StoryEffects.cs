@@ -7,6 +7,9 @@ namespace Farm.Gameplay
         public static void RegisterAll()
         {
             Effects.Register("friend", 2, 2, (s, a) => NpcInteractions.AddPoints(s, a[0], Effects.Int(a[1])));
+            // Remembers the current year under a key (annual events); `unseen:<key>` is true until then.
+            Effects.Register("mark", 1, 1, (s, a) => s.SetVar(a[0], s.Clock.Now.Year));
+            Effects.Register("energy", 1, 1, (s, a) => s.RestoreEnergy(Effects.Int(a[0])));
             Effects.Register("learn", 1, 1, (s, a) => s.LearnRecipe(a[0]));
             Effects.Register("quest.start", 1, 1, (s, a) =>
             {

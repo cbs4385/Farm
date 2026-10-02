@@ -56,6 +56,12 @@ namespace Farm.Gameplay
             Pair(new RouteEdge(MapIds.Farm, 19, 20, MapIds.Greenhouse, 7, 2, "default"),
                  new RouteEdge(MapIds.Greenhouse, 7, 0, MapIds.Farm, 19, 18, "fromGreenhouse"));
 
+            // Farm <-> coop and barn (once built).
+            Pair(new RouteEdge(MapIds.Farm, 28, 20, MapIds.Coop, 6, 2, "default"),
+                 new RouteEdge(MapIds.Coop, 6, 0, MapIds.Farm, 28, 18, "fromCoop"));
+            Pair(new RouteEdge(MapIds.Farm, 35, 20, MapIds.Barn, 6, 2, "default"),
+                 new RouteEdge(MapIds.Barn, 6, 0, MapIds.Farm, 35, 18, "fromBarn"));
+
             // Village <-> forest (south end of the lane) and beach (north end).
             Pair(new RouteEdge(MapIds.Village, 25, 35, MapIds.Forest, 19, 2, "fromVillage"),
                  new RouteEdge(MapIds.Forest, 19, 0, MapIds.Village, 25, 33, "fromForest"));
@@ -74,6 +80,7 @@ namespace Farm.Gameplay
             Building(MapIds.Library, 42, 24, 23, 5);
             Building(MapIds.Saloon, 10, 11, 12, 6);
             Building(MapIds.Clinic, 35, 11, 12, 4);
+            Building(MapIds.CommunityHall, 44, 11, 12, 7);
             return e;
         }
 

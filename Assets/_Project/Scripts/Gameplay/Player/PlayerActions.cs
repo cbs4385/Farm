@@ -105,6 +105,7 @@ namespace Farm.Gameplay
                 case ItemCategory.Seed: Plant(item); break;
                 case ItemCategory.Food: Eat(item); break;
                 case ItemCategory.Machine: PlaceObject(item); break;
+                case ItemCategory.Animal: PlaceAnimal(item); break;
                 case ItemCategory.Fertilizer: Fertilize(item); break;
             }
         }
@@ -139,12 +140,22 @@ namespace Farm.Gameplay
                     AudioService.PlayIfAvailable(Sfx.Water);
                     break;
 
+                case ToolType.Rod:
+                    Cast(cell);
+                    return;
+
+                case ToolType.Sword:
+                    var held = Session.Backpack.Get(Session.State.SelectedHotbar);
+                    var combat = GetComponent<PlayerCombat>();
+                    if (combat != null && held != null) combat.Swing(held.ItemId);
+                    return;
+
                 case ToolType.Axe:
                 case ToolType.Pickaxe:
                 case ToolType.Scythe:
                     // The axe and pickaxe take a placed chest, machine or sprinkler back (no energy needed).
                     if (tool != ToolType.Scythe && TryPickUp(cell)) return;
-                    cost = ToolModel.EnergyCost(EnergyCost(tool), tier);
+                    cost = Mathf.Max(1, Mathf.RoundToInt(ToolModel.EnergyCost(EnergyCost(tool), tier) * Professions.EnergyMultiplier(Session.State)));
                     if (!SwingAtNode(tool, tier, cost, cell)) return;
                     _view.RefreshNode(cell);
                     break;
@@ -174,7 +185,7 @@ namespace Farm.Gameplay
 
             var day = Session.Clock.Now.TotalDays;
             var result = nodes.Gather(cell.x, cell.y, Session.Nodes.Get, WeatherRoller.Unit(cell.x * 53 + cell.y * 19 + day, Session.State.WorldSeed));
-            var quality = ForageModel.Quality(Session.GetSkillLevel(SkillIds.Foraging), Session.Luck,
+            var quality = ForageModel.Quality(Session.GetSkillLevel(SkillIds.Foraging), Session.Luck + Professions.LuckBonus(Session.State, ProfessionEffect.LuckForaging),
                 WeatherRoller.Unit(cell.x * 97 + cell.y * 41 + day * 3, Session.State.WorldSeed ^ 0x7F4A7C15));
             if (result.DropCount > 0) Session.Backpack.Add(result.DropItemId, result.DropCount, quality);
             Session.AddVar(QuestLog.Stats.Foraged, 1);
@@ -216,6 +227,52 @@ namespace Farm.Gameplay
                 AudioService.PlayIfAvailable(tool == ToolType.Scythe ? Sfx.Harvest : Sfx.Hoe);
             }
             return true;
+        }
+
+        // ---- animals ---------------------------------------------------------------------------------------------------------
+
+        void PlaceAnimal(ItemDefinition item)
+        {
+            var row = AnimalDefaults.Find(item.PlaceableId);
+            if (row == null || _map.MapId != row.Value.Building) { Session.Toast(L.Get("animal.wrong_place", L.Get("map." + (row?.Building ?? MapIds.Coop)))); return; }
+            if (!AnimalRules.HasRoom(Session.State, _map.MapId)) { Session.Toast(L.Get("animal.full")); return; }
+            var name = L.Get("animal.default_name", L.Get("item." + item.Id + ".name"), AnimalRules.In(Session.State, _map.MapId).Count + 1);
+            var animal = AnimalRules.Add(Session.State, row.Value.Id, System.Guid.NewGuid().ToString("N").Substring(0, 8), name);
+            if (animal == null) return;
+            Session.Backpack.Remove(item.Id, 1);
+            var cell = TargetCell;
+            AnimalManager.Current?.Spawn(animal, cell.x, cell.y);
+            Session.Toast(L.Get("animal.welcome", name));
+        }
+
+        // ---- fishing ---------------------------------------------------------------------------------------------------------
+
+        public const int FishingEnergy = 5;
+
+        void Cast(Vector3Int cell)
+        {
+            var spot = FishSpots.ForMap(_map.MapId);
+            if (spot == null || !_map.IsWater(cell)) { Session.Toast(L.Get("fishing.no_water")); return; }
+            if (!ServiceLocator.TryGet<IUiService>(out var ui) || !SpendEnergy(FishingEnergy)) return;
+            var bait = Session.Backpack.Has(FishDefaults.Bait);
+            if (bait) Session.Backpack.Remove(FishDefaults.Bait, 1);
+            var n = Session.AddVar("stat.casts", 1);
+            float R(int k) => WeatherRoller.Unit(n * 97 + k * 13, Session.State.WorldSeed ^ 0x3C6EF372);
+            var eligible = FishingModel.Eligible(FishDefaults.Rows, spot, Session.World);
+            var fishing = new FishingSession(eligible, Session.GetSkillLevel(SkillIds.Fishing),
+                Session.Luck + Professions.LuckBonus(Session.State, ProfessionEffect.LuckFishing), bait, R(1), R(2), R(3), R(4), Professions.BiteSpeed(Session.State));
+            ui.ShowFishing(fishing, OnFished);
+        }
+
+        void OnFished(FishingSession done)
+        {
+            if (done == null) return;
+            if (!done.Caught || !done.Fish.HasValue) { Session.Toast(L.Get("fishing.escaped")); return; }
+            var fish = done.Fish.Value;
+            if (Session.Backpack.Add(fish.ItemId, 1, done.Quality) > 0) { Session.Toast(L.Get("toast.inventory_full")); return; }
+            Session.AddVar("stat.fished", 1);
+            Session.AddSkillXp(SkillIds.Fishing, FishingModel.Xp(fish));
+            Session.Toast(L.Get(done.Perfect ? "fishing.perfect" : "fishing.caught", L.Get("item." + fish.ItemId + ".name")));
         }
 
         // ---- placing objects, fertilizer ------------------------------------------------------------------------------------
@@ -292,9 +349,10 @@ namespace Farm.Gameplay
 
         void Eat(ItemDefinition food)
         {
-            if (Session.State.Energy >= Session.State.MaxEnergy) return;
+            if (Session.State.Energy >= Session.State.MaxEnergy && Session.State.Health >= Session.State.MaxHealth) return;
             Session.Backpack.Remove(food.Id, 1);
             Session.RestoreEnergy(food.EnergyRestore);
+            Combat.Heal(Session, food.EnergyRestore / 2);
         }
 
         bool SpendEnergy(int cost)
@@ -324,7 +382,7 @@ namespace Farm.Gameplay
                 var fertilizer = grid.FertilizerAt(cell.x, cell.y);
                 if (grid.TryHarvest(cell.x, cell.y, CropLookup, out var result))
                 {
-                    var quality = CropQuality.Roll(Session.GetSkillLevel(SkillIds.Farming), fertilizer, Session.Luck,
+                    var quality = CropQuality.Roll(Session.GetSkillLevel(SkillIds.Farming), fertilizer, Session.Luck + Professions.LuckBonus(Session.State, ProfessionEffect.LuckFarming),
                         WeatherRoller.Unit(cell.x * 61 + cell.y * 29 + Session.Clock.Now.TotalDays * 5, Session.State.WorldSeed ^ 0x2545F491));
                     Session.Backpack.Add(result.ItemId, result.Count, quality);
                     Session.AddVar(QuestLog.Stats.Harvested, 1);
@@ -342,6 +400,14 @@ namespace Farm.Gameplay
             if (NpcAt(cell) is NpcActor villager)
             {
                 villager.Interact(this);
+                return;
+            }
+
+            // 1c2. A farm animal.
+            var animalHere = AnimalManager.Current != null ? AnimalManager.Current.ActorAt(cell) : null;
+            if (animalHere != null)
+            {
+                animalHere.Interact(this);
                 return;
             }
 

@@ -64,6 +64,9 @@ namespace Farm.UI
         ChestScreen _chest;
         LetterScreen _letter;
         BoardScreen _board;
+        FishingScreen _fishing;
+        ElevatorScreen _elevator;
+        HallScreen _hall;
         UpgradeScreen _upgrades;
         DaySummaryScreen _summary;
         PauseScreen _pause;
@@ -250,7 +253,7 @@ namespace Farm.UI
 
         static MenuPage[] CreateMenuPages() => new MenuPage[]
         {
-            new SkillsPage(), new SocialPage(), new CalendarPage(), new MapPage(), new JournalPage(), new CraftingPage(),
+            new SkillsPage(), new SocialPage(), new CalendarPage(), new MapPage(), new CollectionsPage(), new JournalPage(), new CraftingPage(),
         };
 
         public void ShowCrafting(string station)
@@ -263,6 +266,24 @@ namespace Farm.UI
         {
             _letter ??= new LetterScreen(this);
             _letter.OpenLetter(letter, onClosed);
+        }
+
+        public void ShowFishing(FishingSession session, Action<FishingSession> onDone)
+        {
+            _fishing ??= new FishingScreen(this);
+            _fishing.OpenFishing(session, onDone);
+        }
+
+        public void ShowHall()
+        {
+            _hall ??= new HallScreen(this);
+            _hall.OpenHall();
+        }
+
+        public void ShowElevator()
+        {
+            _elevator ??= new ElevatorScreen(this);
+            _elevator.OpenElevator();
         }
 
         public void ShowBoard()
