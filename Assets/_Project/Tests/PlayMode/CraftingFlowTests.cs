@@ -62,7 +62,7 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
         }
 
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
         static UiService Ui => ServiceLocator.Get<UiService>();
 
         IEnumerator Tap(Key key)
@@ -84,7 +84,7 @@ namespace Farm.Tests
         }
 
         static Button Find(string parent, string name) =>
-            UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+            UnityEngine.Object.FindObjectsByType<Button>()
                 .FirstOrDefault(b => b.gameObject.activeInHierarchy && b.name == name && (parent == null || b.transform.parent.name == parent));
 
         // ---- crafting from the menu -------------------------------------------------------------------------------------
@@ -244,7 +244,7 @@ namespace Farm.Tests
         public IEnumerator TheGreenhouseDoor_IsLockedUntilBuilt_ThenLeadsToAFarmingRoom()
         {
             yield return Start();
-            var warp = UnityEngine.Object.FindObjectsByType<Warp>(FindObjectsSortMode.None).First(w => w.TargetMap == MapIds.Greenhouse);
+            var warp = UnityEngine.Object.FindObjectsByType<Warp>().First(w => w.TargetMap == MapIds.Greenhouse);
             Player.transform.position = warp.transform.position;
             var wait = Time.realtimeSinceStartup;
             while (Time.realtimeSinceStartup - wait < 0.5f) yield return null;        // a few physics steps
@@ -260,7 +260,7 @@ namespace Farm.Tests
             while (SceneManager.GetActiveScene().name != MapIds.Greenhouse && Time.realtimeSinceStartup - start < 10f) yield return null;
             for (var i = 0; i < 6; i++) yield return null;
             Assert.AreEqual(MapIds.Greenhouse, SceneManager.GetActiveScene().name, "the built greenhouse opens");
-            Assert.IsTrue(UnityEngine.Object.FindFirstObjectByType<FarmMap>().AllowFarming);
+            Assert.IsTrue(UnityEngine.Object.FindAnyObjectByType<FarmMap>().AllowFarming);
         }
 
         [UnityTest]

@@ -78,8 +78,8 @@ namespace Farm.Tests
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
 
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
-            var actions = UnityEngine.Object.FindFirstObjectByType<PlayerActions>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+            var actions = UnityEngine.Object.FindAnyObjectByType<PlayerActions>();
             Assert.IsNotNull(player);
             Assert.IsNotNull(actions);
             Assert.IsTrue(session.State.CurrentMap == MapIds.Farm);
@@ -137,8 +137,8 @@ namespace Farm.Tests
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
 
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
-            var actions = UnityEngine.Object.FindFirstObjectByType<PlayerActions>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+            var actions = UnityEngine.Object.FindAnyObjectByType<PlayerActions>();
             player.transform.position = new Vector3(20.5f, 10.1f, 0f);
             player.Face(Vector2Int.right);
 
@@ -180,7 +180,7 @@ namespace Farm.Tests
             session.StartSleep(false);
             yield return WaitUntil(() => ui.AnyModalOpen, 10f, "day summary screen");
 
-            var cont = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+            var cont = UnityEngine.Object.FindObjectsByType<Button>()
                 .First(b => b.gameObject.activeInHierarchy && b.name == L.Get("ui.continue"));
 
             // The screen is faded to black while the summary shows: the Continue button must still be visible and
@@ -204,8 +204,8 @@ namespace Farm.Tests
             yield return WaitFrames(5);
             Assert.AreEqual(2, session.Clock.Now.Day);
             Assert.IsFalse(ui.AnyModalOpen);
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
-            var bedSpawn = UnityEngine.Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None).First(s => s.Id == "bed");
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+            var bedSpawn = UnityEngine.Object.FindObjectsByType<SpawnPoint>().First(s => s.Id == "bed");
             Assert.Less(Vector3.Distance(player.transform.position, bedSpawn.transform.position), 0.5f);
             Assert.IsTrue(session.Clock.IsPaused == false);
         }
@@ -251,7 +251,7 @@ namespace Farm.Tests
             yield return WaitUntil(() => ui.AnyModalOpen, 10f, "summary after passing out");
             Assert.IsTrue(session.IsSleeping);
 
-            UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+            UnityEngine.Object.FindObjectsByType<Button>()
                 .First(b => b.gameObject.activeInHierarchy && b.name == L.Get("ui.continue")).onClick.Invoke();
             yield return WaitUntil(() => !session.IsSleeping && SceneManager.GetActiveScene().name == MapIds.FarmHouse, 10f, "wake up");
             Assert.AreEqual(2, session.Clock.Now.Day);
@@ -264,7 +264,7 @@ namespace Farm.Tests
             yield return LoadScene(SceneNames.Bootstrap);
             yield return WaitUntil(() => SceneManager.GetActiveScene().name == SceneNames.MainMenu, 10f, "main menu");
             yield return WaitFrames(5);
-            var buttons = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
+            var buttons = UnityEngine.Object.FindObjectsByType<Button>();
             var cont = buttons.First(b => b.name == L.Get("menu.continue"));
             Assert.IsFalse(cont.interactable);
             Assert.IsTrue(buttons.Any(b => b.name == L.Get("menu.new_game") && b.interactable));
@@ -286,7 +286,7 @@ namespace Farm.Tests
             yield return WaitFrames(4);
             Canvas.ForceUpdateCanvases();
 
-            var scroll = UnityEngine.Object.FindObjectsByType<ScrollRect>(FindObjectsSortMode.None).First(s => s.gameObject.activeInHierarchy);
+            var scroll = UnityEngine.Object.FindObjectsByType<ScrollRect>().First(s => s.gameObject.activeInHierarchy);
             Assert.Greater(scroll.content.rect.height, ((RectTransform)scroll.transform).rect.height, "options content should be taller than its viewport");
             scroll.verticalNormalizedPosition = 1f;
 
@@ -327,7 +327,7 @@ namespace Farm.Tests
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
 
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             var renderer = player.GetComponent<SpriteRenderer>();
             var cursor = GameObject.Find("TargetCursor").transform;
 

@@ -63,9 +63,9 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
         }
 
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
         static IUiService Ui => ServiceLocator.Get<IUiService>();
-        static NpcActor Actor(string id) => UnityEngine.Object.FindObjectsByType<NpcActor>(FindObjectsSortMode.None).FirstOrDefault(a => a.Definition.Id == id);
+        static NpcActor Actor(string id) => UnityEngine.Object.FindObjectsByType<NpcActor>().FirstOrDefault(a => a.Definition.Id == id);
 
         IEnumerator Tap(Key key)
         {

@@ -79,7 +79,7 @@ namespace Farm.Tests
             yield return null;
             Assert.IsTrue(ui.AnyModalOpen, "the warning is shown");
             Assert.IsTrue(session.HasFlag(FatigueModel.WarnedFlag));
-            StringAssert.Contains("grow tired", UnityEngine.Object.FindObjectsByType<TMPro.TMP_Text>(FindObjectsSortMode.None)
+            StringAssert.Contains("grow tired", UnityEngine.Object.FindObjectsByType<TMPro.TMP_Text>()
                 .First(t => t.gameObject.activeInHierarchy && t.text.Contains("getting late")).text);
 
             Press(_keyboard.escapeKey);
@@ -153,7 +153,7 @@ namespace Farm.Tests
             Assert.IsTrue(session.IsSleeping, "collapsing starts the sleep flow");
             Assert.IsTrue(ui.AnyModalOpen, "the day summary is shown");
 
-            UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+            UnityEngine.Object.FindObjectsByType<Button>()
                 .First(b => b.gameObject.activeInHierarchy && b.name == L.Get("ui.continue")).onClick.Invoke();
             start = Time.realtimeSinceStartup;
             while (!(!session.IsSleeping && SceneManager.GetActiveScene().name == MapIds.FarmHouse) && Time.realtimeSinceStartup - start < 10f)

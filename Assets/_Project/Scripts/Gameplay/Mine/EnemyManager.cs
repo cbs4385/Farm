@@ -22,7 +22,7 @@ namespace Farm.Gameplay
         public void Init(FarmMap map, GameSession session, MineController mine, IEnumerable<MineEnemySpawn> spawns)
         {
             _map = map; _session = session; _mine = mine;
-            _player = FindFirstObjectByType<PlayerController>();
+            _player = FindAnyObjectByType<PlayerController>();
             Current = this;
             var i = 0;
             foreach (var spawn in spawns)

@@ -12,7 +12,6 @@ namespace Farm.Gameplay
         FarmMap _map;
         GameSession _session;
         WalkGrid _grid;
-        int _gridFrame = -1;
         readonly Dictionary<string, NpcActor> _actors = new Dictionary<string, NpcActor>();
         readonly HashSet<string> _suspended = new HashSet<string>();
         readonly Dictionary<string, (int day, NpcScheduleEntry plan)> _plans = new Dictionary<string, (int, NpcScheduleEntry)>();

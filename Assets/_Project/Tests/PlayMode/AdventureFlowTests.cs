@@ -59,7 +59,7 @@ namespace Farm.Tests
         }
 
         IEnumerator Tap(Key k) { Press(_kb[k]); yield return null; Release(_kb[k]); yield return null; }
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
         static UiService Ui => ServiceLocator.Get<UiService>();
 
         void Select(string itemId) =>
@@ -139,7 +139,7 @@ namespace Farm.Tests
             yield return Tap(Key.E);
             for (var i = 0; i < 3; i++) yield return null;
             Assert.IsTrue(Ui.AnyModalOpen, "the board opens");
-            var donate = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+            var donate = UnityEngine.Object.FindObjectsByType<Button>()
                 .First(b => b.gameObject.activeInHierarchy && b.name == "Donate" && b.transform.parent.name == "hall_pantry");
             Assert.IsTrue(donate.interactable);
             var gold = _s.State.Gold;

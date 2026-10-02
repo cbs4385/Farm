@@ -137,7 +137,7 @@ namespace Farm.UI
 
         void CreateEventSystem()
         {
-            if (FindFirstObjectByType<EventSystem>() != null) return;
+            if (FindAnyObjectByType<EventSystem>() != null) return;
             var go = new GameObject("EventSystem");
             go.transform.SetParent(transform, false);
             go.AddComponent<EventSystem>();

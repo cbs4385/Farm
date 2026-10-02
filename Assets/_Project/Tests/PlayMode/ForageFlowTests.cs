@@ -59,8 +59,8 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
         }
 
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
-        static FarmMapView View => UnityEngine.Object.FindFirstObjectByType<FarmMapView>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+        static FarmMapView View => UnityEngine.Object.FindAnyObjectByType<FarmMapView>();
 
         IEnumerator Interact()
         {

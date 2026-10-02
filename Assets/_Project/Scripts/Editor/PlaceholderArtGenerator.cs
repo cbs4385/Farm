@@ -44,6 +44,7 @@ namespace Farm.Editor
         [MenuItem("Farm/Generate Placeholder Art")]
         public static void Generate()
         {
+            _finalArt = null;
             Directory.CreateDirectory(OutDir);
             var written = new List<string>();
 
@@ -162,8 +163,26 @@ namespace Farm.Editor
             EditorApplication.Exit(0);
         }
 
+        // Sprites listed (one name per line) in Art/Placeholders/final_art.txt are final art and are never regenerated.
+        static HashSet<string> _finalArt;
+
+        static bool IsFinalArt(string name)
+        {
+            if (_finalArt == null)
+            {
+                var list = $"{OutDir}/final_art.txt";
+                _finalArt = File.Exists(list) ? new HashSet<string>(File.ReadAllLines(list).Select(l => l.Trim()).Where(l => l.Length > 0)) : new HashSet<string>();
+            }
+            return _finalArt.Contains(name);
+        }
+
         static void Save(List<string> written, string name, Texture2D tex)
         {
+            if (IsFinalArt(name))
+            {
+                Object.DestroyImmediate(tex);
+                return;
+            }
             var path = $"{OutDir}/{name}.png";
             File.WriteAllBytes(path, tex.EncodeToPNG());
             Object.DestroyImmediate(tex);

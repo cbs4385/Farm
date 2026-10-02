@@ -37,7 +37,7 @@ namespace Farm.Gameplay
             _session.State.CurrentMap = _map.MapId;
             if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
             if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
-            var mine = FindFirstObjectByType<MineController>();
+            var mine = FindAnyObjectByType<MineController>();
             if (mine != null) mine.Build(_session, _map);
             PlacePlayer(_session.State.SpawnPoint);
 
@@ -70,7 +70,7 @@ namespace Farm.Gameplay
             new GameObject("Events").AddComponent<EventDirector>().Init(_map, _session, npcs, _player);
 
             // Outdoor maps show the day's weather (rain, snow, wind...) drawn from its WeatherDefinition.
-            var lighting = FindFirstObjectByType<DayNightLighting>();
+            var lighting = FindAnyObjectByType<DayNightLighting>();
             if (lighting == null || !lighting.IsIndoor)
                 new GameObject("WeatherEffects").AddComponent<WeatherEffects>();
 
@@ -160,9 +160,9 @@ namespace Farm.Gameplay
         System.Collections.Generic.List<Vector3Int> KeepClearCells()
         {
             var keepClear = new System.Collections.Generic.List<Vector3Int>();
-            foreach (var w in FindObjectsByType<Warp>(FindObjectsSortMode.None)) keepClear.Add(_map.WorldToCell(w.transform.position));
-            foreach (var s in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None)) keepClear.Add(_map.WorldToCell(s.transform.position));
-            foreach (var u in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+            foreach (var w in FindObjectsByType<Warp>()) keepClear.Add(_map.WorldToCell(w.transform.position));
+            foreach (var s in FindObjectsByType<SpawnPoint>()) keepClear.Add(_map.WorldToCell(s.transform.position));
+            foreach (var u in FindObjectsByType<MonoBehaviour>())
                 if (u is IInteractable) keepClear.Add(_map.WorldToCell(u.transform.position));
             return keepClear;
         }
@@ -200,7 +200,7 @@ namespace Farm.Gameplay
         void PlacePlayer(string spawnId)
         {
             SpawnPoint fallback = null;
-            foreach (var sp in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None))
+            foreach (var sp in FindObjectsByType<SpawnPoint>())
             {
                 if (sp.Id == spawnId) { _player.transform.position = sp.transform.position; return; }
                 if (sp.Id == "default") fallback = sp;

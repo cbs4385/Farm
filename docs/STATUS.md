@@ -100,7 +100,7 @@ Decided 2026-10-01 (AE, AF): after a collapse the player is carried home to wake
 Still open (GDD section 9): **only F, scope protection** (needed before M3). Every other design question is decided or moot.
 
 ## Milestone 4 - Polish and platform (in progress; code tasks done, asset and Steam tasks blocked)
-T-060 | blocked | | final art integration needs the real art (placeholder names are stable, atlases are built); nothing to do until art exists
+T-060 | in progress | claude/2026-10-02 | AI-generated art integrated for tiles, characters (down/up/left, right mirrored), portraits, crops, items and objects (482 sprites, `tools/art/`, `final_art.txt` guards them from regeneration). NOT done: UI frames and icons, animals and monsters (still runtime squares), animation frames, effects, logo and store art, a licence/disclosure review of the generated art, a human art review
 T-061 | blocked | | audio pass needs music/ambience/SFX assets and an AudioMixer asset design; `AudioService` still has logical buses and placeholder blips
 T-062 | done (partial) | claude/2026-10-02 | `IPlatformServices` (null default), `SteamPlatform` behind `FARM_STEAM`, condition-based achievements (10, spoiler-free), focus pause, Auto-Cloud notes in `docs/RELEASE.md`. NOT done or verified: running with real Steam on Windows and Linux, Steam Input glyphs, on-screen keyboard
 T-063 | done (partial) | claude/2026-10-02 | colour-blind palette, reduce flashes, UI size (existing), full keyboard/gamepad menus (existing), Steam Deck size 1280x800 capture checked. NOT done: a person on a Deck, on-screen keyboard, per-control gamepad audit

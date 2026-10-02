@@ -97,7 +97,7 @@ namespace Farm.Tests
 
             // MapLoaded fired, and the atmosphere layer it pushed darkens the real scene light.
             Assert.AreEqual(MapIds.Farm, _module.LoadedMap);
-            var light = UnityEngine.Object.FindFirstObjectByType<Light2D>();
+            var light = UnityEngine.Object.FindAnyObjectByType<Light2D>();
             Assert.Less(light.color.r, 0.05f, "atmosphere layer should tint the day/night light");
 
             // The HUD widget was built and refreshed by the UI layer.
@@ -123,7 +123,7 @@ namespace Farm.Tests
             var session = ServiceLocator.Get<GameSession>();
             yield return LoadFarm(session);
 
-            var warp = UnityEngine.Object.FindObjectsByType<Warp>(FindObjectsSortMode.None).First(w => w.TargetMap == MapIds.FarmHouse);
+            var warp = UnityEngine.Object.FindObjectsByType<Warp>().First(w => w.TargetMap == MapIds.FarmHouse);
             Assert.IsTrue(warp.IsOpen(out _), "no condition means always open");
 
             warp.Condition = "flag:test.open && hour>=6";
@@ -132,7 +132,7 @@ namespace Farm.Tests
 
             var toasts = new System.Collections.Generic.List<string>();
             ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(e => toasts.Add(e.Message));
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             var enter = typeof(Warp).GetMethod("OnTriggerEnter2D", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             enter.Invoke(warp, new object[] { player.GetComponent<Collider2D>() });
             yield return null;

@@ -10,6 +10,8 @@
 | [`BUILD.md`](BUILD.md) | Setup, test/build commands, QA flags, running players | developers, agents |
 | [`QA.md`](QA.md) | Automated checks and the manual smoke checklist | testers, agents |
 | [`ASSET_LICENSES.md`](ASSET_LICENSES.md) | Licenses of art, audio, fonts and third-party code | everyone |
+| [`ART_ASSETS.md`](ART_ASSETS.md) | Every visual asset still to be created or replaced (placeholders and missing art) | artists, T-060 |
+| [`art_prompts/`](art_prompts/README.md) | Text prompts for generating consistent cozy sprite sheets, plus the style guide | artists, T-060 |
 | [`adr/0001-m1-design-deviations.md`](adr/0001-m1-design-deviations.md) | Where the build differs from the original design, and lessons learned | developers |
 | [`adr/0002-mythos-extension-points.md`](adr/0002-mythos-extension-points.md) | The hooks that let the horror layer plug in, and the rules for them | developers, agents |
 | [`mythos/LORE.md`](mythos/LORE.md) | Draft lore bible for the horror layer (needs owner decisions) | design |

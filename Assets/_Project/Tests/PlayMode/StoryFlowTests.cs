@@ -56,7 +56,7 @@ namespace Farm.Tests
         }
 
         IEnumerator Tap(Key k) { Press(_kb[k]); yield return null; Release(_kb[k]); yield return null; }
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
         static UiService Ui => ServiceLocator.Get<UiService>();
 
         [UnityTest]
@@ -90,7 +90,7 @@ namespace Farm.Tests
             yield return Tap(Key.E);
             for (var i = 0; i < 3; i++) yield return null;
             Assert.IsTrue(Ui.AnyModalOpen, "the board opens; player at " + Player.transform.position + " map " + SceneManager.GetActiveScene().name + " toasts");
-            var deliver = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).First(b => b.gameObject.activeInHierarchy && b.name == "Deliver");
+            var deliver = UnityEngine.Object.FindObjectsByType<Button>().First(b => b.gameObject.activeInHierarchy && b.name == "Deliver");
             var gold = _s.State.Gold;
             deliver.onClick.Invoke();
             Assert.AreEqual(gold + 90, _s.State.Gold);

@@ -57,7 +57,7 @@ namespace Farm.Gameplay
             }
 
             // The arrival cell, and the stairs.
-            foreach (var sp in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None))
+            foreach (var sp in FindObjectsByType<SpawnPoint>())
                 if (sp.Id == "default") sp.transform.position = map.CellCenter(new Vector3Int(_floor.Spawn.x, _floor.Spawn.y, 0));
 
             AddStairs(MineStairs.StairKind.Up, _floor.Spawn.x - 1, _floor.Spawn.y);

@@ -57,7 +57,7 @@ namespace Farm.Tests
         }
 
         IEnumerator Tap(Key k) { Press(_kb[k]); yield return null; Release(_kb[k]); yield return null; }
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
 
         void Select(string itemId) =>
             _s.State.SelectedHotbar = Enumerable.Range(0, _s.Backpack.Capacity).First(i => _s.Backpack.Get(i)?.ItemId == itemId);
@@ -70,8 +70,8 @@ namespace Farm.Tests
             Assert.IsNotNull(mine);
             Assert.AreEqual(1, mine.Floor.Floor);
             Assert.AreEqual(mine.Floor.Enemies.Count, EnemyManager.Current.Enemies.Count);
-            Assert.IsTrue(UnityEngine.Object.FindObjectsByType<MineStairs>(FindObjectsSortMode.None).Any(x => x.Kind == MineStairs.StairKind.Down));
-            Assert.IsTrue(UnityEngine.Object.FindObjectsByType<MineStairs>(FindObjectsSortMode.None).Any(x => x.Kind == MineStairs.StairKind.Up));
+            Assert.IsTrue(UnityEngine.Object.FindObjectsByType<MineStairs>().Any(x => x.Kind == MineStairs.StairKind.Down));
+            Assert.IsTrue(UnityEngine.Object.FindObjectsByType<MineStairs>().Any(x => x.Kind == MineStairs.StairKind.Up));
             var spawn = mine.Floor.Spawn;
             Assert.Less(Vector2.Distance(Player.transform.position, new Vector2(spawn.x + 0.5f, spawn.y + 0.5f)), 1f, "the player arrives at the floor's spawn");
         }
@@ -123,7 +123,7 @@ namespace Farm.Tests
         {
             yield return StartMine(4);
             var ladder = MineController.Current.Floor.Ladder.Value;
-            var down = UnityEngine.Object.FindObjectsByType<MineStairs>(FindObjectsSortMode.None).First(x => x.Kind == MineStairs.StairKind.Down);
+            var down = UnityEngine.Object.FindObjectsByType<MineStairs>().First(x => x.Kind == MineStairs.StairKind.Down);
             down.Interact(Player.GetComponent<PlayerActions>());
             var start = Time.realtimeSinceStartup;
             while (MineController.Current == null || MineController.Current.Floor.Floor != 5 || Time.realtimeSinceStartup - start < 0.5f)

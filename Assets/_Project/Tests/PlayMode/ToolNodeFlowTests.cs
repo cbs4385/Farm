@@ -64,8 +64,8 @@ namespace Farm.Tests
             yield return null;
         }
 
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
-        static FarmMapView View => UnityEngine.Object.FindFirstObjectByType<FarmMapView>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+        static FarmMapView View => UnityEngine.Object.FindAnyObjectByType<FarmMapView>();
 
         static Vector3Int Target => new Vector3Int(31, 6, 0);
 

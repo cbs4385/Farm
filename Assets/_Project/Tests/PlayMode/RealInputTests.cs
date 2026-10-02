@@ -59,7 +59,7 @@ namespace Farm.Tests
             while (!op.isDone) yield return null;
             for (var i = 0; i < 10; i++) yield return null;
 
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
             player.Face(Vector2Int.right);
             yield return null;
@@ -98,7 +98,7 @@ namespace Farm.Tests
             var toasts = new System.Collections.Generic.List<string>();
             ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(e => toasts.Add(e.Message));
 
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
             player.Face(Vector2Int.right);
             yield return null;
@@ -140,7 +140,7 @@ namespace Farm.Tests
             var events = new System.Collections.Generic.List<EnergyActionCompleted>();
             ServiceLocator.Get<EventBus>().Subscribe<EnergyActionCompleted>(events.Add);
 
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
             player.Face(Vector2Int.right);
             yield return null;
@@ -228,7 +228,7 @@ namespace Farm.Tests
             while (!op.isDone) yield return null;
             for (var i = 0; i < 10; i++) yield return null;
 
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
             player.Face(Vector2Int.right);
             yield return null;

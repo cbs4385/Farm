@@ -53,7 +53,7 @@ namespace Farm.Tests
             GameSession session = null;
             yield return Start("rain", MapIds.Farm, s => session = s);
 
-            var effects = UnityEngine.Object.FindFirstObjectByType<WeatherEffects>();
+            var effects = UnityEngine.Object.FindAnyObjectByType<WeatherEffects>();
             Assert.IsNotNull(effects, "outdoor maps get weather effects");
             Assert.AreEqual("rain", effects.Shown.Id);
             Assert.Greater(effects.ActiveParticles, 50);
@@ -74,7 +74,7 @@ namespace Farm.Tests
         public IEnumerator ParticlesStayInsideTheView_AndMove()
         {
             yield return Start("snow", MapIds.Farm, _ => { });
-            var effects = UnityEngine.Object.FindFirstObjectByType<WeatherEffects>();
+            var effects = UnityEngine.Object.FindAnyObjectByType<WeatherEffects>();
             var cam = Camera.main;
             var renderers = effects.GetComponentsInChildren<SpriteRenderer>();
 
@@ -100,7 +100,7 @@ namespace Farm.Tests
         public IEnumerator Indoors_HasNoWeatherEffects()
         {
             yield return Start("rain", MapIds.FarmHouse, _ => { });
-            Assert.IsNull(UnityEngine.Object.FindFirstObjectByType<WeatherEffects>());
+            Assert.IsNull(UnityEngine.Object.FindAnyObjectByType<WeatherEffects>());
         }
 
         [UnityTest]

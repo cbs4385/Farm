@@ -73,7 +73,7 @@ namespace Farm.Tests
         public IEnumerator LeftStick_WalksThePlayer_AndFacesTheDirection()
         {
             yield return StartFarm();
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
             player.Face(Vector2Int.down);
             yield return null;
@@ -98,7 +98,7 @@ namespace Farm.Tests
         public IEnumerator DPad_AlsoWalks()
         {
             yield return StartFarm();
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
             yield return null;
             var startX = player.transform.position.x;
@@ -132,7 +132,7 @@ namespace Farm.Tests
         {
             GameSession s = null;
             yield return StartFarm(session => s = session);
-            var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
             player.Face(Vector2Int.right);
             yield return null;
@@ -225,7 +225,7 @@ namespace Farm.Tests
             yield return null;
 
             // The Interact row: a label plus a button showing the current key.
-            var row = UnityEngine.Object.FindObjectsByType<RectTransform>(FindObjectsSortMode.None)
+            var row = UnityEngine.Object.FindObjectsByType<RectTransform>()
                 .First(r => r.gameObject.activeInHierarchy && r.name == L.Get("action.Interact"));
             var button = row.GetComponentInChildren<Button>();
             Assert.IsNotNull(button);
@@ -274,7 +274,7 @@ namespace Farm.Tests
             yield return null;
             yield return null;
 
-            var slots = UnityEngine.Object.FindObjectsByType<InventorySlotDrag>(FindObjectsSortMode.None)
+            var slots = UnityEngine.Object.FindObjectsByType<InventorySlotDrag>()
                 .OrderBy(d => d.transform.GetSiblingIndex()).ToList();
             Assert.GreaterOrEqual(slots.Count, 8);
 
@@ -305,7 +305,7 @@ namespace Farm.Tests
             ui.ToggleInventory();
             yield return null;
             yield return null;
-            var slots = UnityEngine.Object.FindObjectsByType<InventorySlotDrag>(FindObjectsSortMode.None)
+            var slots = UnityEngine.Object.FindObjectsByType<InventorySlotDrag>()
                 .OrderBy(d => d.transform.GetSiblingIndex()).ToList();
             var first = s.Backpack.Get(0).ItemId;
 
@@ -327,7 +327,7 @@ namespace Farm.Tests
             ui.ToggleInventory();
             yield return null;
             yield return null;
-            var slots = UnityEngine.Object.FindObjectsByType<InventorySlotDrag>(FindObjectsSortMode.None)
+            var slots = UnityEngine.Object.FindObjectsByType<InventorySlotDrag>()
                 .OrderBy(d => d.transform.GetSiblingIndex()).ToList();
             var data = new PointerEventData(EventSystem.current) { position = new Vector2(5, 5) };
             ExecuteEvents.Execute(slots[10].gameObject, data, ExecuteEvents.beginDragHandler);   // slot 10 is empty

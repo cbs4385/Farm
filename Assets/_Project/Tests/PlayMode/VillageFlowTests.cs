@@ -59,7 +59,7 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
         }
 
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
 
         IEnumerator WaitForMap(string map)
         {
@@ -72,7 +72,7 @@ namespace Farm.Tests
         static void StandOn(Warp warp) => Player.transform.position = warp.transform.position;
 
         static Warp WarpTo(string target) =>
-            UnityEngine.Object.FindObjectsByType<Warp>(FindObjectsSortMode.None).First(w => w.TargetMap == target);
+            UnityEngine.Object.FindObjectsByType<Warp>().First(w => w.TargetMap == target);
 
         // ---- travelling -------------------------------------------------------------------------------------------
 
@@ -215,7 +215,7 @@ namespace Farm.Tests
             yield return Start(MapIds.Forest, "default", 1, 10);
             _session.SetFlag(MapIds.WoodsOpenFlag);
             for (var i = 0; i < 3; i++) yield return null;
-            var brambles = UnityEngine.Object.FindFirstObjectByType<ConditionalObject>();
+            var brambles = UnityEngine.Object.FindAnyObjectByType<ConditionalObject>();
             Assert.IsFalse(brambles.transform.GetChild(0).gameObject.activeSelf, "the brambles are gone");
 
             Player.transform.position = new Vector3(19.5f, 22.5f, 0f);
@@ -228,9 +228,9 @@ namespace Farm.Tests
         public IEnumerator TheWoods_HoldTheAltar_TheStonesAndTheThreeRelics()
         {
             yield return Start(MapIds.Woods, "default", 1, 10);
-            Assert.AreEqual(1, UnityEngine.Object.FindObjectsByType<Farm.Mythos.AltarObject>(UnityEngine.FindObjectsSortMode.None).Length);
-            Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.LoreStone>(UnityEngine.FindObjectsSortMode.None).Length);
-            Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.RelicPickup>(UnityEngine.FindObjectsSortMode.None).Length);
+            Assert.AreEqual(1, UnityEngine.Object.FindObjectsByType<Farm.Mythos.AltarObject>().Length);
+            Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.LoreStone>().Length);
+            Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.RelicPickup>().Length);
         }
     }
 }

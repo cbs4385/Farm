@@ -62,7 +62,7 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
         }
 
-        static PlayerController Player => UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
         static IUiService Ui => ServiceLocator.Get<IUiService>();
 
         IEnumerator UseCounterAt(float x, float y)
@@ -77,10 +77,10 @@ namespace Farm.Tests
         }
 
         static Button Find(string row, string text) =>
-            UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+            UnityEngine.Object.FindObjectsByType<Button>()
                 .FirstOrDefault(b => b.gameObject.activeInHierarchy && b.name == text && b.transform.parent.name == row);
 
-        static void CloseAll() => UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+        static void CloseAll() => UnityEngine.Object.FindObjectsByType<Button>()
             .First(b => b.gameObject.activeInHierarchy && b.name == "Close").onClick.Invoke();
 
         // ---- the blacksmith ---------------------------------------------------------------------------------------
@@ -167,7 +167,7 @@ namespace Farm.Tests
             Ui.ToggleInventory();
             yield return null;
             yield return null;
-            var slots = UnityEngine.Object.FindObjectsByType<Farm.UI.InventorySlotDrag>(FindObjectsSortMode.None);
+            var slots = UnityEngine.Object.FindObjectsByType<Farm.UI.InventorySlotDrag>();
             Assert.AreEqual(24, slots.Count(s => s.gameObject.activeInHierarchy), "the backpack screen shows every slot");
         }
 
