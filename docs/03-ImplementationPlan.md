@@ -69,7 +69,7 @@ Every task below must also meet the extension-point rule in the Definition of Do
 
 | ID | Task | Deps | Deliverables / AC | Hooks (ADR 0002) |
 |---|---|---|---|---|
-| **T-043** | **Developer/QA tools** (development builds only): in-game console or hotkeys to skip time (hour/day/season), set weather, set/clear flags and variables, give items/gold, teleport; launch flag `-farmDebug`; stripped from release | T-011 | Season change, rain, passing out, flags testable in seconds; excluded from release builds (test) | Set flags/vars through `GameSession` |
+| **T-043** | **Developer/QA tools** (DONE): developer console (F1) and `-farmCommands` in development builds and the Editor: skip time, jump to a date or season, set weather, set flags and variables, give items/gold/energy, teleport; development builds go to `BuildsDev/`; stripped from release by `#if` and a build-time guard | T-011 | Done: 21 command tests, a PlayMode test with a real F1 press, guard tests; release builds verified free of debug types (Windows and Linux), development build verified to contain them | Sets flags/vars through `GameSession` |
 | T-030 | Weather system (sunny/rain/storm/snow/wind): **weather as data** (`WeatherDefinition`: id, name key, tint, particles, waters crops...), deterministic roll, forecast, VFX, lighting from the definition | T-017 | Deterministic with seed; tests; no weather special cases in lighting code | Weather is rolled from a **weighted table** so modules can bias the odds (dread leans toward worse weather) as well as override the result; modifiers and new weather definitions can be added by modules |
 | T-031 | Village, Forest, Beach maps + 6 building interiors (placeholder art, colliders, warps, ambience); move the general store into the village (stock from `ShopCatalog`, shop id `general`); **businesses keep hours suited to their type, with a regular weekly day off** (`BusinessHours` and `BusinessHoursRegistry` exist; the condition `open:<shopId>` gates door warps and shop screens; a closed shop explains itself; table in GDD decision AF, already registered in `BusinessHoursRegistry.RegisterDefaults`) | T-014 | All warps round-trip; no stuck spots | Forest has a condition-gated warp slot for a future Woods map (closed in the base game); map ids reserved |
 | T-032 | Skills + XP + levels, tool upgrades, energy/backpack upgrades, axe/pickaxe/scythe interactions with trees/rocks/weeds | T-015 | Skill XP persisted; upgrade flow end-to-end | - |
@@ -162,8 +162,8 @@ The horror layer ships with the game (GDD section 8-9). All content lives in `Fa
 - [ ] Story state (flags, variables, module data) loads from saves of every earlier milestone
 
 ## Suggested next agent actions (start here)
-1. **T-043** (developer/QA tools) first: it makes every later check faster (skip days, set flags).
-2. In parallel: **T-030** (weather as data), **T-031** (village maps) and **T-034** (dialogue ADR + system).
+1. ~~T-043 (developer/QA tools)~~ is done: use it to skip days and set flags while building the rest.
+2. Next, in parallel: **T-030** (weather as data), **T-031** (village maps) and **T-034** (dialogue ADR + system).
 3. Then **T-035** (NPC framework, needs T-031 and T-034), with **T-040** (validator) growing alongside, **T-044** as soon as NPCs exist, and T-036/T-039/T-041 after that.
 4. Alongside M2, finish the lore bible (X-000) as soon as the owner answers the remaining open questions in GDD section 9 (the draft already holds the decided names, numbers and ritual rules), so Milestone 3b can start the moment NPCs, dialogue and events exist.
 5. Update `docs/STATUS.md` and the QA checklist as each lands.

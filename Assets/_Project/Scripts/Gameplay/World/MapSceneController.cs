@@ -52,7 +52,33 @@ namespace Farm.Gameplay
             });
 
             StartCoroutine(OpenRequestedScreen());
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            RunStartupCommands();
+#endif
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        static bool _startupCommandsRan;
+
+        // Development builds only: `-farmCommands "date summer 15;time 22:30"` runs developer commands once at start,
+        // so QA runs can reach a particular state (see docs/QA.md).
+        void RunStartupCommands()
+        {
+            var text = CommandLine.GetArg("-farmCommands");
+            if (_startupCommandsRan || string.IsNullOrEmpty(text)) return;
+            _startupCommandsRan = true;
+
+            var processor = new DebugCommandProcessor(_session);
+            var reload = false;
+            foreach (var line in text.Split(';'))
+            {
+                var result = processor.Execute(line);
+                Log.Info($"[farmCommands] {line} -> {(result.Ok ? "ok" : "FAILED")}: {result.Message}");
+                reload |= result.Ok && result.ReloadScene;
+            }
+            if (reload) ServiceLocator.Get<SceneLoader>().Load(_session.State.CurrentMap, 0f);
+        }
+#endif
 
         // QA aid: `-farmOpen inventory|shop|pause|options|summary|sleep` opens a screen shortly after the scene starts.
         System.Collections.IEnumerator OpenRequestedScreen()

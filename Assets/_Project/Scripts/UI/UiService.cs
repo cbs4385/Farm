@@ -103,7 +103,19 @@ namespace Farm.UI
             ApplyUiScale(settings.TextScale);
             _hud = new HudView(this, _hudCanvas.transform);
             SetHudVisible(_hudVisible);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (CommandLine.GetArg("-farmOpen") == "console") StartCoroutine(OpenConsoleSoon());
+#endif
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        // QA aid for development builds: `-farmOpen console` opens the developer console shortly after start.
+        System.Collections.IEnumerator OpenConsoleSoon()
+        {
+            for (var i = 0; i < 20; i++) yield return null;
+            if (_modals.Count == 0) DebugConsole.Open();
+        }
+#endif
 
         // Text size option: scales the whole UI by shrinking the canvas reference resolution.
         public void ApplyUiScale(float scale)
@@ -128,8 +140,26 @@ namespace Farm.UI
             module.scrollWheel = InputActionReference.Create(_input.Ui[InputNames.ScrollWheel]);
         }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        DebugConsoleScreen _debugConsole;
+
+        // Developer console (T-043): F1 or the backtick key. Compiled out of release builds.
+        public DebugConsoleScreen DebugConsole => _debugConsole ?? (_debugConsole = new DebugConsoleScreen(this));
+
+        public void ToggleDebugConsole()
+        {
+            if (DebugConsole.IsOpen) DebugConsole.Close();
+            else if (_modals.Count == 0) DebugConsole.Open();    // never stacked on top of another screen
+        }
+#endif
+
         void Update()
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            var keyboard = Keyboard.current;
+            if (keyboard != null && (keyboard.f1Key.wasPressedThisFrame || keyboard.backquoteKey.wasPressedThisFrame))
+                ToggleDebugConsole();
+#endif
             if (_modals.Count == 0) return;
             var top = _modals[_modals.Count - 1];
             top.Tick();

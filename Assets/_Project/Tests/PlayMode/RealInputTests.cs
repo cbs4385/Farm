@@ -4,6 +4,7 @@ using System.IO;
 using Farm.Core;
 using Farm.Data;
 using Farm.Gameplay;
+using Farm.UI;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -157,6 +158,57 @@ namespace Farm.Tests
             yield return Tap(_keyboard.digit3Key);   // axe has no target: nothing happens
             yield return Tap(_keyboard.cKey);
             Assert.AreEqual(2, events.Count);
+        }
+
+        [UnityTest]
+        public IEnumerator F1_Opens_The_Developer_Console_And_Commands_Change_The_Running_Game()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var session = ServiceLocator.Get<GameSession>();
+            session.BeginNewGame("Tester", "Test Farm", 0);
+            var op = SceneManager.LoadSceneAsync(MapIds.Farm);
+            while (!op.isDone) yield return null;
+            for (var i = 0; i < 10; i++) yield return null;
+
+            var ui = ServiceLocator.Get<UiService>();
+            var input = ServiceLocator.Get<InputService>();
+            Assert.IsFalse(ui.AnyModalOpen);
+
+            yield return Tap(_keyboard.f1Key);
+            Assert.IsTrue(ui.AnyModalOpen, "F1 opens the console");
+            Assert.IsTrue(ui.DebugConsole.IsOpen);
+            Assert.IsTrue(input.GameplayBlocked, "the player cannot walk around while typing");
+
+            Assert.IsTrue(ui.DebugConsole.Submit("gold 1234").Ok);
+            Assert.AreEqual(1234, session.State.Gold);
+            Assert.IsTrue(ui.DebugConsole.Submit("var dread 12").Ok);
+            Assert.AreEqual(12, session.GetVar("dread"));
+            Assert.IsFalse(ui.DebugConsole.Submit("nonsense").Ok);
+
+            yield return Tap(_keyboard.f1Key);
+            Assert.IsFalse(ui.AnyModalOpen, "F1 closes it again");
+            Assert.IsFalse(input.GameplayBlocked);
+
+            // F1 never stacks on top of another screen.
+            ui.ToggleInventory();
+            yield return null;
+            yield return Tap(_keyboard.f1Key);
+            Assert.IsFalse(ui.DebugConsole.IsOpen);
+            ui.ToggleInventory();
+            yield return null;
+
+            // Skipping a day runs the real overnight logic and reloads the map into the farmhouse.
+            yield return Tap(_keyboard.f1Key);
+            var startDay = session.Clock.Now.Day;
+            Assert.IsTrue(ui.DebugConsole.Submit("day 2").Ok);
+            Assert.AreEqual(startDay + 2, session.Clock.Now.Day);
+            var loader = ServiceLocator.Get<SceneLoader>();
+            var start = Time.realtimeSinceStartup;
+            while ((SceneManager.GetActiveScene().name != MapIds.FarmHouse || loader.IsLoading) && Time.realtimeSinceStartup - start < 10f)
+                yield return null;
+            Assert.AreEqual(MapIds.FarmHouse, SceneManager.GetActiveScene().name);
+            Assert.IsFalse(ui.AnyModalOpen, "the console closed itself before the reload");
         }
 
         [UnityTest]

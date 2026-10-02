@@ -11,7 +11,7 @@ namespace Farm.Editor
     // T-005: command-line builds. See docs/BUILD.md.
     //   Unity -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildWindows
     //   Unity -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildLinux
-    // Optional args: -scriptingBackend il2cpp|mono (default mono), -development, -buildOutput <dir>
+    // Optional args: -scriptingBackend il2cpp|mono (default mono), -development (includes the developer tools; output defaults to BuildsDev), -buildOutput <dir>
     public static class BuildScript
     {
         const string ExecutableName = "Farm";
@@ -43,7 +43,8 @@ namespace Farm.Editor
 
         static void Build(BuildTarget target, string folder, string exe)
         {
-            var outputRoot = GetArg("-buildOutput") ?? "Builds";
+            // Development builds (which include the developer tools) go to their own folder by default.
+            var outputRoot = GetArg("-buildOutput") ?? (HasFlag("-development") ? "BuildsDev" : "Builds");
             BuildTo(target, Path.Combine(outputRoot, folder, PlayerSettings.bundleVersion), exe);
         }
 
@@ -80,6 +81,14 @@ namespace Farm.Editor
                 Debug.Log($"[BuildScript] {target}: {summary.result}, {summary.totalErrors} errors, " +
                           $"{summary.totalSize / (1024 * 1024)} MB, backend {backend}, output {outDir}");
                 if (summary.result != BuildResult.Succeeded) Fail($"Build failed: {summary.result}");
+
+                // Release builds must not contain the developer tools (T-043).
+                if ((options & BuildOptions.Development) == 0)
+                {
+                    var leaks = ReleaseGuard.Scan(outDir);
+                    if (leaks.Count > 0) Fail("Developer tools found in a release build: " + string.Join("; ", leaks));
+                    Debug.Log("[BuildScript] Release guard: no developer tools in the output.");
+                }
             }
             finally
             {

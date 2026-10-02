@@ -29,11 +29,14 @@ Run on Windows and Linux. Keyboard/mouse first, then gamepad. Items marked (veri
 9. Interact on the shipping bin with a crop selected; sleep: summary lists it and gold increases (verified).
 10. Shop stall (blue box): buy seeds; gold drops; "backpack full" and "not enough gold" messages (buying verified).
 11. Tab/I opens the backpack; select a slot then another to move items; Esc closes.
-12. Stay up until 2:00 AM: pass out, lose some gold, wake in bed at 75% energy.
+12. Stay up until 2:00 AM: pass out, lose some gold, wake in bed at 75% energy. (Development build: `time 01:40`, then `skip 20`.)
 13. Esc pauses: Save Game, Options (sliders, scrolling, resolution, fullscreen, UI size, rebind a key), Main Menu.
 14. Quit to menu -> Continue loads the latest save; also after closing and restarting the game (verified).
-15. Spring 28 -> Summer 1: spring crops wither. (Use the developer tools of T-043 once they exist.)
-16. Rain day: soil already watered, bluish tint.
+15. Spring 28 -> Summer 1: spring crops wither. (Development build: plant crops, then `date summer 1`.)
+16. Rain day: soil already watered, bluish tint. (Development build: `weather rain`.)
+
+## Developer tools (development builds and the Editor)
+F1 opens the console (see `docs/BUILD.md`). Use it to reach states quickly: `date summer 15` + `time 22:30` for a full-moon night, `var dread 40`, `weather rain`, `give seed.parsnip 20`, `gold 5000`, `tp FarmHouse bed`. **Never test a release build with these**; they are absent from it (the build fails if any leak in).
 
 ## Extension points and horror layer (use from M2 onward)
 - With `HorrorLevel` 0, play a scripted day and compare state with a build/run that has no modules: identical (T-044 automates this).

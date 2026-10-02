@@ -204,6 +204,15 @@ namespace Farm.Gameplay
             return true;
         }
 
+        public void SetEnergy(int value)
+        {
+            State.Energy = Mathf.Clamp(value, 0, State.MaxEnergy);
+            _bus.Publish(new StatsChanged());
+        }
+
+        // Tells the HUD to redraw (used by tools that change the clock or other state directly).
+        public void NotifyChanged() => _bus.Publish(new StatsChanged());
+
         public void RestoreEnergy(int amount)
         {
             State.Energy = Mathf.Min(State.MaxEnergy, State.Energy + amount);
