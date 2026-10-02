@@ -51,6 +51,11 @@ namespace Farm.Gameplay
                 MapId = _map.MapId, Session = _session, Map = _map, View = _view, Player = _player, Camera = _camera,
             });
 
+            // Outdoor maps show the day's weather (rain, snow, wind...) drawn from its WeatherDefinition.
+            var lighting = FindFirstObjectByType<DayNightLighting>();
+            if (lighting == null || !lighting.IsIndoor)
+                new GameObject("WeatherEffects").AddComponent<WeatherEffects>();
+
             StartCoroutine(OpenRequestedScreen());
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             RunStartupCommands();

@@ -20,8 +20,11 @@ namespace Farm.Gameplay
 
     public static class WeatherIds
     {
-        public const string Sunny = "sunny";
-        public const string Rain = "rain";
+        public const string Sunny = WeatherDefaults.Sunny;
+        public const string Rain = WeatherDefaults.Rain;
+        public const string Storm = WeatherDefaults.Storm;
+        public const string Snow = WeatherDefaults.Snow;
+        public const string Wind = WeatherDefaults.Wind;
     }
 
     // Everything that happens between one morning and the next. Pure logic so it can be tested without a scene.
@@ -30,13 +33,9 @@ namespace Farm.Gameplay
         public const string BedSpawn = "bed";
         static readonly float[] QualityMultiplier = { 1f, 1.25f, 1.5f, 2f };
 
-        // Deterministic weather: same date always gives the same weather. M1 only has sunny/rain; T-030 extends it.
-        public static string RollWeather(GameDateTime date)
-        {
-            if (date.TotalDays < 2 || date.Season == Season.Winter) return WeatherIds.Sunny;
-            var h = (uint)(date.TotalDays * 2654435761u);
-            return (h >> 16) % 100 < 20 ? WeatherIds.Rain : WeatherIds.Sunny;
-        }
+        // The base roll for a date from the built-in weather table (seed 0, no modules). The game itself rolls
+        // through WeatherRoller with the save's seed, the loaded weather data and the module hooks.
+        public static string RollWeather(GameDateTime date) => WeatherRoller.Roll(date, WeatherCatalog.BuiltIn, 0);
 
         public static int SellValue(ItemDefinition item, int quality, int count)
         {
@@ -51,8 +50,10 @@ namespace Farm.Gameplay
             Func<string, ItemDefinition> itemLookup,
             Func<string, CropDefinition> cropLookup,
             bool passedOut,
-            GameHooks hooks = null)
+            GameHooks hooks = null,
+            WeatherCatalog weather = null)
         {
+            weather = weather ?? WeatherCatalog.BuiltIn;
             var summary = new DaySummary { PassedOut = passedOut };
             var context = new DayCycleContext
             {
@@ -76,7 +77,7 @@ namespace Farm.Gameplay
             hooks?.RunNightFalls(context);
 
             // 2. Crops grow (or die in the new season) using today's weather.
-            var rainedToday = state.Weather == WeatherIds.Rain;
+            var rainedToday = weather.Get(state.Weather).WateringCrops;
             var newSeason = clock.Now.StartOfNextDay().Season;
             foreach (var grid in grids.Values)
                 summary.CropsDied += grid.AdvanceDay(newSeason, rainedToday, cropLookup, context.World);
@@ -85,11 +86,15 @@ namespace Farm.Gameplay
             clock.StartNextDay(passedOut);
             summary.NewDate = clock.Now;
 
-            // 4. Tomorrow's weather.
-            state.Weather = RollWeather(clock.Now);
-            if (hooks != null) state.Weather = hooks.ApplyWeather(clock.Now, state.Weather, state);
+            // 4. The new day's weather is the forecast made yesterday (rolled now if there is none, e.g. after a date
+            // jump), which modules may still override. Then the next day is forecast.
+            var rolled = !string.IsNullOrEmpty(state.ForecastWeather)
+                ? state.ForecastWeather
+                : WeatherRoller.Roll(clock.Now, weather, state.WorldSeed, hooks, state);
+            state.Weather = hooks != null ? hooks.ApplyWeather(clock.Now, rolled, state) : rolled;
+            state.ForecastWeather = WeatherRoller.Roll(clock.Now.StartOfNextDay(), weather, state.WorldSeed, hooks, state);
             summary.NewWeather = state.Weather;
-            if (state.Weather == WeatherIds.Rain)
+            if (weather.Get(state.Weather).WateringCrops)
                 foreach (var grid in grids.Values) grid.WaterAll();
 
             // 5. Rest.

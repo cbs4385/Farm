@@ -26,7 +26,7 @@ namespace Farm.UI
         readonly Queue<string> _toasts = new Queue<string>();
         readonly List<IHudWidget> _widgets = new List<IHudWidget>();
 
-        TextMeshProUGUI _date, _time, _weather, _gold, _energyLabel, _toast;
+        TextMeshProUGUI _date, _time, _weather, _forecast, _gold, _energyLabel, _toast;
         Image _energyFill;
         bool _dirty = true;
         float _toastTimer;
@@ -64,12 +64,13 @@ namespace Farm.UI
         void BuildClockPanel(Transform canvas)
         {
             var panel = UiKit.Panel(canvas, "ClockPanel", UiKit.PanelColor);
-            UiKit.Place(panel.rectTransform, new Vector2(1, 1), new Vector2(1, 1), new Vector2(190, 118), new Vector2(-10, -10));
+            UiKit.Place(panel.rectTransform, new Vector2(1, 1), new Vector2(1, 1), new Vector2(190, 136), new Vector2(-10, -10));
             var stack = UiKit.VStack(panel.transform, "Stack", 2f, 8);
             UiKit.Stretch((RectTransform)stack.transform);
             _date = UiKit.Label(stack.transform, "", 17f, TextAlignmentOptions.Right);
             _time = UiKit.Label(stack.transform, "", 24f, TextAlignmentOptions.Right, UiKit.Accent);
             _weather = UiKit.Label(stack.transform, "", 15f, TextAlignmentOptions.Right, UiKit.DimText);
+            _forecast = UiKit.Label(stack.transform, "", 13f, TextAlignmentOptions.Right, UiKit.DimText);
             _gold = UiKit.Label(stack.transform, "", 20f, TextAlignmentOptions.Right);
         }
 
@@ -155,6 +156,8 @@ namespace Farm.UI
             _date.text = L.Get("hud.date", L.Get(DayKeys[d.DayOfWeek]), d.Day, L.Get(SeasonKeys[(int)d.Season]));
             _time.text = d.ClockString();
             _weather.text = L.Get("weather." + s.State.Weather);
+            _forecast.text = string.IsNullOrEmpty(s.State.ForecastWeather) ? string.Empty
+                : L.Get("hud.forecast", L.Get("weather." + s.State.ForecastWeather));
             _gold.text = L.Get("hud.gold", s.State.Gold);
 
             var fraction = s.State.MaxEnergy > 0 ? Mathf.Clamp01((float)s.State.Energy / s.State.MaxEnergy) : 0f;

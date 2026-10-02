@@ -11,27 +11,33 @@ namespace Farm.Data
 
         [SerializeField] List<ItemDefinition> _items = new List<ItemDefinition>();
         [SerializeField] List<CropDefinition> _crops = new List<CropDefinition>();
+        [SerializeField] List<WeatherDefinition> _weather = new List<WeatherDefinition>();
 
         Dictionary<string, ItemDefinition> _itemLookup;
         Dictionary<string, CropDefinition> _cropLookup;
         readonly List<ItemDefinition> _runtimeItems = new List<ItemDefinition>();
         readonly List<CropDefinition> _runtimeCrops = new List<CropDefinition>();
+        readonly List<WeatherDefinition> _runtimeWeather = new List<WeatherDefinition>();
 
         public IReadOnlyList<ItemDefinition> Items => _items;
         public IReadOnlyList<CropDefinition> Crops => _crops;
 
-        public static GameDatabase Create(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops)
+        public static GameDatabase Create(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
+            IEnumerable<WeatherDefinition> weather = null)
         {
             var db = CreateInstance<GameDatabase>();
             db._items.AddRange(items);
             db._crops.AddRange(crops);
+            if (weather != null) db._weather.AddRange(weather);
             return db;
         }
 
-        public void SetContents(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops)
+        public void SetContents(IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
+            IEnumerable<WeatherDefinition> weather = null)
         {
             _items = new List<ItemDefinition>(items);
             _crops = new List<CropDefinition>(crops);
+            _weather = weather != null ? new List<WeatherDefinition>(weather) : new List<WeatherDefinition>();
             _itemLookup = null;
             _cropLookup = null;
         }
@@ -66,7 +72,30 @@ namespace Farm.Data
                 _cropLookup[crop.Id] = crop;
                 _runtimeCrops.Add(crop);
             }
+            var known = new HashSet<string>();
+            foreach (var w in AllWeather) known.Add(w.Id);
+            foreach (var weather in pack.Weather)
+            {
+                if (weather == null) continue;
+                if (!known.Add(weather.Id))
+                {
+                    Debug.LogError($"[GameDatabase] Pack '{pack.PackId}' redefines weather '{weather.Id}'; skipped.");
+                    rejected++;
+                    continue;
+                }
+                _runtimeWeather.Add(weather);
+            }
             return rejected;
+        }
+
+        // Every weather definition, including merged pack weather. Empty means "use WeatherDefaults".
+        public IEnumerable<WeatherDefinition> AllWeather
+        {
+            get
+            {
+                foreach (var w in _weather) if (w != null) yield return w;
+                foreach (var w in _runtimeWeather) yield return w;
+            }
         }
 
         // Every item including merged pack items (Items lists only the core asset's own content).

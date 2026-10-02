@@ -63,6 +63,14 @@ namespace Farm.Gameplay
         string Modify(GameDateTime date, string weather, GameState state);
     }
 
+    // Reshapes the odds of tomorrow's weather before it is rolled (more storms as dread rises, a module's own
+    // weather added with Add). The roll stays deterministic for a given result of the modifiers.
+    public interface IWeatherWeightModifier
+    {
+        int Order { get; }
+        void Adjust(GameDateTime date, WeatherWeights weights, GameState state);
+    }
+
     // Adjusts the player's luck, a value from -1 (very unlucky) to +1 (very lucky), 0 being neutral. Systems that roll
     // for good or bad outcomes (forage quality, drops, random events, fishing) read GameSession.Luck.
     public interface ILuckModifier
@@ -92,6 +100,7 @@ namespace Farm.Gameplay
     {
         readonly List<IDayCycleHook> _dayCycle = new List<IDayCycleHook>();
         readonly List<IWeatherModifier> _weather = new List<IWeatherModifier>();
+        readonly List<IWeatherWeightModifier> _weatherWeights = new List<IWeatherWeightModifier>();
         readonly List<Func<IHudWidget>> _hudWidgets = new List<Func<IHudWidget>>();
         readonly List<ILuckModifier> _luck = new List<ILuckModifier>();
 
@@ -114,6 +123,13 @@ namespace Farm.Gameplay
             if (modifier == null || _weather.Contains(modifier)) return;
             _weather.Add(modifier);
             _weather.Sort((a, b) => a.Order.CompareTo(b.Order));
+        }
+
+        public void AddWeatherWeightModifier(IWeatherWeightModifier modifier)
+        {
+            if (modifier == null || _weatherWeights.Contains(modifier)) return;
+            _weatherWeights.Add(modifier);
+            _weatherWeights.Sort((a, b) => a.Order.CompareTo(b.Order));
         }
 
         public void AddHudWidget(Func<IHudWidget> factory)
@@ -190,10 +206,20 @@ namespace Farm.Gameplay
         {
             _dayCycle.Clear();
             _weather.Clear();
+            _weatherWeights.Clear();
             _luck.Clear();
             _worldSources.Clear();
             _hudWidgets.Clear();
             MapLoaded = null;
+        }
+
+        public void AdjustWeatherWeights(GameDateTime date, WeatherWeights weights, GameState state)
+        {
+            foreach (var m in _weatherWeights)
+            {
+                try { m.Adjust(date, weights, state); }
+                catch (Exception e) { Log.Error($"Weather weight modifier {m.GetType().Name} failed: {e}"); }
+            }
         }
 
         public string ApplyWeather(GameDateTime date, string weather, GameState state)

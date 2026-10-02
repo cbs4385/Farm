@@ -19,6 +19,8 @@ namespace Farm.Gameplay
         GameSession _session;
         AtmosphereService _atmosphere;
 
+        public bool IsIndoor => _indoor;
+
         public void Configure(Light2D light, bool indoor)
         {
             _light = light;
@@ -40,7 +42,7 @@ namespace Farm.Gameplay
             if (!_session.InGame) return;
 
             var c = ColorAt(_session.Clock.Now.MinuteOfDay);
-            if (_session.State.Weather == WeatherIds.Rain) c = Color.Lerp(c, new Color(0.55f, 0.60f, 0.70f), 0.45f);
+            c = _session.Weather.Get(_session.State.Weather).Apply(c);
             // Optional mood layers pushed by modules (fog, dread...) blend over the normal lighting.
             if (_atmosphere != null) c = _atmosphere.Stack.Apply(c);
             _light.color = c;

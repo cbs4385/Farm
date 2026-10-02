@@ -43,6 +43,7 @@ namespace Farm.Gameplay
         EventBus _bus;
         GameDatabase _db;
         SaveService _saves;
+        WeatherCatalog _weatherCatalog;
         bool _endingDay;
         bool _sleeping;
 
@@ -53,6 +54,9 @@ namespace Farm.Gameplay
         public bool InGame => State != null;
         public bool IsSleeping => _sleeping;
         public GameDatabase Db => _db;
+
+        // Weather definitions (core assets plus module packs). Built on first use, after packs have merged.
+        public WeatherCatalog Weather => _weatherCatalog ?? (_weatherCatalog = WeatherCatalog.From(_db));
         public IDictionary<string, FarmGrid> Grids => _grids;
 
         // Extension points for optional layers; see GameHooks.
@@ -157,6 +161,9 @@ namespace Farm.Gameplay
             if (_endingDay) _endingDay = false;
             State = state;
             ActiveSlot = slot;
+            // Saves from before the forecast existed (and brand new games) get one for tomorrow.
+            if (string.IsNullOrEmpty(state.ForecastWeather))
+                state.ForecastWeather = WeatherRoller.Roll(state.GetDate().StartOfNextDay(), Weather, state.WorldSeed, Hooks, state);
             Clock = new GameClock(state.GetDate(), _bus);
             Backpack = Inventory.FromData(state.Backpack, _db.MaxStack);
             Backpack.Changed += OnBackpackChanged;
@@ -277,7 +284,8 @@ namespace Farm.Gameplay
                 id => _db.TryGetItem(id, out var i) ? i : null,
                 id => _db.TryGetCrop(id, out var c) ? c : null,
                 passedOut,
-                Hooks);
+                Hooks,
+                Weather);
             Save();
 
             _endingDay = false;

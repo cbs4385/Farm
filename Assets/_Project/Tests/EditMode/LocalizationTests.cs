@@ -41,7 +41,7 @@ namespace Farm.Tests
             var expected = new List<string>();
             expected.AddRange(new[] { "spring", "summer", "fall", "winter" }.Select(s => "season." + s));
             expected.AddRange(new[] { "mon", "tue", "wed", "thu", "fri", "sat", "sun" }.Select(d => "day." + d));
-            expected.AddRange(new[] { WeatherIds.Sunny, WeatherIds.Rain }.Select(w => "weather." + w));
+            expected.AddRange(WeatherCatalog.BuiltIn.Ids.Select(w => "weather." + w));
             expected.AddRange(InputNames.Rebindable.Select(a => "action." + a));
             expected.Add("shop.general.title");
             expected.Add("language.en");

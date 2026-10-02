@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 209 EditMode + 28 PlayMode pass. Milestone 2 in progress: T-043 done; next T-030, T-031, T-034. The horror layer ships with 1.0 (Milestone 3b).
+Last updated: 2026-10-01. Tags: `m0`, `m1`. Tests: 234 EditMode + 32 PlayMode pass. Milestone 2 in progress: T-043 and T-030 done; next T-046 (fatigue), T-031, T-034. The horror layer ships with 1.0 (Milestone 3b).
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
@@ -38,7 +38,7 @@ Not built yet: hooks for NPCs/dialogue/events/weather definitions/journal (come 
 
 ## Milestone 2 - World and living village (in progress)
 T-043 | done | claude/2026-10-01 | developer console (F1) and -farmCommands (Editor and development builds only), release guard, BuildsDev output; 21 command tests + PlayMode F1 test. Verified: release builds (Windows, Linux) free of debug types, development build contains them
-T-030 | todo | | weather as data
+T-030 | done | claude/2026-10-01 | weather as data: `WeatherDefinition` assets (sunny, rain, storm, snow, wind; tint, watering, particles, lightning, per-season weights) in `GameDatabase`/content packs; seeded weighted roll (`WeatherRoller`, `GameState.WorldSeed`), forecast a day ahead (`GameState.ForecastWeather`, shown in the HUD), `IWeatherWeightModifier` hook beside `IWeatherModifier`; lighting, crop watering and `WeatherEffects` (pooled pixel sprites, outdoor maps only) all read the definition. 25 EditMode + 4 PlayMode tests; Windows development build captured for all five weathers at 60 fps. Not seen by a person yet
 T-031 | todo | | village, forest, beach, interiors
 T-032 | todo | |
 T-033 | todo | |
@@ -52,6 +52,8 @@ T-040 | todo | | data validator incl. conditions
 T-041 | todo | |
 T-044 | todo | | hook conformance / HorrorLevel-0 equivalence
 T-042 | todo | | M2 gate
+
+Decided 2026-10-01 (F): no scope cuts; the schedule is forgiving. No open design questions remain.
 
 ## Human playtest results (Windows, 2026-10-01)
 Confirmed by hand: options scrolling, avatar/cursor alignment, sleep + day summary, till/water/plant/grow/harvest/ship over 6 days, buying seeds, energy bar and exhaustion message, save and load from the main menu and after a full restart, seeds planting with clearer feedback.

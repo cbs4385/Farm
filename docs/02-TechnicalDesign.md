@@ -121,7 +121,8 @@ Dependencies: `Core <- Data <- Gameplay <- UI`; `Platform` and `Mythos` depend o
 ### 3.14 Rendering
 - Pixel Perfect Camera (URP 2D): reference 480x270, PPU 16, upscale RT off. **`PixelSnapCamera`** must be on every gameplay camera (it snaps the camera to 1/16 unit after follow logic; without it the view shimmers at 2x+).
 - **Sprite import rules** (`TextureImportPostprocessor`, enforced by tests): everything under `Art/` is a *Single* sprite, PPU 16, point filter, uncompressed, no mipmaps; characters (`player_*`, `npc_*`) pivot at their feet. (Multiple mode silently ignores the pivot.)
-- `DayNightLighting` drives a global `Light2D` from the time of day (gradient), weather, and the **atmosphere stack**; indoor maps use a fixed warm light.
+- `DayNightLighting` drives a global `Light2D` from the time of day (gradient), the weather definition's tint, and the **atmosphere stack**; indoor maps use a fixed warm light.
+- **Weather is data.** `WeatherDefinition` (Farm.Data; assets under `Data/Weather`, generated once by `ContentGenerator` and then kept as tuned) holds id, tint, watering, particle kind/density/slant, lightning and per-season weights. `GameDatabase.AllWeather` merges core and pack definitions; `WeatherCatalog` looks them up (an id without a definition behaves like plain weather; with no assets the built-in `WeatherDefaults` are used). `WeatherRoller.Roll(date, catalog, seed, hooks, state)` is a deterministic weighted pick (hash of day and `GameState.WorldSeed`; the first two days are sunny); `IWeatherWeightModifier`s reshape the weights first. `DayCycle.EndDay` turns the stored forecast (`GameState.ForecastWeather`, rolled a day ahead and shown in the HUD) into the new day's weather, lets `IWeatherModifier`s override it, waters crops if the definition says so, then forecasts the next day. `WeatherEffects` (outdoor maps, created by `MapSceneController`) draws rain/snow/wind from a pool of pixel-sized sprites wrapped around the view, plus lightning flashes.
 - Use the `unity:2d-pixel-perfect` skill when diagnosing blur/jitter.
 
 ### 3.15 Audio
@@ -142,7 +143,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 | Story state | `GameSession.SetFlag/HasFlag/SetVar/GetVar/AddVar`, `FlagChanged`/`VarChanged`, `GetModuleData<T>/SetModuleData` | Cult standing, dread, knowledge, a module's private data |
 | Conditions | `Conditions.Evaluate(expr, session.World)`; atoms `flag var season weather moon map hour day year open`; `Conditions.Register` for more; `Validate` for tools | Gating in data: schedules, dialogue, warps, events, shop stock, quests |
 | Day cycle | `IDayCycleHook` (`OnNightFalls`, `OnDawn`), `DayCycleContext` (notes, wake location) | Dreams, blight, offerings, sleepwalking |
-| Weather | `IWeatherModifier` chain | Fog, blood moon |
+| Weather | `WeatherDefinition` in content packs, `IWeatherWeightModifier` (odds), `IWeatherModifier` (override) | Fog, blood moon |
 | Atmosphere | `AtmosphereStack.Set(id, tint, strength, priority)` | Mood tinting of the light |
 | Text | `L.AddFilter`, `L.AddTable` | Distorted text, strings for new content |
 | Content | `ContentPack` under `Resources/Packs` | Extra items and crops |
@@ -169,7 +170,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 - Comments only for non-obvious "why".
 
 ## 5. Testing strategy
-- **EditMode (NUnit, ~209 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
+- **EditMode (NUnit, ~234 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.
 - **PlayMode (~17 tests)**: boot to menu, new game, the full farming loop, sleep through the UI (including that the Continue button is on top of the fade), pass-out at 2 AM, warps keep state, save/load, options scrolling, the avatar/cursor alignment, **real simulated keyboard and mouse input** (`InputTestFixture`), and a test module that exercises every extension point in the real game.
 - **Player-build checks**: the Editor and tests can miss build-only failures (scene serialization, stripping, draw order). For changes touching scenes, scripts on scenes, or UI layering, also build and run the player with the QA flags in `docs/QA.md` (`-farmScene`, `-farmOpen`, `-farmCapture`) and look at the screenshots.
 - **Data validators**: `Farm/Validate Data` (T-040) will check ids, references, localization keys, schedules and every `Condition` string.

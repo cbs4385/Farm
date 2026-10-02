@@ -14,6 +14,7 @@ namespace Farm.Editor
         const string Root = "Assets/_Project";
         const string ItemDir = Root + "/Data/Items";
         const string CropDir = Root + "/Data/Crops";
+        const string WeatherDir = Root + "/Data/Weather";
         const string DbPath = Root + "/Resources/GameDatabase.asset";
         const string ArtDir = Root + "/Art/Placeholders";
 
@@ -40,6 +41,7 @@ namespace Farm.Editor
             PlaceholderArtGenerator.Generate();   // sprites must exist and be imported first
             Directory.CreateDirectory(ItemDir);
             Directory.CreateDirectory(CropDir);
+            Directory.CreateDirectory(WeatherDir);
             Directory.CreateDirectory(Path.GetDirectoryName(DbPath));
 
             var items = new List<ItemDefinition>();
@@ -65,20 +67,22 @@ namespace Farm.Editor
                     icon: Sprite($"item_crop_{row.Id}")));
             }
 
+            var weather = WeatherDefaults.CreateAll().Select(SaveWeather).ToList();
+
             var db = AssetDatabase.LoadAssetAtPath<GameDatabase>(DbPath);
             if (db == null)
             {
-                db = GameDatabase.Create(items, crops);
+                db = GameDatabase.Create(items, crops, weather);
                 AssetDatabase.CreateAsset(db, DbPath);
             }
             else
             {
-                db.SetContents(items, crops);
+                db.SetContents(items, crops, weather);
                 EditorUtility.SetDirty(db);
             }
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops.");
+            Debug.Log($"[ContentGenerator] {items.Count} items, {crops.Count} crops, {weather.Count} weathers.");
         }
 
         public static void GenerateAllAndExit()
@@ -100,6 +104,20 @@ namespace Farm.Editor
         // Writes the definition to disk (updating in place when the asset exists) and appends the persistent asset.
         static void Save(List<ItemDefinition> list, ItemDefinition fresh) => list.Add(Persist(fresh, $"{ItemDir}/{fresh.Id}.asset"));
         static void SaveCrop(List<CropDefinition> list, CropDefinition fresh) => list.Add(Persist(fresh, $"{CropDir}/{fresh.Id}.asset"));
+
+        // Weather is tuned by hand in the inspector, so an existing asset is kept as it is.
+        static WeatherDefinition SaveWeather(WeatherDefinition fresh)
+        {
+            var path = $"{WeatherDir}/{fresh.Id}.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<WeatherDefinition>(path);
+            if (existing != null)
+            {
+                Object.DestroyImmediate(fresh);
+                return existing;
+            }
+            AssetDatabase.CreateAsset(fresh, path);
+            return fresh;
+        }
 
         static T Persist<T>(T fresh, string path) where T : ScriptableObject
         {

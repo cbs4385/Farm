@@ -138,8 +138,11 @@ namespace Farm.Gameplay
         DebugCommandResult Weather(string[] a)
         {
             if (a.Length != 1) return DebugCommandResult.Fail("Usage: weather <id>");
-            _session.State.Weather = a[0].ToLowerInvariant();
-            if (_session.State.Weather == WeatherIds.Rain) foreach (var g in _session.Grids.Values) g.WaterAll();
+            var id = a[0].ToLowerInvariant();
+            if (!_session.Weather.Contains(id))
+                return DebugCommandResult.Fail($"Unknown weather '{id}'. Known: {string.Join(", ", _session.Weather.Ids)}");
+            _session.State.Weather = id;
+            if (_session.Weather.Get(id).WateringCrops) foreach (var g in _session.Grids.Values) g.WaterAll();
             _session.NotifyChanged();
             return DebugCommandResult.Success($"Weather is now {_session.State.Weather}.", reload: true);
         }

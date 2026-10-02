@@ -14,18 +14,22 @@ namespace Farm.Data
         [SerializeField] string _packId;
         [SerializeField] List<ItemDefinition> _items = new List<ItemDefinition>();
         [SerializeField] List<CropDefinition> _crops = new List<CropDefinition>();
+        [SerializeField] List<WeatherDefinition> _weather = new List<WeatherDefinition>();
 
         public string PackId => _packId;
         public IReadOnlyList<ItemDefinition> Items => _items;
         public IReadOnlyList<CropDefinition> Crops => _crops;
+        public IReadOnlyList<WeatherDefinition> Weather => _weather;
 
-        public static ContentPack Create(string packId, IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops)
+        public static ContentPack Create(string packId, IEnumerable<ItemDefinition> items, IEnumerable<CropDefinition> crops,
+            IEnumerable<WeatherDefinition> weather = null)
         {
             var pack = CreateInstance<ContentPack>();
             pack._packId = packId;
             pack.name = packId;
             if (items != null) pack._items.AddRange(items);
             if (crops != null) pack._crops.AddRange(crops);
+            if (weather != null) pack._weather.AddRange(weather);
             return pack;
         }
     }

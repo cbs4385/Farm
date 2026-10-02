@@ -20,7 +20,7 @@ namespace Farm.Tests
         {
             _parsnip = ItemDefinition.Create("crop.parsnip", ItemCategory.Crop, sellPrice: 35);
             _crop = CropDefinition.Create("parsnip", new[] { 1, 1 }, SeasonMask.Spring);
-            _state = GameState.NewGame("Sam", "Farm", _ => 999);
+            _state = GameState.NewGame("Sam", "Farm", _ => 999, 0);
             _clock = new GameClock(new GameDateTime(1, Season.Spring, 10, 1000));
             _state.SetDate(_clock.Now);
             _grids = new Dictionary<string, FarmGrid> { { MapIds.Farm, new FarmGrid() } };
@@ -110,7 +110,7 @@ namespace Farm.Tests
             var d = new GameDateTime(1, Season.Summer, 9);
             Assert.AreEqual(DayCycle.RollWeather(d), DayCycle.RollWeather(d));
             for (var day = 1; day <= 28; day++)
-                Assert.AreEqual(WeatherIds.Sunny, DayCycle.RollWeather(new GameDateTime(2, Season.Winter, day)));
+                CollectionAssert.DoesNotContain(new[] { WeatherIds.Rain, WeatherIds.Storm }, DayCycle.RollWeather(new GameDateTime(2, Season.Winter, day)));
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace Farm.Tests
             grid.Till(1, 1);
             // find a date whose NEXT day rains
             var date = new GameDateTime(1, Season.Summer, 1);
-            while (DayCycle.RollWeather(date.StartOfNextDay()) != WeatherIds.Rain) date = date.StartOfNextDay();
+            while (WeatherRoller.Roll(date.StartOfNextDay(), WeatherCatalog.BuiltIn, _state.WorldSeed) != WeatherIds.Rain) date = date.StartOfNextDay();
             _clock.SetTime(date.WithMinuteOfDay(1000));
             _state.SetDate(_clock.Now);
 

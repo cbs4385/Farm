@@ -209,4 +209,4 @@ Multiplayer co-op, marriage/children, modding API, console ports, mobile, more t
 | AF | Business hours and days off | Accepted as proposed: general store 09:00-17:00 (Sunday off); blacksmith 09:00-17:00 (Monday); carpenter 09:00-17:00 (Wednesday); fish shop 06:00-14:00 (Thursday); clinic and library 09:00-17:00 (Saturday); saloon 12:00-02:00 (Tuesday); traveling merchant 09:00-21:00 on its random days. Days off are staggered so something is always open. A closed shop's door is locked with a note giving its hours, and the player cannot enter until it opens. A shopkeeper's day off is part of their night/day schedule (T-035). |
 
 ### Still open
-F. **Scope protection.** Because the horror layer ships with 1.0, decide what to cut from the base game if the schedule slips (see the plan's scope notes). Needed before Milestone 3. This is the only open design question left.
+F. **Scope protection.** **Decided 2026-10-01: no cuts.** The schedule is forgiving for now, so nothing is cut from the base game to make room for the horror layer. If the schedule tightens later, raise it again as a new decision. There are no open design questions left.

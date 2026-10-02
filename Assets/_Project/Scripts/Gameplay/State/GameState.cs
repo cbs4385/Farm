@@ -46,6 +46,12 @@ namespace Farm.Gameplay
 
         public List<ItemStack> ShippingBin = new List<ItemStack>();
         public string Weather = "sunny";
+
+        // Tomorrow's weather, rolled a day ahead so it can be shown as a forecast. Empty until the first roll.
+        public string ForecastWeather = "";
+
+        // Seeds everything that must be random per playthrough but repeatable within it (weather so far).
+        public int WorldSeed;
         public Dictionary<string, int> SkillXp = new Dictionary<string, int>();
         public HashSet<string> Flags = new HashSet<string>();
 
@@ -77,10 +83,11 @@ namespace Farm.Gameplay
             return map;
         }
 
-        public static GameState NewGame(string playerName, string farmName, Func<string, int> maxStack)
+        public static GameState NewGame(string playerName, string farmName, Func<string, int> maxStack, int? worldSeed = null)
         {
             var state = new GameState
             {
+                WorldSeed = worldSeed ?? Guid.NewGuid().GetHashCode(),
                 PlayerName = string.IsNullOrWhiteSpace(playerName) ? "Farmer" : playerName.Trim(),
                 FarmName = string.IsNullOrWhiteSpace(farmName) ? "Farm" : farmName.Trim(),
             };

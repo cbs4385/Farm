@@ -33,7 +33,7 @@ Run on Windows and Linux. Keyboard/mouse first, then gamepad. Items marked (veri
 13. Esc pauses: Save Game, Options (sliders, scrolling, resolution, fullscreen, UI size, rebind a key), Main Menu.
 14. Quit to menu -> Continue loads the latest save; also after closing and restarting the game (verified).
 15. Spring 28 -> Summer 1: spring crops wither. (Development build: plant crops, then `date summer 1`.)
-16. Rain day: soil already watered, bluish tint. (Development build: `weather rain`.)
+16. Rain day: soil already watered, bluish tint, falling rain. Also check `weather storm` (darker, heavier, lightning flashes), `weather snow` and `weather wind`; the HUD shows tomorrow's forecast under the weather. Inside buildings there is no weather. (Development build: `weather <id>`.)
 
 ## Developer tools (development builds and the Editor)
 F1 opens the console (see `docs/BUILD.md`). Use it to reach states quickly: `date summer 15` + `time 22:30` for a full-moon night, `var dread 40`, `weather rain`, `give seed.parsnip 20`, `gold 5000`, `tp FarmHouse bed`. **Never test a release build with these**; they are absent from it (the build fails if any leak in).

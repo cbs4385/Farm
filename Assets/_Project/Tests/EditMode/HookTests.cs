@@ -26,7 +26,7 @@ namespace Farm.Tests
         {
             _parsnip = ItemDefinition.Create("crop.parsnip", ItemCategory.Crop, sellPrice: 35);
             _crop = CropDefinition.Create("parsnip", new[] { 1, 1 }, SeasonMask.Spring);
-            _state = GameState.NewGame("Sam", "Farm", _ => 999);
+            _state = GameState.NewGame("Sam", "Farm", _ => 999, 0);
             _clock = new GameClock(new GameDateTime(1, Season.Spring, 10, 1000));
             _state.SetDate(_clock.Now);
             _grids = new Dictionary<string, FarmGrid> { { MapIds.Farm, new FarmGrid() } };
