@@ -1,0 +1,74 @@
+# The weekly Village Gazette (T-146): headlines, news, a farm corner, a weather corner and classifieds. Each week one issue is picked from these sets by condition and seed. Compiled to zz_fs_gazette.json.
+
+addto gazette.headline
+0 ~ => gazette.head.quiet cat=gazette tag=wholesome :: A QUIET WEEK, A WARM VILLAGE
+0 ~ => gazette.head.pies cat=gazette tag=funny :: PIE COUNT UP, ARGUMENTS DOWN
+0 ~ => gazette.head.stool cat=gazette tag=funny :: THE SALOON STOOL STAYS TILTED
+0 ~ => gazette.head.library cat=gazette tag=wholesome :: LIBRARY REPORTS A GOOD WEEK FOR SILENCE
+0 ~ => gazette.head.slate cat=gazette tag=funny :: GENERAL STORE SLATE BREAKS RECORD
+0 season:spring => gazette.head.spring cat=gazette tag=wholesome :: SPRING ARRIVES, SOME MUD INCLUDED
+0 season:summer => gazette.head.summer cat=gazette tag=wholesome :: HEAT WAVE: VILLAGE BLAMES THE ANVIL
+0 season:fall => gazette.head.fall cat=gazette tag=wholesome :: PUMPKINS SPOTTED IN FORCE
+0 season:winter => gazette.head.winter cat=gazette tag=wholesome :: WINTER SETTLES, SOUP SALES SURGE
+0 festival.in:<=3 => gazette.head.festival cat=gazette tag=wholesome :: FESTIVAL NEAR: THE VILLAGE IS ALREADY PRACTICING
+0 weather:rain => gazette.head.rain cat=gazette tag=wholesome :: RAIN FALLS; UMBRELLA DEBATE CONTINUES
+0 farm:crops>=10 => gazette.head.crops cat=gazette tag=wholesome :: A FARM GROWING, SAY NEIGHBORS
+
+addto gazette.news
+0 ~ => gazette.news.stool cat=gazette tag=funny :: A Saloon spokesperson denies the stool is haunted. It is merely opinionated.
+0 ~ => gazette.news.kettle cat=gazette tag=wholesome :: The library's kettle was seen boiling, unattended. Authorities suspect Ione.
+0 ~ => gazette.news.hook cat=gazette tag=funny :: A very large fish was reported near the pond. Its size has grown since Tuesday.
+0 ~ => gazette.news.wreath cat=gazette tag=wholesome :: A small cat was seen entering the general store. It left with a ribbon and no explanation.
+0 ~ => gazette.news.owl cat=gazette tag=wholesome :: An owl by the forest hut has reportedly befriended its neighbor. Neither has commented.
+0 ~ => gazette.news.sock cat=gazette tag=funny :: A single sock was found on the clinic roof. Elara says it is a flag.
+0 ~ => gazette.news.plank cat=gazette tag=funny :: A plank named Gerald won a local straightness award. Nobody asked to see the certificate.
+0 ~ => gazette.news.pickle cat=gazette tag=funny :: The saloon's pickle supply is stable. Officials urge calm, and napkins.
+0 ~ => gazette.news.song cat=gazette tag=wholesome :: A new song is circulating. Its chorus has been confirmed to rhyme, mostly.
+0 ~ => gazette.news.forge cat=gazette tag=funny :: The forge has installed a label on everything. Residents report feeling very organized.
+0 ~ => gazette.news.clinic cat=gazette tag=wholesome :: The clinic handed out forty mittens this week. Dr. Penn says that is within reason.
+0 ~ => gazette.news.bench cat=gazette tag=wholesome :: A bench on the village green has been declared the best seat in town by several people who sat on it.
+0 season:spring => gazette.news.blossom cat=gazette tag=wholesome :: Garlands are being hung early. The village is feeling optimistic and slightly sticky.
+0 season:summer => gazette.news.tide cat=gazette tag=funny :: The tide remains reliable. The fishing contest has not yet been told.
+0 season:fall => gazette.news.pie cat=gazette tag=funny :: Pumpkin pies appear on every windowsill. Neighbors are keeping score.
+0 season:winter => gazette.news.lantern cat=gazette tag=wholesome :: Paper lanterns are on order. The general store reports it ran out of candles twice.
+0 weather:rain => gazette.news.puddle cat=gazette tag=funny :: A puddle on the main road has been named by local children. The name is not printable.
+0 weather:sunny => gazette.news.laundry cat=gazette tag=wholesome :: Washing lines are full. The village smells like warm cloth and good decisions.
+0 hearts:wren>=4 => gazette.news.wren cat=gazette tag=wholesome :: Wren was heard laughing at her own joke. Witnesses say it was a good one.
+0 hearts:hazel>=4 => gazette.news.hazel cat=gazette tag=wholesome :: Hazel was spotted reading in the open air. She was not alone, and the book was not either.
+0 hearts:bram>=4 => gazette.news.bram cat=gazette tag=wholesome :: Bram forged something small and kind this week. He declined to say what.
+0 hearts:tilda>=4 => gazette.news.tilda cat=gazette tag=wholesome :: Tilda's slate now lists [player] under 'Reliable'. It is in capital letters.
+0 hearts:juno>=4 => gazette.news.juno cat=gazette tag=funny :: Juno labeled her lunch this week. The label said 'Lunch (Eaten)'.
+0 hearts:piper>=4 => gazette.news.piper cat=gazette tag=wholesome :: Piper debuted a new song at the saloon. The room clapped, then asked her to play it again.
+0 storyline:pie_feud => gazette.news.feud cat=gazette tag=funny :: The pie dispute continues. Both bakers deny it is a dispute.
+0 storyline:anonymous_notes => gazette.news.notes cat=gazette tag=wholesome :: Anonymous notes keep appearing in mailboxes. They are all very kind.
+
+addto gazette.farm
+0 ~ => gazette.farm.generic cat=gazette tag=wholesome :: [farm] has a good reputation in the valley. The scarecrow is rumored to be proud.
+0 farm:crops>=5 => gazette.farm.crops cat=gazette tag=wholesome :: Rows are looking neat at [farm]. A passing neighbor called them 'well-behaved'.
+0 farm:animals>=1 => gazette.farm.animals cat=gazette tag=funny :: The animals at [farm] are reportedly well fed and rather smug about it.
+0 shipped:>=20 => gazette.farm.shipped cat=gazette tag=wholesome :: [player] has been shipping steadily. The valley's crates have never been fuller.
+0 shipped:>=100 => gazette.farm.shipped100 cat=gazette tag=wholesome :: Over a hundred shipments from [farm]. The valley calls it 'dependable', which is high praise here.
+0 gold:>=5000 => gazette.farm.rich cat=gazette tag=funny :: Rumor says [player] is doing well. The saloon has politely moved the good stool closer.
+0 upgrade:waiting => gazette.farm.upgrade cat=gazette tag=wholesome :: A tool from [farm] is at the forge. Bram says it is coming along. Juno says it is shiny.
+0 upgrade:ready => gazette.farm.upgradeready cat=gazette tag=wholesome :: A finished tool awaits [player] at the forge. It has been polished more than once.
+
+addto gazette.weather
+0 weather:sunny => gazette.weather.sunny cat=gazette tag=wholesome :: Sun, mostly. Light breeze. Hats optional, sunscreen advised by Dr. Penn.
+0 weather:rain => gazette.weather.rain cat=gazette tag=wholesome :: Rain, steady. Good for crops, bad for hair. Umbrellas will be debated.
+0 weather:storm => gazette.weather.storm cat=gazette tag=wholesome :: Storm possible. The blacksmith advises staying in. The saloon advises staying in, too, with a drink.
+0 weather:snow => gazette.weather.snow cat=gazette tag=wholesome :: Snow likely. Lanterns lit early. Mittens, by order of Elara, mandatory.
+0 weather:wind => gazette.weather.wind cat=gazette tag=funny :: Windy. Hold your hats and your opinions.
+0 season:spring => gazette.weather.spring cat=gazette tag=wholesome :: Spring: mild, damp, hopeful. Mud level: moderate.
+0 season:summer => gazette.weather.summer cat=gazette tag=wholesome :: Summer: warm, bright, a little loud. Shade is in high demand.
+0 season:fall => gazette.weather.fall cat=gazette tag=wholesome :: Fall: crisp, golden, smells of cinnamon and other people's secrets.
+0 season:winter => gazette.weather.winter cat=gazette tag=wholesome :: Winter: cold, clear, quiet. A bowl of soup is recommended.
+
+addto gazette.classified
+0 ~ => gazette.class.stool cat=gazette tag=funny :: WANTED: A level stool. Contact the saloon. Do not tell the stool.
+0 ~ => gazette.class.book cat=gazette tag=wholesome :: FOUND: One library book, seven years overdue. Return at your leisure. The library has waited this long.
+0 ~ => gazette.class.mittens cat=gazette tag=wholesome :: FREE: Forty mittens, various colors. Ask at the clinic. One is for you.
+0 ~ => gazette.class.plank cat=gazette tag=funny :: FOR SALE: A very straight plank. Name: Gerald. Not for sale. Gerald is just visiting.
+0 ~ => gazette.class.song cat=gazette tag=wholesome :: SEEKING: A rhyme for 'Wetherell'. Apply at the saloon. No refunds.
+0 ~ => gazette.class.slate cat=gazette tag=funny :: NOTICE: The general store slate is not a forum. It has opinions anyway.
+0 ~ => gazette.class.fish cat=gazette tag=funny :: LOST: One fish, about this big. Last seen on a Tuesday. If found, please tell Felix gently.
+0 ~ => gazette.class.pickle cat=gazette tag=funny :: WANTED: A friend with a good pickle recipe. Reply to the saloon.

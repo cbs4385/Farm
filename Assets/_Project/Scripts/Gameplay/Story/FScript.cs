@@ -346,6 +346,12 @@ namespace Farm.Gameplay
             if (textAt < 0 || holder.Entries.Count == 0) return;
 
             var parts = addTo.Set.Split('.');
+            if (parts.Length == 2 && parts[0] == "gazette")
+            {
+                // The Gazette's items are narration: no speaker.
+                AddOneLine(result, holder.Entries[holder.Entries.Count - 1].Dialogue, "-", text.Substring(textAt + 4).TrimStart(), expr, emote, sfx, lineNo, err);
+                return;
+            }
             if (parts.Length != 3 || parts[0] != "npc" || (parts[2] != "talk" && parts[2] != "bark")) { err(lineNo, $"':: text' needs a set named npc.<villager>.talk or npc.<villager>.bark, not '{addTo.Set}'"); return; }
             AddOneLine(result, holder.Entries[holder.Entries.Count - 1].Dialogue, parts[1], text.Substring(textAt + 4).TrimStart(), expr, emote, sfx, lineNo, err);
         }

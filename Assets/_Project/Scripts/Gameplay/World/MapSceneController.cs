@@ -175,6 +175,10 @@ namespace Farm.Gameplay
                     ui.ShowGameMenu(MenuTabs.Gossip);
                     break;
                 }
+                case "gazette":
+                    foreach (var id in new[] { "wren", "hazel", "bram", "tilda" }) _session.State.Npcs[id] = new NpcState { Met = true };
+                    ui.ShowGameMenu(MenuTabs.Gazette);
+                    break;
                 case "summary":
                     var s = new DaySummary { Earnings = 245, GoldAfter = 745, NewWeather = WeatherIds.Rain };
                     s.Shipped.Add(new ItemStack("crop.parsnip", 4));

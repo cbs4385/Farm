@@ -130,8 +130,8 @@ namespace Farm.Gameplay
                 var id = (string)item["set"];
                 if (!_sets.TryGetValue(id ?? string.Empty, out var set))
                 {
-                    // A villager's bark set (T-125) is created by the first file that adds to it; every other set must already exist.
-                    if (id == null || !id.EndsWith(".bark", StringComparison.Ordinal)) { Fail($"{source}: setEntries for unknown set '{id}'"); continue; }
+                    // A villager's bark set (T-125) and the Gazette's sets (T-146) are created by the first file that adds to them; every other set must already exist.
+                    if (id == null || !id.EndsWith(".bark", StringComparison.Ordinal) && !id.StartsWith("gazette.", StringComparison.Ordinal)) { Fail($"{source}: setEntries for unknown set '{id}'"); continue; }
                     set = new DialogueSet { Id = id };
                     _sets[id] = set;
                 }
