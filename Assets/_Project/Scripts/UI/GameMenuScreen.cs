@@ -89,7 +89,9 @@ namespace Farm.UI
 
         void Show(int index)
         {
+            var changed = index != _current;
             _current = Mathf.Clamp(index, 0, _pages.Count - 1);
+            if (changed) AudioService.PlayIfAvailable(Sfx.PageTurn);
             for (var i = 0; i < _pages.Count; i++) _pages[i].Root.gameObject.SetActive(i == _current);
             for (var i = 0; i < _tabs.Count; i++)
             {

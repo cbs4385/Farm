@@ -1,9 +1,15 @@
+using System;
 using Farm.Core;
 using UnityEngine;
 
 namespace Farm.Gameplay
 {
-    public enum Sfx { Click, Hoe, Water, Plant, Harvest, Coin, Error, Clink, Rustle, Anvil }
+    // New effects are only ever appended: the order is the index into the clip table.
+    public enum Sfx
+    {
+        Click, Hoe, Water, Plant, Harvest, Coin, Error, Clink, Rustle, Anvil,
+        Shutter, PageTurn, Letter, QuestDone, LevelUp, Door, Pickup, Heart, Gift, Cast, Splash, Bite, SwordSwing, Hit, ChestOpen, Rooster, Sleep, Lantern,
+    }
 
     // M1 audio: logical buses (master/music/sfx/ambience) implemented as volume multipliers, plus procedurally
     // generated placeholder blips so actions have feedback before real audio exists. A real AudioMixer with
@@ -36,13 +42,32 @@ namespace Farm.Gameplay
             _music.loop = true;
             _music.playOnAwake = false;
 
-            _clips = new[]
+            _clips = BuildClips();
+        }
+
+        // One clip for every Sfx value, in enum order: the first ten are simple tones, the rest come from SfxSynth.
+        public static AudioClip[] BuildClips()
+        {
+            var clips = new AudioClip[Enum.GetValues(typeof(Sfx)).Length];
+            clips[(int)Sfx.Click] = Tone("click", 880f, 0.05f);
+            clips[(int)Sfx.Hoe] = Tone("hoe", 160f, 0.12f);
+            clips[(int)Sfx.Water] = Tone("water", 520f, 0.18f, 0.5f);
+            clips[(int)Sfx.Plant] = Tone("plant", 330f, 0.10f);
+            clips[(int)Sfx.Harvest] = Tone("harvest", 660f, 0.14f);
+            clips[(int)Sfx.Coin] = Tone("coin", 1200f, 0.12f);
+            clips[(int)Sfx.Error] = Tone("error", 130f, 0.15f);
+            clips[(int)Sfx.Clink] = Tone("clink", 1760f, 0.3f);
+            clips[(int)Sfx.Rustle] = Tone("rustle", 600f, 0.2f);
+            clips[(int)Sfx.Anvil] = Tone("anvil", 988f, 0.4f);
+            foreach (Sfx sfx in Enum.GetValues(typeof(Sfx)))
             {
-                Tone("click", 880f, 0.05f), Tone("hoe", 160f, 0.12f), Tone("water", 520f, 0.18f, 0.5f),
-                Tone("plant", 330f, 0.10f), Tone("harvest", 660f, 0.14f), Tone("coin", 1200f, 0.12f),
-                Tone("error", 130f, 0.15f),
-                Tone("clink", 1760f, 0.3f), Tone("rustle", 600f, 0.2f), Tone("anvil", 988f, 0.4f),
-            };
+                if (!SfxSynth.Makes(sfx)) continue;
+                var samples = SfxSynth.Make(sfx);
+                var clip = AudioClip.Create(sfx.ToString().ToLowerInvariant(), samples.Length, 1, SfxSynth.SampleRate, false);
+                clip.SetData(samples, 0);
+                clips[(int)sfx] = clip;
+            }
+            return clips;
         }
 
         public void ApplySettings(SettingsData s)

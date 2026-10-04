@@ -26,6 +26,7 @@ namespace Farm.Gameplay
             if (s.Story.Letter(letterId) == null || Known(s.State, letterId)) return false;
             s.State.Mailbox.Add(letterId);
             s.Toast(L.Get("mail.arrived"));
+            AudioService.PlayIfAvailable(Sfx.Letter);
             return true;
         }
 

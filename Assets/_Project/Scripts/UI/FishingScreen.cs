@@ -46,6 +46,7 @@ namespace Farm.UI
         {
             _session = session;
             _onDone = onDone;
+            AudioService.PlayIfAvailable(Sfx.Cast);
             Open();
             Draw();
         }
@@ -62,7 +63,13 @@ namespace Farm.UI
         {
             if (_session == null) return;
             if (Time.frameCount != OpenedFrame && Ui.Input.Ui[InputNames.Submit].WasPressedThisFrame()) _session.Press();
+            var before = _session.State;
             _session.Tick(Time.unscaledDeltaTime);
+            if (before != _session.State)
+            {
+                if (_session.State == FishingState.Bite) AudioService.PlayIfAvailable(Sfx.Bite);
+                else if (_session.State == FishingState.Done && _session.Caught) AudioService.PlayIfAvailable(Sfx.Splash);
+            }
             Draw();
             if (_session.State == FishingState.Done) Finish();
         }

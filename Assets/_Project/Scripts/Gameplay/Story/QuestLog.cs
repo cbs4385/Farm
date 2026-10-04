@@ -78,6 +78,7 @@ namespace Farm.Gameplay
             if (def.Repeatable) s.State.Quests.Remove(def.Id);
             s.Publish(new QuestCompleted(def.Id));
             s.Toast(L.Get("quest.completed", L.Get(def.TitleKey)));
+            AudioService.PlayIfAvailable(Sfx.QuestDone);
             Effects.RunAll(s, def.Rewards);
             return true;
         }

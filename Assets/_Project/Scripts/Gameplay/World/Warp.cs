@@ -37,6 +37,7 @@ namespace Farm.Gameplay
                 else if (!string.IsNullOrEmpty(_blockedMessageKey)) session.Toast(L.Get(_blockedMessageKey));
                 return;
             }
+            AudioService.PlayIfAvailable(Sfx.Door);
             MapTravel.GoTo(_targetMap, _targetSpawn);
         }
 

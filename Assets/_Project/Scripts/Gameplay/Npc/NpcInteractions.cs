@@ -49,7 +49,7 @@ namespace Farm.Gameplay
             state.Points = FriendshipModel.Clamp(state.Points + points);
             var after = FriendshipModel.Hearts(state.Points);
             if (after > before && session.Npcs.Get(npcId) is NpcDefinition npc)
-                session.Toast(L.Get("npc.heart_up", L.Get(npc.NameKey), after));
+                { session.Toast(L.Get("npc.heart_up", L.Get(npc.NameKey), after)); AudioService.PlayIfAvailable(Sfx.Heart); }
             return state.Points;
         }
 
@@ -124,6 +124,7 @@ namespace Farm.Gameplay
             AddPoints(session, npc.Id, FriendshipModel.RepeatGiftPoints(FriendshipModel.GiftPoints(taste, birthday), repeat, birthday));
             session.AddVar(QuestLog.Stats.Gifts, 1);
             session.Publish(new NpcGifted(npc.Id, item.Id, taste));
+            AudioService.PlayIfAvailable(Sfx.Gift);
 
             foreach (var id in GiftLines(npc.Id, item.Id, item.Category.ToString(), taste, birthday, repeat))
                 if (session.Story.Dialogue(id) != null && session.BeginDialogue(id)) break;

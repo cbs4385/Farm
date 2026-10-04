@@ -265,7 +265,7 @@ namespace Farm.Gameplay
             _bus.Subscribe<FlagChanged>(e => { if (e.Value) Reactions.Fire(this, "flag:" + e.Flag); });
             _bus.Subscribe<QuestStarted>(e => Reactions.Fire(this, "quest.start:" + e.QuestId));
             _bus.Subscribe<QuestCompleted>(e => Reactions.Fire(this, "quest.done:" + e.QuestId));
-            _bus.Subscribe<SkillLevelUp>(e => Reactions.Fire(this, "skill.up:" + e.Skill));
+            _bus.Subscribe<SkillLevelUp>(e => { Reactions.Fire(this, "skill.up:" + e.Skill); AudioService.PlayIfAvailable(Sfx.LevelUp); });
             _bus.Subscribe<EventFinished>(e => Reactions.Fire(this, "event:" + e.EventId));
             _bus.Subscribe<SeasonChanged>(e => Reactions.Fire(this, "season:" + e.Season.ToString().ToLowerInvariant()));
             _bus.Subscribe<NpcGifted>(e => Reactions.Fire(this, "gift:" + e.NpcId));
@@ -656,6 +656,7 @@ namespace Farm.Gameplay
         IEnumerator SleepRoutine(bool passedOut)
         {
             _sleeping = true;
+            AudioService.PlayIfAvailable(Sfx.Sleep);
             ServiceLocator.TryGet<InputService>(out var input);
             input?.BlockGameplay();
             Clock.Pause();
@@ -674,6 +675,7 @@ namespace Farm.Gameplay
             Clock.Resume();
             input?.UnblockGameplay();
             _sleeping = false;
+            AudioService.PlayIfAvailable(Sfx.Rooster);
             // The screen is already black; this fades back in once loaded. Day-cycle hooks may have moved the player.
             loader.Load(State.CurrentMap, 0.4f);
         }

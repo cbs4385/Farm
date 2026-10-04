@@ -54,6 +54,7 @@ namespace Farm.UI
             var obj = grid.ById(objectId);
             if (obj == null) return;
             _chest = grid.ChestOf(obj);
+            AudioService.PlayIfAvailable(Sfx.ChestOpen);
             Rebuild();
             Open();
         }

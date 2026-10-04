@@ -87,7 +87,7 @@ namespace Farm.Gameplay
             Register("addvar", 2, 4, (s, a) => s.AddVar(a[0], Int(a[1]),
                 a.Length > 2 ? Int(a[2], int.MinValue) : int.MinValue, a.Length > 3 ? Int(a[3], int.MaxValue) : int.MaxValue));
             Register("gold", 1, 1, (s, a) => s.ChangeGold(Int(a[0])));
-            Register("give", 1, 3, (s, a) => s.GiveItem(a[0], a.Length > 1 ? Int(a[1], 1) : 1, a.Length > 2 ? Int(a[2]) : 0));
+            Register("give", 1, 3, (s, a) => { s.GiveItem(a[0], a.Length > 1 ? Int(a[1], 1) : 1, a.Length > 2 ? Int(a[2]) : 0); AudioService.PlayIfAvailable(Sfx.Pickup); });
             Register("take", 2, 2, (s, a) => s.Backpack.Remove(a[0], Int(a[1], 1)));
             Register("toast", 1, 1, (s, a) => s.Toast(L.Get(a[0])));
             Register("xp", 2, 2, (s, a) => s.AddSkillXp(a[0], Int(a[1])));

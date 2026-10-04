@@ -105,6 +105,7 @@ namespace Farm.Gameplay
         {
             _shooting = true;
             yield return null;
+            AudioService.PlayIfAvailable(Sfx.Shutter);
             var cam = Camera.main != null ? Camera.main : FindAnyObjectByType<Camera>();
             if (cam == null) { _shooting = false; yield break; }
             var width = Mathf.Max(64, Screen.width);
