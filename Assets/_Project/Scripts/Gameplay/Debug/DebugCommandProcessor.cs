@@ -57,10 +57,23 @@ namespace Farm.Gameplay
                 ["tp"] = ("tp <MapId> [spawn]", "go to a map (Farm, FarmHouse...)", Teleport),
                 ["sleep"] = ("sleep", "start the real sleep flow (fade, summary, wake in bed)", Sleep),
                 ["save"] = ("save", "save the game to the active slot", Save),
+                ["pseudoloc"] = ("pseudoloc [on|off]", "show every string pseudo-localised (accented, 35% longer, bracketed) to find layout problems", PseudoLocCommand),
                 ["state"] = ("state", "print the date, weather, gold, energy and map", PrintState),
             };
             // Narrative tools (T-137): hearts, mood, the talk pool and why, scenes, reactions, topics, social actions, coverage.
             foreach (var (name, usage, help, run) in NarrativeDebug.Commands(session)) _commands[name] = (usage, help, run);
+        }
+
+        static readonly Func<string, string, string> PseudoFilter = (key, text) => PseudoLoc.Apply(text);
+        static bool _pseudo;
+
+        DebugCommandResult PseudoLocCommand(string[] a)
+        {
+            var on = a.Length == 0 ? !_pseudo : a[0].ToLowerInvariant() == "on";
+            if (on == _pseudo) return DebugCommandResult.Success($"Pseudo-localisation is already {(on ? "on" : "off")}.");
+            _pseudo = on;
+            if (on) L.AddFilter(PseudoFilter); else L.RemoveFilter(PseudoFilter);
+            return DebugCommandResult.Success($"Pseudo-localisation {(on ? "on" : "off")}. Open screens again to see it.");
         }
 
         public IReadOnlyCollection<string> CommandNames => _commands.Keys;

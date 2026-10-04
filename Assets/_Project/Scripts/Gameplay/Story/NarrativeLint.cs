@@ -61,6 +61,10 @@ namespace Farm.Gameplay
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Modern slang, internet speak and mild swearing do not belong in a cozy village.
+        // The player has no gender (STYLE.md, LOCALIZATION.md): villagers do not call them sir, lad, handsome and the like.
+        static readonly Regex Gendered = new Regex(@"\b(sir|ma'am|madam|milord|milady|lad|lass|handsome|gentleman|gentlemen|lady|ladies|young man|young lady|sonny)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static bool IsGenderedAddress(string text) => !string.IsNullOrEmpty(text) && Gendered.IsMatch(text);
+
         static readonly Regex OffTone = new Regex(
             @"\b(lol|omg|bro|dude|vibes?|literally|cringe|yeet|poggers|sus|selfie|hashtag|emoji|wifi|app|google|facebook|twitter|tiktok|youtube|twitch|damn|hell|crap|bloody|sucks?)\b",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -127,6 +131,7 @@ namespace Farm.Gameplay
             {
                 var set = story.Set($"npc.{v}.talk");
                 if (set != null) foreach (var e in set.Entries) talkDialogues[e.Dialogue] = v;
+                if (story.Dialogue(WarmthModel.DialogueId(v)) != null) talkDialogues[WarmthModel.DialogueId(v)] = v;     // the "missed you" greeting (T-108)
                 var barkSet = story.Set(Barks.SetId(v));
                 if (barkSet != null) foreach (var e in barkSet.Entries) { talkDialogues[e.Dialogue] = v; barkDialogues.Add(e.Dialogue); }
             }
@@ -169,6 +174,8 @@ namespace Farm.Gameplay
                     Add(LintSeverity.Warning, "length", line.Villager, line.Where, $"{words} words; the {line.Kind} budget is {line.Limit}");
                 if (OffTone.Match(line.Text) is Match m && m.Success)
                     Add(LintSeverity.Warning, "tone", line.Villager, line.Where, $"'{m.Value}' does not fit the village (slang, brand or swearing)");
+                if (Gendered.Match(line.Text) is Match g && g.Success)
+                    Add(LintSeverity.Warning, "inclusive", line.Villager, line.Where, $"'{g.Value}': the player has no gender, so villagers do not address them this way");
                 var voice = config.VoiceOf(line.Villager);
                 if (line.Kind != "choice")
                 {

@@ -58,6 +58,8 @@ namespace Farm.Gameplay
         {
             var state = StateOf(session.State, npc.Id);
             var today = session.Clock.Now.TotalDays;
+            var wasMet = state.Met;
+            var daysAway = state.LastContactDay >= 0 ? today - state.LastContactDay : -1;
             state.Met = true;
             if (!state.TalkedToday)
             {
@@ -66,6 +68,13 @@ namespace Farm.Gameplay
             }
             state.LastContactDay = today;
             session.Publish(new NpcTalked(npc.Id));
+
+            // Back after a week or more: a "missed you" greeting and a small return bonus (T-108), instead of today's usual line.
+            if (WarmthModel.Missed(wasMet, daysAway, FriendshipModel.Hearts(state.Points)) && session.Story.Dialogue(WarmthModel.DialogueId(npc.Id)) != null)
+            {
+                AddPoints(session, npc.Id, WarmthModel.ReturnBonusPoints);
+                if (session.BeginDialogue(WarmthModel.DialogueId(npc.Id), () => InteractionMenu.Offer(session, npc, 0))) return true;
+            }
 
             var set = session.Story.Set(npc.TalkSetId);
             var memory = LineMemory.Load(session);
