@@ -50,6 +50,9 @@ namespace Farm.Gameplay
         public List<string> MostHeard = new List<string>();      // "dialogue (priority) xN": what the visits were spent on
         public List<string> NeverHeard = new List<string>();     // "dialogue (condition)" of the lines the bot never heard
         public int StoryBeatVisits;              // visits that played a story beat (priority 4 and up) instead of chat
+        public int Topics, TopicsAsked;          // topics this villager has, and how many the bot asked (T-138 extension)
+        public int Scenes, ScenesPlayed;         // map scenes that involve this villager (not heart events), and how many became eligible and played
+        public List<string> ScenesNeverPlayed = new List<string>();
     }
 
     public sealed class SimReport
@@ -71,6 +74,9 @@ namespace Farm.Gameplay
             sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|");
             foreach (var v in Villagers)
                 sb.AppendLine($"| {v.Villager} | {v.TalkEntries} | {v.DistinctHeard} | {v.Coverage:P0} | {v.RepeatsWithin14Days} | {v.TwoBackShare:P0} | {v.ConditionedShare:P0} | {v.LongestDeadAirDays} | {v.StoryBeatVisits} | {v.TaggedHeard} |");
+            sb.AppendLine();
+            sb.AppendLine("Topics asked / scenes played (the bot asks one of the two offered topics most visits and plays every map scene whose condition is met):");
+            foreach (var v in Villagers) sb.AppendLine($"- {v.Villager}: topics {v.TopicsAsked}/{v.Topics}, scenes {v.ScenesPlayed}/{v.Scenes}" + (v.ScenesNeverPlayed.Count > 0 ? " (never: " + string.Join(", ", v.ScenesNeverPlayed) + ")" : ""));
             sb.AppendLine();
             foreach (var v in Villagers)
             {
@@ -113,6 +119,13 @@ namespace Farm.Gameplay
             var heardYear1 = list.ToDictionary(v => v, v => 0);
             var lastNewAny = 0;
             var longestDeadAny = 0;
+            var topicLast = new Dictionary<string, int>();
+            var topicsAsked = list.ToDictionary(v => v, v => new HashSet<string>());
+            var scenesPlayed = list.ToDictionary(v => v, v => new HashSet<string>());
+            var yearlyPlayed = new HashSet<string>();
+            var heartEvent = new System.Text.RegularExpressions.Regex(@"_heart\d+$");
+            var sceneIds = list.ToDictionary(v => v, v => story.Events.Where(e => e.Trigger == "map" && !string.IsNullOrEmpty(e.Map) && !heartEvent.IsMatch(e.Id) && string.IsNullOrEmpty(e.Calendar)
+                && e.Id.Split('_').Contains(v)).ToList());
 
             // This game's storylines, drawn the way a new game draws them.
             foreach (var id in Storylines.Draw(story.Storylines, seed, Storylines.PerGame))
@@ -165,6 +178,32 @@ namespace Farm.Gameplay
                     if (!string.IsNullOrEmpty(entry?.Tag)) tagged++;
                     if (heardEver[v].Add(id)) { lastNew[v] = day; lastNewAny = day; }
                     longestDead[v] = Math.Max(longestDead[v], day - lastNew[v]);
+
+                    // After the chat the bot is offered the two highest topics that are due, and asks one most of the time.
+                    var due = story.Topics.Where(t => t.Npc == v && !(t.Once && topicsAsked[v].Contains(t.Id))
+                        && (!topicLast.TryGetValue(t.Id, out var at) || day - at >= t.CooldownDays)
+                        && (string.IsNullOrEmpty(t.Condition) || Conditions.TryEvaluate(t.Condition, world, out var ok) && ok))
+                        .OrderByDescending(t => t.Priority).ThenBy(t => t.Id, StringComparer.Ordinal).Take(2).ToList();
+                    if (due.Count > 0 && DialogueSet.Unit(seed * 71 + day * 13 + NpcInteractions.StableHash(v)) < 0.6)
+                    {
+                        var topic = due[(int)(DialogueSet.Unit(seed * 73 + day) * due.Count)];
+                        topicLast[topic.Id] = day;
+                        topicsAsked[v].Add(topic.Id);
+                        PlayEffects(story, topic.Dialogue, world);
+                    }
+
+                    // Map scenes that involve the villager play when the player walks in and their condition holds.
+                    foreach (var ev in sceneIds[v])
+                    {
+                        if (ev.Map != world.Map) continue;
+                        var key = ev.Id + "|" + (ev.Once ? 0 : year);
+                        if (yearlyPlayed.Contains(key) || ev.Once && world.Flags.Contains("event." + ev.Id)) continue;
+                        if (!string.IsNullOrEmpty(ev.Condition) && !(Conditions.TryEvaluate(ev.Condition, world, out var eligible) && eligible)) continue;
+                        yearlyPlayed.Add(key);
+                        foreach (var other in list) if (ev.Id.Split('_').Contains(other)) scenesPlayed[other].Add(ev.Id);   // a scene between two villagers counts for both
+                        world.Flags.Add("event." + ev.Id);
+                        points[v] = FriendshipModel.Clamp(points[v] + 20);
+                    }
                 }
                 longestDeadAny = Math.Max(longestDeadAny, day - lastNewAny);
                 if (day == DaysPerYear - 1) foreach (var v in list) heardYear1[v] = heardEver[v].Count;
@@ -195,6 +234,12 @@ namespace Farm.Gameplay
                 for (var i = 2; i < seq.Count; i++) { comparable++; if (seq[i].id == seq[i - 2].id) twoBack++; }
                 r.TwoBackShare = comparable == 0 ? 0 : twoBack / (double)comparable;
                 r.ConditionedShare = entries.Count == 0 ? 0 : entries.Count(e => HasConditionBeyondHearts(e.Condition)) / (double)entries.Count;
+                var vTopics = story.Topics.Where(t => t.Npc == v).ToList();
+                r.Topics = vTopics.Count;
+                r.TopicsAsked = topicsAsked[v].Count;
+                r.Scenes = sceneIds[v].Count;
+                r.ScenesPlayed = scenesPlayed[v].Count;
+                r.ScenesNeverPlayed = sceneIds[v].Where(e => !scenesPlayed[v].Contains(e.Id)).Select(e => e.Id).ToList();
                 report.Villagers.Add(r);
             }
             report.LongestGameDeadAirDays = longestDeadAny;

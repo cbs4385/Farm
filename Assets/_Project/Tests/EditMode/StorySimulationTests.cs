@@ -29,6 +29,16 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TopicsAndScenes_AreReachedByARealisticPlayer()
+        {
+            foreach (var v in _report.Villagers)
+            {
+                if (v.Topics > 0) Assert.Greater(v.TopicsAsked, 0, v.Villager + " topics");
+                if (v.Scenes > 0) Assert.Greater(v.ScenesPlayed, 0, v.Villager + " scenes");
+            }
+        }
+
+        [Test]
         public void IsDeterministic_ForASeed()
         {
             var again = StorySimulation.Run(_story, Slice, 1, 777);
