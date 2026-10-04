@@ -1,0 +1,48 @@
+# More Village Gazette items (T-146), bringing the total to the plan's 100. Compiled to zz_fs_gazette2.json.
+
+addto gazette.news
+0 ~ => gazette.news.ladder cat=gazette tag=funny :: A ladder was found leaning on nothing near the carpenter's. Investigators suspect optimism.
+0 ~ => gazette.news.bell cat=gazette tag=wholesome :: The village bell rang once by accident and twice on purpose. Both were well received.
+0 ~ => gazette.news.crow cat=gazette tag=funny :: A crow has taken up residence on the general store sign. It has been charged no rent.
+0 ~ => gazette.news.kite cat=gazette tag=wholesome :: A kite was flown over the beach for most of an afternoon. It returned in better spirits than it left.
+0 ~ => gazette.news.recipe cat=gazette tag=funny :: A soup recipe is going around. Everyone swears it is a family secret and everyone has a copy.
+0 ~ => gazette.news.path cat=gazette tag=wholesome :: The path to the forest was swept by persons unknown. Residents are grateful and slightly suspicious.
+0 ~ => gazette.news.hat cat=gazette tag=funny :: A hat blew across the square three times this week. It was returned to its owner three times.
+0 ~ => gazette.news.well cat=gazette tag=wholesome :: The village well was cleaned and the water tastes, in the words of one resident, 'of Tuesday'.
+0 ~ => gazette.news.owlpost cat=gazette tag=funny :: The mailbox was found full of acorns. The postal service denies involvement. The squirrels decline comment.
+0 ~ => gazette.news.garden cat=gazette tag=wholesome :: Someone planted marigolds along the lane overnight. No one has confessed. Everyone has thanked everyone.
+0 season:spring => gazette.news.seedling cat=gazette tag=wholesome :: Seedlings are up all over the valley. The general store reports a run on small watering cans.
+0 season:summer => gazette.news.shade cat=gazette tag=funny :: Shade is now a currency. The big oak by the beach has been oversubscribed.
+0 season:fall => gazette.news.leaves cat=gazette tag=wholesome :: The leaves have turned. The library window has been declared the best view in the village.
+0 season:winter => gazette.news.frost cat=gazette tag=wholesome :: Frost on every windowsill this morning. The bakery smelled better than usual out of spite.
+0 weather:storm => gazette.news.thunder cat=gazette tag=wholesome :: A storm rolled through. The blacksmith's forge, for once, was the quietest place in the village.
+0 weather:snow => gazette.news.snowman cat=gazette tag=funny :: A snowman appeared on the green. By evening it had a scarf, a hat and a mild reputation.
+0 hearts:felix>=4 => gazette.news.felix cat=gazette tag=funny :: Felix reports a fish of unusual size. The pond has not confirmed. The pond rarely does.
+0 hearts:dorian>=4 => gazette.news.dorian cat=gazette tag=wholesome :: Dorian was seen at the edge of the village square, listening. He stayed a full ten minutes.
+0 hearts:elara>=4 => gazette.news.elara cat=gazette tag=funny :: Elara has knitted a scarf for the clinic's roof. Dr. Penn has asked it to come down. It has not.
+0 hearts:ione>=4 => gazette.news.ione cat=gazette tag=wholesome :: Ione has reorganized the third shelf. Nobody has noticed. She says that is how you know it worked.
+0 hearts:marcus>=4 => gazette.news.marcus cat=gazette tag=funny :: Marcus built a bench without a single crooked board. He seems unsure what to do with the feeling.
+0 hearts:odalys>=4 => gazette.news.odalys cat=gazette tag=wholesome :: Dr. Penn closed the clinic ten minutes early. Authorities suspect a nap.
+
+addto gazette.farm
+0 farm:crops>=10 => gazette.farm.rows cat=gazette tag=wholesome :: The rows at [farm] have been described as 'almost suspiciously straight'. Marcus is said to approve.
+0 farm:animals>=1 && farm:crops>=5 => gazette.farm.busy cat=gazette tag=wholesome :: A busy farm, say the neighbors. [farm] is on everyone's route, and the animals have noticed.
+0 shipped:>=50 => gazette.farm.crate cat=gazette tag=funny :: The shipping crate at [farm] is rumored to be getting tired. It has asked for a longer lid.
+0 gold:>=1000 => gazette.farm.savings cat=gazette tag=funny :: Word is [player] has a tidy sum put by. The saloon has been very warm in its greetings.
+0 ~ => gazette.farm.scarecrow cat=gazette tag=funny :: The scarecrow at [farm] has been seen in a new hat. Nobody has admitted to the hat.
+
+addto gazette.weather
+0 weather:sunny && season:summer => gazette.weather.hotsun cat=gazette tag=wholesome :: Hot and bright. Drink water. Dr. Penn is watching, from the shade, with a clipboard.
+0 weather:rain && season:fall => gazette.weather.fallrain cat=gazette tag=wholesome :: Fall rain, steady and golden. Fine weather for soup and a long look out the window.
+0 weather:snow && season:winter => gazette.weather.deepsnow cat=gazette tag=wholesome :: Snow, soft and quiet. The village has lowered its voice. Mittens are in force.
+0 weather:wind && season:spring => gazette.weather.springwind cat=gazette tag=funny :: A spring wind. Petals will travel without a ticket. Washing lines are advised to hold on.
+
+addto gazette.classified
+0 ~ => gazette.class.lantern cat=gazette tag=wholesome :: WANTED: A lantern that stays lit. Apply at the general store. Candles provided.
+0 ~ => gazette.class.owl cat=gazette tag=wholesome :: LOST: A quiet afternoon. If found, please keep it and tell no one.
+0 ~ => gazette.class.sock cat=gazette tag=funny :: FOUND: One sock, red, on the clinic roof. Owner may collect. Owner may also keep it up there.
+0 ~ => gazette.class.stoolrepair cat=gazette tag=funny :: SERVICES: Stool leveling. Inquire at the carpenter's. The saloon stool is excluded on principle.
+0 ~ => gazette.class.pie cat=gazette tag=wholesome :: FOR TRADE: One pumpkin pie for any kind word. Ask at the general store. The pie is patient.
+0 ~ => gazette.class.duet cat=gazette tag=wholesome :: SEEKING: A voice for the second verse. Apply at the saloon. Bring your own key.
+0 ~ => gazette.class.map cat=gazette tag=wholesome :: FOR SALE: A very old map of the valley. Several roads are in the wrong place. The view is correct.
+0 ~ => gazette.class.thanks cat=gazette tag=wholesome :: NOTICE: A heartfelt thank-you is owed to whoever swept the lane. The lane is also grateful.
