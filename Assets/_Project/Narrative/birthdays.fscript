@@ -1,0 +1,145 @@
+# Birthday scenes for all twelve villagers (T-107): one choice each, a gift back, a thank-you letter after and a letter if the player missed it. Compiled to zz_fs_birthdays.json.
+
+dialogue wren.birthday
+n0 wren: What do you say?
+  ? Raise a glass to her. => r0 | friend:wren,10 | flag:choice.bday.wren.glass
+  ? Sing something badly. => r1 | friend:wren,10 | flag:choice.bday.wren.sing
+  ? Give her a quiet hug. => r2 | friend:wren,10 | flag:choice.bday.wren.hug
+r0 wren: To me! Oh, the best toast I've had all year, and I wrote the other ones.
+  expr happy
+r1 wren: That was dreadful. Do it again. Louder. The stool is crying.
+  expr happy
+r2 wren: Oh. ...Oh, you're a menace. A kind one. Sit down before I embarrass us both.
+  expr happy
+
+dialogue hazel.birthday
+n0 hazel: What do you say?
+  ? Wish her a happy birthday. => r0 | friend:hazel,10 | flag:choice.bday.hazel.wish
+  ? Read her a line from her favorite book. => r1 | friend:hazel,10 | flag:choice.bday.hazel.read
+  ? Sit with her in silence. => r2 | friend:hazel,10 | flag:choice.bday.hazel.sit
+r0 hazel: Thank you. (That's four words, said kindly.) I'll keep them.
+  expr happy
+r1 hazel: That one. (You remembered.) I may need a moment.
+  expr embarrassed
+r2 hazel: ...Yes. This. (The best present.) Please stay a while.
+  expr happy
+
+dialogue bram.birthday
+n0 bram: What do you say?
+  ? Wish him a good year. => r0 | friend:bram,10 | flag:choice.bday.bram.wish
+  ? Hand him a small gift. => r1 | friend:bram,10 | flag:choice.bday.bram.gift
+  ? Sit on the bench with him. => r2 | friend:bram,10 | flag:choice.bday.bram.bench
+r0 bram: Hm. Good year. I'll try. Thank you.
+  expr happy
+r1 bram: ...Hm. For me? Hm. It's a good one. Thank you.
+  expr happy
+r2 bram: Hm. Good. That's all I want. Sit.
+  expr happy
+
+dialogue tilda.birthday
+n0 tilda: What do you say?
+  ? Wish her a happy birthday. => r0 | friend:tilda,10 | flag:choice.bday.tilda.wish
+  ? Bring her a flower. => r1 | friend:tilda,10 | flag:choice.bday.tilda.flower
+  ? Offer to mind the shop for an hour. => r2 | friend:tilda,10 | flag:choice.bday.tilda.mind
+r0 tilda: Thank you. I'll put it on the slate in capital letters, where I can see it.
+  expr happy
+r1 tilda: A flower, in my shop! It goes in the window, beside the good pumpkin. Thank you.
+  expr happy
+r2 tilda: You'd mind it? Oh, that's the best present. Take the stool. Mind the cat.
+  expr happy
+
+dialogue juno.birthday
+n0 juno: What do you say?
+  ? Wish her a happy birthday. => r0 | friend:juno,10 | flag:choice.bday.juno.wish
+  ? Tease her about the cake label. => r1 | friend:juno,10 | flag:choice.bday.juno.tease
+  ? Give her a tiny gift. => r2 | friend:juno,10 | flag:choice.bday.juno.gift
+r0 juno: Thank you! I'm having it framed. Don't tell Bram.
+  expr happy
+r1 juno: It's a perfectly good label! ...Okay, it's too good. I'm blushing.
+  expr embarrassed
+r2 juno: A gift! For me! I'm going to cry on a clasp. Thank you!
+  expr happy
+
+dialogue piper.birthday
+n0 piper: What do you say?
+  ? Wish her a happy birthday. => r0 | friend:piper,10 | flag:choice.bday.piper.wish
+  ? Sing it back to her. => r1 | friend:piper,10 | flag:choice.bday.piper.sing
+  ? Ask for the next song. => r2 | friend:piper,10 | flag:choice.bday.piper.ask
+r0 piper: That's a chorus! Thank you. I'll use it in the encore.
+  expr happy
+r1 piper: You sang my song! Badly! Perfectly! I'm stealing your key.
+  expr happy
+r2 piper: The next one's for you. It's not finished. It will be a birthday present, on a late schedule.
+  expr happy
+
+dialogue marcus.birthday
+n0 marcus: What do you say?
+  ? Wish him a happy birthday. => r0 | friend:marcus,10 | flag:choice.bday.marcus.wish
+  ? Admire the plank. => r1 | friend:marcus,10 | flag:choice.bday.marcus.plank
+  ? Offer to hold the other end. => r2 | friend:marcus,10 | flag:choice.bday.marcus.hold
+r0 marcus: Thank you. I'll note it on the beam. Measure twice, thank twice.
+  expr happy
+r1 marcus: It's a good one. Oak. Straight grain. Thank you for noticing.
+  expr happy
+r2 marcus: The other end. Yes. That's the best birthday present: a second pair of hands.
+  expr happy
+
+dialogue odalys.birthday
+n0 odalys: What do you say?
+  ? Wish her a happy birthday. => r0 | friend:odalys,10 | flag:choice.bday.odalys.wish
+  ? Share the soup. => r1 | friend:odalys,10 | flag:choice.bday.odalys.soup
+  ? Prescribe her a nap. => r2 | friend:odalys,10 | flag:choice.bday.odalys.nap
+r0 odalys: Thank you. I'll file it under 'Unexpected, pleasant'.
+  expr happy
+r1 odalys: Soup, shared. A treatment with no side effects. Thank you.
+  expr happy
+r2 odalys: A nap. As prescribed. ...I'll follow your orders. Rarely done, never regretted.
+  expr happy
+
+dialogue felix.birthday
+n0 felix: What do you say?
+  ? Wish him a happy birthday. => r0 | friend:felix,10 | flag:choice.bday.felix.wish
+  ? Listen to the fish story. => r1 | friend:felix,10 | flag:choice.bday.felix.story
+  ? Offer to fish with him. => r2 | friend:felix,10 | flag:choice.bday.felix.fish
+r0 felix: Thank you. I'll tell the fish. They'll be unmoved, but I'll feel better.
+  expr happy
+r1 felix: It was this big. Bigger, since I began. Thank you for listening.
+  expr happy
+r2 felix: Dawn tomorrow. Bring a line. I'll bring the good rock.
+  expr happy
+
+dialogue dorian.birthday
+n0 dorian: What do you say?
+  ? Wish him a happy birthday. => r0 | friend:dorian,10 | flag:choice.bday.dorian.wish
+  ? Offer a walk in the forest. => r1 | friend:dorian,10 | flag:choice.bday.dorian.walk
+  ? Give him a pinecone. => r2 | friend:dorian,10 | flag:choice.bday.dorian.cone
+r0 dorian: ...Thank you. It's quiet. Good.
+  expr happy
+r1 dorian: A walk. Yes. Slowly. I'll show you a quiet spot.
+  expr happy
+r2 dorian: A pinecone. From you. ...It's the best one. I'm keeping it.
+  expr embarrassed
+
+dialogue elara.birthday
+n0 elara: What do you say?
+  ? Wish her a happy birthday. => r0 | friend:elara,10 | flag:choice.bday.elara.wish
+  ? Admire the hat. => r1 | friend:elara,10 | flag:choice.bday.elara.hat
+  ? Offer her a day at the beach. => r2 | friend:elara,10 | flag:choice.bday.elara.beach
+r0 elara: Thank you! I'll knit it into a scarf!
+  expr happy
+r1 elara: It's a hat with a hat! You understand! I'm so happy I might cry!
+  expr happy
+r2 elara: The beach! On my birthday! Yes! I'll pack a sandwich and a very long scarf!
+  expr happy
+
+dialogue ione.birthday
+n0 ione: What do you say?
+  ? Wish her a happy birthday. => r0 | friend:ione,10 | flag:choice.bday.ione.wish
+  ? Read to her. => r1 | friend:ione,10 | flag:choice.bday.ione.read
+  ? Give her a bookmark. => r2 | friend:ione,10 | flag:choice.bday.ione.mark
+r0 ione: Thank you. I'll set it aside, between two good pages.
+  expr happy
+r1 ione: You read aloud. It's been years. Please go slowly. It's lovely.
+  expr happy
+r2 ione: A bookmark. From you. It's going in my favorite book, right now.
+  expr happy

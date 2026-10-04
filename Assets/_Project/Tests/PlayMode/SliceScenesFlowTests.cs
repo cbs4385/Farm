@@ -97,7 +97,7 @@ namespace Farm.Tests
                 else yield return null;
             }
             Assert.IsTrue(finished, eventId + " ran to its end");
-            Assert.IsTrue(_session.State.EventsSeen.Contains(eventId), eventId + " is spent");
+            Assert.IsTrue(!_session.Story.Event(eventId).Once || _session.State.EventsSeen.Contains(eventId), eventId + " is spent (a yearly scene is not)");
             for (var i = 0; i < 30; i++) yield return null;
             Assert.IsFalse(((UiService)Ui).LetterboxOn, eventId + ": the bars are gone");
             Assert.IsNull(GameObject.Find("Prop_heirloom"), eventId);
@@ -123,6 +123,18 @@ namespace Farm.Tests
             new object[] { "juno", MapIds.Blacksmith, "juno_friend", 15 },
             new object[] { "piper", MapIds.Saloon, "piper_heart4", 50 }, new object[] { "piper", MapIds.Saloon, "piper_heart6", 60 },
             new object[] { "piper", MapIds.Saloon, "piper_heart8", 70 }, new object[] { "piper", MapIds.Saloon, "piper_heart10", 80 },
+            new object[] { "wren", MapIds.Saloon, "wren_birthday", 40 },
+            new object[] { "hazel", MapIds.Library, "hazel_birthday", 40 },
+            new object[] { "bram", MapIds.Blacksmith, "bram_birthday", 40 },
+            new object[] { "tilda", MapIds.GeneralStore, "tilda_birthday", 40 },
+            new object[] { "juno", MapIds.Blacksmith, "juno_birthday", 40 },
+            new object[] { "piper", MapIds.Saloon, "piper_birthday", 40 },
+            new object[] { "marcus", MapIds.Carpenter, "marcus_birthday", 40 },
+            new object[] { "odalys", MapIds.Clinic, "odalys_birthday", 40 },
+            new object[] { "felix", MapIds.Beach, "felix_birthday", 40 },
+            new object[] { "dorian", MapIds.Forest, "dorian_birthday", 40 },
+            new object[] { "elara", MapIds.Clinic, "elara_birthday", 40 },
+            new object[] { "ione", MapIds.Library, "ione_birthday", 40 },
             new object[] { "marcus", MapIds.Carpenter, "marcus_heart8", 70 }, new object[] { "odalys", MapIds.Clinic, "odalys_heart8", 70 },
             new object[] { "felix", MapIds.Beach, "felix_heart8", 70 }, new object[] { "dorian", MapIds.Forest, "dorian_heart8", 70 },
             new object[] { "elara", MapIds.Clinic, "elara_heart8", 70 }, new object[] { "ione", MapIds.Library, "ione_heart8", 70 },

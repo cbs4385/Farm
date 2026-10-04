@@ -1,0 +1,328 @@
+{
+  "eventsFromTemplates": [
+    {
+      "id": "wren_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=2 && birthday.in:wren==0 && unseen:birthday.wren && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "mark:birthday.wren",
+          "friend:wren,30",
+          "give:artisan.pickles,2",
+          "mail:wren_bday_thanks"
+        ],
+        "intro": "event.wren_birthday.intro",
+        "talk": "wren.birthday",
+        "after": "event.wren_birthday.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.wren_birthday",
+        "priority": 8,
+        "tag": "funny",
+        "once": false
+      }
+    },
+    {
+      "id": "hazel_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=2 && birthday.in:hazel==0 && unseen:birthday.hazel && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.hazel",
+          "friend:hazel,30",
+          "give:artisan.jam,2",
+          "mail:hazel_bday_thanks"
+        ],
+        "intro": "event.hazel_birthday.intro",
+        "talk": "hazel.birthday",
+        "after": "event.hazel_birthday.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.hazel_birthday",
+        "priority": 8,
+        "tag": "wholesome",
+        "once": false
+      }
+    },
+    {
+      "id": "bram_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "bram",
+        "map": "Blacksmith",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:bram>=2 && birthday.in:bram==0 && unseen:birthday.bram && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.bram",
+          "friend:bram,30",
+          "give:resource.ironbar,1",
+          "mail:bram_bday_thanks"
+        ],
+        "intro": "event.bram_birthday.intro",
+        "talk": "bram.birthday",
+        "after": "event.bram_birthday.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.bram_birthday",
+        "priority": 8,
+        "tag": "wholesome",
+        "once": false
+      }
+    },
+    {
+      "id": "tilda_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "tilda",
+        "map": "GeneralStore",
+        "px": 7,
+        "py": 4,
+        "when": "hearts:tilda>=2 && birthday.in:tilda==0 && unseen:birthday.tilda && !weekday:sun && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.tilda",
+          "friend:tilda,30",
+          "give:food.pumpkin_pie,1",
+          "mail:tilda_bday_thanks"
+        ],
+        "intro": "event.tilda_birthday.intro",
+        "talk": "tilda.birthday",
+        "after": "event.tilda_birthday.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.tilda_birthday",
+        "priority": 8,
+        "tag": "wholesome",
+        "once": false
+      }
+    },
+    {
+      "id": "juno_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=2 && birthday.in:juno==0 && unseen:birthday.juno && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.juno",
+          "friend:juno,30",
+          "give:resource.copperbar,2",
+          "mail:juno_bday_thanks"
+        ],
+        "intro": "event.juno_birthday.intro",
+        "talk": "juno.birthday",
+        "after": "event.juno_birthday.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.juno_birthday",
+        "priority": 8,
+        "tag": "funny",
+        "once": false
+      }
+    },
+    {
+      "id": "piper_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=2 && birthday.in:piper==0 && unseen:birthday.piper && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "mark:birthday.piper",
+          "friend:piper,30",
+          "give:artisan.juice,2",
+          "mail:piper_bday_thanks"
+        ],
+        "intro": "event.piper_birthday.intro",
+        "talk": "piper.birthday",
+        "after": "event.piper_birthday.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.piper_birthday",
+        "priority": 8,
+        "tag": "funny",
+        "once": false
+      }
+    },
+    {
+      "id": "marcus_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "marcus",
+        "map": "Carpenter",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:marcus>=2 && birthday.in:marcus==0 && unseen:birthday.marcus && !weekday:wed && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.marcus",
+          "friend:marcus,30",
+          "give:resource.wood,5",
+          "mail:marcus_bday_thanks"
+        ],
+        "intro": "event.marcus_birthday.intro",
+        "talk": "marcus.birthday",
+        "after": "event.marcus_birthday.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.marcus_birthday",
+        "priority": 8,
+        "tag": "wholesome",
+        "once": false
+      }
+    },
+    {
+      "id": "odalys_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "odalys",
+        "map": "Clinic",
+        "px": 6,
+        "py": 2,
+        "when": "hearts:odalys>=2 && birthday.in:odalys==0 && unseen:birthday.odalys && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.odalys",
+          "friend:odalys,30",
+          "give:artisan.juice,1",
+          "mail:odalys_bday_thanks"
+        ],
+        "intro": "event.odalys_birthday.intro",
+        "talk": "odalys.birthday",
+        "after": "event.odalys_birthday.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.odalys_birthday",
+        "priority": 8,
+        "tag": "wholesome",
+        "once": false
+      }
+    },
+    {
+      "id": "felix_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "felix",
+        "map": "Beach",
+        "px": 11,
+        "py": 10,
+        "when": "hearts:felix>=2 && birthday.in:felix==0 && unseen:birthday.felix && !weekday:thu && hour>=6 && hour<14",
+        "reward": [
+          "mark:birthday.felix",
+          "friend:felix,30",
+          "give:fish.carp,1",
+          "mail:felix_bday_thanks"
+        ],
+        "intro": "event.felix_birthday.intro",
+        "talk": "felix.birthday",
+        "after": "event.felix_birthday.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.felix_birthday",
+        "priority": 8,
+        "tag": "funny",
+        "once": false
+      }
+    },
+    {
+      "id": "dorian_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "dorian",
+        "map": "Forest",
+        "px": 19,
+        "py": 11,
+        "when": "hearts:dorian>=2 && birthday.in:dorian==0 && unseen:birthday.dorian && hour>=8 && hour<17",
+        "reward": [
+          "mark:birthday.dorian",
+          "friend:dorian,30",
+          "give:forage.mushroom,2",
+          "mail:dorian_bday_thanks"
+        ],
+        "intro": "event.dorian_birthday.intro",
+        "talk": "dorian.birthday",
+        "after": "event.dorian_birthday.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.dorian_birthday",
+        "priority": 8,
+        "tag": "wholesome",
+        "once": false
+      }
+    },
+    {
+      "id": "elara_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "elara",
+        "map": "Clinic",
+        "px": 3,
+        "py": 2,
+        "when": "hearts:elara>=2 && birthday.in:elara==0 && unseen:birthday.elara && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.elara",
+          "friend:elara,30",
+          "give:product.wool,1",
+          "mail:elara_bday_thanks"
+        ],
+        "intro": "event.elara_birthday.intro",
+        "talk": "elara.birthday",
+        "after": "event.elara_birthday.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.elara_birthday",
+        "priority": 8,
+        "tag": "funny",
+        "once": false
+      }
+    },
+    {
+      "id": "ione_birthday",
+      "template": "conversation",
+      "args": {
+        "npc": "ione",
+        "map": "Library",
+        "px": 6,
+        "py": 4,
+        "when": "hearts:ione>=2 && birthday.in:ione==0 && unseen:birthday.ione && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "mark:birthday.ione",
+          "friend:ione,30",
+          "give:forage.seashell,1",
+          "mail:ione_bday_thanks"
+        ],
+        "intro": "event.ione_birthday.intro",
+        "talk": "ione.birthday",
+        "after": "event.ione_birthday.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.ione_birthday",
+        "priority": 8,
+        "tag": "wholesome",
+        "once": false
+      }
+    }
+  ]
+}

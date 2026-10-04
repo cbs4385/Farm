@@ -1,0 +1,700 @@
+{
+  "dialogues": [
+    {
+      "id": "wren.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.wren.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.bday.wren.glass"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.bday.wren.sing"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.wren.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.bday.wren.hug"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "wren",
+          "text": "dlg.wren.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "hazel.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.hazel.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.bday.hazel.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.bday.hazel.read"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.hazel.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.bday.hazel.sit"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.birthday.r1",
+          "expression": "embarrassed"
+        },
+        {
+          "id": "r2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "bram.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.bram.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bday.bram.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.bram.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bday.bram.gift"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.bram.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bday.bram.bench"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "bram",
+          "text": "dlg.bram.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "bram",
+          "text": "dlg.bram.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "bram",
+          "text": "dlg.bram.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "tilda.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.tilda.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.bday.tilda.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.tilda.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.bday.tilda.flower"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.tilda.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.bday.tilda.mind"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "tilda",
+          "text": "dlg.tilda.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "juno.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.juno.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.bday.juno.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.bday.juno.tease"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.juno.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.bday.juno.gift"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.birthday.r1",
+          "expression": "embarrassed"
+        },
+        {
+          "id": "r2",
+          "speaker": "juno",
+          "text": "dlg.juno.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "piper.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.piper.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.bday.piper.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.bday.piper.sing"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.piper.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.bday.piper.ask"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "piper",
+          "text": "dlg.piper.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "marcus.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.marcus.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:marcus,10",
+                "flag:choice.bday.marcus.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.marcus.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:marcus,10",
+                "flag:choice.bday.marcus.plank"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.marcus.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:marcus,10",
+                "flag:choice.bday.marcus.hold"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "marcus",
+          "text": "dlg.marcus.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "marcus",
+          "text": "dlg.marcus.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "odalys.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.odalys.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:odalys,10",
+                "flag:choice.bday.odalys.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.odalys.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:odalys,10",
+                "flag:choice.bday.odalys.soup"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.odalys.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:odalys,10",
+                "flag:choice.bday.odalys.nap"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "odalys",
+          "text": "dlg.odalys.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "odalys",
+          "text": "dlg.odalys.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "felix.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.felix.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.bday.felix.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.felix.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.bday.felix.story"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.felix.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.bday.felix.fish"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "felix",
+          "text": "dlg.felix.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "felix",
+          "text": "dlg.felix.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "felix",
+          "text": "dlg.felix.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "dorian.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.dorian.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.bday.dorian.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.dorian.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.bday.dorian.walk"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.dorian.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.bday.dorian.cone"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "dorian",
+          "text": "dlg.dorian.birthday.r2",
+          "expression": "embarrassed"
+        }
+      ]
+    },
+    {
+      "id": "elara.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.elara.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.bday.elara.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.bday.elara.hat"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.elara.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.bday.elara.beach"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "elara",
+          "text": "dlg.elara.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "ione.birthday",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.birthday.0",
+          "choices": [
+            {
+              "text": "dlg.ione.birthday.c0",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.bday.ione.wish"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.ione.birthday.c1",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.bday.ione.read"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.ione.birthday.c2",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.bday.ione.mark"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "ione",
+          "text": "dlg.ione.birthday.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "ione",
+          "text": "dlg.ione.birthday.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "ione",
+          "text": "dlg.ione.birthday.r2",
+          "expression": "happy"
+        }
+      ]
+    }
+  ]
+}
