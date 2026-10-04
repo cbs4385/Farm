@@ -16,7 +16,7 @@ namespace Farm.Tests
         [Test]
         public void EveryNewEffect_IsAudible_Bounded_AndEndsQuietly()
         {
-            Assert.AreEqual(24, Synthesised.Length);
+            Assert.AreEqual(30, Synthesised.Length);
             foreach (var sfx in Synthesised)
             {
                 var d = SfxSynth.Make(sfx);

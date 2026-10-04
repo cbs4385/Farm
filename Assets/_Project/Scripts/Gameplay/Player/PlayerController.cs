@@ -39,13 +39,24 @@ namespace Farm.Gameplay
             _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
 
+        FarmMap _map;
+
+        // The step sound for the ground under the player's feet.
+        Sfx StepSound()
+        {
+            if (_map == null) _map = FindAnyObjectByType<FarmMap>();
+            if (_map == null || _map.Ground == null) return Sfx.Step;
+            var tile = _map.Ground.GetTile(_map.WorldToCell(transform.position));
+            return FootstepSurface.For(tile != null ? tile.name : null);
+        }
+
         void LateUpdate()
         {
             var moved = (transform.position - _lastPosition).magnitude;
             _lastPosition = transform.position;
             // A teleport or a map change is not a walk.
             if (moved > 1f) { _steps.Walk(0f); return; }
-            if (_steps.Walk(_move.sqrMagnitude > 0.01f ? moved : 0f)) AudioService.PlayIfAvailable(Sfx.Step, 0.35f, _steps.Pitch);
+            if (_steps.Walk(_move.sqrMagnitude > 0.01f ? moved : 0f)) AudioService.PlayIfAvailable(StepSound(), 0.35f, _steps.Pitch);
         }
 
         void Update()

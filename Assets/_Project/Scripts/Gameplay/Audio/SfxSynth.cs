@@ -39,6 +39,12 @@ namespace Farm.Gameplay
                 case Sfx.Baa: return Baa();
                 case Sfx.Quack: return Quack();
                 case Sfx.Hover: return Glide(1500f, 1700f, 0.025f, 0.4f);
+                case Sfx.StepHard: return StepHard();
+                case Sfx.StepSand: return StepSand();
+                case Sfx.Thunder: return Thunder();
+                case Sfx.Gust: return Gust();
+                case Sfx.Meow: return Meow();
+                case Sfx.Bell: return BigBell();
                 default: return new float[SampleRate / 20];
             }
         }
@@ -333,6 +339,95 @@ namespace Farm.Gameplay
                 }
             }
             return Finish(data, 0.4f);
+        }
+
+        // A firmer step for a path, cobbles or a wooden floor: a short knock and a brighter tick.
+        static float[] StepHard()
+        {
+            var data = Buffer(0.08f);
+            AddTone(data, 0f, 0.045f, 240f, 150f, 0.8f);
+            AddNoiseSweep(data, 0f, 0.04f, 5000f, 1800f, 0.7f, 92, 0.001f);
+            return Finish(data, 0.5f);
+        }
+
+        // Sand scuffs: no thud, just a soft dragged hiss.
+        static float[] StepSand()
+        {
+            var data = Buffer(0.12f);
+            AddNoiseSweep(data, 0f, 0.1f, 3200f, 900f, 0.8f, 93, 0.01f);
+            return Finish(data, 0.4f);
+        }
+
+        // A distant rumble with a wobble, and a crack at the front.
+        static float[] Thunder()
+        {
+            var data = Buffer(1.25f);
+            AddNoiseSweep(data, 0f, 0.05f, 7000f, 2000f, 0.7f, 94, 0.001f);
+            var noise = new Noise(95);
+            float lp = 0, lp2 = 0;
+            var n = (int)(SampleRate * 1.2f);
+            for (var i = 0; i < n; i++)
+            {
+                var t = i / (float)SampleRate;
+                var p = i / (float)n;
+                lp += 0.03f * (noise.Next() - lp);
+                lp2 += 0.05f * (lp - lp2);
+                var wobble = 0.6f + 0.4f * (float)Math.Sin(2 * Math.PI * 6.5 * t + 3 * Math.Sin(2 * Math.PI * 1.1 * t));
+                var env = Math.Min(1f, t / 0.12f) * (float)Math.Pow(1f - p, 1.6);
+                data[i] += lp2 * wobble * env * 9f;
+            }
+            return Finish(data, 0.6f);
+        }
+
+        // One swelling gust of wind: a slow rise and fall of filtered noise.
+        static float[] Gust()
+        {
+            var data = Buffer(1.25f);
+            var noise = new Noise(96);
+            float lp = 0, lp2 = 0;
+            for (var i = 0; i < data.Length; i++)
+            {
+                var p = i / (float)data.Length;
+                lp += 0.025f * (noise.Next() - lp);
+                lp2 += 0.1f * (lp - lp2);
+                data[i] = lp2 * (float)Math.Sin(Math.PI * p) * 7f;
+            }
+            return Finish(data, 0.4f);
+        }
+
+        // A small, plainly synthetic meow: a glide up and back down on two blended harmonics, with a little vibrato. Not an imitation of a recording.
+        static float[] Meow()
+        {
+            var data = Buffer(0.5f);
+            var n = (int)(SampleRate * 0.45f);
+            var phase = 0.0;
+            for (var i = 0; i < n; i++)
+            {
+                var t = i / (float)SampleRate;
+                var p = i / (float)n;
+                var hz = 560f + 380f * (float)Math.Sin(Math.PI * Math.Min(1f, p * 1.15f)) - 120f * p;
+                hz *= 1f + 0.015f * (float)Math.Sin(2 * Math.PI * 7 * t);
+                phase += 2 * Math.PI * hz / SampleRate;
+                var env = Math.Min(1f, t / 0.05f) * (float)Math.Sin(Math.PI * Math.Min(1f, p)) ;
+                data[i] = ((float)Math.Sin(phase) * 0.6f + (float)Math.Sin(phase * 2) * 0.3f + (float)Math.Sin(phase * 3) * 0.12f) * env;
+            }
+            return Finish(data, 0.4f);
+        }
+
+        // A single strike of a big bell: inharmonic partials with a long ring (the director strikes it a few times).
+        static float[] BigBell()
+        {
+            var data = Buffer(1.25f);
+            var partials = new[] { 1.0f, 2.0f, 2.76f, 5.4f };
+            var gains = new[] { 1.0f, 0.55f, 0.4f, 0.18f };
+            var decays = new[] { 0.5f, 0.32f, 0.22f, 0.1f };
+            for (var k = 0; k < partials.Length; k++)
+                for (var i = 0; i < data.Length; i++)
+                {
+                    var t = i / (float)SampleRate;
+                    data[i] += (float)Math.Sin(2 * Math.PI * 330f * partials[k] * t) * (float)Math.Exp(-t / decays[k]) * gains[k] * Math.Min(1f, t / 0.003f);
+                }
+            return Finish(data, 0.5f);
         }
 
         // ---- export for review ----------------------------------------------------------------------------------------------------------------------------

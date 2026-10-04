@@ -64,6 +64,32 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheGround_DecidesWhatAStepSoundsLike()
+        {
+            foreach (var hard in new[] { "tile_path", "tile_cobble", "tile_floor_wood" }) Assert.AreEqual(Sfx.StepHard, FootstepSurface.For(hard), hard);
+            Assert.AreEqual(Sfx.StepSand, FootstepSurface.For("tile_sand"));
+            foreach (var soft in new[] { "tile_grass", "tile_dirt", "tile_forest", "tile_tilled", null, "something_new" }) Assert.AreEqual(Sfx.Step, FootstepSurface.For(soft), soft);
+        }
+
+        [Test]
+        public void WeatherOneShots_OnlyOutdoors_StormsRumbleAndWindGusts()
+        {
+            Assert.AreEqual(Sfx.Thunder, AmbienceDirector.OneShotFor(WeatherIds.Storm, false));
+            Assert.AreEqual(Sfx.Gust, AmbienceDirector.OneShotFor(WeatherIds.Wind, false));
+            Assert.IsNull(AmbienceDirector.OneShotFor(WeatherIds.Rain, false), "plain rain has no thunder");
+            Assert.IsNull(AmbienceDirector.OneShotFor(WeatherIds.Sunny, false));
+            Assert.IsNull(AmbienceDirector.OneShotFor(WeatherIds.Storm, true), "indoors the storm is a distant bed, no thunder clap");
+        }
+
+        [Test]
+        public void TheVillageBell_StrikesAtNoonAndSix()
+        {
+            Assert.IsTrue(AmbienceDirector.BellHour(12));
+            Assert.IsTrue(AmbienceDirector.BellHour(18));
+            foreach (var h in new[] { 0, 6, 9, 11, 13, 17, 19, 23 }) Assert.IsFalse(AmbienceDirector.BellHour(h), h.ToString());
+        }
+
+        [Test]
         public void EveryFarmAnimal_HasACall_ExceptTheRabbit()
         {
             foreach (var type in new[] { "chicken", "duck", "cow", "goat", "sheep" }) Assert.IsTrue(AnimalCalls.For(type).HasValue, type);
