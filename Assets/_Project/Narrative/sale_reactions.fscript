@@ -1,0 +1,33 @@
+# Reactions to a big day of sales (T-124): the shopkeepers notice when the shipping bin did very well. Fired when a day's earnings reach 300 gold. Compiled to zz_fs_sale_reactions.json.
+
+reaction sale.tilda
+on random:big_sale
+npcs tilda
+ttl 3
+if hearts:tilda>=2
+plays sale.tilda.d
+say sale.tilda.d tilda: A very full bin yesterday, dear! The seed shelf is jealous. I've put a little extra in your next order.
+
+reaction sale.wren
+on random:big_sale
+npcs wren
+ttl 3
+if hearts:wren>=2
+plays sale.wren.d
+say sale.wren.d wren: I hear the bin did very well, my darling. The whole valley's talking. Sit. First cup's on the house, second's on the shipping.
+
+reaction sale.felix
+on random:big_sale
+npcs felix
+ttl 3
+if hearts:felix>=2
+plays sale.felix.d
+say sale.felix.d felix: Heard you had a big haul. Hm. Bigger than my biggest fish. Almost. It was this big.
+
+reaction sale.marcus
+on random:big_sale
+npcs marcus
+ttl 3
+if hearts:marcus>=2
+plays sale.marcus.d
+say sale.marcus.d marcus: Good sale. A farm that pays can build. Think about the barn.

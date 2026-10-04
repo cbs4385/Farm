@@ -1,0 +1,174 @@
+{
+  "dialogues": [
+    {
+      "id": "gazette.news.gifts",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.gifts.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.news.errands",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.errands.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.news.practice",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.practice.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.news.moment",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.moment.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.bigsale",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.bigsale.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.giver",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.giver.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.helper",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.helper.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.head.bigsale",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.head.bigsale.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.head.moment",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.head.moment.0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "gazette.news",
+      "entries": [
+        {
+          "condition": "recent:gift",
+          "priority": 0,
+          "dialogue": "gazette.news.gifts",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "recent:quest",
+          "priority": 0,
+          "dialogue": "gazette.news.errands",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "recent:skill",
+          "priority": 0,
+          "dialogue": "gazette.news.practice",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "recent:scene",
+          "priority": 0,
+          "dialogue": "gazette.news.moment",
+          "tag": "wholesome",
+          "category": "gazette"
+        }
+      ]
+    },
+    {
+      "set": "gazette.farm",
+      "entries": [
+        {
+          "condition": "recent:bigsale",
+          "priority": 0,
+          "dialogue": "gazette.farm.bigsale",
+          "tag": "funny",
+          "category": "gazette"
+        },
+        {
+          "condition": "recent:gift",
+          "priority": 0,
+          "dialogue": "gazette.farm.giver",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "recent:quest",
+          "priority": 0,
+          "dialogue": "gazette.farm.helper",
+          "tag": "wholesome",
+          "category": "gazette"
+        }
+      ]
+    },
+    {
+      "set": "gazette.headline",
+      "entries": [
+        {
+          "condition": "recent:bigsale",
+          "priority": 0,
+          "dialogue": "gazette.head.bigsale",
+          "tag": "funny",
+          "category": "gazette"
+        },
+        {
+          "condition": "recent:scene",
+          "priority": 0,
+          "dialogue": "gazette.head.moment",
+          "tag": "wholesome",
+          "category": "gazette"
+        }
+      ]
+    }
+  ]
+}

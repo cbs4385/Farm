@@ -1,7 +1,8 @@
 """Story props (T-122/T-123/T-143): generates one 4 x 2 sheet of small story props with Gemini 2.5 Flash Image through OpenRouter, then slices
 it into 16 x 16 item icons (Art/Placeholders/item_prop_<name>.png) with the shared keying, scaling and palette steps of slice_sheets.py.
 Scenes show a prop through an item icon (the `spawn` step), so each prop is also a non-sellable Misc item (see ContentGenerator).
-Usage: python tools/art/generate_props.py [--slice-only]
+Usage: python tools/art/generate_props.py [--slice-only] [--only name,name]
+  --only  redo just these props: the sheet is still 8 cells, but only the named ones are written (the others stay as approved); the raw sheet goes to Art/Generated/props_redo.png
 Key: OPENROUTER_API_KEY in the environment or tools/art/.env (git-ignored). Provenance: Art/Generated/props.png and props_prompt.txt."""
 import base64, io, json, os, sys, urllib.request, urllib.error
 import numpy as np
@@ -23,14 +24,24 @@ PROPS = [
 ]
 
 
+REDO = {
+    "trophy": "a tiny grey iron anvil on a small wooden base, with a small orange-red fish shape lying on top of the anvil",
+    "scarecrow": "a cheerful straw scarecrow standing upright on a wooden post, seen from the front, floppy patched brown hat, straw arms held out to the sides",
+}
+
+
 def prompt():
-    names = ", ".join(f"{i + 1}. {d}" for i, (_, d) in enumerate(PROPS))
+    names = ", ".join(f"{i + 1}. {REDO.get(n, d) if ONLY and n in ONLY else d}" for i, (n, d) in enumerate(PROPS))
     return (STYLE + "\n\nOn a perfectly flat solid pure magenta (#FF00FF) background, draw 8 separate small props arranged in a grid of 4 columns "
             "and 2 rows. Each prop is centred in its own equal-sized cell with a wide empty magenta margin around it and never touches another "
             "prop or the image edge. All props share the same scale, viewpoint (slightly from above) and style, and read clearly at a tiny size: "
             "bold simple shapes, few colours. Left to right, top to bottom: " + names + ".\n"
             "Absolutely no text, letters, numbers, labels, captions, borders, frames, boxes or outlines around the props, watermarks or ground "
             "shadows: the props float on plain magenta. No photorealism, no 3D, no black outlines, no gore, no scary faces.")
+
+
+ONLY = None
+SHEET = "props.png"
 
 
 def generate(key, model="google/gemini-2.5-flash-image"):
@@ -43,13 +54,13 @@ def generate(key, model="google/gemini-2.5-flash-image"):
     images = resp["choices"][0]["message"].get("images") or []
     if not images: sys.exit("no image in the response")
     raw = base64.b64decode(images[0]["image_url"]["url"].split(",", 1)[1])
-    open(os.path.join(GEN, "props.png"), "wb").write(raw)
+    open(os.path.join(GEN, SHEET), "wb").write(raw)
     open(os.path.join(GEN, "props_prompt.txt"), "w", encoding="utf-8").write(f"model: {model}\n\n{prompt()}\n")
     print("sheet written", Image.open(io.BytesIO(raw)).size)
 
 
 def slice_sheet():
-    img = Image.open(os.path.join(GEN, "props.png")).convert("RGB")
+    img = Image.open(os.path.join(GEN, SHEET)).convert("RGB")
     rgb, fg = S.key_background(img)
     fg = S.clean_mask(fg)
     rows = S.segment(fg, 2, dilate=7)
@@ -72,7 +83,7 @@ def slice_sheet():
     pv = Image.new("RGBA", (len(PROPS) * (tw * 8 + 8), th * 8 + 8), (60, 50, 60, 255))
     for i, ((name, _), a) in enumerate(zip(PROPS, out)):
         im = Image.fromarray(a, "RGBA")
-        im.save(os.path.join(PH, f"item_prop_{name}.png"))
+        if not ONLY or name in ONLY: im.save(os.path.join(PH, f"item_prop_{name}.png"))
         big = im.resize((tw * 8, th * 8), Image.NEAREST)
         pv.paste(big, (i * (tw * 8 + 8) + 4, 4), big)
     pv.save(os.path.join(ROOT, "Builds", "preview_props.png"))
@@ -80,6 +91,10 @@ def slice_sheet():
 
 
 if __name__ == "__main__":
+    for a in sys.argv[1:]:
+        if a.startswith("--only"):
+            ONLY = (a.split("=", 1)[1] if "=" in a else sys.argv[sys.argv.index(a) + 1]).split(",")
+    if ONLY: SHEET = "props_redo.png"
     os.makedirs(GEN, exist_ok=True)
     if "--slice-only" not in sys.argv: generate(load_key())
     slice_sheet()

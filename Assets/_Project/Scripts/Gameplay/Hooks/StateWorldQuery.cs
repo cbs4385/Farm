@@ -16,6 +16,7 @@ namespace Farm.Gameplay
         public System.Func<string, int> BirthdayDays;
         public System.Func<int> CropCounter;
         public System.Func<string, bool> HeardLookup;
+        public System.Func<string, bool> DeedLookup;
         public System.Func<string, string> MoodLookup;
 
         public StateWorldQuery(GameState state, GameClock clock)
@@ -44,6 +45,7 @@ namespace Farm.Gameplay
         public string PlayerName() => _state.PlayerName;
         public string MoodOf(string npcId) => MoodLookup != null ? MoodLookup(npcId) : "content";
         public int Gold() => _state.Gold;
+        public bool RecentDeed(string kind) => DeedLookup != null && DeedLookup(kind);
         public int HallRoomsRestored() => HallRooms.RestoredCount(_state);
         public bool UpgradeDone(string upgradeId) => _state.UpgradesDone.Contains(upgradeId);
 

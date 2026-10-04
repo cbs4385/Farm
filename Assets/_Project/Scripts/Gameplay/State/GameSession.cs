@@ -172,6 +172,7 @@ namespace Farm.Gameplay
                 BirthdayDays = id => Npcs?.Get(id) is NpcDefinition npc ? StoryCalendar.DaysUntil(Clock.Now, npc.BirthdaySeason, npc.BirthdayDay) : -1,
                 CropCounter = CountCrops,
                 HeardLookup = id => memory.Value.HeardAnywhere(id),
+                DeedLookup = kind => DeedLog.IsRecent(DeedState.Load(this), kind, Clock.Now.TotalDays),
                 MoodLookup = id => MoodModel.Of(this, id).ToString().ToLowerInvariant(),
             };
         }
@@ -264,11 +265,11 @@ namespace Farm.Gameplay
             _bus.Subscribe<FlagChanged>(e => Achievements.Check(this));
             _bus.Subscribe<FlagChanged>(e => { if (e.Value) Reactions.Fire(this, "flag:" + e.Flag); });
             _bus.Subscribe<QuestStarted>(e => Reactions.Fire(this, "quest.start:" + e.QuestId));
-            _bus.Subscribe<QuestCompleted>(e => Reactions.Fire(this, "quest.done:" + e.QuestId));
-            _bus.Subscribe<SkillLevelUp>(e => { Reactions.Fire(this, "skill.up:" + e.Skill); AudioService.PlayIfAvailable(Sfx.LevelUp); });
-            _bus.Subscribe<EventFinished>(e => Reactions.Fire(this, "event:" + e.EventId));
+            _bus.Subscribe<QuestCompleted>(e => { Reactions.Fire(this, "quest.done:" + e.QuestId); DeedLog.Record(this, DeedLog.Quest); });
+            _bus.Subscribe<SkillLevelUp>(e => { Reactions.Fire(this, "skill.up:" + e.Skill); AudioService.PlayIfAvailable(Sfx.LevelUp); DeedLog.Record(this, DeedLog.Skill); });
+            _bus.Subscribe<EventFinished>(e => { Reactions.Fire(this, "event:" + e.EventId); DeedLog.Record(this, DeedLog.Scene); });
             _bus.Subscribe<SeasonChanged>(e => Reactions.Fire(this, "season:" + e.Season.ToString().ToLowerInvariant()));
-            _bus.Subscribe<NpcGifted>(e => Reactions.Fire(this, "gift:" + e.NpcId));
+            _bus.Subscribe<NpcGifted>(e => { Reactions.Fire(this, "gift:" + e.NpcId); DeedLog.Record(this, DeedLog.Gift); });
             _bus.Subscribe<RandomEventHappened>(e => Reactions.Fire(this, "random:" + e.EventId));
             _bus.Subscribe<DayStarted>(e => Reactions.NewDay(this));
         }
@@ -639,6 +640,11 @@ namespace Farm.Gameplay
             Save();
 
             _endingDay = false;
+            if (summary != null && summary.Earnings >= DeedLog.BigSaleGold)
+            {
+                DeedLog.Record(this, DeedLog.BigSale);
+                Reactions.Fire(this, "random:big_sale");
+            }
             _bus.Publish(new StatsChanged());
             _bus.Publish(new DayCycleFinished(summary));
             return summary;

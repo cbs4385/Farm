@@ -22,6 +22,7 @@ namespace Farm.Gameplay
         string UpgradeState() => "none";        // T-124: a tool at a counter for upgrading: "none", "waiting" or "ready" (ready to collect today)
         int Gold() => 0;
         int ShippedCount() => 0;                // items sold through the shipping bin, ever
+        bool RecentDeed(string kind) => false;      // a deed (quest, gift, skill, scene, bigsale) in the last seven days (DeedLog)
         int HallRoomsRestored() => 0;           // Community Hall rooms restored, 0 to 6 (T-124)
         bool UpgradeDone(string upgradeId) => false;   // a paid-for upgrade, for example backpack.24 or energy.1
     }
@@ -73,6 +74,7 @@ namespace Farm.Gameplay
             Conditions.Register("shipped", (arg, w) => SplitNumber(arg, out var op, out var n) && w is IGameQuery q && Compare(q.ShippedCount(), op, n));
             // hall:>=3 (Community Hall rooms restored), upgraded:backpack.24 (an upgrade the player has paid for). Farm buildings set `farm.coop`, `farm.barn`, `farm.greenhouse` flags.
             Conditions.Register("hall", (arg, w) => SplitNumber(arg, out var op, out var n) && w is IGameQuery q && Compare(q.HallRoomsRestored(), op, n));
+            Conditions.Register("recent", (arg, w) => w is IGameQuery q && q.RecentDeed(arg));       // recent:gift, recent:quest, recent:skill, recent:scene, recent:bigsale
             Conditions.Register("upgraded", (arg, w) => w is IGameQuery q && q.UpgradeDone(arg));
             Conditions.Register("heard", (arg, w) => w is IGameQuery q && q.HeardLine(arg));
             Conditions.Register("choice", (arg, w) => w.HasFlag("choice." + arg));

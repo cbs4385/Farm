@@ -1,0 +1,94 @@
+{
+  "dialogues": [
+    {
+      "id": "sale.tilda.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.sale.tilda.d.0"
+        }
+      ]
+    },
+    {
+      "id": "sale.wren.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.sale.wren.d.0"
+        }
+      ]
+    },
+    {
+      "id": "sale.felix.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.sale.felix.d.0"
+        }
+      ]
+    },
+    {
+      "id": "sale.marcus.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.sale.marcus.d.0"
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "id": "sale.tilda",
+      "on": "random:big_sale",
+      "npcs": "tilda",
+      "condition": "hearts:tilda>=2",
+      "ttlDays": 3,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "sale.tilda.d"
+    },
+    {
+      "id": "sale.wren",
+      "on": "random:big_sale",
+      "npcs": "wren",
+      "condition": "hearts:wren>=2",
+      "ttlDays": 3,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "sale.wren.d"
+    },
+    {
+      "id": "sale.felix",
+      "on": "random:big_sale",
+      "npcs": "felix",
+      "condition": "hearts:felix>=2",
+      "ttlDays": 3,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "sale.felix.d"
+    },
+    {
+      "id": "sale.marcus",
+      "on": "random:big_sale",
+      "npcs": "marcus",
+      "condition": "hearts:marcus>=2",
+      "ttlDays": 3,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "sale.marcus.d"
+    }
+  ]
+}
