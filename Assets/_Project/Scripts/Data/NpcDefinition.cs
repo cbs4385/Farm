@@ -46,6 +46,7 @@ namespace Farm.Data
         [SerializeField] int _homeY;
         [SerializeField] string _business;               // shop id they work at, if any
         [SerializeField] Sprite _down, _up, _left, _right, _portrait;
+        [SerializeField] Sprite[] _poses;                // aligned with PoseNames (T-131); a missing entry means no pose sprite
         [SerializeField] Sprite[] _expressions;          // aligned with ExpressionNames; a missing entry falls back to the portrait
         [SerializeField] string[] _loved = new string[0];       // item ids
         [SerializeField] string[] _liked = new string[0];
@@ -68,6 +69,15 @@ namespace Farm.Data
 
         // The portrait variants dialogue lines can ask for (T-095). Art arrives with T-130.
         public static readonly string[] ExpressionNames = { "neutral", "happy", "sad", "surprised", "embarrassed", "thinking" };
+
+        // Full-body poses a scene can ask for with the `anim` step (T-131), facing the viewer.
+        public static readonly string[] PoseNames = { "wave", "sit", "shrug", "point" };
+
+        public Sprite PoseFor(string pose)
+        {
+            var i = System.Array.IndexOf(PoseNames, pose);
+            return _poses != null && i >= 0 && i < _poses.Length ? _poses[i] : null;
+        }
 
         public Sprite PortraitFor(string expression)
         {
@@ -132,6 +142,7 @@ namespace Farm.Data
 
         // The expression portraits, aligned with ExpressionNames; null entries fall back to the base portrait (T-130).
         public void SetExpressions(Sprite[] expressions) => _expressions = expressions;
+        public void SetPoses(Sprite[] poses) => _poses = poses;
 
         public void SetSprites(Sprite down, Sprite up, Sprite left, Sprite right, Sprite portrait)
         {

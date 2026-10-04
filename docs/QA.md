@@ -72,3 +72,12 @@ Manual checks (not yet done by a person): Options > Accessibility (colour-blind 
 Automated: `Milestone4Tests` (EditMode).
 
 Slice scenes and barks check (2026-10-03, development build, Windows): `Farm.exe -screen-width 1280 -screen-height 720 -screen-fullscreen 0 -farmScene Saloon -farmCommands "time 14:00;bark wren" -farmCapture <dir>` shows the bark bubble over Wren; `-farmScene Saloon -farmCommands "hearts wren 4;time 14:00;scene wren_heart4"` opens the first scene on the right map (start in the map: `tp` followed at once by `scene` plays the scene on the old map); `-farmScene Farm -farmCommands "say social.wren.joke.great"` shows an expression portrait. A person still has to play the scenes end to end; `SliceScenesFlowTests` does it with real key presses.
+
+
+## Narrative features added 2026-10-04 (automation only; a person should look at each)
+- **Photo mode:** in the world press F8 (HUD hides, clock stops), 1-6 put an emote over the nearest villager, Tab picks the next, Enter or F8 saves a PNG to `<data>/Photos/`, Esc leaves. Check the PNG has no HUD or hint text in it.
+- **Village Gazette:** menu tab `Gazette`; `-farmOpen gazette` for a capture. The same in-game week always shows the same issue.
+- **Poses:** `anim wave|sit|shrug|point` in a scene swaps in the villager's pose sprite. Play any heart-2 scene and watch for the wave; play `overheard_*` scenes from `docs/qa/overheard/`.
+- **Story props:** the umbrella, cat, notes, pumpkin and scarecrow scenes and the Lantern Release show a prop on the map (commands in `docs/qa/storylines/` and `docs/qa/festivals/`).
+- **Courtship, overheard scenes, festival lines:** command files in `docs/qa/courtship/`, `docs/qa/overheard/`, `docs/qa/festivals/`.
+- **A new game's mailbox holds only the welcome letter** (guarded by `MailDeliveryTests`).

@@ -1,0 +1,225 @@
+{
+  "dialogues": [
+    {
+      "id": "gazette.head.hall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.head.hall.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.head.hallhalf",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.head.hallhalf.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.head.barn",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.head.barn.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.news.hallroom",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.hallroom.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.news.hallmore",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.hallmore.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.news.halldone",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.halldone.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.news.coop",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.news.coop.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.coop",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.coop.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.barn",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.barn.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.greenhouse",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.greenhouse.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.pack",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.pack.0"
+        }
+      ]
+    },
+    {
+      "id": "gazette.farm.energy",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.gazette.farm.energy.0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "gazette.headline",
+      "entries": [
+        {
+          "condition": "flag:hall.restored",
+          "priority": 0,
+          "dialogue": "gazette.head.hall",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "hall:>=3 && !flag:hall.restored",
+          "priority": 0,
+          "dialogue": "gazette.head.hallhalf",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "flag:farm.barn",
+          "priority": 0,
+          "dialogue": "gazette.head.barn",
+          "tag": "wholesome",
+          "category": "gazette"
+        }
+      ]
+    },
+    {
+      "set": "gazette.news",
+      "entries": [
+        {
+          "condition": "hall:>=1",
+          "priority": 0,
+          "dialogue": "gazette.news.hallroom",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "hall:>=3 && !flag:hall.restored",
+          "priority": 0,
+          "dialogue": "gazette.news.hallmore",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "flag:hall.restored",
+          "priority": 0,
+          "dialogue": "gazette.news.halldone",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "flag:farm.coop",
+          "priority": 0,
+          "dialogue": "gazette.news.coop",
+          "tag": "funny",
+          "category": "gazette"
+        }
+      ]
+    },
+    {
+      "set": "gazette.farm",
+      "entries": [
+        {
+          "condition": "flag:farm.coop",
+          "priority": 0,
+          "dialogue": "gazette.farm.coop",
+          "tag": "funny",
+          "category": "gazette"
+        },
+        {
+          "condition": "flag:farm.barn",
+          "priority": 0,
+          "dialogue": "gazette.farm.barn",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "flag:farm.greenhouse",
+          "priority": 0,
+          "dialogue": "gazette.farm.greenhouse",
+          "tag": "wholesome",
+          "category": "gazette"
+        },
+        {
+          "condition": "upgraded:backpack.24",
+          "priority": 0,
+          "dialogue": "gazette.farm.pack",
+          "tag": "funny",
+          "category": "gazette"
+        },
+        {
+          "condition": "upgraded:energy.1",
+          "priority": 0,
+          "dialogue": "gazette.farm.energy",
+          "tag": "wholesome",
+          "category": "gazette"
+        }
+      ]
+    }
+  ]
+}

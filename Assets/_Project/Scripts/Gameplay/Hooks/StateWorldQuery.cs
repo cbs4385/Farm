@@ -44,6 +44,8 @@ namespace Farm.Gameplay
         public string PlayerName() => _state.PlayerName;
         public string MoodOf(string npcId) => MoodLookup != null ? MoodLookup(npcId) : "content";
         public int Gold() => _state.Gold;
+        public int HallRoomsRestored() => HallRooms.RestoredCount(_state);
+        public bool UpgradeDone(string upgradeId) => _state.UpgradesDone.Contains(upgradeId);
 
         public int ShippedCount()
         {

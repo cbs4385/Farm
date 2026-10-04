@@ -258,7 +258,7 @@ namespace Farm.Tests
             foreach (var name in EventSteps.Anims)
             {
                 Assert.AreEqual(Vector3.zero, EventStage.GestureOffset(name, 0f), name + " starts at rest");
-                if (name == "look") continue;       // turns the actor, does not move it
+                if (name == "look" || System.Array.IndexOf(Farm.Data.NpcDefinition.PoseNames, name) >= 0) continue;       // look turns the actor; poses swap the sprite (T-131): neither moves it
                 Assert.Less(EventStage.GestureOffset(name, 1f).magnitude, 0.05f, name + " ends near rest");
                 var moved = Enumerable.Range(1, 99).Max(i => EventStage.GestureOffset(name, i / 100f).magnitude);
                 Assert.Greater(moved, 0.03f, name + " moves");

@@ -100,7 +100,8 @@
       "defaults": {
         "when": "true",
         "reward": [],
-        "emote": "ellipsis"
+        "emote": "ellipsis",
+        "greet": "wave"
       },
       "event": {
         "trigger": "map",
@@ -128,6 +129,13 @@
             "type": "face",
             "actor": "player",
             "facing": "up"
+          },
+          {
+            "type": "anim",
+            "actor": "${npc}",
+            "name": "${greet}",
+            "seconds": 1.2,
+            "async": true
           },
           {
             "type": "emote",
@@ -782,7 +790,9 @@
       ],
       "defaults": {
         "when": "true",
-        "emote": "ellipsis"
+        "emote": "ellipsis",
+        "pa": "point",
+        "pb": "shrug"
       },
       "event": {
         "trigger": "map",
@@ -823,9 +833,23 @@
             "text": "${l2}"
           },
           {
+            "type": "anim",
+            "actor": "${b}",
+            "name": "${pb}",
+            "seconds": 1.2,
+            "async": true
+          },
+          {
             "type": "emote",
             "actor": "${b}",
             "name": "${emote}",
+            "seconds": 1.2,
+            "async": true
+          },
+          {
+            "type": "anim",
+            "actor": "${a}",
+            "name": "${pa}",
             "seconds": 1.2,
             "async": true
           },
@@ -844,6 +868,101 @@
             "effects": [
               "flag:event.${id}"
             ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "conversation_prop",
+      "description": "Like conversation, with a small prop (an item icon) that sits on the floor beside the player while the villager talks.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "intro",
+        "talk",
+        "after",
+        "prop",
+        "nx",
+        "ny"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": [],
+        "emote": "ellipsis",
+        "greet": "wave"
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${intro}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "anim",
+            "actor": "${npc}",
+            "name": "${greet}",
+            "seconds": 1.2,
+            "async": true
+          },
+          {
+            "type": "spawn",
+            "id": "scene_prop",
+            "name": "${prop}",
+            "x": "${nx}",
+            "y": "${ny}"
+          },
+          {
+            "type": "emote",
+            "actor": "${npc}",
+            "name": "${emote}",
+            "seconds": 1.2,
+            "async": true
+          },
+          {
+            "type": "dialogue",
+            "dialogue": "${talk}"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${after}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "despawn",
+            "id": "scene_prop"
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
           }
         ]
       }

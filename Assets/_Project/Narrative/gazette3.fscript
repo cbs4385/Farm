@@ -1,0 +1,19 @@
+# Gazette items that follow what the player has built and restored (T-146, T-124). Compiled to zz_fs_gazette3.json.
+
+addto gazette.headline
+0 flag:hall.restored => gazette.head.hall cat=gazette tag=wholesome :: COMMUNITY HALL REOPENS: THE VILLAGE CELEBRATES
+0 hall:>=3 && !flag:hall.restored => gazette.head.hallhalf cat=gazette tag=wholesome :: HALF THE HALL IS BACK, SAYS A HOPEFUL VILLAGE
+0 flag:farm.barn => gazette.head.barn cat=gazette tag=wholesome :: A NEW BARN RISES, STRAIGHT AS A RULER
+
+addto gazette.news
+0 hall:>=1 => gazette.news.hallroom cat=gazette tag=wholesome :: A room of the Community Hall has been restored. The village has begun to hope in earnest.
+0 hall:>=3 && !flag:hall.restored => gazette.news.hallmore cat=gazette tag=wholesome :: Three rooms of the hall are open. The saloon has begun planning the party and the library the speeches.
+0 flag:hall.restored => gazette.news.halldone cat=gazette tag=wholesome :: The Community Hall stands whole again. The first thing anyone did inside was sit down and say nothing, happily.
+0 flag:farm.coop => gazette.news.coop cat=gazette tag=funny :: A new coop has gone up at [farm]. The chickens moved in at once and have already filed three complaints.
+
+addto gazette.farm
+0 flag:farm.coop => gazette.farm.coop cat=gazette tag=funny :: The coop at [farm] is the talk of the lane. The chickens decline interviews.
+0 flag:farm.barn => gazette.farm.barn cat=gazette tag=wholesome :: A barn now stands at [farm]. Marcus is said to have measured it three times and approved it twice.
+0 flag:farm.greenhouse => gazette.farm.greenhouse cat=gazette tag=wholesome :: The greenhouse at [farm] glows warm on cold evenings. Neighbors report feeling hopeful about tomatoes.
+0 upgraded:backpack.24 => gazette.farm.pack cat=gazette tag=funny :: [player] was seen carrying a larger pack. Tilda was asked what is in it. She declined to say.
+0 upgraded:energy.1 => gazette.farm.energy cat=gazette tag=wholesome :: [player] has been noticed working past noon without a yawn. Dr. Penn has taken the credit, quietly.

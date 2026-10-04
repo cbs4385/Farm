@@ -33,6 +33,20 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void HallAndUpgrades_AreReadable()
+        {
+            var state = NewState();
+            var q = Query(state);
+            Assert.IsTrue(Eval("hall:==0", q));
+            Assert.IsFalse(Eval("upgraded:backpack.24", q));
+            state.UpgradesDone.Add("backpack.24");
+            Assert.IsTrue(Eval("upgraded:backpack.24", q));
+            foreach (var room in new[] { "hall_pantry", "hall_crafts", "hall_fishtank" }) state.Quests[room] = new QuestProgress { Status = "done" };
+            Assert.IsTrue(Eval("hall:>=3", q));
+            Assert.IsFalse(Eval("hall:>=4", q));
+        }
+
+        [Test]
         public void GoldAndShipped_Compare()
         {
             var state = NewState();

@@ -191,12 +191,15 @@
     },
     {
       "id": "juno_partners",
-      "template": "conversation",
+      "template": "conversation_prop",
       "args": {
         "npc": "juno",
         "map": "Blacksmith",
         "px": 2,
         "py": 2,
+        "prop": "prop.trophy",
+        "nx": 3,
+        "ny": 2,
         "when": "hearts:juno>=10 && flag:choice.courtship.juno.yes && !flag:partners.juno && !weekday:mon && hour>=9 && hour<17",
         "reward": [
           "flag:partners.juno",
@@ -333,12 +336,15 @@
     },
     {
       "id": "felix_partners",
-      "template": "conversation",
+      "template": "conversation_prop",
       "args": {
         "npc": "felix",
         "map": "Beach",
         "px": 11,
         "py": 10,
+        "prop": "prop.shell",
+        "nx": 12,
+        "ny": 10,
         "when": "hearts:felix>=10 && flag:choice.courtship.felix.yes && !flag:partners.felix && !weekday:thu && hour>=6 && hour<14",
         "reward": [
           "flag:partners.felix",

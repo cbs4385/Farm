@@ -104,8 +104,27 @@ namespace Farm.Gameplay
         public void SetFacing(Vector2Int facing)
         {
             _facing = facing;
-            if (_renderer != null && _definition != null) _renderer.sprite = _definition.SpriteFor(facing);
+            if (_pose == null && _renderer != null && _definition != null) _renderer.sprite = _definition.SpriteFor(facing);
         }
+
+        // T-131: a full-body pose (wave, sit, shrug, point) replaces the idle sprite until ClearPose. False when this villager has no such pose.
+        Sprite _pose;
+        public bool ShowPose(string pose)
+        {
+            var sprite = _definition != null ? _definition.PoseFor(pose) : null;
+            if (sprite == null || _renderer == null) return false;
+            _pose = sprite;
+            _renderer.sprite = sprite;
+            return true;
+        }
+
+        public void ClearPose()
+        {
+            _pose = null;
+            if (_renderer != null && _definition != null) _renderer.sprite = _definition.SpriteFor(_facing);
+        }
+
+        public string PoseShown => _pose != null ? _pose.name : null;
 
         public void Interact(PlayerActions player)
         {

@@ -1,0 +1,234 @@
+{
+  "dialogues": [
+    {
+      "id": "marcus.built.coop",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.built.coop.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.built.barn",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.built.barn.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.built.greenhouse",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.built.greenhouse.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.hall.half",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.hall.half.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.pack.big",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.pack.big.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.hall.half",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.hall.half.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.energy.up",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.energy.up.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.hall.half",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.hall.half.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.hall.done",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.hall.done.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.hall.room",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.hall.room.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.hall.iron",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.hall.iron.0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "flag:farm.coop",
+          "priority": 0,
+          "dialogue": "marcus.built.coop",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:farm.barn",
+          "priority": 0,
+          "dialogue": "marcus.built.barn",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:farm.greenhouse",
+          "priority": 0,
+          "dialogue": "marcus.built.greenhouse",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "hall:>=3",
+          "priority": 0,
+          "dialogue": "marcus.hall.half",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "upgraded:backpack.24",
+          "priority": 0,
+          "dialogue": "tilda.pack.big",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "hall:>=3",
+          "priority": 0,
+          "dialogue": "tilda.hall.half",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.odalys.talk",
+      "entries": [
+        {
+          "condition": "upgraded:energy.1",
+          "priority": 0,
+          "dialogue": "odalys.energy.up",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "hall:>=3 && !flag:hall.restored",
+          "priority": 0,
+          "dialogue": "wren.hall.half",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:hall.restored",
+          "priority": 0,
+          "dialogue": "wren.hall.done",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "hall:>=1",
+          "priority": 0,
+          "dialogue": "hazel.hall.room",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.bram.talk",
+      "entries": [
+        {
+          "condition": "hall:>=3",
+          "priority": 0,
+          "dialogue": "bram.hall.iron",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    }
+  ]
+}

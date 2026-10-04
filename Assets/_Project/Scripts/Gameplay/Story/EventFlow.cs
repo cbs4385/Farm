@@ -9,7 +9,7 @@ namespace Farm.Gameplay
     // authoring docs share these lists.
     public static class EventSteps
     {
-        public static readonly string[] Anims = { "hop", "jiggle", "nod", "sway", "look", "dance" };
+        public static readonly string[] Anims = { "hop", "jiggle", "nod", "sway", "look", "dance", "wave", "sit", "shrug", "point" };
         public static readonly string[] CameraModes = { "focus", "pan", "shake", "reset" };
         public static readonly string[] LightingPresets = { "day", "dawn", "dusk", "night", "warm", "dim", "reset" };
         public static readonly string[] Letterbox = { "on", "off" };

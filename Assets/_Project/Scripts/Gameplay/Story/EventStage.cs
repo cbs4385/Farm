@@ -20,6 +20,7 @@ namespace Farm.Gameplay
         readonly Dictionary<string, GameObject> _props = new Dictionary<string, GameObject>();
         readonly List<GameObject> _bubbles = new List<GameObject>();
         readonly List<(Transform t, Vector3 home)> _gesturing = new List<(Transform, Vector3)>();
+        readonly List<NpcActor> _posed = new List<NpcActor>();
         CameraFollow _camera;
         DayNightLighting _lighting;
         bool _letterbox;
@@ -65,6 +66,20 @@ namespace Farm.Gameplay
             var target = ActorTransform(actor);
             if (target == null) { Log.Warn($"Anim: no actor '{actor}' here."); yield break; }
             var duration = seconds > 0f ? seconds : 0.8f;
+            // A pose (wave, sit, shrug, point) swaps in the villager's pose sprite; the player and any villager without art just nod.
+            if (Array.IndexOf(NpcDefinition.PoseNames, name) >= 0)
+            {
+                var posed = target.GetComponent<NpcActor>();
+                if (posed != null && posed.ShowPose(name))
+                {
+                    _posed.Add(posed);
+                    yield return Wait(duration);
+                    if (posed != null) posed.ClearPose();
+                    _posed.Remove(posed);
+                    yield break;
+                }
+                name = "nod";
+            }
             var home = target.position;
             _gesturing.Add((target, home));
             for (var t = 0f; t < duration && !_skipping(); t += Time.deltaTime)
@@ -190,6 +205,8 @@ namespace Farm.Gameplay
             _bubbles.Clear();
             foreach (var (t, home) in _gesturing) if (t != null) t.position = home;
             _gesturing.Clear();
+            foreach (var a in _posed) if (a != null) a.ClearPose();
+            _posed.Clear();
         }
     }
 }

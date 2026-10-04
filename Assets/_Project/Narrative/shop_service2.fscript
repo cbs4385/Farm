@@ -1,0 +1,24 @@
+# More shop and service lines (T-124): the farm buildings, the Community Hall's progress and paid-for upgrades. Permanent states, so they mix in at priority 0 instead of taking over the day. Compiled to zz_fs_shop_service2.json.
+
+addto npc.marcus.talk
+0 flag:farm.coop => marcus.built.coop cat=reactive tag=wholesome :: Coop's standing. Level, plumb, dry. The chickens are lucky.
+0 flag:farm.barn => marcus.built.barn cat=reactive tag=wholesome :: The barn. Oak all the way through. Worth every plank.
+0 flag:farm.greenhouse => marcus.built.greenhouse cat=reactive tag=funny :: The greenhouse glass is clean. Don't tell Dorian. He'll want one.
+0 hall:>=3 => marcus.hall.half cat=reactive tag=wholesome :: The hall's roof is holding. Half the rooms are back. Good work.
+
+addto npc.tilda.talk
+0 upgraded:backpack.24 => tilda.pack.big cat=reactive tag=funny :: A bigger pack, dear! I hope you fill it with something sensible. Seeds, preferably.
+0 hall:>=3 => tilda.hall.half cat=reactive tag=wholesome :: The hall's coming back, dear. I've dusted the slate for the opening.
+
+addto npc.odalys.talk
+0 upgraded:energy.1 => odalys.energy.up cat=reactive tag=wholesome :: Your stamina's up. I did that. I'd like it noted. Quietly.
+
+addto npc.wren.talk
+0 hall:>=3 && !flag:hall.restored => wren.hall.half cat=reactive tag=funny :: Half the hall's restored, my darling! The saloon's already planning the party.
+0 flag:hall.restored => wren.hall.done cat=reactive tag=wholesome :: The whole hall's open again. I cried. Into a pickle. Tell no one.
+
+addto npc.hazel.talk
+0 hall:>=1 => hazel.hall.room cat=reactive tag=wholesome :: (The hall has a room again.) The books are very interested.
+
+addto npc.bram.talk
+0 hall:>=3 => bram.hall.iron cat=reactive tag=wholesome :: Hm. The hall's roof is iron-braced. Good iron. Don't tell Marcus I helped.

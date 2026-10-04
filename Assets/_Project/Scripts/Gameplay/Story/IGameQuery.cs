@@ -22,6 +22,8 @@ namespace Farm.Gameplay
         string UpgradeState() => "none";        // T-124: a tool at a counter for upgrading: "none", "waiting" or "ready" (ready to collect today)
         int Gold() => 0;
         int ShippedCount() => 0;                // items sold through the shipping bin, ever
+        int HallRoomsRestored() => 0;           // Community Hall rooms restored, 0 to 6 (T-124)
+        bool UpgradeDone(string upgradeId) => false;   // a paid-for upgrade, for example backpack.24 or energy.1
     }
 
     // Condition atoms used by story data (dialogue, schedules, quests, events). Safe to call more than once.
@@ -69,6 +71,9 @@ namespace Farm.Gameplay
             Conditions.Register("upgrade", (arg, w) => w is IGameQuery q && string.Equals(q.UpgradeState(), arg, System.StringComparison.OrdinalIgnoreCase));
             Conditions.Register("gold", (arg, w) => SplitNumber(arg, out var op, out var n) && w is IGameQuery q && Compare(q.Gold(), op, n));
             Conditions.Register("shipped", (arg, w) => SplitNumber(arg, out var op, out var n) && w is IGameQuery q && Compare(q.ShippedCount(), op, n));
+            // hall:>=3 (Community Hall rooms restored), upgraded:backpack.24 (an upgrade the player has paid for). Farm buildings set `farm.coop`, `farm.barn`, `farm.greenhouse` flags.
+            Conditions.Register("hall", (arg, w) => SplitNumber(arg, out var op, out var n) && w is IGameQuery q && Compare(q.HallRoomsRestored(), op, n));
+            Conditions.Register("upgraded", (arg, w) => w is IGameQuery q && q.UpgradeDone(arg));
             Conditions.Register("heard", (arg, w) => w is IGameQuery q && q.HeardLine(arg));
             Conditions.Register("choice", (arg, w) => w.HasFlag("choice." + arg));
             Conditions.Register("storyline", (arg, w) => w.HasFlag("storyline." + arg));

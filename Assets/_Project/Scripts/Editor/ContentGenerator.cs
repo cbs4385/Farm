@@ -181,6 +181,15 @@ namespace Farm.Editor
                 any |= expressions[i] != null;
             }
             fresh.SetExpressions(any ? expressions : null);
+            // Pose sprites (T-131): npc_<id>_pose_<name>, for the villagers that have them.
+            var poses = new Sprite[NpcDefinition.PoseNames.Length];
+            var anyPose = false;
+            for (var i = 0; i < poses.Length; i++)
+            {
+                poses[i] = AssetDatabase.LoadAssetAtPath<Sprite>($"{ArtDir}/npc_{fresh.Id}_pose_{NpcDefinition.PoseNames[i]}.png");
+                anyPose |= poses[i] != null;
+            }
+            fresh.SetPoses(anyPose ? poses : null);
             return Persist(fresh, $"{NpcDir}/{fresh.Id}.asset");
         }
 
