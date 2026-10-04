@@ -1,0 +1,63 @@
+# Talk lines for the second batch of storylines (T-143): competing_band, missing_pumpkin, five_names_cat. Priority 2 until the payoff
+# scene is done (`storydone.<id>`), then ordinary priority 0 aftermath lines. Scenes: storyline_scenes2.fscript / storyline_events2.json.
+
+# ---------------------------------------------------------------- competing_band (Piper's fiddle against Juno's forge band)
+addto npc.piper.talk
+2 storyline:competing_band && !flag:storydone.competing_band => piper.band.1 cat=reactive tag=funny :: Juno started a band. With anvils. I'm not threatened. I'm composing a very long reply.
+2 storyline:competing_band && !flag:storydone.competing_band => piper.band.2 cat=reactive :: A forge band! The rhythm section is a wash bucket. I respect it. I'll still win.
+0 flag:storydone.competing_band => piper.band.after cat=reactive tag=wholesome :: Juno and I are playing together now. Fiddle on top, anvil underneath. Neither of us admits it was her idea.
+
+addto npc.juno.talk
+2 storyline:competing_band && !flag:storydone.competing_band => juno.band.1 cat=reactive tag=funny :: Okay, okay, okay: Piper has a fiddle. I have three anvils and a bucket. Technically that's a bigger band.
+2 storyline:competing_band && !flag:storydone.competing_band => juno.band.2 cat=reactive :: Bram agreed to hit one anvil once. Once! I'm writing the whole song around it.
+0 flag:storydone.competing_band => juno.band.after cat=reactive tag=wholesome :: The square liked the anvils. Nobody said so. They tapped their feet. I counted.
+
+addto npc.wren.talk
+2 storyline:competing_band && !flag:storydone.competing_band => wren.band.1 cat=reactive tag=funny :: Two bands and one square. I'm taking bets and selling earplugs. Both at fair prices.
+0 flag:storydone.competing_band => wren.band.after cat=reactive :: I called it a draw and everyone was happy. That's why I do the betting.
+
+addto npc.bram.talk
+2 storyline:competing_band && !flag:storydone.competing_band => bram.band.1 cat=reactive tag=funny :: Hm. Juno wants me to hit an anvil. In public. Once.
+0 flag:storydone.competing_band => bram.band.after cat=reactive :: Hm. I hit the anvil. The anvil forgave me. The square clapped. Hm.
+
+# ---------------------------------------------------------------- missing_pumpkin (Tilda's prize pumpkin vanished from the window)
+addto npc.tilda.talk
+2 storyline:missing_pumpkin && !flag:storydone.missing_pumpkin => tilda.pumpkin.1 cat=reactive tag=funny :: My prize pumpkin is gone. From the window. In daylight. The goats are being blamed. The goats are innocent.
+2 storyline:missing_pumpkin && !flag:storydone.missing_pumpkin => tilda.pumpkin.2 cat=reactive :: It weighed forty pounds. Somebody lifted it. I've put every muscle in Wetherell on the slate.
+0 flag:storydone.missing_pumpkin => tilda.pumpkin.after cat=reactive tag=funny :: The pumpkin is back. The culprit owes me a pie. I've written it down twice.
+
+addto npc.felix.talk
+2 storyline:missing_pumpkin && !flag:storydone.missing_pumpkin => felix.pumpkin.1 cat=reactive tag=funny :: A missing pumpkin? I've seen nothing. I've been watching fish. Fish don't gossip. Mostly.
+
+addto npc.marcus.talk
+2 storyline:missing_pumpkin && !flag:storydone.missing_pumpkin => marcus.pumpkin.1 cat=reactive :: Tilda's pumpkin vanished. I was in my workshop all week. Carving. Planing. Innocent things.
+
+addto npc.dorian.talk
+2 storyline:missing_pumpkin && !flag:storydone.missing_pumpkin => dorian.pumpkin.1 cat=reactive :: A pumpkin. Missing. Interesting. I have no opinion. I have a small secret. Unrelated.
+
+addto npc.wren.talk
+2 storyline:missing_pumpkin && !flag:storydone.missing_pumpkin => wren.pumpkin.1 cat=reactive tag=funny :: The great pumpkin heist! My money's on the goats. Tilda's money's on a person. We've both bet the same pie.
+0 flag:storydone.missing_pumpkin => wren.pumpkin.after cat=reactive tag=funny :: The pumpkin turned up! Nobody wins the pot. Tilda keeps it. Naturally.
+
+# ---------------------------------------------------------------- five_names_cat (a gray cat the whole village names differently)
+addto npc.tilda.talk
+2 storyline:five_names_cat && !flag:storydone.five_names_cat => tilda.cat.1 cat=reactive tag=wholesome :: A gray cat sits in my window each morning. I've named it Ledger. It keeps the sill balanced.
+
+addto npc.juno.talk
+2 storyline:five_names_cat && !flag:storydone.five_names_cat => juno.cat.1 cat=reactive tag=funny :: Okay, okay, okay: the cat on the forge roof is Quench. It sits on the hottest tile. It's never wrong about heat.
+
+addto npc.piper.talk
+2 storyline:five_names_cat && !flag:storydone.five_names_cat => piper.cat.1 cat=reactive tag=funny :: The gray cat follows me to the saloon. I call it Sharp. It only likes the high notes.
+
+addto npc.hazel.talk
+2 storyline:five_names_cat && !flag:storydone.five_names_cat => hazel.cat.1 cat=reactive tag=funny :: A gray cat sleeps on the returns box. (I've filed it under Index.) It doesn't mind the system.
+
+addto npc.bram.talk
+2 storyline:five_names_cat && !flag:storydone.five_names_cat => bram.cat.1 cat=reactive tag=funny :: Hm. A cat sits on the anvil. Warm. Hm. I call it nothing. It's called enough.
+
+addto npc.wren.talk
+2 storyline:five_names_cat && !flag:storydone.five_names_cat => wren.cat.1 cat=reactive tag=funny :: Everyone has a name for the gray cat. I call it Gossip. It never repeats anything I say. Rude.
+0 flag:storydone.five_names_cat && choice:cat.ledger => wren.cat.ledger cat=reactive tag=wholesome :: The cat's name is Ledger now. Tilda hasn't stopped glowing. She's written it on the slate.
+0 flag:storydone.five_names_cat && choice:cat.quench => wren.cat.quench cat=reactive tag=wholesome :: The cat's name is Quench now. Juno made it a little bowl. The label says "Quench's Bowl".
+0 flag:storydone.five_names_cat && choice:cat.sharp => wren.cat.sharp cat=reactive tag=wholesome :: The cat's name is Sharp now. Piper wrote it a theme song. It left during the second verse.
+0 flag:storydone.five_names_cat && choice:cat.new => wren.cat.new cat=reactive tag=wholesome :: The cat has a brand-new name. It answers to it. It answers to nothing else. Progress.

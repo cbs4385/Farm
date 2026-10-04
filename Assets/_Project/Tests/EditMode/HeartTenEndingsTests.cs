@@ -91,6 +91,8 @@ namespace Farm.Tests
                 ("story_pie_payoff", new[] { "pie.honest", "pie.improve", "pie.eat" }),
                 ("story_umbrella", new[] { "umbrella.return", "umbrella.hang", "umbrella.keep" }),
                 ("story_scarecrows", new[] { "scarecrow.tilda", "scarecrow.dorian", "scarecrow.tie", "scarecrow.crows" }),
+                ("story_band_battle", new[] { "band.piper", "band.juno", "band.both" }),
+                ("story_cat", new[] { "cat.ledger", "cat.quench", "cat.sharp", "cat.new" }),
             };
             foreach (var (id, branches) in cases)
             {

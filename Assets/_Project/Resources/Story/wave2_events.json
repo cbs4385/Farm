@@ -1,0 +1,351 @@
+{
+  "eventsFromTemplates": [
+    {
+      "id": "tilda_heart4",
+      "template": "conversation",
+      "args": {
+        "npc": "tilda",
+        "map": "GeneralStore",
+        "px": 7,
+        "py": 4,
+        "when": "hearts:tilda>=4 && flag:event.tilda_heart2 && !weekday:sun && hour>=9 && hour<17",
+        "reward": [
+          "friend:tilda,50"
+        ],
+        "intro": "event.tilda_heart4.intro",
+        "after": "event.tilda_heart4.after",
+        "talk": "tilda.slate",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.tilda_heart4",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "tilda_heart6",
+      "template": "confession",
+      "args": {
+        "npc": "tilda",
+        "map": "GeneralStore",
+        "px": 7,
+        "py": 4,
+        "when": "hearts:tilda>=6 && flag:event.tilda_heart5 && flag:event.tilda_heart4 && !weekday:sun && hour>=9 && hour<17",
+        "reward": [
+          "friend:tilda,60"
+        ],
+        "intro": "event.tilda_heart6.intro",
+        "after": "event.tilda_heart6.after",
+        "talk": "tilda.hours"
+      },
+      "event": {
+        "titleKey": "memory.tilda_heart6",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "tilda_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "tilda",
+        "map": "GeneralStore",
+        "px": 7,
+        "py": 4,
+        "when": "hearts:tilda>=8 && flag:event.tilda_heart6 && !weekday:sun && hour>=9 && hour<17",
+        "reward": [
+          "friend:tilda,70"
+        ],
+        "intro": "event.tilda_heart8.intro",
+        "after": "event.tilda_heart8.after",
+        "talk": "tilda.card",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.tilda_heart8",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "tilda_heart10",
+      "template": "heirloom",
+      "args": {
+        "npc": "tilda",
+        "map": "GeneralStore",
+        "px": 7,
+        "py": 4,
+        "when": "hearts:tilda>=10 && flag:event.tilda_heart8 && !weekday:sun && hour>=9 && hour<17",
+        "reward": [
+          "friend:tilda,80"
+        ],
+        "intro": "event.tilda_heart10.intro",
+        "give": "event.tilda_heart10.give",
+        "thanks": "event.tilda_heart10.thanks",
+        "nx": 7,
+        "ny": 5,
+        "item": "food.pumpkin_pie"
+      },
+      "event": {
+        "titleKey": "memory.tilda_heart10",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "tilda_friend",
+      "template": "helping_scene",
+      "args": {
+        "npc": "tilda",
+        "map": "GeneralStore",
+        "px": 7,
+        "py": 4,
+        "when": "hearts:tilda>=3 && weekday:sat && !weekday:sun && hour>=9 && hour<17",
+        "reward": [
+          "friend:tilda,15"
+        ],
+        "ask": "event.tilda_friend.ask",
+        "success": "event.tilda_friend.success",
+        "fallback": "event.tilda_friend.fallback",
+        "need": "has:crop.sunflower>=3"
+      },
+      "event": {
+        "titleKey": "memory.tilda_friend",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "juno_heart4",
+      "template": "prank",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=4 && flag:event.juno_heart2 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:juno,50"
+        ],
+        "setup": "event.juno_heart4.setup",
+        "prank": "event.juno_heart4.prank",
+        "reaction": "event.juno_heart4.reaction",
+        "talk": "juno.label"
+      },
+      "event": {
+        "titleKey": "memory.juno_heart4",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "juno_heart6",
+      "template": "confession",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=6 && flag:event.juno_heart5 && flag:event.juno_heart4 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:juno,60"
+        ],
+        "intro": "event.juno_heart6.intro",
+        "after": "event.juno_heart6.after",
+        "talk": "juno.strike"
+      },
+      "event": {
+        "titleKey": "memory.juno_heart6",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "juno_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=8 && flag:event.juno_heart6 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:juno,70"
+        ],
+        "intro": "event.juno_heart8.intro",
+        "after": "event.juno_heart8.after",
+        "talk": "juno.shoe",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.juno_heart8",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "juno_heart10",
+      "template": "heirloom",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=10 && flag:event.juno_heart8 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:juno,80"
+        ],
+        "intro": "event.juno_heart10.intro",
+        "give": "event.juno_heart10.give",
+        "thanks": "event.juno_heart10.thanks",
+        "nx": 2,
+        "ny": 3,
+        "item": "resource.copperbar"
+      },
+      "event": {
+        "titleKey": "memory.juno_heart10",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "juno_friend",
+      "template": "shared_activity",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=3 && weekday:thu && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:juno,15"
+        ],
+        "intro": "event.juno_friend.intro",
+        "doing": "event.juno_friend.doing",
+        "wrap": "event.juno_friend.wrap",
+        "gesture": "hop",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.juno_friend",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "piper_heart4",
+      "template": "conversation",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=4 && flag:event.piper_heart2 && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "friend:piper,50"
+        ],
+        "intro": "event.piper_heart4.intro",
+        "after": "event.piper_heart4.after",
+        "talk": "piper.request",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.piper_heart4",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "piper_heart6",
+      "template": "confession",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=6 && flag:event.piper_heart5 && flag:event.piper_heart4 && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "friend:piper,60"
+        ],
+        "intro": "event.piper_heart6.intro",
+        "after": "event.piper_heart6.after",
+        "talk": "piper.fright"
+      },
+      "event": {
+        "titleKey": "memory.piper_heart6",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "piper_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=8 && flag:event.piper_heart6 && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "friend:piper,70"
+        ],
+        "intro": "event.piper_heart8.intro",
+        "after": "event.piper_heart8.after",
+        "talk": "piper.chorus",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.piper_heart8",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "piper_heart10",
+      "template": "performance",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=10 && flag:event.piper_heart8 && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "friend:piper,80"
+        ],
+        "intro": "event.piper_heart10.intro",
+        "cue": "piper_theme",
+        "outro": "event.piper_heart10.outro"
+      },
+      "event": {
+        "titleKey": "memory.piper_heart10",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "piper_friend",
+      "template": "shared_activity",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=3 && weekday:fri && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "friend:piper,15"
+        ],
+        "intro": "event.piper_friend.intro",
+        "doing": "event.piper_friend.doing",
+        "wrap": "event.piper_friend.wrap",
+        "gesture": "sway",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.piper_friend",
+        "priority": 7,
+        "tag": "funny"
+      }
+    }
+  ]
+}

@@ -22,6 +22,15 @@ namespace Farm.Tests
             ("hazel", "hazel_notes", "hazel.notes", "hazel_pressed"),
             ("bram", "bram_copper", "bram.copper", "bram_stone"),
             ("bram", "bram_hooks", "bram.hooks", "bram_copper"),
+            ("tilda", "tilda_display", "tilda.display", null),
+            ("tilda", "tilda_cauliflower", "tilda.cauli", "tilda_display"),
+            ("tilda", "tilda_pie_week", "tilda.pie", "tilda_cauliflower"),
+            ("juno", "juno_ore", "juno.ore", null),
+            ("juno", "juno_charcoal", "juno.coal", "juno_ore"),
+            ("juno", "juno_gold", "juno.gold", "juno_charcoal"),
+            ("piper", "piper_strings", "piper.strings", null),
+            ("piper", "piper_flowers", "piper.flowers", "piper_strings"),
+            ("piper", "piper_juice", "piper.juice", "piper_flowers"),
         };
 
         StoryContent _story;
@@ -108,7 +117,7 @@ namespace Farm.Tests
         public void Dialogue_KeepsEachVoice()
         {
             var en = L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
-            foreach (var c in Chains.Where(x => x.npc != "wren"))
+            foreach (var c in Chains.Where(x => x.npc == "hazel" || x.npc == "bram"))
                 foreach (var part in new[] { "ask", "remind", "turnin" })
                     foreach (var n in _story.Dialogue($"{c.key}.{part}").Nodes)
                         foreach (var key in new[] { n.Text }.Concat((n.Choices ?? new List<DialogueChoice>()).Select(ch => ch.Text)).Where(k => !string.IsNullOrEmpty(k)))

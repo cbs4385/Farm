@@ -1,0 +1,781 @@
+{
+  "dialogues": [
+    {
+      "id": "tilda.display.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.display.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.display.ask.1",
+          "choices": [
+            {
+              "text": "dlg.tilda.display.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:tilda_display"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.tilda.display.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.display.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.display.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "tilda.display.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.display.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.display.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.display.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:tilda_display"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tilda.cauli.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cauli.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cauli.ask.1",
+          "choices": [
+            {
+              "text": "dlg.tilda.cauli.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:tilda_cauliflower"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.tilda.cauli.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cauli.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cauli.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "tilda.cauli.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cauli.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.cauli.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cauli.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:tilda_cauliflower"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tilda.pie.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.pie.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.pie.ask.1",
+          "choices": [
+            {
+              "text": "dlg.tilda.pie.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:tilda_pie_week"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.tilda.pie.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.pie.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.pie.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "tilda.pie.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.pie.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.pie.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.pie.turnin.0",
+          "expression": "happy",
+          "emote": "heart",
+          "effects": [
+            "quest.done:tilda_pie_week"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "juno.ore.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.ore.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "juno",
+          "text": "dlg.juno.ore.ask.1",
+          "choices": [
+            {
+              "text": "dlg.juno.ore.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:juno_ore"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.ore.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.ore.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.ore.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "juno.ore.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.ore.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.ore.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.ore.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:juno_ore"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "juno.coal.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.coal.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "juno",
+          "text": "dlg.juno.coal.ask.1",
+          "choices": [
+            {
+              "text": "dlg.juno.coal.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:juno_charcoal"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.coal.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.coal.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.coal.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "juno.coal.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.coal.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.coal.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.coal.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:juno_charcoal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "juno.gold.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.gold.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "juno",
+          "text": "dlg.juno.gold.ask.1",
+          "choices": [
+            {
+              "text": "dlg.juno.gold.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:juno_gold"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.gold.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.gold.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.gold.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "juno.gold.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.gold.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.gold.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.gold.turnin.0",
+          "expression": "happy",
+          "emote": "heart",
+          "effects": [
+            "quest.done:juno_gold"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "piper.strings.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.strings.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "piper",
+          "text": "dlg.piper.strings.ask.1",
+          "choices": [
+            {
+              "text": "dlg.piper.strings.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:piper_strings"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.strings.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.strings.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.strings.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "piper.strings.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.strings.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.strings.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.strings.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:piper_strings"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "piper.flowers.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.flowers.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "piper",
+          "text": "dlg.piper.flowers.ask.1",
+          "choices": [
+            {
+              "text": "dlg.piper.flowers.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:piper_flowers"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.flowers.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.flowers.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.flowers.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "piper.flowers.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.flowers.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.flowers.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.flowers.turnin.0",
+          "expression": "happy",
+          "emote": "note",
+          "effects": [
+            "quest.done:piper_flowers"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "piper.juice.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.juice.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "piper",
+          "text": "dlg.piper.juice.ask.1",
+          "choices": [
+            {
+              "text": "dlg.piper.juice.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:piper_juice"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.juice.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.juice.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.juice.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "piper.juice.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.juice.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.juice.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.juice.turnin.0",
+          "expression": "happy",
+          "emote": "heart",
+          "effects": [
+            "quest.done:piper_juice"
+          ]
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "hearts:tilda>=2 && quest:tilda_display=new && flag:met.tilda",
+          "priority": 4,
+          "dialogue": "tilda.display.ask"
+        },
+        {
+          "condition": "quest:tilda_display=active",
+          "priority": 4,
+          "dialogue": "tilda.display.remind"
+        },
+        {
+          "condition": "quest:tilda_display=active && has:crop.parsnip>=5",
+          "priority": 5,
+          "dialogue": "tilda.display.turnin"
+        },
+        {
+          "condition": "hearts:tilda>=4 && quest:tilda_display=done && quest:tilda_cauliflower=new",
+          "priority": 4,
+          "dialogue": "tilda.cauli.ask"
+        },
+        {
+          "condition": "quest:tilda_cauliflower=active",
+          "priority": 4,
+          "dialogue": "tilda.cauli.remind"
+        },
+        {
+          "condition": "quest:tilda_cauliflower=active && has:crop.cauliflower>=3",
+          "priority": 5,
+          "dialogue": "tilda.cauli.turnin"
+        },
+        {
+          "condition": "hearts:tilda>=6 && quest:tilda_cauliflower=done && quest:tilda_pie_week=new",
+          "priority": 4,
+          "dialogue": "tilda.pie.ask"
+        },
+        {
+          "condition": "quest:tilda_pie_week=active",
+          "priority": 4,
+          "dialogue": "tilda.pie.remind"
+        },
+        {
+          "condition": "quest:tilda_pie_week=active && has:food.pumpkin_pie>=1",
+          "priority": 5,
+          "dialogue": "tilda.pie.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.juno.talk",
+      "entries": [
+        {
+          "condition": "hearts:juno>=2 && quest:juno_ore=new && flag:met.juno",
+          "priority": 4,
+          "dialogue": "juno.ore.ask"
+        },
+        {
+          "condition": "quest:juno_ore=active",
+          "priority": 4,
+          "dialogue": "juno.ore.remind"
+        },
+        {
+          "condition": "quest:juno_ore=active && has:resource.ironore>=5",
+          "priority": 5,
+          "dialogue": "juno.ore.turnin"
+        },
+        {
+          "condition": "hearts:juno>=4 && quest:juno_ore=done && quest:juno_charcoal=new",
+          "priority": 4,
+          "dialogue": "juno.coal.ask"
+        },
+        {
+          "condition": "quest:juno_charcoal=active",
+          "priority": 4,
+          "dialogue": "juno.coal.remind"
+        },
+        {
+          "condition": "quest:juno_charcoal=active && has:resource.coal>=6",
+          "priority": 5,
+          "dialogue": "juno.coal.turnin"
+        },
+        {
+          "condition": "hearts:juno>=6 && quest:juno_charcoal=done && quest:juno_gold=new",
+          "priority": 4,
+          "dialogue": "juno.gold.ask"
+        },
+        {
+          "condition": "quest:juno_gold=active",
+          "priority": 4,
+          "dialogue": "juno.gold.remind"
+        },
+        {
+          "condition": "quest:juno_gold=active && has:resource.goldbar>=1",
+          "priority": 5,
+          "dialogue": "juno.gold.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.piper.talk",
+      "entries": [
+        {
+          "condition": "hearts:piper>=2 && quest:piper_strings=new && flag:met.piper",
+          "priority": 4,
+          "dialogue": "piper.strings.ask"
+        },
+        {
+          "condition": "quest:piper_strings=active",
+          "priority": 4,
+          "dialogue": "piper.strings.remind"
+        },
+        {
+          "condition": "quest:piper_strings=active && has:resource.fiber>=5",
+          "priority": 5,
+          "dialogue": "piper.strings.turnin"
+        },
+        {
+          "condition": "hearts:piper>=4 && quest:piper_strings=done && quest:piper_flowers=new",
+          "priority": 4,
+          "dialogue": "piper.flowers.ask"
+        },
+        {
+          "condition": "quest:piper_flowers=active",
+          "priority": 4,
+          "dialogue": "piper.flowers.remind"
+        },
+        {
+          "condition": "quest:piper_flowers=active && has:crop.sunflower>=3",
+          "priority": 5,
+          "dialogue": "piper.flowers.turnin"
+        },
+        {
+          "condition": "hearts:piper>=6 && quest:piper_flowers=done && quest:piper_juice=new",
+          "priority": 4,
+          "dialogue": "piper.juice.ask"
+        },
+        {
+          "condition": "quest:piper_juice=active",
+          "priority": 4,
+          "dialogue": "piper.juice.remind"
+        },
+        {
+          "condition": "quest:piper_juice=active && has:artisan.juice>=2",
+          "priority": 5,
+          "dialogue": "piper.juice.turnin"
+        }
+      ]
+    }
+  ]
+}

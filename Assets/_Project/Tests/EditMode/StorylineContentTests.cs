@@ -9,7 +9,7 @@ namespace Farm.Tests
     // The five village storylines (T-143): variants, talk lines, scenes and the done flags that tie them together.
     public class StorylineContentTests
     {
-        static readonly string[] Ids = { "pie_feud", "anonymous_notes", "lost_umbrella", "rival_scarecrows", "mystery_whistler" };
+        static readonly string[] Ids = { "pie_feud", "anonymous_notes", "lost_umbrella", "rival_scarecrows", "mystery_whistler", "competing_band", "missing_pumpkin", "five_names_cat" };
 
         StoryContent _story;
 
@@ -24,7 +24,7 @@ namespace Farm.Tests
         IEnumerable<DialogueSetEntry> AllTalk() => _story.Sets.SelectMany(s => s.Entries);
 
         [Test]
-        public void AllFiveStorylines_AreDefined_AndEachHasTalkLinesAndABeatAfterTheScene()
+        public void AllEightStorylines_AreDefined_AndEachHasTalkLinesAndABeatAfterTheScene()
         {
             var defs = _story.Storylines.ToList();
             foreach (var id in Ids)
@@ -77,6 +77,7 @@ namespace Farm.Tests
         {
             CollectionAssert.AreEquivalent(new[] { "dorian", "juno", "tilda" }, _story.Storylines.First(d => d.Id == "anonymous_notes").Variants);
             CollectionAssert.AreEquivalent(new[] { "bram", "marcus", "felix" }, _story.Storylines.First(d => d.Id == "mystery_whistler").Variants);
+            CollectionAssert.AreEquivalent(new[] { "dorian", "marcus", "felix" }, _story.Storylines.First(d => d.Id == "missing_pumpkin").Variants);
         }
 
         [Test]

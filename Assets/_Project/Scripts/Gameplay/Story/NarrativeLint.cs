@@ -201,9 +201,11 @@ namespace Farm.Gameplay
                 foreach (var dup in talk.GroupBy(l => l.Text.Trim().ToLowerInvariant()).Where(g => g.Count() > 1))
                     Add(LintSeverity.Warning, "duplicate", v, string.Join(", ", dup.Select(l => l.Where)), $"the same text appears {dup.Count()} times: \"{dup.First().Text}\"");
 
-                foreach (var group in talk.GroupBy(l => FirstWord(l.Text)).Where(g => g.Count() > 3))
+                // Three per 24 lines (an eighth of the pool, never fewer than three), so a Full villager's 150 lines are held to the same variety as a small one's 24.
+                var openerLimit = Math.Max(3, (talk.Count + 7) / 8);
+                foreach (var group in talk.GroupBy(l => FirstWord(l.Text)).Where(g => g.Count() > openerLimit))
                     if (!voice.AllowedRepeatedOpeners.Contains(group.Key))
-                        Add(LintSeverity.Warning, "opener", v, group.Key, $"{group.Count()} talk lines start with '{group.Key}' (limit 3)");
+                        Add(LintSeverity.Warning, "opener", v, group.Key, $"{group.Count()} talk lines start with '{group.Key}' (limit {openerLimit})");
 
                 if (!string.IsNullOrEmpty(voice.TicOpener) && talk.Count > 0)
                 {

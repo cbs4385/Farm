@@ -105,44 +105,56 @@ namespace Farm.Tests
             gained(NpcInteractions.StateOf(_session.State, npc).Points - before);
         }
 
-        // (npc, map, scene, choice dialogue key or null, choice names in key order, minimum points)
+        // (npc, map, scene, minimum friendship points). A scene with a choice dialogue is played once for every choice; its flags are read from the data.
         static readonly object[][] Scenes =
         {
-            new object[] { "wren", MapIds.Saloon, "wren_heart4", "wren.openmic", new[] { "cheer", "heckle", "hide" }, 50 },
-            new object[] { "wren", MapIds.Saloon, "wren_heart6", "wren.kitchen", new[] { "pepper", "cider", "plain" }, 60 },
-            new object[] { "wren", MapIds.Saloon, "wren_heart8", "wren.bag", new[] { "go", "stay", "listen" }, 70 },
-            new object[] { "wren", MapIds.Saloon, "wren_heart10", null, null, 80 },
-            new object[] { "wren", MapIds.Saloon, "wren_friend", null, null, 15 },
-            new object[] { "hazel", MapIds.Library, "hazel_heart4", "hazel.swap", new[] { "book", "recipe", "honest" }, 50 },
-            new object[] { "hazel", MapIds.Library, "hazel_heart6", "hazel.hiding", new[] { "ask", "wait", "joke" }, 60 },
-            new object[] { "hazel", MapIds.Library, "hazel_heart8", "hazel.rehearsal", new[] { "praise", "critique", "laugh" }, 70 },
-            new object[] { "hazel", MapIds.Library, "hazel_heart10", null, null, 80 },
-            new object[] { "bram", MapIds.Blacksmith, "bram_heart4", "bram.repair", new[] { "hold", "hammer", "watch" }, 50 },
-            new object[] { "bram", MapIds.Blacksmith, "bram_heart6", "bram.long", new[] { "nod", "glad", "word" }, 60 },
-            new object[] { "bram", MapIds.Blacksmith, "bram_heart8", "bram.juno", new[] { "praise", "tease", "ask" }, 70 },
-            new object[] { "bram", MapIds.Blacksmith, "bram_heart10", null, null, 80 },
-            new object[] { "bram", MapIds.Blacksmith, "bram_friend", null, null, 15 },
+            new object[] { "wren", MapIds.Saloon, "wren_heart4", 50 }, new object[] { "wren", MapIds.Saloon, "wren_heart6", 60 },
+            new object[] { "wren", MapIds.Saloon, "wren_heart8", 70 }, new object[] { "wren", MapIds.Saloon, "wren_heart10", 80 },
+            new object[] { "wren", MapIds.Saloon, "wren_friend", 15 },
+            new object[] { "hazel", MapIds.Library, "hazel_heart4", 50 }, new object[] { "hazel", MapIds.Library, "hazel_heart6", 60 },
+            new object[] { "hazel", MapIds.Library, "hazel_heart8", 70 }, new object[] { "hazel", MapIds.Library, "hazel_heart10", 80 },
+            new object[] { "bram", MapIds.Blacksmith, "bram_heart4", 50 }, new object[] { "bram", MapIds.Blacksmith, "bram_heart6", 60 },
+            new object[] { "bram", MapIds.Blacksmith, "bram_heart8", 70 }, new object[] { "bram", MapIds.Blacksmith, "bram_heart10", 80 },
+            new object[] { "bram", MapIds.Blacksmith, "bram_friend", 15 },
+            new object[] { "tilda", MapIds.GeneralStore, "tilda_heart4", 50 }, new object[] { "tilda", MapIds.GeneralStore, "tilda_heart6", 60 },
+            new object[] { "tilda", MapIds.GeneralStore, "tilda_heart8", 70 }, new object[] { "tilda", MapIds.GeneralStore, "tilda_heart10", 80 },
+            new object[] { "juno", MapIds.Blacksmith, "juno_heart4", 50 }, new object[] { "juno", MapIds.Blacksmith, "juno_heart6", 60 },
+            new object[] { "juno", MapIds.Blacksmith, "juno_heart8", 70 }, new object[] { "juno", MapIds.Blacksmith, "juno_heart10", 80 },
+            new object[] { "juno", MapIds.Blacksmith, "juno_friend", 15 },
+            new object[] { "piper", MapIds.Saloon, "piper_heart4", 50 }, new object[] { "piper", MapIds.Saloon, "piper_heart6", 60 },
+            new object[] { "piper", MapIds.Saloon, "piper_heart8", 70 }, new object[] { "piper", MapIds.Saloon, "piper_heart10", 80 },
+            new object[] { "piper", MapIds.Saloon, "piper_friend", 15 },
         };
+
+        // The `flag:choice.*` effects of the scene's choice dialogue, in choice order (empty when the scene has no dialogue step).
+        List<string> ChoiceFlags(string eventId)
+        {
+            var ev = _session.Story.Event(eventId);
+            var step = ev.Steps.FirstOrDefault(x => x.Type == "dialogue");
+            if (step == null) return new List<string>();
+            var graph = _session.Story.Dialogue(step.Dialogue);
+            return graph.Nodes.SelectMany(n => n.Choices ?? new List<DialogueChoice>())
+                .Select(c => (c.Effects ?? new List<string>()).First(e => e.StartsWith("flag:choice.")).Substring("flag:".Length)).ToList();
+        }
 
         IEnumerator RunVillager(string villager)
         {
             yield return StartGame();
             foreach (var s in Scenes.Where(x => (string)x[0] == villager))
             {
-                var npc = (string)s[0]; var map = (string)s[1]; var id = (string)s[2];
-                var dialogue = (string)s[3]; var names = (string[])s[4]; var minimum = (int)s[5];
-                var branches = names == null ? new[] { 0 } : new[] { 1, 2, 3 };
+                var npc = (string)s[0]; var map = (string)s[1]; var id = (string)s[2]; var minimum = (int)s[3];
+                var flags = ChoiceFlags(id);
+                var branches = flags.Count == 0 ? new[] { 0 } : Enumerable.Range(1, flags.Count).ToArray();
                 foreach (var branch in branches)
                 {
-                    var label = names == null ? id : $"{id}/{names[branch - 1]}";
+                    var label = flags.Count == 0 ? id : $"{id}/{flags[branch - 1]}";
                     var points = 0;
                     yield return Play(npc, map, id, branch, p => points = p);
                     Assert.GreaterOrEqual(points, minimum, label + ": friendship");
-                    if (names != null)
+                    if (flags.Count > 0)
                     {
-                        var key = $"choice.{dialogue}.{names[branch - 1]}";
-                        Assert.IsTrue(_session.HasFlag(key), label + ": sets " + key);
-                        _session.SetFlag(key, false);
+                        Assert.IsTrue(_session.HasFlag(flags[branch - 1]), label + ": sets " + flags[branch - 1]);
+                        _session.SetFlag(flags[branch - 1], false);
                     }
                 }
             }
@@ -151,6 +163,9 @@ namespace Farm.Tests
         [UnityTest] public IEnumerator Wren_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("wren"); }
         [UnityTest] public IEnumerator Hazel_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("hazel"); }
         [UnityTest] public IEnumerator Bram_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("bram"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Tilda_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("tilda"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Juno_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("juno"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Piper_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("piper"); }
 
         [UnityTest]
         public IEnumerator HazelsOverdue_SucceedsWithBlackberries_AndIsOfferedAgainWithout()

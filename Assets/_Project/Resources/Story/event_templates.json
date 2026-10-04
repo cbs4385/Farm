@@ -99,7 +99,8 @@
       ],
       "defaults": {
         "when": "true",
-        "reward": []
+        "reward": [],
+        "emote": "ellipsis"
       },
       "event": {
         "trigger": "map",
@@ -127,6 +128,13 @@
             "type": "face",
             "actor": "player",
             "facing": "up"
+          },
+          {
+            "type": "emote",
+            "actor": "${npc}",
+            "name": "${emote}",
+            "seconds": 1.2,
+            "async": true
           },
           {
             "type": "dialogue",

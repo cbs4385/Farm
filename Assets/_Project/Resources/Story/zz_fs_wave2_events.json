@@ -1,0 +1,556 @@
+{
+  "dialogues": [
+    {
+      "id": "tilda.slate",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.slate.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.slate.1",
+          "choices": [
+            {
+              "text": "dlg.tilda.slate.c0",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.slate.thanks"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.tilda.slate.c1",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.slate.joke"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.tilda.slate.c2",
+              "default": false,
+              "effects": [
+                "friend:tilda,15",
+                "flag:choice.slate.promise"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.slate.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.slate.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "tilda",
+          "text": "dlg.tilda.slate.r2"
+        }
+      ]
+    },
+    {
+      "id": "tilda.hours",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.hours.0",
+          "expression": "thinking",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.hours.1",
+          "choices": [
+            {
+              "text": "dlg.tilda.hours.c0",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.hours.reassure"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.tilda.hours.c1",
+              "default": false,
+              "effects": [
+                "friend:tilda,15",
+                "flag:choice.hours.plan"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.tilda.hours.c2",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.hours.joke"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.hours.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.hours.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "tilda",
+          "text": "dlg.tilda.hours.r2"
+        }
+      ]
+    },
+    {
+      "id": "tilda.card",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.tilda.card.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.card.1",
+          "choices": [
+            {
+              "text": "dlg.tilda.card.c0",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.card.bake"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.tilda.card.c1",
+              "default": false,
+              "effects": [
+                "friend:tilda,10",
+                "flag:choice.card.keep"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.tilda.card.c2",
+              "default": false,
+              "effects": [
+                "friend:tilda,15",
+                "flag:choice.card.share"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.card.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "tilda",
+          "text": "dlg.tilda.card.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "tilda",
+          "text": "dlg.tilda.card.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "juno.label",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.label.0",
+          "choices": [
+            {
+              "text": "dlg.juno.label.c0",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.label.accept"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.label.c1",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.label.relabel"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.juno.label.c2",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.label.eat"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.label.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.label.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "juno",
+          "text": "dlg.juno.label.r2",
+          "emote": "sweat"
+        }
+      ]
+    },
+    {
+      "id": "juno.strike",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.strike.0",
+          "expression": "sad",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "juno",
+          "text": "dlg.juno.strike.1",
+          "choices": [
+            {
+              "text": "dlg.juno.strike.c0",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.strike.keep"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.strike.c1",
+              "default": false,
+              "effects": [
+                "friend:juno,15",
+                "flag:choice.strike.together"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.juno.strike.c2",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.strike.laugh"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.strike.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.strike.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "juno",
+          "text": "dlg.juno.strike.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "juno.shoe",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.juno.shoe.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "juno",
+          "text": "dlg.juno.shoe.1",
+          "choices": [
+            {
+              "text": "dlg.juno.shoe.c0",
+              "default": false,
+              "effects": [
+                "friend:juno,15",
+                "flag:choice.shoe.wait"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.shoe.c1",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.shoe.praise"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.juno.shoe.c2",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.shoe.hammer"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.shoe.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.shoe.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "juno",
+          "text": "dlg.juno.shoe.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "piper.request",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.request.0",
+          "choices": [
+            {
+              "text": "dlg.piper.request.c0",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.request.ballad"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.request.c1",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.request.jig"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.piper.request.c2",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.request.parsnip"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.request.r0",
+          "emote": "note"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.request.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "piper",
+          "text": "dlg.piper.request.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "piper.fright",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.fright.0",
+          "expression": "sad",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "piper",
+          "text": "dlg.piper.fright.1",
+          "choices": [
+            {
+              "text": "dlg.piper.fright.c0",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.fright.talk"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.fright.c1",
+              "default": false,
+              "effects": [
+                "friend:piper,15",
+                "flag:choice.fright.sit"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.piper.fright.c2",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.fright.bucket"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.fright.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.fright.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "piper",
+          "text": "dlg.piper.fright.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "piper.chorus",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.chorus.0",
+          "choices": [
+            {
+              "text": "dlg.piper.chorus.c0",
+              "default": false,
+              "effects": [
+                "friend:piper,15",
+                "flag:choice.chorus.home"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.chorus.c1",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.chorus.road"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.piper.chorus.c2",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.chorus.room"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.chorus.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.chorus.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "piper",
+          "text": "dlg.piper.chorus.r2",
+          "expression": "happy"
+        }
+      ]
+    }
+  ]
+}

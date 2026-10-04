@@ -19,6 +19,9 @@ CELLS = ["neutral", "happy", "sad", "surprised", "embarrassed", "thinking", "ang
 LOOK = {
     "wren": "Wren Calloway, the saloon owner: warm, quick-witted woman with red hair in a loose bun, a rust-red apron over a cream blouse, freckles, a bar towel on one shoulder",
     "hazel": "Hazel Brandt, the library assistant: slight, shy young woman, round glasses, dark bob haircut, a mustard cardigan over a teal blouse, a pencil behind one ear",
+    "tilda": "Tilda Ashby, the general store owner: warm motherly woman, green apron over a cream blouse, chestnut hair in a bun, round spectacles",
+    "juno": "Juno Hale, the blacksmith's apprentice: teenage girl, oversized apron, auburn hair in a short ponytail, grimy goggles on her forehead",
+    "piper": "Piper Vance, the saloon musician: lanky young woman, mustard coat, black curly hair, a fiddle on her back",
     "bram": "Bram Hollis, the blacksmith: broad, bearded man, grey work apron, dark hair, rolled sleeves, a soot smudge on one cheek",
 }
 FEEL = {

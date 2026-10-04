@@ -111,7 +111,7 @@ Run `Farm > Narrative Report` (or `-executeMethod Farm.Editor.NarrativeTools.Rep
 
 
 - Per villager: banned words, required tics (for example Bram's *Hm* frequency), maximum sentence length, exclamation marks, use of `[player]`.
-- Global: length budgets, spelling list, duplicate text, forbidden brands and slurs, repeated openers (no more than three lines in a villager's pool starting with the same word).
+- Global: length budgets, spelling list, duplicate text, forbidden brands and slurs, repeated openers (no more than three lines per 24 in a villager's pool starting with the same word: an eighth of the pool, at least three).
 
 ## 10. Review and gates (T-083)
 

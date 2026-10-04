@@ -1,0 +1,346 @@
+# Wave 2 (Tilda, Juno, Piper): social action profiles and reactions, conversation topics and world reactions.
+# Reactions are dialogues named social.<villager>.<action>.<outcome> (great for loved, good for liked, flop for disliked).
+
+social tilda
+  loves advice
+  likes joke, compliment
+  dislikes tease
+
+social juno
+  loves tease
+  likes joke, compliment
+  dislikes advice
+
+social piper
+  loves joke
+  likes compliment, tease
+  dislikes advice
+
+# ---- Tilda ----
+dialogue social.tilda.joke.good
+n0 tilda: Ha! A joke with good margins. I'll put it on the slate.
+
+dialogue social.tilda.joke.great
+n0 tilda: Oh, that's a good one. I'm laughing in a shop. Don't tell anyone.
+  expr happy
+  emote note
+
+dialogue social.tilda.joke.flop
+n0 tilda: Hm? Was that a joke? ...Oh. Ha. I was counting change. Say it again, slower.
+  emote question
+
+dialogue social.tilda.compliment.good
+n0 tilda: That's kind of you. I'll put it in the till, where it can grow.
+
+dialogue social.tilda.compliment.great
+n0 tilda: Oh, my. A compliment that size will need its own shelf. Thank you.
+  expr happy
+  emote heart
+
+dialogue social.tilda.compliment.flop
+n0 tilda: Oh. You're very kind. I'm not sure what to do with it. Where do I put it?
+  emote sweat
+
+dialogue social.tilda.advice.great
+n0 tilda: Advice? Ask me anything. First: buy early. Second: pay in kindness. Third: wear a hat in March.
+  expr happy
+  emote note
+
+dialogue social.tilda.advice.good
+n0 tilda: My advice? Plant parsnips first. They pay for everything else.
+
+dialogue social.tilda.advice.flop
+n0 tilda: Advice from me? Dear, I sell seeds. I give directions, mostly. I'll try. Where to?
+  emote sweat
+
+dialogue social.tilda.tease.great
+n0 tilda: Oh, you cheeky thing! I'll put that on the slate. Under "Brave."
+  expr happy
+
+dialogue social.tilda.tease.good
+n0 tilda: Ha! Cheeky. A fair price for being fond of me.
+
+dialogue social.tilda.tease.flop
+n0 tilda: Teasing? In my shop? ...I'm choosing to take that as affection. Careful.
+  emote sweat
+
+# ---- Juno ----
+dialogue social.juno.joke.good
+n0 juno: Ha! Good one! Okay, okay, okay, I'm using that on Bram.
+
+dialogue social.juno.joke.great
+n0 juno: Oh, that's brilliant! I'm going to label it. "Joke (Excellent)."
+  expr happy
+  emote note
+
+dialogue social.juno.joke.flop
+n0 juno: Okay, okay, okay... Was that a joke? ...Oh! Ha. Sorry. The forge is loud.
+  emote question
+
+dialogue social.juno.compliment.good
+n0 juno: Aw! Thanks! I'm blushing. It's the forge, probably. It's also you.
+
+dialogue social.juno.compliment.great
+n0 juno: Okay, okay, okay, I'm going to cry! It's soot! It's definitely soot. Thank you!
+  expr happy
+  emote heart
+
+dialogue social.juno.compliment.flop
+n0 juno: Oh! Er. Thank you. I wasn't ready. I'm holding a hammer. It's awkward.
+  emote sweat
+
+dialogue social.juno.advice.good
+n0 juno: Advice? Okay! Sure. Here's mine: label everything. Twice.
+
+dialogue social.juno.advice.great
+n0 juno: Advice! I love advice! Okay, okay, okay: don't trust the red one. Always trust the hot one.
+  expr happy
+
+dialogue social.juno.advice.flop
+n0 juno: Advice? Hm. I'd rather find out by burning myself. It's how I learned everything.
+  emote sweat
+
+dialogue social.juno.tease.great
+n0 juno: Oh, you wicked thing! Do it again! I'll label it "Excellent Insult."
+  expr happy
+  emote note
+
+dialogue social.juno.tease.good
+n0 juno: Ha! Cheeky! I'll get you back with a very small, very sharp spoon.
+
+dialogue social.juno.tease.flop
+n0 juno: Okay, okay, okay... I'm not sure if that was funny. I'll decide later. Hm.
+  emote ellipsis
+
+# ---- Piper ----
+dialogue social.piper.joke.good
+n0 piper: Ha! Nice timing. You'd make a good drummer.
+
+dialogue social.piper.joke.great
+n0 piper: That's a chorus! Oh, I'm stealing it. I'll say I wrote it.
+  expr happy
+  emote note
+
+dialogue social.piper.joke.flop
+n0 piper: Wait, was that a joke? ...Oh! Ha. Sorry. I was tuning. Say it again, in B flat.
+  emote question
+
+dialogue social.piper.compliment.good
+n0 piper: Aw, thanks! I'll hum it later. It's a lovely melody, as compliments go.
+
+dialogue social.piper.compliment.great
+n0 piper: Stop it, you'll make me modest! I can't be modest. It's off-brand.
+  expr happy
+  emote heart
+
+dialogue social.piper.compliment.flop
+n0 piper: Oh! Uh. Thank you. I'm not used to speeches without a drum roll.
+  emote sweat
+
+dialogue social.piper.advice.good
+n0 piper: Advice? Sure. Never play a request in the key you were asked in. Keep them guessing.
+
+dialogue social.piper.advice.great
+n0 piper: Advice! Here: always tune before you panic. Panic's worse out of tune.
+  expr happy
+
+dialogue social.piper.advice.flop
+n0 piper: Advice? Hm. I'd rather learn from a wrong note. It stays with you.
+  emote sweat
+
+dialogue social.piper.tease.great
+n0 piper: Oh, that's a fine tease! I'll write it into the bridge.
+  expr happy
+  emote note
+
+dialogue social.piper.tease.good
+n0 piper: Ha! Cheeky. I'll answer in a very flat verse.
+
+dialogue social.piper.tease.flop
+n0 piper: Hm. Funny. I'll remember that during the encore.
+  emote ellipsis
+
+# ---- Topics ----
+topic tilda.gossip
+  npc tilda
+  label Ask what the village is saying
+  plays tilda.topic.gossip
+  if hearts:tilda>=1
+  priority 2
+  cooldown 3
+
+dialogue tilda.topic.gossip
+n0 tilda: Pull up the stool. I never gossip. I just keep accurate books of what's said.
+  emote note
+  next n1
+n1 tilda: {Wren's asking for lemons again.|Juno ordered three hundred rivets and a very small spoon.|Piper owes me four sonnets.|Marcus and Odalys are still not speaking over a pie.}
+  tag funny
+  next n2
+n2 tilda: I'd say more, but the slate has ears.
+
+topic tilda.slate
+  npc tilda
+  label Ask about the slate
+  plays tilda.topic.slate
+  if hearts:tilda>=3
+  priority 3
+  once
+
+dialogue tilda.topic.slate
+n0 tilda: The slate? Every small kindness in Wetherell, in chalk. It's an honor system. Mostly honor.
+  next n1
+n1 tilda: Yours is the best page. I won't tell you why. I'll just write more.
+  expr happy
+  emote heart
+  tag wholesome
+
+topic juno.labels
+  npc juno
+  label Ask about the labels
+  plays juno.topic.labels
+  if hearts:juno>=1
+  priority 2
+  cooldown 3
+
+dialogue juno.topic.labels
+n0 juno: Okay, okay, okay, the labels! Come look.
+  emote sparkle
+  next n1
+n1 juno: {Tongs: "Not a Back Scratcher".|Bram's chair: "Do Not".|The bucket: "Swimming Pool (Official)".|The anvil: "Sulking, Possibly".}
+  tag funny
+  next n2
+n2 juno: There's a new one every week. Bram pretends not to read them. He reads them.
+
+topic juno.mark
+  npc juno
+  label Ask about her own mark
+  plays juno.topic.mark
+  if hearts:juno>=4
+  priority 3
+  once
+
+dialogue juno.topic.mark
+n0 juno: My own mark. A small stamp that's only mine. I haven't made it yet.
+  next n1
+n1 juno: Okay. Okay. When I do, you'll see it first. That's a promise, and I label my promises.
+  expr happy
+  emote heart
+  tag wholesome
+
+topic piper.request
+  npc piper
+  label Ask for a request
+  plays piper.topic.request
+  if hearts:piper>=1
+  priority 2
+  cooldown 3
+
+dialogue piper.topic.request
+n0 piper: A request! Finally. Let me guess: "something cheerful"?
+  emote note
+  next n1
+n1 piper: {Here's a jig.|Here's a ballad. It's four minutes of sighing.|Here's the parsnip song.|Here's something I wrote this morning. It has a hiccup.}
+  tag funny
+  next n2
+n2 piper: That's a chorus! Come back after the set. I'll take requests for the encore.
+
+topic piper.silence
+  npc piper
+  label Ask about the quiet between songs
+  plays piper.topic.silence
+  if hearts:piper>=4
+  priority 3
+  once
+
+dialogue piper.topic.silence
+n0 piper: The quiet between songs? I used to fill it. With chatter, with puns, with panic.
+  next n1
+n1 piper: With you here, I let it sit. It's the best part of the set. Don't tell the fiddle.
+  expr happy
+  emote heart
+  tag wholesome
+
+# ---- World reactions (T-091): small remarks that wait for the player after something happens ----
+reaction react.tilda.spring
+on season:spring
+npcs tilda
+ttl 4
+plays react.tilda.spring.d
+say react.tilda.spring.d tilda: Seed season! The whole village will want parsnips on the same morning. I've cleared the counter and my nerves.
+
+reaction react.tilda.fall
+on season:fall
+npcs tilda
+ttl 4
+plays react.tilda.fall.d
+say react.tilda.fall.d tilda: Pie week. Everyone's arguing about crust, and everyone's wrong. I'm taking notes in chalk.
+
+reaction react.tilda.harvest
+on quest.done:tut_harvest
+npcs tilda
+ttl 5
+plays react.tilda.harvest.d
+say react.tilda.harvest.d tilda: First harvest! You grew something. In my window it goes. I'll put you on the slate for a pie.
+
+reaction react.tilda.wren
+on event:wren_heart4
+npcs tilda
+ttl 5
+plays react.tilda.wren.d
+say react.tilda.wren.d tilda: I hear Wren sang something terrible last night. Four people told me. I charged none of them for the gossip.
+
+reaction react.juno.spring
+on season:spring
+npcs juno
+ttl 4
+plays react.juno.spring.d
+say react.juno.spring.d juno: Okay, okay, okay, spring! Every gate in town fell off. I've labeled the pile "Opportunity".
+
+reaction react.juno.summer
+on season:summer
+npcs juno
+ttl 4
+plays react.juno.summer.d
+say react.juno.summer.d juno: The forge is a sauna with opinions. I stopped wearing sleeves. Bram's pretending not to see.
+
+reaction react.juno.harvest
+on quest.done:tut_harvest
+npcs juno
+ttl 5
+plays react.juno.harvest.d
+say react.juno.harvest.d juno: Your first harvest! Okay, okay, okay, tell me every detail. Especially the tools.
+
+reaction react.juno.bram
+on event:bram_heart4
+npcs juno
+ttl 5
+plays react.juno.bram.d
+say react.juno.bram.d juno: Bram said "Good enough. Better than good." about a repair. I'm having it carved on the anvil.
+
+reaction react.piper.spring
+on season:spring
+npcs piper
+ttl 4
+plays react.piper.spring.d
+say react.piper.spring.d piper: New season, new songs! Most are about parsnips. All are better than the last. It's a rule.
+
+reaction react.piper.winter
+on season:winter
+npcs piper
+ttl 4
+plays react.piper.winter.d
+say react.piper.winter.d piper: Winter ballads! Wool socks, slow bows, and everyone sits closer. It's my favorite acoustic.
+
+reaction react.piper.harvest
+on quest.done:tut_harvest
+npcs piper
+ttl 5
+plays react.piper.harvest.d
+say react.piper.harvest.d piper: You harvested something! I'm writing a verse. It rhymes "crop" with "stop". It almost works.
+
+reaction react.piper.wren
+on event:wren_heart10
+npcs piper
+ttl 5
+plays react.piper.wren.d
+say react.piper.wren.d piper: Wren's Opening Night! I heard it through three walls. I'm furious it was good.

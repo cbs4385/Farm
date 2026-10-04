@@ -84,13 +84,13 @@ namespace Farm.Gameplay
                 new[] { "fish.tuna", "fish.sturgeon" }, new[] { "fish.carp", "forage.seashell" }, new[] { "forage.dandelion" }, lovedCategories: new[] { "Fish" }),
             // The blacksmith's apprentice.
             Person(Juno, Season.Spring, 25, MapIds.Blacksmith, 8, 3, true, "blacksmith", 540, 1080, "mon", new Post(MapIds.Beach, 14, 12), new Post(MapIds.Saloon, 9, 4),
-                new[] { "resource.goldbar", "forage.truffle" }, new[] { "resource.copperbar", "crop.potato" }, new[] { "crop.kale", "forage.dandelion" }),
+                new[] { "resource.goldbar", "forage.truffle", "crop.pepper" }, new[] { "resource.copperbar", "crop.potato", "resource.coal" }, new[] { "crop.kale", "forage.dandelion", "crop.cucumber" }),
             // Looks after the library with Ione.
             Person(Hazel, Season.Fall, 8, MapIds.Library, 9, 3, true, "library", 530, 1050, "sat", new Post(MapIds.Forest, 19, 10), new Post(MapIds.Village, 20, 17),
                 new[] { "forage.blackberry", "crop.strawberry", "food.berry_tart" }, new[] { "forage.elderflower", "crop.cauliflower", "artisan.jam" }, new[] { "resource.stone", "resource.slime", "resource.bat_wing" }),
             // Plays in the saloon in the evenings.
             Person(Piper, Season.Spring, 5, MapIds.Saloon, 12, 7, true, "saloon", 1060, 1440, "tue", new Post(MapIds.Beach, 25, 12), new Post(MapIds.Village, 25, 22),
-                new[] { "crop.sunflower", "artisan.jam" }, new[] { "crop.strawberry", "forage.raspberry" }, new[] { "resource.coal", "resource.slime" }),
+                new[] { "crop.sunflower", "artisan.jam", "artisan.juice" }, new[] { "crop.strawberry", "forage.raspberry", "crop.corn" }, new[] { "resource.coal", "resource.slime", "resource.bat_wing" }),
             // Gathers things in the forest all day; lodges at the carpenter's.
             Person(Dorian, Season.Winter, 11, MapIds.Carpenter, 8, 3, true, null, 480, 1020, null, new Post(MapIds.Forest, 19, 10), new Post(MapIds.Saloon, 4, 4),
                 new[] { "forage.mushroom", "forage.truffle" }, new[] { "forage.hazelnut", "forage.wildgarlic" }, new[] { "crop.tomato" }),

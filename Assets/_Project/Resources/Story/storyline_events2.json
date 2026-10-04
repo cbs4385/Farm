@@ -1,0 +1,318 @@
+{
+  "events": [
+    {
+      "id": "story_band_battle",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:competing_band && hearts:piper>=2 && hearts:juno>=2 && hour>=17 && hour<21 && !festival.in:==0",
+      "titleKey": "memory.story_band_battle",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "piper",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "piper",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.story_band_battle.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "emote",
+          "actor": "piper",
+          "name": "note",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.band.talk"
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.story_band_battle.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_band_battle",
+            "friend:piper,20",
+            "friend:juno,20",
+            "flag:storydone.competing_band"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_pumpkin_dorian",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:missing_pumpkin.dorian && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_pumpkin_dorian",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "dorian",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "dorian",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "dorian",
+          "text": "event.story_pumpkin_dorian.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "emote",
+          "actor": "dorian",
+          "name": "sweat",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.pumpkin.dorian"
+        },
+        {
+          "type": "say",
+          "speaker": "dorian",
+          "text": "event.story_pumpkin_dorian.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_pumpkin_dorian",
+            "friend:dorian,30",
+            "friend:tilda,20",
+            "flag:storydone.missing_pumpkin"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_pumpkin_marcus",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_pumpkin_marcus",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "marcus",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.story_pumpkin_marcus.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "emote",
+          "actor": "marcus",
+          "name": "sweat",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.pumpkin.marcus"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.story_pumpkin_marcus.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_pumpkin_marcus",
+            "friend:marcus,30",
+            "friend:tilda,20",
+            "flag:storydone.missing_pumpkin"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_pumpkin_felix",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:missing_pumpkin.felix && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_pumpkin_felix",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "felix",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "felix",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "felix",
+          "text": "event.story_pumpkin_felix.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "emote",
+          "actor": "felix",
+          "name": "sweat",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.pumpkin.felix"
+        },
+        {
+          "type": "say",
+          "speaker": "felix",
+          "text": "event.story_pumpkin_felix.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_pumpkin_felix",
+            "friend:felix,30",
+            "friend:tilda,20",
+            "flag:storydone.missing_pumpkin"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_cat",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:five_names_cat && hearts:wren>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_cat",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "wren",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.story_cat.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "emote",
+          "actor": "wren",
+          "name": "heart",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.cat.talk"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.story_cat.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_cat",
+            "friend:wren,20",
+            "flag:storydone.five_names_cat"
+          ]
+        }
+      ]
+    }
+  ]
+}

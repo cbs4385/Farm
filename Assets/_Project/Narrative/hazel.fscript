@@ -9,7 +9,7 @@ addto npc.hazel.talk
 0 season:spring => hazel.spring.2 cat=seasonal :: The reading nook warms up first. I've started to leave a window open. (For the pages.)
 0 season:spring => hazel.spring.3 cat=seasonal :: The first butterfly this year landed on a dictionary. I took it as a review.
 0 season:spring => hazel.spring.4 cat=seasonal tag=funny :: Everyone borrows gardening books in spring. Nobody returns them until fall. (Mud is a bookmark.)
-0 season:spring => hazel.spring.5 cat=seasonal :: I logged the first robin on the second of the season. It's in the margins of the almanac.
+0 season:spring => hazel.spring.5 cat=seasonal :: The first robin is logged: second of the season, in the almanac margin.
 0 season:spring => hazel.spring.6 cat=seasonal rarity=uncommon :: Spring smells like damp paper and possibility. I hold one of them closer.
 0 season:summer => hazel.summer.1 cat=seasonal :: The library is the coolest room in Wetherell. This is not public information.
 0 season:summer => hazel.summer.2 cat=seasonal :: Summer readers come in sunburned and leave educated. It's a fair trade.
@@ -28,7 +28,7 @@ addto npc.hazel.talk
 0 season:winter => hazel.winter.3 cat=seasonal :: Ione brings tea in winter. I've stopped pretending I don't want it.
 0 season:winter => hazel.winter.4 cat=seasonal tag=wholesome :: A lamp in a snowed-in window. I could stare at that all day. Some days I do.
 0 season:winter => hazel.winter.5 cat=seasonal :: The longest nights are for the longest books. I have a list.
-0 season:winter => hazel.winter.6 cat=seasonal rarity=uncommon :: I wrote a small poem about the first frost. It has two good lines. I'm told that's generous.
+0 season:winter => hazel.winter.6 cat=seasonal rarity=uncommon :: A small poem about the first frost. It has two good lines. (I'm told that's generous.)
 
 # ---- weekdays ----
 0 weekday:mon => hazel.mon.1 cat=weekday :: Monday. The returns box is heavy. The mood is heavier.
@@ -40,7 +40,7 @@ addto npc.hazel.talk
 0 weekday:thu => hazel.thu.1 cat=weekday :: Thursday. Someone returns something overdue every Thursday. I've come to respect the rhythm.
 0 weekday:thu => hazel.thu.2 cat=weekday :: Thursdays the nook is warm and nobody comes. I keep it for myself. (And now you.)
 0 weekday:fri => hazel.fri.1 cat=weekday :: Friday. The weekend readers arrive early, with plans and a distressing lack of bookmarks.
-0 weekday:fri => hazel.fri.2 cat=weekday :: I read one chapter aloud to myself every Friday. The shelves are a forgiving audience.
+0 weekday:fri => hazel.fri.2 cat=weekday :: One chapter aloud every Friday, to myself. The shelves are a forgiving audience.
 0 weekday:sat => hazel.sat.1 cat=weekday :: Saturday's the library's day off. I'm only here out of habit. (It's a good habit.)
 0 weekday:sat => hazel.sat.2 cat=weekday :: Saturdays I walk. A book is a good place to leave. A path is a better place to come back from.
 0 weekday:sun => hazel.sun.1 cat=weekday :: Sunday. The quietest day, which is saying something.
@@ -53,8 +53,8 @@ addto npc.hazel.talk
 1 weather:rain => hazel.rain.3 cat=weather :: Rain on the roof, a lamp, and a book I've read eleven times. (Twelve soon.)
 1 weather:rain => hazel.rain.4 cat=weather tag=wholesome :: Rainy days fill the library with strangers. I give them blankets and a very small smile.
 1 weather:storm => hazel.storm.1 cat=weather :: Thunder. The windows hum. I pull the books a little closer, in case they're nervous.
-1 weather:storm => hazel.storm.2 cat=weather :: A storm like this is a good excuse to stay put and finish a chapter. Several chapters.
-1 weather:storm => hazel.storm.3 cat=weather :: I wrote the storm down in the almanac margin. Time, direction, volume. (Volume: extreme.)
+1 weather:storm => hazel.storm.2 cat=weather :: A storm is a good excuse to stay put. Finish a chapter. Several chapters.
+1 weather:storm => hazel.storm.3 cat=weather :: The storm is in the almanac margin now. Time, direction, volume. (Volume: extreme.)
 1 weather:snow => hazel.snow.1 cat=weather :: Snow. The library looks like it's been tucked in.
 1 weather:snow => hazel.snow.2 cat=weather :: Footprints in the snow. I'm reading them. One of them is yours.
 1 weather:snow => hazel.snow.3 cat=weather tag=wholesome :: Snowfall, tea, and a book I'm not ready to finish. That's all I want.
@@ -70,11 +70,11 @@ addto npc.hazel.talk
 0 hour>=10 && hour<16 => hazel.midday.2 cat=time :: Afternoons I answer questions I wasn't asked, quietly, in my head.
 0 hour>=10 && hour<16 => hazel.midday.3 cat=time :: The light moves across the stacks all afternoon. I follow it with a feather duster.
 0 hour>=16 && hour<20 => hazel.evening.1 cat=time :: Evening. The library empties and the books relax.
-0 hour>=16 && hour<20 => hazel.evening.2 cat=time :: Closing soon. I give everyone a long look, so they hurry up and a short one, so they come back.
+0 hour>=16 && hour<20 => hazel.evening.2 cat=time :: Closing soon. A long look, so they hurry up. A short one, so they come back.
 0 hour>=16 && hour<20 => hazel.evening.3 cat=time :: Evening. The best time to read, and the worst time to be reminded of it.
 0 hour>=20 => hazel.late.1 cat=time :: It's late. I read in the kind of silence that has a color.
 0 hour>=20 => hazel.late.2 cat=time :: Late hours. I leave a lamp lit for anyone still walking home.
-0 hour>=20 => hazel.late.3 cat=time :: I should be asleep. The book disagrees.
+0 hour>=20 => hazel.late.3 cat=time :: Asleep, I should be. The book disagrees.
 0 map:Library => hazel.here.1 cat=place :: Please don't dog-ear anything. I'll know. (I always know.)
 0 map:Library => hazel.here.2 cat=place :: The returns box is sticky. Nobody knows why. I've stopped asking.
 0 map:Library => hazel.here.3 cat=place tag=funny :: The oldest book here is overdue by forty-one years. (I'm not counting.) (It's forty-one.)
@@ -83,28 +83,28 @@ addto npc.hazel.talk
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.1 cat=tier :: You return books early. I've told Ione. She wants to frame it.
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.2 cat=tier :: I've started to look up when the door opens. (Don't read into it.)
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.3 cat=tier :: You don't fill the silence. I appreciate that. I appreciate very little, so this is a lot.
-0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.4 cat=tier tag=funny :: I put your name in the margin of a mystery novel. As the prime suspect. (Affectionately.)
+0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.4 cat=tier tag=funny :: Your name is in the margin of a mystery novel. Prime suspect. (Affectionately.)
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.5 cat=tier :: There's a chair in the nook I don't offer to anyone. It's open.
-0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.6 cat=tier :: I recommended a book to you without thinking. That's new.
+0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.6 cat=tier :: A book recommendation, unplanned. (That's new.) It slipped out.
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.7 cat=tier :: Wren asked how I know you. I said you borrowed a book once and gave it back. She nodded gravely.
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.8 cat=tier tag=wholesome :: Someone left a seed packet in the poetry section. I planted it. It might be you.
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.1 cat=tier :: I talk more when you're around. I've counted. It's up forty percent.
 0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.2 cat=tier tag=wholesome :: Ione says I hum when you visit. (I don't.) (I might.)
-0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.3 cat=tier :: I used to hide in the stacks when the door opened. Now I just shelve slowly.
+0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.3 cat=tier :: Hiding in the stacks was my habit when the door opened. Now I just shelve slowly.
 0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.4 cat=tier :: You make quiet feel like company. It's a very good trick.
 0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.5 cat=tier :: I keep a notebook of things I'd like to tell you. It has a table of contents.
-0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.6 cat=tier :: I wrote your name in the almanac. Under good weather.
+0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.6 cat=tier :: Your name is in the almanac. Under good weather.
 0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.7 cat=tier tag=funny :: Please stop being this easy to talk to. I have a reputation for avoiding it.
 0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.8 cat=tier :: There are three people I'd trust with a bookmark. You're two of them.
 
 # ---- confidant (9 and 10 hearts) ----
-0 hearts:hazel>=9 => hazel.co.1 cat=tier tag=wholesome :: I've read a lot of stories. Yours is the one I'd like to reread.
+0 hearts:hazel>=9 => hazel.co.1 cat=tier tag=wholesome :: Of all the stories I've read, yours is the one I'd reread.
 0 hearts:hazel>=9 => hazel.co.2 cat=tier :: The library is quieter when you leave. Not worse. Just quieter.
 0 hearts:hazel>=9 => hazel.co.3 cat=tier :: I used to think I preferred books to people. I prefer you, with a book.
 0 hearts:hazel>=9 => hazel.co.4 cat=tier :: There's a shelf I keep for you. It's growing in a way I find alarming.
-0 hearts:hazel>=9 => hazel.co.5 cat=tier tag=funny :: If I wrote your biography, I'd get the first line right and then wander off into footnotes.
+0 hearts:hazel>=9 => hazel.co.5 cat=tier tag=funny :: Your biography? The first line, right. Then I'd wander off into footnotes.
 0 hearts:hazel>=9 => hazel.co.6 cat=tier :: You listen to me read. It still takes courage. It takes less every time.
 0 hearts:hazel>=9 => hazel.co.7 cat=tier :: I used to count the days until the library closed. Now I count the days until you open the door.
 0 hearts:hazel>=9 => hazel.co.8 cat=tier tag=wholesome :: A person can be a favorite book. I'd put you on the nightstand.
@@ -112,11 +112,11 @@ addto npc.hazel.talk
 # ---- moods ----
 1 mood:hazel=lonely => hazel.lonely.1 cat=mood :: It's been quiet. I read a whole book and had no one to tell. (It was good.)
 1 mood:hazel=lonely => hazel.lonely.2 cat=mood :: I rehearsed things to say to you, and used none. (The rehearsals were better.)
-1 mood:hazel=tired => hazel.tired.1 cat=mood :: I stayed up with a book. It stayed up with me. We both regret it.
+1 mood:hazel=tired => hazel.tired.1 cat=mood :: Up late with a book. (It stayed up with me.) We both regret it.
 1 mood:hazel=tired => hazel.tired.2 cat=mood :: Please speak slowly. My thoughts are still putting their shoes on.
 1 mood:hazel=delighted => hazel.delighted.1 cat=mood expr=happy emote=sparkle :: I finished a book today. A good one. (I'm still holding it. I may not let go.)
 1 mood:hazel=delighted => hazel.delighted.2 cat=mood expr=happy :: Today is a very good day. I wrote it down so I'd believe it.
-1 mood:hazel=mischievous => hazel.mischief.1 cat=mood expr=happy :: I hid a joke in the card catalog. Someone will find it. It will be you.
+1 mood:hazel=mischievous => hazel.mischief.1 cat=mood expr=happy :: A joke is hidden in the card catalog. Someone will find it. It will be you.
 1 mood:hazel=mischievous => hazel.mischief.2 cat=mood expr=happy :: I've shelved your favorite book under 'Romance'. You can thank me or not.
 1 mood:hazel=worried => hazel.worried.1 cat=mood expr=sad :: I've read the same page five times. It's not the page.
 
@@ -136,12 +136,12 @@ addto npc.hazel.talk
 
 # ---- rarities ----
 0 ~ => hazel.rare.1 cat=rare rarity=rare tag=funny :: I read the last chapter first. (Don't tell Ione.) (She knows.)
-0 ~ => hazel.rare.2 cat=rare rarity=rare tag=funny :: There are three kinds of people: those who dog-ear, those who don't, and me, sharpening a pencil.
+0 ~ => hazel.rare.2 cat=rare rarity=rare tag=funny :: Three kinds of people. Those who dog-ear. Those who don't. Me, sharpening a pencil.
 0 ~ => hazel.rare.3 cat=rare rarity=rare tag=wholesome :: Every book is a door. Most are quiet doors. You, I think, are a window.
 0 hearts:hazel>=5 => hazel.rare.4 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: (She laughs, out loud, and covers her mouth.) That was not an aside. That was a joke. I made a joke.
 
 # ---- gifts ----
-say npc.hazel.gift.item.forage.blackberry hazel: Blackberries. (She holds them very carefully.) I'll save them for the book I'm saving for them.
+say npc.hazel.gift.item.forage.blackberry hazel: Blackberries. (She holds them carefully.) I'll save them for the book I'm saving for them.
 say npc.hazel.gift.item.crop.strawberry hazel: A strawberry. Perfectly red. I'll stain a bookmark and call it art.
 say npc.hazel.gift.item.food.berry_tart hazel: A berry tart. You baked, or bought, or conspired. Either way, I'm going to eat it slowly, with a novel.
 say npc.hazel.gift.item.forage.elderflower hazel: Elderflower. Smells like the last page of a good summer. Thank you.
@@ -149,13 +149,13 @@ say npc.hazel.gift.item.crop.cauliflower hazel: A cauliflower. That's... unexpec
 say npc.hazel.gift.item.artisan.jam hazel: Jam. For toast, for tea, or for the bookmark that I will certainly ruin.
 say npc.hazel.gift.item.resource.stone hazel: A stone. It's quite heavy. (She sets it gently on the returns desk.) I'll use it as a bookend.
 say npc.hazel.gift.item.resource.slime hazel: Slime. I'm going to go stand very still for a moment. Thank you. (I'm grateful. Truly.)
-say npc.hazel.gift.item.resource.bat_wing hazel: A bat wing. (She flinches.) I'm going to put it in a box and pretend it's a very long bookmark.
+say npc.hazel.gift.item.resource.bat_wing hazel: A bat wing. (She flinches.) Into a box it goes. A very long bookmark, I'll pretend.
 
 # the gift lab: how a shy reader takes something absurd
-say npc.hazel.gift.cat.Fish hazel: A fish. It's looking at me. (She sets it down very gently on a sheet of paper.) Thank you. I think.
+say npc.hazel.gift.cat.Fish hazel: A fish. It's looking at me. (She sets it down gently on a sheet of paper.) Thank you. I think.
 say npc.hazel.gift.item.resource.wood hazel: A log. (Her eyes go wide.) I'll... shelve it under 'Nature'. Thank you.
 say npc.hazel.gift.item.resource.coal hazel: Coal. It's very dark. It looks like the last page of a sad novel. I'll take it.
-say npc.hazel.gift.item.resource.bone hazel: A bone. (A very long pause.) I'm going to label it and put it in a drawer. Thank you.
+say npc.hazel.gift.item.resource.bone hazel: A bone. (A very long pause.) I'll label it and keep it in a drawer. Thank you.
 say npc.hazel.gift.item.product.egg hazel: An egg. Fragile, full of potential, and slightly intimidating. I'll hold it until I understand it.
 say npc.hazel.gift.item.product.milk hazel: Milk. Warm milk is for people who stay up reading. (She looks at you, gently.) You know me too well.
 say npc.hazel.gift.item.forage.seashell hazel: A seashell. I'll hold it to my ear. (She does.) It says 'shh'. We get along.

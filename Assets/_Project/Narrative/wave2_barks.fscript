@@ -1,0 +1,79 @@
+# Ambient barks for Tilda, Juno and Piper (T-125): one short line (12 words at most) in a speech bubble when the player is near.
+
+addto npc.tilda.bark
+0 ~ => tilda.bark.1 cat=bark :: Mind the step. The cat has opinions.
+0 ~ => tilda.bark.2 cat=bark :: I'll put it on the slate.
+0 ~ => tilda.bark.3 cat=bark :: Seeds, string and gossip. All fairly priced.
+0 ~ => tilda.bark.4 cat=bark tag=funny :: Marcus owes Odalys an apology and a pie. It's on the slate.
+0 ~ => tilda.bark.5 cat=bark :: Wren borrowed lemons I never had. I'm not asking.
+0 ~ => tilda.bark.6 cat=bark :: The bell sounds best at nine. I've tested it.
+0 ~ => tilda.bark.7 cat=bark :: Browsing is free. So is the tea. Mostly.
+0 ~ => tilda.bark.8 cat=bark :: Somebody's whistling outside. I like it. I'm suspicious.
+1 weather:rain => tilda.bark.rain.1 cat=bark :: Rain on the glass. Best customer I've had all week.
+1 weather:storm => tilda.bark.storm.1 cat=bark :: The jars are on the floor. The cat's on the counter.
+1 weather:snow => tilda.bark.snow.1 cat=bark :: Snow on the sign. I'm leaving it.
+1 weather:wind => tilda.bark.wind.1 cat=bark :: The sign's swinging. Hold your hats, everyone.
+0 season:spring => tilda.bark.spring.1 cat=bark :: Seed season! Everyone wants parsnips on the same morning.
+0 season:summer => tilda.bark.summer.1 cat=bark :: Awning's up. The bell sounds better in shade.
+0 season:fall => tilda.bark.fall.1 cat=bark :: Pie week. The whole street smells like cinnamon and rivalry.
+0 season:winter => tilda.bark.winter.1 cat=bark :: Stove's on. Kettle's on. Come in.
+0 hour<10 => tilda.bark.morning.1 cat=bark :: First customer gets the freshest bread and the oldest gossip.
+0 hour>=18 => tilda.bark.evening.1 cat=bark :: Nearly closing. One more customer, please. I'm not desperate.
+0 map:GeneralStore => tilda.bark.here.1 cat=bark :: Everything's for sale except the stool by the stove.
+0 map:GeneralStore => tilda.bark.here.2 cat=bark :: Take your time. The dust is in no hurry.
+0 weekday:sun => tilda.bark.sun.1 cat=bark :: Closed today. I'm a person. It's strange.
+0 weekday:sat => tilda.bark.sat.1 cat=bark :: Market day. Half the village visits to look at the other half.
+0 ~ => tilda.bark.rare.1 cat=bark rarity=rare tag=funny :: I once sold a parrot. It stayed. It's still here.
+0 ~ => tilda.bark.rare.2 cat=bark rarity=rare tag=wholesome :: Kindness is the only stock that rises when given away.
+
+addto npc.juno.bark
+0 ~ => juno.bark.1 cat=bark :: Okay, okay, okay, nobody touch the hot thing.
+0 ~ => juno.bark.2 cat=bark :: Technically it's art. Technically it's also a doorstop.
+0 ~ => juno.bark.3 cat=bark :: Hammer, tongs, patience. In that order, mostly.
+0 ~ => juno.bark.4 cat=bark tag=funny :: I labeled the kettle "Bram's Best Friend".
+0 ~ => juno.bark.5 cat=bark :: Piper says I talk too fast. I said that was a tempo.
+0 ~ => juno.bark.6 cat=bark :: That clasp closes! Don't tell Bram I cried.
+0 ~ => juno.bark.7 cat=bark :: Wren's gossip is floating in again. It smells like cider.
+0 ~ => juno.bark.8 cat=bark :: Bram said "Hm" to the bucket. It was a good "Hm".
+1 weather:rain => juno.bark.rain.1 cat=bark :: Rain on a hot forge! Best sound in the world.
+1 weather:storm => juno.bark.storm.1 cat=bark :: Thunder! The anvil rang back. They're old friends.
+1 weather:snow => juno.bark.snow.1 cat=bark :: Snow on the sill, glow in the forge. Postcard.
+1 weather:wind => juno.bark.wind.1 cat=bark :: Wind blew the ash everywhere. I'm gray to the elbows.
+0 season:spring => juno.bark.spring.1 cat=bark :: Spring means hinges. Every gate in town fell off.
+0 season:summer => juno.bark.summer.1 cat=bark :: Summer forge: a sauna with opinions.
+0 season:fall => juno.bark.fall.1 cat=bark :: Leaves on the roof hiss when they land. Delightful.
+0 season:winter => juno.bark.winter.1 cat=bark :: Winter forge. Warmest room in Wetherell. Ask Bram. He'll nod.
+0 hour<10 => juno.bark.morning.1 cat=bark :: Coaxing the fire. Don't talk loud. It startles.
+0 hour>=18 => juno.bark.evening.1 cat=bark :: Last clasp of the day. Always the hard one.
+0 map:Blacksmith => juno.bark.here.1 cat=bark :: Everything's labeled. Some labels are insults. Bram's chair says "Do Not".
+0 map:Blacksmith => juno.bark.here.2 cat=bark :: Mind the floor. The tile by the door is "Mister Trip".
+0 weekday:mon => juno.bark.mon.1 cat=bark :: Closed Mondays. I'm here anyway. Labeling.
+0 weekday:thu => juno.bark.thu.1 cat=bark :: Thursday: sharpening everything. Even the bucket.
+0 ~ => juno.bark.rare.1 cat=bark rarity=rare tag=funny :: I labeled a puddle "Puddle (Ambitious)". It got deeper.
+0 ~ => juno.bark.rare.2 cat=bark rarity=rare tag=wholesome :: Bram taught me patience first. Then where the good tea is hidden.
+
+addto npc.piper.bark
+0 ~ => piper.bark.1 cat=bark :: Request anything. I'll probably play something else.
+0 ~ => piper.bark.2 cat=bark :: That's a chorus.
+0 ~ => piper.bark.3 cat=bark :: You said "turnip", I heard "return it". It rhymes.
+0 ~ => piper.bark.4 cat=bark tag=funny :: Juno says I talk too fast. I call it tempo.
+0 ~ => piper.bark.5 cat=bark :: Wren borrowed my rosin. I'm composing a strongly worded verse.
+0 ~ => piper.bark.6 cat=bark :: The fiddle's in tune. I'm the one slightly flat.
+0 ~ => piper.bark.7 cat=bark :: I wrote a song about parsnips. It's a masterpiece. Ask anyone.
+0 ~ => piper.bark.8 cat=bark :: Somebody hum the second verse. I've forgotten it. Dramatically.
+1 weather:rain => piper.bark.rain.1 cat=bark :: Rain's a drummer with strong opinions. I'll play along.
+1 weather:storm => piper.bark.storm.1 cat=bark :: Thunder's the bass. I'll take the bridge.
+1 weather:snow => piper.bark.snow.1 cat=bark :: Snowfall's the quietest song there is. I'll hum.
+1 weather:wind => piper.bark.wind.1 cat=bark :: The wind plays the chimney flat. Confident, though.
+0 season:spring => piper.bark.spring.1 cat=bark :: New season, new songs. Mostly about parsnips.
+0 season:summer => piper.bark.summer.1 cat=bark :: Beach sets! Sand in the strings, salt in the song.
+0 season:fall => piper.bark.fall.1 cat=bark :: Harvest dances! Everyone's feet are louder than the fiddle.
+0 season:winter => piper.bark.winter.1 cat=bark :: Winter ballads. Wool socks and slow bows.
+0 hour<10 => piper.bark.morning.1 cat=bark :: Early. My fingers wake around the third cup of tea.
+0 hour>=18 => piper.bark.evening.1 cat=bark :: Showtime soon. I'm telling the fiddle it's gorgeous.
+0 map:Saloon => piper.bark.here.1 cat=bark :: Tip jar's on the left. Wren added "And for Wren."
+0 map:Saloon => piper.bark.here.2 cat=bark :: The stool by the stage is mine. The rest is chaos.
+0 weekday:tue => piper.bark.tue.1 cat=bark :: Day off. I'm on the beach with a fiddle and crabs.
+0 weekday:fri => piper.bark.fri.1 cat=bark :: Friday! Everybody wants "the one about the cow".
+0 ~ => piper.bark.rare.1 cat=bark rarity=rare tag=funny :: I once played one request for forty minutes. Called an encore.
+0 ~ => piper.bark.rare.2 cat=bark rarity=rare tag=wholesome :: The first time they sang my song, I stopped playing to listen.

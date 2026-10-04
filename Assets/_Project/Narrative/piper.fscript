@@ -1,0 +1,166 @@
+# Piper Vance, the musician. Full depth (docs/narrative/BIBLE_WAVE2.md section 3). Playful, rhythmic, mock-grandeur that deflates in the
+# next clause; musical puns; the verse (a couplet that rhymes "if you squint"); "That's a chorus." Sentences up to 20 words, never "I can't".
+# Plays at the saloon from the evening (closed Tuesdays); beach and square in the mornings. Cozy only.
+
+addto npc.piper.talk
+
+# ---- seasons ----
+0 season:spring => piper.spring.1 cat=seasonal :: New season, new songs. Most of them are about parsnips. The rest are about what rhymes with parsnip.
+0 season:spring => piper.spring.2 cat=seasonal :: Spring in the saloon: the windows are open, the fiddle is in tune, and the mud sings along.
+0 season:spring => piper.spring.3 cat=seasonal tag=funny :: I wrote a spring anthem. It's four lines and a hiccup. The hiccup is the chorus.
+0 season:spring => piper.spring.4 cat=seasonal :: The first warm night, everyone sings. Badly. Beautifully. In the same key, occasionally.
+0 season:spring => piper.spring.5 cat=seasonal :: My birthday's in spring. I'm not hinting. I'm humming. It's the song of someone hinting.
+0 season:spring => piper.spring.6 cat=seasonal rarity=uncommon :: Every spring I retune the fiddle by the beach. The waves keep time. They have no sense of tempo.
+0 season:summer => piper.summer.1 cat=seasonal :: Summer sets on the beach. Sand in the strings, salt in the song. It's rustic. It's also itchy.
+0 season:summer => piper.summer.2 cat=seasonal :: The saloon's hot, so I play outside the door and charge nobody. The crowd pays in applause and lemonade.
+0 season:summer => piper.summer.3 cat=seasonal tag=funny :: A gull joined my song at the beach. It was flat. I've never been so insulted by a bird.
+0 season:summer => piper.summer.4 cat=seasonal :: Long evenings, long notes. The sun sets, and I'm still on the second verse.
+0 season:summer => piper.summer.5 cat=seasonal :: Juno and I swam after dark. She hammered the surf. I fiddled. The tide applauded in a very damp way.
+0 season:summer => piper.summer.6 cat=seasonal rarity=uncommon :: At the summer festival I'll play something new. It's half written. The other half is panic.
+0 season:fall => piper.fall.1 cat=seasonal :: Harvest dances! Everyone's feet are louder than my fiddle. I've never been happier to lose.
+0 season:fall => piper.fall.2 cat=seasonal :: Fall is the season of ballads. Somebody always cries. I plan it. It's professional.
+0 season:fall => piper.fall.3 cat=seasonal tag=funny :: Everyone's making pies, so every song is about pie. I rhymed "crust" with "trust". It almost works.
+0 season:fall => piper.fall.4 cat=seasonal :: The nights are cooler. The fiddle's tighter. The crowd is warmer. All in tune.
+0 season:fall => piper.fall.5 cat=seasonal :: Wren's birthday's in fall. I'm writing her a song. It rhymes "cider" with "wider". She'll hate it.
+0 season:fall => piper.fall.6 cat=seasonal rarity=uncommon :: Harvest week, I play for the empty fields. They never request anything. It's very restful.
+0 season:winter => piper.winter.1 cat=seasonal :: Winter sets by the stove: wool socks, long ballads, a very tired bow.
+0 season:winter => piper.winter.2 cat=seasonal :: The snow's soft and so is the music. Everyone sits closer. It's the best acoustic in the world.
+0 season:winter => piper.winter.3 cat=seasonal tag=wholesome :: A winter crowd sings quietly. That's the crowd I'd keep, if I could keep one.
+0 season:winter => piper.winter.4 cat=seasonal :: Cold fingers on strings: a very small, very dramatic suffering. I've written it a song.
+0 season:winter => piper.winter.5 cat=seasonal :: The saloon's a lantern in the snow. Everyone drifts toward it, and I get to be the glow.
+0 season:winter => piper.winter.6 cat=seasonal rarity=uncommon :: Last winter I played one song, three times, slower each time. The crowd stayed. Nobody left.
+
+# ---- weekdays ----
+0 weekday:mon => piper.mon.1 cat=weekday :: Monday. The week begins with a minor chord and a slight sigh. It's my favorite key.
+0 weekday:mon => piper.mon.2 cat=weekday :: Mondays are for rehearsing songs I'll play on Friday. Most never make it. They're just good practice.
+0 weekday:tue => piper.tue.1 cat=weekday :: Tuesday. The saloon's shut, so I'm on the beach with a fiddle and an audience of crabs.
+0 weekday:tue => piper.tue.2 cat=weekday :: Tuesday is my day off and Wren's. We spend it apart, and then compare notes. Actual notes.
+0 weekday:wed => piper.wed.1 cat=weekday :: Wednesday. Midweek, mid-song, mid-nap. The three are not mutually exclusive.
+0 weekday:wed => piper.wed.2 cat=weekday :: Nothing happens on Wednesdays. I wrote a song about it. Nothing happens in it either.
+0 weekday:thu => piper.thu.1 cat=weekday :: Thursday. Felix's day off, so the beach is crowded with fishing hats and bad advice.
+0 weekday:thu => piper.thu.2 cat=weekday :: Thursday afternoons I tune the fiddle in the square. A dog sings along. It's a baritone.
+0 weekday:fri => piper.fri.1 cat=weekday :: Friday! The saloon's full, the strings are warm, and everybody wants "the one about the cow".
+0 weekday:fri => piper.fri.2 cat=weekday :: Friday night is my favorite. Every request is a challenge, and every challenge ends in a sing-along.
+0 weekday:sat => piper.sat.1 cat=weekday :: Saturday. Market day. I'm busking by the stalls. Folks pay in apples and approval.
+0 weekday:sat => piper.sat.2 cat=weekday :: Saturday night is the big one. I tune for an hour. Then I play something else entirely.
+0 weekday:sun => piper.sun.1 cat=weekday :: Sunday. I don't play. My fingers beg. My ears do too. It's a beautiful stalemate.
+0 weekday:sun => piper.sun.2 cat=weekday :: Sunday's for listening. I hum under my breath so I don't forget how.
+
+# ---- weather ----
+0 weather:sunny => piper.sunny.1 cat=weather :: Sunny day, sunny key. Even the minor chords are wearing hats.
+0 weather:sunny => piper.sunny.2 cat=weather :: The whole village is humming. I didn't plan it. I'm a little jealous.
+0 weather:sunny => piper.sunny.3 cat=weather :: Bright morning, loud birds. They're warming up for the evening set. Competition's fierce.
+1 weather:rain => piper.rain.2 cat=weather :: Rain on the roof: percussion with a very strong opinion. I play along. It leads.
+1 weather:rain => piper.rain.3 cat=weather tag=wholesome :: A wet day brings everyone in, and everyone sings. A rainy-day crowd is a choir with umbrellas.
+1 weather:rain => piper.rain.4 cat=weather :: The drip off the eaves is a perfect triplet. I'm writing it down before it changes its mind.
+1 weather:storm => piper.storm.1 cat=weather :: Thunder! A drum solo from the sky. I'll play the bridge. It can have the chorus.
+1 weather:storm => piper.storm.2 cat=weather :: A storm in the saloon, a storm outside, and a fiddle between. Dramatic. A bit loud. Wonderful.
+1 weather:storm => piper.storm.3 cat=weather :: Lightning's got no sense of timing. I admire it, and I'd never hire it.
+1 weather:snow => piper.snow.1 cat=weather :: Snow! The whole world has been muted by a kind percussionist.
+1 weather:snow => piper.snow.2 cat=weather :: Snow on the strings makes the notes shy. I play them anyway. They come out polite.
+1 weather:snow => piper.snow.3 cat=weather tag=wholesome :: Snowfall's the quietest song there is. I won't try to compete. I'll just hum along.
+1 weather:wind => piper.wind.1 cat=weather :: Windy night: the fiddle wants to fly, and so does my hat. We're negotiating.
+1 weather:wind => piper.wind.2 cat=weather :: The wind's playing the chimney like an organ. It's flat. It's got confidence, though.
+1 weather:wind => piper.wind.3 cat=weather :: Blustery day. Every door whistles, and none of them know the tune.
+
+# ---- time of day ----
+0 hour<10 => piper.morning.1 cat=time :: Early. My fingers are still asleep. They'll wake up around the third cup of tea.
+0 hour<10 => piper.morning.2 cat=time :: Morning on the beach: the tide for a metronome, and the gulls for a heckling section.
+0 hour<10 => piper.morning.3 cat=time :: I like mornings, but only for composing. Anything else is a rumor.
+0 hour>=10 && hour<17 => piper.midday.1 cat=time :: Afternoon rehearsal. The fiddle's warm, the stage is empty, and the audience is a stool.
+0 hour>=10 && hour<17 => piper.midday.2 cat=time :: Daytime Piper writes. Nighttime Piper plays. They never meet. They send each other notes.
+0 hour>=10 && hour<17 => piper.midday.3 cat=time :: A quiet afternoon. Good for strings, bad for nerves. Come sit and be my metronome.
+0 hour>=17 && hour<20 => piper.evening.1 cat=time :: Nearly showtime. I tune, I breathe, I tell the fiddle it's gorgeous. It needs reassurance.
+0 hour>=17 && hour<20 => piper.evening.2 cat=time :: Evening! The saloon's filling up, and so's my head. Requests are rolling in like thunder.
+0 hour>=17 && hour<20 => piper.evening.3 cat=time :: The crowd arrives in waves. The first wave is polite. The third wave knows the words.
+0 hour>=20 => piper.late.1 cat=time :: Late set. The room's warm, the strings are loose, and everyone sings the second verse wrong. Perfect.
+0 hour>=20 => piper.late.2 cat=time :: Past midnight. The fiddle's tired, so am I, and the encore is already in motion.
+0 hour>=20 => piper.late.3 cat=time :: The best songs come after closing. That's when it's just me and the echo, and the echo's better than the crowd.
+0 map:Saloon => piper.here.1 cat=place :: Request anything. I'll probably play something else. It'll be better. Probably.
+0 map:Saloon => piper.here.2 cat=place tag=funny :: Tip jar's on the left. It says "For the fiddle." Wren added "And for Wren." Wren was not asked.
+0 map:Saloon => piper.here.3 cat=place :: Sit anywhere. The stool by the stove is Wren's. The one by the stage is mine. The rest are chaos.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.1 cat=tier :: Front row again! You're my favorite regular. I named a chord after you. It's mostly a hum.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.2 cat=tier :: You said "farm", I heard "charm". It rhymes if you squint. That's a chorus.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.3 cat=tier tag=funny :: Juno says I talk too fast. I said that was a compliment. She said it was a tempo.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.4 cat=tier :: Sing along tonight. Don't be shy. I'll cover you with a loud note and pretend it was me.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.5 cat=tier :: I wrote you a verse. It's terrible. It's yours. I'll play it once and then burn it.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.6 cat=tier :: Wren says you stay for the second set. Wren's right. She's usually right about things that make me blush.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.7 cat=tier tag=wholesome :: Someone in the room who actually listens: it changes the way I play. I'd hate to lose that.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.8 cat=tier :: Come by after the set. I'll show you the third verse. It's not ready. Neither am I.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.1 cat=tier :: You make the silence between songs easier. I used to fill it. Now I just let it breathe.
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.2 cat=tier tag=wholesome :: Playing for you is my favorite thing, and the second is playing when you're there and I forget to.
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.3 cat=tier :: I have a notebook of songs nobody's heard. You're in half of them. Don't look. I'll blush.
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.4 cat=tier :: Juno says you're good for me. She said it between a hammer and a hinge. That's a sincere location.
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.5 cat=tier tag=funny :: I told Tilda I'd pay my tab in verses. She wrote it down. I'm now four sonnets in debt.
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.6 cat=tier :: A song I've written is half-finished. I'm waiting for you to hear the rest. Take your time. I'll hum.
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.7 cat=tier :: You never request anything. You ask what I'd like to play. Nobody does that. I played it twice.
+0 hearts:piper>=6 && hearts:piper<9 => piper.cl.8 cat=tier :: [farm] sounds like a major key. I don't know why. I just hear it. A bit of sun and a little banjo.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:piper>=9 => piper.co.1 cat=tier tag=wholesome :: Wetherell needed a song. You were the chorus. I'm only the one holding the fiddle.
+0 hearts:piper>=9 => piper.co.2 cat=tier :: I used to play so the room wouldn't be quiet. Now I play so you'll hear it. It's a better reason.
+0 hearts:piper>=9 => piper.co.3 cat=tier :: The best song I ever wrote is the one I haven't. It's about someone who showed up. You can guess.
+0 hearts:piper>=9 => piper.co.4 cat=tier tag=funny :: If I wrote you a letter, it'd rhyme badly and run long. I'd send it with a tune. The tune would be flat.
+0 hearts:piper>=9 => piper.co.5 cat=tier :: I used to fear the quiet. Now it sounds like the moment before you walk in.
+0 hearts:piper>=9 => piper.co.6 cat=tier :: Thank you, [player]. For everything. That's the whole verse. It doesn't rhyme. I left it that way.
+0 hearts:piper>=9 => piper.co.7 cat=tier :: I labeled a drawer in my head "Songs for later." Yours is at the top, and it's already playing.
+0 hearts:piper>=9 => piper.co.8 cat=tier tag=wholesome :: Anything I write next, you'll be the first to hear. And the first to hum along, badly, on purpose.
+
+# ---- moods ----
+1 mood:piper=lonely => piper.lonely.1 cat=mood :: Quiet week. I've been playing for the walls. They don't request anything. They don't clap, either.
+1 mood:piper=lonely => piper.lonely.2 cat=mood :: You were gone a while. I wrote a song every night. Most are sad. One is about soup.
+1 mood:piper=tired => piper.tired.1 cat=mood :: Long set last night. My fingers are noodles and my voice is a rumor.
+1 mood:piper=tired => piper.tired.2 cat=mood :: A bit worn today. The fiddle's fine. I'm the one out of tune.
+1 mood:piper=delighted => piper.delighted.1 cat=mood expr=happy :: Best night of my life! Everyone knew the chorus. Even the stool. It's a legend now.
+1 mood:piper=delighted => piper.delighted.2 cat=mood expr=happy emote=note :: I wrote a verse that rhymes! Actually rhymes! No squinting required. I'm basking.
+1 mood:piper=mischievous => piper.mischief.1 cat=mood expr=happy :: I changed the lyrics to "Barley Bells". Now it's about Wren. She hasn't noticed. She will.
+1 mood:piper=mischievous => piper.mischief.2 cat=mood expr=happy :: I told the crowd the next song was a secret. It's "Happy Birthday". It's nobody's birthday. Watch their faces.
+1 mood:piper=worried => piper.worried.1 cat=mood expr=sad :: I'm working on a new song, and it's terrible. I'm certain. I'm also certain I'll play it.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => piper.farm.1 cat=reactive :: Your crops are coming in, and I've got a harvest song half-written. Needs more beets.
+0 farm:crops>=5 => piper.farm.2 cat=reactive tag=funny :: So many vegetables! I rhymed "turnip" with "return it". It's a masterpiece and a refund policy.
+0 farm:animals>=1 => piper.farm.3 cat=reactive :: Animals on the farm: that's an audience! I'll bring the fiddle. The cow will request something sad.
+0 farm:animals>=1 => piper.farm.4 cat=reactive :: A chicken's the most honest critic. It never claps and it never lies.
+2 festival.in:<=3 && festival.in:>0 => piper.fest.1 cat=reactive :: Festival soon! I'm rehearsing a set. It's mostly nerves with a tune on top.
+2 festival.in:<=3 && festival.in:>0 => piper.fest.2 cat=reactive tag=wholesome :: Festival week. The whole village sings. I've never heard a room so in love with being out of tune.
+2 festival.in:==0 => piper.fest.3 cat=reactive :: Festival day! I'm playing till they carry me off. Come hear the new song. It's about all of you.
+2 birthday.in:piper<=3 && birthday.in:piper>0 => piper.bday.1 cat=reactive :: My birthday's close. I'm not hinting. I'm humming "Happy Birthday" in the key of Hint.
+2 birthday.in:piper<=3 && birthday.in:piper>0 => piper.bday.2 cat=reactive :: Three days to go. I'll be a year older and, I swear, exactly as flat.
+3 birthday.in:piper==0 => piper.bday.3 cat=reactive expr=embarrassed emote=sweat :: It's today! Somebody told. Wren told. Everyone's singing. Badly. I'd like this on a record.
+2 birthday.in:wren<=2 && birthday.in:wren>=0 => piper.bday.4 cat=reactive :: Wren's birthday! I wrote her a song. It rhymes "cider" with "wider". She'll hate it so much she'll frame it.
+2 birthday.in:juno<=2 && birthday.in:juno>=0 => piper.bday.5 cat=reactive :: Juno's birthday! I'm giving her a tune on the fiddle and a clip for her bow. She'll say it's the wrong shape.
+
+# ---- rarities ----
+0 ~ => piper.rare.1 cat=rare rarity=rare tag=funny :: Three kinds of people: those who dog-ear, those who don't, and me, tuning a fiddle that's already in tune.
+0 ~ => piper.rare.2 cat=rare rarity=rare tag=funny :: I once played a request for forty minutes because I forgot how to stop. They called it an encore.
+0 ~ => piper.rare.3 cat=rare rarity=rare tag=wholesome :: The first time the whole saloon sang a song I'd written, I stopped playing to hear them. It's the only time I've been quiet on purpose.
+0 hearts:piper>=5 => piper.rare.4 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Listen. (She plays four slow notes.) That's yours. It doesn't have a name yet. I'm waiting for you to hum the ending.
+
+# ---- gifts ----
+say npc.piper.gift.item.crop.sunflower piper: A sunflower! A stage light you can eat. It goes by the fiddle case. I'll play it a song.
+say npc.piper.gift.item.artisan.jam piper: Jam! Sticky, sweet and the best snack for tuning. I'll write you a verse. It won't rhyme. It'll be sincere.
+say npc.piper.gift.item.artisan.juice piper: Juice! For the throat, for the soul, and for the second set. I'll sing you a very fruity ballad.
+say npc.piper.gift.item.crop.strawberry piper: Strawberries! Red, round and ready for a duet. I'll share one with the fiddle. It's a good listener.
+say npc.piper.gift.item.forage.raspberry piper: Raspberries! Tiny and tart. Like a good high note. I'll eat them on stage and look dramatic.
+say npc.piper.gift.item.crop.corn piper: Corn! A tune you can husk. I'll hum "Barley Bells" at it and see if it blushes.
+say npc.piper.gift.item.resource.coal piper: Coal. Hm. A very sooty note. I'll keep it near the fiddle, as a warning.
+say npc.piper.gift.item.resource.slime piper: Slime! It's staring at me. I'll dedicate the next song to it. It won't applaud.
+say npc.piper.gift.item.resource.bat_wing piper: A bat wing. I'll make a very small, very dramatic fan out of it. For the opera nobody asked for.
+say npc.piper.gift.cat.Fish piper: A fish! I'll play it a lullaby, and then Felix gets it. It seems to be listening. A stoic.
+say npc.piper.gift.item.resource.goldbar piper: A gold bar! The most expensive tambourine in the history of Wetherell. I'll keep it on the stage. For luck.
+say npc.piper.gift.item.resource.copperbar piper: Copper! Juno will make me a fiddle clip from it. She'll say it's rustic. I'll call it vintage.
+say npc.piper.gift.item.resource.stone piper: A rock! The only percussion that never misses a beat. I'll tap it during the bridge.
+say npc.piper.gift.item.resource.wood piper: Wood! A fiddle's cousin, and a stage's best friend. Marcus will say it's too good for me. Marcus is right.
+say npc.piper.gift.item.resource.bone piper: A bone. I'll make a whistle from it. A creepy one. For a song that needs a graveyard.
+say npc.piper.gift.item.product.egg piper: An egg! Breakfast, percussion and a tiny maraca, all in one. I'll shake it near the cat.
+say npc.piper.gift.item.artisan.wine piper: Wine! For after the set, with Wren, who'll tell me I played the third verse wrong. She's lying. Probably.
+say npc.piper.gift.item.crop.pumpkin piper: A pumpkin! A drum. A very round, very orange drum. I'm already tapping it.
+say npc.piper.gift.item.crop.kale piper: Kale. Hm. A leafy note. I'll play it a ballad and give it to the goat.
+say npc.piper.gift.item.crop.potato piper: A potato. A humble note, a sturdy rhythm. I'll hum something low and put it in my pocket.
+say npc.piper.gift.item.food.salad piper: Salad! A leafy chorus. I'll eat it between sets, like a very green interval.
+say npc.piper.gift.repeat piper: Another one? You're a generous audience. I'll play you a thank-you in the key of "Oh, you shouldn't."

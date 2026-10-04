@@ -39,9 +39,9 @@ namespace Farm.Gameplay
             var home = Stop(Six, MapIds.GeneralStore, 6, 3);
             return NpcDefinition.Create(NpcIds.Tilda, Season.Spring, 12, MapIds.GeneralStore, 6, 3, romanceable: false, business: "general")
                 .WithTastes(
-                    loved: new[] { "crop.strawberry", "forage.elderflower" },
+                    loved: new[] { "crop.strawberry", "forage.elderflower", "food.pumpkin_pie" },
                     liked: new[] { "crop.cauliflower", "crop.potato", "forage.raspberry" },
-                    disliked: new[] { "resource.stone", "forage.clam" },
+                    disliked: new[] { "resource.stone", "forage.clam", "resource.slime" },
                     dislikedCategories: new[] { "Fish" })
                 .WithSchedule(new[]
                 {

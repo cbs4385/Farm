@@ -27,3 +27,9 @@ NOTES
 - Scenes are one-shot. To see one again: the Memories tab, or reload a save made before it.
 - If the first command says the map is unknown, run "help" and report the exact map name.
 - Full checklist of what to look for in each scene: docs/narrative/QA_HEART_EVENTS.md
+
+WAVE 2 (Tilda, Juno, Piper)
+- Same files and routine for tilda_*, juno_*, piper_*. Tilda: not on Sundays, 09:00-17:00. Juno: not on Mondays, 09:00-17:00. Piper: not on Tuesdays, 18:00-24:00 (the files use 20:00).
+- Friend days: Tilda on a Saturday (date spring 6), Juno on a Thursday (date spring 4), Piper on a Friday (date spring 5).
+- Tilda's friend-day scene is a helping scene: with 3 sunflowers it succeeds and is spent; without, she asks you to come back and it is offered again.
+- Heart-10 endings change by an earlier choice: Tilda 3 (card.share, card.bake, neither), Juno 2 (shoe.wait or not), Piper 3 (chorus.home, road, room). One file per branch.

@@ -1,0 +1,117 @@
+# Heart events and friend-day scenes for Tilda, Juno and Piper (wave 2). Compiled to zz_fs_wave2_events.json.
+
+dialogue tilda.slate
+n0 tilda: This is the slate. Every small kindness in Wetherell, in chalk. Look. Marcus is two planks ahead of Odalys.
+  next n1
+n1 tilda: There's room under your name. What would you like me to write?
+  ? A thank-you. => r0 | friend:tilda,10 | flag:choice.slate.thanks
+  ? A joke. => r1 | friend:tilda,10 | flag:choice.slate.joke
+  ? A promise. => r2 | friend:tilda,15 | flag:choice.slate.promise
+r0 tilda: A thank-you. Plain, honest and very hard to cash. My favorite currency.
+  expr happy
+r1 tilda: A joke! On my slate! ...Oh, that's good. I'm laughing in a shop. Don't tell anyone.
+  expr happy
+r2 tilda: A promise. I'll write it small and keep it large.
+
+dialogue tilda.hours
+n0 tilda: I count the stock every night. And every night the street is quieter than it was. It's an odd thing for a shopkeeper to notice.
+  expr thinking
+  next n1
+n1 tilda: I tell myself the village isn't shrinking. Then I count again. What do you think?
+  ? It isn't shrinking. => r0 | friend:tilda,10 | flag:choice.hours.reassure
+  ? Let's fill the shop together. => r1 | friend:tilda,15 | flag:choice.hours.plan
+  ? Count again, then. Gently. => r2 | friend:tilda,10 | flag:choice.hours.joke
+r0 tilda: It isn't. ...Say it again, slower. I'd like to put it on the slate in your handwriting.
+r1 tilda: Together. Now that's a plan I'd stock. Bring ideas. And tea.
+  expr happy
+r2 tilda: Gently. Yes. Recounting with kindness. I'll try that, and the cat can supervise.
+
+dialogue tilda.card
+n0 -: Behind the flour sacks, in a very old tin, lies a recipe card in faded ink.
+  next n1
+n1 tilda: My mother's pumpkin pie. I've never baked from it. I was afraid I'd get it wrong. What should I do?
+  ? Bake it. => r0 | friend:tilda,10 | flag:choice.card.bake
+  ? Keep it safe. => r1 | friend:tilda,10 | flag:choice.card.keep
+  ? Share it with the village. => r2 | friend:tilda,15 | flag:choice.card.share
+r0 tilda: Bake it. Yes. With you in the kitchen, so I can't back out.
+  expr happy
+r1 tilda: Safe. It's been safe for forty years. That's not a bad record.
+r2 tilda: The whole village. ...The pie feud would hate that. I love it.
+  expr happy
+
+dialogue juno.label
+n0 juno: So? What do you say about it? I'll accept any answer except "Hm."
+  ? Accept the label. => r0 | friend:juno,10 | flag:choice.label.accept
+  ? Relabel her. => r1 | friend:juno,10 | flag:choice.label.relabel
+  ? Eat the label. => r2 | friend:juno,10 | flag:choice.label.eat
+r0 juno: Accepted! You're officially a fixture. I'll sweep around you.
+  expr happy
+r1 juno: Relabel me! Oh, that's brilliant. "Apprentice (Chaotic)". Stick it on. Right here.
+  expr happy
+r2 juno: You... you ate it. ...I'm labeling this moment "Do Not Repeat". And then I'll want it repeated.
+  emote sweat
+
+dialogue juno.strike
+n0 juno: It's my first piece that's not a copy. A little horseshoe. Look at it. It's lopsided, and I made it, and I hate that I love it.
+  expr sad
+  next n1
+n1 juno: Do I keep it, or does it go in the barrel?
+  ? Keep it. => r0 | friend:juno,10 | flag:choice.strike.keep
+  ? Make it better together. => r1 | friend:juno,15 | flag:choice.strike.together
+  ? Laugh with her. => r2 | friend:juno,10 | flag:choice.strike.laugh
+r0 juno: Keep it. Yes. Even crooked. Especially crooked.
+  expr happy
+r1 juno: Together! You hold the tongs, I'll tap the bend. Okay, okay, okay, let's go.
+  expr happy
+r2 juno: Okay, it's very funny. A horseshoe for a three-legged horse. A very proud three-legged horse.
+  expr happy
+
+dialogue juno.shoe
+n0 -: Bram stands at the far end of the forge. Juno holds out the horseshoe with both hands and does not look up.
+  next n1
+n1 juno: I can't look. Tell me what's happening.
+  ? Wait with her, quietly. => r0 | friend:juno,15 | flag:choice.shoe.wait
+  ? Tell her it's wonderful. => r1 | friend:juno,10 | flag:choice.shoe.praise
+  ? Hand her the hammer. => r2 | friend:juno,10 | flag:choice.shoe.hammer
+r0 juno: ...Thank you. Quiet's good. The anvil's listening too.
+r1 juno: Wonderful? It's crooked! ...But thank you. I'm going to look up now. Slowly.
+  expr happy
+r2 juno: A hammer. Okay. One more tap. For luck. For me. For crooked things everywhere.
+  expr happy
+
+dialogue piper.request
+n0 piper: The room's waiting. A ballad, a jig, or my masterpiece about parsnips?
+  ? A ballad. => r0 | friend:piper,10 | flag:choice.request.ballad
+  ? A jig. => r1 | friend:piper,10 | flag:choice.request.jig
+  ? The parsnip song. => r2 | friend:piper,10 | flag:choice.request.parsnip
+r0 piper: A ballad. A sad one. A sad one with a happy ending, at least. Gather round.
+  emote note
+r1 piper: A jig! Get your boots! The stool in the corner is going to dance, I can feel it.
+  expr happy
+r2 piper: The parsnip song! That's a chorus. A bad one. Mine.
+  expr happy
+
+dialogue piper.fright
+n0 piper: I can play for a hundred people and never blink. But tonight, I think they'll know. That I'm not as good as I say I am.
+  expr sad
+  next n1
+n1 piper: What do I do with that?
+  ? Talk it through. => r0 | friend:piper,10 | flag:choice.fright.talk
+  ? Sit in silence with her. => r1 | friend:piper,15 | flag:choice.fright.sit
+  ? Play along on a bucket. => r2 | friend:piper,10 | flag:choice.fright.bucket
+r0 piper: Talk. Okay. I'm scared of silence, and of being quiet. And of being forgotten. There. Now it's on the barrel.
+r1 piper: ...Thank you. Silence is easier when someone shares it.
+  expr happy
+r2 piper: A bucket! You're going to drum on a bucket? ...Okay. Okay! Count me in, in four. One, two, three...
+  expr happy
+
+dialogue piper.chorus
+n0 piper: The verse is about someone arriving. The chorus is about where they end up. What is it?
+  ? Home. => r0 | friend:piper,15 | flag:choice.chorus.home
+  ? The road. => r1 | friend:piper,10 | flag:choice.chorus.road
+  ? This room. => r2 | friend:piper,10 | flag:choice.chorus.room
+r0 piper: Home. ...Oh. Oh, that's it. I've been missing that word for three months.
+  expr happy
+r1 piper: The road. Restless, wide and honest. It rhymes with "code". If you squint.
+r2 piper: This room! A song about the saloon. The stools will cry.
+  expr happy

@@ -1,0 +1,362 @@
+{
+  "dialogues": [
+    {
+      "id": "story.band.talk",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.story.band.talk.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "juno",
+          "text": "dlg.story.band.talk.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "bram",
+          "text": "dlg.story.band.talk.2",
+          "next": "n3"
+        },
+        {
+          "id": "n3",
+          "speaker": "piper",
+          "text": "dlg.story.band.talk.3",
+          "choices": [
+            {
+              "text": "dlg.story.band.talk.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.band.piper"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.story.band.talk.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.band.juno"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.story.band.talk.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.band.both",
+                "friend:piper,10",
+                "friend:juno,10"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.story.band.talk.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.story.band.talk.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "piper",
+          "text": "dlg.story.band.talk.r2",
+          "emote": "note"
+        }
+      ]
+    },
+    {
+      "id": "story.pumpkin.dorian",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.story.pumpkin.dorian.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.dorian.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "dorian",
+          "text": "dlg.story.pumpkin.dorian.2",
+          "choices": [
+            {
+              "text": "dlg.story.pumpkin.dorian.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.dorian.kind",
+                "friend:dorian,10"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.story.pumpkin.dorian.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.dorian.apology"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.story.pumpkin.dorian.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.dorian.help",
+                "friend:tilda,10"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.dorian.r0",
+          "expression": "thinking"
+        },
+        {
+          "id": "r1",
+          "speaker": "dorian",
+          "text": "dlg.story.pumpkin.dorian.r1",
+          "emote": "sweat"
+        },
+        {
+          "id": "r2",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.dorian.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "story.pumpkin.marcus",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.story.pumpkin.marcus.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.marcus.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "marcus",
+          "text": "dlg.story.pumpkin.marcus.2",
+          "choices": [
+            {
+              "text": "dlg.story.pumpkin.marcus.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.marcus.kind",
+                "friend:marcus,10"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.story.pumpkin.marcus.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.marcus.apology"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.story.pumpkin.marcus.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.marcus.help",
+                "friend:tilda,10"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.marcus.r0",
+          "expression": "thinking"
+        },
+        {
+          "id": "r1",
+          "speaker": "marcus",
+          "text": "dlg.story.pumpkin.marcus.r1",
+          "emote": "sweat"
+        },
+        {
+          "id": "r2",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.marcus.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "story.pumpkin.felix",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.story.pumpkin.felix.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.felix.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "felix",
+          "text": "dlg.story.pumpkin.felix.2",
+          "choices": [
+            {
+              "text": "dlg.story.pumpkin.felix.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.felix.kind",
+                "friend:felix,10"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.story.pumpkin.felix.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.felix.apology"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.story.pumpkin.felix.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.pumpkin.felix.help",
+                "friend:tilda,10"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.felix.r0",
+          "expression": "thinking"
+        },
+        {
+          "id": "r1",
+          "speaker": "felix",
+          "text": "dlg.story.pumpkin.felix.r1",
+          "emote": "sweat"
+        },
+        {
+          "id": "r2",
+          "speaker": "tilda",
+          "text": "dlg.story.pumpkin.felix.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "story.cat.talk",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.story.cat.talk.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.story.cat.talk.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "wren",
+          "text": "dlg.story.cat.talk.2",
+          "choices": [
+            {
+              "text": "dlg.story.cat.talk.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.cat.ledger"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.story.cat.talk.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.cat.quench"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.story.cat.talk.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.cat.sharp"
+              ],
+              "next": "r2"
+            },
+            {
+              "text": "dlg.story.cat.talk.c3",
+              "default": false,
+              "effects": [
+                "flag:choice.cat.new",
+                "friend:wren,10"
+              ],
+              "next": "r3"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.story.cat.talk.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.story.cat.talk.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "wren",
+          "text": "dlg.story.cat.talk.r2"
+        },
+        {
+          "id": "r3",
+          "speaker": "wren",
+          "text": "dlg.story.cat.talk.r3",
+          "expression": "happy",
+          "emote": "heart"
+        }
+      ]
+    }
+  ]
+}

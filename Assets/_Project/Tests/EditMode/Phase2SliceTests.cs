@@ -10,7 +10,7 @@ namespace Farm.Tests
     // Phase 2 vertical slice (Wren, Hazel, Bram): gift reactions, voices, storylines and the FScript shorthands they use.
     public class Phase2SliceTests
     {
-        static readonly string[] Slice = { "wren", "hazel", "bram" };
+        static readonly string[] Slice = { "wren", "hazel", "bram", "tilda", "juno", "piper" };
 
         StoryContent _story;
 
@@ -231,7 +231,8 @@ namespace Farm.Tests
             var table = L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
             foreach (var npc in Slice)
             {
-                var mine = _story.Letters.Where(l => l.Sender == npc && (l.Id.EndsWith("_bday") || l.Id.EndsWith("_thanks"))).ToList();
+                var mine = _story.Letters.Where(l => l.Sender == npc && (l.Id.EndsWith("_bday") || l.Id == npc + "_thanks" || l.Id == npc + "_slate_thanks")).ToList();
+                if (npc == "tilda") mine = mine.Where(l => l.Id != "tilda_thanks").ToList();      // tilda_thanks is the shipped first letter
                 Assert.AreEqual(2, mine.Count, npc);
                 foreach (var l in mine) { Assert.IsTrue(table.ContainsKey(l.SubjectKey), l.Id); Assert.IsTrue(table.ContainsKey(l.BodyKey), l.Id); }
             }

@@ -1,0 +1,167 @@
+# Tilda Ashby, the general store keeper. Full depth (docs/narrative/BIBLE_WAVE2.md section 1). Warm, practical, wry; shop language;
+# the slate and "I'll put it on the slate". Sentences up to 20 words, at most one exclamation mark a line, never "I don't mind".
+# Cozy only: no hint of the mythos layer. Closed Sundays (beach and saloon, or upstairs with a book when it rains).
+
+addto npc.tilda.talk
+
+# ---- seasons ----
+0 season:spring => tilda.spring.1 cat=seasonal :: Seed season. Everyone wants everything on the same morning. I love it.
+0 season:spring => tilda.spring.2 cat=seasonal :: First warm day, the whole village shows up with the same question. "Is it too early?" It never is.
+0 season:spring => tilda.spring.3 cat=seasonal tag=funny :: Spring sale: every parsnip seed comes with advice. The advice is free. The parsnips are extra.
+0 season:spring => tilda.spring.4 cat=seasonal :: The window's full of seed packets. I arranged them by color. Then by hope. It looked better.
+0 season:spring => tilda.spring.5 cat=seasonal :: Mud on the doormat already. Good sign. Mud means customers.
+0 season:spring => tilda.spring.6 cat=seasonal rarity=uncommon :: Spring cleaning. I found a coin from eleven years ago. I put it on the slate, under "Luck".
+0 season:summer => tilda.summer.1 cat=seasonal :: The awning's up. The bell sounds better in the shade. I've tested it.
+0 season:summer => tilda.summer.2 cat=seasonal :: Hot week. I keep a pitcher of water by the door. Nobody pays. Everyone returns.
+0 season:summer => tilda.summer.3 cat=seasonal :: Summer is when the sunflower seeds go. They don't last. They never do.
+0 season:summer => tilda.summer.4 cat=seasonal tag=funny :: A customer asked for "something cool." I sold them the cellar. They stayed an hour.
+0 season:summer => tilda.summer.5 cat=seasonal :: The days are long. I leave the door open. The street comes in on its own.
+0 season:summer => tilda.summer.6 cat=seasonal rarity=uncommon :: The beach on Sunday, the saloon after. A shopkeeper needs one afternoon a week to be nobody's problem.
+0 season:fall => tilda.fall.1 cat=seasonal :: Pie week. The whole village smells like cinnamon and quiet rivalry.
+0 season:fall => tilda.fall.2 cat=seasonal :: Pumpkins in the window. Prize ones. I give them names, and then I don't sell them.
+0 season:fall => tilda.fall.3 cat=seasonal :: The nights are cooler. Folks buy wool and chat for an hour longer.
+0 season:fall => tilda.fall.4 cat=seasonal tag=funny :: Everyone says their pie is the best. I eat all of them. I'm the only honest judge in town, and I'm also biased.
+0 season:fall => tilda.fall.5 cat=seasonal :: Fall is when I count the year. Not the money. The kindnesses.
+0 season:fall => tilda.fall.6 cat=seasonal rarity=uncommon :: Harvest week, I take the slate down and read it from the top. It's a good book.
+0 season:winter => tilda.winter.1 cat=seasonal :: Winter hours are the same, but the shop is warmer than the street. People notice.
+0 season:winter => tilda.winter.2 cat=seasonal :: The stove's on. The kettle's on. I'm not selling tea. I'm just not stopping anyone.
+0 season:winter => tilda.winter.3 cat=seasonal tag=wholesome :: I keep the lamp on late in winter. Somebody always needs a reason to leave the house.
+0 season:winter => tilda.winter.4 cat=seasonal :: Stock is low, spirits are high. That's my favorite arithmetic.
+0 season:winter => tilda.winter.5 cat=seasonal :: Snow on the sign. I leave it. It reads better that way.
+0 season:winter => tilda.winter.6 cat=seasonal rarity=uncommon :: Winter evenings, I read upstairs, and the shop hums below me. It sounds like company.
+
+# ---- weekdays ----
+0 weekday:mon => tilda.mon.1 cat=weekday :: Monday. Fresh deliveries, fresh slate, fresh opinions about the weather.
+0 weekday:mon => tilda.mon.2 cat=weekday :: Monday is for restocking. Don't lean on the shelf. The shelf is nervous.
+0 weekday:tue => tilda.tue.1 cat=weekday :: Tuesday. The saloon's shut, so everyone drops in here to complain about it.
+0 weekday:tue => tilda.tue.2 cat=weekday :: Tuesdays Wren is off. The village gossip comes straight to me. I'm very busy.
+0 weekday:wed => tilda.wed.1 cat=weekday :: Wednesday. Marcus is closed, so the nails are going quickly.
+0 weekday:wed => tilda.wed.2 cat=weekday :: Midweek. The cat naps in the window and the whole street slows down for her.
+0 weekday:thu => tilda.thu.1 cat=weekday :: Thursday. Felix is off, so the fish prices are all anyone argues about.
+0 weekday:thu => tilda.thu.2 cat=weekday :: Thursdays I do the books. They add up better when nobody's watching.
+0 weekday:fri => tilda.fri.1 cat=weekday :: Friday. The whole village needs one more thing before the weekend.
+0 weekday:fri => tilda.fri.2 cat=weekday :: Friday's busy. Wren says it's because I have good lighting. I say it's the biscuits.
+0 weekday:sat => tilda.sat.1 cat=weekday :: Saturday. Market day. Half the village comes in just to look at the other half.
+0 weekday:sat => tilda.sat.2 cat=weekday :: Last day before my Sunday off. I'm already smiling at the sign that says "Closed".
+0 weekday:sun => tilda.sun.1 cat=weekday :: Sunday. The shop is shut, and so am I. Come back tomorrow. I'll put you on the slate.
+0 weekday:sun => tilda.sun.2 cat=weekday :: No shopkeeping today. I'm a person. It's an odd feeling. I'm trying it out.
+
+# ---- weather ----
+0 weather:sunny => tilda.sunny.1 cat=weather :: Fine day. Folks buy seeds with a spring in their step and leave without their change.
+0 weather:sunny => tilda.sunny.2 cat=weather :: The window's a sunbeam. The pumpkins are glowing. It's very unfair to the other produce.
+0 weather:sunny => tilda.sunny.3 cat=weather :: Good weather, quiet shop. Everyone's outside, appreciating things.
+1 weather:rain => tilda.rain.2 cat=weather :: Rain's tapping the glass. The customers will come in and not buy anything. I love it.
+1 weather:rain => tilda.rain.3 cat=weather tag=wholesome :: A wet day, and the door bell keeps ringing. Nobody's buying. Everybody's visiting.
+1 weather:rain => tilda.rain.4 cat=weather :: Dry seeds in a damp week. I've moved them to the top shelf. They can see the street.
+1 weather:storm => tilda.storm.1 cat=weather :: Thunder. I've put the glass jars on the floor and the cat on the counter. Both happier.
+1 weather:storm => tilda.storm.2 cat=weather :: Storm. The shop lights flicker. The slate stays put. The slate is stubborn.
+1 weather:storm => tilda.storm.3 cat=weather :: A storm like this is a good excuse to close early and read. I never do.
+1 weather:snow => tilda.snow.1 cat=weather :: Snow on the step. I've salted it, and the postman thanked me twice.
+1 weather:snow => tilda.snow.2 cat=weather :: The whole street's muffled. I can hear the stove tick, which is the best sound in the shop.
+1 weather:snow => tilda.snow.3 cat=weather tag=wholesome :: Snow. People walk slowly and say hello properly. I wish it lasted all year.
+1 weather:wind => tilda.wind.1 cat=weather :: The sign's swinging. That means a long day of people holding onto their hats and asking about rope.
+1 weather:wind => tilda.wind.2 cat=weather :: Blustery. I've weighed the seed packets down with a pumpkin. It looks intentional.
+1 weather:wind => tilda.wind.3 cat=weather :: Wind like this, every door in the village bangs. It sounds like applause for nothing.
+
+# ---- time of day ----
+0 hour<10 => tilda.morning.1 cat=time :: Early. The shop's still waking up, and so is the kettle.
+0 hour<10 => tilda.morning.2 cat=time :: First customer of the day gets the freshest bread and the oldest gossip.
+0 hour<10 => tilda.morning.3 cat=time :: Morning light on the shelves. It makes everything look like it's worth twice as much.
+0 hour>=10 && hour<16 => tilda.midday.1 cat=time :: Midday. The busiest hour and the shortest patience. I'm managing both.
+0 hour>=10 && hour<16 => tilda.midday.2 cat=time :: Lunch rush. Everyone wants something small and a long chat.
+0 hour>=10 && hour<16 => tilda.midday.3 cat=time :: Afternoon in the shop. The dust's dancing, and so are the prices.
+0 hour>=16 && hour<20 => tilda.evening.1 cat=time :: Nearly closing. I stack the shelves and pretend I'm not waiting for one more customer.
+0 hour>=16 && hour<20 => tilda.evening.2 cat=time :: Evening. The street turns gold, and I turn the sign. In that order.
+0 hour>=16 && hour<20 => tilda.evening.3 cat=time :: Last hour. I do the sums and the kind of listening you can't put a price on.
+0 hour>=20 => tilda.late.1 cat=time :: Late. The lamp's still on. I'm "doing the books". You may sit.
+0 hour>=20 => tilda.late.2 cat=time :: Past closing. The shop's quiet, and the stove's still warm. Both are yours.
+0 hour>=20 => tilda.late.3 cat=time :: Evenings I count the day. Not coins. Faces.
+0 map:GeneralStore => tilda.here.1 cat=place :: Mind the step. The cat has opinions about it.
+0 map:GeneralStore => tilda.here.2 cat=place tag=funny :: Everything here is for sale except the stool by the stove. That one's for talking.
+0 map:GeneralStore => tilda.here.3 cat=place :: Take your time. Browsing is free. So is the gossip. The biscuits are one coin.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.1 cat=tier :: There you are. I put you down on the slate for a pie. I'll explain the pie later.
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.2 cat=tier :: You're the only customer who asks how the shop is. I noticed.
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.3 cat=tier tag=funny :: Marcus asked if you were "available". I said you were "credited". He wrote it down.
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.4 cat=tier :: I saved the good stool for you. It's the one without the squeak.
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.5 cat=tier :: Your slate balance is healthy. I won't tell you the number. It would embarrass you.
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.6 cat=tier :: Wren says you're good company. Wren's never wrong about company. About lemons, always.
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.7 cat=tier tag=wholesome :: A customer who stays for tea is worth ten who don't. You're worth at least twelve.
+0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.8 cat=tier :: Come by tomorrow. I'll find something you need and sell it at cost.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.1 cat=tier :: You have your own seat now. I moved the chair an inch so it faces the door.
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.2 cat=tier tag=wholesome :: Shops are quiet places, mostly. You make this one sound busy.
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.3 cat=tier :: When the village shrinks I count the stock instead of the people. It helps. A little.
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.4 cat=tier :: [farm] is the best account I've ever kept. Don't tell the others.
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.5 cat=tier tag=funny :: Felix tried to settle his tab in fish. I accepted. The cat accepted first.
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.6 cat=tier :: You're a good neighbor. I'd like that on the sign, but there's no room.
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.7 cat=tier :: Remind me to show you the back room someday. It's mostly boxes, and one very good view.
+0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.8 cat=tier :: Talking to you is the part of the day I don't put on the slate. It's mine.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:tilda>=9 => tilda.co.1 cat=tier tag=wholesome :: Kindness is the only stock that goes up when you give it away. You taught me that again.
+0 hearts:tilda>=9 => tilda.co.2 cat=tier :: I used to count the days I was open. Now I count the days you came in.
+0 hearts:tilda>=9 => tilda.co.3 cat=tier :: There's a lamp in the back that I leave on for the whole village. Tonight it's on for you.
+0 hearts:tilda>=9 => tilda.co.4 cat=tier tag=funny :: Your slate page is the longest in the shop. I've started a second chalkboard.
+0 hearts:tilda>=9 => tilda.co.5 cat=tier :: I've sold a lot of seeds. The best thing I ever sold you was a "Good morning."
+0 hearts:tilda>=9 => tilda.co.6 cat=tier :: Thank you, [player]. I'll put it on the slate, but it won't fit, so I'll write it on the wall.
+0 hearts:tilda>=9 => tilda.co.7 cat=tier :: The village isn't shrinking. I counted again. It was only me, being foolish with a pencil.
+0 hearts:tilda>=9 => tilda.co.8 cat=tier tag=wholesome :: When I think of a full shop, I think of you in the doorway, pretending to browse.
+
+# ---- moods ----
+1 mood:tilda=lonely => tilda.lonely.1 cat=mood :: Quiet week. Nobody's in the shop but me and the dust. I've started talking to the dust.
+1 mood:tilda=lonely => tilda.lonely.2 cat=mood :: I rang the bell twice just to hear it. You'll forgive an old shopkeeper her habits.
+1 mood:tilda=tired => tilda.tired.1 cat=mood :: Long day of lifting. My back's a ledger of every sack I've shifted.
+1 mood:tilda=tired => tilda.tired.2 cat=mood :: A bit worn today. The tea helps. So do you.
+1 mood:tilda=delighted => tilda.delighted.1 cat=mood expr=happy :: Best day I've had in months! Three customers cried with joy over a hinge. It's a small town.
+1 mood:tilda=delighted => tilda.delighted.2 cat=mood expr=happy emote=sparkle :: Everything sold, everybody smiled, and the cat knocked nothing over. A perfect ledger.
+1 mood:tilda=mischievous => tilda.mischief.1 cat=mood expr=happy :: I put the "sale" sign on the stool by the stove. Let's see who tries to buy it.
+1 mood:tilda=mischievous => tilda.mischief.2 cat=mood expr=happy :: I told Marcus the nails were out of stock. They weren't. I wanted to see his face.
+1 mood:tilda=worried => tilda.worried.1 cat=mood expr=sad :: The shelves are fuller than the street. I don't like that arithmetic.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => tilda.farm.1 cat=reactive :: Your field's coming along, I hear. Whatever you grow, I'll put it in the window.
+0 farm:crops>=5 => tilda.farm.2 cat=reactive tag=funny :: Everyone in the village is talking about your crops. I'm taking credit for the seeds.
+0 farm:animals>=1 => tilda.farm.3 cat=reactive :: Animals! You'll need feed, rope and a very patient hat. I stock all three.
+0 farm:animals>=1 => tilda.farm.4 cat=reactive :: A cow is a long conversation. A chicken is a short, loud one. Choose wisely.
+2 festival.in:<=3 && festival.in:>0 => tilda.fest.1 cat=reactive :: Festival soon. I'm stocking ribbons and flour. The whole village over-buys both.
+2 festival.in:<=3 && festival.in:>0 => tilda.fest.2 cat=reactive tag=wholesome :: A festival week fills the shop with people who don't need a thing. They just want company.
+2 festival.in:==0 => tilda.fest.3 cat=reactive :: Festival day! The shop's shut and the slate's off. I'm only here to eat.
+2 birthday.in:tilda<=3 && birthday.in:tilda>0 => tilda.bday.1 cat=reactive :: My birthday's close. I don't make a fuss. I make a large pie.
+2 birthday.in:tilda<=3 && birthday.in:tilda>0 => tilda.bday.2 cat=reactive :: Another year on the shelf. Still good. No expiry date. Don't check.
+3 birthday.in:tilda==0 => tilda.bday.3 cat=reactive expr=embarrassed emote=sweat :: Oh, you remembered. I'm putting it on the slate, in capital letters. Thank you.
+2 birthday.in:juno<=2 && birthday.in:juno>=0 => tilda.bday.4 cat=reactive :: Juno's birthday is close. I've baked her something. She'll say she didn't need it. She'll eat it all.
+2 birthday.in:piper<=2 && birthday.in:piper>=0 => tilda.bday.5 cat=reactive :: Piper's birthday. I'm sending a ribbon for the fiddle. She'll haggle about the color.
+
+# ---- rarities ----
+0 ~ => tilda.rare.1 cat=rare rarity=rare tag=funny :: In thirty years of shopkeeping I've sold exactly one thing I regret: a parrot. It stayed.
+0 ~ => tilda.rare.2 cat=rare rarity=rare tag=wholesome :: Somebody once paid me in a song. It's on the slate. It's the only entry I reread.
+0 ~ => tilda.rare.3 cat=rare rarity=rare tag=funny :: There's a very small door behind the flour sacks. It's for the cat. The cat has a key.
+0 hearts:tilda>=5 => tilda.rare.4 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Come closer. (She turns the slate around.) That's your name at the top, [player]. It's been there since the first day.
+
+# ---- gifts ----
+say npc.tilda.gift.item.crop.strawberry tilda: Strawberries! Oh, [player]. These go in the window, and then they go in me.
+say npc.tilda.gift.item.forage.elderflower tilda: Elderflower. My mother used to dry it in the back room. The whole shop would smell like June.
+say npc.tilda.gift.item.food.pumpkin_pie tilda: A pumpkin pie. For me? That's three slate entries and a tear. I'll go and find my glasses.
+say npc.tilda.gift.item.crop.cauliflower tilda: Cauliflower. A sensible vegetable. A very white one. I'll find it a place on the shelf.
+say npc.tilda.gift.item.crop.potato tilda: A potato. Honest, round and ready for anything. Thank you. I'll put it with the others.
+say npc.tilda.gift.item.forage.raspberry tilda: Raspberries! Tiny, red and wonderful. I'll eat three, and hide the rest from the cat.
+say npc.tilda.gift.item.resource.stone tilda: A stone. Hm. I'm sure it's a very good one. I'll keep it near the door, to hold it open.
+say npc.tilda.gift.item.forage.clam tilda: A clam. I don't sell fish, dear. But it's a thoughtful gift, in a briny sort of way.
+say npc.tilda.gift.item.resource.slime tilda: Slime. In my shop. On my counter. ...I'll put it on the slate under "Regrets".
+say npc.tilda.gift.cat.Fish tilda: A fish. I don't sell fish, and I don't take fish. The cat will take the fish. Thank you.
+say npc.tilda.gift.item.resource.goldbar tilda: A gold bar! That's more than the shop's worth, dear. I'll keep it in the safe, under "Someday".
+say npc.tilda.gift.item.resource.copperbar tilda: Copper. Bram will want to see this. I'll keep it on the shelf until he wanders in.
+say npc.tilda.gift.item.resource.coal tilda: Coal. For the stove. A very practical gift, and a warm one. Thank you.
+say npc.tilda.gift.item.resource.wood tilda: Wood. For the shelves. Marcus will be jealous, and the shelves will be thrilled.
+say npc.tilda.gift.item.resource.bone tilda: A bone. I'll put it in the window. People will assume it's a rare cheese.
+say npc.tilda.gift.item.product.egg tilda: An egg. Fresh, I hope. I'll sell it back to you at a loss.
+say npc.tilda.gift.item.artisan.jam tilda: Jam! My mother's favorite, and mine. I'll put it on the shelf, behind a sign that says "Not for sale."
+say npc.tilda.gift.item.artisan.wine tilda: Wine. For the shop's anniversary. I'll open it in March. Or tomorrow. One of those.
+say npc.tilda.gift.item.crop.pumpkin tilda: A pumpkin! A prize one, by the look. I'll put it in the window and give it a name.
+say npc.tilda.gift.item.food.salad tilda: Salad. A respectable meal and a very green one. I'll eat it at the counter and call it lunch.
+say npc.tilda.gift.item.forage.truffle tilda: A truffle. A real one. I don't know whether to eat it or insure it.
+say npc.tilda.gift.item.resource.ironbar tilda: Iron. Bram's department. I'll hold it until he comes, with a note that says "Safe, and a little jealous."
+say npc.tilda.gift.repeat tilda: Another one! I'll put it on the slate twice, in different handwriting. Thank you.

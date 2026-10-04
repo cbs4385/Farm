@@ -27,6 +27,9 @@ namespace Farm.Gameplay
                 case "wren": return new VoiceProfile(262f, VoiceWave.Triangle, 70f, 2, 0.35f);     // warm, mid, lively
                 case "hazel": return new VoiceProfile(392f, VoiceWave.Sine, 55f, 3, 0.10f);        // soft, high, hushed
                 case "bram": return new VoiceProfile(110f, VoiceWave.Square, 90f, 4, 0.05f);       // low, flat, sparing
+                case "tilda": return new VoiceProfile(330f, VoiceWave.Sine, 75f, 3, 0.08f);        // warm, even, a shopkeeper's bell
+                case "juno": return new VoiceProfile(294f, VoiceWave.Saw, 45f, 2, 0.30f);          // quick, bright, tapping
+                case "piper": return new VoiceProfile(440f, VoiceWave.Triangle, 60f, 2, 0.45f);    // musical, sliding
             }
             var h = (uint)Math.Abs(NpcInteractions.StableHash(voiceId ?? "voice"));
             var wave = (VoiceWave)(h % 4);
@@ -76,6 +79,9 @@ namespace Farm.Gameplay
                 case "wren": return Pings(new[] { 1760f, 2349f }, new[] { 0f, 0.09f }, 0.55f, 5f);              // a glass clink
                 case "bram": return Pings(new[] { 988f, 1480f, 2250f }, new[] { 0f, 0f, 0f }, 0.8f, 3.5f);       // an anvil ring
                 case "hazel": return Rustle();                                                                   // a page turning
+                case "tilda": return Pings(new[] { 1568f, 2093f }, new[] { 0f, 0.14f }, 0.7f, 4.5f);             // the shop bell, two notes
+                case "juno": return Pings(new[] { 1245f, 1245f, 1245f }, new[] { 0f, 0.1f, 0.2f }, 0.55f, 16f);  // three quick hammer taps
+                case "piper": return Slide(520f, 1170f, 0.45f);                                                  // a rising fiddle slide
             }
             var h = (uint)Math.Abs(NpcInteractions.StableHash(npcId ?? "npc"));
             var root = 330f + h % 330;
@@ -98,6 +104,24 @@ namespace Farm.Gameplay
                 }
             }
             for (var i = 0; i < count; i++) data[i] = Math.Max(-1f, Math.Min(1f, data[i]));
+            return data;
+        }
+
+        // A pitch that glides from `from` to `to` Hz with a little vibrato at the top, like a fiddle slide.
+        static float[] Slide(float from, float to, float seconds)
+        {
+            var count = (int)(SampleRate * seconds);
+            var data = new float[count];
+            var phase = 0.0;
+            for (var i = 0; i < count; i++)
+            {
+                var t = i / (float)count;
+                var freq = from + (to - from) * t * t + (t > 0.7f ? 8f * (float)Math.Sin(i * 0.05) : 0f);
+                phase += freq / SampleRate;
+                var env = Math.Min(1f, t * 12f) * (1f - t * 0.6f) * (t > 0.9f ? (1f - t) * 10f : 1f);
+                var saw = 2f * (float)(phase - Math.Floor(phase)) - 1f;
+                data[i] = (saw * 0.5f + (float)Math.Sin(2 * Math.PI * phase) * 0.5f) * env * 0.35f;
+            }
             return data;
         }
 

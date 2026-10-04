@@ -1,0 +1,208 @@
+# Personal quest chains for Tilda, Juno and Piper (wave 2). Quests are in wave2_quests.json. Offers and reminders sit in the quest band
+# (priority 4), turn-ins at 5. Tilda: tilda_display -> tilda_cauliflower -> tilda_pie_week. Juno: juno_ore -> juno_charcoal -> juno_gold.
+# Piper: piper_strings -> piper_flowers -> piper_juice.
+
+addto npc.tilda.talk
+4 hearts:tilda>=2 && quest:tilda_display=new && flag:met.tilda => tilda.display.ask
+4 quest:tilda_display=active => tilda.display.remind
+5 quest:tilda_display=active && has:crop.parsnip>=5 => tilda.display.turnin
+4 hearts:tilda>=4 && quest:tilda_display=done && quest:tilda_cauliflower=new => tilda.cauli.ask
+4 quest:tilda_cauliflower=active => tilda.cauli.remind
+5 quest:tilda_cauliflower=active && has:crop.cauliflower>=3 => tilda.cauli.turnin
+4 hearts:tilda>=6 && quest:tilda_cauliflower=done && quest:tilda_pie_week=new => tilda.pie.ask
+4 quest:tilda_pie_week=active => tilda.pie.remind
+5 quest:tilda_pie_week=active && has:food.pumpkin_pie>=1 => tilda.pie.turnin
+
+addto npc.juno.talk
+4 hearts:juno>=2 && quest:juno_ore=new && flag:met.juno => juno.ore.ask
+4 quest:juno_ore=active => juno.ore.remind
+5 quest:juno_ore=active && has:resource.ironore>=5 => juno.ore.turnin
+4 hearts:juno>=4 && quest:juno_ore=done && quest:juno_charcoal=new => juno.coal.ask
+4 quest:juno_charcoal=active => juno.coal.remind
+5 quest:juno_charcoal=active && has:resource.coal>=6 => juno.coal.turnin
+4 hearts:juno>=6 && quest:juno_charcoal=done && quest:juno_gold=new => juno.gold.ask
+4 quest:juno_gold=active => juno.gold.remind
+5 quest:juno_gold=active && has:resource.goldbar>=1 => juno.gold.turnin
+
+addto npc.piper.talk
+4 hearts:piper>=2 && quest:piper_strings=new && flag:met.piper => piper.strings.ask
+4 quest:piper_strings=active => piper.strings.remind
+5 quest:piper_strings=active && has:resource.fiber>=5 => piper.strings.turnin
+4 hearts:piper>=4 && quest:piper_strings=done && quest:piper_flowers=new => piper.flowers.ask
+4 quest:piper_flowers=active => piper.flowers.remind
+5 quest:piper_flowers=active && has:crop.sunflower>=3 => piper.flowers.turnin
+4 hearts:piper>=6 && quest:piper_flowers=done && quest:piper_juice=new => piper.juice.ask
+4 quest:piper_juice=active => piper.juice.remind
+5 quest:piper_juice=active && has:artisan.juice>=2 => piper.juice.turnin
+
+# ======================= Tilda =======================
+
+dialogue tilda.display.ask
+n0 tilda: The window needs something that says "we're open". Five parsnips, nicely lined up. A tidy row sells anything.
+  next n1
+n1 tilda: You grow the best parsnips in Wetherell. Would you lend me five? I'll put you on the slate for a pie.
+  ? Happily. => r0 | quest.start:tilda_display
+  ? Not right now. => r1
+r0 tilda: A dear. Five parsnips. I'll clear the sill.
+  expr happy
+r1 tilda: That's all right. The window will manage. It's patient.
+
+dialogue tilda.display.remind
+n0 tilda: Five parsnips for the window. Nothing fancy. Just a row of honest roots.
+
+dialogue tilda.display.turnin
+n0 tilda: Look at those! The window looks like noon. I'll put it on the slate in big letters. Here's something for your trouble.
+  + quest.done:tilda_display
+  expr happy
+
+dialogue tilda.cauli.ask
+n0 tilda: Cauliflower, dear. Three heads, firm and white. They're for the harvest basket in the window.
+  next n1
+n1 tilda: Everyone says it's a plain vegetable. I say it's a quiet one. Would you grow me three?
+  ? I'll bring three. => r0 | quest.start:tilda_cauliflower
+  ? Maybe later. => r1
+r0 tilda: Three. Perfect. I'll start a slate entry titled "Quiet Things".
+  expr happy
+r1 tilda: Later is fine. The basket's in no hurry. It has all the time in the world.
+
+dialogue tilda.cauli.remind
+n0 tilda: Three cauliflowers for the harvest basket. Firm ones, if you can.
+
+dialogue tilda.cauli.turnin
+n0 tilda: Oh, those are beauties. White as fresh chalk. Thank you, [player]. I'll put it all on the slate.
+  + quest.done:tilda_cauliflower
+  expr happy
+
+dialogue tilda.pie.ask
+n0 tilda: Pie week is coming. I'd like a pumpkin pie in the window, baked by someone who loves baking. Not me. You.
+  next n1
+n1 tilda: One pie. Warm, if you can. I'll put a sign beside it that says "Made by a friend".
+  ? I'll bake one. => r0 | quest.start:tilda_pie_week
+  ? Let me think about it. => r1
+r0 tilda: A pie from you, in my window. That's three entries on the slate and a happy tear.
+  expr happy
+r1 tilda: Think. A pie is a promise, and a promise deserves a minute.
+
+dialogue tilda.pie.remind
+n0 tilda: One pumpkin pie, for the window. Pie week is coming on, and the shelf is empty.
+
+dialogue tilda.pie.turnin
+n0 tilda: A pie! A real one! Warm, even. It goes in the window, and the whole street will stop. Thank you, dear.
+  + quest.done:tilda_pie_week
+  expr happy
+  emote heart
+
+# ======================= Juno =======================
+
+dialogue juno.ore.ask
+n0 juno: Okay, okay, okay: I'm out of practice iron. Five chunks of ore? I want to smelt something I can ruin freely.
+  next n1
+n1 juno: Bram says ruin is a method. I'm testing that.
+  ? Sure, I'll bring ore. => r0 | quest.start:juno_ore
+  ? Not today. => r1
+r0 juno: Five ore! You're the best. I'll label the pile with your name. It'll say "Hero (Dusty)".
+  expr happy
+r1 juno: No worries! The anvil can wait. It never complains. Much.
+
+dialogue juno.ore.remind
+n0 juno: Five iron ore, to ruin on purpose. It's a tradition. I just started it.
+
+dialogue juno.ore.turnin
+n0 juno: Ore! Look at it! Gray, lumpy, full of possibility. Thank you! This is for you, and the pile's labeled.
+  + quest.done:juno_ore
+  expr happy
+
+dialogue juno.coal.ask
+n0 juno: Okay, okay, okay: I need coal. Six pieces. For polishing. The finest finish comes from the worst fire.
+  next n1
+n1 juno: I'm making a clasp I'm not allowed to talk about. Can you help?
+  ? I'll bring the coal. => r0 | quest.start:juno_charcoal
+  ? Not now. => r1
+r0 juno: Six coals! You're a saint with soot on your boots. I'll make you something small and secret.
+  expr happy
+r1 juno: Not now's fine! The clasp's patient. It's practicing its click.
+
+dialogue juno.coal.remind
+n0 juno: Six pieces of coal, for the secret clasp. It keeps asking when. I tell it soon.
+
+dialogue juno.coal.turnin
+n0 juno: Coal! Six lovely black lumps. This is the best day. Thank you, [player]. The clasp is blushing.
+  + quest.done:juno_charcoal
+  expr happy
+
+dialogue juno.gold.ask
+n0 juno: Okay, okay, okay. This is a big one. I need a gold bar. Just one. It's for my first mark, my own mark.
+  next n1
+n1 juno: If you can find one, I'll stamp the first piece with it. I think you should have it.
+  ? I'll find one. => r0 | quest.start:juno_gold
+  ? Let me look around first. => r1
+r0 juno: A gold bar! For my mark! You're the reason I'm even doing this. Don't tell Bram I cried.
+  expr happy
+r1 juno: Look. Slowly. I'll practice being patient. That's the other thing I'm bad at.
+
+dialogue juno.gold.remind
+n0 juno: One gold bar, for my first mark. I've cleared the corner of the anvil for it.
+
+dialogue juno.gold.turnin
+n0 juno: Gold. A real bar. I'm holding it, and my hands are shaking. Thank you, [player]. It's the beginning of something.
+  + quest.done:juno_gold
+  expr happy
+  emote heart
+
+# ======================= Piper =======================
+
+dialogue piper.strings.ask
+n0 piper: The fiddle's strings are done for. I need fiber to twist new ones. Five bundles. It's a very low-tech art.
+  next n1
+n1 piper: Bring me the fiber, and the next song's on the house. It's not good. It's free.
+  ? I'll gather fiber. => r0 | quest.start:piper_strings
+  ? Not now. => r1
+r0 piper: Five bundles! You're a roadie in disguise. The fiddle thanks you in advance, in a squeal.
+  expr happy
+r1 piper: Not now's fine. The fiddle can wait. It's got a flat sense of time.
+
+dialogue piper.strings.remind
+n0 piper: Five bundles of fiber for new strings. The fiddle's been whispering about it.
+
+dialogue piper.strings.turnin
+n0 piper: Fiber! Soft and strong. I'll twist the strings tonight, and the first note will be yours. Thank you!
+  + quest.done:piper_strings
+  expr happy
+
+dialogue piper.flowers.ask
+n0 piper: Three sunflowers for the stage. A fiddle needs a few stage lights, and a sunflower's the cheapest sun.
+  next n1
+n1 piper: I'd put them by the stool, and play them a very sentimental song.
+  ? I'll bring three. => r0 | quest.start:piper_flowers
+  ? Maybe later. => r1
+r0 piper: Three sunflowers! A garden for the stage! The stool will be so jealous.
+  expr happy
+r1 piper: Later's fine. The stool can stay boring. It's used to it.
+
+dialogue piper.flowers.remind
+n0 piper: Three sunflowers for the stage. The stool's waiting, in a very dignified sulk.
+
+dialogue piper.flowers.turnin
+n0 piper: Sunflowers! They're glorious. The stage looks like a sunrise. I'll write you a verse. It won't rhyme. Thank you, [player].
+  + quest.done:piper_flowers
+  expr happy
+  emote note
+
+dialogue piper.juice.ask
+n0 piper: Two bottles of juice, for the throat. Big gigs ahead. I'd like a gentle, fruity warm-up and a quiet moment of thanks.
+  next n1
+n1 piper: Nobody else asks what I'd like to drink. You do. That's why I'm asking you.
+  ? I'll bring two bottles. => r0 | quest.start:piper_juice
+  ? Not yet. => r1
+r0 piper: Two bottles! I'll toast the stool, the stage and you. In that order. It's a tradition. Starting now.
+  expr happy
+r1 piper: Not yet. The throat can wait. It's a patient instrument.
+
+dialogue piper.juice.remind
+n0 piper: Two bottles of juice, for the big night. The throat's practicing its thank-you.
+
+dialogue piper.juice.turnin
+n0 piper: Juice! Two bottles, sweet and cold. That's a chorus. A drinkable one. Thank you, [player]. I'll sing you the first verse.
+  + quest.done:piper_juice
+  expr happy
+  emote heart

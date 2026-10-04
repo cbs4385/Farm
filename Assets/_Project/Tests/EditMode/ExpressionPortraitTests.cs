@@ -9,7 +9,7 @@ namespace Farm.Tests
     // T-130: the slice villagers have a portrait for every expression a line can ask for, and any other face falls back to the base.
     public class ExpressionPortraitTests
     {
-        static readonly string[] Slice = { "wren", "hazel", "bram" };
+        static readonly string[] Slice = { "wren", "hazel", "bram", "tilda", "juno", "piper" };
 
         static NpcDefinition Npc(string id) => AssetDatabase.LoadAssetAtPath<NpcDefinition>($"Assets/_Project/Data/Npcs/{id}.asset");
 

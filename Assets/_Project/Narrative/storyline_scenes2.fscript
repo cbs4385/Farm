@@ -1,0 +1,84 @@
+# Choice dialogues of the storyline payoff scenes, second batch (T-143). Compiled to zz_fs_storyline_scenes2.json.
+
+dialogue story.band.talk
+n0 piper: Exhibit A: a fiddle, a voice, a lifetime of practice. Watch.
+  next n1
+n1 juno: Exhibit B: three anvils, a wash bucket and Bram, who has agreed to hit one thing. Once.
+  next n2
+n2 bram: Hm.
+  next n3
+n3 piper: Well? Who owns the square tonight?
+  ? The fiddle. => r0 | flag:choice.band.piper
+  ? The forge band. => r1 | flag:choice.band.juno
+  ? Both, together. => r2 | flag:choice.band.both | friend:piper,10 | friend:juno,10
+r0 piper: Ha! Justice and good taste. Bow, everybody.
+  expr happy
+r1 juno: Okay, okay, okay! Did you hear that, Bram? We won. Bram?
+  expr happy
+r2 piper: Together? ...That's either genius or a noise complaint. Let's find out.
+  emote note
+
+dialogue story.pumpkin.dorian
+n0 -: You find Dorian behind the store, with a very large pumpkin and a very guilty face.
+  next n1
+n1 tilda: Is that my prize pumpkin? The one the whole village has been blaming the goats for?
+  next n2
+n2 dorian: ...It might be.
+  ? Let them off kindly. => r0 | flag:choice.pumpkin.dorian.kind | friend:dorian,10
+  ? Insist on a proper apology. => r1 | flag:choice.pumpkin.dorian.apology
+  ? Offer to help carry it back. => r2 | flag:choice.pumpkin.dorian.help | friend:tilda,10
+r0 tilda: Kindly? Fine. Kindly. But he's on the slate for a pie.
+  expr thinking
+r1 dorian: An apology. Yes. Very sorry. Truly. Pumpkin, I'm also sorry to you.
+  emote sweat
+r2 tilda: You carry the heavy end. I'll supervise. We'll call it civic duty.
+  expr happy
+
+dialogue story.pumpkin.marcus
+n0 -: You find Marcus behind the store, with a very large pumpkin and a very guilty face.
+  next n1
+n1 tilda: Is that my prize pumpkin? The one the whole village has been blaming the goats for?
+  next n2
+n2 marcus: ...It might be.
+  ? Let them off kindly. => r0 | flag:choice.pumpkin.marcus.kind | friend:marcus,10
+  ? Insist on a proper apology. => r1 | flag:choice.pumpkin.marcus.apology
+  ? Offer to help carry it back. => r2 | flag:choice.pumpkin.marcus.help | friend:tilda,10
+r0 tilda: Kindly? Fine. Kindly. But he's on the slate for a pie.
+  expr thinking
+r1 marcus: An apology. Yes. Very sorry. Truly. Pumpkin, I'm also sorry to you.
+  emote sweat
+r2 tilda: You carry the heavy end. I'll supervise. We'll call it civic duty.
+  expr happy
+
+dialogue story.pumpkin.felix
+n0 -: You find Felix behind the store, with a very large pumpkin and a very guilty face.
+  next n1
+n1 tilda: Is that my prize pumpkin? The one the whole village has been blaming the goats for?
+  next n2
+n2 felix: ...It might be.
+  ? Let them off kindly. => r0 | flag:choice.pumpkin.felix.kind | friend:felix,10
+  ? Insist on a proper apology. => r1 | flag:choice.pumpkin.felix.apology
+  ? Offer to help carry it back. => r2 | flag:choice.pumpkin.felix.help | friend:tilda,10
+r0 tilda: Kindly? Fine. Kindly. But he's on the slate for a pie.
+  expr thinking
+r1 felix: An apology. Yes. Very sorry. Truly. Pumpkin, I'm also sorry to you.
+  emote sweat
+r2 tilda: You carry the heavy end. I'll supervise. We'll call it civic duty.
+  expr happy
+
+dialogue story.cat.talk
+n0 -: A small gray cat sits on your boots, perfectly satisfied, and looks up at you with the patience of a landlord.
+  next n1
+n1 wren: Tilda calls it Ledger. Juno says Quench. Piper swears it's Sharp. Hazel files it under Index. I say Gossip. The cat answers to none of us.
+  next n2
+n2 wren: So. What do you call it?
+  ? Ledger. => r0 | flag:choice.cat.ledger
+  ? Quench. => r1 | flag:choice.cat.quench
+  ? Sharp. => r2 | flag:choice.cat.sharp
+  ? Something new. => r3 | flag:choice.cat.new | friend:wren,10
+r0 wren: Tilda's name. Careful. She keeps a very long slate.
+r1 wren: Juno's name. Brave. She'll label the cat's bowl.
+r2 wren: Piper's name. A fiddler's cat. It suits the whiskers.
+r3 wren: Something new! The cat tilts its head. ...It just purred. That's the one.
+  expr happy
+  emote heart

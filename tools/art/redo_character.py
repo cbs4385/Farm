@@ -14,6 +14,7 @@ import slice_sheets as S                      # keying, segmentation, scaling, p
 from generate_expressions import load_key, data_uri, STYLE, URL, GEN, PH, ROOT
 
 LOOK = {
+    "piper": "Piper Vance, the saloon musician: lanky young woman, mustard coat, black curly hair, a fiddle on her back, dark trousers and boots",
     "hazel": "Hazel Brandt, the library assistant: slight, shy young woman, round glasses, dark bob haircut, a mustard cardigan over a teal blouse, dark trousers and boots",
 }
 

@@ -58,7 +58,7 @@ Line budgets: barks at most 12 words; talk lines at most 28; event lines at most
 ### 2.2 Quality targets (checked by tools and playtests)
 
 - **Repetition:** over a simulated 28-day season of daily talks with one villager, no line repeats within 14 days at 3+ hearts; fewer than 20% of visits repeat the line from two visits ago.
-- **Coverage:** a one-year bot run hears at least 60% of each Full villager's talk lines; every line is reachable (CI-enforced, extending `DialogueVarietyTests`).
+- **Coverage:** a daily-visiting engaged player hears at least **45% of each Full villager's talk lines in year one and 60% in year two** (recalibrated 2026-10-03 from 60% in one year after the slice simulation: `balance/SLICE_RECALIBRATION.md`; owner-approved); every line is reachable (CI-enforced, extending `DialogueVarietyTests`).
 - **Reactivity:** at least 50% of daily lines carry a condition beyond hearts; every visit includes at least one line tied to season, weather, calendar, the farm or a past choice.
 - **Consequence:** every heart-event choice sets a flag and is referenced by at least one later line.
 - **Voice:** the line-lint passes for every villager; in blind tests players attribute at least 80% of unlabelled lines to the right villager.
@@ -71,7 +71,7 @@ Line budgets: barks at most 12 words; talk lines at most 28; event lines at most
 - **Moment density:** at least one *clippable moment* (tagged funny, wholesome, surprise or mystery) per 10 minutes of ordinary play, measured by tag counts in simulation and confirmed in watched playtest VODs.
 - **Quotas:** per Full villager, at least 3 funny, 2 wholesome, 1 surprise and 1 quotable running bit; across the game at least 25 set-piece scenes.
 - **Interaction variety:** a villager visit offers at least four kinds of interaction (talk, topic, social action, gift) and no more than two visits in a row feel identical.
-- **Replay variety:** each new save draws 4 of 10 village storylines from its seed; two saves must differ in at least 3 storylines and in the order of seasonal gossip.
+- **Replay variety:** each new save draws 4 of the village storylines from its seed; the pool must hold **at least 7** (two games can differ in at most min(4, pool minus 4) storylines, so 7 allows 3); the pool is 8 since 2026-10-03 and the plan's 10 gives 4. Two saves must differ in at least 3 storylines and in the order of seasonal gossip.
 - **First hour:** by minute 20 the player has met three villagers with distinct hooks and made a choice that has a visible consequence; by minute 45 a first emotional or funny set piece; by the end of day 3 a hook that makes people continue (a mystery letter, an unclaimed gift, a rumour; a stronger horror tease at `horror:1` or higher).
 - **Chat participation:** every choice can be selected by number key; an optional chat-vote timer works; a name filter protects streams; a stream mode exists (T-145).
 - **Dead air:** in the first 10 hours of the bot run, no stretch longer than 8 game-days without a new villager line category, event or storyline beat.

@@ -129,6 +129,9 @@ namespace Farm.Tests
         [UnityTest, Timeout(600000)] public IEnumerator LostUmbrella_PlaysWithEveryChoice() { yield return PlayAll("story_umbrella"); }
         [UnityTest, Timeout(600000)] public IEnumerator RivalScarecrows_PlaysWithEveryChoice() { yield return PlayAll("story_scarecrows"); }
         [UnityTest, Timeout(600000)] public IEnumerator MysteryWhistler_PlaysWithEveryChoiceAndEveryWhistler() { yield return PlayAll("story_whistler"); }
+        [UnityTest, Timeout(600000)] public IEnumerator CompetingBand_PlaysWithEveryChoice() { yield return PlayAll("story_band"); }
+        [UnityTest, Timeout(600000)] public IEnumerator MissingPumpkin_PlaysWithEveryChoiceAndEveryCulprit() { yield return PlayAll("story_pumpkin"); }
+        [UnityTest, Timeout(600000)] public IEnumerator CatWithFiveNames_PlaysWithEveryChoice() { yield return PlayAll("story_cat"); }
 
         [UnityTest]
         public IEnumerator TheScarecrowContest_PaysAScarecrow()

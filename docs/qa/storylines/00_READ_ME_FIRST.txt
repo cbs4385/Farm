@@ -16,3 +16,7 @@ NOTES
 - "date" only moves forward: day 5 is a Friday, day 6 a Saturday in every season (the contest is a fall Saturday).
 - The scenes avoid festival days; if nothing starts, check "state" for a festival today.
 - Check: the villager appears at the crossing, the choices and their replies, the closing line matches the choice, Bram has no exclamation marks, rewards (the contest gives a scarecrow), the Memories entry.
+
+SECOND BATCH (competing_band, missing_pumpkin, five_names_cat)
+- forced_story_band_battle / story_pumpkin_<culprit> / story_cat, and natural_<storyline>.txt. The culprit of the pumpkin is Dorian, Marcus or Felix (one per game): run each variant on a fresh game.
+- The band scene needs the evening (17:00-21:00) and hearts 2 with both Piper and Juno; the cat has four choices (ledger, quench, sharp, something new).

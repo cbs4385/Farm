@@ -184,11 +184,25 @@ namespace Farm.Tests
         [Test]
         public void ALockedVillagersScene_MustPassTheChecklist()
         {
+            // A scene with no visible or audible beat is an error once its villager is locked (a warning before).
+            var story = StoryContent.LoadFromResources();
+            story.AddJson(@"{ ""events"": [ { ""id"": ""wren_heart99"", ""trigger"": ""manual"", ""titleKey"": ""memory.wren_heart2"", ""tag"": ""funny"", ""steps"": [ { ""type"": ""say"", ""speaker"": ""wren"", ""text"": ""dlg.wren.first.0"" } ] } ] }", "t");
+            var table = L.Parse(File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
+            var locked = NarrativeLint.Run(story, table, new NarrativeConfig { Locked = { "wren" } }, Villagers);
+            Assert.IsTrue(locked.Any(i => i.Rule == "moment" && i.Villager == "wren" && i.Severity == LintSeverity.Error));
+            var open = NarrativeLint.Run(story, table, new NarrativeConfig(), Villagers);
+            Assert.IsFalse(open.Any(i => i.Rule == "moment" && i.Villager == "wren" && i.Severity == LintSeverity.Error));
+        }
+
+        [Test]
+        public void TheShippedLockedVillagers_HaveNoLintErrors()
+        {
             var story = StoryContent.LoadFromResources();
             var table = L.Parse(File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
-            var config = new NarrativeConfig { Locked = { "wren" } };
-            var issues = NarrativeLint.Run(story, table, config, Villagers);
-            Assert.IsTrue(issues.Any(i => i.Rule == "moment" && i.Villager == "wren" && i.Severity == LintSeverity.Error));
+            var config = NarrativeConfig.Parse(File.ReadAllText("Assets/_Project/Narrative/narrative_rules.json"));
+            CollectionAssert.IsSupersetOf(config.Locked, new[] { "wren", "hazel", "bram" });
+            var errors = NarrativeLint.Run(story, table, config, Villagers).Where(i => i.Severity == LintSeverity.Error).Select(i => $"{i.Rule} ({i.Villager}): {i.Where}").ToList();
+            CollectionAssert.IsEmpty(errors, string.Join(" | ", errors));
         }
 
         [Test]
