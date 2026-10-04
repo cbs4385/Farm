@@ -1,0 +1,187 @@
+# Personal quest chains for the slice villagers (docs/NPC_DIALOGUE_PLAN.md section 5, item 7). Quests are in slice_quests.json.
+# Each quest has an ask (offer, priority 4), a remind (while active, priority 4) and a turn-in (priority 5): the reserved quest band.
+# Wren: wren_stew -> wren_cider -> wren_full_house.  Hazel: hazel_shelf -> hazel_pressed -> hazel_notes.
+# Bram: bram_stone (already shipped) -> bram_copper -> bram_hooks.
+
+addto npc.wren.talk
+4 hearts:wren>=2 && quest:wren_stew=new && flag:met.wren => wren.stew.ask
+4 quest:wren_stew=active => wren.stew.remind
+5 quest:wren_stew=active && has:forage.mushroom>=3 => wren.stew.turnin
+4 hearts:wren>=4 && quest:wren_stew=done && quest:wren_cider=new => wren.cider.ask
+4 quest:wren_cider=active => wren.cider.remind
+5 quest:wren_cider=active && has:crop.hops>=4 => wren.cider.turnin
+4 hearts:wren>=6 && quest:wren_cider=done && quest:wren_full_house=new => wren.house.ask
+4 quest:wren_full_house=active => wren.house.remind
+5 quest:wren_full_house=active && has:artisan.wine>=1 => wren.house.turnin
+
+addto npc.hazel.talk
+4 hearts:hazel>=2 && quest:hazel_shelf=new && flag:met.hazel => hazel.shelf.ask
+4 quest:hazel_shelf=active => hazel.shelf.remind
+5 quest:hazel_shelf=active && has:resource.wood>=5 => hazel.shelf.turnin
+4 hearts:hazel>=4 && quest:hazel_shelf=done && quest:hazel_pressed=new => hazel.pressed.ask
+4 quest:hazel_pressed=active => hazel.pressed.remind
+5 quest:hazel_pressed=active && has:crop.sunflower>=2 => hazel.pressed.turnin
+4 hearts:hazel>=6 && quest:hazel_pressed=done && quest:hazel_notes=new => hazel.notes.ask
+4 quest:hazel_notes=active => hazel.notes.remind
+5 quest:hazel_notes=active && has:forage.wildgarlic>=3 => hazel.notes.turnin
+
+addto npc.bram.talk
+4 hearts:bram>=3 && quest:bram_stone=done && quest:bram_copper=new && flag:met.bram => bram.copper.ask
+4 quest:bram_copper=active => bram.copper.remind
+5 quest:bram_copper=active && has:resource.copperbar>=3 => bram.copper.turnin
+4 hearts:bram>=6 && quest:bram_copper=done && quest:bram_hooks=new => bram.hooks.ask
+4 quest:bram_hooks=active => bram.hooks.remind
+5 quest:bram_hooks=active && has:resource.ironbar>=2 => bram.hooks.turnin
+
+# ======================= Wren =======================
+
+dialogue wren.stew.ask
+n0 wren: The regulars want stew, and my pot wants mushrooms. Three would do it. Forest floor, near the damp bits.
+  next n1
+n1 wren: Would you? I'll pay in gold and in first pick of the good stool.
+  ? Happily. I'll look. => r0 | quest.start:wren_stew
+  ? Not just now. => r1
+r0 wren: A dear. Come back when your pockets smell of the woods.
+  expr happy
+r1 wren: Fair! The regulars are patient. Mostly. Ask me again.
+
+dialogue wren.stew.remind
+n0 wren: Three mushrooms, damp bits of the forest. I believe in you, and so does the pot.
+
+dialogue wren.stew.turnin
+n0 wren: Mushrooms! Oh, you wonderful menace. The pot is blushing. Take this, and the stool.
+  + quest.done:wren_stew
+  expr happy
+  emote heart
+
+dialogue wren.cider.ask
+n0 wren: Summer's coming, and I'm out of hops. Four, if you've a green thumb. I'm trying a cider with ideas above its station.
+  next n1
+n1 wren: You grow hops, I'll make history. A small history. Of cider.
+  ? I'll grow them. => r0 | quest.start:wren_cider
+  ? Another time. => r1
+r0 wren: Splendid! Four hops. I'll name the cider after you. Probably a rude name.
+  expr happy
+r1 wren: Another time, then. The cider will wait. It's a patient drink.
+
+dialogue wren.cider.remind
+n0 wren: Four hops, and the cider's yours. Well, mine. You'll get a taste.
+
+dialogue wren.cider.turnin
+n0 wren: Hops! Look at them! They smell like the future. Here, for your trouble, and a glass for later.
+  + quest.done:wren_cider
+  expr happy
+  emote note
+
+dialogue wren.house.ask
+n0 wren: Between us, I'm planning a full house. A real one. Music, food, nobody in a corner. I need one thing from you.
+  next n1
+n1 wren: A bottle of wine. A good one, from your own cellar. Something to open the evening.
+  ? I'll bring one. => r0 | quest.start:wren_full_house
+  ? Let me think about it. => r1
+r0 wren: You're the best audience a nervous host could ask for. One bottle. I'll hold the door.
+  expr happy
+r1 wren: Think. The idea will keep. So will I, mostly.
+
+dialogue wren.house.remind
+n0 wren: One bottle of wine, and I can open the doors. No pressure. A little pressure. Lovely pressure.
+
+dialogue wren.house.turnin
+n0 wren: There it is. Oh, [player]. I'll open it on the night, and you'll be first at the bar. Thank you.
+  + quest.done:wren_full_house
+  expr happy
+  emote heart
+
+# ======================= Hazel =======================
+
+dialogue hazel.shelf.ask
+n0 hazel: One of the shelves is bowing. (It's the poetry shelf. Of course it is.) It needs five planks of wood.
+  next n1
+n1 hazel: Could you bring them? (I'd ask someone else. I'm asking you.)
+  ? Of course. => r0 | quest.start:hazel_shelf
+  ? Not today. => r1
+r0 hazel: Thank you. (Five planks. I wrote it down.) I'll make tea.
+  expr happy
+r1 hazel: That's all right. (The poetry will manage.) Ask me again.
+
+dialogue hazel.shelf.remind
+n0 hazel: Five planks. (The poetry shelf is holding its breath.)
+
+dialogue hazel.shelf.turnin
+n0 hazel: These are perfect. (I'll sand them myself.) Thank you. Here, for the planks. And the tea.
+  + quest.done:hazel_shelf
+  expr happy
+
+dialogue hazel.pressed.ask
+n0 hazel: I'd like to press some flowers. (For a book. A secret one.) Two sunflowers, if you have them.
+  next n1
+n1 hazel: They flatten nicely. (A sunflower is almost a page already.)
+  ? I'll bring two. => r0 | quest.start:hazel_pressed
+  ? Maybe later. => r1
+r0 hazel: Two sunflowers. (I'm smiling. Don't look.)
+  expr happy
+r1 hazel: Maybe later. (Maybe is a fine word.)
+
+dialogue hazel.pressed.remind
+n0 hazel: Two sunflowers. (I cleared a page for them.)
+
+dialogue hazel.pressed.turnin
+n0 hazel: They're beautiful. (I'll keep one for myself.) Thank you, [player]. Take this.
+  + quest.done:hazel_pressed
+  expr happy
+  emote sparkle
+
+dialogue hazel.notes.ask
+n0 hazel: I'm filling a notebook about the woods. (Smells, mostly.) Three wild garlic would help. Fresh.
+  next n1
+n1 hazel: I'd like to describe it properly. (A smell deserves a paragraph.)
+  ? I'll find some. => r0 | quest.start:hazel_notes
+  ? Not now. => r1
+r0 hazel: Wild garlic. (Three.) Thank you. (I'll describe your face when you bring it.)
+  expr happy
+r1 hazel: That's fine. (Smells keep better than people think.)
+
+dialogue hazel.notes.remind
+n0 hazel: Three wild garlic. (The notebook is open to a blank page.)
+
+dialogue hazel.notes.turnin
+n0 hazel: Oh. (She holds it near her face.) It's exactly the right sharpness. Thank you. This is yours, for the walk.
+  + quest.done:hazel_notes
+  expr happy
+  emote note
+
+# ======================= Bram =======================
+
+dialogue bram.copper.ask
+n0 bram: Hm. I need copper bars. Three. Clean ones.
+  next n1
+n1 bram: Smelt them yourself. Good practice. Bring them here.
+  ? I'll do it. => r0 | quest.start:bram_copper
+  ? Not now. => r1
+r0 bram: Hm. Good.
+r1 bram: Hm. Later, then.
+
+dialogue bram.copper.remind
+n0 bram: Three copper bars. Clean ones. Hm.
+
+dialogue bram.copper.turnin
+n0 bram: Hm. Clean pour. Even edges. ...Good work. Take this.
+  + quest.done:bram_copper
+  expr happy
+
+dialogue bram.hooks.ask
+n0 bram: Juno wants hooks. Forty. I'm out of iron. Two bars would do.
+  next n1
+n1 bram: She'll say thanks. Loudly. I'd appreciate not hearing it alone.
+  ? I'll bring the iron. => r0 | quest.start:bram_hooks
+  ? Maybe later. => r1
+r0 bram: Hm. Good. I'll hold the forge.
+r1 bram: Hm. Later. She'll wait. She won't be quiet.
+
+dialogue bram.hooks.remind
+n0 bram: Two iron bars. Juno's hooks. Hm.
+
+dialogue bram.hooks.turnin
+n0 bram: Hm. Iron. Two. ...Thanks. Juno will say it louder. Here. For you.
+  + quest.done:bram_hooks
+  expr happy

@@ -1,0 +1,696 @@
+{
+  "dialogues": [
+    {
+      "id": "wren.stew.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.stew.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.wren.stew.ask.1",
+          "choices": [
+            {
+              "text": "dlg.wren.stew.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:wren_stew"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.stew.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.stew.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.stew.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "wren.stew.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.stew.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.stew.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.stew.turnin.0",
+          "expression": "happy",
+          "emote": "heart",
+          "effects": [
+            "quest.done:wren_stew"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wren.cider.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.cider.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.wren.cider.ask.1",
+          "choices": [
+            {
+              "text": "dlg.wren.cider.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:wren_cider"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.cider.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.cider.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.cider.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "wren.cider.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.cider.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.cider.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.cider.turnin.0",
+          "expression": "happy",
+          "emote": "note",
+          "effects": [
+            "quest.done:wren_cider"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wren.house.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.house.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.wren.house.ask.1",
+          "choices": [
+            {
+              "text": "dlg.wren.house.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:wren_full_house"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.house.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.house.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.house.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "wren.house.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.house.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.house.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.house.turnin.0",
+          "expression": "happy",
+          "emote": "heart",
+          "effects": [
+            "quest.done:wren_full_house"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hazel.shelf.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.shelf.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.shelf.ask.1",
+          "choices": [
+            {
+              "text": "dlg.hazel.shelf.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:hazel_shelf"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.shelf.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.shelf.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.shelf.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "hazel.shelf.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.shelf.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.shelf.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.shelf.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:hazel_shelf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hazel.pressed.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pressed.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pressed.ask.1",
+          "choices": [
+            {
+              "text": "dlg.hazel.pressed.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:hazel_pressed"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.pressed.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pressed.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pressed.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "hazel.pressed.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pressed.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.pressed.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pressed.turnin.0",
+          "expression": "happy",
+          "emote": "sparkle",
+          "effects": [
+            "quest.done:hazel_pressed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hazel.notes.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.ask.1",
+          "choices": [
+            {
+              "text": "dlg.hazel.notes.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:hazel_notes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.notes.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "hazel.notes.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.notes.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.turnin.0",
+          "expression": "happy",
+          "emote": "note",
+          "effects": [
+            "quest.done:hazel_notes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bram.copper.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.copper.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "bram",
+          "text": "dlg.bram.copper.ask.1",
+          "choices": [
+            {
+              "text": "dlg.bram.copper.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:bram_copper"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.bram.copper.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "bram",
+          "text": "dlg.bram.copper.ask.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "bram",
+          "text": "dlg.bram.copper.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "bram.copper.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.copper.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.copper.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.copper.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:bram_copper"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bram.hooks.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.hooks.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "bram",
+          "text": "dlg.bram.hooks.ask.1",
+          "choices": [
+            {
+              "text": "dlg.bram.hooks.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:bram_hooks"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.bram.hooks.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "bram",
+          "text": "dlg.bram.hooks.ask.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "bram",
+          "text": "dlg.bram.hooks.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "bram.hooks.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.hooks.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.hooks.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.hooks.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:bram_hooks"
+          ]
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "hearts:wren>=2 && quest:wren_stew=new && flag:met.wren",
+          "priority": 4,
+          "dialogue": "wren.stew.ask"
+        },
+        {
+          "condition": "quest:wren_stew=active",
+          "priority": 4,
+          "dialogue": "wren.stew.remind"
+        },
+        {
+          "condition": "quest:wren_stew=active && has:forage.mushroom>=3",
+          "priority": 5,
+          "dialogue": "wren.stew.turnin"
+        },
+        {
+          "condition": "hearts:wren>=4 && quest:wren_stew=done && quest:wren_cider=new",
+          "priority": 4,
+          "dialogue": "wren.cider.ask"
+        },
+        {
+          "condition": "quest:wren_cider=active",
+          "priority": 4,
+          "dialogue": "wren.cider.remind"
+        },
+        {
+          "condition": "quest:wren_cider=active && has:crop.hops>=4",
+          "priority": 5,
+          "dialogue": "wren.cider.turnin"
+        },
+        {
+          "condition": "hearts:wren>=6 && quest:wren_cider=done && quest:wren_full_house=new",
+          "priority": 4,
+          "dialogue": "wren.house.ask"
+        },
+        {
+          "condition": "quest:wren_full_house=active",
+          "priority": 4,
+          "dialogue": "wren.house.remind"
+        },
+        {
+          "condition": "quest:wren_full_house=active && has:artisan.wine>=1",
+          "priority": 5,
+          "dialogue": "wren.house.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "hearts:hazel>=2 && quest:hazel_shelf=new && flag:met.hazel",
+          "priority": 4,
+          "dialogue": "hazel.shelf.ask"
+        },
+        {
+          "condition": "quest:hazel_shelf=active",
+          "priority": 4,
+          "dialogue": "hazel.shelf.remind"
+        },
+        {
+          "condition": "quest:hazel_shelf=active && has:resource.wood>=5",
+          "priority": 5,
+          "dialogue": "hazel.shelf.turnin"
+        },
+        {
+          "condition": "hearts:hazel>=4 && quest:hazel_shelf=done && quest:hazel_pressed=new",
+          "priority": 4,
+          "dialogue": "hazel.pressed.ask"
+        },
+        {
+          "condition": "quest:hazel_pressed=active",
+          "priority": 4,
+          "dialogue": "hazel.pressed.remind"
+        },
+        {
+          "condition": "quest:hazel_pressed=active && has:crop.sunflower>=2",
+          "priority": 5,
+          "dialogue": "hazel.pressed.turnin"
+        },
+        {
+          "condition": "hearts:hazel>=6 && quest:hazel_pressed=done && quest:hazel_notes=new",
+          "priority": 4,
+          "dialogue": "hazel.notes.ask"
+        },
+        {
+          "condition": "quest:hazel_notes=active",
+          "priority": 4,
+          "dialogue": "hazel.notes.remind"
+        },
+        {
+          "condition": "quest:hazel_notes=active && has:forage.wildgarlic>=3",
+          "priority": 5,
+          "dialogue": "hazel.notes.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.bram.talk",
+      "entries": [
+        {
+          "condition": "hearts:bram>=3 && quest:bram_stone=done && quest:bram_copper=new && flag:met.bram",
+          "priority": 4,
+          "dialogue": "bram.copper.ask"
+        },
+        {
+          "condition": "quest:bram_copper=active",
+          "priority": 4,
+          "dialogue": "bram.copper.remind"
+        },
+        {
+          "condition": "quest:bram_copper=active && has:resource.copperbar>=3",
+          "priority": 5,
+          "dialogue": "bram.copper.turnin"
+        },
+        {
+          "condition": "hearts:bram>=6 && quest:bram_copper=done && quest:bram_hooks=new",
+          "priority": 4,
+          "dialogue": "bram.hooks.ask"
+        },
+        {
+          "condition": "quest:bram_hooks=active",
+          "priority": 4,
+          "dialogue": "bram.hooks.remind"
+        },
+        {
+          "condition": "quest:bram_hooks=active && has:resource.ironbar>=2",
+          "priority": 5,
+          "dialogue": "bram.hooks.turnin"
+        }
+      ]
+    }
+  ]
+}

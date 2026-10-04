@@ -1,0 +1,172 @@
+{
+  "quests": [
+    {
+      "id": "wren_stew",
+      "titleKey": "quest.wren_stew.title",
+      "descriptionKey": "quest.wren_stew.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.wren_stew.o0",
+          "condition": "has:forage.mushroom>=3",
+          "takeItem": "forage.mushroom",
+          "takeCount": 3
+        }
+      ],
+      "rewards": [
+        "gold:120",
+        "friend:wren,40"
+      ],
+      "giver": "wren"
+    },
+    {
+      "id": "wren_cider",
+      "titleKey": "quest.wren_cider.title",
+      "descriptionKey": "quest.wren_cider.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.wren_cider.o0",
+          "condition": "has:crop.hops>=4",
+          "takeItem": "crop.hops",
+          "takeCount": 4
+        }
+      ],
+      "rewards": [
+        "gold:200",
+        "friend:wren,50"
+      ],
+      "giver": "wren"
+    },
+    {
+      "id": "wren_full_house",
+      "titleKey": "quest.wren_full_house.title",
+      "descriptionKey": "quest.wren_full_house.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.wren_full_house.o0",
+          "condition": "has:artisan.wine>=1",
+          "takeItem": "artisan.wine",
+          "takeCount": 1
+        }
+      ],
+      "rewards": [
+        "gold:300",
+        "friend:wren,60"
+      ],
+      "giver": "wren"
+    },
+    {
+      "id": "hazel_shelf",
+      "titleKey": "quest.hazel_shelf.title",
+      "descriptionKey": "quest.hazel_shelf.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.hazel_shelf.o0",
+          "condition": "has:resource.wood>=5",
+          "takeItem": "resource.wood",
+          "takeCount": 5
+        }
+      ],
+      "rewards": [
+        "gold:100",
+        "friend:hazel,40"
+      ],
+      "giver": "hazel"
+    },
+    {
+      "id": "hazel_pressed",
+      "titleKey": "quest.hazel_pressed.title",
+      "descriptionKey": "quest.hazel_pressed.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.hazel_pressed.o0",
+          "condition": "has:crop.sunflower>=2",
+          "takeItem": "crop.sunflower",
+          "takeCount": 2
+        }
+      ],
+      "rewards": [
+        "gold:150",
+        "friend:hazel,50"
+      ],
+      "giver": "hazel"
+    },
+    {
+      "id": "hazel_notes",
+      "titleKey": "quest.hazel_notes.title",
+      "descriptionKey": "quest.hazel_notes.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.hazel_notes.o0",
+          "condition": "has:forage.wildgarlic>=3",
+          "takeItem": "forage.wildgarlic",
+          "takeCount": 3
+        }
+      ],
+      "rewards": [
+        "gold:220",
+        "friend:hazel,60"
+      ],
+      "giver": "hazel"
+    },
+    {
+      "id": "bram_copper",
+      "titleKey": "quest.bram_copper.title",
+      "descriptionKey": "quest.bram_copper.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.bram_copper.o0",
+          "condition": "has:resource.copperbar>=3",
+          "takeItem": "resource.copperbar",
+          "takeCount": 3
+        }
+      ],
+      "rewards": [
+        "gold:250",
+        "friend:bram,50"
+      ],
+      "giver": "bram"
+    },
+    {
+      "id": "bram_hooks",
+      "titleKey": "quest.bram_hooks.title",
+      "descriptionKey": "quest.bram_hooks.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.bram_hooks.o0",
+          "condition": "has:resource.ironbar>=2",
+          "takeItem": "resource.ironbar",
+          "takeCount": 2
+        }
+      ],
+      "rewards": [
+        "gold:350",
+        "friend:bram,60"
+      ],
+      "giver": "bram"
+    }
+  ]
+}

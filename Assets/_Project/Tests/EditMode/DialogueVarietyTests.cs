@@ -51,6 +51,7 @@ namespace Farm.Tests
             w.Hearts_[npc] = hearts;
             w.Flags.Add("hazel.book");              // one-shot scenes are spent, so only the ordinary pool is measured
             w.Quests["bram_stone"] = "done";        // an open offer deliberately outranks every chat line
+            foreach (var q in new[] { "wren_stew", "wren_cider", "wren_full_house", "hazel_shelf", "hazel_pressed", "hazel_notes", "bram_copper", "bram_hooks" }) w.Quests[q] = "done";
             return w;
         }
 
