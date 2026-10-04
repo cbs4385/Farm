@@ -64,7 +64,7 @@ namespace Farm.Tests
         }
 
         // Mood, farm, festival and birthday lines need a world state this sweep does not build; MoodModelTests and the slice tests cover them.
-        static bool StateDependent(string c) => c.Contains("mood:") || c.Contains("farm:") || c.Contains("festival.in") || c.Contains("birthday.in") || c.Contains("storyline:") || c.Contains("storydone.") || c.Contains("notes.began");
+        static bool StateDependent(string c) => c.Contains("mood:") || c.Contains("farm:") || c.Contains("festival.in") || c.Contains("birthday.in") || c.Contains("farmname:") || c.Contains("playername:") || c.Contains("storyline:") || c.Contains("storydone.") || c.Contains("notes.began");
 
         [Test]
         public void EveryTalkEntry_CanBeHeardInSomeState()

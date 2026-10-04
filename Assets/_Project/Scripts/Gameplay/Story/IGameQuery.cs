@@ -17,6 +17,7 @@ namespace Farm.Gameplay
         int AnimalCount() => 0;                 // animals on the farm
         bool HeardLine(string dialogueId) => false; // a villager has said this dialogue before
         string FarmName() => string.Empty;
+        string PlayerName() => string.Empty;
         string MoodOf(string npcId) => "content";   // today's mood of a villager (see MoodModel)
     }
 
@@ -40,7 +41,7 @@ namespace Farm.Gameplay
             Conditions.Register("knows", (arg, w) => w is IGameQuery q && q.KnowsRecipe(arg));
             // Narrative atoms (T-092). festival.in:<=3 (days until the next festival, 0 = today), birthday.in:wren<=3,
             // farm:crops>=5, farm:animals>=1, heard:<dialogueId>, choice:<flag> (flag "choice.<flag>"),
-            // storyline:<id> (flag "storyline.<id>"), farmname:<name> (case-insensitive; an underscore stands for a space).
+            // storyline:<id> (flag "storyline.<id>"), farmname:<name> and playername:<name> (case-insensitive; an underscore stands for a space).
             Conditions.Register("festival.in", (arg, w) =>
                 SplitNumber(arg, out var op, out var n) && w is IGameQuery q && q.FestivalDaysAway() >= 0 && Compare(q.FestivalDaysAway(), op, n));
             Conditions.Register("birthday.in", (arg, w) =>
@@ -65,6 +66,7 @@ namespace Farm.Gameplay
             Conditions.Register("choice", (arg, w) => w.HasFlag("choice." + arg));
             Conditions.Register("storyline", (arg, w) => w.HasFlag("storyline." + arg));
             Conditions.Register("farmname", (arg, w) => w is IGameQuery q && string.Equals(q.FarmName().Replace(' ', '_'), arg, System.StringComparison.OrdinalIgnoreCase));
+            Conditions.Register("playername", (arg, w) => w is IGameQuery q && string.Equals(q.PlayerName().Replace(' ', '_'), arg, System.StringComparison.OrdinalIgnoreCase));
             Conditions.Register("unseen", (arg, w) => w.GetVar(arg) < w.Now.Year);
             Merchant.RegisterConditions();
         }

@@ -173,7 +173,8 @@ namespace Farm.Gameplay
             foreach (var v in list)
             {
                 var set = story.Set($"npc.{v}.talk");
-                var entries = set?.Entries ?? new List<DialogueSetEntry>();
+                // Name reactions (T-148) exist only for particular farm and player names, which the bot does not have: they are not part of its coverage.
+                var entries = (set?.Entries ?? new List<DialogueSetEntry>()).Where(e => e.Condition == null || (!e.Condition.Contains("farmname:") && !e.Condition.Contains("playername:"))).ToList();
                 var seq = picks[v];
                 var r = new VillagerSimReport { Villager = v, Visits = seq.Count, TalkEntries = entries.Count, DistinctHeard = heardEver[v].Count, LongestDeadAirDays = longestDead[v] };
                 var distinct = entries.Select(e => e.Dialogue).Distinct().Count();

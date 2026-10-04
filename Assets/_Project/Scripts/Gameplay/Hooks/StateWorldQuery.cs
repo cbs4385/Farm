@@ -41,6 +41,7 @@ namespace Farm.Gameplay
         public int AnimalCount() => _state.Animals.Count;
         public bool HeardLine(string dialogueId) => HeardLookup != null && HeardLookup(dialogueId);
         public string FarmName() => _state.FarmName;
+        public string PlayerName() => _state.PlayerName;
         public string MoodOf(string npcId) => MoodLookup != null ? MoodLookup(npcId) : "content";
     }
 }
