@@ -136,6 +136,9 @@ namespace Farm.UI
             var npc = !string.IsNullOrEmpty(line.Speaker) ? Ui.Session.Npcs.Get(line.Speaker) : null;
             var speakerName = string.IsNullOrEmpty(line.Speaker) ? string.Empty : L.Get($"npc.{line.Speaker}.name");
             _name.text = speakerName;
+            var accent = SpeakerStyle.AccentFor(line.Speaker);
+            _name.color = accent;
+            _portraitBox.GetComponent<Image>().color = Color.Lerp(UiKit.PanelLight, accent, 0.45f);
             _portraitBox.SetActive(!string.IsNullOrEmpty(line.Speaker));
             _portrait.sprite = npc != null ? npc.PortraitFor(line.Expression) : null;
             _portrait.color = npc != null && _portrait.sprite != null ? Color.white : new Color(1f, 1f, 1f, 0f);
