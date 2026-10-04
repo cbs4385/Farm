@@ -14,6 +14,7 @@ namespace Farm.Gameplay
         public static string DataRootOverride;
 
         static string DataRoot => DataRootOverride ?? Application.persistentDataPath;
+        public static string DataRootPath => DataRoot;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetHook() => _hooked = false;

@@ -75,6 +75,7 @@ namespace Farm.Gameplay
             var events = new GameObject("Events").AddComponent<EventDirector>();
             events.Init(_map, _session, npcs, _player);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
+            new GameObject("PhotoMode").AddComponent<PhotoMode>().Init(_session, npcs, _player);
 
             // Outdoor maps show the day's weather (rain, snow, wind...) drawn from its WeatherDefinition.
             var lighting = FindAnyObjectByType<DayNightLighting>();
