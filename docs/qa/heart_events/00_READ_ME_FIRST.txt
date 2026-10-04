@@ -33,3 +33,8 @@ WAVE 2 (Tilda, Juno, Piper)
 - Friend days: Tilda on a Saturday (date spring 6), Juno on a Thursday (date spring 4), Piper on a Friday (date spring 5).
 - Tilda's friend-day scene is a helping scene: with 3 sunflowers it succeeds and is spent; without, she asks you to come back and it is offered again.
 - Heart-10 endings change by an earlier choice: Tilda 3 (card.share, card.bake, neither), Juno 2 (shoe.wait or not), Piper 3 (chorus.home, road, room). One file per branch.
+
+ENHANCED SIX (Marcus, Odalys, Felix, Dorian, Elara, Ione)
+- forced_<npc>_heart8.txt plays the new heart-8 scene now; natural_<npc>_heart8_setup.txt sets the earlier flags and hearts and walks in (older heart 2 and 5 scenes are marked done by the flags).
+- Windows: Marcus not Wednesdays, Odalys and Elara not Saturdays (clinic), Ione not Saturdays, Felix 06:00-14:00 and not Thursdays, Dorian 08:00-17:00. All nine to five unless noted.
+- Each has three choices; the closing line changes with the choice (flags choice.roof.*, office.*, big.*, notebook.*, list.*, shelf.*).

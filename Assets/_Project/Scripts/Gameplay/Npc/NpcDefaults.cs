@@ -83,9 +83,9 @@ namespace Farm.Gameplay
             var home = Stop(Six, MapIds.Library, 7, 3);
             return NpcDefinition.Create(NpcIds.Ione, Season.Winter, 20, MapIds.Library, 7, 3, romanceable: true, business: "library")
                 .WithTastes(
-                    loved: new[] { "forage.pearl", "forage.snowdrop" },
+                    loved: new[] { "forage.pearl", "forage.snowdrop", "forage.elderflower" },
                     liked: new[] { "forage.seashell", "crop.kale", "forage.blackberry" },
-                    disliked: new[] { "resource.stone", "resource.wood" })
+                    disliked: new[] { "resource.stone", "resource.wood", "resource.coal" })
                 .WithSchedule(new[]
                 {
                     Day("rainy_saturday", "weekday:sat && weather:rain", 10, home, Stop(Ten, MapIds.Library, 7, 3)),

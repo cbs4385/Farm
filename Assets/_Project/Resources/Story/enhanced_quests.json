@@ -1,0 +1,130 @@
+{
+  "quests": [
+    {
+      "id": "marcus_planks",
+      "titleKey": "quest.marcus_planks.title",
+      "descriptionKey": "quest.marcus_planks.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.marcus_planks.o0",
+          "condition": "has:resource.wood>=10",
+          "takeItem": "resource.wood",
+          "takeCount": 10
+        }
+      ],
+      "rewards": [
+        "gold:160",
+        "friend:marcus,50"
+      ],
+      "giver": "marcus"
+    },
+    {
+      "id": "odalys_elderflower",
+      "titleKey": "quest.odalys_elderflower.title",
+      "descriptionKey": "quest.odalys_elderflower.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.odalys_elderflower.o0",
+          "condition": "has:forage.elderflower>=3",
+          "takeItem": "forage.elderflower",
+          "takeCount": 3
+        }
+      ],
+      "rewards": [
+        "gold:140",
+        "friend:odalys,50"
+      ],
+      "giver": "odalys"
+    },
+    {
+      "id": "felix_bait",
+      "titleKey": "quest.felix_bait.title",
+      "descriptionKey": "quest.felix_bait.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.felix_bait.o0",
+          "condition": "has:resource.bait>=5",
+          "takeItem": "resource.bait",
+          "takeCount": 5
+        }
+      ],
+      "rewards": [
+        "gold:120",
+        "friend:felix,40"
+      ],
+      "giver": "felix"
+    },
+    {
+      "id": "dorian_basket",
+      "titleKey": "quest.dorian_basket.title",
+      "descriptionKey": "quest.dorian_basket.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.dorian_basket.o0",
+          "condition": "has:forage.mushroom>=3",
+          "takeItem": "forage.mushroom",
+          "takeCount": 3
+        }
+      ],
+      "rewards": [
+        "gold:150",
+        "friend:dorian,50"
+      ],
+      "giver": "dorian"
+    },
+    {
+      "id": "elara_wool",
+      "titleKey": "quest.elara_wool.title",
+      "descriptionKey": "quest.elara_wool.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.elara_wool.o0",
+          "condition": "has:product.wool>=2",
+          "takeItem": "product.wool",
+          "takeCount": 2
+        }
+      ],
+      "rewards": [
+        "gold:180",
+        "friend:elara,50"
+      ],
+      "giver": "elara"
+    },
+    {
+      "id": "ione_pearl",
+      "titleKey": "quest.ione_pearl.title",
+      "descriptionKey": "quest.ione_pearl.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "objectives": [
+        {
+          "text": "quest.ione_pearl.o0",
+          "condition": "has:forage.pearl>=1",
+          "takeItem": "forage.pearl",
+          "takeCount": 1
+        }
+      ],
+      "rewards": [
+        "gold:220",
+        "friend:ione,60"
+      ],
+      "giver": "ione"
+    }
+  ]
+}

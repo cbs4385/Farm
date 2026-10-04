@@ -1,0 +1,920 @@
+{
+  "dialogues": [
+    {
+      "id": "marcus.roof",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.0",
+          "expression": "thinking",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.1",
+          "choices": [
+            {
+              "text": "dlg.marcus.roof.c0",
+              "default": false,
+              "effects": [
+                "friend:marcus,15",
+                "flag:choice.roof.measure"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.marcus.roof.c1",
+              "default": false,
+              "effects": [
+                "friend:marcus,10",
+                "flag:choice.roof.design"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.marcus.roof.c2",
+              "default": false,
+              "effects": [
+                "friend:marcus,10",
+                "flag:choice.roof.ladder"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "odalys.office",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.office.0",
+          "expression": "thinking",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "odalys",
+          "text": "dlg.odalys.office.1",
+          "choices": [
+            {
+              "text": "dlg.odalys.office.c0",
+              "default": false,
+              "effects": [
+                "friend:odalys,10",
+                "flag:choice.office.insist"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.odalys.office.c1",
+              "default": false,
+              "effects": [
+                "friend:odalys,15",
+                "flag:choice.office.soup"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.odalys.office.c2",
+              "default": false,
+              "effects": [
+                "friend:odalys,10",
+                "flag:choice.office.write"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.office.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "odalys",
+          "text": "dlg.odalys.office.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "odalys",
+          "text": "dlg.odalys.office.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "felix.big",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.felix.big.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "felix",
+          "text": "dlg.felix.big.1",
+          "choices": [
+            {
+              "text": "dlg.felix.big.c0",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.big.net"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.felix.big.c1",
+              "default": false,
+              "effects": [
+                "friend:felix,15",
+                "flag:choice.big.release"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.felix.big.c2",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.big.measure"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "felix",
+          "text": "dlg.felix.big.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "felix",
+          "text": "dlg.felix.big.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "felix",
+          "text": "dlg.felix.big.r2",
+          "emote": "sweat"
+        }
+      ]
+    },
+    {
+      "id": "dorian.notebook",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.dorian.notebook.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.notebook.1",
+          "choices": [
+            {
+              "text": "dlg.dorian.notebook.c0",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.notebook.praise"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.dorian.notebook.c1",
+              "default": false,
+              "effects": [
+                "friend:dorian,15",
+                "flag:choice.notebook.ask"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.dorian.notebook.c2",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.notebook.draw"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.notebook.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.notebook.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "dorian",
+          "text": "dlg.dorian.notebook.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "elara.list",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.elara.list.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "elara",
+          "text": "dlg.elara.list.1",
+          "choices": [
+            {
+              "text": "dlg.elara.list.c0",
+              "default": false,
+              "effects": [
+                "friend:elara,15",
+                "flag:choice.list.pick"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.list.c1",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.list.add"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.elara.list.c2",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.list.promise"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.list.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.list.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "elara",
+          "text": "dlg.elara.list.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "ione.shelf",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "text": "dlg.ione.shelf.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "ione",
+          "text": "dlg.ione.shelf.1",
+          "choices": [
+            {
+              "text": "dlg.ione.shelf.c0",
+              "default": false,
+              "effects": [
+                "friend:ione,15",
+                "flag:choice.shelf.take"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.ione.shelf.c1",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.shelf.read"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.ione.shelf.c2",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.shelf.note"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "ione",
+          "text": "dlg.ione.shelf.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "ione",
+          "text": "dlg.ione.shelf.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "ione",
+          "text": "dlg.ione.shelf.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "marcus.planks.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.planks.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "marcus",
+          "text": "dlg.marcus.planks.ask.1",
+          "choices": [
+            {
+              "text": "dlg.marcus.planks.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:marcus_planks"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.marcus.planks.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.planks.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "marcus",
+          "text": "dlg.marcus.planks.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "marcus.planks.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.planks.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.planks.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.planks.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:marcus_planks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "odalys.elder.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.elder.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "odalys",
+          "text": "dlg.odalys.elder.ask.1",
+          "choices": [
+            {
+              "text": "dlg.odalys.elder.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:odalys_elderflower"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.odalys.elder.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.elder.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "odalys",
+          "text": "dlg.odalys.elder.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "odalys.elder.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.elder.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.elder.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.elder.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:odalys_elderflower"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "felix.bait.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.bait.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "felix",
+          "text": "dlg.felix.bait.ask.1",
+          "choices": [
+            {
+              "text": "dlg.felix.bait.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:felix_bait"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.felix.bait.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "felix",
+          "text": "dlg.felix.bait.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "felix",
+          "text": "dlg.felix.bait.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "felix.bait.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.bait.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.bait.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.bait.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:felix_bait"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dorian.basket.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.basket.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.basket.ask.1",
+          "choices": [
+            {
+              "text": "dlg.dorian.basket.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:dorian_basket"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.dorian.basket.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.basket.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.basket.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "dorian.basket.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.basket.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.basket.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.basket.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:dorian_basket"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "elara.wool.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.wool.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "elara",
+          "text": "dlg.elara.wool.ask.1",
+          "choices": [
+            {
+              "text": "dlg.elara.wool.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:elara_wool"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.wool.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.wool.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.wool.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "elara.wool.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.wool.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.wool.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.wool.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:elara_wool"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ione.pearl.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.pearl.ask.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "ione",
+          "text": "dlg.ione.pearl.ask.1",
+          "choices": [
+            {
+              "text": "dlg.ione.pearl.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:ione_pearl"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.ione.pearl.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "ione",
+          "text": "dlg.ione.pearl.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "ione",
+          "text": "dlg.ione.pearl.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "ione.pearl.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.pearl.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "ione.pearl.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.pearl.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:ione_pearl"
+          ]
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "hearts:marcus>=3 && quest:marcus_planks=new && flag:met.marcus",
+          "priority": 4,
+          "dialogue": "marcus.planks.ask"
+        },
+        {
+          "condition": "quest:marcus_planks=active",
+          "priority": 4,
+          "dialogue": "marcus.planks.remind"
+        },
+        {
+          "condition": "quest:marcus_planks=active && has:resource.wood>=10",
+          "priority": 5,
+          "dialogue": "marcus.planks.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.odalys.talk",
+      "entries": [
+        {
+          "condition": "hearts:odalys>=3 && quest:odalys_elderflower=new && flag:met.odalys",
+          "priority": 4,
+          "dialogue": "odalys.elder.ask"
+        },
+        {
+          "condition": "quest:odalys_elderflower=active",
+          "priority": 4,
+          "dialogue": "odalys.elder.remind"
+        },
+        {
+          "condition": "quest:odalys_elderflower=active && has:forage.elderflower>=3",
+          "priority": 5,
+          "dialogue": "odalys.elder.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.felix.talk",
+      "entries": [
+        {
+          "condition": "hearts:felix>=3 && quest:felix_bait=new && flag:met.felix",
+          "priority": 4,
+          "dialogue": "felix.bait.ask"
+        },
+        {
+          "condition": "quest:felix_bait=active",
+          "priority": 4,
+          "dialogue": "felix.bait.remind"
+        },
+        {
+          "condition": "quest:felix_bait=active && has:resource.bait>=5",
+          "priority": 5,
+          "dialogue": "felix.bait.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "hearts:dorian>=3 && quest:dorian_basket=new && flag:met.dorian",
+          "priority": 4,
+          "dialogue": "dorian.basket.ask"
+        },
+        {
+          "condition": "quest:dorian_basket=active",
+          "priority": 4,
+          "dialogue": "dorian.basket.remind"
+        },
+        {
+          "condition": "quest:dorian_basket=active && has:forage.mushroom>=3",
+          "priority": 5,
+          "dialogue": "dorian.basket.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.elara.talk",
+      "entries": [
+        {
+          "condition": "hearts:elara>=3 && quest:elara_wool=new && flag:met.elara",
+          "priority": 4,
+          "dialogue": "elara.wool.ask"
+        },
+        {
+          "condition": "quest:elara_wool=active",
+          "priority": 4,
+          "dialogue": "elara.wool.remind"
+        },
+        {
+          "condition": "quest:elara_wool=active && has:product.wool>=2",
+          "priority": 5,
+          "dialogue": "elara.wool.turnin"
+        }
+      ]
+    },
+    {
+      "set": "npc.ione.talk",
+      "entries": [
+        {
+          "condition": "hearts:ione>=3 && quest:ione_pearl=new && flag:met.ione",
+          "priority": 4,
+          "dialogue": "ione.pearl.ask"
+        },
+        {
+          "condition": "quest:ione_pearl=active",
+          "priority": 4,
+          "dialogue": "ione.pearl.remind"
+        },
+        {
+          "condition": "quest:ione_pearl=active && has:forage.pearl>=1",
+          "priority": 5,
+          "dialogue": "ione.pearl.turnin"
+        }
+      ]
+    }
+  ]
+}

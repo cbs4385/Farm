@@ -14,6 +14,7 @@ import slice_sheets as S                      # keying, segmentation, scaling, p
 from generate_expressions import load_key, data_uri, STYLE, URL, GEN, PH, ROOT
 
 LOOK = {
+    "dorian": "Dorian Lake, the forager: quiet young man, moss-green coat, grey scarf, a small basket of mushrooms on his arm, dark trousers and boots",
     "piper": "Piper Vance, the saloon musician: lanky young woman, mustard coat, black curly hair, a fiddle on her back, dark trousers and boots",
     "hazel": "Hazel Brandt, the library assistant: slight, shy young woman, round glasses, dark bob haircut, a mustard cardigan over a teal blouse, dark trousers and boots",
 }
@@ -26,7 +27,7 @@ def prompt_for(npc):
             "sprites share the same scale, viewpoint and style. Chibi proportions (head about 40 percent of the height), standing idle, small full-body "
             "character taller than wide. The one single character, drawn four times (same outfit, same colours, same proportions): " + LOOK[npc] +
             ". Columns are: facing the viewer, facing away, left profile, right profile.\n"
-            "Absolutely no text, letters, numbers, labels, captions, borders, frames, watermarks or ground shadows. No photorealism, no 3D, no black "
+            "Absolutely no text, letters, numbers, labels, captions, borders, frames, boxes or outlines around the sprites, watermarks or ground shadows: the sprites float on plain magenta. No photorealism, no 3D, no black "
             "outlines, no gore, no scary faces.")
 
 

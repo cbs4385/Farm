@@ -31,6 +31,12 @@ namespace Farm.Tests
             ("piper", "piper_strings", "piper.strings", null),
             ("piper", "piper_flowers", "piper.flowers", "piper_strings"),
             ("piper", "piper_juice", "piper.juice", "piper_flowers"),
+            ("marcus", "marcus_planks", "marcus.planks", null),
+            ("odalys", "odalys_elderflower", "odalys.elder", null),
+            ("felix", "felix_bait", "felix.bait", null),
+            ("dorian", "dorian_basket", "dorian.basket", null),
+            ("elara", "elara_wool", "elara.wool", null),
+            ("ione", "ione_pearl", "ione.pearl", null),
         };
 
         StoryContent _story;
@@ -117,7 +123,7 @@ namespace Farm.Tests
         public void Dialogue_KeepsEachVoice()
         {
             var en = L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
-            foreach (var c in Chains.Where(x => x.npc == "hazel" || x.npc == "bram"))
+            foreach (var c in Chains.Where(x => x.npc == "hazel" || x.npc == "bram" || x.npc == "marcus" || x.npc == "dorian"))
                 foreach (var part in new[] { "ask", "remind", "turnin" })
                     foreach (var n in _story.Dialogue($"{c.key}.{part}").Nodes)
                         foreach (var key in new[] { n.Text }.Concat((n.Choices ?? new List<DialogueChoice>()).Select(ch => ch.Text)).Where(k => !string.IsNullOrEmpty(k)))

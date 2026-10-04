@@ -1,0 +1,105 @@
+# Dorian Lake, the forager. Enhanced depth (docs/narrative/BIBLE_ENHANCED.md section 4). Quiet, watchful, whispered forest literalism.
+# Very short sentences (up to 12 words), no exclamation marks. "Not me. The forest." Cozy only: the woods are mushrooms, moss and weather.
+# Lodges with Marcus; forages all day.
+
+addto npc.dorian.talk
+
+# ---- seasons ----
+0 season:spring => dorian.spring.1 cat=seasonal :: Spring. Wild garlic first. Then ferns. Then everything at once.
+0 season:spring => dorian.spring.2 cat=seasonal :: Moss turns bright after rain. I notice. Nobody asks.
+0 season:spring => dorian.spring.3 cat=seasonal tag=funny :: Found a mushroom shaped like a hat. It's not mine. It's very smug.
+0 season:summer => dorian.summer.1 cat=seasonal :: Summer. Berries, shade, quiet paths. The forest keeps cool. I follow.
+0 season:summer => dorian.summer.2 cat=seasonal :: Long days. Short sentences. It suits the heat.
+0 season:summer => dorian.summer.3 cat=seasonal :: Bees in the clover. They don't mind me. I don't mind them.
+0 season:fall => dorian.fall.1 cat=seasonal :: Fall. The best mushrooms. Truffles hide under oak. They hide well.
+0 season:fall => dorian.fall.2 cat=seasonal :: Leaves everywhere. A soft sound underfoot. I walk slowly to hear it.
+0 season:fall => dorian.fall.3 cat=seasonal tag=wholesome :: Leaves fall without a word. It's how I'd like to leave a room.
+0 season:winter => dorian.winter.1 cat=seasonal :: Winter. Winter roots. Frost on the moss. Small gifts, if you look.
+0 season:winter => dorian.winter.2 cat=seasonal :: Snow keeps the forest quiet. I keep it company. My birthday's in winter. I don't mention it.
+0 season:winter => dorian.winter.3 cat=seasonal :: Tracks in snow tell a story. Mostly about rabbits. They're busy.
+
+# ---- weekdays ----
+0 weekday:mon => dorian.mon.1 cat=weekday :: Monday. Marcus sharpens things. I listen from the porch. It sounds like thinking.
+0 weekday:tue => dorian.tue.1 cat=weekday :: Tuesday. Quiet forest. Quieter village. A good day for walking.
+0 weekday:wed => dorian.wed.1 cat=weekday :: Wednesday. Marcus is on a bench with Bram. I stay home. I like the silence.
+0 weekday:thu => dorian.thu.1 cat=weekday :: Thursday. Felix is off. The pond's busy. I avoid it.
+0 weekday:fri => dorian.fri.1 cat=weekday :: Friday. The village gets loud. I take the back path. It's longer. It's better.
+0 weekday:sat => dorian.sat.1 cat=weekday :: Saturday. Market. Noise. I leave a mushroom on a step and go.
+0 weekday:sun => dorian.sun.1 cat=weekday :: Sunday. I stay in the forest. The trees don't ask what day it is.
+
+# ---- weather ----
+0 weather:sunny => dorian.sunny.1 cat=weather :: Sun through leaves. Green light. It makes everything look kind.
+0 weather:sunny => dorian.sunny.2 cat=weather :: Dry day. Mushrooms hide. I look anyway.
+1 weather:rain => dorian.rain.2 cat=weather :: Wet moss, open caps. A good day to be small and patient.
+1 weather:rain => dorian.rain.3 cat=weather tag=wholesome :: Wet moss, soft sound. I stand under a tree and listen.
+1 weather:storm => dorian.storm.1 cat=weather :: Storm. The forest bows. I wait under the thickest oak.
+1 weather:storm => dorian.storm.2 cat=weather :: Thunder echoes through the trunks. Like a very large footstep.
+1 weather:snow => dorian.snow.1 cat=weather :: Snow. Every branch is a line drawn in white.
+1 weather:snow => dorian.snow.2 cat=weather :: Hush. Even my boots are quiet. I like it.
+1 weather:wind => dorian.wind.1 cat=weather :: Wind in the canopy. A long, low sound. Like breathing.
+1 weather:wind => dorian.wind.2 cat=weather :: Gusty. Leaves fly. I keep my hat on and my words in.
+
+# ---- time of day ----
+0 hour<10 => dorian.morning.1 cat=time :: Early. Dew on every web. I try not to break them.
+0 hour<10 => dorian.morning.2 cat=time :: First light. The forest wakes in order. Birds, then bees, then me.
+0 hour>=10 && hour<16 => dorian.midday.1 cat=time :: Midday. Shade. A flask. A log. That's lunch.
+0 hour>=10 && hour<16 => dorian.midday.2 cat=time :: Busy forest. Everyone's pretending not to be.
+0 hour>=16 && hour<20 => dorian.evening.1 cat=time :: Evening. Gold light. I walk home slowly. The basket's heavy. Good.
+0 hour>=16 && hour<20 => dorian.evening.2 cat=time :: Dusk. Owls begin. They don't mind company.
+0 hour>=20 => dorian.late.1 cat=time :: Late. I sketch what I found. Nobody sees the drawings. Please don't ask.
+0 hour>=20 => dorian.late.2 cat=time :: Night. Moss glows a little, if you squint. I squint.
+0 map:Forest => dorian.here.1 cat=place :: Step softly. Under the roots. Everyone looks up.
+0 map:Carpenter => dorian.here.2 cat=place tag=funny :: The chair by the stove is mine. The cushion knows. Marcus pretends.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.1 cat=tier :: You say little. That's the best kind of company, [player].
+0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.2 cat=tier :: Come with me tomorrow. Bring a basket. Don't bring questions.
+0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.3 cat=tier tag=funny :: A mushroom was on your step. Not me. The forest.
+0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.4 cat=tier :: You stand the right distance. Not many do.
+0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.5 cat=tier tag=wholesome :: Walking is better with someone who doesn't need an answer.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.1 cat=tier :: I'm not a talker. But I'm glad you're nearby.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.2 cat=tier tag=wholesome :: The forest likes you. That's rare. It likes very few.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.3 cat=tier :: There's a spot I go. Quiet. I'll show you. Someday. Soon.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.4 cat=tier :: I draw mushrooms. I haven't shown anyone. I might. Don't hurry me.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.5 cat=tier tag=funny :: Marcus asked who the gifts were from. I said "the forest". He nodded. Twice.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:dorian>=9 => dorian.co.1 cat=tier tag=wholesome :: Words are slow for me. You wait. It's the whole gift.
+0 hearts:dorian>=9 => dorian.co.2 cat=tier :: I left something on your step. It was me. Not the forest.
+0 hearts:dorian>=9 => dorian.co.3 cat=tier tag=funny :: A letter from me would be a drawing. Of a mushroom. With a speech bubble.
+0 hearts:dorian>=9 => dorian.co.4 cat=tier :: Thank you, [player]. For the quiet.
+
+# ---- moods ----
+1 mood:dorian=lonely => dorian.lonely.1 cat=mood :: A long walk. Nobody. The trees were kind. It wasn't enough.
+1 mood:dorian=tired => dorian.tired.1 cat=mood :: Tired. The basket's heavy. So's the day.
+1 mood:dorian=delighted => dorian.delighted.1 cat=mood expr=happy :: Found a perfect mushroom. Cap round, stem straight. I stood there smiling. A bit.
+1 mood:dorian=mischievous => dorian.mischief.1 cat=mood expr=happy :: I left a pinecone on Marcus's chair. He's been looking for the culprit all day.
+1 mood:dorian=worried => dorian.worried.1 cat=mood expr=sad :: The forest feels strange today. Probably me. Probably.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => dorian.farm.1 cat=reactive :: Your field's coming along. Plants speak slowly. They say yes.
+0 farm:animals>=1 => dorian.farm.2 cat=reactive :: Animals. Noisy. Warm. I'd visit. From a distance.
+2 festival.in:<=3 && festival.in:>0 => dorian.fest.1 cat=reactive :: Festival soon. Crowds. I'll bring a mushroom. Then leave.
+2 festival.in:==0 => dorian.fest.2 cat=reactive :: Festival. I'm here. Near the edge. Near the exit. It's fine.
+2 birthday.in:dorian<=3 && birthday.in:dorian>0 => dorian.bday.1 cat=reactive :: My birthday's near. It's fine. I'll walk. Alone, mostly. Fine.
+3 birthday.in:dorian==0 => dorian.bday.2 cat=reactive expr=embarrassed emote=sweat :: You came. I didn't say. ...Who said? Marcus. Of course.
+2 birthday.in:marcus<=2 && birthday.in:marcus>=0 => dorian.bday.3 cat=reactive :: Marcus's birthday. I'll leave a pinecone. It's tradition.
+
+# ---- rarities ----
+0 ~ => dorian.rare.1 cat=rare rarity=rare tag=funny :: I once argued with a stump. I lost. It was a very good stump.
+0 ~ => dorian.rare.2 cat=rare rarity=rare tag=wholesome :: I kept the first mushroom I ever found. Dried. In my pocket. It's tiny. It's mine.
+0 hearts:dorian>=5 => dorian.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Look. (He opens a small notebook.) My drawings. You're the first. Please be kind.
+
+# ---- gifts ----
+say npc.dorian.gift.item.forage.mushroom dorian: A mushroom. Perfect gills. Where did you find it? ...Never mind. Thank you.
+say npc.dorian.gift.item.forage.truffle dorian: A truffle. You found one. I'm quiet because I'm moved.
+say npc.dorian.gift.item.forage.wildgarlic dorian: Wild garlic. Sharp. Green. Good. I'll cook it with the stew.
+say npc.dorian.gift.item.forage.hazelnut dorian: Hazelnuts. Small. Patient. I'll keep them for a squirrel. And me.
+say npc.dorian.gift.item.forage.blackberry dorian: Blackberries. Sweet and thorny. Like the forest. Thank you.
+say npc.dorian.gift.item.forage.raspberry dorian: Raspberries. Red and shy. I'll eat them slowly.
+say npc.dorian.gift.item.crop.tomato dorian: A tomato. Hm. Too round. Too loud. I'll find it a home. Far away.
+say npc.dorian.gift.item.fish.pufferfish dorian: A pufferfish. It's looking at me. I'm looking at it. We've reached an understanding.
+say npc.dorian.gift.item.resource.slime dorian: Slime. Hm. I'll keep it outside. It looks homesick.
+say npc.dorian.gift.repeat dorian: Another one. Thank you. I'll leave you something. Not me. The forest.

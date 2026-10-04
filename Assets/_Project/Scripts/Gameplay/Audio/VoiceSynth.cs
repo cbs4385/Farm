@@ -30,6 +30,12 @@ namespace Farm.Gameplay
                 case "tilda": return new VoiceProfile(330f, VoiceWave.Sine, 75f, 3, 0.08f);        // warm, even, a shopkeeper's bell
                 case "juno": return new VoiceProfile(294f, VoiceWave.Saw, 45f, 2, 0.30f);          // quick, bright, tapping
                 case "piper": return new VoiceProfile(440f, VoiceWave.Triangle, 60f, 2, 0.45f);    // musical, sliding
+                case "marcus": return new VoiceProfile(196f, VoiceWave.Triangle, 85f, 3, 0.06f);   // low, steady, a plane on pine
+                case "odalys": return new VoiceProfile(370f, VoiceWave.Sine, 50f, 4, 0.04f);       // clear, formal, exact
+                case "felix": return new VoiceProfile(147f, VoiceWave.Saw, 95f, 4, 0.12f);         // slow, salty, low
+                case "dorian": return new VoiceProfile(554f, VoiceWave.Sine, 38f, 5, 0.05f);       // hushed, high, sparing
+                case "elara": return new VoiceProfile(494f, VoiceWave.Triangle, 52f, 2, 0.33f);    // bouncy, bright
+                case "ione": return new VoiceProfile(311f, VoiceWave.Sine, 72f, 3, 0.07f);         // gentle, even
             }
             var h = (uint)Math.Abs(NpcInteractions.StableHash(voiceId ?? "voice"));
             var wave = (VoiceWave)(h % 4);
@@ -82,6 +88,12 @@ namespace Farm.Gameplay
                 case "tilda": return Pings(new[] { 1568f, 2093f }, new[] { 0f, 0.14f }, 0.7f, 4.5f);             // the shop bell, two notes
                 case "juno": return Pings(new[] { 1245f, 1245f, 1245f }, new[] { 0f, 0.1f, 0.2f }, 0.55f, 16f);  // three quick hammer taps
                 case "piper": return Slide(520f, 1170f, 0.45f);                                                  // a rising fiddle slide
+                case "marcus": return Pings(new[] { 820f, 820f }, new[] { 0f, 0.18f }, 0.4f, 20f);               // two pencil taps
+                case "odalys": return Pings(new[] { 262f, 524f }, new[] { 0f, 0.12f }, 0.35f, 22f);              // a soft stethoscope tap
+                case "felix": return Slide(740f, 210f, 0.3f);                                                    // a bobber plop
+                case "dorian": return Snap();                                                                    // a twig snap
+                case "elara": return Pings(new[] { 2470f, 3135f }, new[] { 0f, 0.13f }, 0.3f, 45f);             // two needle clicks
+                case "ione": return Pings(new[] { 2093f, 3136f }, new[] { 0f, 0f }, 0.9f, 3.2f);                // a small desk bell
             }
             var h = (uint)Math.Abs(NpcInteractions.StableHash(npcId ?? "npc"));
             var root = 330f + h % 330;
@@ -121,6 +133,21 @@ namespace Farm.Gameplay
                 var env = Math.Min(1f, t * 12f) * (1f - t * 0.6f) * (t > 0.9f ? (1f - t) * 10f : 1f);
                 var saw = 2f * (float)(phase - Math.Floor(phase)) - 1f;
                 data[i] = (saw * 0.5f + (float)Math.Sin(2 * Math.PI * phase) * 0.5f) * env * 0.35f;
+            }
+            return data;
+        }
+
+        // A short dry crack: a burst of noise that dies away almost at once.
+        static float[] Snap()
+        {
+            var count = (int)(SampleRate * 0.14f);
+            var data = new float[count];
+            uint state = 88172645u;
+            for (var i = 0; i < count; i++)
+            {
+                state ^= state << 13; state ^= state >> 17; state ^= state << 5;
+                var noise = (state / (float)uint.MaxValue) * 2f - 1f;
+                data[i] = noise * (float)Math.Exp(-38f * i / SampleRate) * 0.8f;
             }
             return data;
         }

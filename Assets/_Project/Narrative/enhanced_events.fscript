@@ -1,0 +1,218 @@
+# Heart 8 scenes, quests, social profiles and reactions for the six Enhanced villagers (docs/narrative/BIBLE_ENHANCED.md). Compiled to zz_fs_enhanced.json.
+
+dialogue marcus.roof
+n0 marcus: Here's the plan. Pitch, rafters, shingles. I've drawn it nine times. I'm afraid it still won't hold.
+  expr thinking
+  next n1
+n1 marcus: What do you think I should do?
+  ? Help him measure. => r0 | friend:marcus,15 | flag:choice.roof.measure
+  ? Suggest a new design. => r1 | friend:marcus,10 | flag:choice.roof.design
+  ? Offer to hold the ladder. => r2 | friend:marcus,10 | flag:choice.roof.ladder
+r0 marcus: Measure with me. Yes. Hold the end of the tape. Twice. Then once more.
+  expr happy
+r1 marcus: A new design. I'd stopped asking. ...Show me the angle. Slowly.
+r2 marcus: The ladder. Plain, steady, necessary. That's the best offer I've had.
+  expr happy
+
+dialogue odalys.office
+n0 odalys: I advise everyone to rest. I take none of it. Tonight I'm trying. It's unfamiliar. Be gentle.
+  expr thinking
+  next n1
+n1 odalys: What's your professional opinion, [player]?
+  ? Insist she rests. => r0 | friend:odalys,10 | flag:choice.office.insist
+  ? Share the soup with her. => r1 | friend:odalys,15 | flag:choice.office.soup
+  ? Write her a prescription. => r2 | friend:odalys,10 | flag:choice.office.write
+r0 odalys: Insist? ...Fine. I'll rest. Under protest, with soup, and with a witness.
+r1 odalys: Soup, shared. That's the whole treatment. You've diagnosed me. Accurately.
+  expr happy
+r2 odalys: A prescription? For me? Hm. "Come back anyway." I'll follow it to the letter.
+  expr happy
+
+dialogue felix.big
+n0 -: Something very large tugs on Felix's line. It might be a fish. It might be the bottom of the pond.
+  next n1
+n1 felix: It's this big. Maybe bigger. What do we do?
+  ? Net it. => r0 | friend:felix,10 | flag:choice.big.net
+  ? Let it go. => r1 | friend:felix,15 | flag:choice.big.release
+  ? Measure it honestly. => r2 | friend:felix,10 | flag:choice.big.measure
+r0 felix: The net! Hold steady. ...There she is. A beauty. I'll never doubt your wrist again.
+  expr happy
+r1 felix: Let it go? ...Aye. A good fish deserves a long life. And a good story. Both stay.
+  expr happy
+r2 felix: Honestly. Hm. Eleven inches. ...It was this big a moment ago. I'm not saying it was your fault.
+  emote sweat
+
+dialogue dorian.notebook
+n0 -: Dorian takes a small, worn notebook from his coat. He holds it closed for a long moment.
+  next n1
+n1 dorian: My drawings. Mushrooms. Hundreds. You're the first. Please be kind.
+  ? Praise them. => r0 | friend:dorian,10 | flag:choice.notebook.praise
+  ? Ask for one. => r1 | friend:dorian,15 | flag:choice.notebook.ask
+  ? Draw one back. => r2 | friend:dorian,10 | flag:choice.notebook.draw
+r0 dorian: ...Thank you. Nobody's said. Not once. It's a good word. I'll keep it.
+  expr happy
+r1 dorian: One. For you. Take the best. It's the small brown one. It's me, really.
+  expr happy
+r2 dorian: You drew a mushroom. It has a face. ...I love it. Don't tell anyone.
+  expr happy
+
+dialogue elara.list
+n0 -: Elara unrolls a very long paper, covered in tiny writing and doodled boats.
+  next n1
+n1 elara: Places I've never been. Forty-one. I've crossed none off. What do you think?
+  ? Pick one together. => r0 | friend:elara,15 | flag:choice.list.pick
+  ? Add a place. => r1 | friend:elara,10 | flag:choice.list.add
+  ? Promise to visit. => r2 | friend:elara,10 | flag:choice.list.promise
+r0 elara: Together! The sea, from a boat. I'm circling it. I'm packing a sandwich. I'm already packing!
+  expr happy
+r1 elara: A new one! Forty-two! Oh, you've made my whole week. Don't tell Dr. Penn.
+  expr happy
+r2 elara: You promise? ...I'll write it down. In ink. And knit you a sock for the journey.
+  expr happy
+
+dialogue ione.shelf
+n0 -: At the back of the library stands a shelf of books, each with a small slip of paper tucked in. None has a name.
+  next n1
+n1 ione: Books I set aside for people who never came. I couldn't bear to shelve them. What would you do?
+  ? Take one for someone. => r0 | friend:ione,15 | flag:choice.shelf.take
+  ? Read one aloud. => r1 | friend:ione,10 | flag:choice.shelf.read
+  ? Leave a note in one. => r2 | friend:ione,10 | flag:choice.shelf.note
+r0 ione: Take one. ...For someone who'll come. Yes. That's what they were waiting for.
+  expr happy
+r1 ione: Aloud? I haven't heard these in a human voice for years. Go slowly. Please.
+  expr happy
+r2 ione: A note. In a book nobody's opened. ...It's the kindest thing anyone's done for this shelf.
+  expr happy
+
+
+addto npc.marcus.talk
+4 hearts:marcus>=3 && quest:marcus_planks=new && flag:met.marcus => marcus.planks.ask
+4 quest:marcus_planks=active => marcus.planks.remind
+5 quest:marcus_planks=active && has:resource.wood>=10 => marcus.planks.turnin
+dialogue marcus.planks.ask
+n0 marcus: Ten planks for the hall roof. Oak if you have it. I'd ask someone else, but you hold a ladder well.
+  next n1
+n1 marcus: Ten planks, then. I'll measure twice. You'll fetch once.
+  ? Yes, I'll bring it. => r0 | quest.start:marcus_planks
+  ? Not right now. => r1
+r0 marcus: Good. I'll be here.
+  expr happy
+r1 marcus: That's all right. Another time.
+
+dialogue marcus.planks.remind
+n0 marcus: Ten planks of wood for the hall roof. I'll measure twice.
+
+dialogue marcus.planks.turnin
+n0 marcus: Ten planks. Good grain. Straight. Thank you, [player]. The roof's a bit less nearly fixed.
+  + quest.done:marcus_planks
+  expr happy
+
+addto npc.odalys.talk
+4 hearts:odalys>=3 && quest:odalys_elderflower=new && flag:met.odalys => odalys.elder.ask
+4 quest:odalys_elderflower=active => odalys.elder.remind
+5 quest:odalys_elderflower=active && has:forage.elderflower>=3 => odalys.elder.turnin
+dialogue odalys.elder.ask
+n0 odalys: Three bunches of elderflower for the clinic. Fresh. For a tonic. I'd gather it myself, but I've a waiting room.
+  next n1
+n1 odalys: Three. Fresh. I'll prescribe you a cup of tea in return.
+  ? Yes, I'll bring it. => r0 | quest.start:odalys_elderflower
+  ? Not right now. => r1
+r0 odalys: Good. I'll be here.
+  expr happy
+r1 odalys: That's all right. Another time.
+
+dialogue odalys.elder.remind
+n0 odalys: Three elderflowers for the tonic. Fresh. I'll note them in the ledger.
+
+dialogue odalys.elder.turnin
+n0 odalys: Elderflower. Fresh, and in good order. Thank you, [player]. The clinic is in your debt, and I dislike debts.
+  + quest.done:odalys_elderflower
+  expr happy
+
+addto npc.felix.talk
+4 hearts:felix>=3 && quest:felix_bait=new && flag:met.felix => felix.bait.ask
+4 quest:felix_bait=active => felix.bait.remind
+5 quest:felix_bait=active && has:resource.bait>=5 => felix.bait.turnin
+dialogue felix.bait.ask
+n0 felix: Short on bait. Five, if you've them. The tide's turning, and so's my luck.
+  next n1
+n1 felix: Five bait. I'll catch something this big. Bigger, by tomorrow.
+  ? Yes, I'll bring it. => r0 | quest.start:felix_bait
+  ? Not right now. => r1
+r0 felix: Good. I'll be here.
+  expr happy
+r1 felix: That's all right. Another time.
+
+dialogue felix.bait.remind
+n0 felix: Five bait for the dawn. The tide's waiting.
+
+dialogue felix.bait.turnin
+n0 felix: Bait. Five. Perfect. Thank you, [player]. I'll fish for you. The first one's yours.
+  + quest.done:felix_bait
+  expr happy
+
+addto npc.dorian.talk
+4 hearts:dorian>=3 && quest:dorian_basket=new && flag:met.dorian => dorian.basket.ask
+4 quest:dorian_basket=active => dorian.basket.remind
+5 quest:dorian_basket=active && has:forage.mushroom>=3 => dorian.basket.turnin
+dialogue dorian.basket.ask
+n0 dorian: A basket. Three mushrooms. It's for the forest. Don't ask. Please.
+  next n1
+n1 dorian: Three. Bring them. I'll say thank you later. Quietly.
+  ? Yes, I'll bring it. => r0 | quest.start:dorian_basket
+  ? Not right now. => r1
+r0 dorian: Good. I'll be here.
+  expr happy
+r1 dorian: That's all right. Another time.
+
+dialogue dorian.basket.remind
+n0 dorian: Three mushrooms. For the basket.
+
+dialogue dorian.basket.turnin
+n0 dorian: Mushrooms. Three. Good. Thank you, [player]. The forest says so too.
+  + quest.done:dorian_basket
+  expr happy
+
+addto npc.elara.talk
+4 hearts:elara>=3 && quest:elara_wool=new && flag:met.elara => elara.wool.ask
+4 quest:elara_wool=active => elara.wool.remind
+5 quest:elara_wool=active && has:product.wool>=2 => elara.wool.turnin
+dialogue elara.wool.ask
+n0 elara: I'm out of wool! Two skeins, if you can. The scarf is at the length of a dog. It wants to be a horse.
+  next n1
+n1 elara: Two wool! I'll knit you something. A sock, probably.
+  ? Yes, I'll bring it. => r0 | quest.start:elara_wool
+  ? Not right now. => r1
+r0 elara: Good. I'll be here.
+  expr happy
+r1 elara: That's all right. Another time.
+
+dialogue elara.wool.remind
+n0 elara: Two wool for the scarf. It's already the length of a dog.
+
+dialogue elara.wool.turnin
+n0 elara: Wool! Soft and warm. Thank you, [player]! The scarf will now reach the next village.
+  + quest.done:elara_wool
+  expr happy
+
+addto npc.ione.talk
+4 hearts:ione>=3 && quest:ione_pearl=new && flag:met.ione => ione.pearl.ask
+4 quest:ione_pearl=active => ione.pearl.remind
+5 quest:ione_pearl=active && has:forage.pearl>=1 => ione.pearl.turnin
+dialogue ione.pearl.ask
+n0 ione: A pearl. One. For the reading room. I keep one in my favorite book, and it's tarnished. I'd like a new one.
+  next n1
+n1 ione: A pearl. Small, quiet, and round. I'll set a book aside for you.
+  ? Yes, I'll bring it. => r0 | quest.start:ione_pearl
+  ? Not right now. => r1
+r0 ione: Good. I'll be here.
+  expr happy
+r1 ione: That's all right. Another time.
+
+dialogue ione.pearl.remind
+n0 ione: One pearl for the reading room. I'll set a book aside.
+
+dialogue ione.pearl.turnin
+n0 ione: A pearl. Perfect. Quiet and round. Thank you, [player]. It's going in the front of a very old book.
+  + quest.done:ione_pearl
+  expr happy

@@ -1,0 +1,106 @@
+# Dr. Odalys Penn, the village doctor. Enhanced depth (docs/narrative/BIBLE_ENHANCED.md section 2). Formal, brisk, deadpan clinical; absurdly
+# specific cozy prescriptions; "Sit." and "Doctor's orders." Complete sentences up to 20 words. Cozy only. Closed Saturdays.
+
+addto npc.odalys.talk
+
+# ---- seasons ----
+0 season:spring => odalys.spring.1 cat=seasonal :: Spring brings sneezes, sprains and optimism. I treat all three with fluids and a firm tone.
+0 season:spring => odalys.spring.2 cat=seasonal :: Pollen season. Prescription: one handkerchief, one open window, and no heroics in the field.
+0 season:spring => odalys.spring.3 cat=seasonal tag=funny :: Every farmer announces they feel fine. Fine is not a symptom. I check anyway.
+0 season:summer => odalys.summer.1 cat=seasonal :: Summer: sunburn, thirst and bravado. Drink water. Wear a hat. This is not a suggestion.
+0 season:summer => odalys.summer.2 cat=seasonal :: The clinic's cooler than the street. Visitors are welcome. They are also, technically, loitering.
+0 season:summer => odalys.summer.3 cat=seasonal :: Heat tires the body before the mind notices. I advise a nap. I take one. Occasionally.
+0 season:fall => odalys.fall.1 cat=seasonal :: Fall harvest means backs, wrists and boasting. I prescribe a hot bath and silence.
+0 season:fall => odalys.fall.2 cat=seasonal :: Cooler air brings colds. Wear wool. Doctor's orders. Don't make me say it twice.
+0 season:fall => odalys.fall.3 cat=seasonal tag=wholesome :: I walk through the leaves after closing. It's not medicine. It simply works.
+0 season:winter => odalys.winter.1 cat=seasonal :: Winter: chills, chapped hands, and a waiting room full of people who came for the stove.
+0 season:winter => odalys.winter.2 cat=seasonal :: My birthday's in winter. I take a prescription for it. One hour of sunshine, one bowl of soup.
+0 season:winter => odalys.winter.3 cat=seasonal :: Frost makes the whole valley hold still. It's good for the lungs and for the thinking.
+
+# ---- weekdays ----
+0 weekday:mon => odalys.mon.1 cat=weekday :: Monday. The week's complaints arrive in order of volume. I triage by tone.
+0 weekday:tue => odalys.tue.1 cat=weekday :: Tuesday. Wren's closed, so half the village has nowhere to be unwell. Quiet clinic.
+0 weekday:wed => odalys.wed.1 cat=weekday :: Wednesday. Marcus will be on a bench with Bram, ignoring his back. I've left a note.
+0 weekday:thu => odalys.thu.1 cat=weekday :: Thursday. Felix's day off. His hands are chapped. He won't visit. I'll send salve.
+0 weekday:fri => odalys.fri.1 cat=weekday :: Friday. Everyone remembers their ailment before the weekend. It's a medical miracle.
+0 weekday:sat => odalys.sat.1 cat=weekday :: Saturday. The clinic is shut. I am, for the day, a layperson with opinions.
+0 weekday:sun => odalys.sun.1 cat=weekday :: Sunday. I take my own advice. Soup, a book and no patients. It's nearly effective.
+
+# ---- weather ----
+0 weather:sunny => odalys.sunny.1 cat=weather :: Fine weather. Everyone outdoors is a patient I won't see. I approve.
+0 weather:sunny => odalys.sunny.2 cat=weather :: Sun is the cheapest tonic. Take twenty minutes. Don't squint heroically.
+1 weather:rain => odalys.rain.2 cat=weather :: Rain. Wet feet cause colds. Keep yours dry, or I'll mention it twice.
+1 weather:rain => odalys.rain.3 cat=weather tag=wholesome :: A quiet rainy afternoon. The kettle ticks. Nobody's dying. I could grow fond of it.
+1 weather:storm => odalys.storm.1 cat=weather :: A storm. Stay in. If you can't, wear boots and sensible regrets.
+1 weather:storm => odalys.storm.2 cat=weather :: Thunder startles the nervous. Prescription: warm milk and counting seconds between flash and sound.
+1 weather:snow => odalys.snow.1 cat=weather :: Snow. Keep gloves on. Frostbite begins as pride and ends as an appointment.
+1 weather:snow => odalys.snow.2 cat=weather :: The clinic windows frost over. Elara draws things on them. I allow it.
+1 weather:wind => odalys.wind.1 cat=weather :: Wind. Hold your hat and your temper. Both blow away.
+1 weather:wind => odalys.wind.2 cat=weather :: Gusts bring grit to the eyes. I recommend squinting with dignity.
+
+# ---- time of day ----
+0 hour<10 => odalys.morning.1 cat=time :: Early. The first patient is always a surprise. Often it's me, apologizing to a kettle.
+0 hour<10 => odalys.morning.2 cat=time :: Morning rounds are quiet. I note the sky, the street and who looks tired.
+0 hour>=10 && hour<16 => odalys.midday.1 cat=time :: Midday. Busy. Please don't faint on the mat. It's just been scrubbed.
+0 hour>=10 && hour<16 => odalys.midday.2 cat=time :: Appointments run long. People start with a splinter and finish with a story.
+0 hour>=16 && hour<20 => odalys.evening.1 cat=time :: Closing soon. I'll write the day up and prescribe myself something suitably boring.
+0 hour>=16 && hour<20 => odalys.evening.2 cat=time :: Evening. The last patient has left. I've lined the bottles up. It's very calming.
+0 hour>=20 => odalys.late.1 cat=time :: Late. I'm reading. It's not a symptom. It's a habit.
+0 hour>=20 => odalys.late.2 cat=time :: Past closing, still lit. I do paperwork and drink tea. The tea is medicinal.
+0 map:Clinic => odalys.here.1 cat=place :: Sit. Not there, that's Elara's. The wobbly one's yours. It's a diagnostic chair.
+0 map:Clinic => odalys.here.2 cat=place tag=funny :: Every bottle is labeled. Elara added faces. I've decided they are "bedside manner".
+0 map:Clinic => odalys.here.3 cat=place :: The skeleton is for teaching. It also keeps the draft out of the corner.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.1 cat=tier :: You look well, [player]. I'd like that on record. I rarely say it out loud.
+0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.2 cat=tier tag=funny :: Elara says I smiled at you. It was a muscle spasm. I'm monitoring it.
+0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.3 cat=tier :: Sit. That's the closest thing I have to a warm welcome, and I mean it.
+0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.4 cat=tier :: Prescription: one cup of tea, ten minutes' conversation, and no talking about work.
+0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.5 cat=tier tag=wholesome :: Few patients visit when they're well. You do. It's a very good symptom.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.1 cat=tier :: I trust your opinion on soil, weather and, increasingly, on me.
+0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.2 cat=tier tag=wholesome :: You remind me why I took up this work. Not the cures. The company between them.
+0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.3 cat=tier :: Doctor's orders: take a day off. I'll take one too, and we'll compare notes.
+0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.4 cat=tier :: I don't sleep as I advise. You may report me to Elara. She keeps a list.
+0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.5 cat=tier :: The village is healthier than it seems. I count it every night. The numbers are kind.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:odalys>=9 => odalys.co.1 cat=tier tag=wholesome :: A doctor should be afraid of nothing. I am afraid you'll stop visiting. I've prescribed myself courage.
+0 hearts:odalys>=9 => odalys.co.2 cat=tier :: I measure the village by its laughter. Lately it's louder, and half of it is yours.
+0 hearts:odalys>=9 => odalys.co.3 cat=tier tag=funny :: If I wrote you a letter, it would be a case history. Mostly good. A few notes on posture.
+0 hearts:odalys>=9 => odalys.co.4 cat=tier :: Thank you, [player]. That's the whole prescription. Take it daily.
+
+# ---- moods ----
+1 mood:odalys=lonely => odalys.lonely.1 cat=mood :: Quiet clinic. I reorganized the shelves. Then I reorganized them back. It passed the time.
+1 mood:odalys=tired => odalys.tired.1 cat=mood :: A long day. I'm giving myself my own advice, and refusing to listen.
+1 mood:odalys=delighted => odalys.delighted.1 cat=mood expr=happy :: A good day. Everyone healthy, nobody stubborn, and Elara forgot a joke. Remarkable.
+1 mood:odalys=mischievous => odalys.mischief.1 cat=mood expr=happy :: I hung a sign by the door that says "Cheerful Patients Only". Nobody's come in. Fascinating.
+1 mood:odalys=worried => odalys.worried.1 cat=mood expr=sad :: A patient hasn't come back for a week. I'll walk by tomorrow. Carefully. For their health.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => odalys.farm.1 cat=reactive :: Your fields look healthy. Plants don't lie about symptoms. It's why I trust them.
+0 farm:animals>=1 => odalys.farm.2 cat=reactive :: Animals are good for you. Mostly. Wash your hands. I'll say it once more.
+2 festival.in:<=3 && festival.in:>0 => odalys.fest.1 cat=reactive :: Festival soon. I'll be present. In the sense that I will stand next to the soup.
+2 festival.in:==0 => odalys.fest.2 cat=reactive :: Festival day. I have prescribed myself three treats. For safety.
+2 birthday.in:odalys<=3 && birthday.in:odalys>0 => odalys.bday.1 cat=reactive :: My birthday is near. I observe it with soup. If you'd like to join, sit.
+3 birthday.in:odalys==0 => odalys.bday.2 cat=reactive expr=embarrassed emote=sweat :: You remembered. I'll note it in a file labeled "Unexpected". Thank you.
+2 birthday.in:elara<=2 && birthday.in:elara>=0 => odalys.bday.3 cat=reactive :: Elara's birthday approaches. I've hidden the good tea. She'll find it. She always does.
+
+# ---- rarities ----
+0 ~ => odalys.rare.1 cat=rare rarity=rare tag=funny :: I once prescribed laughter to a very serious man. He filed a complaint. It was a good laugh.
+0 ~ => odalys.rare.2 cat=rare rarity=rare tag=wholesome :: I keep a drawer of thank-you notes. I don't read them often. I just open it.
+0 hearts:odalys>=5 => odalys.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Sit. (She taps her stethoscope twice.) I wrote you a prescription. It says "Come back anyway."
+
+# ---- gifts ----
+say npc.odalys.gift.item.forage.elderflower odalys: Elderflower. Fresh. For the tonic and, I confess, for the smell. Thank you.
+say npc.odalys.gift.item.crop.spinach odalys: Spinach. A medicine that tastes like a vegetable. I'll eat it and call it a victory.
+say npc.odalys.gift.item.food.salad odalys: Salad. A balanced gift and a balanced meal. I'll have it at my desk, for efficiency.
+say npc.odalys.gift.item.crop.kale odalys: Kale. Nutritious and ill-tempered. I'll respect it, and offer it to Elara.
+say npc.odalys.gift.item.forage.snowdrop odalys: A snowdrop. Fragile, quiet and early. I'll put it in a glass by the window.
+say npc.odalys.gift.item.crop.cauliflower odalys: Cauliflower. A plain, sensible vegetable. I approve of both qualities.
+say npc.odalys.gift.item.resource.slime odalys: Slime. A specimen? I'll put it in a jar and label it. Then in a drawer. Far away.
+say npc.odalys.gift.item.resource.bone odalys: A bone. Mine to keep? Fine. I'll label it. Skeleton will have a roommate.
+say npc.odalys.gift.item.forage.clam odalys: A clam. Briny. Cold. I'll pass it to Felix with my compliments and a very wide berth.
+say npc.odalys.gift.cat.Fish odalys: Fish. Felix's department. I'll walk it over, wash my hands twice, and prescribe myself soup.
+say npc.odalys.gift.repeat odalys: Another one. Thank you. I'll note the pattern, in the file marked "Generous".

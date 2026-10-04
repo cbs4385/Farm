@@ -1,0 +1,105 @@
+# Elara Finch, the nurse. Enhanced depth (docs/narrative/BIBLE_ENHANCED.md section 5). Bright, bouncy, gentle medical puns; the knitting;
+# "Keep your socks on." Up to 20 words, at most one exclamation mark a line. Cozy only. Closed Saturdays (the beach).
+
+addto npc.elara.talk
+
+# ---- seasons ----
+0 season:spring => elara.spring.1 cat=seasonal :: Spring! Sneezes, sprains and a lot of "I'm fine, really". I love the optimism.
+0 season:spring => elara.spring.2 cat=seasonal :: My birthday's in spring. I knit myself a hat to celebrate. It has a very small hat on it.
+0 season:spring => elara.spring.3 cat=seasonal tag=funny :: Everyone's allergic to something this month. Mostly work. I prescribe a nap and tea.
+0 season:summer => elara.summer.1 cat=seasonal :: Summer means sunburn and sand in the plasters. I keep a bucket of cold water for dramatic exits.
+0 season:summer => elara.summer.2 cat=seasonal :: The clinic's a cool corner. Half the village drops in to "check their pulse". It's the fan.
+0 season:summer => elara.summer.3 cat=seasonal :: Saturdays I'm at the beach. Sea air, sandwiches, a very long knitting row. Bliss.
+0 season:fall => elara.fall.1 cat=seasonal :: Fall: scrapes, sniffles and a lot of pumpkin related injuries. Don't ask. Do ask. I love stories.
+0 season:fall => elara.fall.2 cat=seasonal :: The clinic smells of cinnamon and cough drops. I'd bottle it, if I could.
+0 season:fall => elara.fall.3 cat=seasonal tag=wholesome :: Harvest week, everybody's tired and proud. Best patients ever. They bring cake.
+0 season:winter => elara.winter.1 cat=seasonal :: Winter: chills, chapped lips and one very long scarf in progress. It's now the length of a cat.
+0 season:winter => elara.winter.2 cat=seasonal :: The waiting room's the warmest place in town. People "come for the cough". They stay for the tea.
+0 season:winter => elara.winter.3 cat=seasonal :: Snow on the sill, tea in hand, a baby sock on the needles. I'm happy. Don't tell Dr. Penn.
+
+# ---- weekdays ----
+0 weekday:mon => elara.mon.1 cat=weekday :: Monday! New bandages, new gossip, new reasons to say "keep your socks on".
+0 weekday:tue => elara.tue.1 cat=weekday :: Tuesday. Wren's shut. Everyone has nowhere to be sad. I've got extra tea.
+0 weekday:wed => elara.wed.1 cat=weekday :: Wednesday. Marcus is on a bench with Bram. I'm told they're communicating. In silence. Brilliant.
+0 weekday:thu => elara.thu.1 cat=weekday :: Thursday. Felix is off. His hands are always cold. I knit him mittens. He pretends he hates them.
+0 weekday:fri => elara.fri.1 cat=weekday :: Friday! The week's aches arrive all at once. I love a rush. It's like a very polite flood.
+0 weekday:sat => elara.sat.1 cat=weekday :: Saturday. The clinic's shut. I'm on the beach with a sandwich and a very long scarf.
+0 weekday:sun => elara.sun.1 cat=weekday :: Sunday. A quiet day. I tidy the shelves and give each bottle a pep talk.
+
+# ---- weather ----
+0 weather:sunny => elara.sunny.1 cat=weather :: Sunny! Everybody outside means fewer sniffles. I miss the company, though.
+0 weather:sunny => elara.sunny.2 cat=weather :: Perfect weather for a walk. I'm prescribing one for you. Doctor's orders. Don't tell Dr. Penn I said so.
+1 weather:rain => elara.rain.2 cat=weather :: Rain means sniffles. I'll be busy. I've put the kettle on for all of them.
+1 weather:rain => elara.rain.3 cat=weather tag=wholesome :: A rainy day: needles, tea and drip on the glass. It's like being tucked in.
+1 weather:storm => elara.storm.1 cat=weather :: Thunder! I tell nervous patients it's the sky clearing its throat. Works about half the time.
+1 weather:storm => elara.storm.2 cat=weather :: A storm is the best time to knit. The clicks keep time with the thunder.
+1 weather:snow => elara.snow.1 cat=weather :: Snow! Everyone's cheeks are pink. It's a free health check.
+1 weather:snow => elara.snow.2 cat=weather :: I drew a face on the frosty window. Dr. Penn pretended not to see. She waved at it later.
+1 weather:wind => elara.wind.1 cat=weather :: Windy. Hats off, hair everywhere. The clinic door keeps opening on its own. I say hello to it.
+1 weather:wind => elara.wind.2 cat=weather :: Gusty day. The scarf's flying. It's longer than the clinic. It's starting to look intentional.
+
+# ---- time of day ----
+0 hour<10 => elara.morning.1 cat=time :: Good morning! The first patient's always the kettle. It's been waiting since dawn.
+0 hour<10 => elara.morning.2 cat=time :: Early. I'm winding yarn and humming. The clinic hums back. It's a quiet duet.
+0 hour>=10 && hour<16 => elara.midday.1 cat=time :: Midday. A cough, a splinter, a very dramatic sneeze. I've seen all three before lunch.
+0 hour>=10 && hour<16 => elara.midday.2 cat=time :: Busy hour. Please hold your wound with dignity. I'll be right with you.
+0 hour>=16 && hour<20 => elara.evening.1 cat=time :: Nearly closing. I roll the bandages and the day. Both neat. Both a little crooked.
+0 hour>=16 && hour<20 => elara.evening.2 cat=time :: Evening. The last patient leaves smiling. That's the only medicine I'm sure about.
+0 hour>=20 => elara.late.1 cat=time :: Late. I knit by the lamp. Click, click, clack. A very small, very sleepy symphony.
+0 hour>=20 => elara.late.2 cat=time :: Past closing. The clinic's quiet, the tea's cold and I'm three rows from the end.
+0 map:Clinic => elara.here.1 cat=place :: Sit anywhere. Not on the skeleton's chair. He's shy.
+0 map:Clinic => elara.here.2 cat=place tag=funny :: I put a tiny hat on the plant. Dr. Penn took it off. I put it back. We're at an impasse.
+0 map:Beach => elara.here.3 cat=place :: The sea's the only doctor I never argue with. It always says "rest".
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:elara>=3 && hearts:elara<6 => elara.fr.1 cat=tier :: Hey, [player]! You look better every week. That's my favorite kind of good news.
+0 hearts:elara>=3 && hearts:elara<6 => elara.fr.2 cat=tier :: I made extra tea. Stay a minute? It's a very small prescription.
+0 hearts:elara>=3 && hearts:elara<6 => elara.fr.3 cat=tier tag=funny :: Dr. Penn says I smile too much at patients. I say it's the best remedy. She's undecided.
+0 hearts:elara>=3 && hearts:elara<6 => elara.fr.4 cat=tier :: I knit you something. It's a sock. Don't ask what it's for. It's just a sock.
+0 hearts:elara>=3 && hearts:elara<6 => elara.fr.5 cat=tier tag=wholesome :: You're one of my favorite people to see. And I see a lot of people.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:elara>=6 && hearts:elara<9 => elara.cl.1 cat=tier :: If you ever feel low, come find me. I'll have tea and nothing to fix.
+0 hearts:elara>=6 && hearts:elara<9 => elara.cl.2 cat=tier tag=wholesome :: I keep a list of places I've never been. The beach is at the top. You're at the bottom, in pencil.
+0 hearts:elara>=6 && hearts:elara<9 => elara.cl.3 cat=tier :: I tell the village to rest. I'm terrible at it. You're allowed to tell me.
+0 hearts:elara>=6 && hearts:elara<9 => elara.cl.4 cat=tier :: Dr. Penn says I'm "a bit much". I told her that's the diagnosis. She smiled.
+0 hearts:elara>=6 && hearts:elara<9 => elara.cl.5 cat=tier :: I knit something for everyone in Wetherell. Yours is the longest. It's also a surprise.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:elara>=9 => elara.co.1 cat=tier tag=wholesome :: I wanted to see the sea from a boat. Then I met you. Now I want a boat for two.
+0 hearts:elara>=9 => elara.co.2 cat=tier :: I used to be afraid of staying forever. Now I'd stay, if you're nearby.
+0 hearts:elara>=9 => elara.co.3 cat=tier tag=funny :: If I wrote you a letter it'd be a very long scarf. With a postscript at the far end.
+0 hearts:elara>=9 => elara.co.4 cat=tier :: Thank you, [player]. Keep your socks on. And keep coming by.
+
+# ---- moods ----
+1 mood:elara=lonely => elara.lonely.1 cat=mood :: Quiet clinic. I knitted a sock for the kettle. It didn't say thanks. Rude.
+1 mood:elara=tired => elara.tired.1 cat=mood :: A long day. My needles are dragging. I'll cast off early and nap with the cat.
+1 mood:elara=delighted => elara.delighted.1 cat=mood expr=happy :: Best day ever! Three patients got better, and one didn't even want to leave! I'm glowing!
+1 mood:elara=mischievous => elara.mischief.1 cat=mood expr=happy :: I put a tiny hat on Dr. Penn's skeleton. She noticed. She said nothing. She's on to me.
+1 mood:elara=worried => elara.worried.1 cat=mood expr=sad :: A patient didn't come for their check-up. I'll visit with soup. It's my favorite kind of nosy.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => elara.farm.1 cat=reactive :: Your crops look so healthy! I'd write you a clean bill of fields.
+0 farm:animals>=1 => elara.farm.2 cat=reactive :: Animals! Lovely. Keep a basin and a very large bandage handy. For the chicken's pride.
+2 festival.in:<=3 && festival.in:>0 => elara.fest.1 cat=reactive :: Festival soon! I'll bring the first-aid kit and a very festive scarf.
+2 festival.in:==0 => elara.fest.2 cat=reactive :: Festival day! I'm off duty. My patients have been warned to be fine.
+2 birthday.in:elara<=3 && birthday.in:elara>0 => elara.bday.1 cat=reactive :: My birthday's close! I'm not hinting. I'm knitting a very pointed hat.
+3 birthday.in:elara==0 => elara.bday.2 cat=reactive expr=embarrassed emote=sweat :: You remembered! I'm blushing in knit-and-purl. Thank you!
+2 birthday.in:odalys<=2 && birthday.in:odalys>=0 => elara.bday.3 cat=reactive :: Dr. Penn's birthday. I knitted her a scarf in the color of "very sensible". She'll love it.
+
+# ---- rarities ----
+0 ~ => elara.rare.1 cat=rare rarity=rare tag=funny :: I once knitted a sock for a chair. The chair wore it with pride. Dr. Penn took a photo.
+0 ~ => elara.rare.2 cat=rare rarity=rare tag=wholesome :: The first person I ever bandaged hugged me. I've been chasing that feeling ever since.
+0 hearts:elara>=5 => elara.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Close your eyes. (Two needles click.) Now open them. It's a tiny scarf for your favorite chicken.
+
+# ---- gifts ----
+say npc.elara.gift.item.forage.snowdrop elara: A snowdrop! The brave little flower. I'll press it in my notebook, next to the first one.
+say npc.elara.gift.item.crop.cranberry elara: Cranberries! Tart and shiny. I'll make jam, and then I'll tell everyone it was my idea.
+say npc.elara.gift.item.artisan.jam elara: Jam! Sticky, sweet and perfect on toast. I'm sharing it. Possibly with myself.
+say npc.elara.gift.item.forage.seashell elara: A seashell! I'll hold it to my ear. It's saying "Take a vacation". I believe it.
+say npc.elara.gift.item.crop.spinach elara: Spinach. Strong and sensible. Dr. Penn will approve. I'll eat it quickly.
+say npc.elara.gift.item.artisan.juice elara: Juice! For a very long afternoon. I'll drink a tiny bit and hide the rest from the cat.
+say npc.elara.gift.item.resource.bone elara: A bone! Eek. I'll put it in the anatomy drawer, next to the other, worse ones.
+say npc.elara.gift.item.resource.bat_wing elara: A bat wing! I'll knit it a hat. A very small, very dignified one.
+say npc.elara.gift.item.resource.slime elara: Slime! It's wobbling at me. I'll put it in a jar and call it "Brenda". Brenda stays.
+say npc.elara.gift.repeat elara: Another one! You're spoiling me. I'll knit you something back. It'll be a sock. It's always a sock.

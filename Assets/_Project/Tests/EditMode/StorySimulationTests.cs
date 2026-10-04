@@ -10,7 +10,7 @@ namespace Farm.Tests
     // fails when the measurable targets of docs/NPC_DIALOGUE_PLAN.md 2.2 and 2.3 regress. The report goes to Builds/story_simulation.md.
     public class StorySimulationTests
     {
-        static readonly string[] Slice = { "wren", "hazel", "bram", "tilda", "juno", "piper" };
+        static readonly string[] Slice = { "wren", "hazel", "bram", "tilda", "juno", "piper", "marcus", "odalys", "felix", "dorian", "elara", "ione" };
 
         StoryContent _story;
         SimReport _report;
@@ -21,7 +21,7 @@ namespace Farm.Tests
             Conditions.ClearCustomForTests();
             StoryConditions.Register();
             _story = StoryContent.LoadFromResources();
-            var homes = new System.Collections.Generic.Dictionary<string, string> { ["wren"] = "Saloon", ["hazel"] = "Library", ["bram"] = "Blacksmith", ["tilda"] = "GeneralStore", ["juno"] = "Blacksmith", ["piper"] = "Saloon" };
+            var homes = new System.Collections.Generic.Dictionary<string, string> { ["wren"] = "Saloon", ["hazel"] = "Library", ["bram"] = "Blacksmith", ["tilda"] = "GeneralStore", ["juno"] = "Blacksmith", ["piper"] = "Saloon", ["marcus"] = "Carpenter", ["odalys"] = "Clinic", ["felix"] = "Beach", ["dorian"] = "Forest", ["elara"] = "Clinic", ["ione"] = "Library" };
             var birthdays = Farm.Gameplay.NpcDefaults.CreateAll().Where(n => Slice.Contains(n.Id)).ToDictionary(n => n.Id, n => (n.BirthdaySeason, n.BirthdayDay));
             _report = StorySimulation.Run(_story, Slice, 2, 12345, homes, birthdays);
             Directory.CreateDirectory("Builds");

@@ -123,6 +123,9 @@ namespace Farm.Tests
             new object[] { "juno", MapIds.Blacksmith, "juno_friend", 15 },
             new object[] { "piper", MapIds.Saloon, "piper_heart4", 50 }, new object[] { "piper", MapIds.Saloon, "piper_heart6", 60 },
             new object[] { "piper", MapIds.Saloon, "piper_heart8", 70 }, new object[] { "piper", MapIds.Saloon, "piper_heart10", 80 },
+            new object[] { "marcus", MapIds.Carpenter, "marcus_heart8", 70 }, new object[] { "odalys", MapIds.Clinic, "odalys_heart8", 70 },
+            new object[] { "felix", MapIds.Beach, "felix_heart8", 70 }, new object[] { "dorian", MapIds.Forest, "dorian_heart8", 70 },
+            new object[] { "elara", MapIds.Clinic, "elara_heart8", 70 }, new object[] { "ione", MapIds.Library, "ione_heart8", 70 },
             new object[] { "piper", MapIds.Saloon, "piper_friend", 15 },
         };
 
@@ -166,6 +169,12 @@ namespace Farm.Tests
         [UnityTest, Timeout(600000)] public IEnumerator Tilda_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("tilda"); }
         [UnityTest, Timeout(600000)] public IEnumerator Juno_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("juno"); }
         [UnityTest, Timeout(600000)] public IEnumerator Piper_AllScenesAndEveryChoice_PlayThrough() { yield return RunVillager("piper"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Marcus_Heart8_PlaysThroughWithEveryChoice() { yield return RunVillager("marcus"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Odalys_Heart8_PlaysThroughWithEveryChoice() { yield return RunVillager("odalys"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Felix_Heart8_PlaysThroughWithEveryChoice() { yield return RunVillager("felix"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Dorian_Heart8_PlaysThroughWithEveryChoice() { yield return RunVillager("dorian"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Elara_Heart8_PlaysThroughWithEveryChoice() { yield return RunVillager("elara"); }
+        [UnityTest, Timeout(600000)] public IEnumerator Ione_Heart8_PlaysThroughWithEveryChoice() { yield return RunVillager("ione"); }
 
         [UnityTest]
         public IEnumerator HazelsOverdue_SucceedsWithBlackberries_AndIsOfferedAgainWithout()

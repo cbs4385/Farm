@@ -184,7 +184,7 @@ namespace Farm.Tests
             Effects.Run(_s, "topic.done:wren.stool");
             Run("hearts wren 3");
             StringAssert.Contains("asked already (once only)", Run("topics wren").Split('\n').First(l => l.StartsWith("wren.stool")));
-            StringAssert.Contains("no topics", Run("topics marcus"));
+            StringAssert.Contains("marcus.joinery", Run("topics marcus"));       // every villager has a topic now
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace Farm.Tests
             StringAssert.Contains("loves [joke]", text);
             StringAssert.Contains("Actions today: 0 of 2", text);
             foreach (var action in SocialActions.All) StringAssert.Contains(action + ":", text);
-            StringAssert.Contains("has no profile", Run("social marcus"));
+            StringAssert.Contains("loves [advice]", Run("social marcus"));       // every villager has a profile now
             Effects.Run(_s, "social.done:wren,joke,great");
             StringAssert.Contains("Actions today: 1 of 2", Run("social wren"));
         }

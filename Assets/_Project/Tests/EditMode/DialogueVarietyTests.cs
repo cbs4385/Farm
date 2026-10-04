@@ -51,7 +51,7 @@ namespace Farm.Tests
             w.Hearts_[npc] = hearts;
             w.Flags.Add("hazel.book");              // one-shot scenes are spent, so only the ordinary pool is measured
             w.Quests["bram_stone"] = "done";        // an open offer deliberately outranks every chat line
-            foreach (var q in new[] { "wren_stew", "wren_cider", "wren_full_house", "hazel_shelf", "hazel_pressed", "hazel_notes", "bram_copper", "bram_hooks", "tilda_display", "tilda_cauliflower", "tilda_pie_week", "juno_ore", "juno_charcoal", "juno_gold", "piper_strings", "piper_flowers", "piper_juice" }) w.Quests[q] = "done";
+            foreach (var q in new[] { "wren_stew", "wren_cider", "wren_full_house", "hazel_shelf", "hazel_pressed", "hazel_notes", "bram_copper", "bram_hooks", "tilda_display", "tilda_cauliflower", "tilda_pie_week", "juno_ore", "juno_charcoal", "juno_gold", "piper_strings", "piper_flowers", "piper_juice", "marcus_planks", "odalys_elderflower", "felix_bait", "dorian_basket", "elara_wool", "ione_pearl" }) w.Quests[q] = "done";
             return w;
         }
 
@@ -83,7 +83,7 @@ namespace Farm.Tests
                     heard.UnionWith(Heard(npc, Met(npc, 6, Season.Spring, "sunny", 12, day)));
                 foreach (var weather in new[] { "storm", "snow", "wind" })
                     heard.UnionWith(Heard(npc, Met(npc, 6, Season.Spring, weather, 12)));
-                foreach (var map in new[] { "Saloon", "Library", "Blacksmith", "GeneralStore", "Farm" })
+                foreach (var map in new[] { "Saloon", "Library", "Blacksmith", "GeneralStore", "Carpenter", "Clinic", "Forest", "Beach", "Farm" })
                 {
                     var there = Met(npc, 6);
                     there.MapName = map;

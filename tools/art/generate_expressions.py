@@ -22,6 +22,12 @@ LOOK = {
     "tilda": "Tilda Ashby, the general store owner: warm motherly woman, green apron over a cream blouse, chestnut hair in a bun, round spectacles",
     "juno": "Juno Hale, the blacksmith's apprentice: teenage girl, oversized apron, auburn hair in a short ponytail, grimy goggles on her forehead",
     "piper": "Piper Vance, the saloon musician: lanky young woman, mustard coat, black curly hair, a fiddle on her back",
+    "marcus": "Marcus Dell, the carpenter: sturdy man, brown work vest, flat cap, a pencil on his ear, tool belt",
+    "odalys": "Dr. Odalys Penn, the village doctor: tall woman, long white coat, dark hair pinned up, small round pendant; kind but unreadable",
+    "felix": "Felix Hartwell, the fishmonger: easygoing man, blue oilskin jacket, yellow sou'wester hat, fishing net on his back",
+    "dorian": "Dorian Lake, the forager: quiet young man, moss-green coat with a hood down, grey scarf, a small basket of mushrooms on his arm",
+    "elara": "Elara Finch, the clinic nurse: gentle woman, pale blue uniform and cap, dark purple hair in twin tails, a small satchel of herbs",
+    "ione": "Ione Fairweather, the librarian: slender woman, lavender cardigan, golden hair in a braid, a pencil behind her ear, holding a book",
     "bram": "Bram Hollis, the blacksmith: broad, bearded man, grey work apron, dark hair, rolled sleeves, a soot smudge on one cheek",
 }
 FEEL = {
@@ -58,7 +64,7 @@ def prompt_for(npc, use_ref=True):
             f"({LOOK[npc]}) in a perfect 3 by 3 grid that fills the entire image edge to edge. Every portrait is a square cell touching its "
             "neighbours directly with NO gaps, NO borders and NO frames. Same character, same face shape, hair, clothes, colours and slight "
             "three-quarter angle and framing in every cell; only the expression changes. Each cell has the same plain soft warm colour "
-            "backdrop as the reference. Left to right, top to bottom:\n" + "\n".join(lines) +
+            "backdrop as the reference, filling the whole cell. ABSOLUTELY NO frame lines, outlines, borders, gutters or white margins anywhere: the backdrops of the nine cells meet each other and the image edge directly. Left to right, top to bottom:\n" + "\n".join(lines) +
             "\nNo text, no labels, no watermark. NEGATIVE: photorealism, 3D render, smooth gradients, anti-aliased edges, blur, black outlines, "
             "neon colours, scary faces, extra limbs, different art style, different character.")
 

@@ -1,0 +1,142 @@
+{
+  "eventsFromTemplates": [
+    {
+      "id": "marcus_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "marcus",
+        "map": "Carpenter",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:marcus>=8 && flag:event.marcus_heart5 && !weekday:wed && hour>=9 && hour<17",
+        "reward": [
+          "friend:marcus,70"
+        ],
+        "intro": "event.marcus_heart8.intro",
+        "talk": "marcus.roof",
+        "after": "event.marcus_heart8.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.marcus_heart8",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "odalys_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "odalys",
+        "map": "Clinic",
+        "px": 6,
+        "py": 2,
+        "when": "hearts:odalys>=8 && flag:event.odalys_heart5 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:odalys,70"
+        ],
+        "intro": "event.odalys_heart8.intro",
+        "talk": "odalys.office",
+        "after": "event.odalys_heart8.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.odalys_heart8",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "felix_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "felix",
+        "map": "Beach",
+        "px": 11,
+        "py": 10,
+        "when": "hearts:felix>=8 && flag:event.felix_heart5 && !weekday:thu && hour>=6 && hour<14",
+        "reward": [
+          "friend:felix,70"
+        ],
+        "intro": "event.felix_heart8.intro",
+        "talk": "felix.big",
+        "after": "event.felix_heart8.after",
+        "emote": "sweat"
+      },
+      "event": {
+        "titleKey": "memory.felix_heart8",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "dorian_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "dorian",
+        "map": "Forest",
+        "px": 19,
+        "py": 11,
+        "when": "hearts:dorian>=8 && flag:event.dorian_heart5 && hour>=8 && hour<17",
+        "reward": [
+          "friend:dorian,70"
+        ],
+        "intro": "event.dorian_heart8.intro",
+        "talk": "dorian.notebook",
+        "after": "event.dorian_heart8.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.dorian_heart8",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "elara_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "elara",
+        "map": "Clinic",
+        "px": 3,
+        "py": 2,
+        "when": "hearts:elara>=8 && flag:event.elara_heart5 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:elara,70"
+        ],
+        "intro": "event.elara_heart8.intro",
+        "talk": "elara.list",
+        "after": "event.elara_heart8.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.elara_heart8",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "ione_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "ione",
+        "map": "Library",
+        "px": 6,
+        "py": 4,
+        "when": "hearts:ione>=8 && flag:event.ione_heart5 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:ione,70"
+        ],
+        "intro": "event.ione_heart8.intro",
+        "talk": "ione.shelf",
+        "after": "event.ione_heart8.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.ione_heart8",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    }
+  ]
+}

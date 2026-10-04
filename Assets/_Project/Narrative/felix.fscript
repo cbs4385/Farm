@@ -1,0 +1,104 @@
+# Felix Hartwell, the fish stall. Enhanced depth (docs/narrative/BIBLE_ENHANCED.md section 3). Salty, slow, laconic; the patient tall tale;
+# "You should've seen the other one." Plain sea-and-bait metaphors, up to 18 words. Cozy only. Fish stall 06:00-14:00, closed Thursdays.
+
+addto npc.felix.talk
+
+# ---- seasons ----
+0 season:spring => felix.spring.1 cat=seasonal :: Spring tide. The shallows are full of nonsense and minnows. I love every second.
+0 season:spring => felix.spring.2 cat=seasonal :: Cold water, warm sun. The perch don't know what to think. Neither do I.
+0 season:spring => felix.spring.3 cat=seasonal tag=funny :: Caught a trout this big last week. Bigger, now that I've thought about it.
+0 season:summer => felix.summer.1 cat=seasonal :: Summer. The beach is full of folk who think fish come when called. I let them try.
+0 season:summer => felix.summer.2 cat=seasonal :: Long evenings, slow lines. A man could fish till he forgets what he wanted.
+0 season:summer => felix.summer.3 cat=seasonal :: My birthday's in summer. I fish. Nothing grand. If the tuna comes, I'll thank it.
+0 season:fall => felix.fall.1 cat=seasonal :: Fall runs. The river's thick with them. You can almost hear them thinking.
+0 season:fall => felix.fall.2 cat=seasonal :: Cooler water, hungrier fish. A good month for patience and a warm hat.
+0 season:fall => felix.fall.3 cat=seasonal tag=wholesome :: I like fall dawn best. Mist on the pond, nobody about. Just me and the line.
+0 season:winter => felix.winter.1 cat=seasonal :: Winter. The pond's quiet. The beach is quieter. I cast anyway. It's company.
+0 season:winter => felix.winter.2 cat=seasonal :: Cold hands, slow tide. A flask of something warm and a long story. That's winter.
+0 season:winter => felix.winter.3 cat=seasonal :: The sturgeon sleeps in winter. I tip my hat to it each morning. It never answers.
+
+# ---- weekdays ----
+0 weekday:mon => felix.mon.1 cat=weekday :: Monday. Fresh catch, fresh gossip. The first goes faster than the second.
+0 weekday:tue => felix.tue.1 cat=weekday :: Tuesday. Wren's shut, so I sit with my own cooking. A sad fish, but mine.
+0 weekday:wed => felix.wed.1 cat=weekday :: Wednesday. Marcus is sawing something quiet. I can hear it from the dock. It's soothing.
+0 weekday:thu => felix.thu.1 cat=weekday :: Thursday. Stall's shut. I'm on the pond. If you find me, bring bait and an opinion.
+0 weekday:fri => felix.fri.1 cat=weekday :: Friday. Everyone wants fish for the weekend. I've named the good ones. They're not for sale.
+0 weekday:sat => felix.sat.1 cat=weekday :: Saturday. Market day. The fish and I attract a crowd. It's mostly curious cats.
+0 weekday:sun => felix.sun.1 cat=weekday :: Sunday. The tide table's my church. I read it slowly and take the day off.
+
+# ---- weather ----
+0 weather:sunny => felix.sunny.1 cat=weather :: Fine day. Fish dive deep when it's bright. I'm not offended. I'm patient.
+0 weather:sunny => felix.sunny.2 cat=weather :: Sun on the water. Looks like a thousand silver coins. All of them lies.
+1 weather:rain => felix.rain.2 cat=weather :: Rain's the best time. The fish forget to be careful. So do I, a little.
+1 weather:rain => felix.rain.3 cat=weather tag=wholesome :: Wet hat, warm flask, steady line. If a day could be a person, it'd be this one.
+1 weather:storm => felix.storm.1 cat=weather :: Storm on the water. I tie the boat twice and talk it down. It listens.
+1 weather:storm => felix.storm.2 cat=weather :: Lightning makes the whole pond flinch. The fish go quiet. I respect that.
+1 weather:snow => felix.snow.1 cat=weather :: Snow on the pier. The gulls look offended. I tell them I'm sorry.
+1 weather:snow => felix.snow.2 cat=weather :: Everything's quiet under snow. Even the tide sounds like it's whispering.
+1 weather:wind => felix.wind.1 cat=weather :: Wind on the beach. The line sings. A good sound, a bad cast.
+1 weather:wind => felix.wind.2 cat=weather :: Gusts blow the bait off the hook. I'm told it's a metaphor. I'm told a lot.
+
+# ---- time of day ----
+0 hour<10 => felix.morning.1 cat=time :: Dawn's the best hour. The water's still deciding whether to be awake.
+0 hour<10 => felix.morning.2 cat=time :: Early light. First cast. First hope. Nothing's wasted yet.
+0 hour>=10 && hour<16 => felix.midday.1 cat=time :: Midday. The stall's closing, the fish are thinking, and I'm eating a sandwich the size of a catfish.
+0 hour>=10 && hour<16 => felix.midday.2 cat=time :: Slow hour. A good one for mending and lies.
+0 hour>=16 && hour<20 => felix.evening.1 cat=time :: Evening tide. The light goes copper. A man could cry if he'd not promised not to.
+0 hour>=16 && hour<20 => felix.evening.2 cat=time :: Sun's down on the pond. The frogs take over. They know the whole tune.
+0 hour>=20 => felix.late.1 cat=time :: Late. The moon does strange things to the pond fish. I just watch.
+0 hour>=20 => felix.late.2 cat=time :: Night line. Quiet, cold and clever. The best fish are the ones that don't show.
+0 map:Beach => felix.here.1 cat=place :: Mind the nets. They look like they're sleeping. They're plotting.
+0 map:Saloon => felix.here.2 cat=place tag=funny :: Wren calls this "Felix's stool". I call it "the stool". Wren's right. It remembers me.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.1 cat=tier :: You're getting the hang of this, [player]. The fish are starting to like you.
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.2 cat=tier tag=funny :: You should've seen the other one. Last week's. It was this big. Bigger now.
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.3 cat=tier :: Take my spot tomorrow. I've a feeling about the tide. It's usually wrong. Yours won't be.
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.4 cat=tier :: Fishing's mostly sitting. Good company makes the sitting count.
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.5 cat=tier tag=wholesome :: I've fished alone a long time. It's nicer with two lines in the water.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:felix>=6 && hearts:felix<9 => felix.cl.1 cat=tier :: You've the patience of a heron. That's the best compliment I've got.
+0 hearts:felix>=6 && hearts:felix<9 => felix.cl.2 cat=tier tag=wholesome :: Dawn's the best hour. It's better with someone to say so. I'm saying so.
+0 hearts:felix>=6 && hearts:felix<9 => felix.cl.3 cat=tier :: Tilda says I smile more since you arrived. I told her it's the tide. She didn't buy it.
+0 hearts:felix>=6 && hearts:felix<9 => felix.cl.4 cat=tier :: I told the sturgeon about you. It stayed on the bottom. A good sign.
+0 hearts:felix>=6 && hearts:felix<9 => felix.cl.5 cat=tier :: The pond has a secret or two. I'll share one. Not today. Soon.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:felix>=9 => felix.co.1 cat=tier tag=wholesome :: I fished alone my whole life. This is better. Don't tell the fish. They're very sensitive.
+0 hearts:felix>=9 => felix.co.2 cat=tier :: You're the best thing I've pulled up. And I've pulled up a boot with a clock in it.
+0 hearts:felix>=9 => felix.co.3 cat=tier tag=funny :: If I wrote you a letter, it'd be about the one that got away. It'd run to eleven pages.
+0 hearts:felix>=9 => felix.co.4 cat=tier :: Thank you, [player]. That's the whole tide table. I put your name next to dawn.
+
+# ---- moods ----
+1 mood:felix=lonely => felix.lonely.1 cat=mood :: Quiet pond. Quiet stall. I talked to a minnow. It had no opinions.
+1 mood:felix=tired => felix.tired.1 cat=mood :: Up before the gulls and still behind the tide. A long one.
+1 mood:felix=delighted => felix.delighted.1 cat=mood expr=happy :: I caught one this big! Then I let it go, and it waved. I'm fairly sure.
+1 mood:felix=mischievous => felix.mischief.1 cat=mood expr=happy :: I told Tilda the fish were free today. Watch her face when she checks the sign.
+1 mood:felix=worried => felix.worried.1 cat=mood expr=sad :: The pond's too still. Fish go deep when something's coming. I don't know what.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => felix.farm.1 cat=reactive :: Your fields look good. Bring me a few crabs one day. I'll trade you a story.
+0 farm:animals>=1 => felix.farm.2 cat=reactive :: Cows on the farm? Don't let them near the pond. They stare at the fish.
+2 festival.in:<=3 && festival.in:>0 => felix.fest.1 cat=reactive :: Festival soon. I'll bring a fish stew. The fish agreed. Mostly.
+2 festival.in:==0 => felix.fest.2 cat=reactive :: Festival day. The stall's shut, the pond's calm, and I'm about to eat a great deal.
+2 birthday.in:felix<=3 && birthday.in:felix>0 => felix.bday.1 cat=reactive :: My birthday's close. I'll fish. If the tuna comes, I'll say it's a present.
+3 birthday.in:felix==0 => felix.bday.2 cat=reactive expr=embarrassed emote=sweat :: Somebody remembered. I'll cast a line in your honor. It won't catch anything. It's the thought.
+2 birthday.in:tilda<=2 && birthday.in:tilda>=0 => felix.bday.3 cat=reactive :: Tilda's birthday. I'll bring her a fish she'll refuse. It's how we say happy birthday.
+
+# ---- rarities ----
+0 ~ => felix.rare.1 cat=rare rarity=rare tag=funny :: I once pulled up a boot with a clock in it. The clock was right. The boot was not.
+0 ~ => felix.rare.2 cat=rare rarity=rare tag=wholesome :: The first fish I ever caught, I let go. It's been looking for me ever since. I'm sure of it.
+0 hearts:felix>=5 => felix.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Come on. (He points at the horizon.) Dawn's in an hour. I saved you the best rock. Bring your line.
+
+# ---- gifts ----
+say npc.felix.gift.item.fish.tuna felix: A tuna! You've a gift for it. I'll put it on ice. Then I'll look at it for an hour.
+say npc.felix.gift.item.fish.sturgeon felix: A sturgeon! Oh, that's a good one. Almost as big as the one that got away. Almost.
+say npc.felix.gift.cat.Fish felix: A fish. Fine specimen. I'll admire it, and then I'll steal its technique.
+say npc.felix.gift.item.fish.carp felix: Carp. Humble and clever. I'll keep it company. Then I'll fry it.
+say npc.felix.gift.item.forage.seashell felix: A seashell. I hold it to my ear. It says "Tide's coming." Always true.
+say npc.felix.gift.item.fish.sea_bass felix: Sea bass. A fine-looking fish. I'll say a small word of thanks over it.
+say npc.felix.gift.item.forage.dandelion felix: A dandelion. I'll use it as a bobber. It won't help. It's a nice thought.
+say npc.felix.gift.item.crop.kale felix: Kale. Fish don't care for it. Neither do I. I'll respect it from a distance.
+say npc.felix.gift.item.crop.cucumber felix: A cucumber. Cold, green and a bit smug. I'll use it as bait. Tell nobody.
+say npc.felix.gift.repeat felix: Another one! You spoil me. I'll write it in the tide table, next to dawn.

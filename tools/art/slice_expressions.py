@@ -19,11 +19,12 @@ INSET = 4
 
 
 def trim_frame(cell):
-    """Removes a near-white frame or margin around a cell, then crops the largest centred square."""
+    """Removes a drawn frame around a cell (a thin dark line and/or a pale ring), then crops the largest centred square."""
     a = np.asarray(cell.convert("RGB")).astype(np.int32)
-    white = (a.min(axis=2) > 235)
-    rows = np.where(white.mean(axis=1) < 0.5)[0]
-    cols = np.where(white.mean(axis=0) < 0.5)[0]
+    lum = (a[:, :, 0] * 299 + a[:, :, 1] * 587 + a[:, :, 2] * 114) // 1000
+    frame_like = (lum < 110) | (a.min(axis=2) > 215)
+    rows = np.where(frame_like.mean(axis=1) < 0.6)[0]
+    cols = np.where(frame_like.mean(axis=0) < 0.6)[0]
     if len(rows) and len(cols):
         cell = cell.crop((cols[0], rows[0], cols[-1] + 1, rows[-1] + 1))
     inset = INSET

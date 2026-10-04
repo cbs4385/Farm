@@ -83,7 +83,7 @@ namespace Farm.Tests
                 Assert.IsTrue(Memories.IsMemory(ev), ev.Id + " has a title");
                 Assert.IsTrue(table.ContainsKey(Memories.TitleKey(ev)), ev.Id + ": the title text exists");
             }
-            Assert.AreEqual(73, all.Count, "24 heart events, 30 slice and wave 2 scenes, 14 storyline scenes, 4 festivals and the hall ending");
+            Assert.AreEqual(79, all.Count, "24 heart events, 36 Full and Enhanced scenes, 14 storyline scenes, 4 festivals and the hall ending");
             foreach (var group in all.GroupBy(Memories.GroupOf).Where(g => g.Key != Memories.FestivalGroup && g.Key != Memories.OtherGroup))
                 Assert.IsTrue(NpcCatalog.From(RealDb()).All.Any(n => n.Id == group.Key), group.Key + " is a villager");
         }

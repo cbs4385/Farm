@@ -72,16 +72,16 @@ namespace Farm.Gameplay
         {
             // Carpenter. Closed Wednesdays.
             Person(Marcus, Season.Summer, 9, MapIds.Carpenter, 6, 3, false, "carpenter", 520, 1050, "wed", new Post(MapIds.Forest, 19, 15), new Post(MapIds.Saloon, 8, 4),
-                new[] { "resource.wood", "crop.pumpkin" }, new[] { "resource.stone", "forage.hazelnut" }, new[] { "forage.dandelion", "crop.kale" }),
+                new[] { "resource.wood", "crop.pumpkin", "food.roasted_roots" }, new[] { "resource.stone", "forage.hazelnut", "resource.copperbar" }, new[] { "forage.dandelion", "crop.kale", "resource.slime" }),
             // The clinic's doctor. Closed Saturdays.
             Person(Odalys, Season.Winter, 3, MapIds.Clinic, 8, 5, false, "clinic", 520, 1050, "sat", new Post(MapIds.Library, 5, 3), new Post(MapIds.Library, 8, 5),
-                new[] { "forage.elderflower", "crop.spinach" }, new[] { "crop.kale", "forage.snowdrop" }, new[] { "resource.slime", "resource.bone" }),
+                new[] { "forage.elderflower", "crop.spinach", "food.salad" }, new[] { "crop.kale", "forage.snowdrop", "crop.cauliflower" }, new[] { "resource.slime", "resource.bone", "forage.clam" }),
             // Keeps the saloon (12:00-02:00, closed Tuesdays).
             Person(Wren, Season.Fall, 17, MapIds.Saloon, 11, 8, true, "saloon", 700, 1560, "tue", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 30, 17),
                 new[] { "artisan.wine", "crop.hops", "artisan.pickles" }, new[] { "artisan.juice", "crop.tomato", "crop.pepper" }, new[] { "forage.clam", "food.bean_stew", "resource.slime" }),
             // Runs the fish stall (06:00-14:00, closed Thursdays).
             Person(Felix, Season.Summer, 21, MapIds.Saloon, 12, 8, true, "fish", 420, 840, "thu", new Post(MapIds.Forest, 7, 7), new Post(MapIds.Saloon, 5, 4),
-                new[] { "fish.tuna", "fish.sturgeon" }, new[] { "fish.carp", "forage.seashell" }, new[] { "forage.dandelion" }, lovedCategories: new[] { "Fish" }),
+                new[] { "fish.tuna", "fish.sturgeon", "fish.moonfish" }, new[] { "fish.carp", "forage.seashell", "fish.sea_bass" }, new[] { "forage.dandelion", "crop.kale", "crop.cucumber" }, lovedCategories: new[] { "Fish" }),
             // The blacksmith's apprentice.
             Person(Juno, Season.Spring, 25, MapIds.Blacksmith, 8, 3, true, "blacksmith", 540, 1080, "mon", new Post(MapIds.Beach, 14, 12), new Post(MapIds.Saloon, 9, 4),
                 new[] { "resource.goldbar", "forage.truffle", "crop.pepper" }, new[] { "resource.copperbar", "crop.potato", "resource.coal" }, new[] { "crop.kale", "forage.dandelion", "crop.cucumber" }),
@@ -93,10 +93,10 @@ namespace Farm.Gameplay
                 new[] { "crop.sunflower", "artisan.jam", "artisan.juice" }, new[] { "crop.strawberry", "forage.raspberry", "crop.corn" }, new[] { "resource.coal", "resource.slime", "resource.bat_wing" }),
             // Gathers things in the forest all day; lodges at the carpenter's.
             Person(Dorian, Season.Winter, 11, MapIds.Carpenter, 8, 3, true, null, 480, 1020, null, new Post(MapIds.Forest, 19, 10), new Post(MapIds.Saloon, 4, 4),
-                new[] { "forage.mushroom", "forage.truffle" }, new[] { "forage.hazelnut", "forage.wildgarlic" }, new[] { "crop.tomato" }),
+                new[] { "forage.mushroom", "forage.truffle", "forage.wildgarlic" }, new[] { "forage.hazelnut", "forage.blackberry", "forage.raspberry" }, new[] { "crop.tomato", "fish.pufferfish", "resource.slime" }),
             // The clinic's nurse.
             Person(Elara, Season.Spring, 18, MapIds.Clinic, 2, 3, true, "clinic", 520, 1050, "sat", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 28, 17),
-                new[] { "forage.snowdrop", "crop.cranberry" }, new[] { "forage.seashell", "crop.spinach" }, new[] { "resource.bone", "resource.bat_wing" }),
+                new[] { "forage.snowdrop", "crop.cranberry", "artisan.jam" }, new[] { "forage.seashell", "crop.spinach", "artisan.juice" }, new[] { "resource.bone", "resource.bat_wing", "resource.slime" }),
         };
     }
 }

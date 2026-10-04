@@ -1,0 +1,106 @@
+# Marcus Dell, the carpenter. Enhanced depth (docs/narrative/BIBLE_ENHANCED.md section 1). Measured, craft proverbs, patient understatement.
+# Short declaratives (up to 16 words), no exclamation marks. "Measure twice." The hall roof is always nearly fixed. Cozy only. Closed Wednesdays.
+
+addto npc.marcus.talk
+
+# ---- seasons ----
+0 season:spring => marcus.spring.1 cat=seasonal :: Spring brings barns and fences. Frost heave does half my work. I do the rest.
+0 season:spring => marcus.spring.2 cat=seasonal :: New lumber smells like a beginning. I keep a plank by the door to remind me.
+0 season:spring => marcus.spring.3 cat=seasonal tag=funny :: Everyone wants a shed in April. Nobody wants a shed in February. Wood has no calendar. People do.
+0 season:summer => marcus.summer.1 cat=seasonal :: Summer is for greenhouses. Glass and patience. Mostly patience.
+0 season:summer => marcus.summer.2 cat=seasonal :: The workshop door stays open. The sawdust drifts out. The birds come to look.
+0 season:summer => marcus.summer.3 cat=seasonal :: My birthday's in summer. I plane a plank for it. Nothing fancy. A straight board.
+0 season:fall => marcus.fall.1 cat=seasonal :: Fall: coops, sheds, anything that keeps winter out. Measure twice. The weather doesn't.
+0 season:fall => marcus.fall.2 cat=seasonal :: The oak comes in this month. Slow wood. Honest wood. I'd rather work with it than most things.
+0 season:fall => marcus.fall.3 cat=seasonal tag=wholesome :: The hall's roof gets a look every fall. It's nearly fixed. Nearly is a respectable word.
+0 season:winter => marcus.winter.1 cat=seasonal :: Winter is for furniture. Indoor work. Warm hands, long grain, nothing in a hurry.
+0 season:winter => marcus.winter.2 cat=seasonal :: Snow on a half-finished roof teaches humility. I've been taught several times.
+0 season:winter => marcus.winter.3 cat=seasonal :: The workshop stove burns scraps. Nothing wasted. A good shop keeps itself warm.
+
+# ---- weekdays ----
+0 weekday:mon => marcus.mon.1 cat=weekday :: Monday. Clean bench, sharp chisel. Best day for a first cut.
+0 weekday:tue => marcus.tue.1 cat=weekday :: Tuesday. Wren's closed, so the saloon's loud in my ears anyway. I imagine it.
+0 weekday:wed => marcus.wed.1 cat=weekday :: Wednesday. Shut. I'm on a bench with Bram. Neither of us has said a word. It's good.
+0 weekday:thu => marcus.thu.1 cat=weekday :: Thursday. Felix is off. His boat needs a plank. It always does.
+0 weekday:fri => marcus.fri.1 cat=weekday :: Friday. Orders due Saturday. Sawdust to the ankles. A fair price for being useful.
+0 weekday:sat => marcus.sat.1 cat=weekday :: Saturday. I sweep. Then I plan Monday. Then I sweep again. It's restful.
+0 weekday:sun => marcus.sun.1 cat=weekday :: Sunday. I fix things nobody asked about. It's how I say good morning.
+
+# ---- weather ----
+0 weather:sunny => marcus.sunny.1 cat=weather :: Good drying weather. Boards behave. So do I.
+0 weather:sunny => marcus.sunny.2 cat=weather :: Sun on the roof means I can see every joint I got wrong. Honest light.
+1 weather:rain => marcus.rain.2 cat=weather :: Rain tests a roof. Mine passes. The hall's does not. Nearly.
+1 weather:rain => marcus.rain.3 cat=weather tag=wholesome :: A wet day, a warm shop, and the sound of a plane on pine. Hard to beat.
+1 weather:storm => marcus.storm.1 cat=weather :: Storm. I check the doors twice. Then a third time, under my breath.
+1 weather:storm => marcus.storm.2 cat=weather :: Thunder rattles the shelves. I put a chisel on each one. Good luck charms.
+1 weather:snow => marcus.snow.1 cat=weather :: Snow. The shop smells like cedar and chimney. I won't leave until it stops.
+1 weather:snow => marcus.snow.2 cat=weather :: A snowy roof is a measuring exercise. Weight, pitch, hope.
+1 weather:wind => marcus.wind.1 cat=weather :: Wind finds every loose nail. I've got a list. It's long.
+1 weather:wind => marcus.wind.2 cat=weather :: A gusty day. Doors argue. Good doors win.
+
+# ---- time of day ----
+0 hour<10 => marcus.morning.1 cat=time :: Early. First cut of the day is the cleanest. I save it for something that matters.
+0 hour<10 => marcus.morning.2 cat=time :: Morning light on a plank. A man could do worse than watching that.
+0 hour>=10 && hour<16 => marcus.midday.1 cat=time :: Midday. Plane in hand, lunch in the drawer. I eat when the shaving curls say so.
+0 hour>=10 && hour<16 => marcus.midday.2 cat=time :: Busy hour. Don't stand where the board swings.
+0 hour>=16 && hour<20 => marcus.evening.1 cat=time :: Evening. I sweep the shop and tell the floor it did well.
+0 hour>=16 && hour<20 => marcus.evening.2 cat=time :: Last cut of the day. I make it a good one. Tomorrow starts clean.
+0 hour>=20 => marcus.late.1 cat=time :: Late. The lamp's on, the stove's on, and the roof plans are on the table. Again.
+0 hour>=20 => marcus.late.2 cat=time :: Quiet shop. A sleeping saw. A man could think. I do. Mostly about joints.
+0 map:Carpenter => marcus.here.1 cat=place :: Mind the sawdust. It gets into everything. It's good for the soul.
+0 map:Carpenter => marcus.here.2 cat=place tag=funny :: Each tool has its place. Juno labeled them. Now they have two places. Hers and mine.
+0 map:Carpenter => marcus.here.3 cat=place :: The chair by the stove is Dorian's. He doesn't say so. The cushion does.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.1 cat=tier :: You've got good hands, [player]. I noticed when you held the ladder.
+0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.2 cat=tier tag=funny :: Tilda says I'm "reliable". I measured. She's right. I was surprised.
+0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.3 cat=tier :: Come by the bench Wednesday. Bram won't say hello. That's his way of saying hello.
+0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.4 cat=tier :: I don't build for strangers often. You're not one. Say what you need.
+0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.5 cat=tier tag=wholesome :: A tool in a good hand is half a conversation. You're the other half.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.1 cat=tier :: I built half of this village. [farm] is the part I'd keep if I had to choose.
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.2 cat=tier tag=wholesome :: A good neighbor is worth more than good lumber. I've checked. Twice.
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.3 cat=tier :: Measure twice. Then ask someone you trust. That's you, now.
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.4 cat=tier :: The hall roof is not nearly fixed. I'm afraid it won't hold. I'd rather you knew.
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.5 cat=tier :: Dorian leaves mushrooms on my table and says nothing. You'd get along. You already do.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:marcus>=9 => marcus.co.1 cat=tier tag=wholesome :: A building lasts if the people in it do. I'd like you in this one for a long time.
+0 hearts:marcus>=9 => marcus.co.2 cat=tier :: My father measured three times. I measure twice and trust you for the third.
+0 hearts:marcus>=9 => marcus.co.3 cat=tier tag=funny :: If I wrote you a letter it would be a blueprint. With margins.
+0 hearts:marcus>=9 => marcus.co.4 cat=tier :: Thank you, [player]. I'd carve it on a beam, but you'd say it was too much.
+
+# ---- moods ----
+1 mood:marcus=lonely => marcus.lonely.1 cat=mood :: Quiet bench, quiet shop. I planed a plank thin as a leaf just to hear something.
+1 mood:marcus=tired => marcus.tired.1 cat=mood :: Long week of lifting. My back keeps a ledger. Dr. Penn reads it aloud.
+1 mood:marcus=delighted => marcus.delighted.1 cat=mood expr=happy :: A perfect joint today. Dry-fit, no gap. I held it up and looked at it for a minute.
+1 mood:marcus=mischievous => marcus.mischief.1 cat=mood expr=happy :: I told Juno one of her labels is crooked. It isn't. She's been measuring for an hour.
+1 mood:marcus=worried => marcus.worried.1 cat=mood expr=sad :: The hall roof again. It leans a hair. Maybe I'm tired. Maybe I'm right.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => marcus.farm.1 cat=reactive :: Your fields are coming in. A good farm wants a good shed. Come by when you're ready.
+0 farm:animals>=1 => marcus.farm.2 cat=reactive :: Animals need a roof. I build coops that outlast the chickens. Both of them.
+2 festival.in:<=3 && festival.in:>0 => marcus.fest.1 cat=reactive :: Festival soon. I'm building the stage. It will hold. It always does. Probably.
+2 festival.in:==0 => marcus.fest.2 cat=reactive :: Festival. The stage held. I checked it twice and said a short prayer to the glue.
+2 birthday.in:marcus<=3 && birthday.in:marcus>0 => marcus.bday.1 cat=reactive :: My birthday's close. I'll plane a plank for it. I do every year. A straight board is plenty.
+3 birthday.in:marcus==0 => marcus.bday.2 cat=reactive expr=embarrassed emote=sweat :: Somebody remembered. I'm not sure what to do with my hands. I'll hold a plank.
+2 birthday.in:bram<=2 && birthday.in:bram>=0 => marcus.bday.3 cat=reactive :: Bram's birthday. I'll sit on the bench with him. No words. It's the gift.
+
+# ---- rarities ----
+0 ~ => marcus.rare.1 cat=rare rarity=rare tag=funny :: I once built a door that wouldn't close. It was beautiful. I kept it as a window.
+0 ~ => marcus.rare.2 cat=rare rarity=rare tag=wholesome :: My father left me a pencil. It's half the size it was. I still measure with it.
+0 hearts:marcus>=5 => marcus.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Come here. (He taps a beam twice.) That's the first beam I ever cut. I want you to have the offcut.
+
+# ---- gifts ----
+say npc.marcus.gift.item.resource.wood marcus: Oak. Straight grain. I'll make something of it, and the first thing is a thank-you.
+say npc.marcus.gift.item.crop.pumpkin marcus: A pumpkin. Round, heavy and honest. I'll put it by the bench. Dorian will carve it.
+say npc.marcus.gift.item.food.roasted_roots marcus: Roasted roots. The bench lunch. Bram will want a bite. I'll say no. Then yes.
+say npc.marcus.gift.item.resource.stone marcus: A good stone. Flat on one side. I'll use it for a doorstop and never regret it.
+say npc.marcus.gift.item.forage.hazelnut marcus: Hazelnuts. Small, hard and patient. Like a good dovetail.
+say npc.marcus.gift.item.resource.copperbar marcus: Copper. Bram will have a view on that. I'll keep it dry.
+say npc.marcus.gift.item.forage.dandelion marcus: A dandelion. Hm. I'll put it in a jar. It deserves a roof.
+say npc.marcus.gift.item.crop.kale marcus: Kale. I'll pass it to Dorian. He'll know what to do. He knows what to do with leaves.
+say npc.marcus.gift.item.resource.slime marcus: Slime. On my bench. I'll find a bucket for it. And a very long stick.
+say npc.marcus.gift.cat.Fish marcus: A fish. Felix is two doors down. I'll walk it over. Then wash my hands. Twice.
+say npc.marcus.gift.repeat marcus: Another one. Measure twice, thank twice. Thank you.
