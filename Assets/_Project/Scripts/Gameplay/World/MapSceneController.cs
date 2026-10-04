@@ -72,7 +72,9 @@ namespace Farm.Gameplay
             // Villagers whose schedule puts them on this map (they walk in and out as the clock runs).
             var npcs = new GameObject("Npcs").AddComponent<NpcManager>();
             npcs.Init(_map, _session);
-            new GameObject("Events").AddComponent<EventDirector>().Init(_map, _session, npcs, _player);
+            var events = new GameObject("Events").AddComponent<EventDirector>();
+            events.Init(_map, _session, npcs, _player);
+            new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
 
             // Outdoor maps show the day's weather (rain, snow, wind...) drawn from its WeatherDefinition.
             var lighting = FindAnyObjectByType<DayNightLighting>();

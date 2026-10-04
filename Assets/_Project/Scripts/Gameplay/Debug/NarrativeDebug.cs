@@ -25,6 +25,7 @@ namespace Farm.Gameplay
             yield return ("pool", "pool <npc>", "every line in a villager's talk set: eligible or why not, and what would be said", a => Pool(s, a));
             yield return ("pick", "pick <npc> [seed]", "dry-run what the villager would say now (nothing is recorded)", a => Pick(s, a));
             yield return ("say", "say <dialogueId>", "play any dialogue", a => Say(s, a));
+            yield return ("bark", "bark <npc>", "make a villager say an ambient bark as soon as they are on this map", a => Bark(s, a));
             yield return ("scene", "scene <eventId>", "play any scene (event) as soon as the map is idle", a => Scene(s, a));
             yield return ("memory", "memory <eventId>", "unlock and replay a scene as a memory", a => Memory(s, a));
             yield return ("reactions", "reactions", "the villagers' pending reactions", a => ReactionList(s));
@@ -180,6 +181,14 @@ namespace Farm.Gameplay
             if (a.Length != 1) return Fail("Usage: say <dialogueId>");
             if (s.Story.Dialogue(a[0]) == null) return Fail($"Unknown dialogue '{a[0]}'.");
             return s.BeginDialogue(a[0]) ? Ok($"Playing {a[0]}.") : Fail("The dialogue could not be shown (no UI here).");
+        }
+
+        static DebugCommandResult Bark(GameSession s, string[] a)
+        {
+            if (!TryNpc(s, a, 0, out var id, out var error)) return error;
+            if (s.Story.Set(Barks.SetId(id)) == null) return Fail($"{id} has no barks.");
+            BarkDirector.Request(id);
+            return Ok($"{id} will say a bark once on this map.");
         }
 
         static DebugCommandResult Scene(GameSession s, string[] a)

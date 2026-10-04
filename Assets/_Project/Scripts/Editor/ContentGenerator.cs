@@ -168,6 +168,15 @@ namespace Farm.Editor
         {
             fresh.SetSprites(Sprite($"npc_{fresh.Id}_idle_down"), Sprite($"npc_{fresh.Id}_idle_up"),
                 Sprite($"npc_{fresh.Id}_idle_left"), Sprite($"npc_{fresh.Id}_idle_right"), Sprite($"ui_portrait_{fresh.Id}"));
+            // Expression portraits (T-130): ui_portrait_<id>_<expression>, for the villagers that have them. Neutral is the base portrait.
+            var expressions = new Sprite[NpcDefinition.ExpressionNames.Length];
+            var any = false;
+            for (var i = 0; i < expressions.Length; i++)
+            {
+                expressions[i] = AssetDatabase.LoadAssetAtPath<Sprite>($"{ArtDir}/ui_portrait_{fresh.Id}_{NpcDefinition.ExpressionNames[i]}.png");
+                any |= expressions[i] != null;
+            }
+            fresh.SetExpressions(any ? expressions : null);
             return Persist(fresh, $"{NpcDir}/{fresh.Id}.asset");
         }
 

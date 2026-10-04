@@ -130,6 +130,9 @@ namespace Farm.Data
             return this;
         }
 
+        // The expression portraits, aligned with ExpressionNames; null entries fall back to the base portrait (T-130).
+        public void SetExpressions(Sprite[] expressions) => _expressions = expressions;
+
         public void SetSprites(Sprite down, Sprite up, Sprite left, Sprite right, Sprite portrait)
         {
             _down = down; _up = up; _left = left; _right = right; _portrait = portrait;

@@ -1,0 +1,81 @@
+# Ambient barks for the slice villagers (T-125): one short line (12 words at most) in a speech bubble when the player is near.
+# They are about the world, not about the player; the cross-cast lines make the three villagers share a village.
+# Voice rules hold: Hazel and Bram never use an exclamation mark; Bram's lines are tiny.
+
+addto npc.wren.bark
+0 ~ => wren.bark.1 cat=bark :: Fresh cider, fresh gossip, fresh start every Tuesday!
+0 ~ => wren.bark.2 cat=bark :: Someone owes me a rhyme for "turnip".
+0 ~ => wren.bark.3 cat=bark :: I'm not eavesdropping. The walls are just very talkative.
+0 ~ => wren.bark.4 cat=bark tag=funny :: Day four of asking Bram for four words. Progress: "Hm."
+0 ~ => wren.bark.5 cat=bark :: Hazel borrowed my notebook. I hope she returns the gossip.
+0 ~ => wren.bark.6 cat=bark :: If a story's too good, I only improve it slightly.
+0 ~ => wren.bark.7 cat=bark :: Does anyone else hear a lute? No? Just me?
+0 ~ => wren.bark.8 cat=bark :: I'm writing a song about weather. It's mostly sighing.
+1 weather:rain => wren.bark.rain.1 cat=bark :: Rain on the roof. Best band in the village.
+1 weather:rain => wren.bark.rain.2 cat=bark :: Drip, drip, drip. I can't rhyme this one.
+1 weather:storm => wren.bark.storm.1 cat=bark :: That thunder has terrible timing. I admire it.
+1 weather:snow => wren.bark.snow.1 cat=bark :: Snow! Everything looks like it's keeping a secret.
+0 season:spring => wren.bark.spring.1 cat=bark :: Spring! Everyone's hopeful and slightly muddy. My favorite crowd.
+0 season:summer => wren.bark.summer.1 cat=bark :: Hot day. Cold cider. Honest math.
+0 season:fall => wren.bark.fall.1 cat=bark :: Fall smells like cinnamon and other people's secrets.
+0 season:winter => wren.bark.winter.1 cat=bark :: Winter: the season of stew and over-sharing.
+0 hour<10 => wren.bark.morning.1 cat=bark :: Too early for jokes. I'll do a mild pun.
+0 hour>=18 => wren.bark.evening.1 cat=bark :: Evening crowd's in. Everyone has a story. Some are even true.
+0 map:Saloon => wren.bark.here.1 cat=bark :: Sit anywhere. Except Felix's stool. It remembers him.
+0 map:Saloon => wren.bark.here.2 cat=bark :: House rule: no sad songs before the second cider.
+0 weekday:tue => wren.bark.tue.1 cat=bark :: Tuesday. My day off, my favorite hammock.
+0 weekday:fri => wren.bark.fri.1 cat=bark :: Friday! Gossip bingo, anyone? Free pencil!
+0 ~ => wren.bark.rare.1 cat=bark rarity=rare tag=funny :: I'm going to be famous. Eventually. Maybe posthumously.
+0 ~ => wren.bark.rare.2 cat=bark rarity=rare tag=wholesome :: Whoever's reading this: you're doing better than you think.
+
+addto npc.hazel.bark
+0 ~ => hazel.bark.1 cat=bark :: (Quietly.) Please. This is a library. A small one.
+0 ~ => hazel.bark.2 cat=bark :: I've misplaced a bookmark. (It's in a book.) Somewhere.
+0 ~ => hazel.bark.3 cat=bark :: Wren borrowed a pencil. (That's three weeks ago.)
+0 ~ => hazel.bark.4 cat=bark :: (Reading.) Hm. The ending is better than the middle.
+0 ~ => hazel.bark.5 cat=bark :: The index is out of order. (It's me. I did it.)
+0 ~ => hazel.bark.6 cat=bark tag=funny :: Overdue books come back smelling of cider. (I won't ask.)
+0 ~ => hazel.bark.7 cat=bark :: I like this quiet. (It has good margins.)
+0 ~ => hazel.bark.8 cat=bark :: Bram returned a book early. (Again.) I'm suspicious.
+1 weather:rain => hazel.bark.rain.1 cat=bark :: Rain on the window. (Best soundtrack for a chapter.)
+1 weather:rain => hazel.bark.rain.2 cat=bark :: The roof ticks in the rain. (Like a slow clock.)
+1 weather:storm => hazel.bark.storm.1 cat=bark :: (Reading by candle.) Storms improve every sentence.
+1 weather:snow => hazel.bark.snow.1 cat=bark :: Snow. (Everything is a footnote to it.)
+0 season:spring => hazel.bark.spring.1 cat=bark :: Windows open. (Pages turning on their own.)
+0 season:summer => hazel.bark.summer.1 cat=bark :: Warm. (The books are drowsy.) So am I.
+0 season:fall => hazel.bark.fall.1 cat=bark :: Fall is the season for long sentences.
+0 season:winter => hazel.bark.winter.1 cat=bark :: Winter. (Tea, a blanket, a thick book.)
+0 hour<10 => hazel.bark.morning.1 cat=bark :: Opening the shelves. (They creak hello.)
+0 hour>=18 => hazel.bark.evening.1 cat=bark :: Almost closing. (One more chapter. Always one more.)
+0 map:Library => hazel.bark.here.1 cat=bark :: Take your time. (Not too much of mine.)
+0 map:Library => hazel.bark.here.2 cat=bark :: The cat section is on the left. (There isn't a cat.)
+0 weekday:sat => hazel.bark.sat.1 cat=bark :: Saturday. (The village is loud. I read louder.)
+0 weekday:wed => hazel.bark.wed.1 cat=bark :: Wednesday. (Nothing happens on Wednesdays.) I like that.
+0 ~ => hazel.bark.rare.1 cat=bark rarity=rare tag=funny :: I'm writing a book about bookmarks. (It's a very short book.)
+0 ~ => hazel.bark.rare.2 cat=bark rarity=rare tag=wholesome :: Someone left a note in a book. (It said, "Good choice.")
+
+addto npc.bram.bark
+0 ~ => bram.bark.1 cat=bark :: Hm.
+0 ~ => bram.bark.2 cat=bark :: Hm. Good iron.
+0 ~ => bram.bark.3 cat=bark :: Careful. It's hot. It's always hot.
+0 ~ => bram.bark.4 cat=bark :: Wren talks. I listen. It's a system.
+0 ~ => bram.bark.5 cat=bark :: Hm. Juno labeled the tongs again.
+0 ~ => bram.bark.6 cat=bark tag=funny :: Someone put a rubber chicken on the anvil. Hm.
+0 ~ => bram.bark.7 cat=bark :: Returned Hazel's book. Early. She stared.
+0 ~ => bram.bark.8 cat=bark :: Strike true. Strike again.
+1 weather:rain => bram.bark.rain.1 cat=bark :: Rain. Roof's holding. Fire's holding. Good.
+1 weather:storm => bram.bark.storm.1 cat=bark :: Thunder. The anvil rings back.
+1 weather:snow => bram.bark.snow.1 cat=bark :: Snow. Forge glows. Hm.
+1 weather:wind => bram.bark.wind.1 cat=bark :: Wind blows the ash around. Hm.
+0 season:spring => bram.bark.spring.1 cat=bark :: Plows soon. Hm.
+0 season:summer => bram.bark.summer.1 cat=bark :: Hot forge. Hotter day. Hm.
+0 season:fall => bram.bark.fall.1 cat=bark :: Fall. Scythes. Hooks. Hm.
+0 season:winter => bram.bark.winter.1 cat=bark :: Winter. The best seat is the forge.
+0 hour<10 => bram.bark.morning.1 cat=bark :: Coaxing the fire. Hm.
+0 hour>=18 => bram.bark.evening.1 cat=bark :: Closing soon. One more nail.
+0 map:Blacksmith => bram.bark.here.1 cat=bark :: Don't touch that. Hot.
+0 map:Blacksmith => bram.bark.here.2 cat=bark :: Hm. Mind the floor. It has opinions.
+0 weekday:mon => bram.bark.mon.1 cat=bark :: Closed Mondays. Still working. Hm.
+0 weekday:wed => bram.bark.wed.1 cat=bark :: Wednesday. Bench with Marcus. Quiet.
+0 ~ => bram.bark.rare.1 cat=bark rarity=rare tag=funny :: Rocks are honest. Weather isn't.
+0 ~ => bram.bark.rare.2 cat=bark rarity=rare tag=wholesome :: A good tool. A good friend. Both take time.

@@ -181,6 +181,8 @@ namespace Farm.UI
             timerButton.name = "ChoiceTimer";
             var blips = Row(L.Get("options.voice_blips"));
             UiKit.MakeToggle(blips, L.Get("ui.on"), s.VoiceBlips, on => s.VoiceBlips = on, 220f).name = "VoiceBlips";
+            var barksRow = Row(L.Get("options.barks"));
+            UiKit.MakeToggle(barksRow, L.Get("ui.on"), s.Barks, on => s.Barks = on, 220f).name = "Barks";
             var chat = Row(L.Get("options.chat_menu"));
             UiKit.MakeToggle(chat, L.Get("ui.on"), s.ChatMenu, on => s.ChatMenu = on, 220f).name = "ChatMenu";
             var auto = Row(L.Get("options.auto_advance"));

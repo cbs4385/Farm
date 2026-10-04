@@ -122,10 +122,13 @@ namespace Farm.Gameplay
             // ---- collect lines ----
             var lines = new List<Line>();
             var talkDialogues = new Dictionary<string, string>();                    // dialogue id -> villager
+            var barkDialogues = new HashSet<string>();
             foreach (var v in villagerList)
             {
                 var set = story.Set($"npc.{v}.talk");
                 if (set != null) foreach (var e in set.Entries) talkDialogues[e.Dialogue] = v;
+                var barkSet = story.Set(Barks.SetId(v));
+                if (barkSet != null) foreach (var e in barkSet.Entries) { talkDialogues[e.Dialogue] = v; barkDialogues.Add(e.Dialogue); }
             }
             foreach (var t in story.Topics)
                 if (!string.IsNullOrEmpty(t.Dialogue) && villagerList.Contains(t.Npc ?? string.Empty)) talkDialogues[t.Dialogue] = t.Npc;
@@ -133,7 +136,7 @@ namespace Farm.Gameplay
             {
                 string owner = null; var kind = "talk";
                 var socialOwner = villagerList.FirstOrDefault(v => d.Id.StartsWith($"social.{v}.", StringComparison.Ordinal));
-                if (talkDialogues.TryGetValue(d.Id, out var tv)) owner = tv;
+                if (talkDialogues.TryGetValue(d.Id, out var tv)) { owner = tv; if (barkDialogues.Contains(d.Id)) kind = "bark"; }
                 else if (socialOwner != null) owner = socialOwner;
                 else
                 {
@@ -144,7 +147,7 @@ namespace Farm.Gameplay
                 foreach (var n in d.Nodes)
                 {
                     if (!string.IsNullOrEmpty(n.Text) && n.Speaker == owner)
-                        lines.Add(new Line { Villager = owner, Where = $"{d.Id}/{n.Id}", Key = n.Text, Text = Text(n.Text), Kind = kind, Limit = kind == "gift" ? GiftWords : TalkWords });
+                        lines.Add(new Line { Villager = owner, Where = $"{d.Id}/{n.Id}", Key = n.Text, Text = Text(n.Text), Kind = kind, Limit = kind == "gift" ? GiftWords : kind == "bark" ? BarkWords : TalkWords });
                     foreach (var c in n.Choices)
                         lines.Add(new Line { Villager = owner, Where = $"{d.Id}/{n.Id} choice", Key = c.Text, Text = Text(c.Text), Kind = "choice", Limit = ChoiceWords });
                 }

@@ -31,6 +31,7 @@ namespace Farm.Core
         public int DayLength = 1;           // 0 = long days, 1 = normal, 2 = short
         public int DialogueSpeed = 1;       // text speed in conversations: 0 slow, 1 normal, 2 fast, 3 instant
         public bool AutoAdvance;            // conversations move on by themselves after a read time
+        public bool Barks = true;           // villagers near you say short ambient lines in speech bubbles (T-125)
         public bool ChatMenu = true;        // after a chat, offer topics and social actions (jokes, compliments ...)
         public bool VoiceBlips = true;      // villagers' talking blips and signature sounds (T-132)
 

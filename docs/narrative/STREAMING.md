@@ -33,7 +33,7 @@ Player and farm names (and any future pet name) are checked by `NameFilter` on t
 
 ## Dialogue debugger (development builds only)
 
-Open the console with F1 or the backquote key. Commands: `hearts <npc> <0-10>`, `mood [npc] [state|clear]`, `storyline <id>`, `choice <flag>`, `heard <npc>` (lines said, newest first), `pool <npc>` (every talk line: ready, waiting, or why not, and what would be said), `pick <npc> [seed]` (a dry run that records nothing), `say <dialogueId>`, `scene <eventId>`, `memory <eventId>`, `reactions`, `fire <trigger>`, `topics <npc>`, `social <npc>` and `coverage <npc>`. They are compiled out of release builds; the release guard fails a build that contains them.
+Open the console with F1 or the backquote key. Commands: `hearts <npc> <0-10>`, `mood [npc] [state|clear]`, `storyline <id>`, `choice <flag>`, `heard <npc>` (lines said, newest first), `pool <npc>` (every talk line: ready, waiting, or why not, and what would be said), `pick <npc> [seed]` (a dry run that records nothing), `bark <npc>` (the villager says an ambient bark once they are on the map), `say <dialogueId>`, `scene <eventId>`, `memory <eventId>`, `reactions`, `fire <trigger>`, `topics <npc>`, `social <npc>` and `coverage <npc>`. They are compiled out of release builds; the release guard fails a build that contains them.
 
 ## Moments
 
