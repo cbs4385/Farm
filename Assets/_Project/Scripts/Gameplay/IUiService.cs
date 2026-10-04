@@ -44,5 +44,6 @@ namespace Farm.Gameplay
         public const string Collections = "collections";
         public const string Crafting = "crafting";
         public const string Memories = "memories";
+        public const string Gossip = "gossip";
     }
 }

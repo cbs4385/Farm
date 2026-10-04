@@ -86,68 +86,6 @@ namespace Farm.UI
 
     // ---- social ------------------------------------------------------------------------------------------------------
 
-    public sealed class SocialPage : MenuPage
-    {
-        RectTransform _list;
-
-        public override string Id => MenuTabs.Social;
-
-        protected override void Build(UiService ui, RectTransform content)
-        {
-            var stack = UiKit.VStack(content, "Social", 6f, 10);
-            UiKit.Stretch((RectTransform)stack.transform);
-            UiKit.Label(stack.transform, L.Get("social.title"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
-            var list = UiKit.VStack(stack.transform, "List", 4f);
-            UiKit.Size(list.gameObject, -1f, -1f, 1f, 1f);
-            _list = (RectTransform)list.transform;
-        }
-
-        public override void Refresh(UiService ui)
-        {
-            UiKit.ClearChildren(_list);
-            var session = ui.Session;
-            foreach (var npc in session.Npcs.All)
-            {
-                var state = session.State.Npcs.TryGetValue(npc.Id, out var s) ? s : null;
-                var met = state != null && state.Met;
-                var row = UiKit.HStack(_list, npc.Id, 10f);
-                UiKit.Size(row.gameObject, -1f, 34f);
-
-                var portrait = UiKit.Panel(row.transform, "Portrait", met ? Color.white : new Color(0.2f, 0.15f, 0.1f));
-                portrait.sprite = met ? npc.Portrait : null;
-                portrait.preserveAspect = true;
-                UiKit.Size(portrait.gameObject, 30f, 30f);
-
-                var name = UiKit.Label(row.transform, met ? L.Get(npc.NameKey) : L.Get("social.unknown"), 20f);
-                UiKit.Size(name.gameObject, 190f, 32f);
-
-                var hearts = UiKit.HStack(row.transform, "Hearts", 2f);
-                UiKit.Size(hearts.gameObject, 190f, 32f);
-                var count = state != null ? FriendshipModel.Hearts(state.Points) : 0;
-                for (var i = 0; i < FriendshipModel.MaxHearts; i++)
-                {
-                    var heart = UiKit.Panel(hearts.transform, "Heart" + i, i < count ? new Color(0.90f, 0.30f, 0.35f) : new Color(0.25f, 0.18f, 0.16f));
-                    UiKit.Size(heart.gameObject, 16f, 16f);
-                }
-
-                var detail = met ? Detail(session, npc, state) : string.Empty;
-                var info = UiKit.Label(row.transform, detail, 16f, TextAlignmentOptions.Left, UiKit.DimText);
-                UiKit.Size(info.gameObject, -1f, 32f, 1f);
-            }
-        }
-
-        static string Detail(GameSession session, NpcDefinition npc, NpcState state)
-        {
-            var birthday = L.Get("social.birthday", L.Get("season." + npc.BirthdaySeason.ToString().ToLowerInvariant()), npc.BirthdayDay);
-            var talked = state.TalkedToday ? L.Get("social.talked") : L.Get("social.not_talked");
-            var place = NpcLocator.Where(session, npc);
-            var where = place.Walking
-                ? L.Get("social.walking", L.Get("map." + place.DestinationMap))
-                : L.Get("social.at", L.Get("map." + place.Map));
-            return $"{birthday} - {talked} - {where}";
-        }
-    }
-
     // ---- calendar ----------------------------------------------------------------------------------------------------
 
     public sealed class CalendarPage : MenuPage

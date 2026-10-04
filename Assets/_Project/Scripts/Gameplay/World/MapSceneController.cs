@@ -110,7 +110,7 @@ namespace Farm.Gameplay
         }
 #endif
 
-        // QA aid: `-farmOpen inventory|shop|pause|options|message|upgrades|summary|sleep|dialogue|chatmenu|memories|stream` opens a screen shortly after the scene starts.
+        // QA aid: `-farmOpen inventory|shop|pause|options|message|upgrades|summary|sleep|dialogue|chatmenu|memories|neighbours|gossip|stream` opens a screen shortly after the scene starts.
         System.Collections.IEnumerator OpenRequestedScreen()
         {
             var which = CommandLine.GetArg("-farmOpen");
@@ -146,6 +146,35 @@ namespace Farm.Gameplay
                         _session.State.EventsSeen.Add(id);
                     ui.ShowGameMenu(MenuTabs.Memories);
                     break;
+                case "neighbours":
+                {
+                    // QA only (a throwaway game): meet a few villagers at different stages, with a gift or two and a topic found out.
+                    foreach (var (id, hearts) in new[] { ("wren", 6), ("hazel", 3), ("bram", 9), ("tilda", 2), ("juno", 4) })
+                        _session.State.Npcs[id] = new NpcState { Met = true, Points = hearts * FriendshipModel.PointsPerHeart + 20 };
+                    var inter = InteractionState.Load(_session);
+                    inter.GiftDay["wren|artisan.wine"] = 1; inter.GiftDay["wren|forage.clam"] = 2; inter.GiftDay["bram|forage.truffle"] = 1;
+                    inter.TopicTimes["wren.gossip"] = 2;
+                    InteractionState.Store(_session, inter);
+                    _session.State.Quests["wren_stew"] = new QuestProgress { Status = "active" };
+                    ui.ShowGameMenu(MenuTabs.Social);
+                    break;
+                }
+                case "gossip":
+                {
+                    // QA only (a throwaway game): a few rare lines heard and one story solved.
+                    foreach (var id in new[] { "wren", "hazel", "bram", "tilda" }) _session.State.Npcs[id] = new NpcState { Met = true };
+                    var memory = LineMemory.Load(_session);
+                    foreach (var id in new[] { "wren", "hazel", "bram" })
+                    {
+                        var set = _session.Story.Set($"npc.{id}.talk");
+                        var rare = System.Linq.Enumerable.FirstOrDefault(set.Entries, GossipBook.IsRare);
+                        if (rare != null) memory.Record(set.Id, rare.Dialogue, 5, 0);
+                    }
+                    LineMemory.Store(_session, memory);
+                    _session.SetFlag("storyline.pie_feud"); _session.SetFlag("storyline.lost_umbrella"); _session.SetFlag("storydone.pie_feud");
+                    ui.ShowGameMenu(MenuTabs.Gossip);
+                    break;
+                }
                 case "summary":
                     var s = new DaySummary { Earnings = 245, GoldAfter = 745, NewWeather = WeatherIds.Rain };
                     s.Shipped.Add(new ItemStack("crop.parsnip", 4));

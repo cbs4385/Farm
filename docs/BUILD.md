@@ -78,7 +78,7 @@ Launch options for development builds: `-farmCommands "date summer 15;time 22:30
 | Flag | Effect |
 |---|---|
 | `-farmScene <Scene>` | Start in a scene after bootstrapping services (`Farm`, `FarmHouse`, `MainMenu`, `PixelPerfectTest`) |
-| `-farmOpen <what>` | After the scene starts: `inventory`, `shop`, `pause`, `options`, `summary`, `sleep` (full sleep flow), `crops` (one crop per growth stage), `dialogue` (a conversation opened at its choices), `chatmenu` (the social submenu, the longest list of choices), `memories` (the Memories tab with a few scenes unlocked), `stream` (stream mode with a 30 second choice timer); in the main menu `newgame`, `options` |
+| `-farmOpen <what>` | After the scene starts: `inventory`, `shop`, `pause`, `options`, `summary`, `sleep` (full sleep flow), `crops` (one crop per growth stage), `dialogue` (a conversation opened at its choices), `chatmenu` (the social submenu, the longest list of choices), `memories` (the Memories tab with a few scenes unlocked), `neighbours` (the Neighbors page with a few villagers met), `gossip` (the Gossip Book with a few finds), `stream` (stream mode with a 30 second choice timer); in the main menu `newgame`, `options` |
 | `-farmSpawn <id>` | With `-farmScene`: start at a named spawn point of that map (for example `-farmScene Village -farmSpawn fromGeneralStore`) |
 | `-farmCapture <dir>` | Save 6 screenshots (`shot_<w>x<h>_<n>.png`), log a `[Perf]` line, then quit |
 | `-screen-width/-height/-screen-fullscreen` | Standard Unity window flags (also stop saved display settings overriding the window) |
