@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Farm.Core;
@@ -22,6 +23,13 @@ namespace Farm.Gameplay
         int _frames;
         bool _checkedTriggers;
         bool _skip;
+        EventStage _stage;
+        bool _replay;                       // a memory: no effects, no clock change, nothing marked as seen
+        bool _memoryStarted;
+        readonly List<Background> _background = new List<Background>();
+        readonly Dictionary<string, string> _expressions = new Dictionary<string, string>();   // sticky `expression` steps, per speaker
+
+        sealed class Background { public string Actor; public bool Done; }
 
         public static EventDirector Current { get; private set; }
         public bool IsPlaying { get; private set; }
@@ -30,6 +38,7 @@ namespace Farm.Gameplay
         {
             _map = map; _session = session; _npcs = npcs; _player = player;
             _input = ServiceLocator.Get<InputService>();
+            _stage = new EventStage(map, session, npcs, player, () => _skip);
             Current = this;
         }
 
@@ -48,11 +57,18 @@ namespace Farm.Gameplay
             if (loader != null && loader.IsLoading) return;
 
             var next = PopNext();
-            if (next != null) StartCoroutine(Play(next));
+            if (next != null) StartCoroutine(Play(next, _session.MemoryId == next.Id));
         }
 
         EventDefinition PopNext()
         {
+            // During a memory replay only that scene plays, and only once.
+            if (_session.MemoryId != null)
+            {
+                if (_memoryStarted) return null;
+                _memoryStarted = true;
+                return _session.Story.Event(_session.MemoryId);
+            }
             while (_session.PendingEvents.Count > 0)
             {
                 var id = _session.PendingEvents[0];
@@ -73,26 +89,54 @@ namespace Farm.Gameplay
 
         // ---- playback -------------------------------------------------------------------------------------------------
 
-        IEnumerator Play(EventDefinition ev)
+        IEnumerator Play(EventDefinition ev, bool replay = false)
         {
             IsPlaying = true;
             _skip = false;
-            if (ev.Once) _session.State.EventsSeen.Add(ev.Id);
+            _replay = replay;
+            if (!replay && ev.Once) _session.State.EventsSeen.Add(ev.Id);
             _input.BlockGameplay();
-            if (!ev.RunClock) _session.Clock.Pause();
+            if (replay || !ev.RunClock) _session.Clock.Pause();
             _player.Stop();
+            if (replay) PrepareCast(ev);
 
+            _background.Clear();
+            _expressions.Clear();
             var step = 0;
-            for (; step < ev.Steps.Count && !_skip; step++)
-                yield return Run(ev.Steps[step]);
+            for (var guard = 0; step < ev.Steps.Count && !_skip && guard < EventFlow.MaxSteps; guard++)
+            {
+                var current = ev.Steps[step];
+                if (EventFlow.ShouldRun(current, _session.World))
+                {
+                    if (current.Async) StartBackground(current);
+                    else yield return Run(current);
+                    step = EventFlow.Next(ev.Steps, step, _session.World);
+                }
+                else step++;
+            }
 
-            if (_skip) EventRunner.RunSkipped(_session, ev, step);
+            // A skip runs what the rest of the scene would have (following its branches) and clears the stage.
+            if (_skip && !replay) EventRunner.RunSkipped(_session, ev, Mathf.Min(step, ev.Steps.Count));
+            _background.Clear();
+            _stage.Reset();
             _npcs.ReleaseAll();
-            if (!ev.RunClock) _session.Clock.Resume();
+            if (replay || !ev.RunClock) _session.Clock.Resume();
             _input.UnblockGameplay();
             IsPlaying = false;
-            _session.Publish(new EventFinished(ev.Id, _skip));
+            _replay = false;
+            if (replay) Memories.Finish(_session);       // no EventFinished: reactions and quests must not hear about a replay
+            else _session.Publish(new EventFinished(ev.Id, _skip));
         }
+
+        // A memory may be replayed when a villager is elsewhere: put everyone the scene needs on stage.
+        void PrepareCast(EventDefinition ev)
+        {
+            var index = 0;
+            foreach (var id in Memories.Cast(ev))
+                _npcs.Take(id, Memories.CastCell(ev, index++));
+        }
+
+        Action<string> EffectSink => _replay ? (Action<string>)(_ => { }) : (e => Effects.Run(_session, e));
 
         IEnumerator Run(EventStep step)
         {
@@ -104,12 +148,67 @@ namespace Farm.Gameplay
                 case "place": Place(step.Actor, step.X, step.Y); break;
                 case "face": Face(step.Actor, NpcSchedule.FacingVector(step.Facing)); break;
                 case "wait": yield return Wait(step.Seconds); break;
-                case "advance": _session.Clock.AdvanceMinutes(step.Minutes); break;
+                case "advance": if (!_replay) _session.Clock.AdvanceMinutes(step.Minutes); break;
                 case "fadeout": yield return ServiceLocator.Get<SceneLoader>().FadeTo(1f, Mathf.Max(0.05f, step.Seconds > 0 ? step.Seconds : 0.4f)); break;
                 case "fadein": yield return ServiceLocator.Get<SceneLoader>().FadeTo(0f, Mathf.Max(0.05f, step.Seconds > 0 ? step.Seconds : 0.4f)); break;
-                case "effects": Effects.RunAll(_session, step.Effects); break;
+                case "effects": if (!_replay) Effects.RunAll(_session, step.Effects); break;
+                case "emote": yield return _stage.Emote(step.Actor, step.Name, step.Seconds); break;
+                case "expression": _expressions[step.Actor] = step.Name == "neutral" ? null : step.Name; break;
+                case "anim": yield return _stage.Anim(step.Actor, step.Name, step.Seconds); break;
+                case "camera": yield return _stage.CameraStep(step); break;
+                case "sfx": _stage.Sfx(step.Name); break;
+                case "music": _stage.Music(step.Name); break;
+                case "lighting": yield return _stage.LightingStep(step.Name, step.Seconds); break;
+                case "letterbox": yield return _stage.LetterboxStep(step.Name == "on", step.Seconds); break;
+                case "spawn": _stage.Spawn(step.Id, step.Name, step.X, step.Y); break;
+                case "despawn": _stage.Despawn(step.Id); break;
+                case "waitFor": yield return WaitForBackground(step.Actor); break;
+                case "parallel": yield return RunParallel(step); break;
+                case "label": case "branch": break;          // control flow is handled by EventFlow
                 default: Log.Warn($"Unknown event step '{step.Type}'."); break;
             }
+        }
+
+        // ---- background steps and parallel groups --------------------------------------------------------------------
+
+        void StartBackground(EventStep step)
+        {
+            var bg = new Background { Actor = step.Actor };
+            _background.Add(bg);
+            StartCoroutine(RunBackground(step, bg));
+        }
+
+        IEnumerator RunBackground(EventStep step, Background bg)
+        {
+            yield return Run(step);
+            bg.Done = true;
+        }
+
+        // Waits for the background steps of one actor (or all of them when no actor is named).
+        IEnumerator WaitForBackground(string actor)
+        {
+            while (!_skip)
+            {
+                var pending = false;
+                foreach (var bg in _background)
+                    if (!bg.Done && (string.IsNullOrEmpty(actor) || bg.Actor == actor)) { pending = true; break; }
+                if (!pending) yield break;
+                PollSkip();
+                yield return null;
+            }
+        }
+
+        IEnumerator RunParallel(EventStep group)
+        {
+            var started = new List<Background>();
+            foreach (var child in group.Steps)
+            {
+                if (!EventFlow.ShouldRun(child, _session.World)) continue;
+                var bg = new Background { Actor = child.Actor };
+                started.Add(bg);
+                StartCoroutine(RunBackground(child, bg));
+            }
+            while (!_skip && started.Exists(b => !b.Done)) { PollSkip(); yield return null; }
         }
 
         // Escape (or the gamepad's back button) skips the rest of the scene.
@@ -126,19 +225,21 @@ namespace Farm.Gameplay
 
         IEnumerator Say(EventStep step)
         {
+            var expression = !string.IsNullOrEmpty(step.Expression) ? step.Expression
+                : step.Speaker != null && _expressions.TryGetValue(step.Speaker, out var sticky) ? sticky : null;
             var graph = new DialogueGraph
             {
                 Id = "event.say", Start = "n",
-                Nodes = { new DialogueNode { Id = "n", Speaker = step.Speaker, Text = step.Text } },
+                Nodes = { new DialogueNode { Id = "n", Speaker = step.Speaker, Text = step.Text, Expression = expression, Emote = step.Emote } },
             };
-            yield return ShowDialogue(new DialogueRunner(graph, _session.World, _session.StoryText, e => Effects.Run(_session, e)));
+            yield return ShowDialogue(new DialogueRunner(graph, _session.World, _session.StoryText, EffectSink));
         }
 
         IEnumerator Dialogue(string id)
         {
             var graph = _session.Story.Dialogue(id);
             if (graph == null) yield break;
-            yield return ShowDialogue(new DialogueRunner(graph, _session.World, _session.StoryText, e => Effects.Run(_session, e)));
+            yield return ShowDialogue(new DialogueRunner(graph, _session.World, _session.StoryText, EffectSink));
         }
 
         IEnumerator ShowDialogue(DialogueRunner runner)

@@ -1,0 +1,753 @@
+{
+  "eventTemplates": [
+    {
+      "id": "shared_activity",
+      "description": "The villager shows the player something they do (cooking, mending, tuning). A gesture and an emote during the activity, then a closing line and a reward.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "intro",
+        "doing",
+        "wrap"
+      ],
+      "defaults": {
+        "when": "true",
+        "gesture": "nod",
+        "emote": "note",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${intro}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "emote",
+            "actor": "${npc}",
+            "name": "${emote}",
+            "seconds": 1.2,
+            "async": true
+          },
+          {
+            "type": "anim",
+            "actor": "${npc}",
+            "name": "${gesture}",
+            "seconds": 0.8
+          },
+          {
+            "type": "waitFor",
+            "actor": "${npc}"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${doing}"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${wrap}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "conversation",
+      "description": "A plain scene with a conversation: the villager says something, the player moves in, a dialogue with choices follows (its flags are what later lines refer to), then a closing line.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "intro",
+        "talk",
+        "after"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${intro}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "dialogue",
+            "dialogue": "${talk}"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${after}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "confession",
+      "description": "A quiet, serious moment: bars and dim light, the camera on the villager, and a conversation with choices (a dialogue) that sets flags the writer refers to later.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "intro",
+        "talk",
+        "after"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${intro}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "letterbox",
+            "name": "on",
+            "seconds": 0.4
+          },
+          {
+            "type": "lighting",
+            "name": "dim",
+            "seconds": 0.6
+          },
+          {
+            "type": "camera",
+            "name": "focus",
+            "actor": "${npc}",
+            "seconds": 0.5
+          },
+          {
+            "type": "expression",
+            "actor": "${npc}",
+            "name": "thinking"
+          },
+          {
+            "type": "dialogue",
+            "dialogue": "${talk}"
+          },
+          {
+            "type": "expression",
+            "actor": "${npc}",
+            "name": "neutral"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${after}"
+          },
+          {
+            "type": "camera",
+            "name": "reset",
+            "seconds": 0.4
+          },
+          {
+            "type": "lighting",
+            "name": "reset",
+            "seconds": 0.4
+          },
+          {
+            "type": "letterbox",
+            "name": "off",
+            "seconds": 0.4
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "heirloom",
+      "description": "The villager hands over something that matters to them. The item appears on screen, a heart emote, the item is given, then thanks.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "nx",
+        "ny",
+        "item",
+        "intro",
+        "give",
+        "thanks"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${intro}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "spawn",
+            "id": "heirloom",
+            "name": "${item}",
+            "x": "${nx}",
+            "y": "${ny}"
+          },
+          {
+            "type": "emote",
+            "actor": "${npc}",
+            "name": "heart",
+            "seconds": 1.2,
+            "async": true
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${give}"
+          },
+          {
+            "type": "sfx",
+            "name": "coin"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "give:${item},1",
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "despawn",
+            "id": "heirloom"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${thanks}"
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shared_meal",
+      "description": "The villager and the player eat together. A dish appears, both react, a little energy comes back.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "nx",
+        "ny",
+        "dish",
+        "intro",
+        "bite",
+        "wrap"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${intro}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "spawn",
+            "id": "meal",
+            "name": "${dish}",
+            "x": "${nx}",
+            "y": "${ny}"
+          },
+          {
+            "type": "anim",
+            "actor": "player",
+            "name": "nod",
+            "seconds": 0.6,
+            "async": true
+          },
+          {
+            "type": "anim",
+            "actor": "${npc}",
+            "name": "hop",
+            "seconds": 0.6
+          },
+          {
+            "type": "waitFor"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${bite}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "energy:15",
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "despawn",
+            "id": "meal"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${wrap}"
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "helping_scene",
+      "description": "The villager asks for something the player may or may not have. If the condition `need` holds the scene succeeds and is spent; if not, the villager says to come back and the scene is offered again.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "need",
+        "ask",
+        "success",
+        "fallback"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "!flag:event.${id} && ${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${ask}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "branch",
+            "target": "ok",
+            "condition": "${need}"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${fallback}"
+          },
+          {
+            "type": "branch",
+            "target": "end"
+          },
+          {
+            "type": "label",
+            "label": "ok"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${success}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          },
+          {
+            "type": "label",
+            "label": "end"
+          }
+        ],
+        "once": false
+      }
+    },
+    {
+      "id": "prank",
+      "description": "A harmless joke: the villager sets something up, a jiggle, a sound, a camera shake, a surprised player, then a conversation (a dialogue) about it.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "setup",
+        "prank",
+        "talk",
+        "reaction"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${setup}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "anim",
+            "actor": "${npc}",
+            "name": "jiggle",
+            "seconds": 0.6,
+            "async": true
+          },
+          {
+            "type": "sfx",
+            "name": "click"
+          },
+          {
+            "type": "camera",
+            "name": "shake",
+            "seconds": 0.5,
+            "value": 0.12
+          },
+          {
+            "type": "emote",
+            "actor": "player",
+            "name": "exclaim",
+            "seconds": 1.0,
+            "async": true
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${prank}"
+          },
+          {
+            "type": "waitFor"
+          },
+          {
+            "type": "dialogue",
+            "dialogue": "${talk}"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${reaction}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "performance",
+      "description": "The villager performs for the player: warm light, bars, the camera on them, a music cue, a dance and notes, then applause and a closing line.",
+      "params": [
+        "npc",
+        "map",
+        "px",
+        "py",
+        "intro",
+        "cue",
+        "outro"
+      ],
+      "defaults": {
+        "when": "true",
+        "reward": []
+      },
+      "event": {
+        "trigger": "map",
+        "map": "${map}",
+        "priority": 6,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "${npc}",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${intro}"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": "${px}",
+            "y": "${py}"
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "lighting",
+            "name": "warm",
+            "seconds": 0.6
+          },
+          {
+            "type": "letterbox",
+            "name": "on",
+            "seconds": 0.4
+          },
+          {
+            "type": "camera",
+            "name": "focus",
+            "actor": "${npc}",
+            "seconds": 0.5
+          },
+          {
+            "type": "music",
+            "name": "${cue}"
+          },
+          {
+            "type": "parallel",
+            "steps": [
+              {
+                "type": "anim",
+                "actor": "${npc}",
+                "name": "dance",
+                "seconds": 3.0
+              },
+              {
+                "type": "emote",
+                "actor": "${npc}",
+                "name": "note",
+                "seconds": 3.0
+              }
+            ]
+          },
+          {
+            "type": "sfx",
+            "name": "coin"
+          },
+          {
+            "type": "music",
+            "name": "stop"
+          },
+          {
+            "type": "camera",
+            "name": "reset",
+            "seconds": 0.4
+          },
+          {
+            "type": "lighting",
+            "name": "reset",
+            "seconds": 0.4
+          },
+          {
+            "type": "letterbox",
+            "name": "off",
+            "seconds": 0.4
+          },
+          {
+            "type": "say",
+            "speaker": "${npc}",
+            "text": "${outro}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          },
+          {
+            "type": "effects",
+            "effects": "${reward}"
+          }
+        ]
+      }
+    }
+  ]
+}

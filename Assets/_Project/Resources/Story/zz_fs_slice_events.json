@@ -1,0 +1,520 @@
+{
+  "dialogues": [
+    {
+      "id": "wren.openmic",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.openmic.0",
+          "choices": [
+            {
+              "text": "dlg.wren.openmic.c0",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.wren.openmic.cheer"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.openmic.c1",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.wren.openmic.heckle"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.wren.openmic.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.wren.openmic.hide"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.openmic.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.openmic.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "wren",
+          "text": "dlg.wren.openmic.r2"
+        }
+      ]
+    },
+    {
+      "id": "wren.kitchen",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.kitchen.0",
+          "choices": [
+            {
+              "text": "dlg.wren.kitchen.c0",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.wren.kitchen.pepper"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.kitchen.c1",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.wren.kitchen.cider"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.wren.kitchen.c2",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.wren.kitchen.plain"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.kitchen.r0",
+          "emote": "sweat"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.kitchen.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "wren",
+          "text": "dlg.wren.kitchen.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "wren.bag",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.bag.0",
+          "expression": "thinking",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.wren.bag.1",
+          "choices": [
+            {
+              "text": "dlg.wren.bag.c0",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.wren.bag.go"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.bag.c1",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.wren.bag.stay"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.wren.bag.c2",
+              "default": false,
+              "effects": [
+                "friend:wren,15",
+                "flag:choice.wren.bag.listen"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.bag.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.bag.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "wren",
+          "text": "dlg.wren.bag.r2",
+          "expression": "sad"
+        }
+      ]
+    },
+    {
+      "id": "hazel.swap",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.swap.0",
+          "choices": [
+            {
+              "text": "dlg.hazel.swap.c0",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.hazel.swap.book"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.swap.c1",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.hazel.swap.recipe"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.hazel.swap.c2",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.hazel.swap.honest"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.swap.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.swap.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.swap.r2"
+        }
+      ]
+    },
+    {
+      "id": "hazel.hiding",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.hiding.0",
+          "expression": "thinking",
+          "choices": [
+            {
+              "text": "dlg.hazel.hiding.c0",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.hazel.hiding.ask"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.hiding.c1",
+              "default": false,
+              "effects": [
+                "friend:hazel,15",
+                "flag:choice.hazel.hiding.wait"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.hazel.hiding.c2",
+              "default": false,
+              "effects": [
+                "friend:hazel,5",
+                "flag:choice.hazel.hiding.joke"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.hiding.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.hiding.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.hiding.r2"
+        }
+      ]
+    },
+    {
+      "id": "hazel.rehearsal",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.rehearsal.0",
+          "expression": "embarrassed",
+          "choices": [
+            {
+              "text": "dlg.hazel.rehearsal.c0",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.hazel.rehearsal.praise"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.rehearsal.c1",
+              "default": false,
+              "effects": [
+                "friend:hazel,15",
+                "flag:choice.hazel.rehearsal.critique"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.hazel.rehearsal.c2",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.hazel.rehearsal.laugh"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.rehearsal.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.rehearsal.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.rehearsal.r2"
+        }
+      ]
+    },
+    {
+      "id": "bram.repair",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.repair.0",
+          "choices": [
+            {
+              "text": "dlg.bram.repair.c0",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bram.repair.hold"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.bram.repair.c1",
+              "default": false,
+              "effects": [
+                "friend:bram,15",
+                "flag:choice.bram.repair.hammer"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.bram.repair.c2",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bram.repair.watch"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "bram",
+          "text": "dlg.bram.repair.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "bram",
+          "text": "dlg.bram.repair.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "bram",
+          "text": "dlg.bram.repair.r2"
+        }
+      ]
+    },
+    {
+      "id": "bram.long",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.long.0",
+          "expression": "thinking",
+          "choices": [
+            {
+              "text": "dlg.bram.long.c0",
+              "default": false,
+              "effects": [
+                "friend:bram,15",
+                "flag:choice.bram.long.nod"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.bram.long.c1",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bram.long.glad"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.bram.long.c2",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bram.long.word"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "bram",
+          "text": "dlg.bram.long.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "bram",
+          "text": "dlg.bram.long.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "bram",
+          "text": "dlg.bram.long.r2"
+        }
+      ]
+    },
+    {
+      "id": "bram.juno",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.juno.0",
+          "choices": [
+            {
+              "text": "dlg.bram.juno.c0",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bram.juno.praise"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.bram.juno.c1",
+              "default": false,
+              "effects": [
+                "friend:bram,10",
+                "flag:choice.bram.juno.tease"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.bram.juno.c2",
+              "default": false,
+              "effects": [
+                "friend:bram,15",
+                "flag:choice.bram.juno.ask"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "bram",
+          "text": "dlg.bram.juno.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "bram",
+          "text": "dlg.bram.juno.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "bram",
+          "text": "dlg.bram.juno.r2",
+          "expression": "sad"
+        }
+      ]
+    }
+  ]
+}

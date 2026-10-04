@@ -14,6 +14,8 @@ namespace Farm.Gameplay
         void ShowUpgrades(string shopId);
         void ShowMessage(string messageKey, Action onClose = null);
         void ShowDialogue(DialogueRunner runner, Action onClosed = null);
+        void SetLetterbox(bool on, float seconds) { }      // cinematic bars for scenes (T-100)
+        void ApplyUiScale(float scale) { }                 // the text size option (and stream mode) rescale the whole UI
         // The cooking list of a station (the kitchen), and a chest's contents next to the backpack.
         void ShowCrafting(string station);
         void ShowChest(string objectId);
@@ -41,5 +43,6 @@ namespace Farm.Gameplay
         public const string Journal = "journal";
         public const string Collections = "collections";
         public const string Crafting = "crafting";
+        public const string Memories = "memories";
     }
 }

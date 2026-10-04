@@ -156,6 +156,11 @@ namespace Farm.UI
                 _status.text = L.Get("newgame.need_names");
                 return;
             }
+            if (!NameFilter.IsAllowed(_name.text) || !NameFilter.IsAllowed(_farm.text))
+            {
+                _status.text = L.Get("newgame.name_blocked");
+                return;
+            }
             if (occupied) Ui.ShowConfirm("confirm.overwrite", () => Start(slot));
             else Start(slot);
         }

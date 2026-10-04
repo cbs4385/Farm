@@ -69,8 +69,10 @@ namespace Farm.UI
                 page.BuildInto(ui, content);
                 var index = _pages.Count;
                 _pages.Add(page);
-                var tab = UiKit.MakeButton(tabs.transform, L.Get("menu.tab." + page.Id), () => Show(index), 118f, 34f);
+                var tab = UiKit.MakeButton(tabs.transform, L.Get("menu.tab." + page.Id), () => Show(index), 104f, 34f);
                 tab.name = "Tab_" + page.Id;
+                var tabText = tab.GetComponentInChildren<TextMeshProUGUI>();      // eight tabs share the row: shrink a long name instead of wrapping it
+                if (tabText != null) { tabText.textWrappingMode = TextWrappingModes.NoWrap; tabText.enableAutoSizing = true; tabText.fontSizeMin = 12f; tabText.fontSizeMax = 18f; }
                 _tabs.Add(tab);
             }
             root.SetActive(false);

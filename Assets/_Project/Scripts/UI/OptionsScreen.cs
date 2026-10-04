@@ -159,6 +159,32 @@ namespace Farm.UI
             UiKit.MakeToggle(cb, L.Get("ui.on"), s.ColorblindPalette, on => s.ColorblindPalette = on, 220f);
             var calm = Row(L.Get("options.reduce_flashes"));
             UiKit.MakeToggle(calm, L.Get("ui.on"), s.ReduceFlashes, on => s.ReduceFlashes = on, 220f);
+            var speed = Row(L.Get("options.dialogue_speed"));
+            Button speedButton = null;
+            speedButton = UiKit.MakeButton(speed, L.Get("options.dialogue_speed." + s.DialogueSpeed), () =>
+            {
+                s.DialogueSpeed = (s.DialogueSpeed + 1) % 4;
+                UiKit.SetButtonText(speedButton, L.Get("options.dialogue_speed." + s.DialogueSpeed));
+            }, 220f, 30f);
+            speedButton.name = "DialogueSpeed";
+            var stream = Row(L.Get("options.stream_mode"));
+            UiKit.MakeToggle(stream, L.Get("ui.on"), s.StreamMode, on => s.StreamMode = on, 220f).name = "StreamMode";
+            var timer = Row(L.Get("options.choice_timer"));
+            Button timerButton = null;
+            timerButton = UiKit.MakeButton(timer, ChoiceTimerLabel(s.ChoiceTimer), () =>
+            {
+                var steps = SettingsData.ChoiceTimerSteps;
+                var next = steps[(System.Array.IndexOf(steps, s.ChoiceTimer) + 1) % steps.Length];
+                s.ChoiceTimer = next;
+                UiKit.SetButtonText(timerButton, ChoiceTimerLabel(next));
+            }, 220f, 30f);
+            timerButton.name = "ChoiceTimer";
+            var blips = Row(L.Get("options.voice_blips"));
+            UiKit.MakeToggle(blips, L.Get("ui.on"), s.VoiceBlips, on => s.VoiceBlips = on, 220f).name = "VoiceBlips";
+            var chat = Row(L.Get("options.chat_menu"));
+            UiKit.MakeToggle(chat, L.Get("ui.on"), s.ChatMenu, on => s.ChatMenu = on, 220f).name = "ChatMenu";
+            var auto = Row(L.Get("options.auto_advance"));
+            UiKit.MakeToggle(auto, L.Get("ui.on"), s.AutoAdvance, on => s.AutoAdvance = on, 220f).name = "AutoAdvance";
 
             Section(L.Get("options.gameplay"));
             var easy = Row(L.Get("options.relaxed_energy"));
@@ -187,6 +213,8 @@ namespace Farm.UI
             }, 260f, 30f);
             reset.name = "ResetBindings";
         }
+
+        static string ChoiceTimerLabel(int seconds) => seconds <= 0 ? L.Get("ui.off") : L.Get("options.choice_timer.seconds", seconds);
 
         void Section(string title)
         {

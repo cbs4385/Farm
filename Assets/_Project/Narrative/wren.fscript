@@ -1,0 +1,169 @@
+# Wren Calloway, the saloon. Full depth (docs/narrative/BIBLE.md section 3). A raconteur: she embellishes, she hosts, she hates to cook.
+# Voice: warm, quick, second person, leading questions and trailing hooks. Her gossip is affectionate and visibly exaggerated.
+
+addto npc.wren.talk
+
+# ---- seasons (six more each; the first is in the shipped set) ----
+0 season:spring => wren.spring.1 cat=seasonal :: First warm night and every farmer wants a cider and an alibi for the mud.
+0 season:spring => wren.spring.2 cat=seasonal tag=funny :: Spring cleaning. I found a coin, two spoons, and a sock that belongs to Felix. Don't ask.
+0 season:spring => wren.spring.3 cat=seasonal :: I open the windows in spring and the whole bar smells like rain. Cheaper than perfume.
+0 season:spring => wren.spring.4 cat=seasonal :: Everyone plants too much in spring. Come summer they'll all be giving me turnips.
+0 season:spring => wren.spring.5 cat=seasonal :: New season, new menu. Same soup. I just rename it.
+0 season:spring => wren.spring.6 cat=seasonal rarity=uncommon :: Every spring I tell myself I'll learn to cook. Every spring the stove disagrees.
+0 season:summer => wren.summer.1 cat=seasonal :: Summer nights run long. I pour slow. Slow is the whole trick.
+0 season:summer => wren.summer.2 cat=seasonal tag=funny :: The cider is cold, the fiddle is loud, and the fire is out. Finally, a fair fight.
+0 season:summer => wren.summer.3 cat=seasonal :: Everyone's sunburned. I keep a bowl of cold pickles by the door. It's practically medicine.
+0 season:summer => wren.summer.4 cat=seasonal :: Felix comes in smelling of fish and glowing with pride. I seat him by the door.
+0 season:summer => wren.summer.5 cat=seasonal :: Warm evenings make people honest. Honest people tip well, or confess. Either one pays.
+0 season:summer => wren.summer.6 cat=seasonal rarity=uncommon :: Between us, I count the fireflies from the back step. Forty-one last night.
+0 season:fall => wren.fall.1 cat=seasonal :: Harvest season. Every farmer arrives with a story and a bruise, and the bruise is usually a pumpkin.
+0 season:fall => wren.fall.2 cat=seasonal :: The first cold night, the whole village remembers I own a fireplace.
+0 season:fall => wren.fall.3 cat=seasonal tag=funny :: Marcus swears his barn is haunted. It's raccoons. I keep telling him it's the ghost of a raccoon.
+0 season:fall => wren.fall.4 cat=seasonal :: I put cinnamon in everything this month. Nobody complains. Nobody can tell.
+0 season:fall => wren.fall.5 cat=seasonal :: Leaves on the roof, rain on the leaves, a cider in my hand. This is the one.
+0 season:fall => wren.fall.6 cat=seasonal rarity=uncommon :: My birthday's in fall. I tell everyone it's a rumor. It is not a rumor.
+0 season:winter => wren.winter.1 cat=seasonal :: Winter, and the fire does half my work. I pour and I nod. That's the job.
+0 season:winter => wren.winter.2 cat=seasonal :: The whole village is in here by four, steaming like soup.
+0 season:winter => wren.winter.3 cat=seasonal tag=wholesome :: I hang a lantern in the window when it snows. Anyone passing knows there's a seat.
+0 season:winter => wren.winter.4 cat=seasonal :: Spiced cider all month. I stir it with a spoon I've never washed. Tradition.
+0 season:winter => wren.winter.5 cat=seasonal :: Long nights, short tempers, and a very good stove. I'm fond of all three.
+0 season:winter => wren.winter.6 cat=seasonal rarity=uncommon :: The packed bag under my bar has never been warmer. It's right by the stove.
+
+# ---- weekdays ----
+0 weekday:mon => wren.mon.1 cat=weekday :: Monday. Everyone's tired, and I'm only awake on principle.
+0 weekday:mon => wren.mon.2 cat=weekday :: Mondays are slow. I use them to rehearse stories for Fridays.
+0 weekday:tue => wren.tue.1 cat=weekday :: Tuesday's my day off. I spend it in a hammock, listening to rumors blow past.
+0 weekday:tue => wren.tue.2 cat=weekday :: The saloon's shut on Tuesdays. Don't tell me what I'm missing. I'll make it up.
+0 weekday:wed => wren.wed.1 cat=weekday :: Wednesday, the quietest night. I get my best material from the quiet.
+0 weekday:wed => wren.wed.2 cat=weekday :: Midweek. Everyone's done pretending they're organized.
+0 weekday:thu => wren.thu.1 cat=weekday :: Thursday, and the whole room's gearing up for the weekend. I can smell the ambition.
+0 weekday:thu => wren.thu.2 cat=weekday :: Piper does her new songs on Thursdays. Some of them even end.
+0 weekday:fri => wren.fri.1 cat=weekday :: Friday! The good stool's reserved. For anyone but Felix.
+0 weekday:fri => wren.fri.2 cat=weekday :: Friday night, the saloon sings. Not well. Enthusiastically.
+0 weekday:sat => wren.sat.1 cat=weekday :: Saturday, packed to the rafters. I pour with both hands.
+0 weekday:sat => wren.sat.2 cat=weekday :: Saturday night, between us, is where all the good rumors are born.
+0 weekday:sun => wren.sun.1 cat=weekday :: Sunday. Gentle crowd, gentle cider, gentle regret about Saturday.
+0 weekday:sun => wren.sun.2 cat=weekday :: Sunday afternoons I let the fire burn down and read people's moods instead.
+
+# ---- weather ----
+0 weather:sunny => wren.sunny.1 cat=weather :: A bright day means a thin crowd. Everyone's outside pretending they enjoy it.
+0 weather:sunny => wren.sunny.2 cat=weather :: Sunny out. The cider tastes better in the shade, I promise.
+0 weather:sunny => wren.sunny.3 cat=weather :: Sunlight on the bar, dust in the air. It's like a very small stage.
+1 weather:rain => wren.rain.3 cat=weather :: Rain tapping the window and a full house inside. That's a good night's math.
+1 weather:rain => wren.rain.4 cat=weather tag=funny :: Everyone comes in wet and apologizing. I hand out towels and opinions.
+1 weather:storm => wren.storm.1 cat=weather :: A storm like this and every story gets taller. By midnight it's a hurricane.
+1 weather:storm => wren.storm.2 cat=weather :: Thunder, and the whole room goes quiet. I pour a little slower for the drama.
+1 weather:storm => wren.storm.3 cat=weather :: I keep the lanterns lit in a storm. People find the door by habit.
+1 weather:snow => wren.snow.1 cat=weather :: Snow. Everyone walks in stamping and smiling like they've discovered fire.
+1 weather:snow => wren.snow.2 cat=weather tag=wholesome :: First snow, and the saloon's the warmest room in Wetherell. I'd frame this if I could.
+1 weather:snow => wren.snow.3 cat=weather :: Between us, I love when the road disappears. Nobody leaves early.
+1 weather:wind => wren.wind.1 cat=weather :: The wind's got opinions today. The door has been arguing back since noon.
+1 weather:wind => wren.wind.2 cat=weather :: A windy day, and all the rumors get blown in, fully dressed.
+1 weather:wind => wren.wind.3 cat=weather :: Wind like this rattles the glasses. I take it as applause.
+
+# ---- time of day ----
+0 hour<12 => wren.morning.1 cat=time :: Morning? I'm barely a person before noon. Ask me again with coffee.
+0 hour<12 => wren.morning.2 cat=time :: I don't open till noon. Mornings are for sweeping and sulking.
+0 hour<12 => wren.morning.3 cat=time :: This early, the saloon is just a quiet room full of chairs thinking about themselves.
+0 hour>=12 && hour<17 => wren.afternoon.1 cat=time :: Slow afternoon. The calm before the clinking.
+0 hour>=12 && hour<17 => wren.afternoon.2 cat=time :: I polish the glasses at this hour. It's the only honest work I do.
+0 hour>=12 && hour<17 => wren.afternoon.3 cat=time :: Afternoons are for rumors that haven't been improved yet. Come back tonight.
+0 hour>=17 && hour<21 => wren.evening.1 cat=time :: Here comes the evening crowd. Brace yourself. Smile. Pour.
+0 hour>=17 && hour<21 => wren.evening.2 cat=time :: Lanterns on, fire up, stories warming. This is my favorite hour.
+0 hour>=17 && hour<21 => wren.evening.3 cat=time :: Evenings are when the village remembers it likes itself.
+0 hour>=21 => wren.late.1 cat=time :: Late. The honest hour. People say true things after nine and blame the cider.
+0 hour>=21 => wren.late.2 cat=time :: The fire's low and the stories are lower. I love it.
+0 hour>=21 => wren.late.3 cat=time :: Last call is a suggestion. Closing is a negotiation.
+0 map:Saloon => wren.here.1 cat=place :: Welcome to my kingdom. Population: me, a stove, and some chairs.
+0 map:Saloon => wren.here.2 cat=place :: See that scorch mark? Felix, a flaming dessert, and a bet. I'm still billing him.
+0 map:Saloon => wren.here.3 cat=place tag=funny :: Every dent in this bar is a story. That one's the pickle incident. We don't discuss it.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.1 cat=tier :: You know where I keep the good napkins. That's real trust.
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.2 cat=tier :: I've started saving you the first pour. Don't make it weird.
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.3 cat=tier :: You listen without trying to top my story. Do you know how rare that is?
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.4 cat=tier tag=funny :: Careful. You laugh at my jokes and I'll start telling more of them.
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.5 cat=tier :: Piper says you have a good face for gossip. I took it as a compliment.
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.6 cat=tier :: Sit, sit. I've got a rumor with your name on it. Kidding. Mostly.
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.7 cat=tier :: Tilda says you're the best thing to happen to the village. I told her to get in line.
+0 hearts:wren>=3 && hearts:wren<6 => wren.fr.8 cat=tier tag=wholesome :: The stool by the fire has a dip in it now. It's shaped like you.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.1 cat=tier :: I told a story about you last night. It was all true. That's how I know I like you.
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.2 cat=tier :: I stopped improving my stories about you. Didn't need to.
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.3 cat=tier tag=wholesome :: When you walk in, the room changes. Between us, I notice.
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.4 cat=tier :: You're the only one who asks how I am and waits for the answer.
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.5 cat=tier :: I almost left this village once. Then you showed up and ruined it. Thank you.
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.6 cat=tier :: I keep a tab for everyone. Yours has a drawing of a pie on it. It's a long story.
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.7 cat=tier tag=funny :: I'd tell you a secret, but you'd put it on a sign and ruin my reputation.
+0 hearts:wren>=6 && hearts:wren<9 => wren.cl.8 cat=tier :: Some friends I pour for. You, I pour with.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:wren>=9 => wren.co.1 cat=tier tag=wholesome :: People come here for the cider. Some for the stories. You, I think, came for me.
+0 hearts:wren>=9 => wren.co.2 cat=tier :: Do you know what the best part of my job is now? Watching you walk in.
+0 hearts:wren>=9 => wren.co.3 cat=tier :: I don't need to embellish with you. That's a first. It scares me. I like it.
+0 hearts:wren>=9 => wren.co.4 cat=tier :: This place is a lot of noise, and a lot of faces. You're the one I look for.
+0 hearts:wren>=9 => wren.co.5 cat=tier tag=funny :: If I wrote a book, you'd be the only chapter nobody believes.
+0 hearts:wren>=9 => wren.co.6 cat=tier :: The stool's yours. The fire's yours. The soup, we'll leave to the professionals.
+0 hearts:wren>=9 => wren.co.7 cat=tier :: Between us, I've stopped checking whether the bag is still under the bar.
+0 hearts:wren>=9 => wren.co.8 cat=tier tag=wholesome :: Some people make a place feel like a stage. You made mine feel like home.
+
+# ---- moods (they only show on the day the mood holds) ----
+1 mood:wren=lonely => wren.lonely.1 cat=mood :: You were gone a while. I told the chairs. They didn't care.
+1 mood:wren=lonely => wren.lonely.2 cat=mood :: Quiet week. I rehearsed three speeches for you and used none. Sit down.
+1 mood:wren=tired => wren.tired.1 cat=mood :: I'm running on cider and spite. Nobody tell Tilda.
+1 mood:wren=tired => wren.tired.2 cat=mood :: Long night. If I fall asleep mid-story, wake me for the ending.
+1 mood:wren=delighted => wren.delighted.1 cat=mood expr=happy emote=sparkle :: Good day! Good, good day. I could pour for the whole village and forget to charge.
+1 mood:wren=delighted => wren.delighted.2 cat=mood expr=happy :: Have you ever had a day where everything works? Me neither. Today's the first.
+1 mood:wren=mischievous => wren.mischief.1 cat=mood expr=happy :: I've got a rumor and no evidence. The best kind.
+1 mood:wren=mischievous => wren.mischief.2 cat=mood expr=happy :: Between us, I've been telling people you're a duke. Play along.
+1 mood:wren=worried => wren.worried.1 cat=mood expr=sad :: Nothing's wrong. I just keep counting the chairs. They keep coming up the same.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => wren.farm.1 cat=reactive :: I hear you've got a real field going. Everyone's saying so. I may have started it.
+0 farm:crops>=5 => wren.farm.2 cat=reactive tag=funny :: When you've got tomatoes, I want the first crate. My kitchen is a battlefield of sad ones.
+0 farm:animals>=1 => wren.farm.3 cat=reactive :: A real farm now, with animals. Do they gossip? They look the type.
+0 farm:animals>=1 => wren.farm.4 cat=reactive :: Next you'll tell me the chickens have names. They do? Of course they do.
+2 festival.in:<=3 && festival.in:>0 => wren.fest.1 cat=reactive :: Festival soon. I'm stocking up on cider and excuses.
+2 festival.in:<=3 && festival.in:>0 => wren.fest.2 cat=reactive tag=wholesome :: Festival's almost here. The whole village is about to be in one place. I love it.
+2 festival.in:==0 => wren.fest.3 cat=reactive :: It's festival day! Be good. Be loud. Come back and tell me everything.
+2 birthday.in:wren<=3 && birthday.in:wren>0 => wren.bday.1 cat=reactive :: My birthday is close. I'm not hinting. I'm lighting a very small flare.
+2 birthday.in:wren<=3 && birthday.in:wren>0 => wren.bday.2 cat=reactive :: Three days till I'm one year wiser and no less nosy.
+3 birthday.in:wren==0 => wren.bday.3 cat=reactive expr=happy emote=heart :: It's my birthday! Drinks are on me. Mostly. Some are on Felix.
+2 birthday.in:piper<=2 && birthday.in:piper>=0 => wren.bday.4 cat=reactive :: Piper's birthday's around the corner. I'm planning a surprise. She'll find out by supper.
+2 birthday.in:bram<=2 && birthday.in:bram>=0 => wren.bday.5 cat=reactive :: Bram's birthday's coming. I bet him I'd get four words out of him. He's in for a rough day.
+
+# ---- rarities: worth a streamer's double take ----
+0 ~ => wren.rare.1 cat=rare rarity=rare tag=funny :: I never repeat gossip. I improve it.
+0 ~ => wren.rare.2 cat=rare rarity=rare tag=funny :: If the walls could talk, I'd charge them rent.
+0 ~ => wren.rare.3 cat=rare rarity=rare tag=wholesome :: Between us: every good story in this room started with somebody nervous at the door.
+0 hearts:wren>=5 => wren.rare.4 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Want to know the secret to a good story? Make sure someone's listening. You do.
+
+# ---- gifts: the three she loves, the three she likes, the three she dislikes ----
+say npc.wren.gift.item.artisan.wine wren: Is this the good vintage? Oh, you terrible, wonderful enabler. Between us, I'll save it for a night I deserve.
+say npc.wren.gift.item.crop.hops wren: Hops! You've got the touch. I could brew a song out of these.
+say npc.wren.gift.item.artisan.pickles wren: Pickles! My favorite bar food and my favorite excuse. You know me.
+say npc.wren.gift.item.artisan.juice wren: Juice! For the nights I'm trying to behave. Thank you. It'll last until Thursday.
+say npc.wren.gift.item.crop.tomato wren: A tomato. I'll put it in the soup and call it mine.
+say npc.wren.gift.item.crop.pepper wren: A pepper. Now the soup has a personality. Thank you.
+say npc.wren.gift.item.forage.clam wren: A clam. Hm. I once served a clam. We lost two customers and a dog.
+say npc.wren.gift.item.food.bean_stew wren: Bean stew? Oh, that's thoughtful. I make forty gallons a week. I'll treat it as a mirror.
+say npc.wren.gift.item.resource.slime wren: Slime. For me. A gift from the heart, surely, because it's definitely not from the kitchen.
+
+# the gift lab: how a raconteur takes something absurd
+say npc.wren.gift.cat.Fish wren: A fish! Fresh? Excellent. Felix will want to know where you got it, and then he'll want it back.
+say npc.wren.gift.item.resource.stone wren: A rock. Between us, I've been looking for one to prop the back door. You have a gift for it.
+say npc.wren.gift.item.resource.wood wren: A log. I'll use it. Or I'll tell people it's a sculpture. Either way, thank you.
+say npc.wren.gift.item.resource.coal wren: Coal. For the stove, or for my enemies' stockings. Thank you.
+say npc.wren.gift.item.resource.bone wren: A bone. Well. This'll make a fine conversation piece, and an even finer silence.
+say npc.wren.gift.item.resource.bat_wing wren: A bat wing. I'm going to put it on the wall and tell everyone it's a dragon's. Thank you.
+say npc.wren.gift.item.product.egg wren: An egg! Everything starts with one. Including omelets, lawsuits, and rumors.
+say npc.wren.gift.item.product.milk wren: Milk? You think I need calming? Fine. Between us, I do.
+say npc.wren.gift.item.forage.dandelion wren: A dandelion. Sweet. Do I make a wish? Don't answer.
+say npc.wren.gift.item.forage.seashell wren: A seashell. Hold it to my ear? It says Felix owes me money.
+say npc.wren.gift.item.forage.mushroom wren: A mushroom. You trust me not to cook it. I appreciate that. I'll set it on the windowsill and admire it.
+say npc.wren.gift.item.crop.parsnip wren: A parsnip. The most honest vegetable. I'll hang it by the door for luck.
+say npc.wren.gift.item.crop.pumpkin wren: A pumpkin! Wonderful. I'll carve it into a very rude face and put it by Marcus's door.
+say npc.wren.gift.item.crop.corn wren: Corn. Hm. Corn at a bar. I see where this is going, and I like it.
+say npc.wren.gift.item.food.salad wren: A salad. For me? That's either a kindness or a very sharp hint. I'll eat it.
+say npc.wren.gift.repeat wren: Another one? You're spoiling me, and I've made my peace with it.

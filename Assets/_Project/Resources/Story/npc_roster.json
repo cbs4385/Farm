@@ -23,7 +23,8 @@
               "effects": [
                 "friend:marcus,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.marcus.first.c1",
@@ -105,7 +106,31 @@
         {
           "id": "n0",
           "speaker": "marcus",
-          "text": "dlg.marcus.friend2.0"
+          "text": "dlg.marcus.friend2.0",
+          "choices": [
+            {
+              "text": "dlg.marcus.friend2.c0",
+              "effects": [
+                "friend:marcus,15",
+                "flag:invite.marcus"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.marcus.friend2.c1",
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.friend2.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "marcus",
+          "text": "dlg.marcus.friend2.r1"
         }
       ]
     },
@@ -209,7 +234,8 @@
               "effects": [
                 "friend:odalys,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.odalys.first.c1",
@@ -291,7 +317,32 @@
         {
           "id": "n0",
           "speaker": "odalys",
-          "text": "dlg.odalys.friend2.0"
+          "text": "dlg.odalys.friend2.0",
+          "choices": [
+            {
+              "text": "dlg.odalys.friend2.c0",
+              "effects": [
+                "friend:odalys,15",
+                "flag:invite.odalys",
+                "give:forage.elderflower,2"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.odalys.friend2.c1",
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.friend2.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "odalys",
+          "text": "dlg.odalys.friend2.r1"
         }
       ]
     },
@@ -395,7 +446,8 @@
               "effects": [
                 "friend:wren,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.wren.first.c1",
@@ -411,7 +463,13 @@
         {
           "id": "r1_0",
           "speaker": "wren",
-          "text": "dlg.wren.first.r1_0"
+          "text": "dlg.wren.first.r1_0",
+          "next": "r1_1"
+        },
+        {
+          "id": "r1_1",
+          "speaker": "wren",
+          "text": "dlg.wren.first.r1_1"
         }
       ]
     },
@@ -581,7 +639,8 @@
               "effects": [
                 "friend:felix,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.felix.first.c1",
@@ -663,7 +722,32 @@
         {
           "id": "n0",
           "speaker": "felix",
-          "text": "dlg.felix.friend2.0"
+          "text": "dlg.felix.friend2.0",
+          "choices": [
+            {
+              "text": "dlg.felix.friend2.c0",
+              "effects": [
+                "friend:felix,15",
+                "flag:invite.felix",
+                "give:resource.bait,5"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.felix.friend2.c1",
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "felix",
+          "text": "dlg.felix.friend2.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "felix",
+          "text": "dlg.felix.friend2.r1"
         }
       ]
     },
@@ -767,7 +851,8 @@
               "effects": [
                 "friend:juno,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.juno.first.c1",
@@ -953,7 +1038,8 @@
               "effects": [
                 "friend:hazel,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.hazel.first.c1",
@@ -1139,7 +1225,8 @@
               "effects": [
                 "friend:piper,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.piper.first.c1",
@@ -1221,7 +1308,31 @@
         {
           "id": "n0",
           "speaker": "piper",
-          "text": "dlg.piper.friend2.0"
+          "text": "dlg.piper.friend2.0",
+          "choices": [
+            {
+              "text": "dlg.piper.friend2.c0",
+              "effects": [
+                "friend:piper,15",
+                "flag:invite.piper"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.friend2.c1",
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.friend2.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.friend2.r1"
         }
       ]
     },
@@ -1325,7 +1436,8 @@
               "effects": [
                 "friend:dorian,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.dorian.first.c1",
@@ -1407,7 +1519,32 @@
         {
           "id": "n0",
           "speaker": "dorian",
-          "text": "dlg.dorian.friend2.0"
+          "text": "dlg.dorian.friend2.0",
+          "choices": [
+            {
+              "text": "dlg.dorian.friend2.c0",
+              "effects": [
+                "friend:dorian,15",
+                "flag:invite.dorian",
+                "give:forage.mushroom,1"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.dorian.friend2.c1",
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.friend2.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.friend2.r1"
         }
       ]
     },
@@ -1511,7 +1648,8 @@
               "effects": [
                 "friend:elara,10"
               ],
-              "next": "r0_0"
+              "next": "r0_0",
+              "tone": "kind"
             },
             {
               "text": "dlg.elara.first.c1",
@@ -1593,7 +1731,31 @@
         {
           "id": "n0",
           "speaker": "elara",
-          "text": "dlg.elara.friend2.0"
+          "text": "dlg.elara.friend2.0",
+          "choices": [
+            {
+              "text": "dlg.elara.friend2.c0",
+              "effects": [
+                "friend:elara,15",
+                "flag:invite.elara"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.friend2.c1",
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.friend2.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.friend2.r1"
         }
       ]
     },
@@ -1673,6 +1835,995 @@
           "text": "dlg.npc.elara.gift.birthday.0"
         }
       ]
+    },
+    {
+      "id": "marcus.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.friend3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.friend3.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.friend4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.friend4.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.close3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.close3.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.close4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.close4.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.sea_spring",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.sea_spring.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.sea_summer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.sea_summer.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.sea_fall",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.sea_fall.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.sea_winter",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.sea_winter.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.rain2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.rain2.0"
+        }
+      ]
+    },
+    {
+      "id": "odalys.friend2b",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.odalys.friend2b.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.friend2b",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.friend2b.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.friend2b",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.friend2b.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.friend2b",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.friend2b.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.friend2b",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.friend2b.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.friend2b",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.friend2b.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.book",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.book.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.book.1",
+          "effects": [
+            "flag:hazel.book",
+            "friend:hazel,10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wren.chat4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.chat4.0"
+        }
+      ]
     }
   ],
   "sets": [
@@ -1703,23 +2854,73 @@
         },
         {
           "condition": "hearts:marcus>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "marcus.friend1"
         },
         {
-          "condition": "hearts:marcus>=3",
-          "priority": 2,
+          "condition": "hearts:marcus>=3 && !flag:invite.marcus",
+          "priority": 0,
           "dialogue": "marcus.friend2"
         },
         {
           "condition": "hearts:marcus>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "marcus.close1"
         },
         {
           "condition": "hearts:marcus>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "marcus.close2"
+        },
+        {
+          "dialogue": "marcus.friend3",
+          "priority": 0,
+          "condition": "hearts:marcus>=3"
+        },
+        {
+          "dialogue": "marcus.friend4",
+          "priority": 0,
+          "condition": "hearts:marcus>=3"
+        },
+        {
+          "dialogue": "marcus.close3",
+          "priority": 0,
+          "condition": "hearts:marcus>=6"
+        },
+        {
+          "dialogue": "marcus.close4",
+          "priority": 0,
+          "condition": "hearts:marcus>=6"
+        },
+        {
+          "dialogue": "marcus.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "marcus.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "marcus.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "marcus.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "marcus.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "marcus.friend2b",
+          "priority": 0,
+          "condition": "hearts:marcus>=3 && flag:invite.marcus"
         }
       ]
     },
@@ -1750,23 +2951,73 @@
         },
         {
           "condition": "hearts:odalys>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "odalys.friend1"
         },
         {
-          "condition": "hearts:odalys>=3",
-          "priority": 2,
+          "condition": "hearts:odalys>=3 && !flag:invite.odalys",
+          "priority": 0,
           "dialogue": "odalys.friend2"
         },
         {
           "condition": "hearts:odalys>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "odalys.close1"
         },
         {
           "condition": "hearts:odalys>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "odalys.close2"
+        },
+        {
+          "dialogue": "odalys.friend3",
+          "priority": 0,
+          "condition": "hearts:odalys>=3"
+        },
+        {
+          "dialogue": "odalys.friend4",
+          "priority": 0,
+          "condition": "hearts:odalys>=3"
+        },
+        {
+          "dialogue": "odalys.close3",
+          "priority": 0,
+          "condition": "hearts:odalys>=6"
+        },
+        {
+          "dialogue": "odalys.close4",
+          "priority": 0,
+          "condition": "hearts:odalys>=6"
+        },
+        {
+          "dialogue": "odalys.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "odalys.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "odalys.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "odalys.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "odalys.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "odalys.friend2b",
+          "priority": 0,
+          "condition": "hearts:odalys>=3 && flag:invite.odalys"
         }
       ]
     },
@@ -1785,7 +3036,8 @@
         },
         {
           "priority": 0,
-          "dialogue": "wren.chat1"
+          "dialogue": "wren.chat1",
+          "condition": "hour>=18"
         },
         {
           "priority": 0,
@@ -1796,24 +3048,73 @@
           "dialogue": "wren.chat3"
         },
         {
-          "condition": "hearts:wren>=3",
-          "priority": 2,
+          "condition": "hearts:wren>=3 && hour>=12",
+          "priority": 0,
           "dialogue": "wren.friend1"
         },
         {
           "condition": "hearts:wren>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "wren.friend2"
         },
         {
           "condition": "hearts:wren>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "wren.close1"
         },
         {
           "condition": "hearts:wren>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "wren.close2"
+        },
+        {
+          "dialogue": "wren.friend3",
+          "priority": 0,
+          "condition": "hearts:wren>=3"
+        },
+        {
+          "dialogue": "wren.friend4",
+          "priority": 0,
+          "condition": "hearts:wren>=3"
+        },
+        {
+          "dialogue": "wren.close3",
+          "priority": 0,
+          "condition": "hearts:wren>=6"
+        },
+        {
+          "dialogue": "wren.close4",
+          "priority": 0,
+          "condition": "hearts:wren>=6"
+        },
+        {
+          "dialogue": "wren.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "wren.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "wren.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "wren.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "wren.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "wren.chat4",
+          "priority": 0
         }
       ]
     },
@@ -1844,23 +3145,73 @@
         },
         {
           "condition": "hearts:felix>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "felix.friend1"
         },
         {
-          "condition": "hearts:felix>=3",
-          "priority": 2,
+          "condition": "hearts:felix>=3 && !flag:invite.felix",
+          "priority": 0,
           "dialogue": "felix.friend2"
         },
         {
           "condition": "hearts:felix>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "felix.close1"
         },
         {
           "condition": "hearts:felix>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "felix.close2"
+        },
+        {
+          "dialogue": "felix.friend3",
+          "priority": 0,
+          "condition": "hearts:felix>=3"
+        },
+        {
+          "dialogue": "felix.friend4",
+          "priority": 0,
+          "condition": "hearts:felix>=3"
+        },
+        {
+          "dialogue": "felix.close3",
+          "priority": 0,
+          "condition": "hearts:felix>=6"
+        },
+        {
+          "dialogue": "felix.close4",
+          "priority": 0,
+          "condition": "hearts:felix>=6"
+        },
+        {
+          "dialogue": "felix.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "felix.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "felix.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "felix.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "felix.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "felix.friend2b",
+          "priority": 0,
+          "condition": "hearts:felix>=3 && flag:invite.felix"
         }
       ]
     },
@@ -1891,23 +3242,68 @@
         },
         {
           "condition": "hearts:juno>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "juno.friend1"
         },
         {
           "condition": "hearts:juno>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "juno.friend2"
         },
         {
           "condition": "hearts:juno>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "juno.close1"
         },
         {
           "condition": "hearts:juno>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "juno.close2"
+        },
+        {
+          "dialogue": "juno.friend3",
+          "priority": 0,
+          "condition": "hearts:juno>=3"
+        },
+        {
+          "dialogue": "juno.friend4",
+          "priority": 0,
+          "condition": "hearts:juno>=3"
+        },
+        {
+          "dialogue": "juno.close3",
+          "priority": 0,
+          "condition": "hearts:juno>=6"
+        },
+        {
+          "dialogue": "juno.close4",
+          "priority": 0,
+          "condition": "hearts:juno>=6"
+        },
+        {
+          "dialogue": "juno.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "juno.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "juno.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "juno.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "juno.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
         }
       ]
     },
@@ -1938,23 +3334,73 @@
         },
         {
           "condition": "hearts:hazel>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "hazel.friend1"
         },
         {
           "condition": "hearts:hazel>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "hazel.friend2"
         },
         {
           "condition": "hearts:hazel>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "hazel.close1"
         },
         {
           "condition": "hearts:hazel>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "hazel.close2"
+        },
+        {
+          "dialogue": "hazel.friend3",
+          "priority": 0,
+          "condition": "hearts:hazel>=3"
+        },
+        {
+          "dialogue": "hazel.friend4",
+          "priority": 0,
+          "condition": "hearts:hazel>=3"
+        },
+        {
+          "dialogue": "hazel.close3",
+          "priority": 0,
+          "condition": "hearts:hazel>=6"
+        },
+        {
+          "dialogue": "hazel.close4",
+          "priority": 0,
+          "condition": "hearts:hazel>=6"
+        },
+        {
+          "dialogue": "hazel.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "hazel.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "hazel.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "hazel.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "hazel.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "hazel.book",
+          "priority": 6,
+          "condition": "hearts:hazel>=4 && !flag:hazel.book"
         }
       ]
     },
@@ -1984,24 +3430,74 @@
           "dialogue": "piper.chat3"
         },
         {
-          "condition": "hearts:piper>=3",
-          "priority": 2,
+          "condition": "hearts:piper>=3 && hour>=15",
+          "priority": 0,
           "dialogue": "piper.friend1"
         },
         {
-          "condition": "hearts:piper>=3",
-          "priority": 2,
+          "condition": "hearts:piper>=3 && !flag:invite.piper",
+          "priority": 0,
           "dialogue": "piper.friend2"
         },
         {
           "condition": "hearts:piper>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "piper.close1"
         },
         {
           "condition": "hearts:piper>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "piper.close2"
+        },
+        {
+          "dialogue": "piper.friend3",
+          "priority": 0,
+          "condition": "hearts:piper>=3"
+        },
+        {
+          "dialogue": "piper.friend4",
+          "priority": 0,
+          "condition": "hearts:piper>=3"
+        },
+        {
+          "dialogue": "piper.close3",
+          "priority": 0,
+          "condition": "hearts:piper>=6"
+        },
+        {
+          "dialogue": "piper.close4",
+          "priority": 0,
+          "condition": "hearts:piper>=6"
+        },
+        {
+          "dialogue": "piper.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "piper.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "piper.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "piper.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "piper.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "piper.friend2b",
+          "priority": 0,
+          "condition": "hearts:piper>=3 && flag:invite.piper"
         }
       ]
     },
@@ -2032,23 +3528,73 @@
         },
         {
           "condition": "hearts:dorian>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "dorian.friend1"
         },
         {
-          "condition": "hearts:dorian>=3",
-          "priority": 2,
+          "condition": "hearts:dorian>=3 && !flag:invite.dorian",
+          "priority": 0,
           "dialogue": "dorian.friend2"
         },
         {
           "condition": "hearts:dorian>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "dorian.close1"
         },
         {
           "condition": "hearts:dorian>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "dorian.close2"
+        },
+        {
+          "dialogue": "dorian.friend3",
+          "priority": 0,
+          "condition": "hearts:dorian>=3"
+        },
+        {
+          "dialogue": "dorian.friend4",
+          "priority": 0,
+          "condition": "hearts:dorian>=3"
+        },
+        {
+          "dialogue": "dorian.close3",
+          "priority": 0,
+          "condition": "hearts:dorian>=6"
+        },
+        {
+          "dialogue": "dorian.close4",
+          "priority": 0,
+          "condition": "hearts:dorian>=6"
+        },
+        {
+          "dialogue": "dorian.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "dorian.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "dorian.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "dorian.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "dorian.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "dorian.friend2b",
+          "priority": 0,
+          "condition": "hearts:dorian>=3 && flag:invite.dorian"
         }
       ]
     },
@@ -2079,23 +3625,73 @@
         },
         {
           "condition": "hearts:elara>=3",
-          "priority": 2,
+          "priority": 0,
           "dialogue": "elara.friend1"
         },
         {
-          "condition": "hearts:elara>=3",
-          "priority": 2,
+          "condition": "hearts:elara>=3 && !flag:invite.elara",
+          "priority": 0,
           "dialogue": "elara.friend2"
         },
         {
           "condition": "hearts:elara>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "elara.close1"
         },
         {
           "condition": "hearts:elara>=6",
-          "priority": 3,
+          "priority": 0,
           "dialogue": "elara.close2"
+        },
+        {
+          "dialogue": "elara.friend3",
+          "priority": 0,
+          "condition": "hearts:elara>=3"
+        },
+        {
+          "dialogue": "elara.friend4",
+          "priority": 0,
+          "condition": "hearts:elara>=3"
+        },
+        {
+          "dialogue": "elara.close3",
+          "priority": 0,
+          "condition": "hearts:elara>=6"
+        },
+        {
+          "dialogue": "elara.close4",
+          "priority": 0,
+          "condition": "hearts:elara>=6"
+        },
+        {
+          "dialogue": "elara.sea_spring",
+          "priority": 0,
+          "condition": "season:spring"
+        },
+        {
+          "dialogue": "elara.sea_summer",
+          "priority": 0,
+          "condition": "season:summer"
+        },
+        {
+          "dialogue": "elara.sea_fall",
+          "priority": 0,
+          "condition": "season:fall"
+        },
+        {
+          "dialogue": "elara.sea_winter",
+          "priority": 0,
+          "condition": "season:winter"
+        },
+        {
+          "dialogue": "elara.rain2",
+          "priority": 1,
+          "condition": "weather:rain"
+        },
+        {
+          "dialogue": "elara.friend2b",
+          "priority": 0,
+          "condition": "hearts:elara>=3 && flag:invite.elara"
         }
       ]
     }
@@ -2147,7 +3743,9 @@
             "flag:event.marcus_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.marcus_heart2",
+      "tag": "funny"
     },
     {
       "id": "marcus_heart5",
@@ -2195,7 +3793,9 @@
             "flag:event.marcus_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.marcus_heart5",
+      "tag": "wholesome"
     },
     {
       "id": "odalys_heart2",
@@ -2243,7 +3843,9 @@
             "flag:event.odalys_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.odalys_heart2",
+      "tag": "funny"
     },
     {
       "id": "odalys_heart5",
@@ -2291,7 +3893,9 @@
             "flag:event.odalys_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.odalys_heart5",
+      "tag": "wholesome"
     },
     {
       "id": "wren_heart2",
@@ -2339,7 +3943,9 @@
             "flag:event.wren_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.wren_heart2",
+      "tag": "funny"
     },
     {
       "id": "wren_heart5",
@@ -2387,7 +3993,9 @@
             "flag:event.wren_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.wren_heart5",
+      "tag": "wholesome"
     },
     {
       "id": "felix_heart2",
@@ -2435,7 +4043,9 @@
             "flag:event.felix_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.felix_heart2",
+      "tag": "funny"
     },
     {
       "id": "felix_heart5",
@@ -2483,7 +4093,9 @@
             "flag:event.felix_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.felix_heart5",
+      "tag": "wholesome"
     },
     {
       "id": "juno_heart2",
@@ -2531,7 +4143,9 @@
             "flag:event.juno_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.juno_heart2",
+      "tag": "funny"
     },
     {
       "id": "juno_heart5",
@@ -2579,7 +4193,9 @@
             "flag:event.juno_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.juno_heart5",
+      "tag": "wholesome"
     },
     {
       "id": "hazel_heart2",
@@ -2627,7 +4243,9 @@
             "flag:event.hazel_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.hazel_heart2",
+      "tag": "wholesome"
     },
     {
       "id": "hazel_heart5",
@@ -2675,7 +4293,9 @@
             "flag:event.hazel_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.hazel_heart5",
+      "tag": "wholesome"
     },
     {
       "id": "piper_heart2",
@@ -2723,7 +4343,9 @@
             "flag:event.piper_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.piper_heart2",
+      "tag": "funny"
     },
     {
       "id": "piper_heart5",
@@ -2771,7 +4393,9 @@
             "flag:event.piper_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.piper_heart5",
+      "tag": "wholesome"
     },
     {
       "id": "dorian_heart2",
@@ -2819,7 +4443,9 @@
             "flag:event.dorian_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.dorian_heart2",
+      "tag": "wholesome"
     },
     {
       "id": "dorian_heart5",
@@ -2867,7 +4493,9 @@
             "flag:event.dorian_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.dorian_heart5",
+      "tag": "surprise"
     },
     {
       "id": "elara_heart2",
@@ -2915,7 +4543,9 @@
             "flag:event.elara_heart2"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.elara_heart2",
+      "tag": "funny"
     },
     {
       "id": "elara_heart5",
@@ -2963,7 +4593,9 @@
             "flag:event.elara_heart5"
           ]
         }
-      ]
+      ],
+      "titleKey": "memory.elara_heart5",
+      "tag": "wholesome"
     }
   ]
 }

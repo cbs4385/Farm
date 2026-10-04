@@ -29,6 +29,21 @@ namespace Farm.Core
         public bool ReduceFlashes;          // no lightning flashes
         public bool RelaxedEnergy;          // tools and combat cost half the energy
         public int DayLength = 1;           // 0 = long days, 1 = normal, 2 = short
+        public int DialogueSpeed = 1;       // text speed in conversations: 0 slow, 1 normal, 2 fast, 3 instant
+        public bool AutoAdvance;            // conversations move on by themselves after a read time
+        public bool ChatMenu = true;        // after a chat, offer topics and social actions (jokes, compliments ...)
+        public bool VoiceBlips = true;      // villagers' talking blips and signature sounds (T-132)
+
+        // Streaming (T-145): larger, brisker dialogue and a visible content-level badge; and an optional timer for choices, for
+        // a chat that votes (0 = off). The game never shows file paths or account names, with or without stream mode.
+        public bool StreamMode;
+        public int ChoiceTimer;             // seconds a choice waits before the default is taken (0 = no timer)
+        public static readonly int[] ChoiceTimerSteps = { 0, 15, 30, 60 };
+        public const float StreamDialogueTextFactor = 1.2f;     // the dialogue text only; menus keep their size
+        public const int StreamMinDialogueSpeed = 2;            // fast
+
+        public float DialogueTextFactor => StreamMode ? StreamDialogueTextFactor : 1f;
+        public int EffectiveDialogueSpeed => StreamMode ? Mathf.Max(DialogueSpeed, StreamMinDialogueSpeed) : DialogueSpeed;
 
         public static readonly float[] SecondsPerStepByDayLength = { 10f, 7f, 5f };
         public float SecondsPerStep => SecondsPerStepByDayLength[Mathf.Clamp(DayLength, 0, 2)];
@@ -37,6 +52,8 @@ namespace Farm.Core
         {
             HorrorLevel = Mathf.Clamp(HorrorLevel, 0, 2);
             DayLength = Mathf.Clamp(DayLength, 0, 2);
+            DialogueSpeed = Mathf.Clamp(DialogueSpeed, 0, 3);
+            ChoiceTimer = Mathf.Clamp(ChoiceTimer, 0, 120);
             MasterVolume = Mathf.Clamp01(MasterVolume);
             MusicVolume = Mathf.Clamp01(MusicVolume);
             SfxVolume = Mathf.Clamp01(SfxVolume);

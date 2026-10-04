@@ -1,0 +1,86 @@
+# Reactions for the slice villagers (T-091): small remarks that wait for the player after something happens in the world.
+# Each queues for up to ttl days, plays once when you talk to them, and cannot repeat for the same villager inside the cooldown.
+
+reaction react.wren.spring
+on season:spring
+npcs wren
+ttl 4
+plays react.wren.spring.d
+say react.wren.spring.d wren: Spring! The whole village smells like mud and good intentions. I love it. Don't tell the mud.
+
+reaction react.wren.winter
+on season:winter
+npcs wren
+ttl 4
+plays react.wren.winter.d
+say react.wren.winter.d wren: First snow, and my stove has already started a feud with the draft. Come in. Pick a side.
+
+reaction react.wren.harvest
+on quest.done:tut_harvest
+npcs wren
+ttl 5
+plays react.wren.harvest.d
+say react.wren.harvest.d wren: I heard you harvested something! Everyone's talking. Mostly me. Show me what grew.
+
+reaction react.wren.coins
+on random:found_coins
+npcs wren
+ttl 3
+plays react.wren.coins.d
+say react.wren.coins.d wren: A little bird told me you found coins. The bird was me. I follow everything.
+
+reaction react.hazel.spring
+on season:spring
+npcs hazel
+ttl 4
+plays react.hazel.spring.d
+say react.hazel.spring.d hazel: The windows are open. (The pages like it.) Spring smells like paper.
+
+reaction react.hazel.winter
+on season:winter
+npcs hazel
+ttl 4
+plays react.hazel.winter.d
+say react.hazel.winter.d hazel: Snow. (The library is the warmest place in town.) Stay as long as you like.
+
+reaction react.hazel.harvest
+on quest.done:tut_harvest
+npcs hazel
+ttl 5
+plays react.hazel.harvest.d
+say react.hazel.harvest.d hazel: You grew something. (I'm told that's a skill.) I'd like to read about it.
+
+reaction react.hazel.wren
+on event:wren_heart4
+npcs hazel
+ttl 5
+plays react.hazel.wren.d
+say react.hazel.wren.d hazel: I heard a song from the saloon. (Through three walls.) It was terrible. I think she knew.
+
+reaction react.bram.spring
+on season:spring
+npcs bram
+ttl 4
+plays react.bram.spring.d
+say react.bram.spring.d bram: Hm. Spring. Plows are coming. Bring yours early.
+
+reaction react.bram.winter
+on season:winter
+npcs bram
+ttl 4
+plays react.bram.winter.d
+say react.bram.winter.d bram: Hm. Snow. Forge is warm. Sit if you like.
+
+reaction react.bram.harvest
+on quest.done:tut_harvest
+npcs bram
+ttl 5
+plays react.bram.harvest.d
+say react.bram.harvest.d bram: Hm. First harvest. Good. Your hoe held up. I noticed.
+
+reaction react.bram.wren
+on event:wren_heart4
+npcs bram
+ttl 5
+plays react.bram.wren.d
+say react.bram.wren.d bram: Hm. Wren sang. I heard. Don't tell her I listened.

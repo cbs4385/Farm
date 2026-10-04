@@ -18,7 +18,7 @@ Inherit a neglected farm at the edge of Wetherell, a remote village where everyo
 - Four seasons of farming, 20+ crops, animals, fishing, a 40-floor mine with combat, crafting, skills and professions
 - Twelve villagers with schedules, gifts, heart events and four festivals
 - An optional folk-horror layer with its own crops, weather and endings
-- Controller and keyboard support, colour-blind palette, UI size, relaxed-energy and day-length options
+- Controller and keyboard support, color-blind palette, UI size, relaxed-energy and day-length options
 - Runs without Steam; Windows and Linux (Steam Deck target)
 
 ## Content notes (honest horror marketing)

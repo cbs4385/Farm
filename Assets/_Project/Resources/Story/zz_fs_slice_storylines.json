@@ -1,0 +1,228 @@
+{
+  "dialogues": [
+    {
+      "id": "wren.pie.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.pie.1.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.pie.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.pie.2.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.notes.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.notes.1.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.notes.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.notes.2.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.pie.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pie.1.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.pie.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.pie.2.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.notes.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.1.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.notes.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.notes.2.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.pie.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.pie.1.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.pie.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.pie.2.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.notes.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.notes.1.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.notes.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.notes.2.0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "storyline:pie_feud",
+          "priority": 2,
+          "dialogue": "wren.pie.1",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:pie_feud",
+          "priority": 2,
+          "dialogue": "wren.pie.2",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:anonymous_notes",
+          "priority": 2,
+          "dialogue": "wren.notes.1",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:anonymous_notes",
+          "priority": 2,
+          "dialogue": "wren.notes.2",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "storyline:pie_feud",
+          "priority": 2,
+          "dialogue": "hazel.pie.1",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:pie_feud",
+          "priority": 2,
+          "dialogue": "hazel.pie.2",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:anonymous_notes",
+          "priority": 2,
+          "dialogue": "hazel.notes.1",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:anonymous_notes",
+          "priority": 2,
+          "dialogue": "hazel.notes.2",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.bram.talk",
+      "entries": [
+        {
+          "condition": "storyline:pie_feud",
+          "priority": 2,
+          "dialogue": "bram.pie.1",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:pie_feud",
+          "priority": 2,
+          "dialogue": "bram.pie.2",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:anonymous_notes",
+          "priority": 2,
+          "dialogue": "bram.notes.1",
+          "category": "reactive"
+        },
+        {
+          "condition": "storyline:anonymous_notes",
+          "priority": 2,
+          "dialogue": "bram.notes.2",
+          "category": "reactive"
+        }
+      ]
+    }
+  ]
+}

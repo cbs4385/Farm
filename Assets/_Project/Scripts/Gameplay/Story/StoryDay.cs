@@ -20,6 +20,7 @@ namespace Farm.Gameplay
 
         public static void NewGame(GameSession s)
         {
+            Storylines.Assign(s);
             Mail.Deliver(s);
             QuestLog.Tick(s);
         }

@@ -78,7 +78,7 @@ namespace Farm.Gameplay
                 new[] { "forage.elderflower", "crop.spinach" }, new[] { "crop.kale", "forage.snowdrop" }, new[] { "resource.slime", "resource.bone" }),
             // Keeps the saloon (12:00-02:00, closed Tuesdays).
             Person(Wren, Season.Fall, 17, MapIds.Saloon, 11, 8, true, "saloon", 700, 1560, "tue", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 30, 17),
-                new[] { "artisan.wine", "crop.hops" }, new[] { "artisan.juice", "crop.tomato" }, new[] { "forage.clam" }),
+                new[] { "artisan.wine", "crop.hops", "artisan.pickles" }, new[] { "artisan.juice", "crop.tomato", "crop.pepper" }, new[] { "forage.clam", "food.bean_stew", "resource.slime" }),
             // Runs the fish stall (06:00-14:00, closed Thursdays).
             Person(Felix, Season.Summer, 21, MapIds.Saloon, 12, 8, true, "fish", 420, 840, "thu", new Post(MapIds.Forest, 7, 7), new Post(MapIds.Saloon, 5, 4),
                 new[] { "fish.tuna", "fish.sturgeon" }, new[] { "fish.carp", "forage.seashell" }, new[] { "forage.dandelion" }, lovedCategories: new[] { "Fish" }),
@@ -87,7 +87,7 @@ namespace Farm.Gameplay
                 new[] { "resource.goldbar", "forage.truffle" }, new[] { "resource.copperbar", "crop.potato" }, new[] { "crop.kale", "forage.dandelion" }),
             // Looks after the library with Ione.
             Person(Hazel, Season.Fall, 8, MapIds.Library, 9, 3, true, "library", 530, 1050, "sat", new Post(MapIds.Forest, 19, 10), new Post(MapIds.Village, 20, 17),
-                new[] { "forage.blackberry", "crop.strawberry" }, new[] { "forage.elderflower", "crop.cauliflower" }, new[] { "resource.stone" }),
+                new[] { "forage.blackberry", "crop.strawberry", "food.berry_tart" }, new[] { "forage.elderflower", "crop.cauliflower", "artisan.jam" }, new[] { "resource.stone", "resource.slime", "resource.bat_wing" }),
             // Plays in the saloon in the evenings.
             Person(Piper, Season.Spring, 5, MapIds.Saloon, 12, 7, true, "saloon", 1060, 1440, "tue", new Post(MapIds.Beach, 25, 12), new Post(MapIds.Village, 25, 22),
                 new[] { "crop.sunflower", "artisan.jam" }, new[] { "crop.strawberry", "forage.raspberry" }, new[] { "resource.coal", "resource.slime" }),

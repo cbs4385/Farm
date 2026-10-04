@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Core;
 
 namespace Farm.Gameplay
@@ -11,6 +12,8 @@ namespace Farm.Gameplay
     {
         public string Text;                 // string key
         public string Condition;            // hidden while it does not hold (dread can remove favourable options)
+        public string Tone;                 // optional: kind, honest, playful, shy, curt (shown as a small icon; never a hidden penalty)
+        public bool Default;                // optional: the choice that starts highlighted, so a habitual Enter picks it (the chat menu uses Goodbye)
         public List<string> Effects = new List<string>();
         public string Next;                 // node id; empty ends the conversation
     }
@@ -22,6 +25,12 @@ namespace Farm.Gameplay
         public string Condition;            // a node whose condition fails is skipped to Next
         public string Speaker;              // npc id; empty = narration
         public string Text;                 // string key; more lines follow via Next
+        public string Expression;           // optional: neutral, happy, sad, surprised, embarrassed, thinking (portrait variant)
+        public string Emote;                // optional: heart, note, sweat, exclaim, question, ellipsis, sparkle, zzz (bubble over the speaker)
+        public string Sfx;                  // optional sound id played when the line appears
+        public string Voice;                // optional voice-blip set id (default: the speaker's)
+        public string Camera;               // optional: speaker, player, wide (used by scenes)
+        public string Tag;                  // optional moment tag: funny, wholesome, surprise, mystery
         public List<object> Args = new List<object>();
         public List<string> Effects = new List<string>();   // run when the node is shown
         public List<DialogueChoice> Choices = new List<DialogueChoice>();
@@ -54,6 +63,11 @@ namespace Farm.Gameplay
         public string Condition;
         public int Priority;
         public string Dialogue;
+        public string Rarity;               // common (default), uncommon, rare, legendary: see LineRarity
+        public float Weight = 1f;           // multiplies the rarity weight
+        public int Cooldown = -1;           // days before the line may repeat; -1 = the band default (DialogueSet.DefaultCooldownDays)
+        public string Tag;                  // moment tag for quotas and the validator: funny, wholesome, surprise, mystery
+        public string Category;             // free text for reports: greeting, idle, seasonal, tier, bark ...
     }
 
     // Which dialogue to play: the highest-priority entries whose condition holds form a pool; one is picked from `seed`.
@@ -77,6 +91,103 @@ namespace Farm.Gameplay
             if (pool.Count == 0) return null;
             return pool[(int)((uint)seed % (uint)pool.Count)].Dialogue;
         }
+
+        // ---- variety (T-090) -----------------------------------------------------------------------------------
+
+        // Priorities from this value up are story beats (quest offers, one-shot scenes, layers): they never go on cooldown.
+        public const int StoryBandPriority = 4;
+        public const int DefaultCooldownDays = 14;
+        const float NeverHeardBoost = 3f;
+
+        public static int CooldownOf(DialogueSetEntry e) =>
+            e.Cooldown >= 0 ? e.Cooldown : e.Priority >= StoryBandPriority ? 0 : DefaultCooldownDays;
+
+        static float WeightOf(DialogueSetEntry e) => Math.Max(0.0001f, e.Weight) * LineRarity.Weight(e.Rarity);
+
+        // Deterministic value in [0, 1) from a seed (splitmix-style mixing, so neighbouring days are unrelated).
+        public static double Unit(int seed)
+        {
+            unchecked
+            {
+                var x = (ulong)(uint)seed + 0x9E3779B97F4A7C15UL;
+                x = (x ^ (x >> 30)) * 0xBF58476D1CE4E5B9UL;
+                x = (x ^ (x >> 27)) * 0x94D049BB133111EBUL;
+                x ^= x >> 31;
+                return (x >> 11) / (double)(1UL << 53);
+            }
+        }
+
+        // Chooses what a villager says, and remembers it. Rules, in order:
+        //  1. Talking again on the same day repeats the same line, unless a higher tier now has a fresh line.
+        //  2. Tiers (priorities) are tried from the highest. A line on cooldown (said within its cooldown days) is skipped.
+        //  3. The first tier with any fresh line decides; the choice is weighted by rarity and favours lines never said.
+        //  4. If every line of every tier is on cooldown, the least recently said line of the top tier is used.
+        // `scope` is normally the set id. The result is deterministic for the same seed and memory.
+        public string PickVaried(IWorldQuery world, int seed, LineMemory memory, string scope, int today, IEnumerable<DialogueSetEntry> extra = null)
+        {
+            if (memory == null) return Pick(world, seed);
+            scope = scope ?? Id ?? string.Empty;
+
+            var eligible = new List<DialogueSetEntry>();
+            foreach (var e in extra == null ? Entries : Entries.Concat(extra))
+            {
+                if (e == null || string.IsNullOrEmpty(e.Dialogue)) continue;
+                if (!Conditions.TryEvaluate(e.Condition, world, out var ok) || !ok) continue;
+                eligible.Add(e);
+            }
+            if (eligible.Count == 0) return null;
+
+            bool Fresh(DialogueSetEntry e)
+            {
+                var last = memory.LastHeardDay(scope, e.Dialogue);
+                var cooldown = CooldownOf(e);
+                return last < 0 || cooldown == 0 || today - last >= cooldown;
+            }
+
+            var previous = memory.LastOf(scope);
+            if (previous != null && previous.Day == today)
+            {
+                var again = eligible.FirstOrDefault(e => e.Dialogue == previous.Dialogue);
+                if (again != null && !eligible.Any(e => e.Priority > previous.Priority && Fresh(e)))
+                    return again.Dialogue;
+            }
+
+            var chosen = (DialogueSetEntry)null;
+            foreach (var tier in eligible.Select(e => e.Priority).Distinct().OrderByDescending(p => p))
+            {
+                var fresh = eligible.Where(e => e.Priority == tier && Fresh(e)).ToList();
+                if (fresh.Count == 0) continue;
+                chosen = WeightedPick(fresh, seed, memory, scope);
+                break;
+            }
+            if (chosen == null)
+            {
+                var top = eligible.Max(e => e.Priority);
+                var tierEntries = eligible.Where(e => e.Priority == top).ToList();
+                var oldest = tierEntries.Min(e => memory.LastHeardDay(scope, e.Dialogue));
+                chosen = WeightedPick(tierEntries.Where(e => memory.LastHeardDay(scope, e.Dialogue) == oldest).ToList(), seed, memory, scope);
+            }
+            memory.Record(scope, chosen.Dialogue, today, chosen.Priority);
+            return chosen.Dialogue;
+        }
+
+        static DialogueSetEntry WeightedPick(List<DialogueSetEntry> candidates, int seed, LineMemory memory, string scope)
+        {
+            var weights = new float[candidates.Count];
+            var total = 0f;
+            for (var i = 0; i < candidates.Count; i++)
+            {
+                weights[i] = WeightOf(candidates[i]) * (memory.WasHeard(scope, candidates[i].Dialogue) ? 1f : NeverHeardBoost);
+                total += weights[i];
+            }
+            var roll = Unit(seed) * total;
+            for (var i = 0; i < candidates.Count; i++)
+            {
+                roll -= weights[i];
+                if (roll < 0) return candidates[i];
+            }
+            return candidates[candidates.Count - 1];
+        }
     }
 
     // ---- running a conversation ----------------------------------------------------------------------------------
@@ -85,13 +196,17 @@ namespace Farm.Gameplay
     {
         public readonly int Index;       // index into the node's Choices
         public readonly string Text;
-        public DialogueOption(int index, string text) { Index = index; Text = text; }
+        public readonly string Tone;
+        public readonly bool IsDefault;
+        public DialogueOption(int index, string text, string tone = null, bool isDefault = false) { Index = index; Text = text; Tone = tone ?? string.Empty; IsDefault = isDefault; }
     }
 
     public sealed class DialogueLine
     {
         public string Speaker;
         public string Text;
+        public List<TextCue> Cues = new List<TextCue>();       // pauses and speed changes inside Text
+        public string Expression = string.Empty, Emote = string.Empty, Sfx = string.Empty, Voice = string.Empty, Camera = string.Empty, Tag = string.Empty;
         public List<DialogueOption> Options = new List<DialogueOption>();
         public bool HasOptions => Options.Count > 0;
     }
@@ -146,16 +261,21 @@ namespace Farm.Gameplay
                 _node = node;
                 foreach (var e in node.Effects) _effect(e);
 
+                var seed = NpcInteractions.StableHash(_graph.Id + "/" + node.Id) + (_world != null ? _world.Now.TotalDays * 7919 : 0);
+                var rich = RichText.Process(string.IsNullOrEmpty(node.Text) ? string.Empty : _text(node.Text, node.Args.ToArray()), _world, seed);
                 var line = new DialogueLine
                 {
                     Speaker = node.Speaker ?? string.Empty,
-                    Text = string.IsNullOrEmpty(node.Text) ? string.Empty : _text(node.Text, node.Args.ToArray()),
+                    Text = rich.Text,
+                    Expression = node.Expression ?? string.Empty, Emote = node.Emote ?? string.Empty, Sfx = node.Sfx ?? string.Empty,
+                    Voice = node.Voice ?? string.Empty, Camera = node.Camera ?? string.Empty, Tag = node.Tag ?? string.Empty,
                 };
+                line.Cues.AddRange(rich.Cues);
                 for (var i = 0; i < node.Choices.Count; i++)
                 {
                     var c = node.Choices[i];
                     if (!Conditions.TryEvaluate(c.Condition, _world, out var visible) || !visible) continue;
-                    line.Options.Add(new DialogueOption(i, _text(c.Text, new object[0])));
+                    line.Options.Add(new DialogueOption(i, RichText.Process(_text(c.Text, new object[0]), _world, seed + i).Text, c.Tone, c.Default));
                 }
                 // A node with neither text nor options is just a place to run effects: move on.
                 if (string.IsNullOrEmpty(node.Text) && !line.HasOptions) { nodeId = node.Next; continue; }

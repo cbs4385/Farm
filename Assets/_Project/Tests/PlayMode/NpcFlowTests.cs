@@ -50,6 +50,7 @@ namespace Farm.Tests
             yield return null;
             _session = ServiceLocator.Get<GameSession>();
             _session.BeginNewGame("Tester", "Test Farm", 0);
+            ServiceLocator.Get<SettingsStore>().Current.ChatMenu = false;      // these tests are about the base flow; ChatMenuTests covers the menu
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             _session.Clock.SetTime(new GameDateTime(1, Season.Spring, day, hour * 60 + minute));

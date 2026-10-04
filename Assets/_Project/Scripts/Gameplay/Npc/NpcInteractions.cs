@@ -68,8 +68,17 @@ namespace Farm.Gameplay
             session.Publish(new NpcTalked(npc.Id));
 
             var set = session.Story.Set(npc.TalkSetId);
-            var dialogue = set?.Pick(session.World, today * 7919 + StableHash(npc.Id));
-            if (dialogue == null || !session.BeginDialogue(dialogue))
+            var memory = LineMemory.Load(session);
+            var reactions = ReactionState.Load(session);
+            var dialogue = set?.PickVaried(session.World, today * 7919 + StableHash(npc.Id), memory, set.Id, today, Reactions.EntriesFor(reactions, npc.Id, today));
+            if (dialogue != null)
+            {
+                LineMemory.Store(session, memory);
+                Reactions.MarkConsumed(reactions, npc.Id, dialogue, today);
+                ReactionState.Store(session, reactions);
+            }
+            var pickedPriority = dialogue != null ? memory.LastOf(set.Id)?.Priority ?? 0 : 0;
+            if (dialogue == null || !session.BeginDialogue(dialogue, () => InteractionMenu.Offer(session, npc, pickedPriority)))
             {
                 session.Toast(L.Get("npc.no_reply", L.Get(npc.NameKey)));
                 return false;
@@ -93,22 +102,39 @@ namespace Farm.Gameplay
 
             var taste = TasteOf(npc, item);
             var birthday = npc.IsBirthday(now);
+            var history = InteractionState.Load(session);
+            var historyKey = npc.Id + "|" + item.Id;
+            var repeat = history.GiftDay.TryGetValue(historyKey, out var lastGiven) && now.TotalDays - lastGiven < FriendshipModel.RepeatGiftDays;
             session.Backpack.RemoveFromSlot(slot, 1);
             state.GiftsToday++;
             state.GiftsThisWeek++;
             state.Met = true;
             state.LastContactDay = now.TotalDays;
-            AddPoints(session, npc.Id, FriendshipModel.GiftPoints(taste, birthday));
+            history.GiftDay[historyKey] = now.TotalDays;
+            InteractionState.Store(session, history);
+            AddPoints(session, npc.Id, FriendshipModel.RepeatGiftPoints(FriendshipModel.GiftPoints(taste, birthday), repeat, birthday));
             session.AddVar(QuestLog.Stats.Gifts, 1);
             session.Publish(new NpcGifted(npc.Id, item.Id, taste));
 
-            var candidates = new List<string>();
-            if (birthday && taste != GiftTaste.Disliked) { candidates.Add($"npc.{npc.Id}.gift.birthday"); candidates.Add("gift.birthday"); }
-            candidates.Add($"npc.{npc.Id}.gift.{taste.ToString().ToLowerInvariant()}");
-            candidates.Add($"gift.{taste.ToString().ToLowerInvariant()}");
-            foreach (var id in candidates)
+            foreach (var id in GiftLines(npc.Id, item.Id, item.Category.ToString(), taste, birthday, repeat))
                 if (session.Story.Dialogue(id) != null && session.BeginDialogue(id)) break;
             return GiftResult.Given;
+        }
+
+        // The dialogues a gift can play, most specific first (the first one that exists is used):
+        //   birthday, a repeat of a recent gift, this very item, the item's category, then the taste (loved, liked, neutral, disliked),
+        //   each for the villager and then in a generic version.
+        public static List<string> GiftLines(string npcId, string itemId, string category, GiftTaste taste, bool birthday, bool repeat)
+        {
+            var t = taste.ToString().ToLowerInvariant();
+            var lines = new List<string>();
+            if (birthday && taste != GiftTaste.Disliked) { lines.Add($"npc.{npcId}.gift.birthday"); lines.Add("gift.birthday"); }
+            if (repeat) { lines.Add($"npc.{npcId}.gift.repeat"); lines.Add("gift.repeat"); }
+            lines.Add($"npc.{npcId}.gift.item.{itemId}");
+            lines.Add($"npc.{npcId}.gift.cat.{category}");
+            lines.Add($"npc.{npcId}.gift.{t}");
+            lines.Add($"gift.{t}");
+            return lines;
         }
 
         public static void ToastFor(GameSession session, GiftResult result)

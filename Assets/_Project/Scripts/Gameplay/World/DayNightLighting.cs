@@ -21,6 +21,40 @@ namespace Farm.Gameplay
 
         public bool IsIndoor => _indoor;
 
+        // A scene's mood (T-100): blends a colour over the normal lighting, and back.
+        Color _overrideColor = Color.white;
+        float _overrideWeight, _overrideGoal, _overrideSpeed;
+
+        public float OverrideWeight => _overrideWeight;
+
+        public void SetOverride(Color color, float seconds)
+        {
+            _overrideColor = color;
+            _overrideGoal = 1f;
+            _overrideSpeed = seconds <= 0.01f ? 1000f : 1f / seconds;
+            if (seconds <= 0.01f) _overrideWeight = 1f;
+        }
+
+        public void ClearOverride(float seconds)
+        {
+            _overrideGoal = 0f;
+            _overrideSpeed = seconds <= 0.01f ? 1000f : 1f / seconds;
+            if (seconds <= 0.01f) _overrideWeight = 0f;
+        }
+
+        public static Color PresetColor(string preset)
+        {
+            switch (preset)
+            {
+                case "dawn": return Dawn;
+                case "dusk": return Dusk;
+                case "night": return Night;
+                case "warm": return new Color(1f, 0.85f, 0.65f);
+                case "dim": return new Color(0.62f, 0.62f, 0.72f);
+                default: return Day;
+            }
+        }
+
         public void Configure(Light2D light, bool indoor)
         {
             _light = light;
@@ -31,10 +65,12 @@ namespace Farm.Gameplay
         {
             if (_light == null) return;
             if (_atmosphere == null) ServiceLocator.TryGet(out _atmosphere);
+            _overrideWeight = Mathf.MoveTowards(_overrideWeight, _overrideGoal, _overrideSpeed * Time.deltaTime);
 
             if (_indoor)
             {
-                _light.color = _atmosphere != null ? _atmosphere.Stack.Apply(Indoor) : Indoor;
+                var indoor = _atmosphere != null ? _atmosphere.Stack.Apply(Indoor) : Indoor;
+                _light.color = _overrideWeight > 0f ? Color.Lerp(indoor, _overrideColor, _overrideWeight) : indoor;
                 _light.intensity = 1f;
                 return;
             }
@@ -45,6 +81,7 @@ namespace Farm.Gameplay
             c = _session.Weather.Get(_session.State.Weather).Apply(c);
             // Optional mood layers pushed by modules (fog, dread...) blend over the normal lighting.
             if (_atmosphere != null) c = _atmosphere.Stack.Apply(c);
+            if (_overrideWeight > 0f) c = Color.Lerp(c, _overrideColor, _overrideWeight);
             _light.color = c;
             _light.intensity = 1f;
         }

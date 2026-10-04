@@ -40,6 +40,11 @@ namespace Farm.Gameplay
             var mine = FindAnyObjectByType<MineController>();
             if (mine != null) mine.Build(_session, _map);
             PlacePlayer(_session.State.SpawnPoint);
+            if (_session.MemoryRestorePosition && _session.MemoryId == null)       // back from a memory replay
+            {
+                _player.transform.position = _session.MemoryReturnPosition;
+                _session.MemoryRestorePosition = false;
+            }
 
             if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
             _session.RunSpawns(_map.MapId, SpawnCandidates);
@@ -103,7 +108,7 @@ namespace Farm.Gameplay
         }
 #endif
 
-        // QA aid: `-farmOpen inventory|shop|pause|options|message|upgrades|summary|sleep` opens a screen shortly after the scene starts.
+        // QA aid: `-farmOpen inventory|shop|pause|options|message|upgrades|summary|sleep|dialogue|chatmenu|memories|stream` opens a screen shortly after the scene starts.
         System.Collections.IEnumerator OpenRequestedScreen()
         {
             var which = CommandLine.GetArg("-farmOpen");
@@ -119,6 +124,26 @@ namespace Farm.Gameplay
                 case "upgrades": ui.ShowUpgrades("blacksmith"); break;
                 case "sleep": _session.StartSleep(false); break;   // fade, summary over black, wait for Continue
                 case "crops": PlantShowcase(); break;
+                case "dialogue": OpenDialogueShowcase(ui); break;
+                case "chatmenu": OpenChatMenuShowcase(); break;
+                case "stream":
+                {
+                    // QA only: stream mode with a 30 second chat-vote timer, on a conversation at its choices.
+                    var settings = ServiceLocator.Get<SettingsStore>().Current;
+                    settings.StreamMode = true;
+                    settings.ChoiceTimer = 30;
+                    settings.DialogueSpeed = 3;
+                    settings.TextScale = 1.4f;       // also proves the dialogue box fits a very large UI size
+                    ui.ApplyUiScale(settings.TextScale);
+                    OpenDialogueShowcase(ui);
+                    break;
+                }
+                case "memories":
+                    // QA only (a throwaway game): pretend a few scenes were seen so the tab shows both states.
+                    foreach (var id in new[] { "festival_spring", "festival_fall", "wren_heart2", "wren_heart5", "hazel_heart2", "bram_heart2", "tilda_heart2", "juno_heart2" })
+                        _session.State.EventsSeen.Add(id);
+                    ui.ShowGameMenu(MenuTabs.Memories);
+                    break;
                 case "summary":
                     var s = new DaySummary { Earnings = 245, GoldAfter = 745, NewWeather = WeatherIds.Rain };
                     s.Shipped.Add(new ItemStack("crop.parsnip", 4));
@@ -126,6 +151,24 @@ namespace Farm.Gameplay
                     ui.ShowDaySummary(s, () => { });
                     break;
             }
+        }
+
+        // QA aid: a real conversation (Tilda's introduction) opened at its choices, to check the dialogue box layout.
+        void OpenDialogueShowcase(IUiService ui)
+        {
+            var source = _session.Story.Dialogue("tilda.first");
+            if (source == null) return;
+            var graph = new DialogueGraph { Id = source.Id, Start = "n1", Nodes = source.Nodes };
+            ui.ShowDialogue(new DialogueRunner(graph, _session.World, _session.StoryText, _ => { }));
+        }
+
+        // QA aid: Wren's chat menu opened at the social submenu (the longest list of choices), to check the dialogue box layout.
+        void OpenChatMenuShowcase()
+        {
+            var graph = InteractionMenu.Build(_session.Story, "wren", _session.World, InteractionState.Load(_session), _session.Clock.Now.TotalDays, L.Has);
+            if (graph == null) return;
+            graph.Start = "social";
+            _session.BeginDialogueGraph(graph);
         }
 
         // QA aid: one parsnip at every growth stage in a row near the spawn point.

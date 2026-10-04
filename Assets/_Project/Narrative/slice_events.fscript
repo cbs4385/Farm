@@ -1,0 +1,109 @@
+# Heart events and friend-day scenes for the slice villagers (docs/narrative/EVENTS.md). Compiled to zz_fs_slice_events.json.
+
+dialogue wren.openmic
+n0 wren: Well? Be honest. A performer needs one honest face in the crowd.
+  ? Cheer like a whole crowd. => r0 | friend:wren,10 | flag:choice.wren.openmic.cheer
+  ? Heckle her, gently. => r1 | friend:wren,10 | flag:choice.wren.openmic.heckle
+  ? Hide behind the menu. => r2 | flag:choice.wren.openmic.hide
+r0 wren: Oh, I could live on that. Do it again, but louder.
+  expr happy
+r1 wren: A heckler! At last I'm somebody. I'll put you in the second verse.
+  expr happy
+r2 wren: Ha! Fair. I'd hide too. Come out, though. The second verse is better.
+
+
+dialogue wren.kitchen
+n0 wren: One more pinch of something. Pepper, cider, or leave it plain?
+  ? Pepper. Be brave. => r0 | friend:wren,10 | flag:choice.wren.kitchen.pepper
+  ? Cider. Go soft. => r1 | friend:wren,10 | flag:choice.wren.kitchen.cider
+  ? Plain. It's already good. => r2 | friend:wren,10 | flag:choice.wren.kitchen.plain
+r0 wren: Brave it is! If I weep, blame the pepper, not me.
+  emote sweat
+r1 wren: Cider. Sweet and a little sly. That's very you.
+r2 wren: Plain. Hm. You think it's already good? Nobody says that. I'm keeping you.
+  expr happy
+
+
+dialogue wren.bag
+n0 wren: There's a bag under my bed. Packed since the day I arrived. I haven't opened it in years, and I haven't unpacked it either.
+  expr thinking
+  next n1
+n1 wren: I came here to rest for a season. That was eight years ago. Tell me: should I go, stay, or just keep it under the bed?
+  ? Go. See what's out there. => r0 | friend:wren,10 | flag:choice.wren.bag.go
+  ? Stay. We'd all miss you. => r1 | friend:wren,10 | flag:choice.wren.bag.stay
+  ? Just listen to her. => r2 | friend:wren,15 | flag:choice.wren.bag.listen
+r0 wren: Go. Hm. You say it so plainly. I might. Someday. With a very good map.
+r1 wren: Stay. Oh. That's a nicer word than I expected.
+r2 wren: ...You didn't tell me what to do. That's the kindest thing anyone has done. Thank you.
+  expr sad
+
+
+dialogue hazel.swap
+n0 hazel: What would you swap? (I'm not choosing for you.)
+  ? Your favorite book. => r0 | friend:hazel,10 | flag:choice.hazel.swap.book
+  ? A recipe card. => r1 | friend:hazel,10 | flag:choice.hazel.swap.recipe
+  ? I don't read much. => r2 | friend:hazel,10 | flag:choice.hazel.swap.honest
+r0 hazel: Oh. (She holds it with both hands.) I'll read it twice.
+  expr happy
+r1 hazel: A recipe. (A book without a spine.) I like that.
+r2 hazel: Thank you for saying so. (Most people pretend.) I'll pick something short.
+
+
+dialogue hazel.hiding
+n0 hazel: I hide in the stacks when it's loud. (It's quieter between the books.) Is that strange?
+  expr thinking
+  ? Ask what she hears in the quiet. => r0 | friend:hazel,10 | flag:choice.hazel.hiding.ask
+  ? Sit with her in silence. => r1 | friend:hazel,15 | flag:choice.hazel.hiding.wait
+  ? Joke about hiding in a book. => r2 | friend:hazel,5 | flag:choice.hazel.hiding.joke
+r0 hazel: Pages turning, far away. (Someone else's thoughts, stored.) It's company.
+r1 hazel: ...Yes. This. (Thank you.)
+  expr happy
+r2 hazel: Ha. (A small one.) You're not wrong.
+
+
+dialogue hazel.rehearsal
+n0 hazel: ...and so the lamp burned lower, and nobody minded. (That's the end.) What did you hear?
+  expr embarrassed
+  ? It was lovely. => r0 | friend:hazel,10 | flag:choice.hazel.rehearsal.praise
+  ? The middle dragged a little. => r1 | friend:hazel,15 | flag:choice.hazel.rehearsal.critique
+  ? Laugh gently at the lamp. => r2 | friend:hazel,10 | flag:choice.hazel.rehearsal.laugh
+r0 hazel: Lovely. (I'll hold on to that word.) Thank you.
+  expr happy
+r1 hazel: The middle. (I knew it.) Thank you for saying so out loud.
+r2 hazel: The lamp is a bit much. (It was supposed to be.) I'll keep it.
+
+
+dialogue bram.repair
+n0 bram: Hm. The handle's cracked. Hold, hammer, or watch?
+  ? Hold the handle. => r0 | friend:bram,10 | flag:choice.bram.repair.hold
+  ? Take the hammer. => r1 | friend:bram,15 | flag:choice.bram.repair.hammer
+  ? Watch and learn. => r2 | friend:bram,10 | flag:choice.bram.repair.watch
+r0 bram: Hm. Steady. Good.
+r1 bram: ...Hm. Strike true. Again. Good.
+  expr happy
+r2 bram: Hm. Watching's a skill. Few have it.
+
+
+dialogue bram.long
+n0 bram: I worked alone a long time, and I decided I liked it, and I was wrong about that, and I'm saying so because you came in and sat down.
+  expr thinking
+  ? Say nothing. Nod. => r0 | friend:bram,15 | flag:choice.bram.long.nod
+  ? Tell him you're glad. => r1 | friend:bram,10 | flag:choice.bram.long.glad
+  ? Answer with one word. => r2 | friend:bram,10 | flag:choice.bram.long.word
+r0 bram: ...Hm. Good. You understood. Fine.
+r1 bram: Hm. Glad. Hm. Yes. Me too.
+  expr happy
+r2 bram: One word. ...Hm. Right size.
+
+
+dialogue bram.juno
+n0 bram: She made a horseshoe. Crooked. She's proud. What do I say?
+  ? Say it's wonderful. => r0 | friend:bram,10 | flag:choice.bram.juno.praise
+  ? Tease the crookedness. => r1 | friend:bram,10 | flag:choice.bram.juno.tease
+  ? Ask what he sees in it. => r2 | friend:bram,15 | flag:choice.bram.juno.ask
+r0 bram: Hm. Wonderful. It's crooked. Still wonderful.
+r1 bram: Ha. Hm. I'll tease her. Gently. With a nail.
+  expr happy
+r2 bram: ...Hm. Me. When I started. That's what I see.
+  expr sad
+

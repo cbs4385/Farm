@@ -11,6 +11,14 @@ Editor must be closed. Commands and flags are in `docs/BUILD.md`.
 | Player capture | `-farmScene <Scene> -farmOpen <screen> -farmCapture <dir>` | look at the screenshots for every screen; the `[Perf]` log line shows avg/max frame time and GC |
 | Pixel-perfect check | BUILD.md "QA flags" | integer scaling at 1x-4x |
 
+Dialogue box check: `Farm.exe -screen-width 1280 -screen-height 720 -screen-fullscreen 0 -farmScene Farm -farmOpen dialogue -farmCapture <dir>` (portrait, name, text, numbered choices, tone tag and the log hint should all be visible and unclipped; checked 2026-10-02 on Windows).
+
+Chat menu check: `... -farmOpen chatmenu -farmCapture <dir>` (the social submenu, five choices: the villager's name, the prompt, the numbered choices and the highlighted Back must fit the box; checked 2026-10-02). The box holds one line of prompt and up to five choices; a longer list needs the frame to grow.
+
+Memories tab check: `... -farmOpen memories -farmCapture <dir>` (eight tab labels on one line, the grid of scene buttons unclipped, locked entries dimmed; checked 2026-10-02). Known flaky PlayMode tests under machine load: the hoe, placement and gamepad movement tests (`GameFlowTests`, `RealInputTests`, `GamepadAndUiInputTests`, `CraftingFlowTests`) have each failed once and then passed on a re-run with no change; they are timing-sensitive.
+
+Stream mode check: `... -farmOpen stream -farmCapture <dir>` (stream mode with a 30 second timer and the UI size at 1.4: the dialogue box must fit the screen with the portrait, the countdown and the content badge all visible; checked 2026-10-03).
+
 **When to also run the player capture:** any change to scenes, scene components, UI layering/canvases, sprite import, or serialization. The Editor and tests missed two real problems that only a player build showed (a scene that crashed the player, and a fade overlay hiding the day summary).
 
 **Bug-fix rule:** write the test that reproduces the bug first, watch it fail, then fix.

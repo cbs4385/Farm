@@ -162,6 +162,9 @@ The horror layer (and any future optional content) plugs into the base game thro
 
 **Requirements for upcoming systems** are listed in ADR 0002 (weather as data, gated woods path, conditions on dialogue/events/schedules/quests, journal pages, validator coverage, audio layers, the Options control).
 
+## Dialogue variety and FScript (ADR 0005, T-090, T-135)
+`DialogueSet.PickVaried` chooses what a villager says using `LineMemory` (module data `dialogue.memory`, no `GameState` change): tiers by priority, a per-line cooldown (14 days by default, none for priority 4 and above), a boost for lines never said, rarity weights (100/30/8/1) and a deterministic roll; talking again the same day repeats the line unless a higher tier now has a fresh one. `FScript` (`Gameplay/Story/FScript.cs`) compiles plain-text dialogue to story JSON and string-table entries; see `narrative/FSCRIPT.md`.
+
 ## 4. Coding conventions
 - C# 9 features OK. `namespace Farm.<Module>`. PascalCase types/methods, `_camelCase` private fields, `camelCase` locals.
 - **One MonoBehaviour per file, and the file must have the same name.** Violating this corrupted a scene in player builds while the Editor and tests looked fine (ADR 0001). Plain classes may share files.

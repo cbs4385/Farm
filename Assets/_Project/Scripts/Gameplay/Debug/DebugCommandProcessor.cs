@@ -59,6 +59,8 @@ namespace Farm.Gameplay
                 ["save"] = ("save", "save the game to the active slot", Save),
                 ["state"] = ("state", "print the date, weather, gold, energy and map", PrintState),
             };
+            // Narrative tools (T-137): hearts, mood, the talk pool and why, scenes, reactions, topics, social actions, coverage.
+            foreach (var (name, usage, help, run) in NarrativeDebug.Commands(session)) _commands[name] = (usage, help, run);
         }
 
         public IReadOnlyCollection<string> CommandNames => _commands.Keys;

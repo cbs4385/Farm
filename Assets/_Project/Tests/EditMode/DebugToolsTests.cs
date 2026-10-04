@@ -281,7 +281,7 @@ namespace Farm.Tests
         {
             // If a debug type is renamed, the guard must be updated with it.
             CollectionAssert.AreEquivalent(
-                new[] { nameof(DebugCommandProcessor), "DebugConsoleScreen" },
+                new[] { nameof(DebugCommandProcessor), "DebugConsoleScreen", nameof(NarrativeDebug) },
                 ReleaseGuard.DebugMarkers);
         }
     }

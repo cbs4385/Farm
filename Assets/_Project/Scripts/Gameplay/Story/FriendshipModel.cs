@@ -17,6 +17,8 @@ namespace Farm.Gameplay
         public const int MaxGiftsPerWeek = 2;
         public const int BaseDecayPerDay = 2;     // points lost per day of neglect, before modifiers
         public const int DecayAfterDays = 3;      // days without contact before the decay starts
+        public const int RepeatGiftDays = 14;     // giving the same item to the same villager again within this many days...
+        public const int RepeatGiftPercent = 50;  // ...is worth this much of the usual points (never on a birthday, never for a dislike)
 
         public static int Hearts(int points) => Math.Max(0, Math.Min(MaxHearts, points / PointsPerHeart));
 
@@ -34,6 +36,9 @@ namespace Farm.Gameplay
             }
             return birthday ? basePoints * BirthdayMultiplier : basePoints;
         }
+
+        public static int RepeatGiftPoints(int points, bool repeat, bool birthday) =>
+            repeat && !birthday && points > 0 ? points * RepeatGiftPercent / 100 : points;
 
         // Points lost this morning for a neighbour the player has ignored. `rate` is the (possibly modified) daily loss.
         public static int DecayFor(int daysSinceContact, float rate) =>

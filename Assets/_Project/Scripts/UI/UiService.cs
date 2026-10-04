@@ -53,6 +53,9 @@ namespace Farm.UI
         GameSession _session;
         Canvas _hudCanvas;
         Canvas _screenCanvas;
+        RectTransform _barTop, _barBottom;          // letterbox bars for scenes (T-100)
+        float _barHeight, _barGoal, _barSpeed;
+        const float LetterboxBarHeight = 70f;
         HudView _hud;
         InventoryScreen _inventory;
         ShopScreen _shop;
@@ -164,8 +167,52 @@ namespace Farm.UI
         }
 #endif
 
+        // Cinematic bars: drawn above the world and the HUD but below dialogue boxes and menus.
+        public void SetLetterbox(bool on, float seconds)
+        {
+            if (_barTop == null) BuildLetterbox();
+            _barGoal = on ? LetterboxBarHeight : 0f;
+            _barSpeed = seconds <= 0.01f ? 100000f : LetterboxBarHeight / seconds;
+            if (seconds <= 0.01f) { _barHeight = _barGoal; ApplyLetterbox(); }
+        }
+
+        public bool LetterboxOn => _barGoal > 0f;
+
+        void BuildLetterbox()
+        {
+            var canvas = UiKit.CreateCanvas("LetterboxCanvas", 60, transform);
+            Destroy(canvas.GetComponent<UnityEngine.UI.GraphicRaycaster>());
+            _barTop = Bar(canvas.transform, "Top", true);
+            _barBottom = Bar(canvas.transform, "Bottom", false);
+        }
+
+        static RectTransform Bar(Transform parent, string name, bool top)
+        {
+            var image = UiKit.Panel(parent, name, Color.black);
+            image.raycastTarget = false;
+            var rt = image.rectTransform;
+            rt.anchorMin = new Vector2(0f, top ? 1f : 0f);
+            rt.anchorMax = new Vector2(1f, top ? 1f : 0f);
+            rt.pivot = new Vector2(0.5f, top ? 1f : 0f);
+            rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = new Vector2(0f, 0f);
+            return rt;
+        }
+
+        void ApplyLetterbox()
+        {
+            if (_barTop == null) return;
+            _barTop.sizeDelta = new Vector2(0f, _barHeight);
+            _barBottom.sizeDelta = new Vector2(0f, _barHeight);
+        }
+
         void Update()
         {
+            if (_barTop != null && !Mathf.Approximately(_barHeight, _barGoal))
+            {
+                _barHeight = Mathf.MoveTowards(_barHeight, _barGoal, _barSpeed * Time.unscaledDeltaTime);
+                ApplyLetterbox();
+            }
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             var keyboard = Keyboard.current;
             if (keyboard != null && (keyboard.f1Key.wasPressedThisFrame || keyboard.backquoteKey.wasPressedThisFrame))
@@ -253,7 +300,7 @@ namespace Farm.UI
 
         static MenuPage[] CreateMenuPages() => new MenuPage[]
         {
-            new SkillsPage(), new SocialPage(), new CalendarPage(), new MapPage(), new CollectionsPage(), new JournalPage(), new CraftingPage(),
+            new SkillsPage(), new SocialPage(), new CalendarPage(), new MapPage(), new CollectionsPage(), new MemoriesPage(), new JournalPage(), new CraftingPage(),
         };
 
         public void ShowCrafting(string station)

@@ -14,6 +14,10 @@
 | [`art_prompts/`](art_prompts/README.md) | Text prompts for generating consistent cozy sprite sheets, plus the style guide | artists, T-060 |
 | [`adr/0001-m1-design-deviations.md`](adr/0001-m1-design-deviations.md) | Where the build differs from the original design, and lessons learned | developers |
 | [`adr/0002-mythos-extension-points.md`](adr/0002-mythos-extension-points.md) | The hooks that let the horror layer plug in, and the rules for them | developers, agents |
+| [`NPC_DIALOGUE_ANALYSIS.md`](NPC_DIALOGUE_ANALYSIS.md) | Inventory and critique of NPC dialogue versus highly rated cozy games, with prioritised recommendations | design, writers |
+| [`NPC_DIALOGUE_PLAN.md`](NPC_DIALOGUE_PLAN.md) | Accepted plan (T-080 to T-150): NPC dialogue, interaction variety, events and relationships at a professional standard, aimed at being worth streaming | design, agents |
+| [`adr/0005-narrative-depth-and-stream-appeal.md`](adr/0005-narrative-depth-and-stream-appeal.md) | Decisions D1-D8 for the narrative plan and the streaming goal | everyone |
+| [`narrative/BIBLE.md`](narrative/BIBLE.md), [`STYLE.md`](narrative/STYLE.md), [`FSCRIPT.md`](narrative/FSCRIPT.md), [`EVENTS.md`](narrative/EVENTS.md), [`STREAMING.md`](narrative/STREAMING.md), [`PACING.md`](narrative/PACING.md), [`FIRST_HOUR.md`](narrative/FIRST_HOUR.md) (draft), [`QA_HEART_EVENTS.md`](narrative/QA_HEART_EVENTS.md) | Narrative bible and writing style guide (approved), the FScript authoring format, how to write scenes, and the streaming features | writers, agents |
 | [`mythos/LORE.md`](mythos/LORE.md) | Draft lore bible for the horror layer (needs owner decisions) | design |
 
 Keep these in sync: when behaviour or architecture changes, update the relevant document in the same change (Definition of Done in the plan). Decisions that change the design go in a new ADR (`adr/NNNN-title.md`).

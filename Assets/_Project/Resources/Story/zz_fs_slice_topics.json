@@ -1,0 +1,213 @@
+{
+  "dialogues": [
+    {
+      "id": "wren.topic.gossip",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.topic.gossip.0",
+          "emote": "note",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.wren.topic.gossip.1",
+          "tag": "funny",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "wren",
+          "text": "dlg.wren.topic.gossip.2"
+        }
+      ]
+    },
+    {
+      "id": "wren.topic.stool",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.topic.stool.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.wren.topic.stool.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "wren",
+          "text": "dlg.wren.topic.stool.2",
+          "expression": "happy",
+          "emote": "heart",
+          "tag": "wholesome"
+        }
+      ]
+    },
+    {
+      "id": "hazel.topic.recommendation",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.topic.recommendation.0",
+          "expression": "thinking",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.topic.recommendation.1",
+          "tag": "funny",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.topic.recommendation.2",
+          "emote": "sparkle"
+        }
+      ]
+    },
+    {
+      "id": "hazel.topic.library",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.topic.library.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.topic.library.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.topic.library.2"
+        }
+      ]
+    },
+    {
+      "id": "bram.topic.forge",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.topic.forge.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "bram",
+          "text": "dlg.bram.topic.forge.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "bram",
+          "text": "dlg.bram.topic.forge.2"
+        }
+      ]
+    },
+    {
+      "id": "bram.topic.tools",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.topic.tools.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "bram",
+          "text": "dlg.bram.topic.tools.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "bram",
+          "text": "dlg.bram.topic.tools.2",
+          "tag": "funny"
+        }
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "wren.gossip",
+      "npc": "wren",
+      "labelKey": "topic.wren.gossip",
+      "dialogue": "wren.topic.gossip",
+      "condition": "hearts:wren>=1",
+      "priority": 2,
+      "once": false,
+      "cooldownDays": 3
+    },
+    {
+      "id": "wren.stool",
+      "npc": "wren",
+      "labelKey": "topic.wren.stool",
+      "dialogue": "wren.topic.stool",
+      "condition": "hearts:wren>=3",
+      "priority": 3,
+      "once": true,
+      "cooldownDays": 1
+    },
+    {
+      "id": "hazel.recommendation",
+      "npc": "hazel",
+      "labelKey": "topic.hazel.recommendation",
+      "dialogue": "hazel.topic.recommendation",
+      "condition": "hearts:hazel>=2",
+      "priority": 3,
+      "once": false,
+      "cooldownDays": 5
+    },
+    {
+      "id": "hazel.library",
+      "npc": "hazel",
+      "labelKey": "topic.hazel.library",
+      "dialogue": "hazel.topic.library",
+      "condition": "hearts:hazel>=1",
+      "priority": 2,
+      "once": false,
+      "cooldownDays": 4
+    },
+    {
+      "id": "bram.forge",
+      "npc": "bram",
+      "labelKey": "topic.bram.forge",
+      "dialogue": "bram.topic.forge",
+      "condition": "hearts:bram>=1",
+      "priority": 3,
+      "once": true,
+      "cooldownDays": 1
+    },
+    {
+      "id": "bram.tools",
+      "npc": "bram",
+      "labelKey": "topic.bram.tools",
+      "dialogue": "bram.topic.tools",
+      "condition": "hearts:bram>=2",
+      "priority": 2,
+      "once": false,
+      "cooldownDays": 4
+    }
+  ]
+}

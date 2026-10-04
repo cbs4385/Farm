@@ -1,0 +1,258 @@
+{
+  "dialogues": [
+    {
+      "id": "react.wren.spring.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.react.wren.spring.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.wren.winter.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.react.wren.winter.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.wren.harvest.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.react.wren.harvest.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.wren.coins.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.react.wren.coins.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.hazel.spring.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.react.hazel.spring.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.hazel.winter.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.react.hazel.winter.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.hazel.harvest.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.react.hazel.harvest.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.hazel.wren.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.react.hazel.wren.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.bram.spring.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.react.bram.spring.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.bram.winter.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.react.bram.winter.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.bram.harvest.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.react.bram.harvest.d.0"
+        }
+      ]
+    },
+    {
+      "id": "react.bram.wren.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.react.bram.wren.d.0"
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "id": "react.wren.spring",
+      "on": "season:spring",
+      "npcs": "wren",
+      "ttlDays": 4,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.wren.spring.d"
+    },
+    {
+      "id": "react.wren.winter",
+      "on": "season:winter",
+      "npcs": "wren",
+      "ttlDays": 4,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.wren.winter.d"
+    },
+    {
+      "id": "react.wren.harvest",
+      "on": "quest.done:tut_harvest",
+      "npcs": "wren",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.wren.harvest.d"
+    },
+    {
+      "id": "react.wren.coins",
+      "on": "random:found_coins",
+      "npcs": "wren",
+      "ttlDays": 3,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.wren.coins.d"
+    },
+    {
+      "id": "react.hazel.spring",
+      "on": "season:spring",
+      "npcs": "hazel",
+      "ttlDays": 4,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.hazel.spring.d"
+    },
+    {
+      "id": "react.hazel.winter",
+      "on": "season:winter",
+      "npcs": "hazel",
+      "ttlDays": 4,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.hazel.winter.d"
+    },
+    {
+      "id": "react.hazel.harvest",
+      "on": "quest.done:tut_harvest",
+      "npcs": "hazel",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.hazel.harvest.d"
+    },
+    {
+      "id": "react.hazel.wren",
+      "on": "event:wren_heart4",
+      "npcs": "hazel",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.hazel.wren.d"
+    },
+    {
+      "id": "react.bram.spring",
+      "on": "season:spring",
+      "npcs": "bram",
+      "ttlDays": 4,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.bram.spring.d"
+    },
+    {
+      "id": "react.bram.winter",
+      "on": "season:winter",
+      "npcs": "bram",
+      "ttlDays": 4,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.bram.winter.d"
+    },
+    {
+      "id": "react.bram.harvest",
+      "on": "quest.done:tut_harvest",
+      "npcs": "bram",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.bram.harvest.d"
+    },
+    {
+      "id": "react.bram.wren",
+      "on": "event:wren_heart4",
+      "npcs": "bram",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": false,
+      "dialogue": "react.bram.wren.d"
+    }
+  ]
+}

@@ -46,7 +46,8 @@ namespace Farm.Gameplay
     [Serializable]
     public sealed class EventStep
     {
-        public string Type;                 // say, dialogue, move, face, wait, advance, fadeout, fadein, effects, place
+        public string Type;                 // see EventSteps.Known: say, dialogue, move, face, wait, advance, fadeout, fadein, effects, place,
+                                            // emote, expression, anim, camera, sfx, music, lighting, branch, label, parallel, waitFor, spawn, despawn, letterbox
         public string Actor;                // "player" or an npc id
         public string Speaker;              // for say
         public string Text;                 // key, for say
@@ -56,6 +57,16 @@ namespace Farm.Gameplay
         public float Seconds;               // for wait, and the length of a fade
         public int Minutes;                 // for advance: game minutes the clock moves on
         public List<string> Effects = new List<string>();
+        // Added by T-100 (all optional):
+        public string Name;                 // emote, expression, animation, camera mode, sound, music cue, lighting preset, prop item, letterbox on/off
+        public string Id;                   // a prop's id (spawn, despawn)
+        public string Label;                // for `label`: a place a branch can jump to
+        public string Target;               // for `branch`: the label to jump to
+        public string Condition;            // a step runs only while this holds; a branch jumps when it holds (empty = always)
+        public float Value;                 // camera shake strength
+        public bool Async;                  // start and carry on; `waitFor` waits for it (move, emote, anim, camera, lighting)
+        public string Expression, Emote;    // for `say`: the portrait expression and emote bubble of that line
+        public List<EventStep> Steps = new List<EventStep>();   // for `parallel`: steps that run together
     }
 
     [Serializable]
@@ -66,6 +77,8 @@ namespace Farm.Gameplay
         public string Map;
         public string Condition;
         public bool Once = true;
+        public string TitleKey;             // a replayable memory's title (festivals use their calendar name instead)
+        public string Tag;                  // moment tag (funny, wholesome, surprise, mystery): this scene is meant to be remembered and clipped
         public string Calendar;             // festivals: string key of the name shown on the calendar ...
         public int CalendarSeason = -1;     // ... on this season (0 spring .. 3 winter)
         public int CalendarDay;             // ... and day

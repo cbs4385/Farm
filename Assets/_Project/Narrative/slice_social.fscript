@@ -1,0 +1,168 @@
+# Social actions for the three slice villagers (docs/narrative/BIBLE.md). Meh outcomes use the generic lines.
+
+social wren
+  loves joke
+  likes advice, tease
+
+social hazel
+  loves advice
+  likes joke
+  dislikes tease
+
+social bram
+  loves advice
+  likes tease
+  dislikes compliment
+
+# ---- Wren ----
+
+dialogue social.wren.joke.great
+n0 wren: Ha! Oh, that's wonderful. I'm stealing that. Between us, I'll say it's mine.
+  expr happy
+  emote note
+
+dialogue social.wren.joke.good
+n0 wren: Ha! Good one. Sit. You've earned a cider.
+
+dialogue social.wren.joke.flop
+n0 wren: ...Oh! That was the punchline? Marvelous. Let me improve it for you.
+  emote sweat
+
+dialogue social.wren.compliment.great
+n0 wren: Careful. I'll be insufferable by closing time.
+  expr happy
+  emote sparkle
+
+dialogue social.wren.compliment.good
+n0 wren: Well. Aren't you sweet. The stool is yours.
+
+dialogue social.wren.compliment.flop
+n0 wren: Flattery? Suspicious. What do you want? ...Oh. Nothing. Thank you.
+  emote question
+
+dialogue social.wren.advice.great
+n0 wren: Advice? Pull up the stool. First: never trust a quiet cider. Second: sit by the fire.
+  expr happy
+
+dialogue social.wren.advice.good
+n0 wren: My advice? Say yes to the second drink. And no to the third.
+
+dialogue social.wren.advice.flop
+n0 wren: Advice? Me? I run a bar. Mostly I improvise. Thank you anyway.
+  emote sweat
+
+dialogue social.wren.tease.great
+n0 wren: Oh, you wicked thing! I love it. Do it again.
+  expr happy
+  emote note
+
+dialogue social.wren.tease.good
+n0 wren: Ha! Cheeky. I like cheeky.
+
+dialogue social.wren.tease.flop
+n0 wren: Hm. Funny. I'll remember that when you order.
+  emote ellipsis
+
+# ---- Hazel ----
+
+dialogue social.hazel.joke.great
+n0 hazel: (She laughs, then covers her mouth.) That was good. I'm writing it down.
+  expr happy
+  emote note
+
+dialogue social.hazel.joke.good
+n0 hazel: Ha. Shh... no, it's fine. That was funny.
+
+dialogue social.hazel.joke.flop
+n0 hazel: Is that a joke? (She checks the page.) Oh. Oh! Ha. Sorry. Slow reader.
+  expr embarrassed
+  emote sweat
+
+dialogue social.hazel.compliment.great
+n0 hazel: Oh. (She goes pink.) I... thank you. Truly. I'll remember that.
+  expr embarrassed
+  emote heart
+
+dialogue social.hazel.compliment.good
+n0 hazel: That's... kind. Thank you.
+
+dialogue social.hazel.compliment.flop
+n0 hazel: Oh. Er. (She hides behind a book.) Thank you. Please stop being nice for a moment.
+  expr embarrassed
+  emote sweat
+
+dialogue social.hazel.advice.great
+n0 hazel: Oh. You want a recommendation? I have a list. (She does.) Start short. Then something sad.
+  expr happy
+  emote sparkle
+
+dialogue social.hazel.advice.good
+n0 hazel: Hm. Let me think. Read slowly. Stay curious.
+  expr thinking
+
+dialogue social.hazel.advice.flop
+n0 hazel: Advice? I shelve books. (She looks alarmed.) Ask Ione.
+  expr surprised
+  emote sweat
+
+dialogue social.hazel.tease.great
+n0 hazel: (A real smile.) That was fair. And annoying. Well done.
+  expr happy
+  emote sparkle
+
+dialogue social.hazel.tease.good
+n0 hazel: Hm. That was funny. Don't do it again.
+
+dialogue social.hazel.tease.flop
+n0 hazel: (She goes very still.) I'm going to alphabetize something now.
+  expr embarrassed
+  emote ellipsis
+
+# ---- Bram ----
+
+dialogue social.bram.joke.good
+n0 bram: Hm. Funny.
+
+dialogue social.bram.joke.great
+n0 bram: ...Ha. (A pause.) Hm. Good.
+  expr happy
+  emote note
+
+dialogue social.bram.joke.flop
+n0 bram: ...Hm? ...Oh. Joke.
+  emote question
+
+dialogue social.bram.compliment.great
+n0 bram: ...Hm. Thank you, [player].
+  expr embarrassed
+
+dialogue social.bram.compliment.good
+n0 bram: Hm. Fine. Keep your tools oiled.
+
+dialogue social.bram.compliment.flop
+n0 bram: ...Hm. (He scowls at the anvil.) No need for that.
+  expr embarrassed
+  emote sweat
+
+dialogue social.bram.advice.great
+n0 bram: Advice. Hm. Heat it slowly. Strike once, strike true. Then leave it alone.
+  expr happy
+
+dialogue social.bram.advice.good
+n0 bram: Hm. Oil your tools. That's the whole secret.
+
+dialogue social.bram.advice.flop
+n0 bram: ...Advice. Ask Juno. She talks.
+  emote ellipsis
+
+dialogue social.bram.tease.great
+n0 bram: ...Hm. (His mouth twitches.) Cheeky. Hm.
+  expr happy
+  emote sparkle
+
+dialogue social.bram.tease.good
+n0 bram: Hm. Cheeky.
+
+dialogue social.bram.tease.flop
+n0 bram: (He looks at you. Then at the anvil. Then at you.) Hm. Busy.
+  emote ellipsis

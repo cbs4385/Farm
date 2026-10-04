@@ -1,0 +1,107 @@
+# Conversation topics for the three slice villagers (docs/narrative/BIBLE.md).
+# Offered after a normal chat, at most two at a time. A topic plays its dialogue; the menu then ends.
+
+# ---- Wren ----
+
+topic wren.gossip
+  npc wren
+  label Ask about the latest gossip
+  plays wren.topic.gossip
+  if hearts:wren>=1
+  priority 2
+  cooldown 3
+
+dialogue wren.topic.gossip
+n0 wren: Oh, sit, sit. Now, between us...
+  emote note
+  next n1
+n1 wren: {Tilda hides the best jam.|Juno burned another clasp.|Piper wrote a song about parsnips. Again.|Bram said four words yesterday. Four!}
+  tag funny
+  next n2
+n2 wren: Of course, it improves with age. Ask me again Thursday.
+
+topic wren.stool
+  npc wren
+  label Ask about the good stool
+  plays wren.topic.stool
+  if hearts:wren>=3
+  priority 3
+  once
+
+dialogue wren.topic.stool
+n0 wren: The good stool? Third from the fire. Nobody sits there.
+  next n1
+n1 wren: Not a rule. A feeling. A very polite feeling.
+  next n2
+n2 wren: ...It's yours, by the way. Don't tell Felix.
+  expr happy
+  emote heart
+  tag wholesome
+
+# ---- Hazel ----
+
+topic hazel.recommendation
+  npc hazel
+  label Ask for a book recommendation
+  plays hazel.topic.recommendation
+  if hearts:hazel>=2
+  priority 3
+  cooldown 5
+
+dialogue hazel.topic.recommendation
+n0 hazel: A recommendation. (Let me think.)
+  expr thinking
+  next n1
+n1 hazel: {if farm:animals>=1}There's a book about a shepherd who talked to her sheep. They never answered. She didn't mind.{else}{if farm:crops>=3}There's a book about a gardener who counted her seeds until the garden counted back.{else}There's a book about a very small field and a very large sky.{/if}{/if}
+  tag funny
+  next n2
+n2 hazel: I'll set it aside. (I already have.)
+  emote sparkle
+
+topic hazel.library
+  npc hazel
+  label Ask about working at the library
+  plays hazel.topic.library
+  if hearts:hazel>=1
+  priority 2
+  cooldown 4
+
+dialogue hazel.topic.library
+n0 hazel: I shelve. I mend spines. I listen to Ione hum.
+  next n1
+n1 hazel: {It's quiet.|It's mostly quiet.|It is, on a good day, silent.} I like that.
+  next n2
+n2 hazel: ...Shh. No, it's fine.
+
+# ---- Bram ----
+
+topic bram.forge
+  npc bram
+  label Ask about the forge
+  plays bram.topic.forge
+  if hearts:bram>=1
+  priority 3
+  once
+
+dialogue bram.topic.forge
+n0 bram: Forge. Fire, iron, patience.
+  next n1
+n1 bram: Heat it until it's honest. Then hit it.
+  next n2
+n2 bram: ...Hm.
+
+topic bram.tools
+  npc bram
+  label Ask for tool advice
+  plays bram.topic.tools
+  if hearts:bram>=2
+  priority 2
+  cooldown 4
+
+dialogue bram.topic.tools
+n0 bram: Tool advice. Hm.
+  next n1
+n1 bram: {if has:resource.copperbar>=1}You carry copper. Good. Bring it here.{else}Bring bars and coin. Two days. No haggling.{/if}
+  next n2
+n2 bram: Oil it. Always oil it.
+  tag funny

@@ -158,6 +158,54 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void EveryShippedScene_IsStagedOnFreeFloor_WithPathsAndNoSharedCells()
+        {
+            var story = StoryContent.LoadFromResources();
+            foreach (var e in story.Events.Where(e => !string.IsNullOrEmpty(e.Map) && Maps.ContainsKey(e.Map)))
+            {
+                var problems = EventStaging.Check(e, Maps[e.Map].Grid);
+                CollectionAssert.IsEmpty(problems, e.Id + ": " + string.Join(" | ", problems));
+            }
+        }
+
+        // T-103: every template, put on the player's staging cell of every shipped heart event, is physically possible there.
+        [Test]
+        public void EveryTemplate_IsStagedOnFreeFloor_OnEveryMapWithAHeartEvent()
+        {
+            var library = StoryContent.LoadFromResources();
+            var checkedCount = 0;
+            foreach (var e in library.Events)
+            {
+                var move = e.Steps.FirstOrDefault(s => s.Type == "move" && s.Actor == "player");
+                if (move == null || !Maps.ContainsKey(e.Map)) continue;
+                var npcId = Npcs().First(n => e.Id.StartsWith(n.Id + "_")).Id;
+                foreach (var template in new[] { "shared_activity", "confession", "heirloom", "shared_meal", "helping_scene", "prank", "performance" })
+                {
+                    var args = new Newtonsoft.Json.Linq.JObject
+                    {
+                        ["npc"] = npcId, ["map"] = e.Map, ["px"] = move.X, ["py"] = move.Y, ["nx"] = move.X, ["ny"] = move.Y + 1,
+                        ["item"] = "crop.strawberry", ["dish"] = "food.mashed_potato", ["cue"] = "c", ["need"] = "flag:x", ["talk"] = "tilda.chat1",
+                    };
+                    foreach (var key in new[] { "intro", "doing", "wrap", "give", "thanks", "bite", "ask", "success", "fallback", "setup", "prank", "reaction", "outro", "after" }) args[key] = "k";
+                    var story = new StoryContent();
+                    var raw = Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Story/event_templates.json"));
+                    story.AddJson(raw.ToString(), "lib");
+                    var tmpl = ((Newtonsoft.Json.Linq.JArray)raw["eventTemplates"]).First(t => (string)t["id"] == template);
+                    var declared = ((Newtonsoft.Json.Linq.JArray)tmpl["params"]).Select(t => (string)t).ToList();
+                    var trimmed = new Newtonsoft.Json.Linq.JObject();
+                    foreach (var p in args.Properties()) if (declared.Contains(p.Name)) trimmed[p.Name] = p.Value;
+                    story.AddJson(new Newtonsoft.Json.Linq.JObject { ["eventsFromTemplates"] = new Newtonsoft.Json.Linq.JArray(new Newtonsoft.Json.Linq.JObject { ["id"] = "x", ["template"] = template, ["args"] = trimmed }) }.ToString(), "inst");
+                    var ev = story.Event("x");
+                    Assert.IsNotNull(ev, $"{template} on {e.Id}: {string.Join(" | ", story.Errors)}");
+                    var problems = EventStaging.Check(ev, Maps[e.Map].Grid);
+                    CollectionAssert.IsEmpty(problems, $"{template} on {e.Id} ({e.Map}): " + string.Join(" | ", problems));
+                    checkedCount++;
+                }
+            }
+            Assert.Greater(checkedCount, 100, "7 templates on 23 heart-event stages");
+        }
+
+        [Test]
         public void EveryWalkBetweenStops_HasAPathOnEachMap()
         {
             foreach (var npc in Npcs())

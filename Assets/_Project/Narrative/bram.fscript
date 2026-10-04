@@ -1,0 +1,169 @@
+# Bram Hollis, the blacksmith. Full depth (docs/narrative/BIBLE.md section 5). Gruff, economical; the Hm scale; affection through work.
+# Voice: very short sentences, fragments, one idea a line, craft metaphors, no exclamation marks. "Hm." is a whole vocabulary: Hm. (heard),
+# Hm? (confused), ...Hm. (moved). He rarely uses a name until late hearts. Unaware of the village's secrets.
+
+addto npc.bram.talk
+
+# ---- seasons ----
+0 season:spring => bram.spring.1 cat=seasonal :: Hm. Ground's soft. Hoes and hinges all week.
+0 season:spring => bram.spring.2 cat=seasonal :: Spring. Every plow in the village wants me at once.
+0 season:spring => bram.spring.3 cat=seasonal :: Hm. First thaw. Old tools show their cracks.
+0 season:spring => bram.spring.4 cat=seasonal tag=funny :: Someone brought me a hoe with a bent handle and a long story. I fixed the hoe.
+0 season:spring => bram.spring.5 cat=seasonal :: Spring means mud. Mud means rust. Rust means work.
+0 season:spring => bram.spring.6 cat=seasonal rarity=uncommon :: Hm. Juno talked through all of March. I learned the names of her seven favorite hammers.
+0 season:summer => bram.summer.1 cat=seasonal :: Forge in summer. Don't ask.
+0 season:summer => bram.summer.2 cat=seasonal :: Hm. Hot. I wear less. The anvil doesn't care.
+0 season:summer => bram.summer.3 cat=seasonal :: Summer work is hinges and hooks. Quick jobs.
+0 season:summer => bram.summer.4 cat=seasonal tag=funny :: I keep a bucket by the door. Juno calls it the swimming pool. I call it the bucket.
+0 season:summer => bram.summer.5 cat=seasonal :: Long days. The glow of the forge looks small at noon.
+0 season:summer => bram.summer.6 cat=seasonal rarity=uncommon :: Hm. Fished once. Caught nothing. Felix said it was a good start.
+0 season:fall => bram.fall.1 cat=seasonal :: Scythes. Axes. Hooks. Harvest keeps me busy.
+0 season:fall => bram.fall.2 cat=seasonal :: Hm. Cool air. Good for the metal.
+0 season:fall => bram.fall.3 cat=seasonal :: Fall is when everyone remembers the fall of their tools.
+0 season:fall => bram.fall.4 cat=seasonal :: Birthday's in fall. I don't bring it up.
+0 season:fall => bram.fall.5 cat=seasonal tag=wholesome :: Hm. Leaves on the forge roof. They hiss when they land.
+0 season:fall => bram.fall.6 cat=seasonal rarity=uncommon :: Fall's my best season. Cold outside. Warm inside. Quiet in between.
+0 season:winter => bram.winter.1 cat=seasonal :: Winter. The forge is the best seat in the village.
+0 season:winter => bram.winter.2 cat=seasonal :: Cold metal bites. Warm metal listens.
+0 season:winter => bram.winter.3 cat=seasonal :: Hm. People come in to warm up. Some order a nail.
+0 season:winter => bram.winter.4 cat=seasonal tag=wholesome :: Snow on the roof. Fire in the belly. That's winter.
+0 season:winter => bram.winter.5 cat=seasonal :: Winter work is slow. Slow work is good work.
+0 season:winter => bram.winter.6 cat=seasonal rarity=uncommon :: Hm. I write letters in winter. Most I don't send.
+
+# ---- weekdays ----
+0 weekday:mon => bram.mon.1 cat=weekday :: Hm. Monday's my day off. I'm here anyway.
+0 weekday:mon => bram.mon.2 cat=weekday :: Closed Mondays. Doesn't mean I'm not working.
+0 weekday:tue => bram.tue.1 cat=weekday :: Tuesday. Wren's day off. The village is slightly less loud.
+0 weekday:tue => bram.tue.2 cat=weekday :: Hm. Quiet day. Plows and pans.
+0 weekday:wed => bram.wed.1 cat=weekday :: Wednesday. Marcus is closed. We sit on a bench. In silence. It's good.
+0 weekday:wed => bram.wed.2 cat=weekday :: Midweek. The forge is settled.
+0 weekday:thu => bram.thu.1 cat=weekday :: Hm. Thursday. Felix's day off. His hooks are all mine.
+0 weekday:thu => bram.thu.2 cat=weekday :: Thursdays I sharpen. Everything. Even the spoons.
+0 weekday:fri => bram.fri.1 cat=weekday :: Friday. Everyone wants their tool done by Saturday.
+0 weekday:fri => bram.fri.2 cat=weekday :: Hm. Friday means orders. Orders mean noise. I accept noise.
+0 weekday:sat => bram.sat.1 cat=weekday :: Saturday. The market's loud. The forge isn't.
+0 weekday:sat => bram.sat.2 cat=weekday :: Hm. Saturday. Juno's cheerful. I allow it.
+0 weekday:sun => bram.sun.1 cat=weekday :: Sunday. I fix things nobody asked me to fix.
+0 weekday:sun => bram.sun.2 cat=weekday :: Hm. Slow Sunday. Good iron doesn't hurry.
+
+# ---- weather ----
+0 weather:sunny => bram.sunny.1 cat=weather :: Hm. Bright. Hot inside. Hotter outside.
+0 weather:sunny => bram.sunny.2 cat=weather :: Good weather. Bad for business. Everyone's outside.
+0 weather:sunny => bram.sunny.3 cat=weather :: Hm. Sun on the anvil. It shines. It means nothing.
+1 weather:rain => bram.rain.3 cat=weather :: Rain on the roof. Forge stays warm. I'm content.
+1 weather:rain => bram.rain.4 cat=weather tag=funny :: Hm. Rain. Everyone brings in tools to dry. I'm a laundry.
+1 weather:storm => bram.storm.1 cat=weather :: Storm. Quench barrel's overflowing. I'll allow it.
+1 weather:storm => bram.storm.2 cat=weather :: Hm. Thunder. The anvil rings back. They know each other.
+1 weather:storm => bram.storm.3 cat=weather :: Lightning's loud. The forge is louder. I win.
+1 weather:snow => bram.snow.1 cat=weather :: Snow. The forge glows in it. It looks warm.
+1 weather:snow => bram.snow.2 cat=weather :: Hm. Snow on the sill. I leave the door open a crack. Pretty.
+1 weather:snow => bram.snow.3 cat=weather tag=wholesome :: Snow muffles everything. Even the hammer. I like it.
+1 weather:wind => bram.wind.1 cat=weather :: Wind. The door argues. I let it.
+1 weather:wind => bram.wind.2 cat=weather :: Hm. Wind blows ash everywhere. I'll be gray for days.
+1 weather:wind => bram.wind.3 cat=weather :: Windy. The forge roars. Good for the fire. Bad for my hat.
+
+# ---- time of day ----
+0 hour<10 => bram.morning.1 cat=time :: Early. The fire needs coaxing. So do I.
+0 hour<10 => bram.morning.2 cat=time :: Hm. Morning. First heat of the day. First good thought.
+0 hour<10 => bram.morning.3 cat=time :: Before opening. Just me and the iron.
+0 hour>=10 && hour<16 => bram.midday.1 cat=time :: Hm. Midday. Peak heat. Peak noise.
+0 hour>=10 && hour<16 => bram.midday.2 cat=time :: Busy. Don't stand in the sparks.
+0 hour>=10 && hour<16 => bram.midday.3 cat=time :: Afternoon. The best iron gets made now.
+0 hour>=16 && hour<20 => bram.evening.1 cat=time :: Closing soon. The fire's low. So's my mood. In a good way.
+0 hour>=16 && hour<20 => bram.evening.2 cat=time :: Hm. Evening. I clean up. Then I sit. That's my day.
+0 hour>=16 && hour<20 => bram.evening.3 cat=time :: Last job of the day. Always the hard one.
+0 hour>=20 => bram.late.1 cat=time :: Late. The anvil's still warm. So is the bench.
+0 hour>=20 => bram.late.2 cat=time :: Hm. Late. I should sleep. The iron says otherwise.
+0 hour>=20 => bram.late.3 cat=time :: Quiet hours. Best hours.
+0 map:Blacksmith => bram.here.1 cat=place :: Don't touch that. It's hot. Everything's hot.
+0 map:Blacksmith => bram.here.2 cat=place :: Hm. Careful. The floor's got opinions.
+0 map:Blacksmith => bram.here.3 cat=place tag=funny :: Juno labeled every tool on the wall. Some labels are insults. I left them.
+
+# ---- friends (3 to 5 hearts) ----
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.1 cat=tier :: Hm. You listen. Rare.
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.2 cat=tier :: You oil your tools. I noticed.
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.3 cat=tier :: Juno says I'm nicer around you. I said I'm not. She laughed.
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.4 cat=tier tag=funny :: Wren bet I'd say four words to you today. Hm. That was five.
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.5 cat=tier :: I made you something. It's not ready. It might never be.
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.6 cat=tier :: Hm. Good to see you. Don't tell anyone I said so.
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.7 cat=tier :: Marcus asked about you. I said you're all right. He nodded. That's a lot.
+0 hearts:bram>=3 && hearts:bram<6 => bram.fr.8 cat=tier tag=wholesome :: I moved the stool so you could sit by the fire. It was in the way anyway.
+
+# ---- close friends (6 to 8 hearts) ----
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.1 cat=tier :: Hm. I look forward to your visits. There. I said it.
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.2 cat=tier :: I used to work alone. This is better. Don't make me say it twice.
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.3 cat=tier tag=wholesome :: You talk to me like I'm a person. I try to do the same.
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.4 cat=tier :: ...Hm. Good company is rare iron.
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.5 cat=tier :: Juno's proud of you. So am I. She said it first.
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.6 cat=tier tag=funny :: I told Wren you're a decent sort. She told everyone. I'm not speaking to Wren.
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.7 cat=tier :: Hm. Come back tomorrow. I'll have something.
+0 hearts:bram>=6 && hearts:bram<9 => bram.cl.8 cat=tier :: Your tools are the best kept in the village. I'm not surprised.
+
+# ---- confidant (9 and 10 hearts) ----
+0 hearts:bram>=9 => bram.co.1 cat=tier tag=wholesome :: ...Hm. A good friend is a good tool. Hard to find. Harder to keep. You, I'm keeping.
+0 hearts:bram>=9 => bram.co.2 cat=tier :: I made a lot of things. Few I'm proud of. You're on that list.
+0 hearts:bram>=9 => bram.co.3 cat=tier :: Hm. The forge is warm. With you in it, it's warmer.
+0 hearts:bram>=9 => bram.co.4 cat=tier tag=funny :: If I wrote you a letter, it'd be three words. I'd send it. That's the difference.
+0 hearts:bram>=9 => bram.co.5 cat=tier :: I used to count the days alone. I stopped.
+0 hearts:bram>=9 => bram.co.6 cat=tier :: Hm. Thank you, [player]. For everything. That's the whole speech.
+0 hearts:bram>=9 => bram.co.7 cat=tier :: I don't say much. You never needed me to.
+0 hearts:bram>=9 => bram.co.8 cat=tier tag=wholesome :: ...Hm. The anvil has one mark I never fixed. It's from the day you walked in.
+
+# ---- moods ----
+1 mood:bram=lonely => bram.lonely.1 cat=mood :: Hm. Quiet. Too quiet. Juno was louder than usual to fill it.
+1 mood:bram=lonely => bram.lonely.2 cat=mood :: You were gone. I noticed. The forge noticed.
+1 mood:bram=tired => bram.tired.1 cat=mood :: Long night. The iron kept me up.
+1 mood:bram=tired => bram.tired.2 cat=mood :: Hm. Tired. Don't tell Juno. She'll make it a thing.
+1 mood:bram=delighted => bram.delighted.1 cat=mood expr=happy :: ...Hm. Good day. A fine pour. A true edge. Good.
+1 mood:bram=delighted => bram.delighted.2 cat=mood expr=happy emote=sparkle :: Hm. Made something right. Don't ask what. Just look at it.
+1 mood:bram=mischievous => bram.mischief.1 cat=mood expr=happy :: Hm. I put a rubber chicken on Juno's anvil. Wren swore it was an accident.
+1 mood:bram=mischievous => bram.mischief.2 cat=mood expr=happy :: Hm. I said something funny. Nobody noticed. I'm pleased.
+1 mood:bram=worried => bram.worried.1 cat=mood expr=sad :: Hm. A blade I made today won't hold. I'll start again.
+
+# ---- the world and the farm ----
+0 farm:crops>=5 => bram.farm.1 cat=reactive :: Hm. Your field's coming along. Your hoe will need me soon.
+0 farm:crops>=5 => bram.farm.2 cat=reactive tag=funny :: Plenty of plants. Plenty of tools to break. Good for business.
+0 farm:animals>=1 => bram.farm.3 cat=reactive :: Animals. They'll need fences. Fences need nails. Nails are me.
+0 farm:animals>=1 => bram.farm.4 cat=reactive :: Hm. Do the chickens like you? They'd better.
+2 festival.in:<=3 && festival.in:>0 => bram.fest.1 cat=reactive :: Festival soon. I'll bring a cookie. One.
+2 festival.in:<=3 && festival.in:>0 => bram.fest.2 cat=reactive tag=wholesome :: Hm. Festival. Juno's making me go. I'll stand near the food.
+2 festival.in:==0 => bram.fest.3 cat=reactive :: Festival today. I put on a clean shirt. Don't make a fuss.
+2 birthday.in:bram<=3 && birthday.in:bram>0 => bram.bday.1 cat=reactive :: Hm. My birthday's close. No fuss. No cake. Maybe cake.
+2 birthday.in:bram<=3 && birthday.in:bram>0 => bram.bday.2 cat=reactive :: Three days. I'll be thirty-something. Hm. I stopped counting.
+3 birthday.in:bram==0 => bram.bday.3 cat=reactive expr=embarrassed emote=sweat :: Hm. It's today. Someone told. I know who. Wren.
+2 birthday.in:juno<=2 && birthday.in:juno>=0 => bram.bday.4 cat=reactive :: Juno's birthday is close. I made her a tool. She'll cry. I'll pretend not to notice.
+2 birthday.in:wren<=2 && birthday.in:wren>=0 => bram.bday.5 cat=reactive :: Wren's birthday. I'll bring a cider. And four words. She'll pick which.
+
+# ---- rarities ----
+0 ~ => bram.rare.1 cat=rare rarity=rare tag=funny :: Rocks are honest. Weather isn't. Wren isn't either.
+0 ~ => bram.rare.2 cat=rare rarity=rare tag=funny :: Hm. I don't talk much. Juno talks for both. She's done it so long I'm in debt.
+0 ~ => bram.rare.3 cat=rare rarity=rare tag=wholesome :: Hm. A good tool doesn't hurry. A good friend doesn't either.
+0 hearts:bram>=5 => bram.rare.4 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Hm. (He looks at the anvil, then at you.) That's the longest I've held a conversation. Don't spread it.
+
+# ---- gifts ----
+say npc.bram.gift.item.forage.truffle bram: ...Hm. A truffle. Where'd you find it? Never mind. Thank you.
+say npc.bram.gift.item.forage.mushroom bram: Hm. Good mushroom. I'll have it with supper. Thank you, [player].
+say npc.bram.gift.item.food.roasted_roots bram: Roasted roots. Hm. Warm. Plain. Right. Thank you.
+say npc.bram.gift.item.resource.copperbar bram: Hm. Copper. Clean pour. You've got an eye.
+say npc.bram.gift.item.forage.hazelnut bram: Hazelnut. Small. Good. I'll eat it slowly.
+say npc.bram.gift.item.crop.potato bram: A potato. Honest. Hm. I'll take it.
+say npc.bram.gift.item.forage.dandelion bram: A dandelion. Hm. I don't know what to do with it. (He sets it on the anvil.) It looks wrong there.
+say npc.bram.gift.item.crop.kale bram: Kale. Hm. I'll give it to Juno. She'll eat anything.
+say npc.bram.gift.item.fish.pufferfish bram: A pufferfish. It's looking at me. Hm. I'll feed it to someone else.
+
+# the gift lab: how a blacksmith takes something absurd
+say npc.bram.gift.cat.Fish bram: Fish. Hm. Felix's department. I'll walk it over.
+say npc.bram.gift.item.resource.ironbar bram: Hm. Iron. I make iron. This is a very kind insult.
+say npc.bram.gift.item.resource.goldbar bram: Gold. Hm. Too soft for work. Too pretty to ignore. Thank you.
+say npc.bram.gift.item.resource.ironore bram: Ore. Hm. That's the beginning of something. I'll finish it.
+say npc.bram.gift.item.resource.copperore bram: Copper ore. Hm. Green's good. Means it's honest.
+say npc.bram.gift.item.resource.coal bram: Coal. Hm. Yes. Always yes.
+say npc.bram.gift.item.resource.stone bram: A rock. Hm. It's a good rock. I'll put it on the shelf. It's a friend.
+say npc.bram.gift.item.resource.wood bram: Wood. Hm. For the fire. Marcus would cry at that. I won't tell him.
+say npc.bram.gift.item.resource.slime bram: Slime. ...Hm. No. (He sets it far away.) Thank you for the thought.
+say npc.bram.gift.item.resource.bone bram: A bone. Hm. Strong. Light. A good handle, in a different life.
+say npc.bram.gift.item.artisan.wine bram: Wine. Hm. Wren would approve. I'll save it.
+say npc.bram.gift.item.crop.pumpkin bram: A pumpkin. Hm. Big. I'll carve a hammer on it.
+say npc.bram.gift.item.product.egg bram: An egg. Hm. Smaller than my hammer. Better too.
+say npc.bram.gift.item.food.salad bram: Salad. Hm. I'll eat it. Standing up. Quickly.
+say npc.bram.gift.repeat bram: Hm. Again. ...Thanks. I still have the first one. It's good.

@@ -302,6 +302,7 @@ namespace Farm.UI
 
             var frame = Panel(scrim.transform, "Frame", PanelColor);
             Place(frame.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), size, Vector2.zero);
+            frame.gameObject.AddComponent<FitToCanvas>();       // a bigger UI size must not push the panel off the screen
             return frame.rectTransform;
         }
 

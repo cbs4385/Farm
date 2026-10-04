@@ -62,9 +62,9 @@ namespace Farm.Gameplay
             var home = Stop(Six, MapIds.Blacksmith, 6, 3);
             return NpcDefinition.Create(NpcIds.Bram, Season.Fall, 4, MapIds.Blacksmith, 6, 3, romanceable: false, business: "blacksmith")
                 .WithTastes(
-                    loved: new[] { "forage.truffle", "forage.mushroom" },
+                    loved: new[] { "forage.truffle", "forage.mushroom", "food.roasted_roots" },
                     liked: new[] { "resource.copperbar", "forage.hazelnut", "crop.potato" },
-                    disliked: new[] { "forage.dandelion", "crop.kale" })
+                    disliked: new[] { "forage.dandelion", "crop.kale", "fish.pufferfish" })
                 .WithSchedule(new[]
                 {
                     Day("rainy_day_off", "weekday:mon && weather:rain", 10, home, Stop(Nine, MapIds.Blacksmith, 6, 3)),

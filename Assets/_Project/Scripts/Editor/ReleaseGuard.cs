@@ -10,7 +10,7 @@ namespace Farm.Editor
     // assemblies, IL2CPP metadata and native binaries store identifiers differently.
     public static class ReleaseGuard
     {
-        public static readonly string[] DebugMarkers = { "DebugCommandProcessor", "DebugConsoleScreen" };
+        public static readonly string[] DebugMarkers = { "DebugCommandProcessor", "DebugConsoleScreen", "NarrativeDebug" };
 
         static readonly string[] ScannedExtensions = { ".dll", ".dat", ".so", ".exe", ".dylib" };
 

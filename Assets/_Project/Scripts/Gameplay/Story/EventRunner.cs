@@ -40,7 +40,8 @@ namespace Farm.Gameplay
         // Marks an event played and runs what a skipped scene still has to do (the effects steps that remain).
         public static void RunSkipped(GameSession s, EventDefinition ev, int fromStep)
         {
-            for (var i = fromStep; i < ev.Steps.Count; i++)
+            // Follow the scene's own path (conditions and branches) so a skipped scene runs the effects of the branch it was on.
+            foreach (var i in EventFlow.PathFrom(ev.Steps, fromStep, s.World))
                 if (ev.Steps[i].Type == "effects") Effects.RunAll(s, ev.Steps[i].Effects);
             Effects.RunAll(s, ev.SkipEffects);
         }

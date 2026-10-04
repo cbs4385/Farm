@@ -1,0 +1,343 @@
+{
+  "eventsFromTemplates": [
+    {
+      "id": "wren_heart4",
+      "template": "prank",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=4 && flag:event.wren_heart2 && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "friend:wren,50"
+        ],
+        "setup": "event.wren_heart4.setup",
+        "prank": "event.wren_heart4.prank",
+        "reaction": "event.wren_heart4.reaction",
+        "talk": "wren.openmic"
+      },
+      "event": {
+        "titleKey": "memory.wren_heart4",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "wren_heart6",
+      "template": "conversation",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=6 && flag:event.wren_heart5 && flag:event.wren_heart4 && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "friend:wren,60"
+        ],
+        "intro": "event.wren_heart6.intro",
+        "after": "event.wren_heart6.after",
+        "talk": "wren.kitchen"
+      },
+      "event": {
+        "titleKey": "memory.wren_heart6",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "wren_heart8",
+      "template": "confession",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=8 && flag:event.wren_heart6 && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "friend:wren,70"
+        ],
+        "intro": "event.wren_heart8.intro",
+        "after": "event.wren_heart8.after",
+        "talk": "wren.bag"
+      },
+      "event": {
+        "titleKey": "memory.wren_heart8",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "wren_heart10",
+      "template": "performance",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=10 && flag:event.wren_heart8 && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "friend:wren,80"
+        ],
+        "intro": "event.wren_heart10.intro",
+        "cue": "wren_theme",
+        "outro": "event.wren_heart10.outro"
+      },
+      "event": {
+        "titleKey": "memory.wren_heart10",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "wren_friend",
+      "template": "shared_activity",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=3 && weekday:fri && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "friend:wren,15"
+        ],
+        "intro": "event.wren_friend.intro",
+        "doing": "event.wren_friend.doing",
+        "wrap": "event.wren_friend.wrap",
+        "gesture": "hop",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.wren_friend",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "hazel_heart4",
+      "template": "conversation",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=4 && flag:event.hazel_heart2 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:hazel,50"
+        ],
+        "intro": "event.hazel_heart4.intro",
+        "after": "event.hazel_heart4.after",
+        "talk": "hazel.swap"
+      },
+      "event": {
+        "titleKey": "memory.hazel_heart4",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "hazel_heart6",
+      "template": "confession",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=6 && flag:event.hazel_heart5 && flag:event.hazel_heart4 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:hazel,60"
+        ],
+        "intro": "event.hazel_heart6.intro",
+        "after": "event.hazel_heart6.after",
+        "talk": "hazel.hiding"
+      },
+      "event": {
+        "titleKey": "memory.hazel_heart6",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "hazel_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=8 && flag:event.hazel_heart6 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:hazel,70"
+        ],
+        "intro": "event.hazel_heart8.intro",
+        "after": "event.hazel_heart8.after",
+        "talk": "hazel.rehearsal"
+      },
+      "event": {
+        "titleKey": "memory.hazel_heart8",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "hazel_heart10",
+      "template": "performance",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=10 && flag:event.hazel_heart8 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:hazel,80"
+        ],
+        "intro": "event.hazel_heart10.intro",
+        "cue": "hazel_theme",
+        "outro": "event.hazel_heart10.outro"
+      },
+      "event": {
+        "titleKey": "memory.hazel_heart10",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "hazel_friend",
+      "template": "helping_scene",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=3 && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "friend:hazel,15"
+        ],
+        "ask": "event.hazel_friend.ask",
+        "success": "event.hazel_friend.success",
+        "fallback": "event.hazel_friend.fallback",
+        "need": "has:forage.blackberry>=1"
+      },
+      "event": {
+        "titleKey": "memory.hazel_friend",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "bram_heart4",
+      "template": "conversation",
+      "args": {
+        "npc": "bram",
+        "map": "Blacksmith",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:bram>=4 && flag:event.bram_heart2 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:bram,50"
+        ],
+        "intro": "event.bram_heart4.intro",
+        "after": "event.bram_heart4.after",
+        "talk": "bram.repair"
+      },
+      "event": {
+        "titleKey": "memory.bram_heart4",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "bram_heart6",
+      "template": "confession",
+      "args": {
+        "npc": "bram",
+        "map": "Blacksmith",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:bram>=6 && flag:event.bram_heart5 && flag:event.bram_heart4 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:bram,60"
+        ],
+        "intro": "event.bram_heart6.intro",
+        "after": "event.bram_heart6.after",
+        "talk": "bram.long"
+      },
+      "event": {
+        "titleKey": "memory.bram_heart6",
+        "priority": 7,
+        "tag": "surprise"
+      }
+    },
+    {
+      "id": "bram_heart8",
+      "template": "conversation",
+      "args": {
+        "npc": "bram",
+        "map": "Blacksmith",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:bram>=8 && flag:event.bram_heart6 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:bram,70"
+        ],
+        "intro": "event.bram_heart8.intro",
+        "after": "event.bram_heart8.after",
+        "talk": "bram.juno"
+      },
+      "event": {
+        "titleKey": "memory.bram_heart8",
+        "priority": 7,
+        "tag": "funny"
+      }
+    },
+    {
+      "id": "bram_heart10",
+      "template": "heirloom",
+      "args": {
+        "npc": "bram",
+        "map": "Blacksmith",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:bram>=10 && flag:event.bram_heart8 && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:bram,80"
+        ],
+        "intro": "event.bram_heart10.intro",
+        "give": "event.bram_heart10.give",
+        "thanks": "event.bram_heart10.thanks",
+        "nx": 6,
+        "ny": 4,
+        "item": "resource.goldbar"
+      },
+      "event": {
+        "titleKey": "memory.bram_heart10",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "bram_friend",
+      "template": "shared_activity",
+      "args": {
+        "npc": "bram",
+        "map": "Blacksmith",
+        "px": 6,
+        "py": 3,
+        "when": "hearts:bram>=3 && weekday:wed && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "friend:bram,15"
+        ],
+        "intro": "event.bram_friend.intro",
+        "doing": "event.bram_friend.doing",
+        "wrap": "event.bram_friend.wrap",
+        "gesture": "nod",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.bram_friend",
+        "priority": 7,
+        "tag": "wholesome"
+      }
+    }
+  ]
+}

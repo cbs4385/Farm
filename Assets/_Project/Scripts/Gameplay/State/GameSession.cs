@@ -135,6 +135,13 @@ namespace Farm.Gameplay
         // Events waiting to play (the `event:` effect); the event director on the loaded map plays them in order. Not saved.
         public List<string> PendingEvents { get; } = new List<string>();
 
+        // A memory being replayed (T-102): nothing here is saved.
+        public string MemoryId { get; set; }
+        public string MemoryReturnMap { get; set; }
+        public Vector3 MemoryReturnPosition { get; set; }
+        public bool MemoryHasReturnPosition { get; set; }
+        public bool MemoryRestorePosition { get; set; }
+
         // Authored story data (dialogue, quests, letters, events); loaded from Resources/Story by GameServices.
         public StoryContent Story { get; set; } = new StoryContent();
 
@@ -153,7 +160,30 @@ namespace Farm.Gameplay
         public GameHooks Hooks { get; } = new GameHooks();
 
         // What conditions (Conditions.Evaluate) see. Live: always reflects the current game.
-        public IWorldQuery World => new StateWorldQuery(State, Clock) { ItemCounter = id => Backpack != null ? Backpack.Count(id) : 0 };
+        public IWorldQuery World => BuildWorld();
+
+        StateWorldQuery BuildWorld()
+        {
+            var memory = new System.Lazy<LineMemory>(() => LineMemory.Load(this));
+            return new StateWorldQuery(State, Clock)
+            {
+                ItemCounter = id => Backpack != null ? Backpack.Count(id) : 0,
+                FestivalDays = () => StoryCalendar.DaysUntilFestival(Story?.Events, Clock.Now),
+                BirthdayDays = id => Npcs?.Get(id) is NpcDefinition npc ? StoryCalendar.DaysUntil(Clock.Now, npc.BirthdaySeason, npc.BirthdayDay) : -1,
+                CropCounter = CountCrops,
+                HeardLookup = id => memory.Value.HeardAnywhere(id),
+                MoodLookup = id => MoodModel.Of(this, id).ToString().ToLowerInvariant(),
+            };
+        }
+
+        int CountCrops()
+        {
+            var count = 0;
+            foreach (var grid in _grids.Values)
+                foreach (var tile in grid.Tiles)
+                    if (tile.Crop != null) count++;
+            return count;
+        }
 
         // The player's luck, -1..+1 (0 neutral), after every module's modifiers. Roll-based systems should use it.
         public float Luck => InGame ? Hooks.ComputeLuck(State) : 0f;
@@ -232,6 +262,15 @@ namespace Farm.Gameplay
             _bus.Subscribe<StatsChanged>(OnStoryStateChanged);
             _bus.Subscribe<DayCycleFinished>(e => Achievements.Check(this));
             _bus.Subscribe<FlagChanged>(e => Achievements.Check(this));
+            _bus.Subscribe<FlagChanged>(e => { if (e.Value) Reactions.Fire(this, "flag:" + e.Flag); });
+            _bus.Subscribe<QuestStarted>(e => Reactions.Fire(this, "quest.start:" + e.QuestId));
+            _bus.Subscribe<QuestCompleted>(e => Reactions.Fire(this, "quest.done:" + e.QuestId));
+            _bus.Subscribe<SkillLevelUp>(e => Reactions.Fire(this, "skill.up:" + e.Skill));
+            _bus.Subscribe<EventFinished>(e => Reactions.Fire(this, "event:" + e.EventId));
+            _bus.Subscribe<SeasonChanged>(e => Reactions.Fire(this, "season:" + e.Season.ToString().ToLowerInvariant()));
+            _bus.Subscribe<NpcGifted>(e => Reactions.Fire(this, "gift:" + e.NpcId));
+            _bus.Subscribe<RandomEventHappened>(e => Reactions.Fire(this, "random:" + e.EventId));
+            _bus.Subscribe<DayStarted>(e => Reactions.NewDay(this));
         }
 
         void OnDestroy()
@@ -277,7 +316,8 @@ namespace Farm.Gameplay
 
         public void BeginNewGame(string playerName, string farmName, int slot)
         {
-            Begin(GameState.NewGame(playerName, farmName, _db.MaxStack), slot);
+            // Defence in depth: the new-game screen already refuses blocked names (T-145).
+            Begin(GameState.NewGame(NameFilter.Sanitize(playerName, "Farmer"), NameFilter.Sanitize(farmName, "Meadow"), _db.MaxStack), slot);
             StoryDay.NewGame(this);
             Save();
         }
@@ -446,7 +486,20 @@ namespace Farm.Gameplay
         public string StoryText(string key, object[] args)
         {
             var text = L.Get(key, args);
-            return InGame ? text.Replace("[player]", State.PlayerName).Replace("[farm]", State.FarmName) : text;
+            if (!InGame) return text;
+            return StoryTokens.Apply(text, token =>
+            {
+                switch (token)
+                {
+                    case "player": return State.PlayerName;
+                    case "farm": return State.FarmName;
+                    case "season": return Clock.Now.Season.ToString().ToLowerInvariant();
+                    case "weekday": return StoryTokens.Weekdays[Clock.Now.DayOfWeek];
+                }
+                if (token.StartsWith("npc:", StringComparison.Ordinal) && Npcs?.Get(token.Substring(4)) is NpcDefinition npc)
+                    return StoryTokens.ShortName(L.Get(npc.NameKey));
+                return null;
+            });
         }
 
         // Starts a conversation (modal; the clock is paused while it is open). Returns false when there is no such
@@ -458,6 +511,14 @@ namespace Farm.Gameplay
             if (!ServiceLocator.TryGet<IUiService>(out var ui)) return false;
             var runner = new DialogueRunner(graph, World, StoryText, effect => Effects.Run(this, effect));
             ui.ShowDialogue(runner, onFinished);
+            return true;
+        }
+
+        // Starts a conversation from a graph built on the fly (the chat menu).
+        public bool BeginDialogueGraph(DialogueGraph graph, Action onFinished = null)
+        {
+            if (graph == null || !ServiceLocator.TryGet<IUiService>(out var ui)) return false;
+            ui.ShowDialogue(new DialogueRunner(graph, World, StoryText, effect => Effects.Run(this, effect)), onFinished);
             return true;
         }
 

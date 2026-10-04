@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Farm.Gameplay
 {
-    public enum Sfx { Click, Hoe, Water, Plant, Harvest, Coin, Error }
+    public enum Sfx { Click, Hoe, Water, Plant, Harvest, Coin, Error, Clink, Rustle, Anvil }
 
     // M1 audio: logical buses (master/music/sfx/ambience) implemented as volume multipliers, plus procedurally
     // generated placeholder blips so actions have feedback before real audio exists. A real AudioMixer with
@@ -41,6 +41,7 @@ namespace Farm.Gameplay
                 Tone("click", 880f, 0.05f), Tone("hoe", 160f, 0.12f), Tone("water", 520f, 0.18f, 0.5f),
                 Tone("plant", 330f, 0.10f), Tone("harvest", 660f, 0.14f), Tone("coin", 1200f, 0.12f),
                 Tone("error", 130f, 0.15f),
+                Tone("clink", 1760f, 0.3f), Tone("rustle", 600f, 0.2f), Tone("anvil", 988f, 0.4f),
             };
         }
 
@@ -51,6 +52,47 @@ namespace Farm.Gameplay
             _musicVolume = s.MusicVolume;
             _ambienceVolume = s.AmbienceVolume;
             if (_music != null) _music.volume = _musicVolume;
+        }
+
+        // Voices and signature sounds (T-132), made on first use and kept.
+        readonly System.Collections.Generic.Dictionary<string, AudioClip> _voiceClips = new System.Collections.Generic.Dictionary<string, AudioClip>();
+        public string LastVoice { get; private set; }          // for tests: the voice that blipped last
+        public int VoiceBlipCount { get; private set; }
+        public string LastSignature { get; private set; }
+
+        AudioClip ClipFrom(string key, float[] samples)
+        {
+            if (_voiceClips.TryGetValue(key, out var clip)) return clip;
+            clip = AudioClip.Create(key, samples.Length, 1, VoiceSynth.SampleRate, false);
+            clip.SetData(samples, 0);
+            _voiceClips[key] = clip;
+            return clip;
+        }
+
+        void PlayClip(AudioClip clip, float volume)
+        {
+            if (_voices == null || clip == null) return;
+            var voice = _voices[_next];
+            _next = (_next + 1) % _voices.Length;
+            voice.clip = clip;
+            voice.volume = volume;
+            voice.Play();
+        }
+
+        // One talking blip for a villager; `variant` varies the pitch a little. Cheap after the first call per voice.
+        public void PlayVoice(string voiceId, int variant)
+        {
+            LastVoice = voiceId;
+            VoiceBlipCount++;
+            var profile = VoiceProfiles.For(voiceId);
+            var bucket = ((variant % 7) + 7) % 7;
+            PlayClip(ClipFrom($"voice.{voiceId}.{bucket}", VoiceSynth.Blip(profile, bucket)), _sfxVolume * 0.5f);
+        }
+
+        public void PlaySignature(string npcId)
+        {
+            LastSignature = npcId;
+            PlayClip(ClipFrom("signature." + npcId, VoiceSynth.Signature(npcId)), _sfxVolume * 0.8f);
         }
 
         public void Play(Sfx sfx)

@@ -46,6 +46,7 @@ namespace Farm.Data
         [SerializeField] int _homeY;
         [SerializeField] string _business;               // shop id they work at, if any
         [SerializeField] Sprite _down, _up, _left, _right, _portrait;
+        [SerializeField] Sprite[] _expressions;          // aligned with ExpressionNames; a missing entry falls back to the portrait
         [SerializeField] string[] _loved = new string[0];       // item ids
         [SerializeField] string[] _liked = new string[0];
         [SerializeField] string[] _disliked = new string[0];
@@ -64,6 +65,19 @@ namespace Farm.Data
         public int HomeY => _homeY;
         public string Business => _business;
         public Sprite Portrait => _portrait;
+
+        // The portrait variants dialogue lines can ask for (T-095). Art arrives with T-130.
+        public static readonly string[] ExpressionNames = { "neutral", "happy", "sad", "surprised", "embarrassed", "thinking" };
+
+        public Sprite PortraitFor(string expression)
+        {
+            if (_expressions != null && !string.IsNullOrEmpty(expression))
+            {
+                var i = System.Array.IndexOf(ExpressionNames, expression);
+                if (i >= 0 && i < _expressions.Length && _expressions[i] != null) return _expressions[i];
+            }
+            return _portrait;
+        }
         public IReadOnlyList<string> Loved => _loved;
         public IReadOnlyList<string> Liked => _liked;
         public IReadOnlyList<string> Disliked => _disliked;

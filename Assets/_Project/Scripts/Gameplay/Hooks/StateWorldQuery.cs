@@ -11,6 +11,13 @@ namespace Farm.Gameplay
         // The live backpack count (GameState.Backpack is only refreshed when saving); without it `has:` sees nothing.
         public System.Func<string, int> ItemCounter;
 
+        // Narrative atoms (T-092). Each is optional: without one the atom sees nothing (-1, 0, false, empty).
+        public System.Func<int> FestivalDays;
+        public System.Func<string, int> BirthdayDays;
+        public System.Func<int> CropCounter;
+        public System.Func<string, bool> HeardLookup;
+        public System.Func<string, string> MoodLookup;
+
         public StateWorldQuery(GameState state, GameClock clock)
         {
             _state = state;
@@ -28,5 +35,12 @@ namespace Farm.Gameplay
         public string QuestState(string questId) => _state.Quests.TryGetValue(questId, out var q) ? q.Status : "new";
         public bool KnowsRecipe(string recipeId) => _state.Recipes.Contains(recipeId);
         public bool MerchantHere() => Merchant.IsHere(_state.WorldSeed, Now.TotalDays);
+        public int FestivalDaysAway() => FestivalDays != null ? FestivalDays() : -1;
+        public int BirthdayDaysAway(string npcId) => BirthdayDays != null ? BirthdayDays(npcId) : -1;
+        public int CropCount() => CropCounter != null ? CropCounter() : 0;
+        public int AnimalCount() => _state.Animals.Count;
+        public bool HeardLine(string dialogueId) => HeardLookup != null && HeardLookup(dialogueId);
+        public string FarmName() => _state.FarmName;
+        public string MoodOf(string npcId) => MoodLookup != null ? MoodLookup(npcId) : "content";
     }
 }

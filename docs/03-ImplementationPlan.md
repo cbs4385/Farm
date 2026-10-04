@@ -136,6 +136,9 @@ The horror layer ships with the game (GDD section 8-9). All content lives in `Fa
 | T-068 | Bug-fix burn-down; soak tests ("bot plays 1 year") | M3 | Zero known S1/S2 bugs |
 | **T-069** | **M4 gate - Release Candidate** | all M4 **and all of Milestone 3b** | Release checklist below |
 
+## Milestone 4b - Narrative depth and stream appeal (accepted 2026-10-02)
+See [`NPC_DIALOGUE_PLAN.md`](NPC_DIALOGUE_PLAN.md) (tasks T-080 to T-150) and [`adr/0005`](adr/0005-narrative-depth-and-stream-appeal.md). The Launch narrative gate is required before **T-069**.
+
 ## Milestone 5 - Steam release
 
 | ID | Task | Deps | Deliverables |

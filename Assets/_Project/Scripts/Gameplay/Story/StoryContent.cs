@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,6 +22,11 @@ namespace Farm.Gameplay
         readonly Dictionary<string, EventDefinition> _events = new Dictionary<string, EventDefinition>();
         readonly Dictionary<string, RandomEventDefinition> _randomEvents = new Dictionary<string, RandomEventDefinition>();
         readonly Dictionary<string, BoardJobTemplate> _jobs = new Dictionary<string, BoardJobTemplate>();
+        readonly Dictionary<string, ReactionDefinition> _reactions = new Dictionary<string, ReactionDefinition>();
+        readonly Dictionary<string, TopicDefinition> _topics = new Dictionary<string, TopicDefinition>();
+        readonly Dictionary<string, SocialProfile> _socials = new Dictionary<string, SocialProfile>();
+        readonly Dictionary<string, JObject> _eventTemplates = new Dictionary<string, JObject>();
+        readonly Dictionary<string, StorylineDefinition> _storylines = new Dictionary<string, StorylineDefinition>();
         readonly List<string> _sources = new List<string>();
 
         // Problems found while loading (bad JSON, duplicate ids). The data validator reports them too.
@@ -33,6 +39,12 @@ namespace Farm.Gameplay
         public IEnumerable<EventDefinition> Events => _events.Values;
         public IEnumerable<RandomEventDefinition> RandomEvents => _randomEvents.Values;
         public IEnumerable<BoardJobTemplate> BoardJobs => _jobs.Values;
+        public IEnumerable<ReactionDefinition> Reactions => _reactions.Values;
+        public IEnumerable<TopicDefinition> Topics => _topics.Values;
+        public IEnumerable<SocialProfile> Socials => _socials.Values;
+        public IEnumerable<string> EventTemplateIds => _eventTemplates.Keys;
+        public IEnumerable<StorylineDefinition> Storylines => _storylines.Values;
+        public ReactionDefinition Reaction(string id) => id != null && _reactions.TryGetValue(id, out var r) ? r : null;
         public IReadOnlyList<string> Sources => _sources;
 
         public DialogueGraph Dialogue(string id) => id != null && _dialogues.TryGetValue(id, out var d) ? d : null;
@@ -44,7 +56,8 @@ namespace Farm.Gameplay
         public static StoryContent LoadFromResources()
         {
             var content = new StoryContent();
-            foreach (var asset in Resources.LoadAll<TextAsset>(ResourceFolder))
+            // A fixed order, so files that add to others (compiled FScript, template instances) always load after what they use.
+            foreach (var asset in Resources.LoadAll<TextAsset>(ResourceFolder).OrderBy(a => a.name, StringComparer.Ordinal))
                 content.AddJson(asset.text, asset.name);
             return content;
         }
@@ -64,11 +77,47 @@ namespace Farm.Gameplay
             Merge(root, "sets", source, (DialogueSet s) => s.Id, _sets);
             Merge(root, "quests", source, (QuestDefinition q) => q.Id, _quests);
             Merge(root, "letters", source, (LetterDefinition l) => l.Id, _letters);
+            AddEventTemplates(root, source);
             Merge(root, "events", source, (EventDefinition e) => e.Id, _events);
+            AddEventsFromTemplates(root, source);
             Merge(root, "randomEvents", source, (RandomEventDefinition r) => r.Id, _randomEvents);
             Merge(root, "boardJobs", source, (BoardJobTemplate b) => b.Id, _jobs);
+            Merge(root, "reactions", source, (ReactionDefinition r) => r.Id, _reactions);
+            Merge(root, "topics", source, (TopicDefinition t) => t.Id, _topics);
+            Merge(root, "socials", source, (SocialProfile p) => p.Npc, _socials);
+            Merge(root, "storylines", source, (StorylineDefinition s) => s.Id, _storylines);
             AddSetEntries(root, source);
             return true;
+        }
+
+        // "eventTemplates" and "eventsFromTemplates": see EventTemplates. Templates may come from any earlier file.
+        void AddEventTemplates(JObject root, string source)
+        {
+            if (!root.TryGetValue("eventTemplates", StringComparison.OrdinalIgnoreCase, out var token) || !(token is JArray array)) return;
+            foreach (var item in array.OfType<JObject>())
+            {
+                var id = (string)item["id"];
+                if (string.IsNullOrEmpty(id)) { Fail($"{source}: an event template has no id"); continue; }
+                if (_eventTemplates.ContainsKey(id)) { Fail($"{source}: 'eventTemplates' redefines '{id}'; skipped"); continue; }
+                _eventTemplates[id] = item;
+            }
+        }
+
+        void AddEventsFromTemplates(JObject root, string source)
+        {
+            if (!root.TryGetValue("eventsFromTemplates", StringComparison.OrdinalIgnoreCase, out var token) || !(token is JArray array)) return;
+            foreach (var item in array.OfType<JObject>())
+            {
+                var templateId = (string)item["template"];
+                if (string.IsNullOrEmpty(templateId) || !_eventTemplates.TryGetValue(templateId, out var template))
+                { Fail($"{source}: event '{(string)item["id"]}' uses unknown template '{templateId}'"); continue; }
+                if (!EventTemplates.TryExpand(template, item, out var expanded, out var error)) { Fail($"{source}: {error}"); continue; }
+                EventDefinition value;
+                try { value = expanded.ToObject<EventDefinition>(); }
+                catch (Exception e) { Fail($"{source}: event '{(string)item["id"]}' from '{templateId}' is not a valid event: {e.Message}"); continue; }
+                if (_events.ContainsKey(value.Id)) { Fail($"{source}: 'eventsFromTemplates' redefines '{value.Id}'; skipped"); continue; }
+                _events[value.Id] = value;
+            }
         }
 
         // "setEntries": [{ "set": "npc.tilda.talk", "entries": [...] }] adds entries to a dialogue set from another file (an optional
