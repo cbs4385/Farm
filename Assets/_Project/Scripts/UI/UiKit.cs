@@ -149,6 +149,7 @@ namespace Farm.UI
             button.targetGraphic = img;
             StyleSelectable(button);
             button.onClick.AddListener(() => Farm.Gameplay.AudioService.PlayIfAvailable(Farm.Gameplay.Sfx.Click));
+            img.gameObject.AddComponent<UiHoverSound>();
             if (onClick != null) button.onClick.AddListener(onClick);
             Size(img.gameObject, width, height);
 

@@ -9,6 +9,7 @@ namespace Farm.Gameplay
     {
         Click, Hoe, Water, Plant, Harvest, Coin, Error, Clink, Rustle, Anvil,
         Shutter, PageTurn, Letter, QuestDone, LevelUp, Door, Pickup, Heart, Gift, Cast, Splash, Bite, SwordSwing, Hit, ChestOpen, Rooster, Sleep, Lantern,
+        Step, Cluck, Moo, Baa, Quack, Hover,
     }
 
     // M1 audio: logical buses (master/music/sfx/ambience) implemented as volume multipliers, plus procedurally
@@ -134,6 +135,70 @@ namespace Farm.Gameplay
         {
             if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.Play(sfx);
         }
+
+        public static void PlayIfAvailable(Sfx sfx, float volumeScale, float pitch = 1f)
+        {
+            if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.PlayPitched(sfx, volumeScale, pitch);
+        }
+
+        // A quieter and/or higher or lower version of an effect (footsteps, hover ticks, animal calls).
+        public void PlayPitched(Sfx sfx, float volumeScale, float pitch)
+        {
+            if (_voices == null) return;
+            var voice = _voices[_next];
+            _next = (_next + 1) % _voices.Length;
+            voice.clip = _clips[(int)sfx];
+            voice.volume = _sfxVolume * volumeScale;
+            voice.pitch = pitch;
+            voice.Play();
+        }
+
+        // ---- ambience: one looping bed at a time, faded in and out ----------------------------------------------------------------------
+        AudioSource _ambience;
+        readonly System.Collections.Generic.Dictionary<AmbienceKind, AudioClip> _ambienceClips = new System.Collections.Generic.Dictionary<AmbienceKind, AudioClip>();
+        AmbienceKind _wanted, _playing;
+        float _ambienceLevel;
+        public AmbienceKind AmbienceWanted => _wanted;
+        const float AmbienceGain = 0.35f;
+        const float FadeSeconds = 1.5f;
+
+        public void SetAmbience(AmbienceKind kind) => _wanted = kind;
+
+        AudioClip AmbienceClip(AmbienceKind kind)
+        {
+            if (_ambienceClips.TryGetValue(kind, out var clip)) return clip;
+            var samples = AmbienceSynth.Make(kind);
+            clip = AudioClip.Create("ambience." + kind, samples.Length, 1, AmbienceSynth.SampleRate, false);
+            clip.SetData(samples, 0);
+            _ambienceClips[kind] = clip;
+            return clip;
+        }
+
+        void Update()
+        {
+            if (_ambience == null)
+            {
+                _ambience = gameObject.AddComponent<AudioSource>();
+                _ambience.loop = true;
+                _ambience.playOnAwake = false;
+                _ambience.spatialBlend = 0f;
+            }
+            var step = Time.unscaledDeltaTime / FadeSeconds;
+            if (_playing != _wanted)
+            {
+                _ambienceLevel = Mathf.MoveTowards(_ambienceLevel, 0f, step);          // fade the old bed out first
+                if (_ambienceLevel <= 0f)
+                {
+                    _playing = _wanted;
+                    if (_playing == AmbienceKind.None) _ambience.Stop();
+                    else { _ambience.clip = AmbienceClip(_playing); _ambience.Play(); }
+                }
+            }
+            else if (_playing != AmbienceKind.None) _ambienceLevel = Mathf.MoveTowards(_ambienceLevel, 1f, step);
+            _ambience.volume = _ambienceLevel * _ambienceVolume * AmbienceGain;
+        }
+
+        public AmbienceKind AmbiencePlaying => _playing;
 
         static AudioClip Tone(string name, float frequency, float seconds, float vibrato = 0f)
         {

@@ -16,6 +16,8 @@ namespace Farm.Gameplay
 
         Rigidbody2D _rb;
         Vector2 _move;
+        readonly Footsteps _steps = new Footsteps();
+        Vector3 _lastPosition;
 
         public Vector2Int Facing { get; private set; } = Vector2Int.down;
 
@@ -35,6 +37,15 @@ namespace Farm.Gameplay
             _rb.freezeRotation = true;
             _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
             _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        }
+
+        void LateUpdate()
+        {
+            var moved = (transform.position - _lastPosition).magnitude;
+            _lastPosition = transform.position;
+            // A teleport or a map change is not a walk.
+            if (moved > 1f) { _steps.Walk(0f); return; }
+            if (_steps.Walk(_move.sqrMagnitude > 0.01f ? moved : 0f)) AudioService.PlayIfAvailable(Sfx.Step, 0.35f, _steps.Pitch);
         }
 
         void Update()

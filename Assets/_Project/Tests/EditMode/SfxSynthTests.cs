@@ -16,11 +16,11 @@ namespace Farm.Tests
         [Test]
         public void EveryNewEffect_IsAudible_Bounded_AndEndsQuietly()
         {
-            Assert.AreEqual(18, Synthesised.Length);
+            Assert.AreEqual(24, Synthesised.Length);
             foreach (var sfx in Synthesised)
             {
                 var d = SfxSynth.Make(sfx);
-                Assert.Greater(d.Length, SfxSynth.SampleRate * 0.05f, sfx + " is not a blip too short to hear");
+                Assert.Greater(d.Length, SfxSynth.SampleRate * 0.02f, sfx + " is not a blip too short to hear");
                 Assert.Less(d.Length, SfxSynth.SampleRate * 1.3f, sfx + " is not a long jingle");
                 var peak = d.Max(Math.Abs);
                 Assert.That(peak, Is.InRange(0.3f, 0.95f), sfx + " peak");

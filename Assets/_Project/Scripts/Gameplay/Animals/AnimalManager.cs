@@ -22,6 +22,17 @@ namespace Farm.Gameplay
             foreach (var a in AnimalRules.In(session.State, map.MapId)) Spawn(a, 3 + (n++ % 4) * 2, 3 + n % 3);
         }
 
+        float _nextCall = 20f;
+
+        // Every half a minute or so one of the animals makes its call, so a barn or coop sounds lived in.
+        void Update()
+        {
+            if (!Running || _actors.Count == 0 || Time.time < _nextCall) return;
+            _nextCall = Time.time + Random.Range(25f, 60f);
+            var actor = _actors[Random.Range(0, _actors.Count)];
+            if (actor != null) actor.Call();
+        }
+
         void OnDestroy()
         {
             if (Current == this) Current = null;

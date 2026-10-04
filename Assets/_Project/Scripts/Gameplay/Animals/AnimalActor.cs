@@ -14,6 +14,15 @@ namespace Farm.Gameplay
         float _wait;
 
         public AnimalState State => _state;
+        public string Type => _state != null ? _state.Type : null;
+
+        // The animal's call (the species decides which; a rabbit is silent).
+        public void Call()
+        {
+            var sfx = AnimalCalls.For(Type);
+            if (sfx.HasValue) AudioService.PlayIfAvailable(sfx.Value, 0.7f, 0.95f + (Mathf.Abs(NpcInteractions.StableHash(_state.Id)) % 10) * 0.01f);
+        }
+
         public Vector3Int Cell => _manager.Map.WorldToCell(transform.position);
 
         public void Setup(AnimalState state, AnimalManager manager)
@@ -47,6 +56,7 @@ namespace Farm.Gameplay
 
         public void Interact(PlayerActions player)
         {
+            Call();
             var s = player.Session;
             if (AnimalRules.Collect(_state, s.Backpack, out var product))
             {

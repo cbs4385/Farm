@@ -33,6 +33,12 @@ namespace Farm.Gameplay
                 case Sfx.Rooster: return Rooster();
                 case Sfx.Sleep: return Bells(1.0f, 0.3f, 659f, 523f, 392f);
                 case Sfx.Lantern: return Lantern();
+                case Sfx.Step: return Step();
+                case Sfx.Cluck: return Cluck();
+                case Sfx.Moo: return Moo();
+                case Sfx.Baa: return Baa();
+                case Sfx.Quack: return Quack();
+                case Sfx.Hover: return Glide(1500f, 1700f, 0.025f, 0.4f);
                 default: return new float[SampleRate / 20];
             }
         }
@@ -252,6 +258,81 @@ namespace Farm.Gameplay
             }
             AddBell(data, 0.62f, 1568f, 0.25f, 0.35f);
             return Finish(data, 0.45f);
+        }
+
+        // A soft footstep: a low thud and a short, dull rustle of noise.
+        static float[] Step()
+        {
+            var data = Buffer(0.09f);
+            AddTone(data, 0f, 0.07f, 120f, 70f, 0.8f);
+            AddNoiseSweep(data, 0f, 0.05f, 1400f, 500f, 0.7f, 91, 0.002f);
+            return Finish(data, 0.5f);
+        }
+
+        // Cartoon animal calls. They are plain synthetic voices (glides, buzz and vibrato), not imitations of any recording.
+        static float[] Cluck()
+        {
+            var data = Buffer(0.4f);
+            AddTone(data, 0.00f, 0.07f, 900f, 620f, 0.5f, square: true);
+            AddTone(data, 0.10f, 0.07f, 860f, 600f, 0.5f, square: true);
+            AddTone(data, 0.20f, 0.10f, 760f, 480f, 0.55f, square: true);
+            return Finish(data, 0.4f);
+        }
+
+        static float[] Moo()
+        {
+            var data = Buffer(0.9f);
+            var phase = 0.0;
+            var n = (int)(SampleRate * 0.8f);
+            for (var i = 0; i < n; i++)
+            {
+                var t = i / (float)SampleRate;
+                var p = i / (float)n;
+                var hz = (150f - 40f * p) * (1f + 0.03f * Math.Sin(2 * Math.PI * 5 * t));
+                phase += 2 * Math.PI * hz / SampleRate;
+                var saw = (float)((phase / Math.PI) % 2.0 - 1.0);
+                var env = Math.Min(1f, t / 0.08f) * (float)Math.Sin(Math.PI * Math.Min(1f, p));
+                data[i] = saw * env * 0.5f + (float)Math.Sin(phase * 2) * env * 0.2f;
+            }
+            return Finish(data, 0.5f);
+        }
+
+        static float[] Baa()
+        {
+            var data = Buffer(0.55f);
+            var phase = 0.0;
+            var n = (int)(SampleRate * 0.5f);
+            for (var i = 0; i < n; i++)
+            {
+                var t = i / (float)SampleRate;
+                var p = i / (float)n;
+                phase += 2 * Math.PI * (330f - 40f * p) / SampleRate;
+                var buzz = (float)(0.6 + 0.4 * Math.Sin(2 * Math.PI * 32 * t));          // the wobble that makes it a bleat
+                var saw = (float)((phase / Math.PI) % 2.0 - 1.0);
+                var env = Math.Min(1f, t / 0.03f) * (1f - p * p);
+                data[i] = saw * buzz * env * 0.6f;
+            }
+            return Finish(data, 0.4f);
+        }
+
+        static float[] Quack()
+        {
+            var data = Buffer(0.4f);
+            for (var k = 0; k < 2; k++)
+            {
+                var phase = 0.0;
+                var n = (int)(SampleRate * 0.12f);
+                var begin = (int)(k * 0.17f * SampleRate);
+                for (var i = 0; i < n && begin + i < data.Length; i++)
+                {
+                    var p = i / (float)n;
+                    phase += 2 * Math.PI * (520f - 170f * p) / SampleRate;
+                    var saw = (float)((phase / Math.PI) % 2.0 - 1.0);
+                    var env = Math.Min(1f, i / (SampleRate * 0.005f)) * (1f - p);
+                    data[begin + i] += saw * env * 0.6f;
+                }
+            }
+            return Finish(data, 0.4f);
         }
 
         // ---- export for review ----------------------------------------------------------------------------------------------------------------------------
