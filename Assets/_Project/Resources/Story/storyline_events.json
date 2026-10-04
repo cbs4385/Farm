@@ -1,0 +1,502 @@
+{
+  "events": [
+    {
+      "id": "story_pie_payoff",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:pie_feud && (hearts:marcus>=3 || hearts:odalys>=3) && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_pie_payoff",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "marcus",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.story_pie_payoff.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.pie.talk"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.story_pie_payoff.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_pie_payoff",
+            "friend:marcus,20",
+            "friend:odalys,20",
+            "flag:storydone.pie_feud"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_notes_dorian",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "flag:notes.began && storyline:anonymous_notes.dorian && hearts:dorian>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_notes_dorian",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "dorian",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "dorian",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "dorian",
+          "text": "event.story_notes_dorian.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.notes.dorian"
+        },
+        {
+          "type": "say",
+          "speaker": "dorian",
+          "text": "event.story_notes_dorian.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_notes_dorian",
+            "friend:dorian,40",
+            "flag:storydone.anonymous_notes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_notes_juno",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "flag:notes.began && storyline:anonymous_notes.juno && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_notes_juno",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "juno",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "juno",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.story_notes_juno.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.notes.juno"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.story_notes_juno.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_notes_juno",
+            "friend:juno,40",
+            "flag:storydone.anonymous_notes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_notes_tilda",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "flag:notes.began && storyline:anonymous_notes.tilda && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_notes_tilda",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "tilda",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.story_notes_tilda.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.notes.tilda"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.story_notes_tilda.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_notes_tilda",
+            "friend:tilda,40",
+            "flag:storydone.anonymous_notes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_umbrella",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:lost_umbrella && weather:rain && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_umbrella",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "piper",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "piper",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.story_umbrella.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.umbrella.talk"
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.story_umbrella.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_umbrella",
+            "friend:piper,30",
+            "flag:storydone.lost_umbrella"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_scarecrows",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:rival_scarecrows && season:fall && weekday:sat && hour>=9 && hour<19 && !festival.in:==0",
+      "titleKey": "memory.story_scarecrows",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "tilda",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.story_scarecrows.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.scarecrow.talk"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.story_scarecrows.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_scarecrows",
+            "give:machine.scarecrow,1",
+            "friend:tilda,20",
+            "friend:dorian,20",
+            "flag:storydone.rival_scarecrows"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_whistler_bram",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:mystery_whistler.bram && hour>=18 && hour<21 && !festival.in:==0",
+      "titleKey": "memory.story_whistler_bram",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "bram",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.story_whistler_bram.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.whistler.bram"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.story_whistler_bram.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_whistler_bram",
+            "friend:bram,30",
+            "flag:storydone.mystery_whistler"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_whistler_marcus",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:mystery_whistler.marcus && hour>=18 && hour<21 && !festival.in:==0",
+      "titleKey": "memory.story_whistler_marcus",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "marcus",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.story_whistler_marcus.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.whistler.marcus"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.story_whistler_marcus.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_whistler_marcus",
+            "friend:marcus,30",
+            "flag:storydone.mystery_whistler"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story_whistler_felix",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 7,
+      "condition": "storyline:mystery_whistler.felix && hour>=18 && hour<21 && !festival.in:==0",
+      "titleKey": "memory.story_whistler_felix",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "felix",
+          "x": 25,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "felix",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "felix",
+          "text": "event.story_whistler_felix.intro"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 25,
+          "y": 17
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "story.whistler.felix"
+        },
+        {
+          "type": "say",
+          "speaker": "felix",
+          "text": "event.story_whistler_felix.after"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.story_whistler_felix",
+            "friend:felix,30",
+            "flag:storydone.mystery_whistler"
+          ]
+        }
+      ]
+    }
+  ]
+}

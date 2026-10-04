@@ -151,7 +151,8 @@ namespace Farm.Tests
                 var move = e.Steps.FirstOrDefault(s => s.Type == "move" && s.Actor == "player");
                 if (move == null) continue;
                 Assert.IsTrue(Maps[e.Map].Walkable(move.X, move.Y), $"{e.Id}: the player's cell ({move.X},{move.Y}) on {e.Map}");
-                var npc = Npcs().First(n => e.Id.StartsWith(n.Id + "_"));
+                var npc = Npcs().FirstOrDefault(n => e.Id.StartsWith(n.Id + "_"));
+                if (npc == null) continue;          // storyline scenes put their villager on stage themselves (a place step)
                 var post = npc.Schedule.SelectMany(s => s.Stops).Where(s => s.Map == e.Map).Select(s => (s.X, s.Y)).ToList();
                 Assert.IsTrue(post.Any(p => p.X == move.X && p.Y == move.Y + 1), $"{e.Id}: {npc.Id} stands next to where the player is moved");
             }
@@ -178,7 +179,8 @@ namespace Farm.Tests
             {
                 var move = e.Steps.FirstOrDefault(s => s.Type == "move" && s.Actor == "player");
                 if (move == null || !Maps.ContainsKey(e.Map)) continue;
-                var npcId = Npcs().First(n => e.Id.StartsWith(n.Id + "_")).Id;
+                var npcId = Npcs().FirstOrDefault(n => e.Id.StartsWith(n.Id + "_"))?.Id;
+                if (npcId == null) continue;
                 foreach (var template in new[] { "shared_activity", "confession", "heirloom", "shared_meal", "helping_scene", "prank", "performance" })
                 {
                     var args = new Newtonsoft.Json.Linq.JObject

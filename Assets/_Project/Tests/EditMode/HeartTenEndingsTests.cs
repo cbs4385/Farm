@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Farm.Core;
 using Farm.Gameplay;
 using NUnit.Framework;
@@ -79,6 +80,35 @@ namespace Farm.Tests
         {
             Assert.IsFalse(Ending("hazel_heart10", "outro", "hazel.rehearsal.critique").Contains("!"));
             Assert.IsFalse(Ending("hazel_heart10", "outro").Contains("!"));
+        }
+
+        [Test]
+        public void StorylineScenes_EveryBranchResolvesToOneCleanClosingLine()
+        {
+            // eventId -> the choice flags that select each closing line; the last entry (none) is the fallback.
+            var cases = new (string id, string[] branches)[]
+            {
+                ("story_pie_payoff", new[] { "pie.honest", "pie.improve", "pie.eat" }),
+                ("story_umbrella", new[] { "umbrella.return", "umbrella.hang", "umbrella.keep" }),
+                ("story_scarecrows", new[] { "scarecrow.tilda", "scarecrow.dorian", "scarecrow.tie", "scarecrow.crows" }),
+            };
+            foreach (var (id, branches) in cases)
+            {
+                var lines = branches.Select(b => Ending(id, "after", b)).ToList();
+                Assert.AreEqual(branches.Length, new HashSet<string>(lines).Count, id + ": every choice has its own closing line");
+            }
+        }
+
+        [Test]
+        public void StoryScenes_KeepVoiceRules_ForBramAndNoUnresolvedMarkup()
+        {
+            foreach (var key in _en.Keys.Where(k => k.StartsWith("event.story_whistler_bram.")))
+                Assert.IsFalse(_en[key].Contains("!"), key);
+            foreach (var key in _en.Keys.Where(k => k.StartsWith("event.story_")))
+            {
+                var line = RichText.Process(_en[key], new World(), 1).Text;
+                Assert.IsFalse(line.Contains("{") || line.Contains("}"), key + ": " + line);
+            }
         }
     }
 }

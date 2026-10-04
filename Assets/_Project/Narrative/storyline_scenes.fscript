@@ -1,0 +1,133 @@
+# Choice dialogues of the storyline payoff scenes (T-143). Compiled to zz_fs_storyline_scenes.json.
+
+dialogue story.pie.talk
+n0 marcus: One slice of my pie. Her door. Don't say who sent it. If she asks, say a stranger with excellent taste.
+  next n1
+n1 marcus: What do you say?
+  ? Deliver it honestly. => r0 | flag:choice.pie.honest
+  ? Improve it first. => r1 | flag:choice.pie.improve
+  ? Eat it. => r2 | flag:choice.pie.eat
+r0 -: You carry the slice to Odalys's door. She reads the note, sighs, and takes a bite.
+  next r0b
+r0b odalys: Ambitious. ...It's rather good. Tell him nothing.
+  expr thinking
+r1 -: You add a pinch of cinnamon on the way. Odalys takes a bite and frowns for a long time.
+  next r1b
+r1b odalys: Who touched this? It's better. I hate that.
+  expr embarrassed
+r2 -: You eat the slice on the road. It is excellent. You now have two angry customers.
+  next r2b
+r2b odalys: Marcus owes me an apology. And a pie. And, apparently, you.
+
+dialogue story.notes.dorian
+n0 -: You catch Dorian slipping a folded note under a door. Neither of you moves.
+  next n1
+n1 dorian: ...Well. Now you know.
+  ? Say nothing. Just smile. => r0 | flag:choice.notes.dorian.smile
+  ? Say thank you. => r1 | flag:choice.notes.dorian.thanks | friend:dorian,10
+  ? Leave a note back. => r2 | flag:choice.notes.dorian.note | friend:dorian,15
+r0 dorian: ...You smiled. That's a lot of kindness for one smile.
+  expr embarrassed
+r1 dorian: Oh. Thank you. That's the whole reward. I'll go and be flustered somewhere.
+  expr happy
+r2 dorian: A note, for me? ...I'm keeping it. In a drawer I've just invented.
+  expr happy
+
+dialogue story.notes.juno
+n0 -: You catch Juno slipping a folded note under a door. Neither of you moves.
+  next n1
+n1 juno: ...Well. Now you know.
+  ? Say nothing. Just smile. => r0 | flag:choice.notes.juno.smile
+  ? Say thank you. => r1 | flag:choice.notes.juno.thanks | friend:juno,10
+  ? Leave a note back. => r2 | flag:choice.notes.juno.note | friend:juno,15
+r0 juno: ...You smiled. That's a lot of kindness for one smile.
+  expr embarrassed
+r1 juno: Oh. Thank you. That's the whole reward. I'll go and be flustered somewhere.
+  expr happy
+r2 juno: A note, for me? ...I'm keeping it. In a drawer I've just invented.
+  expr happy
+
+dialogue story.notes.tilda
+n0 -: You catch Tilda slipping a folded note under a door. Neither of you moves.
+  next n1
+n1 tilda: ...Well. Now you know.
+  ? Say nothing. Just smile. => r0 | flag:choice.notes.tilda.smile
+  ? Say thank you. => r1 | flag:choice.notes.tilda.thanks | friend:tilda,10
+  ? Leave a note back. => r2 | flag:choice.notes.tilda.note | friend:tilda,15
+r0 tilda: ...You smiled. That's a lot of kindness for one smile.
+  expr embarrassed
+r1 tilda: Oh. Thank you. That's the whole reward. I'll go and be flustered somewhere.
+  expr happy
+r2 tilda: A note, for me? ...I'm keeping it. In a drawer I've just invented.
+  expr happy
+
+dialogue story.umbrella.talk
+n0 -: A large red umbrella hangs from the fence post, dripping with great dignity. Piper stares at it.
+  next n1
+n1 piper: It's red. It's enormous. It cannot simply vanish and reappear, and yet. What do you suggest?
+  ? Return it to Piper. => r0 | flag:choice.umbrella.return
+  ? Hang it where it was found. => r1 | flag:choice.umbrella.hang
+  ? Keep it. => r2 | flag:choice.umbrella.keep
+r0 piper: Mine. At last. I was starting to take it personally.
+  expr happy
+r1 piper: Leave it? ...A little red landmark. Yes. I like that.
+r2 piper: You'll keep it? That's theft, with excellent manners.
+  emote sweat
+
+dialogue story.scarecrow.talk
+n0 tilda: Mine has a smile. Smiles scare crows. That is simply known.
+  next n1
+n1 dorian: Mine is quiet. Quiet is unsettling. I did my research.
+  next n2
+n2 tilda: Well? Which scarecrow rules the fields?
+  ? Tilda's. => r0 | flag:choice.scarecrow.tilda
+  ? Dorian's. => r1 | flag:choice.scarecrow.dorian
+  ? A tie. => r2 | flag:choice.scarecrow.tie
+  ? Ask the crows. => r3 | flag:choice.scarecrow.crows
+r0 tilda: Ha! A person of taste. Take this one home. It's the runner-up. It's still excellent.
+  expr happy
+r1 dorian: ...Oh. Thank you. Take the runner-up. It's very quiet company.
+  expr happy
+r2 tilda: A tie. You coward. Take one anyway. Both of us will be wounded.
+  emote sweat
+r3 dorian: The crows? ...Brave. They landed on both. A tie, then. Take this.
+  expr thinking
+
+dialogue story.whistler.bram
+n0 bram: Hm. I whistle. Don't. Tell. Anyone.
+  next n1
+n1 bram: ...Well?
+  ? Call out a friendly hello. => r0 | flag:choice.whistler.bram.hello
+  ? Whistle the wrong note back. => r1 | flag:choice.whistler.bram.back | friend:bram,10
+  ? Say nothing. Just listen. => r2 | flag:choice.whistler.bram.listen | friend:bram,10
+r0 bram: Hello. Right. Good. Thank you for the normal approach.
+r1 bram: You... got the wrong note exactly right. I'm moved and mortified.
+  expr embarrassed
+r2 bram: You listened. To the whole thing. ...I may whistle again. Quietly.
+  expr happy
+
+dialogue story.whistler.marcus
+n0 marcus: It's a family tune. One note went wrong in my grandfather's time and we kept it.
+  next n1
+n1 marcus: ...Well?
+  ? Call out a friendly hello. => r0 | flag:choice.whistler.marcus.hello
+  ? Whistle the wrong note back. => r1 | flag:choice.whistler.marcus.back | friend:marcus,10
+  ? Say nothing. Just listen. => r2 | flag:choice.whistler.marcus.listen | friend:marcus,10
+r0 marcus: Hello. Right. Good. Thank you for the normal approach.
+r1 marcus: You... got the wrong note exactly right. I'm moved and mortified.
+  expr embarrassed
+r2 marcus: You listened. To the whole thing. ...I may whistle again. Quietly.
+  expr happy
+
+dialogue story.whistler.felix
+n0 felix: I only whistle when I'm happy. Which is why the fish are always listening.
+  next n1
+n1 felix: ...Well?
+  ? Call out a friendly hello. => r0 | flag:choice.whistler.felix.hello
+  ? Whistle the wrong note back. => r1 | flag:choice.whistler.felix.back | friend:felix,10
+  ? Say nothing. Just listen. => r2 | flag:choice.whistler.felix.listen | friend:felix,10
+r0 felix: Hello. Right. Good. Thank you for the normal approach.
+r1 felix: You... got the wrong note exactly right. I'm moved and mortified.
+  expr embarrassed
+r2 felix: You listened. To the whole thing. ...I may whistle again. Quietly.
+  expr happy

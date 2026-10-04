@@ -1,0 +1,83 @@
+# Talk lines for the village storylines beyond the first two beats (T-143): setup, suspicion and aftermath. Priority 2: above chat.
+# Scenes and their choices are in storyline_scenes.fscript / storyline_events.json. Done flags are `storydone.<storyline>`.
+
+# ---------------------------------------------------------------- pie_feud (setup lines for Marcus and Odalys; aftermath)
+addto npc.marcus.talk
+2 storyline:pie_feud && !flag:storydone.pie_feud => marcus.pie.1 cat=reactive tag=funny :: I said "ambitious". It was a compliment. She heard what she wanted to hear.
+2 storyline:pie_feud && !flag:storydone.pie_feud => marcus.pie.2 cat=reactive :: A crust like that deserves an apology. Not from me. In general.
+2 flag:storydone.pie_feud => marcus.pie.after cat=reactive tag=wholesome :: Odalys and I are speaking. Mostly about pastry. It's a start.
+
+addto npc.odalys.talk
+2 storyline:pie_feud && !flag:storydone.pie_feud => odalys.pie.1 cat=reactive tag=funny :: Ambitious is what you call a house with no roof. I have thoughts, [player]. Sit.
+2 storyline:pie_feud && !flag:storydone.pie_feud => odalys.pie.2 cat=reactive :: I'm not angry. I'm composing. There's a difference, and it takes a week.
+2 flag:storydone.pie_feud => odalys.pie.after cat=reactive tag=wholesome :: The pie was acceptable. I've told Marcus nothing. Naturally.
+
+addto npc.wren.talk
+2 flag:storydone.pie_feud => wren.pie.after cat=reactive tag=funny :: The pie feud's over! I paid out the bet. Everyone lost. Except the pie.
+2 flag:notes.began && hearts:wren>=4 && !flag:storydone.anonymous_notes => wren.notes.suspect cat=reactive tag=funny :: I think the notes are Felix. He signs nothing and smiles at everything.
+2 flag:storydone.anonymous_notes && storyline:anonymous_notes.dorian => wren.notes.dorian cat=reactive tag=wholesome :: Dorian! Of course. The quiet ones write the best notes.
+2 flag:storydone.anonymous_notes && storyline:anonymous_notes.juno => wren.notes.juno cat=reactive tag=funny :: Juno! The notes! I should have guessed. She cheers at tools.
+2 flag:storydone.anonymous_notes && storyline:anonymous_notes.tilda => wren.notes.tilda cat=reactive tag=wholesome :: Tilda, tucking notes in the change. Of course. A saint with receipts.
+2 storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows => wren.scare.1 cat=reactive tag=funny :: Two scarecrows. One contest. I've got money on the quiet one.
+2 flag:storydone.rival_scarecrows => wren.scare.after cat=reactive :: The scarecrows are standing side by side now. Still competing. In silence.
+2 flag:storydone.mystery_whistler && festival.in:<=3 => wren.whistle.after cat=reactive tag=wholesome :: I'm humming the whistler's wrong note. Everyone will. It's the village song.
+
+# ---------------------------------------------------------------- anonymous_notes (suspicion and the first note)
+addto npc.hazel.talk
+2 flag:notes.began && hearts:hazel>=4 && !flag:storydone.anonymous_notes => hazel.notes.suspect cat=reactive :: I suspect Piper. (The handwriting loops like a person who reads.)
+2 flag:storydone.anonymous_notes => hazel.notes.after cat=reactive tag=wholesome :: The notes had a writer. (I'm glad. Mysteries are better with a person at the end.)
+
+addto npc.bram.talk
+2 flag:notes.began && hearts:bram>=4 && !flag:storydone.anonymous_notes => bram.notes.suspect cat=reactive tag=funny :: Hm. I thought it was me. I write one word. Hm.
+2 flag:storydone.anonymous_notes => bram.notes.after cat=reactive :: Hm. The notes had a writer. Good. I'll write one back.
+2 flag:storydone.pie_feud => bram.pie.after cat=reactive tag=funny :: Hm. Pie feud's over. I kept the pie plate.
+2 storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows => bram.scare.1 cat=reactive :: Hm. Two scarecrows. Both scare me. Neither scares crows.
+
+addto npc.tilda.talk
+2 flag:notes.began && !flag:storydone.anonymous_notes && storyline:anonymous_notes => tilda.notes.1 cat=reactive :: Somebody left a note in my till. "Nice shop." I'm suspicious and flattered.
+2 storyline:rival_scarecrows && season:summer && !flag:storydone.rival_scarecrows => tilda.scare.1 cat=reactive tag=funny :: I've entered a scarecrow contest. Mine has a smile. Smiles scare crows.
+2 storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows => tilda.scare.2 cat=reactive :: Judging is on a Saturday. Rest up. Be fair. Pick mine.
+
+# ---------------------------------------------------------------- lost_umbrella (setup, suspicion, closing line)
+addto npc.piper.talk
+2 storyline:lost_umbrella && weather:rain && !flag:storydone.lost_umbrella => piper.umbrella.1 cat=reactive tag=funny :: My red umbrella is gone. It's enormous. It cannot simply vanish. And yet.
+2 storyline:lost_umbrella && !flag:storydone.lost_umbrella => piper.umbrella.2 cat=reactive :: If you see a red umbrella, don't touch it. Tell me. Then touch it.
+2 flag:storydone.lost_umbrella => piper.umbrella.after cat=reactive tag=wholesome :: I found my umbrella thanks to you. It will vanish again. I've made peace with that.
+
+addto npc.felix.talk
+2 storyline:lost_umbrella && !flag:storydone.lost_umbrella => felix.umbrella.1 cat=reactive tag=funny :: I returned Piper's umbrella. I remember because it dripped on my best boots.
+2 storyline:lost_umbrella && weather:rain && !flag:storydone.lost_umbrella => felix.umbrella.2 cat=reactive :: A red umbrella went by on the pier. Nobody was holding it. I said nothing.
+
+addto npc.elara.talk
+2 storyline:lost_umbrella && !flag:storydone.lost_umbrella => elara.umbrella.1 cat=reactive :: An umbrella. If it were mine, I would have named it.
+2 storyline:lost_umbrella && weather:rain && !flag:storydone.lost_umbrella => elara.umbrella.2 cat=reactive tag=funny :: I never had an umbrella. I'd remember. It's a red one. Someone said.
+2 flag:storydone.lost_umbrella => elara.umbrella.after cat=reactive tag=funny :: I never had that umbrella. I did borrow it once. For research.
+
+# ---------------------------------------------------------------- rival_scarecrows (Dorian's side, aftermath)
+addto npc.dorian.talk
+2 storyline:rival_scarecrows && !flag:storydone.rival_scarecrows => dorian.scare.1 cat=reactive tag=funny :: Mine is quiet. Quiet is unsettling. I did my research.
+2 storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows => dorian.scare.2 cat=reactive :: The contest is soon. I hung my hat on the scarecrow. For authenticity.
+2 flag:storydone.rival_scarecrows => dorian.scare.after cat=reactive tag=wholesome :: The contest is over. The scarecrows stay. We're both pleased. Silently.
+
+# ---------------------------------------------------------------- mystery_whistler (hearers, the whistlers, aftermath)
+addto npc.ione.talk
+2 storyline:mystery_whistler && hour>=17 && !flag:storydone.mystery_whistler => ione.whistle.1 cat=reactive :: A tune with one wrong note. It lives in my head now. Thank you, whoever you are.
+2 storyline:mystery_whistler && hour>=17 && !flag:storydone.mystery_whistler => ione.whistle.2 cat=reactive tag=funny :: Someone whistles at dusk. I keep checking the clinic windows. Nobody. Only the tune.
+2 flag:storydone.mystery_whistler => ione.whistle.after cat=reactive tag=wholesome :: Now I know who whistles. The wrong note sounds better. That's how mysteries work.
+
+addto npc.juno.talk
+2 storyline:mystery_whistler && hour>=17 && !flag:storydone.mystery_whistler => juno.whistle.1 cat=reactive tag=funny :: It sounds like a kettle trying to be a flute. I love it. I'm furious.
+2 storyline:mystery_whistler && hour>=17 && !flag:storydone.mystery_whistler => juno.whistle.2 cat=reactive :: Dusk, quarry road, one wrong note. I'd know it anywhere. I don't know who it is.
+
+addto npc.bram.talk
+2 storyline:mystery_whistler.bram && !flag:storydone.mystery_whistler && hour>=15 => bram.whistle.1 cat=reactive tag=funny :: Hm. I whistle. Don't.
+2 storyline:mystery_whistler.bram && !flag:storydone.mystery_whistler => bram.whistle.2 cat=reactive :: Hm. A rumor says someone whistles at dusk. Hm. Interesting.
+2 flag:storydone.mystery_whistler && storyline:mystery_whistler.bram => bram.whistle.after cat=reactive tag=funny :: Hm. The village hums my wrong note now. I'm not speaking to it.
+
+addto npc.marcus.talk
+2 storyline:mystery_whistler.marcus && !flag:storydone.mystery_whistler => marcus.whistle.1 cat=reactive :: A tune? At dusk? I haven't heard a thing. I hum while I plane. Different matter.
+2 flag:storydone.mystery_whistler && storyline:mystery_whistler.marcus => marcus.whistle.after cat=reactive tag=wholesome :: The village whistles my grandfather's wrong note. He'd be insufferable.
+
+addto npc.felix.talk
+2 storyline:mystery_whistler.felix && !flag:storydone.mystery_whistler => felix.whistle.1 cat=reactive tag=funny :: Whistling? Not me. The fish aren't listening. They're just very still.
+2 flag:storydone.mystery_whistler && storyline:mystery_whistler.felix => felix.whistle.after cat=reactive tag=wholesome :: Now everyone whistles near the pier. The fish are baffled. I'm moved.
