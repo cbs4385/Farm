@@ -97,7 +97,13 @@ namespace Farm.Gameplay
         // Priorities from this value up are story beats (quest offers, one-shot scenes, layers): they never go on cooldown.
         public const int StoryBandPriority = 4;
         public const int DefaultCooldownDays = 14;
-        const float NeverHeardBoost = 3f;
+        const float NeverHeardBoost = 5f;
+
+        // Rarity is a chance per visit, not a weight in the pool: a villager with a hundred ordinary lines would otherwise almost never say a
+        // rare one. On each visit there is a 1.5% chance of a legendary line and a 5% chance of a rare one, if one is eligible and fresh (and
+        // not a story beat); lines never said are preferred. A player who talks to a villager daily hears each of their rare lines in a few
+        // months, and a legendary one now and then.
+        public const double LegendaryChance = 0.015, RareChance = 0.05;
 
         public static int CooldownOf(DialogueSetEntry e) =>
             e.Cooldown >= 0 ? e.Cooldown : e.Priority >= StoryBandPriority ? 0 : DefaultCooldownDays;
@@ -153,6 +159,16 @@ namespace Farm.Gameplay
             }
 
             var chosen = (DialogueSetEntry)null;
+            var rarity = Unit(unchecked(seed * 31 + 17));
+            // A queued reaction, a story window or a scene (priority 3 and up) keeps its claim on the visit: rarity only decorates ordinary chat.
+            var urgent = eligible.Any(e => e.Priority >= 3 && Fresh(e));
+            if (!urgent && rarity < LegendaryChance + RareChance)
+            {
+                var wanted = rarity < LegendaryChance ? LineRarity.Legendary : LineRarity.Rare;
+                var specials = eligible.Where(e => e.Rarity == wanted && e.Priority < StoryBandPriority && Fresh(e)).ToList();
+                if (specials.Count > 0) chosen = WeightedPick(specials, unchecked(seed * 7 + 3), memory, scope);
+            }
+            if (chosen == null)
             foreach (var tier in eligible.Select(e => e.Priority).Distinct().OrderByDescending(p => p))
             {
                 var fresh = eligible.Where(e => e.Priority == tier && Fresh(e)).ToList();

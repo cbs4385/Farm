@@ -39,6 +39,18 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void RareLines_AreFoundByADailyVisitor_WithinTwoYears()
+        {
+            // The Gossip Book is only worth keeping if a player who talks to a villager every day does hear their rare lines.
+            foreach (var v in _report.Villagers)
+            {
+                var rare = _story.Set($"npc.{v.Villager}.talk").Entries.Where(GossipBook.IsRare).Select(e => e.Dialogue).Distinct().ToList();
+                var missing = rare.Count(id => v.NeverHeard.Any(n => n.StartsWith(id + " ")));
+                Assert.LessOrEqual(missing, 1, $"{v.Villager}: {missing} of {rare.Count} rare lines never heard in two years of daily visits");
+            }
+        }
+
+        [Test]
         public void IsDeterministic_ForASeed()
         {
             var again = StorySimulation.Run(_story, Slice, 1, 777);
