@@ -1,0 +1,314 @@
+{
+  "dialogues": [
+    {
+      "id": "cameo.juno.bram8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.cameo.juno.bram8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.bram.juno8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.cameo.bram.juno8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.ione.hazel8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.cameo.ione.hazel8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.hazel.ione8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.cameo.hazel.ione8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.piper.wren8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.cameo.piper.wren8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.wren.piper8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.cameo.wren.piper8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.felix.tilda8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.cameo.felix.tilda8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.tilda.felix8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.cameo.tilda.felix8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.marcus.dorian8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.cameo.marcus.dorian8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.dorian.marcus8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.cameo.dorian.marcus8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.odalys.elara8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "dlg.cameo.odalys.elara8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.elara.odalys8.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.cameo.elara.odalys8.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.juno.piper4.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.cameo.juno.piper4.d.0"
+        }
+      ]
+    },
+    {
+      "id": "cameo.piper.juno4.d",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.cameo.piper.juno4.d.0"
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "id": "cameo.juno.bram8",
+      "on": "event:bram_heart8",
+      "npcs": "juno",
+      "condition": "hearts:juno>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.juno.bram8.d"
+    },
+    {
+      "id": "cameo.bram.juno8",
+      "on": "event:juno_heart8",
+      "npcs": "bram",
+      "condition": "hearts:bram>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.bram.juno8.d"
+    },
+    {
+      "id": "cameo.ione.hazel8",
+      "on": "event:hazel_heart8",
+      "npcs": "ione",
+      "condition": "hearts:ione>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.ione.hazel8.d"
+    },
+    {
+      "id": "cameo.hazel.ione8",
+      "on": "event:ione_heart8",
+      "npcs": "hazel",
+      "condition": "hearts:hazel>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.hazel.ione8.d"
+    },
+    {
+      "id": "cameo.piper.wren8",
+      "on": "event:wren_heart8",
+      "npcs": "piper",
+      "condition": "hearts:piper>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.piper.wren8.d"
+    },
+    {
+      "id": "cameo.wren.piper8",
+      "on": "event:piper_heart8",
+      "npcs": "wren",
+      "condition": "hearts:wren>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.wren.piper8.d"
+    },
+    {
+      "id": "cameo.felix.tilda8",
+      "on": "event:tilda_heart8",
+      "npcs": "felix",
+      "condition": "hearts:felix>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.felix.tilda8.d"
+    },
+    {
+      "id": "cameo.tilda.felix8",
+      "on": "event:felix_heart8",
+      "npcs": "tilda",
+      "condition": "hearts:tilda>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.tilda.felix8.d"
+    },
+    {
+      "id": "cameo.marcus.dorian8",
+      "on": "event:dorian_heart8",
+      "npcs": "marcus",
+      "condition": "hearts:marcus>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.marcus.dorian8.d"
+    },
+    {
+      "id": "cameo.dorian.marcus8",
+      "on": "event:marcus_heart8",
+      "npcs": "dorian",
+      "condition": "hearts:dorian>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.dorian.marcus8.d"
+    },
+    {
+      "id": "cameo.odalys.elara8",
+      "on": "event:elara_heart8",
+      "npcs": "odalys",
+      "condition": "hearts:odalys>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.odalys.elara8.d"
+    },
+    {
+      "id": "cameo.elara.odalys8",
+      "on": "event:odalys_heart8",
+      "npcs": "elara",
+      "condition": "hearts:elara>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.elara.odalys8.d"
+    },
+    {
+      "id": "cameo.juno.piper4",
+      "on": "event:piper_heart4",
+      "npcs": "juno",
+      "condition": "hearts:juno>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.juno.piper4.d"
+    },
+    {
+      "id": "cameo.piper.juno4",
+      "on": "event:juno_heart4",
+      "npcs": "piper",
+      "condition": "hearts:piper>=3",
+      "ttlDays": 5,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "cameo.piper.juno4.d"
+    }
+  ]
+}

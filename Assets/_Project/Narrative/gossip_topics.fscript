@@ -1,0 +1,289 @@
+# Pairing gossip topics (T-122): each villager can be asked about a neighbour they are paired with. Offered after a chat once both are known. Compiled to zz_fs_gossip_topics.json.
+
+topic juno.gossip.bram
+  npc juno
+  label Ask about Bram
+  plays juno.gossip.bram.d
+  if hearts:juno>=3 && flag:met.bram
+  priority 1
+  cooldown 6
+
+dialogue juno.gossip.bram.d
+n0 juno: Bram pretends he doesn't read my labels! He moved one yesterday! It said 'Chair (Do Not)'! He sat on it! Defiantly!
+
+topic bram.gossip.juno
+  npc bram
+  label Ask about Juno
+  plays bram.gossip.juno.d
+  if hearts:bram>=3 && flag:met.juno
+  priority 1
+  cooldown 6
+
+dialogue bram.gossip.juno.d
+n0 bram: Hm. Juno labeled my lunch. It said 'Lunch (Eaten)'. Accurate.
+  next n1
+n1 bram: Don't tell her.
+
+topic hazel.gossip.ione
+  npc hazel
+  label Ask about Ione
+  plays hazel.gossip.ione.d
+  if hearts:hazel>=3 && flag:met.ione
+  priority 1
+  cooldown 6
+
+dialogue hazel.gossip.ione.d
+n0 hazel: (Ione rearranged the third shelf.) Nobody noticed. (I noticed.) I said nothing. It is our understanding.
+
+topic ione.gossip.hazel
+  npc ione
+  label Ask about Hazel
+  plays ione.gossip.hazel.d
+  if hearts:ione>=3 && flag:met.hazel
+  priority 1
+  cooldown 6
+
+dialogue ione.gossip.hazel.d
+n0 ione: Hazel reads at the window every afternoon. She thinks I don't see.
+  next n1
+n1 ione: I don't mention it. The light is kind to her.
+
+topic elara.gossip.odalys
+  npc elara
+  label Ask about Dr. Penn
+  plays elara.gossip.odalys.d
+  if hearts:elara>=3 && flag:met.odalys
+  priority 1
+  cooldown 6
+
+dialogue elara.gossip.odalys.d
+n0 elara: Dr. Penn says she doesn't need mittens! She wore them all night! I saw! I'm not telling!
+
+topic odalys.gossip.elara
+  npc odalys
+  label Ask about Elara
+  plays odalys.gossip.elara.d
+  if hearts:odalys>=3 && flag:met.elara
+  priority 1
+  cooldown 6
+
+dialogue odalys.gossip.elara.d
+n0 odalys: Elara knits during consultations. It is unprofessional. The patients recover faster.
+  next n1
+n1 odalys: I have said nothing.
+
+topic marcus.gossip.dorian
+  npc marcus
+  label Ask about Dorian
+  plays marcus.gossip.dorian.d
+  if hearts:marcus>=3 && flag:met.dorian
+  priority 1
+  cooldown 6
+
+dialogue marcus.gossip.dorian.d
+n0 marcus: Dorian says three words a day. I count. Yesterday he said five.
+  next n1
+n1 marcus: We built a bench. Good day.
+
+topic dorian.gossip.marcus
+  npc dorian
+  label Ask about Marcus
+  plays dorian.gossip.marcus.d
+  if hearts:dorian>=3 && flag:met.marcus
+  priority 1
+  cooldown 6
+
+dialogue dorian.gossip.marcus.d
+n0 dorian: ...Marcus measures everything twice. Even silence.
+  next n1
+n1 dorian: I find it restful.
+
+topic wren.gossip.piper
+  npc wren
+  label Ask about Piper
+  plays wren.gossip.piper.d
+  if hearts:wren>=3 && flag:met.piper
+  priority 1
+  cooldown 6
+
+dialogue wren.gossip.piper.d
+n0 wren: Piper's third verse is a masterpiece, my darling, and the rest is a hazard. I clap loudest at the bridge.
+
+topic piper.gossip.wren
+  npc piper
+  label Ask about Wren
+  plays piper.gossip.wren.d
+  if hearts:piper>=3 && flag:met.wren
+  priority 1
+  cooldown 6
+
+dialogue piper.gossip.wren.d
+n0 piper: Wren pretends she doesn't sing along! She does! Every night! I hear her over the register!
+
+topic tilda.gossip.felix
+  npc tilda
+  label Ask about Felix
+  plays tilda.gossip.felix.d
+  if hearts:tilda>=3 && flag:met.felix
+  priority 1
+  cooldown 6
+
+dialogue tilda.gossip.felix.d
+n0 tilda: Felix has sold me the same carp four times, dear. It improves with each sale.
+
+topic felix.gossip.tilda
+  npc felix
+  label Ask about Tilda
+  plays felix.gossip.tilda.d
+  if hearts:felix>=3 && flag:met.tilda
+  priority 1
+  cooldown 6
+
+dialogue felix.gossip.tilda.d
+n0 felix: Tilda keeps a tab for me on the slate. It's long. It's also very polite.
+  next n1
+n1 felix: I'm afraid to read it.
+
+topic bram.gossip.marcus
+  npc bram
+  label Ask about Marcus
+  plays bram.gossip.marcus.d
+  if hearts:bram>=3 && flag:met.marcus
+  priority 1
+  cooldown 6
+
+dialogue bram.gossip.marcus.d
+n0 bram: Hm. Marcus's joints are tight.
+  next n1
+n1 bram: I'd never say it to his face.
+
+topic marcus.gossip.bram
+  npc marcus
+  label Ask about Bram
+  plays marcus.gossip.bram.d
+  if hearts:marcus>=3 && flag:met.bram
+  priority 1
+  cooldown 6
+
+dialogue marcus.gossip.bram.d
+n0 marcus: Bram's welds are clean. Don't tell him I said so.
+  next n1
+n1 marcus: He'd frame it.
+
+topic tilda.gossip.wren
+  npc tilda
+  label Ask about Wren
+  plays tilda.gossip.wren.d
+  if hearts:tilda>=3 && flag:met.wren
+  priority 1
+  cooldown 6
+
+dialogue tilda.gossip.wren.d
+n0 tilda: Wren thinks I haven't noticed she copies my slate handwriting, dear. Imitation, flattery, and all that.
+
+topic wren.gossip.tilda
+  npc wren
+  label Ask about Tilda
+  plays wren.gossip.tilda.d
+  if hearts:wren>=3 && flag:met.tilda
+  priority 1
+  cooldown 6
+
+dialogue wren.gossip.tilda.d
+n0 wren: Tilda's slate has more gossip than my bar, my darling. She calls it bookkeeping.
+
+topic piper.gossip.juno
+  npc piper
+  label Ask about Juno
+  plays piper.gossip.juno.d
+  if hearts:piper>=3 && flag:met.juno
+  priority 1
+  cooldown 6
+
+dialogue piper.gossip.juno.d
+n0 piper: Juno hammers in time with my songs! She says it's a coincidence! It's a rhythm section!
+
+topic juno.gossip.piper
+  npc juno
+  label Ask about Piper
+  plays juno.gossip.piper.d
+  if hearts:juno>=3 && flag:met.piper
+  priority 1
+  cooldown 6
+
+dialogue juno.gossip.piper.d
+n0 juno: Piper's too loud! Wonderful, but too loud! I labeled my ears! 'Ears (Delighted)'!
+
+topic dorian.gossip.hazel
+  npc dorian
+  label Ask about Hazel
+  plays dorian.gossip.hazel.d
+  if hearts:dorian>=3 && flag:met.hazel
+  priority 1
+  cooldown 6
+
+dialogue dorian.gossip.hazel.d
+n0 dorian: ...Hazel borrows my pressed leaves. Returns them with a note.
+  next n1
+n1 dorian: The notes are small. I keep them.
+
+topic hazel.gossip.dorian
+  npc hazel
+  label Ask about Dorian
+  plays hazel.gossip.dorian.d
+  if hearts:hazel>=3 && flag:met.dorian
+  priority 1
+  cooldown 6
+
+dialogue hazel.gossip.dorian.d
+n0 hazel: (Dorian leaves pressed leaves in the books.) A kind habit. (I never mention it.) I return them, annotated.
+
+topic felix.gossip.elara
+  npc felix
+  label Ask about Elara
+  plays felix.gossip.elara.d
+  if hearts:felix>=3 && flag:met.elara
+  priority 1
+  cooldown 6
+
+dialogue felix.gossip.elara.d
+n0 felix: Elara knits nets for fish. Fish don't use them. She brings another.
+  next n1
+n1 felix: It's very touching and slightly damp.
+
+topic elara.gossip.felix
+  npc elara
+  label Ask about Felix
+  plays elara.gossip.felix.d
+  if hearts:elara>=3 && flag:met.felix
+  priority 1
+  cooldown 6
+
+dialogue elara.gossip.felix.d
+n0 elara: Felix tells the best fish stories! They get bigger every time! I knit a scarf to match!
+
+topic odalys.gossip.ione
+  npc odalys
+  label Ask about Ione
+  plays odalys.gossip.ione.d
+  if hearts:odalys>=3 && flag:met.ione
+  priority 1
+  cooldown 6
+
+dialogue odalys.gossip.ione.d
+n0 odalys: Ione prescribes me novels. I follow the prescription. Chapter one only.
+  next n1
+n1 odalys: It is working, regrettably.
+
+topic ione.gossip.odalys
+  npc ione
+  label Ask about Dr. Penn
+  plays ione.gossip.odalys.d
+  if hearts:ione>=3 && flag:met.odalys
+  priority 1
+  cooldown 6
+
+dialogue ione.gossip.odalys.d
+n0 ione: Dr. Penn naps in the reading room when she thinks no one is looking.
+  next n1
+n1 ione: I keep the lamp low.
