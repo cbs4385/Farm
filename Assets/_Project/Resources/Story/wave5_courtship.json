@@ -1,0 +1,572 @@
+{
+  "eventsFromTemplates": [
+    {
+      "id": "wren_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=8 && flag:event.wren_heart8 && !flag:partners.wren && !flag:choice.courtship.wren.friends && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "flag:courtship.asked.wren"
+        ],
+        "intro": "event.wren_courtship.intro",
+        "talk": "wren.courtship",
+        "after": "event.wren_courtship.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.wren_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "wren_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=10 && flag:choice.courtship.wren.later && !flag:event.wren_courtship2.done && !flag:partners.wren && !flag:choice.courtship.wren.friends && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "flag:courtship.asked.wren",
+          "flag:event.wren_courtship2.done"
+        ],
+        "intro": "event.wren_courtship2.intro",
+        "talk": "wren.courtship",
+        "after": "event.wren_courtship2.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.wren_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "wren_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "wren",
+        "map": "Saloon",
+        "px": 9,
+        "py": 6,
+        "when": "hearts:wren>=10 && flag:choice.courtship.wren.yes && !flag:partners.wren && !weekday:tue && hour>=12 && hour<24",
+        "reward": [
+          "flag:partners.wren",
+          "friend:wren,50"
+        ],
+        "intro": "event.wren_partners.intro",
+        "talk": "wren.partners",
+        "after": "event.wren_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.wren_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "hazel_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=8 && flag:event.hazel_heart8 && !flag:partners.hazel && !flag:choice.courtship.hazel.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.hazel"
+        ],
+        "intro": "event.hazel_courtship.intro",
+        "talk": "hazel.courtship",
+        "after": "event.hazel_courtship.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.hazel_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "hazel_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=10 && flag:choice.courtship.hazel.later && !flag:event.hazel_courtship2.done && !flag:partners.hazel && !flag:choice.courtship.hazel.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.hazel",
+          "flag:event.hazel_courtship2.done"
+        ],
+        "intro": "event.hazel_courtship2.intro",
+        "talk": "hazel.courtship",
+        "after": "event.hazel_courtship2.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.hazel_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "hazel_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "hazel",
+        "map": "Library",
+        "px": 4,
+        "py": 4,
+        "when": "hearts:hazel>=10 && flag:choice.courtship.hazel.yes && !flag:partners.hazel && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:partners.hazel",
+          "friend:hazel,50"
+        ],
+        "intro": "event.hazel_partners.intro",
+        "talk": "hazel.partners",
+        "after": "event.hazel_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.hazel_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "juno_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=8 && flag:event.juno_heart8 && !flag:partners.juno && !flag:choice.courtship.juno.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.juno"
+        ],
+        "intro": "event.juno_courtship.intro",
+        "talk": "juno.courtship",
+        "after": "event.juno_courtship.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.juno_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "juno_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=10 && flag:choice.courtship.juno.later && !flag:event.juno_courtship2.done && !flag:partners.juno && !flag:choice.courtship.juno.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.juno",
+          "flag:event.juno_courtship2.done"
+        ],
+        "intro": "event.juno_courtship2.intro",
+        "talk": "juno.courtship",
+        "after": "event.juno_courtship2.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.juno_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "juno_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "juno",
+        "map": "Blacksmith",
+        "px": 2,
+        "py": 2,
+        "when": "hearts:juno>=10 && flag:choice.courtship.juno.yes && !flag:partners.juno && !weekday:mon && hour>=9 && hour<17",
+        "reward": [
+          "flag:partners.juno",
+          "friend:juno,50"
+        ],
+        "intro": "event.juno_partners.intro",
+        "talk": "juno.partners",
+        "after": "event.juno_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.juno_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "piper_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=8 && flag:event.piper_heart8 && !flag:partners.piper && !flag:choice.courtship.piper.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "flag:courtship.asked.piper"
+        ],
+        "intro": "event.piper_courtship.intro",
+        "talk": "piper.courtship",
+        "after": "event.piper_courtship.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.piper_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "piper_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=10 && flag:choice.courtship.piper.later && !flag:event.piper_courtship2.done && !flag:partners.piper && !flag:choice.courtship.piper.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "flag:courtship.asked.piper",
+          "flag:event.piper_courtship2.done"
+        ],
+        "intro": "event.piper_courtship2.intro",
+        "talk": "piper.courtship",
+        "after": "event.piper_courtship2.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.piper_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "piper_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "piper",
+        "map": "Saloon",
+        "px": 11,
+        "py": 6,
+        "when": "hearts:piper>=10 && flag:choice.courtship.piper.yes && !flag:partners.piper && !weekday:tue && hour>=18 && hour<24",
+        "reward": [
+          "flag:partners.piper",
+          "friend:piper,50"
+        ],
+        "intro": "event.piper_partners.intro",
+        "talk": "piper.partners",
+        "after": "event.piper_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.piper_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "felix_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "felix",
+        "map": "Beach",
+        "px": 11,
+        "py": 10,
+        "when": "hearts:felix>=8 && flag:event.felix_heart8 && !flag:partners.felix && !flag:choice.courtship.felix.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:thu && hour>=6 && hour<14",
+        "reward": [
+          "flag:courtship.asked.felix"
+        ],
+        "intro": "event.felix_courtship.intro",
+        "talk": "felix.courtship",
+        "after": "event.felix_courtship.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.felix_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "felix_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "felix",
+        "map": "Beach",
+        "px": 11,
+        "py": 10,
+        "when": "hearts:felix>=10 && flag:choice.courtship.felix.later && !flag:event.felix_courtship2.done && !flag:partners.felix && !flag:choice.courtship.felix.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:thu && hour>=6 && hour<14",
+        "reward": [
+          "flag:courtship.asked.felix",
+          "flag:event.felix_courtship2.done"
+        ],
+        "intro": "event.felix_courtship2.intro",
+        "talk": "felix.courtship",
+        "after": "event.felix_courtship2.after",
+        "emote": "note"
+      },
+      "event": {
+        "titleKey": "memory.felix_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "felix_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "felix",
+        "map": "Beach",
+        "px": 11,
+        "py": 10,
+        "when": "hearts:felix>=10 && flag:choice.courtship.felix.yes && !flag:partners.felix && !weekday:thu && hour>=6 && hour<14",
+        "reward": [
+          "flag:partners.felix",
+          "friend:felix,50"
+        ],
+        "intro": "event.felix_partners.intro",
+        "talk": "felix.partners",
+        "after": "event.felix_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.felix_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "dorian_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "dorian",
+        "map": "Forest",
+        "px": 19,
+        "py": 11,
+        "when": "hearts:dorian>=8 && flag:event.dorian_heart8 && !flag:partners.dorian && !flag:choice.courtship.dorian.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && hour>=8 && hour<17",
+        "reward": [
+          "flag:courtship.asked.dorian"
+        ],
+        "intro": "event.dorian_courtship.intro",
+        "talk": "dorian.courtship",
+        "after": "event.dorian_courtship.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.dorian_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "dorian_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "dorian",
+        "map": "Forest",
+        "px": 19,
+        "py": 11,
+        "when": "hearts:dorian>=10 && flag:choice.courtship.dorian.later && !flag:event.dorian_courtship2.done && !flag:partners.dorian && !flag:choice.courtship.dorian.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && hour>=8 && hour<17",
+        "reward": [
+          "flag:courtship.asked.dorian",
+          "flag:event.dorian_courtship2.done"
+        ],
+        "intro": "event.dorian_courtship2.intro",
+        "talk": "dorian.courtship",
+        "after": "event.dorian_courtship2.after",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "titleKey": "memory.dorian_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "dorian_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "dorian",
+        "map": "Forest",
+        "px": 19,
+        "py": 11,
+        "when": "hearts:dorian>=10 && flag:choice.courtship.dorian.yes && !flag:partners.dorian && hour>=8 && hour<17",
+        "reward": [
+          "flag:partners.dorian",
+          "friend:dorian,50"
+        ],
+        "intro": "event.dorian_partners.intro",
+        "talk": "dorian.partners",
+        "after": "event.dorian_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.dorian_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "elara_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "elara",
+        "map": "Clinic",
+        "px": 3,
+        "py": 2,
+        "when": "hearts:elara>=8 && flag:event.elara_heart8 && !flag:partners.elara && !flag:choice.courtship.elara.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.elara"
+        ],
+        "intro": "event.elara_courtship.intro",
+        "talk": "elara.courtship",
+        "after": "event.elara_courtship.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.elara_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "elara_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "elara",
+        "map": "Clinic",
+        "px": 3,
+        "py": 2,
+        "when": "hearts:elara>=10 && flag:choice.courtship.elara.later && !flag:event.elara_courtship2.done && !flag:partners.elara && !flag:choice.courtship.elara.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.elara",
+          "flag:event.elara_courtship2.done"
+        ],
+        "intro": "event.elara_courtship2.intro",
+        "talk": "elara.courtship",
+        "after": "event.elara_courtship2.after",
+        "emote": "sparkle"
+      },
+      "event": {
+        "titleKey": "memory.elara_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "elara_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "elara",
+        "map": "Clinic",
+        "px": 3,
+        "py": 2,
+        "when": "hearts:elara>=10 && flag:choice.courtship.elara.yes && !flag:partners.elara && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:partners.elara",
+          "friend:elara,50"
+        ],
+        "intro": "event.elara_partners.intro",
+        "talk": "elara.partners",
+        "after": "event.elara_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.elara_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "ione_courtship",
+      "template": "conversation",
+      "args": {
+        "npc": "ione",
+        "map": "Library",
+        "px": 6,
+        "py": 4,
+        "when": "hearts:ione>=8 && flag:event.ione_heart8 && !flag:partners.ione && !flag:choice.courtship.ione.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.ione"
+        ],
+        "intro": "event.ione_courtship.intro",
+        "talk": "ione.courtship",
+        "after": "event.ione_courtship.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.ione_courtship",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "ione_courtship2",
+      "template": "conversation",
+      "args": {
+        "npc": "ione",
+        "map": "Library",
+        "px": 6,
+        "py": 4,
+        "when": "hearts:ione>=10 && flag:choice.courtship.ione.later && !flag:event.ione_courtship2.done && !flag:partners.ione && !flag:choice.courtship.ione.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:courtship.asked.ione",
+          "flag:event.ione_courtship2.done"
+        ],
+        "intro": "event.ione_courtship2.intro",
+        "talk": "ione.courtship",
+        "after": "event.ione_courtship2.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.ione_courtship2",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    },
+    {
+      "id": "ione_partners",
+      "template": "conversation",
+      "args": {
+        "npc": "ione",
+        "map": "Library",
+        "px": 6,
+        "py": 4,
+        "when": "hearts:ione>=10 && flag:choice.courtship.ione.yes && !flag:partners.ione && !weekday:sat && hour>=9 && hour<17",
+        "reward": [
+          "flag:partners.ione",
+          "friend:ione,50"
+        ],
+        "intro": "event.ione_partners.intro",
+        "talk": "ione.partners",
+        "after": "event.ione_partners.after",
+        "emote": "heart"
+      },
+      "event": {
+        "titleKey": "memory.ione_partners",
+        "priority": 8,
+        "tag": "wholesome"
+      }
+    }
+  ]
+}

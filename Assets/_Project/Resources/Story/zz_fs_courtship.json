@@ -1,0 +1,1406 @@
+{
+  "dialogues": [
+    {
+      "id": "wren.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.wren.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:wren,20",
+                "flag:choice.courtship.wren.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:wren,15",
+                "flag:choice.courtship.wren.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.wren.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:wren,5",
+                "flag:choice.courtship.wren.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "wren",
+          "text": "dlg.wren.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "wren.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.partners.0",
+          "choices": [
+            {
+              "text": "dlg.wren.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.courtship.wren.song"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.wren.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.courtship.wren.dance"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.wren.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:wren,10",
+                "flag:choice.courtship.wren.walk"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "dlg.wren.partners.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "dlg.wren.partners.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "wren",
+          "text": "dlg.wren.partners.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "wren.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.partners.talk2.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.hazel.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:hazel,20",
+                "flag:choice.courtship.hazel.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:hazel,15",
+                "flag:choice.courtship.hazel.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.hazel.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:hazel,5",
+                "flag:choice.courtship.hazel.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "hazel.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.partners.0",
+          "choices": [
+            {
+              "text": "dlg.hazel.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.courtship.hazel.read"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.hazel.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.courtship.hazel.hand"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.hazel.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:hazel,10",
+                "flag:choice.courtship.hazel.walk"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.partners.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.hazel.partners.r1",
+          "expression": "embarrassed"
+        },
+        {
+          "id": "r2",
+          "speaker": "hazel",
+          "text": "dlg.hazel.partners.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "hazel.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.partners.talk2.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.juno.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:juno,20",
+                "flag:choice.courtship.juno.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:juno,15",
+                "flag:choice.courtship.juno.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.juno.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:juno,5",
+                "flag:choice.courtship.juno.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "juno",
+          "text": "dlg.juno.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "juno.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.partners.0",
+          "choices": [
+            {
+              "text": "dlg.juno.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.courtship.juno.anvil"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.juno.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.courtship.juno.beach"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.juno.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:juno,10",
+                "flag:choice.courtship.juno.hand"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.juno.partners.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.juno.partners.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "juno",
+          "text": "dlg.juno.partners.r2",
+          "expression": "embarrassed"
+        }
+      ]
+    },
+    {
+      "id": "juno.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.partners.talk2.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.piper.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:piper,20",
+                "flag:choice.courtship.piper.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:piper,15",
+                "flag:choice.courtship.piper.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.piper.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:piper,5",
+                "flag:choice.courtship.piper.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "piper",
+          "text": "dlg.piper.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "piper.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.partners.0",
+          "choices": [
+            {
+              "text": "dlg.piper.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.courtship.piper.song"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.piper.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.courtship.piper.duet"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.piper.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:piper,10",
+                "flag:choice.courtship.piper.walk"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "piper",
+          "text": "dlg.piper.partners.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "piper",
+          "text": "dlg.piper.partners.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "piper",
+          "text": "dlg.piper.partners.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "piper.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.partners.talk2.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.felix.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:felix,20",
+                "flag:choice.courtship.felix.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.felix.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:felix,15",
+                "flag:choice.courtship.felix.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.felix.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:felix,5",
+                "flag:choice.courtship.felix.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "felix",
+          "text": "dlg.felix.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "felix",
+          "text": "dlg.felix.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "felix",
+          "text": "dlg.felix.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "felix.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.partners.0",
+          "choices": [
+            {
+              "text": "dlg.felix.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.courtship.felix.shell"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.felix.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.courtship.felix.fish"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.felix.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:felix,10",
+                "flag:choice.courtship.felix.sun"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "felix",
+          "text": "dlg.felix.partners.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "felix",
+          "text": "dlg.felix.partners.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "felix",
+          "text": "dlg.felix.partners.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "felix.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.partners.talk2.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.dorian.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:dorian,20",
+                "flag:choice.courtship.dorian.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.dorian.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:dorian,15",
+                "flag:choice.courtship.dorian.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.dorian.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:dorian,5",
+                "flag:choice.courtship.dorian.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "dorian",
+          "text": "dlg.dorian.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "dorian.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.partners.0",
+          "choices": [
+            {
+              "text": "dlg.dorian.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.courtship.dorian.feather"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.dorian.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.courtship.dorian.walk"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.dorian.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:dorian,10",
+                "flag:choice.courtship.dorian.sit"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.partners.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "dorian",
+          "text": "dlg.dorian.partners.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "dorian",
+          "text": "dlg.dorian.partners.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "dorian.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.partners.talk2.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.elara.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:elara,20",
+                "flag:choice.courtship.elara.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:elara,15",
+                "flag:choice.courtship.elara.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.elara.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:elara,5",
+                "flag:choice.courtship.elara.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "elara",
+          "text": "dlg.elara.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "elara.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.partners.0",
+          "choices": [
+            {
+              "text": "dlg.elara.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.courtship.elara.hat"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.courtship.elara.knit"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.elara.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:elara,10",
+                "flag:choice.courtship.elara.beach"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.partners.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.partners.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "elara",
+          "text": "dlg.elara.partners.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "elara.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.partners.talk2.0"
+        }
+      ]
+    },
+    {
+      "id": "ione.courtship",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.courtship.0",
+          "choices": [
+            {
+              "text": "dlg.ione.courtship.c0",
+              "default": false,
+              "effects": [
+                "friend:ione,20",
+                "flag:choice.courtship.ione.yes"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.ione.courtship.c1",
+              "default": false,
+              "effects": [
+                "friend:ione,15",
+                "flag:choice.courtship.ione.friends"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.ione.courtship.c2",
+              "default": false,
+              "effects": [
+                "friend:ione,5",
+                "flag:choice.courtship.ione.later"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "ione",
+          "text": "dlg.ione.courtship.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "ione",
+          "text": "dlg.ione.courtship.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "ione",
+          "text": "dlg.ione.courtship.r2",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "ione.partners",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.partners.0",
+          "choices": [
+            {
+              "text": "dlg.ione.partners.c0",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.courtship.ione.letter"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.ione.partners.c1",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.courtship.ione.read"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.ione.partners.c2",
+              "default": false,
+              "effects": [
+                "friend:ione,10",
+                "flag:choice.courtship.ione.walk"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "ione",
+          "text": "dlg.ione.partners.r0",
+          "expression": "embarrassed"
+        },
+        {
+          "id": "r1",
+          "speaker": "ione",
+          "text": "dlg.ione.partners.r1",
+          "expression": "happy"
+        },
+        {
+          "id": "r2",
+          "speaker": "ione",
+          "text": "dlg.ione.partners.r2",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "ione.partners.talk0",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.partners.talk0.0"
+        }
+      ]
+    },
+    {
+      "id": "ione.partners.talk1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.partners.talk1.0"
+        }
+      ]
+    },
+    {
+      "id": "ione.partners.talk2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.partners.talk2.0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.wren",
+          "priority": 0,
+          "dialogue": "wren.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.wren",
+          "priority": 0,
+          "dialogue": "wren.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.wren",
+          "priority": 0,
+          "dialogue": "wren.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.hazel",
+          "priority": 0,
+          "dialogue": "hazel.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.hazel",
+          "priority": 0,
+          "dialogue": "hazel.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.hazel",
+          "priority": 0,
+          "dialogue": "hazel.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.juno.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.juno",
+          "priority": 0,
+          "dialogue": "juno.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.juno",
+          "priority": 0,
+          "dialogue": "juno.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.juno",
+          "priority": 0,
+          "dialogue": "juno.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.piper.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.piper",
+          "priority": 0,
+          "dialogue": "piper.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.piper",
+          "priority": 0,
+          "dialogue": "piper.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.piper",
+          "priority": 0,
+          "dialogue": "piper.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.felix.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.felix",
+          "priority": 0,
+          "dialogue": "felix.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.felix",
+          "priority": 0,
+          "dialogue": "felix.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.felix",
+          "priority": 0,
+          "dialogue": "felix.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.dorian",
+          "priority": 0,
+          "dialogue": "dorian.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.dorian",
+          "priority": 0,
+          "dialogue": "dorian.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.dorian",
+          "priority": 0,
+          "dialogue": "dorian.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.elara.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.elara",
+          "priority": 0,
+          "dialogue": "elara.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.elara",
+          "priority": 0,
+          "dialogue": "elara.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.elara",
+          "priority": 0,
+          "dialogue": "elara.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.ione.talk",
+      "entries": [
+        {
+          "condition": "flag:partners.ione",
+          "priority": 0,
+          "dialogue": "ione.partners.talk0",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.ione",
+          "priority": 0,
+          "dialogue": "ione.partners.talk1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "flag:partners.ione",
+          "priority": 0,
+          "dialogue": "ione.partners.talk2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    }
+  ]
+}

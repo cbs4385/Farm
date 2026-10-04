@@ -139,6 +139,14 @@ namespace Farm.Tests
             new object[] { "felix", MapIds.Beach, "felix_heart8", 70 }, new object[] { "dorian", MapIds.Forest, "dorian_heart8", 70 },
             new object[] { "elara", MapIds.Clinic, "elara_heart8", 70 }, new object[] { "ione", MapIds.Library, "ione_heart8", 70 },
             new object[] { "piper", MapIds.Saloon, "piper_friend", 15 },
+            new object[] { "wren", MapIds.Saloon, "wren_courtship", 5 }, new object[] { "wren", MapIds.Saloon, "wren_courtship2", 5 }, new object[] { "wren", MapIds.Saloon, "wren_partners", 60 },
+            new object[] { "hazel", MapIds.Library, "hazel_courtship", 5 }, new object[] { "hazel", MapIds.Library, "hazel_courtship2", 5 }, new object[] { "hazel", MapIds.Library, "hazel_partners", 60 },
+            new object[] { "juno", MapIds.Blacksmith, "juno_courtship", 5 }, new object[] { "juno", MapIds.Blacksmith, "juno_courtship2", 5 }, new object[] { "juno", MapIds.Blacksmith, "juno_partners", 60 },
+            new object[] { "piper", MapIds.Saloon, "piper_courtship", 5 }, new object[] { "piper", MapIds.Saloon, "piper_courtship2", 5 }, new object[] { "piper", MapIds.Saloon, "piper_partners", 60 },
+            new object[] { "felix", MapIds.Beach, "felix_courtship", 5 }, new object[] { "felix", MapIds.Beach, "felix_courtship2", 5 }, new object[] { "felix", MapIds.Beach, "felix_partners", 60 },
+            new object[] { "dorian", MapIds.Forest, "dorian_courtship", 5 }, new object[] { "dorian", MapIds.Forest, "dorian_courtship2", 5 }, new object[] { "dorian", MapIds.Forest, "dorian_partners", 60 },
+            new object[] { "elara", MapIds.Clinic, "elara_courtship", 5 }, new object[] { "elara", MapIds.Clinic, "elara_courtship2", 5 }, new object[] { "elara", MapIds.Clinic, "elara_partners", 60 },
+            new object[] { "ione", MapIds.Library, "ione_courtship", 5 }, new object[] { "ione", MapIds.Library, "ione_courtship2", 5 }, new object[] { "ione", MapIds.Library, "ione_partners", 60 },
         };
 
         // The `flag:choice.*` effects of the scene's choice dialogue, in choice order (empty when the scene has no dialogue step).

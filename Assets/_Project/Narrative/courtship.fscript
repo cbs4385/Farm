@@ -1,0 +1,233 @@
+# Courtship without marriage (T-109): an optional, all-ages path for the eight romanceable villagers. Ask at 8 hearts (and again at 10 if the player said "not yet"), a partners scene at 10 hearts, and a few partner lines. One courtship at a time. Compiled to zz_fs_courtship.json.
+
+dialogue wren.courtship
+n0 wren: What do you say?
+  ? I'd like to court you. => r0 | friend:wren,20 | flag:choice.courtship.wren.yes
+  ? Let's stay the best of friends. => r1 | friend:wren,15 | flag:choice.courtship.wren.friends
+  ? Can we wait a while? => r2 | friend:wren,5 | flag:choice.courtship.wren.later
+r0 wren: Court. Oh. Yes. Properly, with walks and terrible poems. I'll write the first one tonight and burn it.
+  expr happy
+r1 wren: Friends. Yes. The best kind, I'd say. Nothing changes and everything stays. I'm relieved, and a little proud.
+  expr happy
+r2 wren: Wait. Fair. I've waited eight years for a decent stool. I can wait for the right moment.
+  expr thinking
+
+dialogue wren.partners
+n0 wren: How shall we spend the evening?
+  ? Listen to the whole song. => r0 | friend:wren,10 | flag:choice.courtship.wren.song
+  ? Dance with her between the tables. => r1 | friend:wren,10 | flag:choice.courtship.wren.dance
+  ? Walk her home under the stars. => r2 | friend:wren,10 | flag:choice.courtship.wren.walk
+r0 wren: Every verse! Oh, you angel. I'll sing the bridge twice, because it's my favorite.
+  expr happy
+r1 wren: Dance! In the saloon! The floor's sticky and I don't care. Hold on.
+  expr happy
+r2 wren: A walk home. Past the bakery, past the lamp, past all my old excuses. Lead on.
+  expr happy
+
+addto npc.wren.talk
+0 flag:partners.wren => wren.partners.talk0 cat=reactive tag=wholesome :: Good morning, you. I woke up with the chorus in my head. It was yours.
+0 flag:partners.wren => wren.partners.talk1 cat=reactive tag=wholesome :: Come sit. The stool's warm. I warmed it. For you.
+0 flag:partners.wren => wren.partners.talk2 cat=reactive tag=wholesome :: Every night, one verse. By winter we'll have an album, and no one's allowed to review it.
+
+dialogue hazel.courtship
+n0 hazel: What do you say?
+  ? Yes. I'd like that very much. => r0 | friend:hazel,20 | flag:choice.courtship.hazel.yes
+  ? I'd rather stay friends. => r1 | friend:hazel,15 | flag:choice.courtship.hazel.friends
+  ? Give me time. => r2 | friend:hazel,5 | flag:choice.courtship.hazel.later
+r0 hazel: (Yes.) That's the whole sentence. Yes. I'll write the rest later. Please stay a while.
+  expr happy
+r1 hazel: (Friends.) A good word. A full chapter. Thank you for saying it kindly.
+  expr happy
+r2 hazel: (Time.) Of course. Books wait. So can I. Quietly, at the desk.
+  expr thinking
+
+dialogue hazel.partners
+n0 hazel: How shall we spend the evening?
+  ? Read the page together. => r0 | friend:hazel,10 | flag:choice.courtship.hazel.read
+  ? Hold her hand over the desk. => r1 | friend:hazel,10 | flag:choice.courtship.hazel.hand
+  ? Walk her to the forest. => r2 | friend:hazel,10 | flag:choice.courtship.hazel.walk
+r0 hazel: (We read it aloud.) It sounds truer in two voices. That's a sentence I'll keep.
+  expr happy
+r1 hazel: (Oh.) Your hand is warm. Mine is ink-stained. They match. Stay a while.
+  expr embarrassed
+r2 hazel: The forest. With you. (The birds will be loud.) Let them be. I'll listen to you instead.
+  expr happy
+
+addto npc.hazel.talk
+0 flag:partners.hazel => hazel.partners.talk0 cat=reactive tag=wholesome :: (You came.) The chair is yours. It's always yours now. I labeled it.
+0 flag:partners.hazel => hazel.partners.talk1 cat=reactive tag=wholesome :: I put a bookmark in the day. It's for later, with you.
+0 flag:partners.hazel => hazel.partners.talk2 cat=reactive tag=wholesome :: Come, sit. (I'll read, you listen, and we'll both pretend it's about the book.)
+
+dialogue juno.courtship
+n0 juno: What do you say?
+  ? Yes! Forty items is a lot. => r0 | friend:juno,20 | flag:choice.courtship.juno.yes
+  ? I'd rather we stayed friends. => r1 | friend:juno,15 | flag:choice.courtship.juno.friends
+  ? Can I think about it? => r2 | friend:juno,5 | flag:choice.courtship.juno.later
+r0 juno: YES. Okay. Oh my gosh. I'm going to need a minute and also a hammer. Courting! With you!
+  expr happy
+r1 juno: Friends! Oh, okay! Good! Great! The best! ...I'll label this one 'Friends (Very Good)'. Thank you for saying it honestly.
+  expr happy
+r2 juno: Think! Yes! Take your time! I'll be right here, polishing a clasp, not looking at the door.
+  expr thinking
+
+dialogue juno.partners
+n0 juno: How shall we spend the evening?
+  ? Admire the tiny anvil. => r0 | friend:juno,10 | flag:choice.courtship.juno.anvil
+  ? Take her to the beach. => r1 | friend:juno,10 | flag:choice.courtship.juno.beach
+  ? Hold her hand at the forge. => r2 | friend:juno,10 | flag:choice.courtship.juno.hand
+r0 juno: It's perfect, right? It's tiny! It rings if you hit it with a pin. I tested it. Twice. Once on Bram.
+  expr happy
+r1 juno: The beach! With sand! I'll bring a clasp for luck. And a sandwich. Not for the clasp.
+  expr happy
+r2 juno: Okay. Yes. Hands. I'm very warm, it's the forge, definitely. Don't let go.
+  expr embarrassed
+
+addto npc.juno.talk
+0 flag:partners.juno => juno.partners.talk0 cat=reactive tag=wholesome :: Good morning, hi! I made a tea. I didn't label it. That's how you know it's serious.
+0 flag:partners.juno => juno.partners.talk1 cat=reactive tag=wholesome :: Come here, come here. I want to show you a tiny hinge. It's the best thing today. Second best.
+0 flag:partners.juno => juno.partners.talk2 cat=reactive tag=wholesome :: Forty items on the list, and now it's forty-one. The new one's 'This'.
+
+dialogue piper.courtship
+n0 piper: What do you say?
+  ? Yes. Sing me the love song. => r0 | friend:piper,20 | flag:choice.courtship.piper.yes
+  ? Let's keep it as friends. => r1 | friend:piper,15 | flag:choice.courtship.piper.friends
+  ? Give me a verse or two. => r2 | friend:piper,5 | flag:choice.courtship.piper.later
+r0 piper: Yes! The love song's for you. It rhymes! It has a bridge! I'm going to be insufferable.
+  expr happy
+r1 piper: Friends. That's a good chorus, too. I'll sing it with feeling. Thank you for the honest note.
+  expr happy
+r2 piper: A verse or two. Fair. It's a long song. I'll leave the last line unwritten.
+  expr thinking
+
+dialogue piper.partners
+n0 piper: How shall we spend the evening?
+  ? Listen to the whole song. => r0 | friend:piper,10 | flag:choice.courtship.piper.song
+  ? Sing the chorus with her. => r1 | friend:piper,10 | flag:choice.courtship.piper.duet
+  ? Walk her home after the set. => r2 | friend:piper,10 | flag:choice.courtship.piper.walk
+r0 piper: Every note. Oh, you star. I might tear up on the high part, and I'll blame the stage lights.
+  expr happy
+r1 piper: A duet! You know the words! ...You know the words. I wrote them yesterday. You're a wonder.
+  expr happy
+r2 piper: A walk after the set. The night's quiet. I'm loud. Let's see who wins.
+  expr happy
+
+addto npc.piper.talk
+0 flag:partners.piper => piper.partners.talk0 cat=reactive tag=wholesome :: Hi, you. I woke up humming. It was about you. It's always about you now. It's a problem. It's lovely.
+0 flag:partners.piper => piper.partners.talk1 cat=reactive tag=wholesome :: Come to the front row. I'll save you the best seat. It's the one by the speaker.
+0 flag:partners.piper => piper.partners.talk2 cat=reactive tag=wholesome :: Every night, a new line. By spring we'll have a whole musical. It'll be dreadful and perfect.
+
+dialogue felix.courtship
+n0 felix: What do you say?
+  ? Yes. I'd like that. => r0 | friend:felix,20 | flag:choice.courtship.felix.yes
+  ? I'd rather we stayed friends. => r1 | friend:felix,15 | flag:choice.courtship.felix.friends
+  ? Give me a little time. => r2 | friend:felix,5 | flag:choice.courtship.felix.later
+r0 felix: Yes! Oh, the best catch of my life, and I wasn't even trying. Dawn tomorrow, two lines, and the good rock.
+  expr happy
+r1 felix: Friends. A fine thing. The best fishing partners are friends. I'm happy. I'm also a little quiet. Thank you.
+  expr happy
+r2 felix: A little time. Good. Fish take time. So can the rest of it.
+  expr thinking
+
+dialogue felix.partners
+n0 felix: How shall we spend the evening?
+  ? Listen to the shell. => r0 | friend:felix,10 | flag:choice.courtship.felix.shell
+  ? Fish together at dawn. => r1 | friend:felix,10 | flag:choice.courtship.felix.fish
+  ? Watch the sunrise with him. => r2 | friend:felix,10 | flag:choice.courtship.felix.sun
+r0 felix: Hear it? That's the sea. It's saying something. I think it's saying your name. It could be 'hello'.
+  expr happy
+r1 felix: Dawn, two lines, and the good rock. You hold one. I'll hold the thermos. It's the finest morning.
+  expr happy
+r2 felix: The sun comes up. We don't say much. The fish don't mind. It's perfect.
+  expr happy
+
+addto npc.felix.talk
+0 flag:partners.felix => felix.partners.talk0 cat=reactive tag=wholesome :: Morning. I saved you the good rock. It's warm. I warmed it. Sit.
+0 flag:partners.felix => felix.partners.talk1 cat=reactive tag=wholesome :: I caught one this big. Bigger. I'll tell you later. Slowly. With your hand in mine.
+0 flag:partners.felix => felix.partners.talk2 cat=reactive tag=wholesome :: Every dawn, two lines. By winter we'll have the pond figured out. Or we won't. That's fine, too.
+
+dialogue dorian.courtship
+n0 dorian: What do you say?
+  ? Yes. I'd like that. => r0 | friend:dorian,20 | flag:choice.courtship.dorian.yes
+  ? I'd rather we stayed friends. => r1 | friend:dorian,15 | flag:choice.courtship.dorian.friends
+  ? Can we wait a while? => r2 | friend:dorian,5 | flag:choice.courtship.dorian.later
+r0 dorian: ...Yes. I wasn't sure you'd say it. I'll show you the quiet places. All of them. Slowly.
+  expr happy
+r1 dorian: Friends. ...Good. That's a lot, for me. Thank you for saying it kindly.
+  expr happy
+r2 dorian: Wait. Yes. I'm good at waiting. The trees taught me.
+  expr thinking
+
+dialogue dorian.partners
+n0 dorian: How shall we spend the evening?
+  ? Hold the feather. => r0 | friend:dorian,10 | flag:choice.courtship.dorian.feather
+  ? Walk the forest with him. => r1 | friend:dorian,10 | flag:choice.courtship.dorian.walk
+  ? Sit quietly beside him. => r2 | friend:dorian,10 | flag:choice.courtship.dorian.sit
+r0 dorian: ...It's small. It's soft. It's yours. I found it the day I met you. I kept it for later.
+  expr happy
+r1 dorian: The forest, with you. I'll show you the oak. It's old. It's quiet. It's the best listener I know.
+  expr happy
+r2 dorian: ...Yes. This. Sit. We don't need words. We never did. Thank you.
+  expr happy
+
+addto npc.dorian.talk
+0 flag:partners.dorian => dorian.partners.talk0 cat=reactive tag=wholesome :: ...Morning. The oak asked about you. I said you were well. It was pleased.
+0 flag:partners.dorian => dorian.partners.talk1 cat=reactive tag=wholesome :: Come. I found a clearing. It's small. It's ours.
+0 flag:partners.dorian => dorian.partners.talk2 cat=reactive tag=wholesome :: I used to love the quiet because it was empty. Now I love it because it's yours too.
+
+dialogue elara.courtship
+n0 elara: What do you say?
+  ? Yes! Show me the whole scarf. => r0 | friend:elara,20 | flag:choice.courtship.elara.yes
+  ? I'd rather we stayed friends. => r1 | friend:elara,15 | flag:choice.courtship.elara.friends
+  ? Can I think about it? => r2 | friend:elara,5 | flag:choice.courtship.elara.later
+r0 elara: YES! Oh, I'm so happy my yarn is shaking! The scarf is yours! The whole nine yards! Literally! I measured!
+  expr happy
+r1 elara: Friends! The best! Truly! I'll knit a friend-sized scarf! It's like a regular one but with more feelings! Thank you for saying it kindly!
+  expr happy
+r2 elara: Think! Take a long time! I'll add rows! The scarf will grow! It's fine!
+  expr thinking
+
+dialogue elara.partners
+n0 elara: How shall we spend the evening?
+  ? Wear the hat. => r0 | friend:elara,10 | flag:choice.courtship.elara.hat
+  ? Knit a row together. => r1 | friend:elara,10 | flag:choice.courtship.elara.knit
+  ? Walk the beach at sunset. => r2 | friend:elara,10 | flag:choice.courtship.elara.beach
+r0 elara: You look so good! The tiniest hat is slightly crooked! It's perfect! I'm crying a little!
+  expr happy
+r1 elara: Together! Hold the needle! No, the other end! There! We made a row! It's the best row!
+  expr happy
+r2 elara: The beach at sunset! I'll bring a blanket and three snacks! The snacks are for you. The blanket is for us!
+  expr happy
+
+addto npc.elara.talk
+0 flag:partners.elara => elara.partners.talk0 cat=reactive tag=wholesome :: Good morning! I knitted a sock! It's for you! It's the left one! The right one's tomorrow!
+0 flag:partners.elara => elara.partners.talk1 cat=reactive tag=wholesome :: Come in, come in! I saved you a spot on the couch! It has a blanket! I made the blanket!
+0 flag:partners.elara => elara.partners.talk2 cat=reactive tag=wholesome :: A row a day, with you! By winter we'll have a scarf that reaches the beach! I measured!
+
+dialogue ione.courtship
+n0 ione: What do you say?
+  ? Yes. I'd like that. => r0 | friend:ione,20 | flag:choice.courtship.ione.yes
+  ? I'd rather we stayed friends. => r1 | friend:ione,15 | flag:choice.courtship.ione.friends
+  ? Can we wait a while? => r2 | friend:ione,5 | flag:choice.courtship.ione.later
+r0 ione: Yes. ...Oh, good. I'll set aside a shelf for the two of us. A small one, near the window.
+  expr happy
+r1 ione: Friends. A lovely thing to be. The best stories begin there. Thank you for saying it so kindly.
+  expr happy
+r2 ione: Wait. Of course. A good book isn't rushed. Neither is this.
+  expr thinking
+
+dialogue ione.partners
+n0 ione: How shall we spend the evening?
+  ? Listen to the whole letter. => r0 | friend:ione,10 | flag:choice.courtship.ione.letter
+  ? Read to her in the stacks. => r1 | friend:ione,10 | flag:choice.courtship.ione.read
+  ? Walk her along the shore. => r2 | friend:ione,10 | flag:choice.courtship.ione.walk
+r0 ione: Every word. Thank you. ...I'm blushing, and I'm the one who wrote it.
+  expr embarrassed
+r1 ione: You read aloud, and the books lean in. They've missed being listened to. So have I.
+  expr happy
+r2 ione: The shore. With you. I'll bring a book and not open it. That's a first.
+  expr happy
+
+addto npc.ione.talk
+0 flag:partners.ione => ione.partners.talk0 cat=reactive tag=wholesome :: Good morning. I set aside a chair by the window. It has a cushion. It's yours.
+0 flag:partners.ione => ione.partners.talk1 cat=reactive tag=wholesome :: Come, sit. I'll read, you rest. The books won't mind. They think you're one of us.
+0 flag:partners.ione => ione.partners.talk2 cat=reactive tag=wholesome :: Every evening, a chapter. By winter we'll be at the end. I'll write a second book, just so we don't stop.

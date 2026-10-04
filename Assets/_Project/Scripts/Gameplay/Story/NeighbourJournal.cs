@@ -6,11 +6,14 @@ using Farm.Data;
 
 namespace Farm.Gameplay
 {
-    public enum RelationshipStage { Acquaintance, Neighbour, Friend, CloseFriend, Confidant }
+    public enum RelationshipStage { Acquaintance, Neighbour, Friend, CloseFriend, Confidant, Partners }
 
     // T-106: named relationship stages. They line up with the talk tiers (friend lines from 3 hearts, close from 6, confidant from 9).
     public static class RelationshipStages
     {
+        // T-109: partners is a choice, not a number of hearts: only the scene that sets `partners.<id>` gets it.
+        public static RelationshipStage For(int hearts, bool partners) => partners ? RelationshipStage.Partners : For(hearts);
+
         public static RelationshipStage For(int hearts) =>
             hearts >= 9 ? RelationshipStage.Confidant :
             hearts >= 6 ? RelationshipStage.CloseFriend :
@@ -46,7 +49,7 @@ namespace Farm.Gameplay
             var npcState = state.Npcs.TryGetValue(npc.Id, out var s) ? s : null;
             info.Met = npcState != null && npcState.Met;
             info.Hearts = npcState != null ? FriendshipModel.Hearts(npcState.Points) : 0;
-            info.Stage = RelationshipStages.For(info.Hearts);
+            info.Stage = RelationshipStages.For(info.Hearts, state.Flags.Contains("partners." + npc.Id));
             if (!info.Met) return info;
 
             bool Given(string item) => interactions != null && interactions.GiftDay.ContainsKey($"{npc.Id}|{item}");
