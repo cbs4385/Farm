@@ -21,6 +21,7 @@ natural_<npc>_chain_2_next_scene.txt  After each scene ends, run this to leave a
 natural_<npc>_friend_day.txt        Real trigger for the friend-day scene (hearts 3; the date is a Friday for Wren, a Wednesday for Bram, day 5 for Hazel).
 
 NOTES
+- Paste "tp ..." first, then WAIT until the new map has fully loaded (fade finished) before pasting "scene ...". If scene is sent while the old map is still up, the scene plays on the wrong map (seen in a dev-build check on 2026-10-03).
 - "date" only moves forward. On a game already past spring 5, use the "date" line with the next season (the weekday is the same: day 5 is a Friday, day 3 a Wednesday in every season) or start a new game.
 - Weekday = (day - 1) mod 7: day 1 Monday, 2 Tuesday, 3 Wednesday, 4 Thursday, 5 Friday, 6 Saturday, 7 Sunday.
 - Scenes are one-shot. To see one again: the Memories tab, or reload a save made before it.
