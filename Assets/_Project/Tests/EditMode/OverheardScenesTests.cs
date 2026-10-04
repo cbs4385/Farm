@@ -8,7 +8,7 @@ namespace Farm.Tests
     // T-122: villagers talk to each other. Six pairings, three overheard scenes each, unlocked in order as the player gets to know both.
     public class OverheardScenesTests
     {
-        static readonly string[] Pairs = { "juno_bram", "hazel_ione", "elara_odalys", "marcus_dorian", "wren_piper", "tilda_felix" };
+        static readonly string[] Pairs = { "juno_bram", "hazel_ione", "elara_odalys", "marcus_dorian", "wren_piper", "tilda_felix", "bram_marcus", "tilda_wren", "piper_juno", "dorian_hazel", "felix_elara", "odalys_ione" };
 
         StoryContent _story;
 
@@ -25,10 +25,11 @@ namespace Farm.Tests
         {
             var en = L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
             foreach (var pair in Pairs)
-                for (var k = 1; k <= 3; k++)
+                for (var k = 1; k <= 4; k++)
                 {
                     var id = $"overheard_{pair}_{k}";
                     var ev = _story.Event(id);
+                    if (k == 4 && ev == null) continue;      // only four of the pairings have a fourth scene
                     Assert.IsNotNull(ev, id);
                     Assert.IsTrue(Memories.IsMemory(ev), id);
                     Assert.IsTrue(ev.Steps.Any(s => s.Type == "emote"), id);
@@ -39,6 +40,12 @@ namespace Farm.Tests
                     foreach (var who in pair.Split('_')) StringAssert.Contains("flag:met." + who, ev.Condition);
                     for (var i = 1; i <= 4; i++) Assert.IsTrue(en.ContainsKey($"event.{id}.l{i}"), id);
                 }
+        }
+
+        [Test]
+        public void TheVillage_HasFortyOverheardScenes_AsThePlanAsks()
+        {
+            Assert.AreEqual(40, _story.Events.Count(e => e.Id.StartsWith("overheard_")));
         }
 
         [Test]

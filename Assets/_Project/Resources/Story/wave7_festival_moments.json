@@ -55,6 +55,34 @@
           "facing": "up"
         },
         {
+          "type": "spawn",
+          "id": "story_prop_0",
+          "name": "prop.lantern",
+          "x": 23,
+          "y": 17
+        },
+        {
+          "type": "spawn",
+          "id": "story_prop_1",
+          "name": "prop.lantern",
+          "x": 24,
+          "y": 17
+        },
+        {
+          "type": "spawn",
+          "id": "story_prop_2",
+          "name": "prop.lantern",
+          "x": 26,
+          "y": 17
+        },
+        {
+          "type": "spawn",
+          "id": "story_prop_3",
+          "name": "prop.lantern",
+          "x": 27,
+          "y": 17
+        },
+        {
           "type": "say",
           "speaker": "tilda",
           "text": "event.festival_winter_lanterns.0"
@@ -87,6 +115,22 @@
           "name": "heart",
           "seconds": 2.0,
           "async": true
+        },
+        {
+          "type": "despawn",
+          "id": "story_prop_3"
+        },
+        {
+          "type": "despawn",
+          "id": "story_prop_2"
+        },
+        {
+          "type": "despawn",
+          "id": "story_prop_1"
+        },
+        {
+          "type": "despawn",
+          "id": "story_prop_0"
         },
         {
           "type": "effects",
