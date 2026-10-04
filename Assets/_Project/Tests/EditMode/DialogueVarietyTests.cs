@@ -44,7 +44,7 @@ namespace Farm.Tests
             _story = StoryContent.LoadFromResources();
         }
 
-        World Met(string npc, int hearts, Season season = Season.Spring, string weather = "sunny", int hour = 12, int day = 10)
+        World Met(string npc, int hearts, Season season = Season.Spring, string weather = "sunny", int hour = 12, int day = 3)
         {
             var w = new World { Time = new GameDateTime(1, season, day, hour * 60), WeatherId = weather };
             w.Flags.Add("met." + npc);
@@ -64,7 +64,7 @@ namespace Farm.Tests
         }
 
         // Mood, farm, festival and birthday lines need a world state this sweep does not build; MoodModelTests and the slice tests cover them.
-        static bool StateDependent(string c) => c.Contains("mood:") || c.Contains("farm:") || c.Contains("festival.in") || c.Contains("birthday.in") || c.Contains("farmname:") || c.Contains("playername:") || c.Contains("storyline:") || c.Contains("storydone.") || c.Contains("notes.began") || c.Contains("partners.");
+        static bool StateDependent(string c) => c.Contains("mood:") || c.Contains("farm:") || c.Contains("festival.in") || c.Contains("birthday.in") || c.Contains("farmname:") || c.Contains("playername:") || c.Contains("storyline:") || c.Contains("storydone.") || c.Contains("notes.began") || c.Contains("partners.") || c.Contains("upgrade:") || c.Contains("merchant:") || c.Contains("shipped:") || c.Contains("gold:");
 
         [Test]
         public void EveryTalkEntry_CanBeHeardInSomeState()
@@ -79,8 +79,12 @@ namespace Farm.Tests
                             foreach (var hour in new[] { 8, 12, 17, 21 })
                                 foreach (var id in Heard(npc, Met(npc, hearts, season, weather, hour))) heard.Add(id);
                 // Narrower sweeps for the other axes, so the whole test stays quick.
-                foreach (var day in new[] { 11, 12, 13, 14, 15, 16 })
+                foreach (var day in new[] { 1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16 })
                     heard.UnionWith(Heard(npc, Met(npc, 6, Season.Spring, "sunny", 12, day)));
+                // The days around each festival (T-123) have their own lines.
+                foreach (var (season, first) in new[] { (Season.Spring, 12), (Season.Summer, 10), (Season.Fall, 15), (Season.Winter, 24) })
+                    for (var day = first; day < first + 3; day++)
+                        heard.UnionWith(Heard(npc, Met(npc, 6, season, "sunny", 12, day)));
                 foreach (var weather in new[] { "storm", "snow", "wind" })
                     heard.UnionWith(Heard(npc, Met(npc, 6, Season.Spring, weather, 12)));
                 foreach (var map in new[] { "Saloon", "Library", "Blacksmith", "GeneralStore", "Carpenter", "Clinic", "Forest", "Beach", "Farm" })

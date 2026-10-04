@@ -1,0 +1,23 @@
+# Shop and service lines (T-124): a tool upgrade ready or waiting, the traveling merchant in town, how much the farm ships, and the player's purse. Read through IGameQuery atoms upgrade:, merchant:here, shipped: and gold:. Compiled to zz_fs_shop_service.json.
+
+addto npc.juno.talk
+2 upgrade:ready => juno.upgrade.ready.1 cat=reactive tag=funny :: Your tool's done! I polished it twice! Twice! Come and take it before I polish it a third time!
+2 upgrade:ready => juno.upgrade.ready.2 cat=reactive tag=wholesome :: It's ready, it's ready! I labeled the handle 'Yours (Better)'! Go on, grab it!
+2 upgrade:waiting => juno.upgrade.wait.1 cat=reactive tag=funny :: I'm working on your tool! It's in the vise! It's very comfortable! Come back soon!
+2 upgrade:waiting => juno.upgrade.wait.2 cat=reactive tag=funny :: Don't peek! Okay, peek a little. It's going to be shiny. Like, embarrassingly shiny!
+
+addto npc.bram.talk
+2 upgrade:ready => bram.upgrade.ready.1 cat=reactive tag=wholesome :: Hm. Your tool's done. Better than before. Collect it.
+2 upgrade:ready => bram.upgrade.ready.2 cat=reactive tag=wholesome :: Hm. Finished. The edge is true. Take it.
+2 upgrade:waiting => bram.upgrade.wait.1 cat=reactive tag=wholesome :: Hm. Still on the anvil. Not ready. Patience.
+2 upgrade:waiting => bram.upgrade.wait.2 cat=reactive tag=wholesome :: Hm. Cooling. Don't rush iron.
+
+addto npc.tilda.talk
+2 merchant:here => tilda.merchant.1 cat=reactive tag=funny :: The traveling merchant's in town, dear. I'm watching his prices very politely.
+2 merchant:here => tilda.merchant.2 cat=reactive tag=funny :: A stranger with a cart, dear. He sells things I don't. I'm not jealous. Much.
+2 shipped:>=20 && shipped:<100 => tilda.shipped.1 cat=reactive tag=wholesome :: I hear you've been shipping things, dear. The valley notices a busy farm.
+2 shipped:>=100 => tilda.shipped.2 cat=reactive tag=wholesome :: A hundred shipments, dear! The slate has a new column, and it only has your name.
+
+addto npc.wren.talk
+0 gold:>=5000 => wren.gold.rich cat=reactive tag=funny :: Heard you're doing well, my darling. Drinks are on you. Kidding. Mostly. Sit, anyway.
+0 gold:<50 => wren.gold.poor cat=reactive tag=wholesome :: You look skint, my darling. Have a pickle. It's free. It's also a meal.

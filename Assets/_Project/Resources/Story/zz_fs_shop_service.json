@@ -1,0 +1,278 @@
+{
+  "dialogues": [
+    {
+      "id": "juno.upgrade.ready.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.upgrade.ready.1.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.upgrade.ready.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.upgrade.ready.2.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.upgrade.wait.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.upgrade.wait.1.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.upgrade.wait.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.upgrade.wait.2.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.upgrade.ready.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.upgrade.ready.1.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.upgrade.ready.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.upgrade.ready.2.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.upgrade.wait.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.upgrade.wait.1.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.upgrade.wait.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.upgrade.wait.2.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.merchant.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.merchant.1.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.merchant.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.merchant.2.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.shipped.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.shipped.1.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.shipped.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.shipped.2.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.gold.rich",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.gold.rich.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.gold.poor",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.gold.poor.0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.juno.talk",
+      "entries": [
+        {
+          "condition": "upgrade:ready",
+          "priority": 2,
+          "dialogue": "juno.upgrade.ready.1",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "upgrade:ready",
+          "priority": 2,
+          "dialogue": "juno.upgrade.ready.2",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "upgrade:waiting",
+          "priority": 2,
+          "dialogue": "juno.upgrade.wait.1",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "upgrade:waiting",
+          "priority": 2,
+          "dialogue": "juno.upgrade.wait.2",
+          "tag": "funny",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.bram.talk",
+      "entries": [
+        {
+          "condition": "upgrade:ready",
+          "priority": 2,
+          "dialogue": "bram.upgrade.ready.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "upgrade:ready",
+          "priority": 2,
+          "dialogue": "bram.upgrade.ready.2",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "upgrade:waiting",
+          "priority": 2,
+          "dialogue": "bram.upgrade.wait.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "upgrade:waiting",
+          "priority": 2,
+          "dialogue": "bram.upgrade.wait.2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "merchant:here",
+          "priority": 2,
+          "dialogue": "tilda.merchant.1",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "merchant:here",
+          "priority": 2,
+          "dialogue": "tilda.merchant.2",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "shipped:>=20 && shipped:<100",
+          "priority": 2,
+          "dialogue": "tilda.shipped.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        },
+        {
+          "condition": "shipped:>=100",
+          "priority": 2,
+          "dialogue": "tilda.shipped.2",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "gold:>=5000",
+          "priority": 0,
+          "dialogue": "wren.gold.rich",
+          "tag": "funny",
+          "category": "reactive"
+        },
+        {
+          "condition": "gold:<50",
+          "priority": 0,
+          "dialogue": "wren.gold.poor",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    }
+  ]
+}

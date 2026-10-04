@@ -1,0 +1,169 @@
+# Festival days (T-123): for every villager a line the day before, a line on the festival itself (their role) and a line the day after, for all four festivals. Compiled to zz_fs_festivals.json.
+
+addto npc.wren.talk
+3 season:spring && day==12 => wren.festival.spring.before cat=reactive tag=wholesome :: Tomorrow's Blossom Day. I'm tuning the saloon's good stool for the dance. It's emotional.
+3 season:spring && day==13 => wren.festival.spring.day cat=reactive tag=wholesome :: Blossom Day! I'm running the cider table, so everyone's my friend. Have a cup. Dance badly. I'm judging.
+3 season:spring && day==14 => wren.festival.spring.after cat=reactive tag=wholesome :: Last night's dance is in the floorboards. I'll sweep it up tomorrow. Today I'm sentimental.
+3 season:summer && day==10 => wren.festival.summer.before cat=reactive tag=wholesome :: The Tidewatch is tomorrow. I'm taking bets. Not money. Pickles. Pickles are the real currency.
+3 season:summer && day==11 => wren.festival.summer.day cat=reactive tag=wholesome :: I'm the Tidewatch's official heckler. Cheer loudly, my darling. Felix needs it, and I need the material.
+3 season:summer && day==12 => wren.festival.summer.after cat=reactive tag=wholesome :: Felix lost on purpose, and I won the pickle pool. A very clean afternoon, morally speaking.
+3 season:fall && day==15 => wren.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow. I'm judging the pickles. It's an honor. I've been practicing my face.
+3 season:fall && day==16 => wren.festival.fall.day cat=reactive tag=wholesome :: I judge the preserves today. Be nice to your jam. I can taste fear.
+3 season:fall && day==17 => wren.festival.fall.after cat=reactive tag=wholesome :: The pickle judging's over. I cried at a gherkin. Please tell nobody.
+3 season:winter && day==24 => wren.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow. I'm writing a toast. It has three jokes and one real sentence.
+3 season:winter && day==25 => wren.festival.winter.day cat=reactive tag=wholesome :: I give the toast tonight. Three jokes, one real sentence. Guess which one you'll remember.
+3 season:winter && day==26 => wren.festival.winter.after cat=reactive tag=wholesome :: The toast went well. The real sentence landed. I'm pretending I meant it as a joke.
+
+addto npc.hazel.talk
+3 season:spring && day==12 => hazel.festival.spring.before cat=reactive tag=wholesome :: (Tomorrow, Blossom Day.) (I'm to carry the garlands.) (They're lighter than books. Barely.)
+3 season:spring && day==13 => hazel.festival.spring.day cat=reactive tag=wholesome :: (Blossom Day.) (The garlands are hung.) Come along, quietly, to the square. (I'll stand near the edge.)
+3 season:spring && day==14 => hazel.festival.spring.after cat=reactive tag=wholesome :: (The blossoms are on the floor now.) A few came into the library. (I'm keeping one as a bookmark.)
+3 season:summer && day==10 => hazel.festival.summer.before cat=reactive tag=wholesome :: The Tidewatch is tomorrow. (A beach. A crowd.) Sand will find the books. Please be kind to the spines.
+3 season:summer && day==11 => hazel.festival.summer.day cat=reactive tag=wholesome :: (The Tidewatch.) (I brought a blanket and a book. Both are damp.) The tide is rather good, though.
+3 season:summer && day==12 => hazel.festival.summer.after cat=reactive tag=wholesome :: (Sand in the stacks again.) A small price. (Felix waved at me. I waved back, once.)
+3 season:fall && day==15 => hazel.festival.fall.before cat=reactive tag=wholesome :: The Harvest Fair is tomorrow. Ione wants the ribbon names read aloud. (Quietly, I hope.)
+3 season:fall && day==16 => hazel.festival.fall.day cat=reactive tag=wholesome :: The Harvest Fair. The ribbon names are read, in order, to a crowd. (Better than the rehearsal.)
+3 season:fall && day==17 => hazel.festival.fall.after cat=reactive tag=wholesome :: (Ribbons, and a long day.) The library feels very quiet now. (It's a good quiet.)
+3 season:winter && day==24 => hazel.festival.winter.before cat=reactive tag=wholesome :: The Lantern Feast is tomorrow. A small poem sits on my lantern. Please don't read it. (Read it a little.)
+3 season:winter && day==25 => hazel.festival.winter.day cat=reactive tag=wholesome :: The Lantern Feast. My lantern is the blue one, third from the left. The poem is short. (It's about a library, and you.)
+3 season:winter && day==26 => hazel.festival.winter.after cat=reactive tag=wholesome :: (The lanterns burned out near midnight.) (The poem's gone with the smoke.) Good. (I said it once. That's enough.)
+
+addto npc.bram.talk
+3 season:spring && day==12 => bram.festival.spring.before cat=reactive tag=wholesome :: Hm. Blossom Day tomorrow. Juno's making a wreath. Hm. It's heavy. It's iron.
+3 season:spring && day==13 => bram.festival.spring.day cat=reactive tag=wholesome :: Blossom Day. The wreath's on the anvil. Don't touch. Good. Dance if you want.
+3 season:spring && day==14 => bram.festival.spring.after cat=reactive tag=wholesome :: Hm. Petals in the forge. They burned nicely. A short, sweet smell.
+3 season:summer && day==10 => bram.festival.summer.before cat=reactive tag=wholesome :: Hm. Tidewatch tomorrow. I made Felix a hook. Don't tell him. He'll know.
+3 season:summer && day==11 => bram.festival.summer.day cat=reactive tag=wholesome :: Tidewatch. Felix has the new hook. He caught nothing. Hm. Still a good hook.
+3 season:summer && day==12 => bram.festival.summer.after cat=reactive tag=wholesome :: Hm. The hook held. The fish didn't. It's a fair result.
+3 season:fall && day==15 => bram.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow. Hm. I forged ribbon pins. Tilda asked. Twelve of them.
+3 season:fall && day==16 => bram.festival.fall.day cat=reactive tag=wholesome :: The fair. Pins on every hat. Hm. A good day for small iron.
+3 season:fall && day==17 => bram.festival.fall.after cat=reactive tag=wholesome :: Hm. Pins everywhere. One's on a pumpkin. Fine. Pumpkins deserve ribbons.
+3 season:winter && day==24 => bram.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow. Hm. I made the lantern frames. They hold a candle. They also hold a grudge. Hm.
+3 season:winter && day==25 => bram.festival.winter.day cat=reactive tag=wholesome :: Feast tonight. The frames glow. Hm. Good iron, good light. Sit. Eat.
+3 season:winter && day==26 => bram.festival.winter.after cat=reactive tag=wholesome :: Hm. The feast's done. The frames are warm. Still. I'll keep one by the forge.
+
+addto npc.tilda.talk
+3 season:spring && day==12 => tilda.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow, dear! I'm selling seed packets in garlands. They're half price. The garlands are free.
+3 season:spring && day==13 => tilda.festival.spring.day cat=reactive tag=wholesome :: Blossom Day! Every packet comes with a blossom today, and a smile if you ask nicely. I'm in my best apron.
+3 season:spring && day==14 => tilda.festival.spring.after cat=reactive tag=wholesome :: Petals in the till, dear. I'll find them for a week. It's the best kind of mess.
+3 season:summer && day==10 => tilda.festival.summer.before cat=reactive tag=wholesome :: The Tidewatch tomorrow. I'm lending Felix my good slate for the scores. It's for the cause.
+3 season:summer && day==11 => tilda.festival.summer.day cat=reactive tag=wholesome :: Tidewatch day, dear. The slate's on the beach and the scores are in chalk. Felix has them upside down.
+3 season:summer && day==12 => tilda.festival.summer.after cat=reactive tag=wholesome :: Felix wrote the scores in capital letters. All twelve, all first place. I let it stand.
+3 season:fall && day==15 => tilda.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow, dear! I have ribbons. I have forty ribbons. There are thirty entries. I'm optimistic.
+3 season:fall && day==16 => tilda.festival.fall.day cat=reactive tag=wholesome :: The Fair! Ribbons for everyone, dear, even the cats. Especially the cats.
+3 season:fall && day==17 => tilda.festival.fall.after cat=reactive tag=wholesome :: Forty ribbons given, thirty-nine collected. One's on the cat. It looks very well.
+3 season:winter && day==24 => tilda.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow, dear. I'm baking nine pies. One of them is for you. I won't say which.
+3 season:winter && day==25 => tilda.festival.winter.day cat=reactive tag=wholesome :: The Feast, dear. Nine pies, one long table, and a lantern in every window. I put a candle in yours.
+3 season:winter && day==26 => tilda.festival.winter.after cat=reactive tag=wholesome :: The pies are gone, the lanterns are out, and I'm warm all the way through. It was lovely.
+
+addto npc.juno.talk
+3 season:spring && day==12 => juno.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow! I made a wreath! It's got a label! It says 'Wreath (Spring)'! Bram says it's heavy!
+3 season:spring && day==13 => juno.festival.spring.day cat=reactive tag=wholesome :: BLOSSOM DAY! The wreath's on my head! It's a little crooked! I labeled the crooked part!
+3 season:spring && day==14 => juno.festival.spring.after cat=reactive tag=wholesome :: Petals in my hair, in my bench, in a clasp! Everything's pink! It's wonderful and a little sticky!
+3 season:summer && day==10 => juno.festival.summer.before cat=reactive tag=wholesome :: Tidewatch tomorrow! I'm making Felix a tiny trophy! It's an anvil! With a fish on it! It doesn't do anything!
+3 season:summer && day==11 => juno.festival.summer.day cat=reactive tag=wholesome :: Tidewatch! Felix is getting the tiny anvil trophy! He cried a bit! I labeled the tear! It says 'Tear (Happy)'!
+3 season:summer && day==12 => juno.festival.summer.after cat=reactive tag=wholesome :: The tiny anvil's on Felix's shelf, next to the best hook! He says it's his most important award! It's a very good anvil!
+3 season:fall && day==15 => juno.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow! Bram's making ribbon pins! I'm labeling every one! There are twelve! It's twelve labels!
+3 season:fall && day==16 => juno.festival.fall.day cat=reactive tag=wholesome :: The Fair! Every pin's labeled! 'Pin (Pumpkin)'! 'Pin (Cat)'! It's the best day for tiny things!
+3 season:fall && day==17 => juno.festival.fall.after cat=reactive tag=wholesome :: Twelve pins and twelve labels! One's on a pumpkin! It looks very official! I might cry on a clasp!
+3 season:winter && day==24 => juno.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow! I made a lantern with a label! It says 'Lantern (Warm)'! It's four words! I'm proud!
+3 season:winter && day==25 => juno.festival.winter.day cat=reactive tag=wholesome :: The Feast! My lantern's the small one with the label! It glows! It's small and warm and I love it!
+3 season:winter && day==26 => juno.festival.winter.after cat=reactive tag=wholesome :: The lanterns were beautiful! Mine burned until morning! I labeled the ash! It says 'Ash (Good)'!
+
+addto npc.piper.talk
+3 season:spring && day==12 => piper.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow! I'm playing the dance! It's one song! It has fourteen verses! You're invited to all of them!
+3 season:spring && day==13 => piper.festival.spring.day cat=reactive tag=wholesome :: BLOSSOM DAY! Front row's a dance floor! I'm on the stool! The song has your name in the third verse!
+3 season:spring && day==14 => piper.festival.spring.after cat=reactive tag=wholesome :: My feet hurt, my throat hurts, and the song's stuck in every head in town! A perfect Blossom Day!
+3 season:summer && day==10 => piper.festival.summer.before cat=reactive tag=wholesome :: The Tidewatch tomorrow! I'm writing Felix a sea shanty! It rhymes 'tide' with 'tried'! I'm so proud!
+3 season:summer && day==11 => piper.festival.summer.day cat=reactive tag=wholesome :: The Tidewatch! I'm singing the shanty from a very small boat! It rocks! So does the song!
+3 season:summer && day==12 => piper.festival.summer.after cat=reactive tag=wholesome :: The boat's still rocking, and so's my voice! Felix cried at the third verse! The fish stayed silent! Critics!
+3 season:fall && day==15 => piper.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow! I wrote a song about pumpkins! It has a bridge! The pumpkins have not responded!
+3 season:fall && day==16 => piper.festival.fall.day cat=reactive tag=wholesome :: The Fair! I'm playing the pumpkin song! The pumpkins are listening! At least they're not leaving!
+3 season:fall && day==17 => piper.festival.fall.after cat=reactive tag=wholesome :: Pumpkin song, a hit! A ribbon on the stool, and one on my hat! I'm calling it a chart-topper!
+3 season:winter && day==24 => piper.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow! I wrote a quiet song! It's actually quiet! I'm as shocked as you are!
+3 season:winter && day==25 => piper.festival.winter.day cat=reactive tag=wholesome :: The Feast! I'm playing the quiet one tonight! It's the only song I've written where nobody has to clap!
+3 season:winter && day==26 => piper.festival.winter.after cat=reactive tag=wholesome :: The quiet song worked! Nobody clapped, and everyone stayed! It's my best review!
+
+addto npc.marcus.talk
+3 season:spring && day==12 => marcus.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow. I built the dance floor. Planed it flat. Dorian helped. Don't ask what he said.
+3 season:spring && day==13 => marcus.festival.spring.day cat=reactive tag=wholesome :: Blossom Day. The floor's level. Dance on it. Please. I measured it twice for you.
+3 season:spring && day==14 => marcus.festival.spring.after cat=reactive tag=wholesome :: The floor held. Nobody fell. A few danced hard. That's a good result for a floor.
+3 season:summer && day==10 => marcus.festival.summer.before cat=reactive tag=wholesome :: Tidewatch tomorrow. I built the judges' bench. It's oak. It's too heavy. Nobody will sit.
+3 season:summer && day==11 => marcus.festival.summer.day cat=reactive tag=wholesome :: Tidewatch. The bench is oak, and the judges are small. It still holds. A good bench.
+3 season:summer && day==12 => marcus.festival.summer.after cat=reactive tag=wholesome :: The bench held all afternoon. Nobody noticed. That's the best praise for a bench.
+3 season:fall && day==15 => marcus.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow. I built forty stalls. They're straight. Tilda wants them crooked. We negotiated.
+3 season:fall && day==16 => marcus.festival.fall.day cat=reactive tag=wholesome :: The Fair. Forty stalls, all level. Tilda stands on one. Fine. That's what it's for.
+3 season:fall && day==17 => marcus.festival.fall.after cat=reactive tag=wholesome :: Forty stalls, forty clean planks. Tomorrow I'll take them down. Today they're still a village.
+3 season:winter && day==24 => marcus.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow. I built the long table. It seats the whole village. It took eleven planks.
+3 season:winter && day==25 => marcus.festival.winter.day cat=reactive tag=wholesome :: The Feast. The table's set. Eleven planks, everyone seated. That's a good day's work.
+3 season:winter && day==26 => marcus.festival.winter.after cat=reactive tag=wholesome :: The table's still warm. Everyone's gone home. It held the village. That's all it's for.
+
+addto npc.odalys.talk
+3 season:spring && day==12 => odalys.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow. I advise sleep and moderate dancing. Elara advises the opposite. We'll compromise.
+3 season:spring && day==13 => odalys.festival.spring.day cat=reactive tag=wholesome :: Blossom Day. I'm on duty, near the cider, for sprained ankles. Dance. I'll be nearby. Quietly pleased.
+3 season:spring && day==14 => odalys.festival.spring.after cat=reactive tag=wholesome :: Three sprained ankles, one broken hat. A good Blossom Day, medically speaking.
+3 season:summer && day==10 => odalys.festival.summer.before cat=reactive tag=wholesome :: Tidewatch tomorrow. I advise sunscreen. Felix advises optimism. We'll bring both.
+3 season:summer && day==11 => odalys.festival.summer.day cat=reactive tag=wholesome :: The Tidewatch. I'm on the sand with a bandage kit. So far, one fish bite. Mine. It was an accident.
+3 season:summer && day==12 => odalys.festival.summer.after cat=reactive tag=wholesome :: One sunburn, three splinters, no major incidents. The contest was a medical success.
+3 season:fall && day==15 => odalys.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow. I advise small portions. Tilda advises large ones. I'll supervise, reluctantly.
+3 season:fall && day==16 => odalys.festival.fall.day cat=reactive tag=wholesome :: The Fair. I'm checking the cider. It's safe. It's also strong. Drink water between cups.
+3 season:fall && day==17 => odalys.festival.fall.after cat=reactive tag=wholesome :: The Fair left two stomachaches and one very happy cat. Medical staff are satisfied.
+3 season:winter && day==24 => odalys.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow. I advise warm layers and shared soup. Elara knitted forty mittens. Take a pair.
+3 season:winter && day==25 => odalys.festival.winter.day cat=reactive tag=wholesome :: The Feast. I'm serving soup for the hall. Take the warm bowl. That's a prescription.
+3 season:winter && day==26 => odalys.festival.winter.after cat=reactive tag=wholesome :: The Feast left everyone warm and sleepy. I closed the clinic early. It's allowed. Occasionally.
+
+addto npc.felix.talk
+3 season:spring && day==12 => felix.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow. I'm bringing a fish to the dance. It's for the table. It's not for dancing.
+3 season:spring && day==13 => felix.festival.spring.day cat=reactive tag=wholesome :: Blossom Day. I danced once. The fish didn't. It watched from the bucket. Disapproving.
+3 season:spring && day==14 => felix.festival.spring.after cat=reactive tag=wholesome :: My feet ache. The fish is fine. We both learned something about dancing. It isn't for us.
+3 season:summer && day==10 => felix.festival.summer.before cat=reactive tag=wholesome :: The Tidewatch is tomorrow. I'm in charge. I've never been in charge. I've written it on a board.
+3 season:summer && day==11 => felix.festival.summer.day cat=reactive tag=wholesome :: The Tidewatch. I'm in charge, with chalk. Everyone's a winner. It's my rule. I made it up this morning.
+3 season:summer && day==12 => felix.festival.summer.after cat=reactive tag=wholesome :: The board's smudged, the fish are free, and everyone's a winner. That was the plan. It worked.
+3 season:fall && day==15 => felix.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow. I'm bringing a fish pie. It's Tilda's recipe and my fish. We argued about salt.
+3 season:fall && day==16 => felix.festival.fall.day cat=reactive tag=wholesome :: The Fair. The fish pie's on the table. Take a slice. It's mostly fish. It's mostly good.
+3 season:fall && day==17 => felix.festival.fall.after cat=reactive tag=wholesome :: The pie's gone. The salt argument continues. Tilda says she won. She did.
+3 season:winter && day==24 => felix.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow. I'm bringing a lantern shaped like a fish. It looks like a boot. It's loved.
+3 season:winter && day==25 => felix.festival.winter.day cat=reactive tag=wholesome :: The Feast. The fish-lantern glows. It looks like a boot. A very warm boot. I'm proud.
+3 season:winter && day==26 => felix.festival.winter.after cat=reactive tag=wholesome :: The lantern burned until dawn. The boot-fish is on my shelf. It'll be back next year.
+
+addto npc.dorian.talk
+3 season:spring && day==12 => dorian.festival.spring.before cat=reactive tag=wholesome :: ...Blossom Day tomorrow. Marcus asked me to help build the floor. I said yes. Quietly.
+3 season:spring && day==13 => dorian.festival.spring.day cat=reactive tag=wholesome :: ...Blossom Day. I'm at the edge of the crowd. It's loud. It's good. I'll stay a while.
+3 season:spring && day==14 => dorian.festival.spring.after cat=reactive tag=wholesome :: ...The blossoms fell in the forest too. I kept one. It's on my shelf. With the pinecone.
+3 season:summer && day==10 => dorian.festival.summer.before cat=reactive tag=wholesome :: ...The Tidewatch tomorrow. Felix asked me to hold the board. I said yes. Silent hands.
+3 season:summer && day==11 => dorian.festival.summer.day cat=reactive tag=wholesome :: ...The Tidewatch. I hold the board. The crowd's loud. Felix's voice is louder. It's fine.
+3 season:summer && day==12 => dorian.festival.summer.after cat=reactive tag=wholesome :: ...The board's back with Felix. My arms are tired. The beach was warm. A good day. Quiet at the end.
+3 season:fall && day==15 => dorian.festival.fall.before cat=reactive tag=wholesome :: ...The Fair tomorrow. I'm bringing mushrooms. Small ones. For the stew. Don't tell Dr. Penn.
+3 season:fall && day==16 => dorian.festival.fall.day cat=reactive tag=wholesome :: ...The Fair. The mushrooms are in the stew. It's safe. Dr. Penn checked. Twice.
+3 season:fall && day==17 => dorian.festival.fall.after cat=reactive tag=wholesome :: ...The stew's gone. The mushrooms were praised. I'm not used to that. It's strange. Pleasant.
+3 season:winter && day==24 => dorian.festival.winter.before cat=reactive tag=wholesome :: ...The Feast tomorrow. I made a lantern. It's a plain one. A stick, some paper, a candle.
+3 season:winter && day==25 => dorian.festival.winter.day cat=reactive tag=wholesome :: ...The Feast. My lantern's the plain one. Third from the end. It's warm. That's enough.
+3 season:winter && day==26 => dorian.festival.winter.after cat=reactive tag=wholesome :: ...The lanterns went out. The forest was quiet. I walked home in the dark. It was kind.
+
+addto npc.elara.talk
+3 season:spring && day==12 => elara.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow! I knitted a hundred tiny blossoms! They're for the garlands! I ran out of pink!
+3 season:spring && day==13 => elara.festival.spring.day cat=reactive tag=wholesome :: BLOSSOM DAY! The garlands have my blossoms! Every one! Some are slightly crooked! That's the charm!
+3 season:spring && day==14 => elara.festival.spring.after cat=reactive tag=wholesome :: Petals everywhere, and wool in my hair! The best Blossom Day! I'll knit it into a scarf!
+3 season:summer && day==10 => elara.festival.summer.before cat=reactive tag=wholesome :: The Tidewatch tomorrow! I'm knitting little flags for the boats! They're very small! They're very proud!
+3 season:summer && day==11 => elara.festival.summer.day cat=reactive tag=wholesome :: The Tidewatch! Every boat has a flag! Mine's the red one! It's very windy! Hold your hat!
+3 season:summer && day==12 => elara.festival.summer.after cat=reactive tag=wholesome :: The flags are sandy and loved! One flew off with a seagull! It's the happiest flag in the world!
+3 season:fall && day==15 => elara.festival.fall.before cat=reactive tag=wholesome :: Harvest Fair tomorrow! I knitted a pumpkin cozy! It's for a real pumpkin! It's a big pumpkin!
+3 season:fall && day==16 => elara.festival.fall.day cat=reactive tag=wholesome :: The Fair! The pumpkin has a cozy! It won first place! Technically it's the cozy that won! I'm so proud!
+3 season:fall && day==17 => elara.festival.fall.after cat=reactive tag=wholesome :: The cozy's still on the pumpkin! It refuses to leave! I'll knit it a second one! It's a pumpkin's right!
+3 season:winter && day==24 => elara.festival.winter.before cat=reactive tag=wholesome :: Lantern Feast tomorrow! I knitted forty mittens for the line! There are forty-one people! I'm so sorry about the last one!
+3 season:winter && day==25 => elara.festival.winter.day cat=reactive tag=wholesome :: The Feast! Mittens for everyone! Dr. Penn's pair is the blue one! She pretended she didn't need them!
+3 season:winter && day==26 => elara.festival.winter.after cat=reactive tag=wholesome :: Forty mittens, all gone! Dr. Penn kept hers on all night! She'd deny it! I saw it!
+
+addto npc.ione.talk
+3 season:spring && day==12 => ione.festival.spring.before cat=reactive tag=wholesome :: Blossom Day tomorrow. The library will be open until noon. Then we'll all go and be silly together.
+3 season:spring && day==13 => ione.festival.spring.day cat=reactive tag=wholesome :: Blossom Day. I closed early. Hazel and I are in the square. It's loud. It's good. Come say hello.
+3 season:spring && day==14 => ione.festival.spring.after cat=reactive tag=wholesome :: A blossom landed on the desk this morning. I've left it there. It's a very good bookmark.
+3 season:summer && day==10 => ione.festival.summer.before cat=reactive tag=wholesome :: The Tidewatch tomorrow. I packed a book and a thermos. The book's for the shade. The thermos is for Felix.
+3 season:summer && day==11 => ione.festival.summer.day cat=reactive tag=wholesome :: The Tidewatch. I'm on the beach with a book. I'm not reading it. I'm watching Felix be happy.
+3 season:summer && day==12 => ione.festival.summer.after cat=reactive tag=wholesome :: Sand in the thermos, sand in the book. A fine summer day. I'll shelve it under 'Good'.
+3 season:fall && day==15 => ione.festival.fall.before cat=reactive tag=wholesome :: The Harvest Fair tomorrow. The library's contributing a ribbon. It's labeled 'Best Quiet Entry'. Hazel's nominated.
+3 season:fall && day==16 => ione.festival.fall.day cat=reactive tag=wholesome :: The Fair. Hazel won 'Best Quiet Entry'. She's pretending she didn't. I'm very proud, quietly.
+3 season:fall && day==17 => ione.festival.fall.after cat=reactive tag=wholesome :: Hazel put the ribbon on her desk. She said it's a coincidence. It's labeled and framed.
+3 season:winter && day==24 => ione.festival.winter.before cat=reactive tag=wholesome :: The Lantern Feast tomorrow. I'm reading the first line of a very old story aloud. It's short. It's kind.
+3 season:winter && day==25 => ione.festival.winter.day cat=reactive tag=wholesome :: The Feast. I read the old story aloud. The hall listened. That was lovely. Please sit. Have soup.
+3 season:winter && day==26 => ione.festival.winter.after cat=reactive tag=wholesome :: The story's back on its shelf. It's warm to the touch. The books enjoyed the Feast, too.

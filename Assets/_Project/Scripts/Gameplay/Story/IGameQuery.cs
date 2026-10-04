@@ -19,6 +19,9 @@ namespace Farm.Gameplay
         string FarmName() => string.Empty;
         string PlayerName() => string.Empty;
         string MoodOf(string npcId) => "content";   // today's mood of a villager (see MoodModel)
+        string UpgradeState() => "none";        // T-124: a tool at a counter for upgrading: "none", "waiting" or "ready" (ready to collect today)
+        int Gold() => 0;
+        int ShippedCount() => 0;                // items sold through the shipping bin, ever
     }
 
     // Condition atoms used by story data (dialogue, schedules, quests, events). Safe to call more than once.
@@ -62,6 +65,10 @@ namespace Farm.Gameplay
                 if (!MoodModel.TryParse(state, out _)) throw new ConditionException($"unknown mood '{state}'");
                 return w is IGameQuery q && string.Equals(q.MoodOf(arg.Substring(0, eq)), state, System.StringComparison.OrdinalIgnoreCase);
             });
+            // Shop and service atoms (T-124): upgrade:ready|waiting|none, gold:>=1000, shipped:>=10 (items sold through the bin).
+            Conditions.Register("upgrade", (arg, w) => w is IGameQuery q && string.Equals(q.UpgradeState(), arg, System.StringComparison.OrdinalIgnoreCase));
+            Conditions.Register("gold", (arg, w) => SplitNumber(arg, out var op, out var n) && w is IGameQuery q && Compare(q.Gold(), op, n));
+            Conditions.Register("shipped", (arg, w) => SplitNumber(arg, out var op, out var n) && w is IGameQuery q && Compare(q.ShippedCount(), op, n));
             Conditions.Register("heard", (arg, w) => w is IGameQuery q && q.HeardLine(arg));
             Conditions.Register("choice", (arg, w) => w.HasFlag("choice." + arg));
             Conditions.Register("storyline", (arg, w) => w.HasFlag("storyline." + arg));

@@ -43,5 +43,21 @@ namespace Farm.Gameplay
         public string FarmName() => _state.FarmName;
         public string PlayerName() => _state.PlayerName;
         public string MoodOf(string npcId) => MoodLookup != null ? MoodLookup(npcId) : "content";
+        public int Gold() => _state.Gold;
+
+        public int ShippedCount()
+        {
+            var total = 0;
+            foreach (var n in _state.ShippedTotals.Values) total += n;
+            return total;
+        }
+
+        public string UpgradeState()
+        {
+            if (_state.PendingUpgrades.Count == 0) return "none";
+            var today = Now.TotalDays;
+            foreach (var p in _state.PendingUpgrades) if (p.ReadyDay <= today) return "ready";
+            return "waiting";
+        }
     }
 }

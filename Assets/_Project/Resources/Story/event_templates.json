@@ -764,6 +764,89 @@
           }
         ]
       }
+    },
+    {
+      "id": "overheard",
+      "description": "Two villagers talk to each other in the village square and the player overhears: four lines, a small emote, no choices.",
+      "params": [
+        "a",
+        "b",
+        "ax",
+        "ay",
+        "bx",
+        "by",
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
+      "defaults": {
+        "when": "true",
+        "emote": "ellipsis"
+      },
+      "event": {
+        "trigger": "map",
+        "map": "Village",
+        "priority": 5,
+        "condition": "${when}",
+        "steps": [
+          {
+            "type": "place",
+            "actor": "${a}",
+            "x": "${ax}",
+            "y": "${ay}"
+          },
+          {
+            "type": "place",
+            "actor": "${b}",
+            "x": "${bx}",
+            "y": "${by}"
+          },
+          {
+            "type": "face",
+            "actor": "${a}",
+            "facing": "right"
+          },
+          {
+            "type": "face",
+            "actor": "${b}",
+            "facing": "left"
+          },
+          {
+            "type": "say",
+            "speaker": "${a}",
+            "text": "${l1}"
+          },
+          {
+            "type": "say",
+            "speaker": "${b}",
+            "text": "${l2}"
+          },
+          {
+            "type": "emote",
+            "actor": "${b}",
+            "name": "${emote}",
+            "seconds": 1.2,
+            "async": true
+          },
+          {
+            "type": "say",
+            "speaker": "${a}",
+            "text": "${l3}"
+          },
+          {
+            "type": "say",
+            "speaker": "${b}",
+            "text": "${l4}"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.${id}"
+            ]
+          }
+        ]
+      }
     }
   ]
 }

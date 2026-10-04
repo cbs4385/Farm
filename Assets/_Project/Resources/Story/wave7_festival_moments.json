@@ -1,0 +1,105 @@
+{
+  "events": [
+    {
+      "id": "festival_winter_lanterns",
+      "trigger": "map",
+      "map": "Village",
+      "priority": 6,
+      "once": false,
+      "condition": "season:winter && day==25 && flag:festival.winter.joined && unseen:festival.winter.lanterns && hour>=17",
+      "titleKey": "memory.festival_winter_lanterns",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "hazel",
+          "x": 23,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "hazel",
+          "facing": "up"
+        },
+        {
+          "type": "place",
+          "actor": "ione",
+          "x": 24,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "ione",
+          "facing": "up"
+        },
+        {
+          "type": "place",
+          "actor": "tilda",
+          "x": 26,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "up"
+        },
+        {
+          "type": "place",
+          "actor": "felix",
+          "x": 27,
+          "y": 18
+        },
+        {
+          "type": "face",
+          "actor": "felix",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.festival_winter_lanterns.0"
+        },
+        {
+          "type": "say",
+          "speaker": "hazel",
+          "text": "event.festival_winter_lanterns.1"
+        },
+        {
+          "type": "emote",
+          "actor": "hazel",
+          "name": "sparkle",
+          "seconds": 1.5,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "felix",
+          "text": "event.festival_winter_lanterns.2"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.festival_winter_lanterns.3"
+        },
+        {
+          "type": "emote",
+          "actor": "ione",
+          "name": "heart",
+          "seconds": 2.0,
+          "async": true
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "mark:festival.winter.lanterns",
+            "flag:event.festival_winter_lanterns",
+            "friend:hazel,10",
+            "friend:ione,10",
+            "friend:tilda,10",
+            "friend:felix,10"
+          ]
+        }
+      ]
+    }
+  ]
+}
