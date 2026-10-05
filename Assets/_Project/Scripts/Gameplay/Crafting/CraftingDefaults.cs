@@ -114,7 +114,7 @@ namespace Farm.Gameplay
                 RecipeDefinition.Create(id, Stations.Hand, output, count, needs, 0, skill, skillLevel);
 
             // Crafted by hand from the menu.
-            r.Add(Hand("chest", ItemIds.Machine(Chest), 1, 0, null, Need(ItemIds.Wood, 50)));
+            r.Add(Hand("chest", ItemIds.Machine(Chest), 1, 0, null, Need(ItemIds.Wood, 25)));
             r.Add(Hand("furnace", ItemIds.Machine(Furnace), 1, 0, null, Need(ItemIds.Stone, 30), Need(ItemIds.Wood, 10)));
             r.Add(Hand("keg", ItemIds.Machine(Keg), 1, 0, null, Need(ItemIds.Wood, 30), Need(ItemIds.Stone, 10), Need(ItemIds.Fiber, 10)));
             r.Add(Hand("jar", ItemIds.Machine(Jar), 1, 0, null, Need(ItemIds.Wood, 20), Need(ItemIds.Stone, 10)));

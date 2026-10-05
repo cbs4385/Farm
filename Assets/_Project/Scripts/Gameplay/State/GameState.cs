@@ -129,6 +129,7 @@ namespace Farm.Gameplay
             pack.Add(ItemIds.Scythe, 1);
             pack.Add(ItemIds.Seed("parsnip"), 15);
             pack.Add(ItemIds.Sword, 1);
+            pack.Add(ItemIds.Machine("chest"), 1);      // somewhere to put things: playtesters never found the recipe
             state.Backpack = pack.ToData();
             return state;
         }

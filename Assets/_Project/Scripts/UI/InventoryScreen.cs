@@ -20,6 +20,8 @@ namespace Farm.UI
         readonly TextMeshProUGUI _tooltipName;
         readonly TextMeshProUGUI _tooltipBody;
         readonly TextMeshProUGUI _hint;
+        readonly Button _discard;
+        int _hovered = -1;
         int _picked = -1;
         int _builtCapacity;
         int _dragFrom = -1;
@@ -50,6 +52,8 @@ namespace Farm.UI
             _tooltipName = UiKit.Label(tipStack.transform, "", 19f, TextAlignmentOptions.Left, UiKit.Accent);
             _tooltipBody = UiKit.Label(tipStack.transform, "", 15f, TextAlignmentOptions.Left);
             _hint = UiKit.Label(stack.transform, L.Get("inventory.hint"), 14f, TextAlignmentOptions.Left, UiKit.DimText);
+            _discard = UiKit.MakeButton(stack.transform, L.Get("inventory.discard"), AskDiscard, 220f, 30f);
+            _discard.gameObject.SetActive(false);
 
             root.SetActive(false);
         }
@@ -58,6 +62,7 @@ namespace Farm.UI
         {
             _picked = -1;
             Rebuild();
+            _hovered = -1;
             Ui.Input.Inventory.Enable();   // so the same key can close it while gameplay input is blocked
             base.Open();
         }
@@ -121,6 +126,8 @@ namespace Farm.UI
         public override void Tick()
         {
             if (Ui.Input.Inventory.WasPressedThisFrame() && Time.frameCount != OpenedFrame) Close();
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard != null && keyboard[UnityEngine.InputSystem.Key.Delete].wasPressedThisFrame) AskDiscard();
         }
 
         public override void OnCancel()
@@ -184,6 +191,28 @@ namespace Farm.UI
                 EventSystem.current?.SetSelectedGameObject(_grid.GetChild(Mathf.Clamp(selectedIndex, 0, _grid.childCount - 1)).gameObject);
         }
 
+        // The slot a discard applies to: the one picked up, else the one under the pointer or selection.
+        int DiscardTarget => _picked >= 0 ? _picked : _hovered;
+
+        void AskDiscard()
+        {
+            var slot = DiscardTarget;
+            if (slot < 0 || Ui.Session.Backpack.Get(slot) == null) return;
+            if (!Ui.Session.Db.TryGetItem(Ui.Session.Backpack.Get(slot).ItemId, out var item) || !InventoryRules.CanDiscard(item))
+            {
+                Ui.Session.Toast(L.Get("inventory.cannot_discard"));
+                return;
+            }
+            Ui.ShowConfirm("inventory.confirm_discard", () => DoDiscard(slot));
+        }
+
+        void DoDiscard(int slot)
+        {
+            if (InventoryRules.Discard(Ui.Session, slot, out var removed) == DiscardResult.Ok) AudioService.PlayIfAvailable(Sfx.Rustle);
+            _picked = -1;
+            if (IsOpen) Rebuild();
+        }
+
         void OnSlot(int index)
         {
             var inv = Ui.Session.Backpack;
@@ -201,6 +230,8 @@ namespace Farm.UI
 
         void ShowTooltip(int index)
         {
+            _hovered = index;
+            if (_discard != null) _discard.gameObject.SetActive(index >= 0 && index < Ui.Session.Backpack.Capacity && Ui.Session.Backpack.Get(index) != null || _picked >= 0);
             var inv = Ui.Session.Backpack;
             var stack = index >= 0 && index < inv.Capacity ? inv.Get(index) : null;
             if (stack == null || !Ui.Session.Db.TryGetItem(stack.ItemId, out var item))

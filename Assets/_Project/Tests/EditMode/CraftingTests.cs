@@ -117,10 +117,11 @@ namespace Farm.Tests
             {
                 var s = f.Session;
                 s.Backpack.Add(ItemIds.Wood, 60);
+                var chestsBefore = s.Backpack.Count("machine.chest");      // a new game starts with one
                 var chest = s.Recipes.Get("chest") ?? Catalog().Get("chest");
                 Assert.AreEqual(CraftResult.Ok, CraftingRules.TryCraft(chest, Stations.Hand, s.State, s.Backpack, s.GetSkillLevel));
-                Assert.AreEqual(10, s.Backpack.Count(ItemIds.Wood));
-                Assert.AreEqual(1, s.Backpack.Count("machine.chest"));
+                Assert.AreEqual(35, s.Backpack.Count(ItemIds.Wood), "a chest costs 25 wood");
+                Assert.AreEqual(chestsBefore + 1, s.Backpack.Count("machine.chest"));
             }
         }
 
@@ -292,12 +293,13 @@ namespace Farm.Tests
             {
                 var s = f.Session;
                 var grid = s.GetObjects(MapIds.Farm);
+                var chestsBefore = s.Backpack.Count("machine.chest");      // a new game starts with one
                 var chest = grid.Place(s.Placeables.Get("chest"), 5, 5, "c");
                 grid.ChestOf(chest).Add("crop.parsnip", 1);
                 Assert.AreEqual(PlacedInteractions.PickUpResult.NotEmpty, PlacedInteractions.PickUp(s, MapIds.Farm, 5, 5));
                 grid.ChestOf(chest).Remove("crop.parsnip", 1);
                 Assert.AreEqual(PlacedInteractions.PickUpResult.Ok, PlacedInteractions.PickUp(s, MapIds.Farm, 5, 5));
-                Assert.AreEqual(1, s.Backpack.Count("machine.chest"));
+                Assert.AreEqual(chestsBefore + 1, s.Backpack.Count("machine.chest"));
                 Assert.IsFalse(grid.Has(5, 5));
                 Assert.AreEqual(PlacedInteractions.PickUpResult.NothingThere, PlacedInteractions.PickUp(s, MapIds.Farm, 5, 5));
 
