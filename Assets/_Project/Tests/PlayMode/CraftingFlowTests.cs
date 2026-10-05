@@ -161,6 +161,43 @@ namespace Farm.Tests
             Assert.AreEqual(1, _session.Backpack.Count("machine.chest"));
         }
 
+        // Playtest report (2026-10-05): tools put into a chest and taken out again did not come back to their place on the item bar.
+        [UnityTest]
+        public IEnumerator ToolsPutInAChest_ComeBackToTheirPlacesOnTheItemBar()
+        {
+            yield return Start();
+            _session.Backpack.Add("machine.chest", 1);
+            yield return Face(20, 8, Vector2Int.right, "machine.chest");
+            yield return Tap(Key.C);
+            var placed = _session.GetObjects(MapIds.Farm).At(21, 8);
+            Assert.IsNotNull(placed, "the chest is placed");
+
+            var before = Enumerable.Range(0, _session.Backpack.Capacity).Select(i => _session.Backpack.Get(i)?.ItemId).ToList();
+            var toolSlots = Enumerable.Range(0, before.Count).Where(i => before[i] != null && before[i].StartsWith("tool.")).ToList();
+            Assert.GreaterOrEqual(toolSlots.Count, 3, "the farmer starts with tools on the bar");
+
+            yield return Face(20, 8, Vector2Int.right);
+            yield return Tap(Key.E);
+            for (var i = 0; i < 3; i++) yield return null;
+            Assert.IsTrue(Ui.AnyModalOpen, "the chest screen opens");
+
+            for (var k = toolSlots.Count - 1; k >= 0; k--)         // the last tool first
+            {
+                Find(null, "PackSlot" + toolSlots[k]).onClick.Invoke();
+                yield return null;
+            }
+            Assert.AreEqual(0, _session.Backpack.Count(ItemIds.Axe), "the tools are in the chest");
+            _session.Backpack.Add("seed.parsnip", 3);                // something picked up meanwhile takes the first free slot
+
+            for (var i = 0; i < toolSlots.Count; i++)               // and out again in the chest's order
+            {
+                Find(null, "ChestSlot" + i).onClick.Invoke();
+                yield return null;
+            }
+            foreach (var slot in toolSlots)
+                Assert.AreEqual(before[slot], _session.Backpack.Get(slot)?.ItemId, "the tool is back in its slot " + slot);
+        }
+
         [UnityTest]
         public IEnumerator ThingsCannotBePlaced_OnTilledSoil_OnOtherObjects_OrIndoorsIfFarmingOnly()
         {

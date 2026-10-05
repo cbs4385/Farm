@@ -92,15 +92,9 @@ namespace Farm.UI
 
         void Move(Inventory source, int slot, Inventory target)
         {
-            var stack = source.Get(slot);
-            if (stack == null) return;
-            var removed = source.RemoveFromSlot(slot, stack.Count);
-            var leftover = target.Add(removed.ItemId, removed.Count, removed.Quality, removed.Mark);
-            if (leftover > 0)
-            {
-                source.Add(removed.ItemId, leftover, removed.Quality, removed.Mark);   // no room: put the rest back
+            if (source.Get(slot) == null) return;
+            if (ChestTransfer.Move(source, slot, target, intoChest: source == Ui.Session.Backpack) > 0)
                 Ui.Session.Toast(L.Get("toast.inventory_full"));
-            }
             Rebuild();
         }
     }

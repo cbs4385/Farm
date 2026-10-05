@@ -10,6 +10,7 @@ namespace Farm.Gameplay
         public int Count;
         public int Quality;   // 0 normal, 1 silver, 2 gold, 3 iridium
         public string Mark;   // optional tag set by modules (e.g. a sacrificial mark); only identically marked stacks merge
+        public int Home;      // 1 + the backpack slot a stack was moved out of into a chest (0: none), so it can go back where it was; never affects merging
 
         public ItemStack() { }
 
@@ -21,7 +22,7 @@ namespace Farm.Gameplay
             Mark = string.IsNullOrEmpty(mark) ? null : mark;
         }
 
-        public ItemStack Clone() => new ItemStack(ItemId, Count, Quality, Mark);
+        public ItemStack Clone() => new ItemStack(ItemId, Count, Quality, Mark) { Home = Home };
     }
 
     [Serializable]
@@ -77,8 +78,9 @@ namespace Farm.Gameplay
             return space >= count;
         }
 
-        // Returns how many items did NOT fit.
-        public int Add(string itemId, int count, int quality = 0, string mark = null)
+        // Returns how many items did NOT fit. `preferredSlot` is tried first (when it is empty) before the first free slot; `home` is stamped
+        // on a new stack (see ItemStack.Home).
+        public int Add(string itemId, int count, int quality = 0, string mark = null, int preferredSlot = -1, int home = 0)
         {
             if (string.IsNullOrEmpty(itemId)) throw new ArgumentException("itemId required", nameof(itemId));
             if (count <= 0) return 0;
@@ -96,11 +98,19 @@ namespace Farm.Gameplay
                 changed = true;
             }
 
+            if (remaining > 0 && preferredSlot >= 0 && preferredSlot < _slots.Length && _slots[preferredSlot] == null)
+            {
+                var add = Math.Min(remaining, max);
+                _slots[preferredSlot] = new ItemStack(itemId, add, quality, mark) { Home = home };
+                remaining -= add;
+                changed = true;
+            }
+
             for (var i = 0; i < _slots.Length && remaining > 0; i++)
             {
                 if (_slots[i] != null) continue;
                 var add = Math.Min(remaining, max);
-                _slots[i] = new ItemStack(itemId, add, quality, mark);
+                _slots[i] = new ItemStack(itemId, add, quality, mark) { Home = home };
                 remaining -= add;
                 changed = true;
             }
