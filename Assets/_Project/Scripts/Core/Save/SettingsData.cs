@@ -31,6 +31,7 @@ namespace Farm.Core
         public int DayLength = 1;           // 0 = long days, 1 = normal, 2 = short
         public int DialogueSpeed = 1;       // text speed in conversations: 0 slow, 1 normal, 2 fast, 3 instant
         public bool AutoAdvance;            // conversations move on by themselves after a read time
+        public bool HoverLabels = true;     // a small label names what the mouse is over in the world
         public bool MouseAim = true;        // the tool square follows the mouse around the player (playtest feedback); off keeps facing-only aiming
         public bool Barks = true;           // villagers near you say short ambient lines in speech bubbles (T-125)
         public bool ChatMenu = true;        // after a chat, offer topics and social actions (jokes, compliments ...)

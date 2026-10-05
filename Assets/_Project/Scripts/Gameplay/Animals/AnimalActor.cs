@@ -6,6 +6,8 @@ namespace Farm.Gameplay
     // A farm animal in its coop or barn: wanders about; Interact pets it, or collects its product when ready.
     public sealed class AnimalActor : MonoBehaviour, IInteractable
     {
+        public string HoverLabel => _state != null ? _state.Name : null;
+
         const float Speed = 1.2f;
         AnimalState _state;
         AnimalManager _manager;

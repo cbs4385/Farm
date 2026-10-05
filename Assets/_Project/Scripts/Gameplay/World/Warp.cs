@@ -24,6 +24,9 @@ namespace Farm.Gameplay
         public string Condition { get => _condition; set => _condition = value; }
         public string BlockedMessageKey { get => _blockedMessageKey; set => _blockedMessageKey = value; }
 
+        // What the mouse shows over a door: where it leads.
+        public string HoverLabel => string.IsNullOrEmpty(_targetMap) ? null : Farm.Core.L.Get("hover.door", Farm.Core.L.Get("map." + _targetMap));
+
         void Reset() => GetComponent<Collider2D>().isTrigger = true;
 
         void OnTriggerEnter2D(Collider2D other)

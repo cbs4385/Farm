@@ -9,6 +9,8 @@ namespace Farm.Gameplay
     [RequireComponent(typeof(SpriteRenderer))]
     public sealed class NpcActor : MonoBehaviour, IInteractable
     {
+        public string HoverLabel => _definition != null ? Farm.Core.L.Get(_definition.NameKey) : null;
+
         NpcDefinition _definition;
         SpriteRenderer _renderer;
         Vector2Int _facing = Vector2Int.down;

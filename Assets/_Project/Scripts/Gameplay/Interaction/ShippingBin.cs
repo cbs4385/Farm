@@ -7,6 +7,8 @@ namespace Farm.Gameplay
     // Ships the stack selected on the hotbar. Placed on the farm next to the house.
     public sealed class ShippingBin : MonoBehaviour, IInteractable
     {
+        public string HoverLabel => Farm.Core.L.Get("hover.shipping_bin");
+
         public void Interact(PlayerActions player)
         {
             var session = player.Session;

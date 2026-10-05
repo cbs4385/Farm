@@ -6,6 +6,8 @@ namespace Farm.Gameplay
     // The ladder down, the way up, and the elevator on the first floor. Use them with the Interact button.
     public sealed class MineStairs : MonoBehaviour, IInteractable
     {
+        public string HoverLabel => Farm.Core.L.Get("hover.stairs");
+
         public enum StairKind { Down, Up, Elevator }
 
         public StairKind Kind;

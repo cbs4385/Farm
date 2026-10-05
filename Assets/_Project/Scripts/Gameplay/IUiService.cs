@@ -28,7 +28,9 @@ namespace Farm.Gameplay
         void ShowPause();
         void ShowOptions();
         bool AnyModalOpen { get; }
-        bool PointerOverUi => false;        // the mouse is over a button or panel, so it is not aiming at the world
+        bool PointerOverUi => false;
+        void ShowHover(string text, UnityEngine.Vector2 screenPosition) { }     // a small label next to the mouse (hover help)
+        void HideHover() { }        // the mouse is over a button or panel, so it is not aiming at the world
     }
 }
 

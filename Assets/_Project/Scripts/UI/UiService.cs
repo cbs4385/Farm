@@ -42,7 +42,7 @@ namespace Farm.UI
     }
 
     // Persistent UI root: EventSystem, HUD, modal stack, and the IUiService used by gameplay code.
-    public sealed class UiService : MonoBehaviour, IUiService
+    public sealed partial class UiService : MonoBehaviour, IUiService
     {
         readonly List<UiScreen> _modals = new List<UiScreen>();
         GameClock _pausedClock;

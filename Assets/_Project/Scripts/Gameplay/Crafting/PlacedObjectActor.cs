@@ -8,6 +8,8 @@ namespace Farm.Gameplay
     [RequireComponent(typeof(SpriteRenderer))]
     public sealed class PlacedObjectActor : MonoBehaviour, IInteractable
     {
+        public string HoverLabel => Definition != null ? Farm.Core.L.Get("item.machine." + Definition.Id + ".name") : null;
+
         SpriteRenderer _renderer;
 
         public PlacedObject Object { get; private set; }

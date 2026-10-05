@@ -26,6 +26,57 @@ namespace Farm.UI
         readonly Queue<string> _toasts = new Queue<string>();
         readonly List<IHudWidget> _widgets = new List<IHudWidget>();
 
+        // Panels that fade while the player stands behind them (HudFade).
+        readonly List<(RectTransform rect, CanvasGroup group)> _fade = new List<(RectTransform, CanvasGroup)>();
+        PlayerController _player;
+        float _nextPlayerSearch;
+
+        public int FadablePanels => _fade.Count;
+
+        void Fadable(Image panel)
+        {
+            // (Not `GetComponent ?? AddComponent`: in the Editor a missing component comes back as a "fake null" that `??` does not see through.)
+            if (!panel.gameObject.TryGetComponent<CanvasGroup>(out var group)) group = panel.gameObject.AddComponent<CanvasGroup>();
+            _fade.Add((panel.rectTransform, group));
+        }
+
+        // Every frame: a panel the player is behind turns see-through; it comes back when they move clear.
+        void UpdateFade()
+        {
+            var cam = Camera.main;
+            if (_player == null && Time.unscaledTime >= _nextPlayerSearch)
+            {
+                _nextPlayerSearch = Time.unscaledTime + 0.5f;
+                _player = Object.FindAnyObjectByType<PlayerController>();
+            }
+            var haveRect = false;
+            var playerRect = default(Rect);
+            if (_player != null && cam != null)
+            {
+                var sprite = _player.GetComponentInChildren<SpriteRenderer>();
+                if (sprite != null)
+                {
+                    var b = sprite.bounds;
+                    var min = cam.WorldToScreenPoint(b.min);
+                    var max = cam.WorldToScreenPoint(b.max);
+                    playerRect = Rect.MinMaxRect(Mathf.Min(min.x, max.x), Mathf.Min(min.y, max.y), Mathf.Max(min.x, max.x), Mathf.Max(min.y, max.y));
+                    haveRect = true;
+                }
+            }
+            var corners = new Vector3[4];
+            foreach (var (rect, group) in _fade)
+            {
+                if (rect == null || group == null) continue;
+                var target = 1f;
+                if (haveRect && rect.gameObject.activeInHierarchy)
+                {
+                    rect.GetWorldCorners(corners);          // an overlay canvas: world corners are screen pixels
+                    target = HudFade.TargetAlpha(Rect.MinMaxRect(corners[0].x, corners[0].y, corners[2].x, corners[2].y), playerRect);
+                }
+                group.alpha = HudFade.Step(group.alpha, target, Time.unscaledDeltaTime);
+            }
+        }
+
         GameObject _healthFrame;
         Image _healthFill;
         TextMeshProUGUI _healthLabel;
@@ -96,6 +147,7 @@ namespace Farm.UI
         void BuildClockPanel(Transform canvas)
         {
             var panel = UiKit.Panel(canvas, "ClockPanel", UiKit.PanelColor);
+            Fadable(panel);
             UiKit.Place(panel.rectTransform, new Vector2(1, 1), new Vector2(1, 1), new Vector2(190, 136), new Vector2(-10, -10));
             var stack = UiKit.VStack(panel.transform, "Stack", 2f, 8);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -109,6 +161,7 @@ namespace Farm.UI
         void BuildEnergy(Transform canvas)
         {
             var frame = UiKit.Panel(canvas, "EnergyBar", UiKit.PanelColor);
+            Fadable(frame);
             UiKit.Place(frame.rectTransform, new Vector2(1, 0), new Vector2(1, 0), new Vector2(34, 140), new Vector2(-12, 12));
             var back = UiKit.Panel(frame.transform, "Back", new Color(0.08f, 0.06f, 0.04f, 1f));
             UiKit.Stretch(back.rectTransform, 5f);
@@ -129,6 +182,7 @@ namespace Farm.UI
         void BuildHealth(Transform canvas)
         {
             var frame = UiKit.Panel(canvas, "HealthBar", UiKit.PanelColor);
+            Fadable(frame);
             _healthFrame = frame.gameObject;
             UiKit.Place(frame.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(170, 22), new Vector2(12, 70));
             var back = UiKit.Panel(frame.transform, "Back", new Color(0.08f, 0.06f, 0.04f, 1f));
@@ -144,6 +198,7 @@ namespace Farm.UI
         void BuildFatigue(Transform canvas)
         {
             var frame = UiKit.Panel(canvas, "FatigueBar", UiKit.PanelColor);
+            Fadable(frame);
             _fatigueFrame = frame.gameObject;
             UiKit.Place(frame.rectTransform, new Vector2(1, 0), new Vector2(1, 0), new Vector2(34, 140), new Vector2(-52, 12));
             var back = UiKit.Panel(frame.transform, "Back", new Color(0.08f, 0.06f, 0.04f, 1f));
@@ -162,6 +217,7 @@ namespace Farm.UI
         void BuildHotbar(Transform canvas)
         {
             var bar = UiKit.Panel(canvas, "Hotbar", UiKit.PanelColor);
+            Fadable(bar);
             const float slot = 44f;
             const float gap = 3f;
             var width = InputNames.HotbarSlots * slot + (InputNames.HotbarSlots + 1) * gap;
@@ -213,6 +269,7 @@ namespace Farm.UI
 
         void Tick()
         {
+            UpdateFade();
             UpdateStreamBadge();
             TickToast();
             if (!_dirty) return;

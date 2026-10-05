@@ -6,6 +6,8 @@ namespace Farm.Gameplay
     // The trough in a coop or barn: Interact fills it for every hungry animal, using feed (fibre) from the backpack.
     public sealed class FeedTrough : MonoBehaviour, IInteractable
     {
+        public string HoverLabel => Farm.Core.L.Get("hover.trough");
+
         public void Interact(PlayerActions player)
         {
             var s = player.Session;
