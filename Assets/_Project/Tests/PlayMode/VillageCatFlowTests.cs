@@ -68,6 +68,17 @@ namespace Farm.Tests
 
             Assert.DoesNotThrow(() => cat.Interact(null));
             Assert.IsFalse(cat.IsWalking, "it stops to be petted");
+
+            // Playtest report (2026-10-05): "there is no animation when petting the village cat." It purrs: hearts rise and it bounces.
+            Assert.IsTrue(cat.IsPurring, "it purrs");
+            var bob = cat.GetComponent<WalkBob>();
+            Assert.IsNotNull(bob, "the cat can bounce");
+            Assert.Greater(UnityEngine.Object.FindObjectsByType<ActionPuff>(FindObjectsSortMode.None).Length, 0, "hearts rise");
+            var bounced = false;
+            var purrEnd = Time.realtimeSinceStartup + VillageCat.PurrSeconds + 0.5f;
+            while (Time.realtimeSinceStartup < purrEnd) { yield return null; bounced |= bob.IsLunging; }
+            Assert.IsTrue(bounced, "it bounces while it purrs");
+            Assert.IsFalse(cat.IsPurring, "and the purr ends");
         }
     }
 }

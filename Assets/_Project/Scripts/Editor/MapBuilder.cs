@@ -393,12 +393,16 @@ namespace Farm.Editor
             AddWarp(Center(35, 5), MapIds.Mine, "default", new Vector2(1f, 3f));
             AddObject("CaveMouth", "obj_boulder", Center(36, 5), solid: true);
 
-            // A pond to fish in (placeholder water, walled so the player stops at the shore).
-            for (var y = 8; y <= 12; y++)
-                for (var x = 4; x <= 9; x++)
+            // A pond to fish in: one oval body of water with a shoreline (the tile for each cell depends on which neighbours are land),
+            // walled so the player stops at the shore.
+            bool Pond(int px, int py) { var dx = (px - 6.5f) / 3.8f; var dy = (py - 10f) / 2.9f; return dx * dx + dy * dy <= 1f; }
+            for (var y = 6; y <= 14; y++)
+                for (var x = 2; x <= 11; x++)
                 {
-                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_water"));
-                    rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_water"));
+                    if (!Pond(x, y)) continue;
+                    var water = GetTile(WaterShore.TileNameAt(Pond, x, y));
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), water);
+                    rig.Walls.SetTile(new Vector3Int(x, y, 0), water);
                 }
 
             // The gate at the top of the path: brambles block it while the flag `woods.open` is off. An optional
@@ -503,8 +507,9 @@ namespace Farm.Editor
                 {
                     var water = y < BeachWaterRows;
                     var sand = y < BeachH - 6;
-                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(water ? "tile_water" : sand ? "tile_sand" : "tile_grass"));
-                    if (water) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_water"));
+                    var tileName = water ? WaterShore.TileNameAt((wx, wy) => wy < BeachWaterRows, x, y) : sand ? "tile_sand" : "tile_grass";   // the sea runs on past the map's sides
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(tileName));
+                    if (water) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(tileName));
                     var edge = x == 0 || y == BeachH - 1 || x == BeachW - 1;
                     var gap = y == BeachH - 1 && x >= BeachExitX0 && x <= BeachExitX1;
                     if (edge && !gap) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));

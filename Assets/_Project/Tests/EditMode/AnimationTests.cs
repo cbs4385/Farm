@@ -149,5 +149,13 @@ namespace Farm.Tests
             foreach (var p in puffs) Object.DestroyImmediate(p.gameObject);
             Object.DestroyImmediate(go);
         }
+
+        [Test]
+        public void ACatsPurr_HopsAtASteadyBeat_ForAFewSeconds()
+        {
+            Assert.AreEqual(0, VillageCat.HopsBetween(0f, VillageCat.HopEvery * 0.5f));
+            Assert.AreEqual(1, VillageCat.HopsBetween(VillageCat.HopEvery * 0.9f, VillageCat.HopEvery * 1.1f));
+            Assert.AreEqual(Mathf.FloorToInt(VillageCat.PurrSeconds / VillageCat.HopEvery), VillageCat.HopsBetween(0f, VillageCat.PurrSeconds));
+        }
     }
 }

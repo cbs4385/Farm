@@ -64,7 +64,7 @@ namespace Farm.Gameplay
                 if (to.magnitude > reach + (enemy.Brain.Row.Boss ? 1f : 0f)) continue;
                 if (Vector2.Dot(to.normalized, facing) < -0.2f && to.magnitude > 0.6f) continue;   // behind the player
                 hits++;
-                if (enemy.Hurt(damage, facing * 0.5f)) Kill(enemy);
+                if (enemy.Hurt(damage, facing * 0.9f)) Kill(enemy);
             }
             return hits;
         }

@@ -116,7 +116,15 @@ namespace Farm.Gameplay
                 Log.Info($"[farmCommands] {line} -> {(result.Ok ? "ok" : "FAILED")}: {result.Message}");
                 reload |= result.Ok && result.ReloadScene;
             }
-            if (reload) ServiceLocator.Get<SceneLoader>().Load(_session.State.CurrentMap, 0f);
+            if (reload) StartCoroutine(ReloadWhenIdle());
+        }
+
+        // The scene that is starting is still being loaded when these commands run, and the loader ignores a second request: wait for it.
+        System.Collections.IEnumerator ReloadWhenIdle()
+        {
+            var loader = ServiceLocator.Get<SceneLoader>();
+            while (loader.IsLoading) yield return null;
+            loader.Load(_session.State.CurrentMap, 0f);
         }
 #endif
 

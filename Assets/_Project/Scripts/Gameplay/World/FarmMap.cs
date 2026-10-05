@@ -81,7 +81,7 @@ namespace Farm.Gameplay
         public bool IsWater(Vector3Int cell)
         {
             var tile = _ground.GetTile(cell);
-            return tile != null && tile.name == "tile_water";
+            return tile != null && WaterShore.IsWaterTile(tile.name);
         }
 
         public bool IsTillable(Vector3Int cell)

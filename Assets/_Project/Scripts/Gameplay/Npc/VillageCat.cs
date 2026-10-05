@@ -12,6 +12,11 @@ namespace Farm.Gameplay
         const float Speed = 1.4f;
         const float FrameTime = 0.2f;
         const int FirstHour = 7, LastHour = 21;
+        public const float PurrSeconds = 1.6f;
+        public const float HopEvery = 0.4f;                   // while it purrs the cat hops this often, and hearts rise with every second hop
+
+        // How many hops fall between two moments of a purr (pure).
+        public static int HopsBetween(float from, float to) => Mathf.FloorToInt(to / HopEvery) - Mathf.FloorToInt(from / HopEvery);
 
         public string HoverLabel => L.Get("cat.name");
         public Vector3Int Cell { get; private set; }
@@ -30,6 +35,11 @@ namespace Farm.Gameplay
         float _frameClock;
         bool _placed;
         string _facing = CatSprites.Down;
+        WalkBob _bob;
+        float _purr;                                          // seconds of purring left after being petted
+        int _hops;
+
+        public bool IsPurring => _purr > 0f;
 
         public void Init(FarmMap map, GameSession session, NpcManager npcs, int seed)
         {
@@ -39,6 +49,8 @@ namespace Farm.Gameplay
             _renderer.sortingOrder = 8;
             _renderer.enabled = false;
             name = "VillageCat";
+            _bob = gameObject.AddComponent<WalkBob>();
+            _bob.Breathes = true;
             var box = gameObject.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
             box.size = new Vector2(0.8f, 0.8f);
@@ -85,7 +97,22 @@ namespace Farm.Gameplay
                 }
             }
             Meow();
+            Purr();
             Animate();
+        }
+
+        // After a pet the cat bounces on the spot and hearts rise, for a moment.
+        void Purr()
+        {
+            if (_purr <= 0f) return;
+            var before = PurrSeconds - _purr;
+            _purr = Mathf.Max(0f, _purr - Time.deltaTime);
+            var hops = HopsBetween(before, PurrSeconds - _purr);
+            for (var i = 0; i < hops; i++)
+            {
+                _bob.Lunge(Vector2Int.up);
+                if (++_hops % 2 == 0) ActionPuff.Hearts(transform.position + Vector3.up * 0.6f);
+            }
         }
 
         void Walk()
@@ -130,6 +157,14 @@ namespace Farm.Gameplay
         {
             _route = null;
             _rest = 4f;
+            _purr = PurrSeconds;
+            _hops = 0;
+            if (player != null)                                   // it turns to face whoever is petting it
+            {
+                var toPlayer = player.transform.position - transform.position;
+                _facing = Mathf.Abs(toPlayer.x) > Mathf.Abs(toPlayer.y) ? (toPlayer.x < 0 ? CatSprites.Left : CatSprites.Right) : (toPlayer.y < 0 ? CatSprites.Down : CatSprites.Up);
+            }
+            ActionPuff.Hearts(transform.position + Vector3.up * 0.6f, _bob);
             AudioService.PlayIfAvailable(Sfx.Meow, 0.5f, Random.Range(0.95f, 1.1f));
             _session.Toast(L.Get("cat.pet." + _rng.Next(3)));
         }

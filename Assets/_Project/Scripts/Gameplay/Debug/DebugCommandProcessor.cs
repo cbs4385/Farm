@@ -55,6 +55,7 @@ namespace Farm.Gameplay
                 ["energy"] = ("energy <amount|full>", "set energy", Energy),
                 ["give"] = ("give <itemId> [count]", "add items to the backpack", Give),
                 ["tp"] = ("tp <MapId> [spawn]", "go to a map (Farm, FarmHouse...)", Teleport),
+                ["floor"] = ("floor <1-40>", "go to a mine floor", MineFloor),
                 ["sleep"] = ("sleep", "start the real sleep flow (fade, summary, wake in bed)", Sleep),
                 ["save"] = ("save", "save the game to the active slot", Save),
                 ["pseudoloc"] = ("pseudoloc [on|off]", "show every string pseudo-localised (accented, 35% longer, bracketed) to find layout problems", PseudoLocCommand),
@@ -229,6 +230,16 @@ namespace Farm.Gameplay
             _session.State.CurrentMap = a[0];
             _session.State.SpawnPoint = a.Length == 2 ? a[1] : "default";
             return DebugCommandResult.Success($"Going to {a[0]} ({_session.State.SpawnPoint}).", reload: true);
+        }
+
+        DebugCommandResult MineFloor(string[] a)
+        {
+            if (a.Length != 1 || !int.TryParse(a[0], out var floor) || floor < 1 || floor > 40) return DebugCommandResult.Fail("Usage: floor <1-40>");
+            if (!_sceneExists(MapIds.Mine)) return DebugCommandResult.Fail("There is no mine scene.");
+            _session.State.Mine.Floor = floor;
+            _session.State.CurrentMap = MapIds.Mine;
+            _session.State.SpawnPoint = "default";
+            return DebugCommandResult.Success($"Going to mine floor {floor}.", reload: true);
         }
 
         DebugCommandResult Sleep(string[] a)

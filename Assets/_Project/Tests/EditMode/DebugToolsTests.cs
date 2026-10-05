@@ -28,7 +28,7 @@ namespace Farm.Tests
             _session = _go.AddComponent<GameSession>();
             _session.Init(new EventBus(), _db, new SaveService(Path.GetTempPath()));
             _session.BeginDevGame();
-            _cmd = new DebugCommandProcessor(_session, name => name == "Farm" || name == "FarmHouse");
+            _cmd = new DebugCommandProcessor(_session, name => name == "Farm" || name == "FarmHouse" || name == "Mine");
         }
 
         [TearDown]
@@ -209,6 +209,20 @@ namespace Farm.Tests
             var bad = Run("tp Nowhere");
             Assert.IsFalse(bad.Ok);
             Assert.AreEqual("Farm", _session.State.CurrentMap, "unchanged after a bad teleport");
+        }
+
+        [Test]
+        public void Floor_GoesToAMineFloor_AndRejectsBadNumbers()
+        {
+            var ok = Run("floor 25");
+            Assert.IsTrue(ok.Ok, ok.Message);
+            Assert.IsTrue(ok.ReloadScene);
+            Assert.AreEqual(25, _session.State.Mine.Floor);
+            Assert.AreEqual("Mine", _session.State.CurrentMap);
+            Assert.IsFalse(Run("floor 0").Ok);
+            Assert.IsFalse(Run("floor 41").Ok);
+            Assert.IsFalse(Run("floor abc").Ok);
+            Assert.AreEqual(25, _session.State.Mine.Floor, "unchanged after a bad number");
         }
 
         [Test]

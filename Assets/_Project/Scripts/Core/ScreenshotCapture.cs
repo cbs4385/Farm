@@ -9,15 +9,22 @@ namespace Farm.Core
     // Used for automated visual checks (e.g. pixel-perfect scaling) on Windows and Linux builds.
     public sealed class ScreenshotCapture : MonoBehaviour
     {
-        const int WarmupFrames = 30;
+        const int WarmupFrames = 90;
         const int FrameSpacing = 17;
         const int ShotCount = 6;
 
+        static bool _started;
+
+        // The capture lives on its own object that survives scene loads, so a run that jumps to another map (a startup command that reloads
+        // the scene, such as `floor 28`) is still photographed, and only one capture ever runs.
         public static void StartIfRequested(MonoBehaviour host)
         {
             var dir = CommandLine.GetArg("-farmCapture");
-            if (string.IsNullOrEmpty(dir)) return;
-            host.gameObject.AddComponent<ScreenshotCapture>().StartCoroutine(Run(dir));
+            if (string.IsNullOrEmpty(dir) || _started) return;
+            _started = true;
+            var go = new GameObject("ScreenshotCapture");
+            DontDestroyOnLoad(go);
+            go.AddComponent<ScreenshotCapture>().StartCoroutine(Run(dir));
         }
 
         static IEnumerator Run(string dir)
