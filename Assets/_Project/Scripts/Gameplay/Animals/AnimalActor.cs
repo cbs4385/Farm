@@ -35,7 +35,9 @@ namespace Farm.Gameplay
             var row = AnimalDefaults.Row(state.Type);
             _renderer = GetComponent<SpriteRenderer>();
             (TryGetComponent<WalkBob>(out var bob) ? bob : gameObject.AddComponent<WalkBob>()).Breathes = true;
-            _renderer.sprite = RuntimeSprites.Square(row.Color, 16, character: true);
+            // The animal's own picture (the art made for its item); a coloured square only if there is none.
+            var icon = ServiceLocator.TryGet<GameSession>(out var session) && session.Db.TryGetItem(row.ItemId, out var item) ? item.Icon : null;
+            _renderer.sprite = icon != null ? icon : RuntimeSprites.Square(row.Color, 16, character: true);
             _renderer.sortingOrder = 7;
             _target = transform.position;
         }

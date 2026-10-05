@@ -110,6 +110,8 @@ namespace Farm.Tests
             for (var i = 0; i < 4; i++) yield return null;
             yield return Tap(Key.C);
             Assert.AreEqual(1, _s.State.Animals.Count, "the chicken moved in");
+            var actor = UnityEngine.Object.FindAnyObjectByType<AnimalActor>();
+            StringAssert.StartsWith("item_animal_chicken", actor.GetComponent<SpriteRenderer>().sprite.name, "it is drawn with the chicken's own art, not a square");
             Assert.AreEqual(0, _s.Backpack.Count("animal.chicken"));
 
             // The trough is at (10, 6): stand below it.
