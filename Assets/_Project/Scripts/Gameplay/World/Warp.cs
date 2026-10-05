@@ -25,7 +25,15 @@ namespace Farm.Gameplay
         public string BlockedMessageKey { get => _blockedMessageKey; set => _blockedMessageKey = value; }
 
         // What the mouse shows over a door: where it leads.
-        public string HoverLabel => string.IsNullOrEmpty(_targetMap) ? null : Farm.Core.L.Get("hover.door", Farm.Core.L.Get("map." + _targetMap));
+        public string HoverLabel
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_targetMap)) return null;
+                var label = Farm.Core.L.Get("hover.door", Farm.Core.L.Get("map." + _targetMap));
+                return !string.IsNullOrEmpty(_businessId) && !IsOpen(out _) ? Farm.Core.L.Get("hover.door_closed", label) : label;
+            }
+        }
 
         void Reset() => GetComponent<Collider2D>().isTrigger = true;
 

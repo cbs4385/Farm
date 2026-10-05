@@ -37,6 +37,7 @@ namespace Farm.Gameplay
             _rb.freezeRotation = true;
             _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
             _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            if (!TryGetComponent<WalkBob>(out _)) gameObject.AddComponent<WalkBob>();
         }
 
         FarmMap _map;

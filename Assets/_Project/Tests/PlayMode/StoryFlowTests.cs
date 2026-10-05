@@ -60,11 +60,11 @@ namespace Farm.Tests
         static UiService Ui => ServiceLocator.Get<UiService>();
 
         [UnityTest]
-        public IEnumerator TheMailbox_HoldsTheWelcomeLetter_ReadingItPaysAndKeepsIt()
+        public IEnumerator TheMailbox_HoldsALetter_ReadingItGivesItsGiftAndKeepsIt()
         {
             yield return Start(MapIds.Farm);
-            CollectionAssert.Contains(_s.State.Mailbox, "welcome");
-            var gold = _s.State.Gold;
+            _s.State.Mailbox.Add("uncle_letter");
+            var seeds = _s.Backpack.Count("seed.parsnip");
             Player.transform.position = new Vector3(10.5f, 18.5f, 0f);
             Player.Face(Vector2Int.up);
             for (var i = 0; i < 4; i++) yield return null;
@@ -73,8 +73,8 @@ namespace Farm.Tests
             Assert.IsTrue(Ui.AnyModalOpen, "the letter opens");
             yield return Tap(Key.Escape);
             for (var i = 0; i < 3; i++) yield return null;
-            Assert.AreEqual(gold + 100, _s.State.Gold, "the letter's gift");
-            CollectionAssert.Contains(_s.State.MailKept, "welcome");
+            Assert.AreEqual(seeds + 5, _s.Backpack.Count("seed.parsnip"), "the letter's gift");
+            CollectionAssert.Contains(_s.State.MailKept, "uncle_letter");
             Assert.IsEmpty(_s.State.Mailbox);
         }
 

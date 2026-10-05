@@ -56,10 +56,14 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheWelcomeLetter_MentionsTheLateOwner()
+        public void TheLetterReadOnTheBus_IsTildasWelcome_AndMentionsTheLateOwner()
         {
             L.SetLanguage("en");
-            StringAssert.Contains("Edmund Fenn", L.Get("letter.welcome.body"));
+            StringAssert.Contains("Edmund Fenn", L.Get("intro.page3"));
+            StringAssert.Contains("Tilda Ashby", L.Get("intro.page3"));
+            StringAssert.Contains("100 gold", L.Get("intro.page4"));
+            var story = StoryContent.LoadFromResources();
+            Assert.IsNull(story.Letter("welcome"), "no copy of it waits in the mailbox");
         }
     }
 }

@@ -227,7 +227,7 @@ namespace Farm.Tests
                 var s = f.Session;
                 StoryDay.NewGame(s);
                 Assert.AreEqual(QuestStatus.Active, QuestLog.StatusOf(s.State, "tut_farm"));
-                CollectionAssert.Contains(s.State.Mailbox, "welcome");
+                CollectionAssert.IsEmpty(s.State.Mailbox, "the welcome letter is read on the bus, not left in the mailbox");
                 s.AddVar(QuestLog.Stats.Tilled, 3); s.AddVar(QuestLog.Stats.Planted, 3); s.AddVar(QuestLog.Stats.Watered, 3);
                 Assert.AreEqual(QuestStatus.Done, QuestLog.StatusOf(s.State, "tut_farm"));
                 Assert.AreEqual(QuestStatus.Active, QuestLog.StatusOf(s.State, "tut_harvest"));
@@ -316,7 +316,7 @@ namespace Farm.Tests
             Assert.AreEqual(Fingerprint(a), Fingerprint(b), "the same seed plays out the same way");
             Assert.AreEqual(2, a.Year, "a year of nights passed");
             Assert.AreEqual(QuestStatus.Done, a.Quests["tut_farm"].Status);
-            Assert.IsTrue(a.MailKept.Contains("welcome"));
+            Assert.IsTrue(a.MailKept.Contains("uncle_letter"));
             Assert.IsTrue(a.MailKept.Contains("summer_seeds"), "seasonal letters arrive");
         }
 

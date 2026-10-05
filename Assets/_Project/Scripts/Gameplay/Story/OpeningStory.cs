@@ -4,12 +4,14 @@ namespace Farm.Gameplay
     public static class OpeningStory
     {
         public const string SeenFlag = "story.intro_seen";
-        public static readonly string[] Pages = { "intro.page1", "intro.page2", "intro.page3" };
+        public const int WelcomeGold = 100;
+        public static readonly string[] Pages = { "intro.page1", "intro.page2", "intro.page3", "intro.page4", "intro.page5" };
 
         public static void Show(IUiService ui, GameSession session)
         {
             if (session.HasFlag(SeenFlag)) return;
             session.SetFlag(SeenFlag);
+            session.AddGold(WelcomeGold);   // the note folded into Tilda's letter, read on the bus
             Run(ui.ShowMessage);
         }
 

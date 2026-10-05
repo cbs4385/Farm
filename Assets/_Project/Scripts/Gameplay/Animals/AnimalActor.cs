@@ -34,6 +34,7 @@ namespace Farm.Gameplay
             name = "Animal_" + state.Id;
             var row = AnimalDefaults.Row(state.Type);
             _renderer = GetComponent<SpriteRenderer>();
+            if (!TryGetComponent<WalkBob>(out _)) gameObject.AddComponent<WalkBob>();
             _renderer.sprite = RuntimeSprites.Square(row.Color, 16, character: true);
             _renderer.sortingOrder = 7;
             _target = transform.position;

@@ -20,11 +20,11 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void ANewGame_HasOnlyTheWelcomeLetterDue()
+        public void ANewGame_HasNoLetterDue_BecauseTheWelcomeIsReadOnTheBus()
         {
             var world = new StateWorldQuery(new GameState(), null);
             var due = _story.Letters.Where(l => Conditions.TryEvaluate(l.Condition, world, out var ok) && ok).Select(l => l.Id).ToList();
-            CollectionAssert.AreEqual(new[] { "welcome" }, due);
+            CollectionAssert.IsEmpty(due);
         }
 
         [Test]

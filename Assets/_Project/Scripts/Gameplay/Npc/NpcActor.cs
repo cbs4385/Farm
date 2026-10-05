@@ -31,6 +31,7 @@ namespace Farm.Gameplay
             name = "Npc_" + definition.Id;
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.sortingOrder = 9;
+            if (!TryGetComponent<WalkBob>(out _)) gameObject.AddComponent<WalkBob>();
             _renderer.sprite = definition.SpriteFor(_facing);
         }
 

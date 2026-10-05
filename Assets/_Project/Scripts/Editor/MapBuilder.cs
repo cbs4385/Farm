@@ -322,7 +322,19 @@ namespace Farm.Editor
             foreach (var wx in new[] { b.DoorX - 2, b.DoorX + 2 })
                 AddDecor($"{b.MapId}_Window_{wx}", $"bld_{b.Style}_window", Center(wx, doorY + 2 * inward));
             AddDecor($"{b.MapId}_Sign", $"bld_{b.Style}_sign", Center(b.DoorX, doorY + inward));
-            AddDecor($"{b.MapId}_RoofTop", $"bld_{b.Style}_roof_top", Center(b.X1 - 1, roofY));
+            var top = AddDecorObject($"{b.MapId}_RoofTop", $"bld_{b.Style}_roof_top", Center(b.X1 - 1, roofY));
+            var frame2 = AssetDatabase.LoadAssetAtPath<Sprite>($"{ArtDir}/bld_{b.Style}_roof_top2.png");
+            if (frame2 != null) top.AddComponent<FrameAnimator>().Configure(new[] { Sprite($"bld_{b.Style}_roof_top"), frame2 }, 0.7f, b.X0 * 0.23f);   // a flag or vane that moves
+            else if (b.Style == "blacksmith" || b.Style == "saloon") top.AddComponent<RoofSmoke>();                                                   // a chimney that smokes
+
+            // A tag beside the door: green when the business is open, red when it is closed.
+            if (!string.IsNullOrEmpty(b.Business))
+            {
+                var tag = AddDecorObject($"{b.MapId}_OpenTag", "bld_tag_open", Center(b.DoorX + 1, doorY));
+                tag.AddComponent<BoxCollider2D>().isTrigger = true;
+                tag.GetComponent<BoxCollider2D>().size = Vector2.one;
+                tag.AddComponent<BusinessStatusSign>().Configure(b.Business, Sprite("bld_tag_open"), Sprite("bld_tag_closed"));
+            }
 
             var outsideY = b.FacesSouth ? doorY - 1 : doorY + 1;
             AddSpawn("from" + b.MapId, Center(b.DoorX, outsideY));
@@ -330,10 +342,13 @@ namespace Farm.Editor
         }
 
         // A picture on a building's wall: drawn over the wall tiles, not solid.
-        static void AddDecor(string name, string spriteName, Vector3 position)
+        static void AddDecor(string name, string spriteName, Vector3 position) => AddDecorObject(name, spriteName, position);
+
+        static GameObject AddDecorObject(string name, string spriteName, Vector3 position)
         {
             var go = AddObject(name, spriteName, position, solid: false);
             go.GetComponent<SpriteRenderer>().sortingOrder = 4;
+            return go;
         }
 
         // ---- Forest -------------------------------------------------------------------------------------------

@@ -185,46 +185,71 @@ def top_clock():
     d.line([(7, 7), (7, 4)], fill=hexc('#3a2a1a')); d.line([(7, 7), (10, 8)], fill=hexc('#3a2a1a'))
     return im
 
-def top_banner(color):
+def top_banner(color, frame=0):
     im, d = canvas()
     d.line([(7, 0), (7, 15)], fill=hexc('#5a3a1a'))
-    d.rectangle([8, 1, 13, 6], fill=hexc(color))
-    d.polygon([(8, 7), (13, 7), (13, 9), (11, 8)], fill=hexc(color))
+    w = 13 if frame == 0 else 12
+    d.rectangle([8, 1, w, 6 if frame == 0 else 5], fill=hexc(color))
+    d.polygon([(8, 7 if frame == 0 else 6), (w, 7 if frame == 0 else 6), (w, 9 if frame == 0 else 8), (11, 8 if frame == 0 else 7)], fill=hexc(color))
     d.point((10, 3), fill=hexc('#e0c050'))
     return im
 
-def top_vane():
+def top_vane(frame=0):
     im, d = canvas()
     d.line([(8, 6), (8, 15)], fill=hexc('#3a3a44'))
     d.line([(4, 5), (12, 5)], fill=hexc('#3a3a44'))
-    d.polygon([(12, 5), (10, 3), (10, 7)], fill=hexc('#3a3a44'))
-    d.polygon([(4, 5), (6, 3), (6, 7)], fill=hexc('#3a3a44'))
+    if frame == 0:
+        d.polygon([(12, 5), (10, 3), (10, 7)], fill=hexc('#3a3a44'))      # the arrow swings round in the wind
+        d.polygon([(4, 5), (6, 3), (6, 7)], fill=hexc('#3a3a44'))
+    else:
+        d.polygon([(4, 5), (6, 3), (6, 7)], fill=hexc('#3a3a44'))
+        d.polygon([(12, 5), (11, 4), (11, 6)], fill=hexc('#3a3a44'))
     d.point((8, 4), fill=hexc('#e0a83a'))
     return im
 
-def top_pennant(color):
+def top_pennant(color, frame=0):
     im, d = canvas()
     d.line([(6, 2), (6, 15)], fill=hexc('#5a3a1a'))
-    d.polygon([(7, 2), (13, 4), (7, 6)], fill=hexc(color))
+    if frame == 0:
+        d.polygon([(7, 2), (13, 4), (7, 6)], fill=hexc(color))
+    else:
+        d.polygon([(7, 2), (12, 3), (11, 4), (12, 5), (7, 6)], fill=hexc(color))
     return im
+
+# ---- door tags: green when the business is open, red when it is closed ---------------------------------------------------------
+
+def tag(fill, mark):
+    im, d = canvas()
+    d.line([(8, 2), (8, 4)], fill=hexc('#3a2414'))
+    d.rectangle([3, 4, 12, 12], fill=hexc('#3a2414'))
+    d.rectangle([4, 5, 11, 11], fill=hexc(fill))
+    mark(d)
+    return im
+
+def mark_open(d):
+    for p in ((5, 8), (6, 9), (7, 10), (8, 9), (9, 8), (10, 7)):
+        d.point(p, fill=hexc('#ffffff'))
+
+def mark_closed(d):
+    d.rectangle([5, 7, 10, 9], fill=hexc('#ffffff'))
 
 # ---- the buildings -----------------------------------------------------------------------------------------------------------
 
 BUILDINGS = {
     'general':   dict(wall=lambda: wall_vertical_planks('#cfa46a', '#a8814c'), roof=lambda: roof('#3f7a4a', '#2c5a35'),
-                      window=lambda: window('#f0e6c8', '#9ad0e0', shutters='#3f7a4a'), sign=sign_sack, top=lambda: top_pennant('#3f7a4a')),
+                      window=lambda: window('#f0e6c8', '#9ad0e0', shutters='#3f7a4a'), sign=sign_sack, top=lambda: top_pennant('#3f7a4a'), top2=lambda: top_pennant('#3f7a4a', 1)),
     'blacksmith': dict(wall=lambda: wall_blocks('#6e6e78', '#43434c'), roof=lambda: roof('#3a3f4d', '#23262f'),
                        window=lambda: window('#2a2a30', '#5a4a40', glow=True), sign=sign_anvil, top=lambda: top_chimney(True)),
     'carpenter': dict(wall=lambda: wall_horizontal_planks('#dcbd80', '#b8955a'), roof=lambda: roof('#b5532f', '#7a3418'),
-                      window=lambda: window('#8a5a2e', '#a8d8e8'), sign=sign_saw, top=top_vane),
+                      window=lambda: window('#8a5a2e', '#a8d8e8'), sign=sign_saw, top=top_vane, top2=lambda: top_vane(1)),
     'library':   dict(wall=lambda: wall_blocks('#a8473a', '#d8c8b8', rows=4), roof=lambda: roof('#2f6f7a', '#1c4850'),
                       window=lambda: window('#e8dcc0', '#a8d0e8', arch=True), sign=sign_book, top=top_clock),
     'saloon':    dict(wall=lambda: wall_vertical_planks('#6e3a2a', '#4a2418'), roof=lambda: roof('#5a3a24', '#3a2414'),
                       window=lambda: window('#3a2414', '#f0c860'), sign=sign_mug, top=lambda: top_chimney(False)),
     'clinic':    dict(wall=lambda: wall_plaster('#ece8e0', '#9ab4cc'), roof=lambda: roof('#5a86b0', '#f4f0e8'),
-                      window=lambda: window('#ffffff', '#b8dcf0'), sign=sign_cross, top=lambda: top_pennant('#c0453f')),
+                      window=lambda: window('#ffffff', '#b8dcf0'), sign=sign_cross, top=lambda: top_pennant('#c0453f'), top2=lambda: top_pennant('#c0453f', 1)),
     'hall':      dict(wall=lambda: wall_blocks('#cdbd94', '#9a8a68', rows=4, offset=False), roof=lambda: roof('#6a4a8a', '#e0c050'),
-                      window=lambda: window('#9a8a68', '#f0d890', arch=True), sign=sign_flag, top=lambda: top_banner('#6a4a8a')),
+                      window=lambda: window('#9a8a68', '#f0d890', arch=True), sign=sign_flag, top=lambda: top_banner('#6a4a8a'), top2=lambda: top_banner('#6a4a8a', 1)),
 }
 
 def main():
@@ -235,6 +260,12 @@ def main():
             name = f'bld_{key}_{"roof_top" if part == "top" else part}.png'
             b[part]().save(os.path.join(OUT, name))
             count += 1
+        if 'top2' in b:
+            b['top2']().save(os.path.join(OUT, f'bld_{key}_roof_top2.png'))
+            count += 1
+    tag('#3f9a4f', mark_open).save(os.path.join(OUT, 'bld_tag_open.png'))
+    tag('#c0453f', mark_closed).save(os.path.join(OUT, 'bld_tag_closed.png'))
+    count += 2
     print(f'wrote {count} sprites to {os.path.abspath(OUT)}')
 
     # A contact sheet for a person to look at: each building as it will be placed (roof row, wall rows, windows, sign).
