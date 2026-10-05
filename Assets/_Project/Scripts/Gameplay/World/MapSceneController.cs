@@ -80,6 +80,7 @@ namespace Farm.Gameplay
             npcs.Init(_map, _session);
             var events = new GameObject("Events").AddComponent<EventDirector>();
             events.Init(_map, _session, npcs, _player);
+            if (_map.MapId == MapIds.Village) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
             new GameObject("PhotoMode").AddComponent<PhotoMode>().Init(_session, npcs, _player);
             new GameObject("Hover").AddComponent<HoverInspector>().Init(_session, _map);

@@ -1,0 +1,166 @@
+# What the village remembers about Edmund Fenn, the player's great-uncle who left them the farm (playtest request, 2026-10-05).
+# One topic per villager, asked once. In the base game these are plain, kind memories. The Keepers' lines read differently on a second
+# playthrough (the cult chose Edmund; see docs/mythos/LORE.md), but nothing here says so: the horror belongs to Farm.Mythos.
+
+topic edmund.tilda
+  npc tilda
+  label Ask about Edmund Fenn
+  plays edmund.tilda
+  priority 3
+  once
+
+dialogue edmund.tilda
+n0 tilda: Edmund bought his seed here every March for forty years. Never haggled. Never forgot a name.
+  next n1
+n1 tilda: I put a parsnip packet on his tab last winter out of habit. It's still there. I can't bring myself to close it.
+  expr sad
+  tag wholesome
+
+topic edmund.marcus
+  npc marcus
+  label Ask about Edmund Fenn
+  plays edmund.marcus
+  priority 3
+  once
+
+dialogue edmund.marcus
+n0 marcus: I built that porch for him. He paid me in pickles and said it was a fair rate.
+  next n1
+n1 marcus: He asked me to leave the cellar door as it was. Wouldn't even let me oil the hinge.
+  tag mystery
+
+topic edmund.odalys
+  npc odalys
+  label Ask about Edmund Fenn
+  plays edmund.odalys
+  priority 3
+  once
+
+dialogue edmund.odalys
+n0 odalys: Edmund was my patient for years. Sound heart, stubborn knees.
+  next n1
+n1 odalys: He told me last fall that he'd put his affairs in order. I thought he meant the paperwork.
+  expr thinking
+  tag mystery
+
+topic edmund.dorian
+  npc dorian
+  label Ask about Edmund Fenn
+  plays edmund.dorian
+  priority 3
+  once
+
+dialogue edmund.dorian
+n0 dorian: We traded mushrooms for apples. He never once asked where I found mine.
+  next n1
+n1 dorian: Tell you what I miss. He'd stand at the edge of your field at dusk and just... look at the trees. Like he was counting them.
+  tag mystery
+
+topic edmund.wren
+  npc wren
+  label Ask about Edmund Fenn
+  plays edmund.wren
+  priority 3
+  once
+
+dialogue edmund.wren
+n0 wren: Edmund had a stool here too. Second from the door, so he could leave early. He always left early.
+  next n1
+n1 wren: Last time, he stayed for the whole of Piper's set. Bought a round. I should have guessed.
+  expr sad
+  tag wholesome
+
+topic edmund.hazel
+  npc hazel
+  label Ask about Edmund Fenn
+  plays edmund.hazel
+  priority 3
+  once
+
+dialogue edmund.hazel
+n0 hazel: Edmund borrowed one book a year. The same one. (He renewed it by post.)
+  next n1
+n1 hazel: It's overdue now. I've decided that it isn't.
+  expr embarrassed
+  tag wholesome
+
+topic edmund.bram
+  npc bram
+  label Ask about Edmund Fenn
+  plays edmund.bram
+  priority 3
+  once
+
+dialogue edmund.bram
+n0 bram: Hm. Edmund. Sharpened his scythe every spring. Wouldn't let me do it.
+  next n1
+n1 bram: Said a man ought to know his own edge. Good man.
+  tag wholesome
+
+topic edmund.juno
+  npc juno
+  label Ask about Edmund Fenn
+  plays edmund.juno
+  priority 3
+  once
+
+dialogue edmund.juno
+n0 juno: He ordered a tiny brass key from me once. Said it was for a box he'd lost the lock to.
+  next n1
+n1 juno: I charged him half. He paid double the next week and wouldn't say why. Honestly the nicest man.
+  tag surprise
+
+topic edmund.piper
+  npc piper
+  label Ask about Edmund Fenn
+  plays edmund.piper
+  priority 3
+  once
+
+dialogue edmund.piper
+n0 piper: Edmund hummed one tune, always the same four notes. I tried to finish it for him once.
+  next n1
+n1 piper: He said, "Leave it open. Some songs are better unfinished." I play those four notes before every set now.
+  emote note
+  tag wholesome
+
+topic edmund.elara
+  npc elara
+  label Ask about Edmund Fenn
+  plays edmund.elara
+  priority 3
+  once
+
+dialogue edmund.elara
+n0 elara: He used to bring the clinic a basket of eggs whenever he came for his checkup.
+  next n1
+n1 elara: The last basket had a card in it. Just "thank you for everything." I keep it in my drawer.
+  expr sad
+  tag wholesome
+
+topic edmund.felix
+  npc felix
+  label Ask about Edmund Fenn
+  plays edmund.felix
+  priority 3
+  once
+
+dialogue edmund.felix
+n0 felix: Edmund never fished a day in his life. Came by every Friday anyway to hear how the fish were doing.
+  next n1
+n1 felix: Told him they were thriving. He seemed relieved. Odd man. I liked him.
+  tag funny
+
+topic edmund.ione
+  npc ione
+  label Ask about Edmund Fenn
+  plays edmund.ione
+  priority 3
+  once
+
+dialogue edmund.ione
+n0 ione: Edmund left the library his almanacs. Forty years of them, every margin written in.
+  next n1
+n1 ione: Hazel says the notes stop in the fall. The last page just says, "Done well enough." I find I read it a lot.
+  expr thinking
+  tag mystery

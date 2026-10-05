@@ -38,20 +38,20 @@ namespace Farm.Editor
 
         struct Building
         {
-            public string MapId, Business;
+            public string MapId, Business, Style;   // Style picks the wall, roof, window, sign and roof ornament art (bld_<style>_*)
             public int X0, X1, Y0, Y1, DoorX;
             public bool FacesSouth;       // door on the south wall (north row of buildings) or the north wall
         }
 
         static readonly Building[] Buildings =
         {
-            new Building { MapId = MapIds.GeneralStore, Business = "general",    X0 = 5,  X1 = 12, Y0 = 24, Y1 = 29, DoorX = 8,  FacesSouth = true },
-            new Building { MapId = MapIds.Blacksmith,   Business = "blacksmith", X0 = 14, X1 = 21, Y0 = 24, Y1 = 29, DoorX = 17, FacesSouth = true },
-            new Building { MapId = MapIds.Carpenter,    Business = "carpenter",  X0 = 29, X1 = 36, Y0 = 24, Y1 = 29, DoorX = 32, FacesSouth = true },
-            new Building { MapId = MapIds.Library,      Business = "library",    X0 = 39, X1 = 46, Y0 = 24, Y1 = 29, DoorX = 42, FacesSouth = true },
-            new Building { MapId = MapIds.Saloon,       Business = "saloon",     X0 = 6,  X1 = 15, Y0 = 6,  Y1 = 11, DoorX = 10, FacesSouth = false },
-            new Building { MapId = MapIds.Clinic,       Business = "clinic",     X0 = 31, X1 = 39, Y0 = 6,  Y1 = 11, DoorX = 35, FacesSouth = false },
-            new Building { MapId = MapIds.CommunityHall, Business = null,        X0 = 41, X1 = 48, Y0 = 6,  Y1 = 11, DoorX = 44, FacesSouth = false },
+            new Building { MapId = MapIds.GeneralStore, Style = "general", Business = "general",    X0 = 5,  X1 = 12, Y0 = 24, Y1 = 29, DoorX = 8,  FacesSouth = true },
+            new Building { MapId = MapIds.Blacksmith, Style = "blacksmith",   Business = "blacksmith", X0 = 14, X1 = 21, Y0 = 24, Y1 = 29, DoorX = 17, FacesSouth = true },
+            new Building { MapId = MapIds.Carpenter, Style = "carpenter",    Business = "carpenter",  X0 = 29, X1 = 36, Y0 = 24, Y1 = 29, DoorX = 32, FacesSouth = true },
+            new Building { MapId = MapIds.Library, Style = "library",      Business = "library",    X0 = 39, X1 = 46, Y0 = 24, Y1 = 29, DoorX = 42, FacesSouth = true },
+            new Building { MapId = MapIds.Saloon, Style = "saloon",       Business = "saloon",     X0 = 6,  X1 = 15, Y0 = 6,  Y1 = 11, DoorX = 10, FacesSouth = false },
+            new Building { MapId = MapIds.Clinic, Style = "clinic",       Business = "clinic",     X0 = 31, X1 = 39, Y0 = 6,  Y1 = 11, DoorX = 35, FacesSouth = false },
+            new Building { MapId = MapIds.CommunityHall, Style = "hall", Business = null,        X0 = 41, X1 = 48, Y0 = 6,  Y1 = 11, DoorX = 44, FacesSouth = false },
         };
 
         // A piece of furniture in an interior. ShopId makes it a working counter.
@@ -313,13 +313,27 @@ namespace Farm.Editor
                 for (var x = b.X0; x <= b.X1; x++)
                 {
                     if (x == b.DoorX && y == doorY) continue;
-                    rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(y == roofY ? "tile_roof" : "tile_wall"));
+                    rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile($"bld_{b.Style}_{(y == roofY ? "roof" : "wall")}"));
                 }
             rig.Ground.SetTile(new Vector3Int(b.DoorX, doorY, 0), GetTile("tile_door"));
+
+            // What makes each building its own: windows, a sign with a picture of the trade over the door, and an ornament on the roof.
+            var inward = b.FacesSouth ? 1 : -1;
+            foreach (var wx in new[] { b.DoorX - 2, b.DoorX + 2 })
+                AddDecor($"{b.MapId}_Window_{wx}", $"bld_{b.Style}_window", Center(wx, doorY + 2 * inward));
+            AddDecor($"{b.MapId}_Sign", $"bld_{b.Style}_sign", Center(b.DoorX, doorY + inward));
+            AddDecor($"{b.MapId}_RoofTop", $"bld_{b.Style}_roof_top", Center(b.X1 - 1, roofY));
 
             var outsideY = b.FacesSouth ? doorY - 1 : doorY + 1;
             AddSpawn("from" + b.MapId, Center(b.DoorX, outsideY));
             AddWarp(Center(b.DoorX, doorY), b.MapId, "default", Vector2.one, business: b.Business);
+        }
+
+        // A picture on a building's wall: drawn over the wall tiles, not solid.
+        static void AddDecor(string name, string spriteName, Vector3 position)
+        {
+            var go = AddObject(name, spriteName, position, solid: false);
+            go.GetComponent<SpriteRenderer>().sortingOrder = 4;
         }
 
         // ---- Forest -------------------------------------------------------------------------------------------

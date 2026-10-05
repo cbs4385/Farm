@@ -20,7 +20,7 @@ namespace Farm.Editor
         // (checked by a test), so a new category forces a decision here.
         public static readonly (string name, string[] prefixes)[] Groups =
         {
-            ("Tiles", new[] { "tile_" }),
+            ("Tiles", new[] { "tile_", "bld_" }),
             ("Characters", new[] { "player_", "npc_" }),
             ("Crops", new[] { "crop_" }),
             ("Items", new[] { "item_" }),

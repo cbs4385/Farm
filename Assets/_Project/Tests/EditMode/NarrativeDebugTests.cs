@@ -174,6 +174,7 @@ namespace Farm.Tests
         [Test]
         public void Topics_SaysWhyEachIsOrIsNotOffered()
         {
+            Effects.Run(_s, "topic.done:edmund.wren");   // the one-off question about Edmund would take a slot
             Run("hearts wren 3");
             var text = Run("topics wren");
             StringAssert.Contains("wren.gossip (p2): OFFERED", text);
