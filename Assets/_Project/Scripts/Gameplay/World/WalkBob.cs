@@ -22,13 +22,22 @@ namespace Farm.Gameplay
         float _clock;
         bool _movingNow;
         float _lungeLeft;
+        float _breathPhase;
         Vector2Int _lungeDir;
+
+        public const float BreathSeconds = 1.8f;
+
+        // Standing still, the picture rises a pixel for the second half of every breath. Off for the farmer, on for villagers and animals.
+        public bool Breathes;
 
         public bool IsRaised { get; private set; }
         public bool IsLunging => _lungeLeft > 0f;
 
         // Is the picture up at this moment of a walk? (pure, so it can be tested)
         public static bool UpAt(float walkedSeconds) => walkedSeconds >= 0f && (int)(walkedSeconds / StepSeconds) % 2 == 1;
+
+        // Is the picture up at this moment of a slow breath? (pure) `phase` keeps neighbours out of step.
+        public static bool BreathUp(float time, float phase) => Mathf.Repeat(time + phase, BreathSeconds) >= BreathSeconds * 0.5f;
 
         // How many pixels a swing has pushed the picture forward this far (0..1) through it: out fast, back slower. (pure)
         public static int LungeOffset(float progress) => progress <= 0f || progress >= 1f ? 0 : progress < 0.4f ? LungePixels : 1;
@@ -67,6 +76,7 @@ namespace Farm.Gameplay
         {
             _renderer = GetComponentInChildren<SpriteRenderer>();
             _last = transform.position;
+            _breathPhase = Mathf.Abs(transform.position.x * 7.3f + transform.position.y * 3.1f) % BreathSeconds;
         }
 
         void LateUpdate()
@@ -83,6 +93,7 @@ namespace Farm.Gameplay
             var shown = _renderer.sprite;
             var original = BaseOf(shown);
             var wantRaised = _movingNow && UpAt(_clock);
+            if (!_movingNow && Breathes && _lungeLeft <= 0f) wantRaised = BreathUp(Time.time, _breathPhase);
             IsRaised = wantRaised;
             int dx = 0, dy = wantRaised ? 1 : 0;
             if (_lungeLeft > 0f)

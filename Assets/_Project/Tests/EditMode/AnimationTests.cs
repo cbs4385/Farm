@@ -74,5 +74,28 @@ namespace Farm.Tests
             Assert.AreSame(sprite, WalkBob.Shifted(sprite, 0, 0));
             Assert.AreSame(right, WalkBob.Shifted(right, 1, 1), "a shifted picture is never shifted again");
         }
+
+        [Test]
+        public void ABreath_RisesForItsSecondHalf_AndNeighboursAreOutOfStep()
+        {
+            Assert.IsFalse(WalkBob.BreathUp(0.1f, 0f));
+            Assert.IsTrue(WalkBob.BreathUp(WalkBob.BreathSeconds * 0.75f, 0f));
+            Assert.IsFalse(WalkBob.BreathUp(WalkBob.BreathSeconds * 1.1f, 0f), "and it repeats");
+            Assert.AreNotEqual(WalkBob.BreathUp(0.1f, 0f), WalkBob.BreathUp(0.1f, WalkBob.BreathSeconds * 0.5f));
+        }
+
+        [Test]
+        public void ThePuffSpecks_ArcUpThenFall_FadeOut_AndFanAcross()
+        {
+            var (start, a0) = ActionPuff.BitAt(0f, 0, 5);
+            Assert.AreEqual(Vector2.zero, start);
+            Assert.AreEqual(1f, a0, 0.001f);
+            Assert.Greater(ActionPuff.BitAt(0.3f, 2, 5).offset.y, 0f, "rising early on");
+            Assert.Less(ActionPuff.BitAt(1f, 2, 5).offset.y, ActionPuff.BitAt(0.5f, 2, 5).offset.y, "falling by the end");
+            Assert.AreEqual(0f, ActionPuff.BitAt(1f, 2, 5).alpha, 0.001f);
+            Assert.Less(ActionPuff.BitAt(0.5f, 0, 5).offset.x, 0f);
+            Assert.Greater(ActionPuff.BitAt(0.5f, 4, 5).offset.x, 0f);
+            Assert.DoesNotThrow(() => ActionPuff.BitAt(0.5f, 0, 1));
+        }
     }
 }

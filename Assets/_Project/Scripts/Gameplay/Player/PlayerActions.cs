@@ -181,6 +181,7 @@ namespace Farm.Gameplay
                     grid.Till(cell.x, cell.y);
                     Session.AddVar(QuestLog.Stats.Tilled, 1);
                     AudioService.PlayIfAvailable(Sfx.Hoe);
+                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.30f, 0.16f), 6);
                     break;
 
                 case ToolType.WateringCan:
@@ -190,6 +191,7 @@ namespace Farm.Gameplay
                     grid.Water(cell.x, cell.y);
                     Session.AddVar(QuestLog.Stats.Watered, 1);
                     AudioService.PlayIfAvailable(Sfx.Water);
+                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.35f, 0.65f, 0.95f), 6);
                     break;
 
                 case ToolType.Rod:
@@ -267,6 +269,7 @@ namespace Farm.Gameplay
 
             var roll = WeatherRoller.Unit(cell.x * 131 + cell.y * 17 + Session.Clock.Now.TotalDays * 7, Session.State.WorldSeed);
             var result = nodes.Hit(cell.x, cell.y, tool, tier, Session.Nodes.Get, roll);
+            ActionPuff.Burst(_map.CellCenter(cell), result.Outcome == NodeHit.Cleared ? new Color(0.7f, 0.62f, 0.45f) : new Color(0.75f, 0.75f, 0.75f), result.Outcome == NodeHit.Cleared ? 7 : 3);
             if (result.Outcome == NodeHit.Cleared)
             {
                 if (!string.IsNullOrEmpty(result.DropItemId) && result.DropCount > 0)
@@ -446,6 +449,7 @@ namespace Farm.Gameplay
                     Session.AddVar(QuestLog.Stats.Harvested, 1);
                     Session.AddSkillXp(SkillIds.Farming, result.Xp);
                     AudioService.PlayIfAvailable(Sfx.Harvest);
+                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.78f, 0.30f), 5);
                     _view.RefreshCell(cell);
                 }
                 return;
