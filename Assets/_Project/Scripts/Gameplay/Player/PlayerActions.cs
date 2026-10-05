@@ -46,19 +46,53 @@ namespace Farm.Gameplay
             _input = ServiceLocator.Get<InputService>();
         }
 
+        // The cell the tool square is on: the one in front of the player, or, while the mouse is steering it, the one around the player
+        // that the pointer is over (AimMath).
+        bool _mouseAim;
+        Vector2 _lastMouse;
+        Vector3Int _pointerCell;
+
+        public bool MouseAiming => _mouseAim;
+        public Vector3Int Target => TargetCell;
+
         Vector3Int TargetCell
         {
             get
             {
                 var cell = _map.WorldToCell(_player.CellSamplePoint);
+                if (_mouseAim) return AimMath.Target(cell, _pointerCell, _player.Facing);
                 return cell + new Vector3Int(_player.Facing.x, _player.Facing.y, 0);
             }
+        }
+
+        // The mouse takes over the square when it moves over the world and gives it back as soon as the player walks.
+        void UpdateAim()
+        {
+            var mouse = UnityEngine.InputSystem.Mouse.current;
+            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            if (mouse == null || settings == null || !settings.MouseAim || _input.GameplayBlocked) { _mouseAim = false; return; }
+            var position = mouse.position.ReadValue();
+            var moved = (position - _lastMouse).sqrMagnitude > 1f;
+            _lastMouse = position;
+            var walking = _input.Move.ReadValue<Vector2>().sqrMagnitude > 0.04f;
+            var overUi = ServiceLocator.TryGet<IUiService>(out var ui) && ui.PointerOverUi;
+            if (walking) _mouseAim = false;
+            else if (moved && !overUi) _mouseAim = true;
+            if (!_mouseAim) return;
+            var cam = Camera.main;
+            if (cam == null) { _mouseAim = false; return; }
+            var world = cam.ScreenToWorldPoint(new Vector3(position.x, position.y, -cam.transform.position.z));
+            _pointerCell = _map.WorldToCell(world);
+            var playerCell = _map.WorldToCell(_player.CellSamplePoint);
+            var facing = AimMath.FacingToward(playerCell, AimMath.Target(playerCell, _pointerCell, _player.Facing), _player.Facing);
+            if (facing != _player.Facing) _player.Face(facing);
         }
 
         void Update()
         {
             if (Session == null || !Session.InGame) return;
 
+            UpdateAim();
             if (_cursor != null) _cursor.position = _map.CellCenter(TargetCell);
 
             if (_input.GameplayBlocked) return;

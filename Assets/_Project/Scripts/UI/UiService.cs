@@ -80,6 +80,7 @@ namespace Farm.UI
         public GameSession Session => _session;
         public EventBus Bus => _bus;
         public bool AnyModalOpen => _modals.Count > 0;
+        public bool PointerOverUi => EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
 
         public OptionsScreen Options => _options ?? (_options = new OptionsScreen(this));
 

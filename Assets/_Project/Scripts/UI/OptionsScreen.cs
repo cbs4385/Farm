@@ -189,6 +189,8 @@ namespace Farm.UI
             UiKit.MakeToggle(auto, L.Get("ui.on"), s.AutoAdvance, on => s.AutoAdvance = on, 220f).name = "AutoAdvance";
 
             Section(L.Get("options.gameplay"));
+            var aim = Row(L.Get("options.mouse_aim"));
+            UiKit.MakeToggle(aim, L.Get("ui.on"), s.MouseAim, on => s.MouseAim = on, 220f).name = "MouseAim";
             var easy = Row(L.Get("options.relaxed_energy"));
             UiKit.MakeToggle(easy, L.Get("ui.on"), s.RelaxedEnergy, on => s.RelaxedEnergy = on, 220f);
             var dl = Row(L.Get("options.day_length"));

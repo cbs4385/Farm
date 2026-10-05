@@ -28,6 +28,7 @@ namespace Farm.Gameplay
         void ShowPause();
         void ShowOptions();
         bool AnyModalOpen { get; }
+        bool PointerOverUi => false;        // the mouse is over a button or panel, so it is not aiming at the world
     }
 }
 
