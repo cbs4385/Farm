@@ -19,7 +19,7 @@ namespace Farm.Gameplay
         {
             if (_view == null || Time.time < _next) return;
             _next = Time.time + Interval;
-            _view.ApplySway(Time.time, Strength);
+            _view.ApplySway(Time.time, Strength * Sway.Current());
         }
     }
 }

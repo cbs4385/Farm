@@ -38,7 +38,7 @@ namespace Farm.Gameplay
             if (_pivot == null || Time.time < _next) return;
             _next = Time.time + Interval;
             var p = transform.position;
-            var lean = Sway.LeanPixels(Time.time, Mathf.RoundToInt(p.x), Mathf.RoundToInt(p.y));
+            var lean = Sway.LeanPixels(Time.time, Mathf.RoundToInt(p.x), Mathf.RoundToInt(p.y), Sway.Current());
             if (lean == _lean) return;
             _lean = lean;
             _pivot.localRotation = Quaternion.Euler(0f, 0f, Sway.AngleFor(lean));

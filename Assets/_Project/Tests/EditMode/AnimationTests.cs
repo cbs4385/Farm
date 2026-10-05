@@ -1,4 +1,4 @@
-using Farm.Gameplay;
+﻿using Farm.Gameplay;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -121,6 +121,33 @@ namespace Farm.Tests
             Assert.AreEqual(Matrix4x4.identity, Sway.Shear(0));
             Assert.AreEqual(0f, Sway.AngleFor(0));
             Assert.AreEqual(-Sway.AngleFor(1), Sway.AngleFor(-1), 0.0001f);
+        }
+
+        [Test]
+        public void TheWind_BlowsHarderInStormsAndSlantingRain_ThanOnAClearDay()
+        {
+            var clear = Sway.StrengthFor(0f, false);
+            Assert.AreEqual(0.8f, clear, 0.001f);
+            Assert.Greater(Sway.StrengthFor(0.5f, false), clear);
+            Assert.Greater(Sway.StrengthFor(0.5f, true), Sway.StrengthFor(0.5f, false));
+            Assert.LessOrEqual(Sway.StrengthFor(1f, true), 1.5f, "capped");
+            Assert.AreEqual(Sway.StrengthFor(-0.4f, false), Sway.StrengthFor(0.4f, false), 0.001f, "either direction");
+            Assert.AreEqual(1f, Sway.Current(), 0.001f, "a breeze when no game is running");
+        }
+
+        [Test]
+        public void APleasedAnimalOrVillager_GetsPinkSpecksAndAHop()
+        {
+            var go = new GameObject("pleased");
+            go.AddComponent<SpriteRenderer>();
+            var bob = go.AddComponent<WalkBob>();
+            var before = Object.FindObjectsByType<ActionPuff>(FindObjectsSortMode.None).Length;
+            ActionPuff.Hearts(Vector3.zero, bob);
+            var puffs = Object.FindObjectsByType<ActionPuff>(FindObjectsSortMode.None);
+            Assert.AreEqual(before + 1, puffs.Length);
+            Assert.IsTrue(bob.IsLunging, "it hops");
+            foreach (var p in puffs) Object.DestroyImmediate(p.gameObject);
+            Object.DestroyImmediate(go);
         }
     }
 }

@@ -21,6 +21,13 @@ namespace Farm.Gameplay
             go.AddComponent<ActionPuff>().Begin(color, count);
         }
 
+        // A burst of pink specks over someone who is pleased (a petted animal, a villager given a gift), and a little hop of joy.
+        public static void Hearts(Vector3 position, WalkBob hopper = null)
+        {
+            Burst(position, new Color(1f, 0.45f, 0.6f), 5);
+            if (hopper != null) hopper.Lunge(Vector2Int.up);
+        }
+
         // Where speck i of count is after `t` (0..1) of its life, relative to the burst point, and how opaque it is. (pure)
         public static (Vector2 offset, float alpha) BitAt(float t, int index, int count)
         {

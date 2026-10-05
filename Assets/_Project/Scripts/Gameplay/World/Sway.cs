@@ -9,6 +9,17 @@ namespace Farm.Gameplay
         public const float Period = 1.6f;            // seconds for one full lean and back
         const float Threshold = 0.45f;               // below this the plant stands upright for a moment
 
+        // How hard the wind blows in a weather: a breeze on a clear day, more with a slanting rain or wind, most in a thunderstorm. (pure)
+        public static float StrengthFor(float windSlant, bool lightning) => Mathf.Clamp(0.8f + 1.2f * Mathf.Abs(windSlant) + (lightning ? 0.2f : 0f), 0.8f, 1.5f);
+
+        // The wind in today's weather (a breeze when there is no game running).
+        public static float Current()
+        {
+            if (!Farm.Core.ServiceLocator.TryGet<GameSession>(out var session) || !session.InGame) return 1f;
+            var weather = session.Weather.Get(session.State.Weather);
+            return weather == null ? 1f : StrengthFor(weather.WindSlant, weather.Lightning);
+        }
+
         // How far the top of a plant at this cell leans, in pixels: -1, 0 or 1. `strength` 1 is a breeze; 0 is dead calm. (pure)
         public static int LeanPixels(float time, int x, int y, float strength = 1f)
         {

@@ -131,6 +131,7 @@ namespace Farm.Gameplay
             {
                 var result = NpcInteractions.Gift(Session, npc.Definition, Session.State.SelectedHotbar);
                 NpcInteractions.ToastFor(Session, result);
+                if (result == GiftResult.Given) ActionPuff.Hearts(npc.transform.position + Vector3.up * 1.2f, npc.GetComponent<WalkBob>());
                 return;
             }
 

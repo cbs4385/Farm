@@ -68,7 +68,9 @@ namespace Farm.Gameplay
                 return;
             }
             if (_state.ProductReady) { s.Toast(L.Get("toast.inventory_full")); return; }
-            s.Toast(AnimalRules.Pet(_state) ? L.Get("animal.petted", _state.Name) : L.Get("animal.happy", _state.Name));
+            var petted = AnimalRules.Pet(_state);
+            s.Toast(petted ? L.Get("animal.petted", _state.Name) : L.Get("animal.happy", _state.Name));
+            if (petted) ActionPuff.Hearts(transform.position + Vector3.up * 0.7f, GetComponent<WalkBob>());
         }
     }
 }
