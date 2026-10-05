@@ -110,6 +110,7 @@ namespace Farm.UI
         readonly TextMeshProUGUI _status;
         readonly Image _avatarPreview;
         AvatarScreen _creator;
+        int _opens;
         AvatarData _avatar = AvatarOptions.Default();
 
         public AvatarData Avatar => _avatar;
@@ -147,7 +148,7 @@ namespace Farm.UI
 
         public override void Open()
         {
-            _avatar = AvatarOptions.Random(System.Environment.TickCount);   // as if Surprise Me was pressed; Customize changes it
+            _avatar = AvatarOptions.Random(System.Environment.TickCount + _opens++ * 7919);   // as if Surprise Me was pressed; Customize changes it
             Rebuild();
             base.Open();
         }

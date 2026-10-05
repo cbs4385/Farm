@@ -145,6 +145,23 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator EachTimeTheNewGameScreenOpens_TheFarmerIsRandomised()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var newGame = new NewGameScreen(ServiceLocator.Get<UiService>(), null);
+            var keys = new System.Collections.Generic.HashSet<string>();
+            for (var i = 0; i < 6; i++)
+            {
+                newGame.Open();
+                yield return null;
+                keys.Add(newGame.Avatar.Key);
+                Assert.IsFalse(newGame.Avatar.SameAs(AvatarOptions.Default()) && i > 0 && keys.Count == 1, "not stuck on the starting look");
+            }
+            Assert.Greater(keys.Count, 3, "a different farmer most times it opens");
+        }
+
+        [UnityTest]
         public IEnumerator FromTheNewGameScreen_ACustomisedFarmerStartsTheGame()
         {
             Bootstrapper.InitializeServices();
