@@ -11,40 +11,56 @@ namespace Farm.Gameplay
         public const float StepSeconds = 0.14f;
         const float MovingSpeed = 0.2f;            // world units per second that count as walking
 
-        static readonly Dictionary<Sprite, Sprite> RaisedOf = new Dictionary<Sprite, Sprite>();
-        static readonly HashSet<Sprite> AreRaised = new HashSet<Sprite>();
+        public const float LungeSeconds = 0.16f;
+        const int LungePixels = 2;
+
+        static readonly Dictionary<(Sprite, int, int), Sprite> ShiftedOf = new Dictionary<(Sprite, int, int), Sprite>();
+        static readonly Dictionary<Sprite, Sprite> BaseOfShifted = new Dictionary<Sprite, Sprite>();
 
         SpriteRenderer _renderer;
         Vector3 _last;
         float _clock;
         bool _movingNow;
+        float _lungeLeft;
+        Vector2Int _lungeDir;
 
         public bool IsRaised { get; private set; }
+        public bool IsLunging => _lungeLeft > 0f;
 
         // Is the picture up at this moment of a walk? (pure, so it can be tested)
         public static bool UpAt(float walkedSeconds) => walkedSeconds >= 0f && (int)(walkedSeconds / StepSeconds) % 2 == 1;
 
+        // How many pixels a swing has pushed the picture forward this far (0..1) through it: out fast, back slower. (pure)
+        public static int LungeOffset(float progress) => progress <= 0f || progress >= 1f ? 0 : progress < 0.4f ? LungePixels : 1;
+
         // The same picture one pixel higher: the sprite is re-made over the same texture with its pivot one pixel lower.
-        public static Sprite Raised(Sprite sprite)
+        public static Sprite Raised(Sprite sprite) => Shifted(sprite, 0, 1);
+
+        // The same picture moved by whole pixels (re-made over the same texture with the pivot moved the other way).
+        public static Sprite Shifted(Sprite sprite, int dx, int dy)
         {
             if (sprite == null) return null;
-            if (AreRaised.Contains(sprite)) return sprite;
-            if (RaisedOf.TryGetValue(sprite, out var cached) && cached != null) return cached;
+            if (BaseOfShifted.ContainsKey(sprite)) return sprite;
+            if (dx == 0 && dy == 0) return sprite;
+            var key = (sprite, dx, dy);
+            if (ShiftedOf.TryGetValue(key, out var cached) && cached != null) return cached;
             var rect = sprite.textureRect;
-            var pivot = new Vector2(sprite.pivot.x / rect.width, (sprite.pivot.y - 1f) / rect.height);
-            var raised = Sprite.Create(sprite.texture, rect, pivot, sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect);
-            raised.name = sprite.name + "_up";
-            RaisedOf[sprite] = raised;
-            AreRaised.Add(raised);
-            return raised;
+            var pivot = new Vector2((sprite.pivot.x - dx) / rect.width, (sprite.pivot.y - dy) / rect.height);
+            var shifted = Sprite.Create(sprite.texture, rect, pivot, sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect);
+            shifted.name = sprite.name + "_up";
+            ShiftedOf[key] = shifted;
+            BaseOfShifted[shifted] = sprite;
+            return shifted;
         }
 
-        // The sprite that was set by the game, whether or not we have swapped in the raised copy of it.
-        static Sprite BaseOf(Sprite shown)
+        // The sprite that was set by the game, whether or not we have swapped in a shifted copy of it.
+        static Sprite BaseOf(Sprite shown) => shown != null && BaseOfShifted.TryGetValue(shown, out var original) ? original : shown;
+
+        // A tool swing or a strike: the picture lunges a couple of pixels the way the farmer faces, then settles back.
+        public void Lunge(Vector2Int direction)
         {
-            if (shown == null || !AreRaised.Contains(shown)) return shown;
-            foreach (var pair in RaisedOf) if (pair.Value == shown) return pair.Key;
-            return shown;
+            _lungeDir = direction;
+            _lungeLeft = LungeSeconds;
         }
 
         void Awake()
@@ -68,7 +84,14 @@ namespace Farm.Gameplay
             var original = BaseOf(shown);
             var wantRaised = _movingNow && UpAt(_clock);
             IsRaised = wantRaised;
-            var want = wantRaised ? Raised(original) : original;
+            int dx = 0, dy = wantRaised ? 1 : 0;
+            if (_lungeLeft > 0f)
+            {
+                _lungeLeft = Mathf.Max(0f, _lungeLeft - dt);
+                var push = LungeOffset(1f - _lungeLeft / LungeSeconds);
+                dx += _lungeDir.x * push; dy += _lungeDir.y * push;
+            }
+            var want = Shifted(original, dx, dy);
             if (want != shown) _renderer.sprite = want;
         }
     }

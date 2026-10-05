@@ -153,7 +153,7 @@ namespace Farm.Tests
             var newGame = new NewGameScreen(ui, null);
             newGame.Open();
             yield return null;
-            Assert.IsTrue(newGame.Avatar.SameAs(AvatarOptions.Default()), "a starting look is already chosen");
+            Assert.IsTrue(newGame.Avatar.SameAs(AvatarOptions.Sanitize(newGame.Avatar)), "a random valid look is already chosen");
 
             Click(newGame.Root, "Customize");
             yield return null;

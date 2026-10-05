@@ -147,6 +147,7 @@ namespace Farm.UI
 
         public override void Open()
         {
+            _avatar = AvatarOptions.Random(System.Environment.TickCount);   // as if Surprise Me was pressed; Customize changes it
             Rebuild();
             base.Open();
         }

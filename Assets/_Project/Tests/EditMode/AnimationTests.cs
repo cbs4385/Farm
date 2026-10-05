@@ -54,5 +54,25 @@ namespace Farm.Tests
             for (var t = 0f; t < 20f; t += 0.37f)
                 for (var i = 0; i < 4; i++) Assert.That(RoofSmoke.Progress(t, i), Is.InRange(0f, 1f));
         }
+
+        [Test]
+        public void ASwing_PushesTheFarmerOutAndBack_AndEndsAtRest()
+        {
+            Assert.AreEqual(0, WalkBob.LungeOffset(0f));
+            Assert.AreEqual(2, WalkBob.LungeOffset(0.2f));
+            Assert.AreEqual(1, WalkBob.LungeOffset(0.7f));
+            Assert.AreEqual(0, WalkBob.LungeOffset(1f));
+        }
+
+        [Test]
+        public void AShiftedPicture_MovesSidewaysAndUp_AndIsRecognisedAsShifted()
+        {
+            var sprite = Make(new Vector2(0.5f, 0f));
+            var right = WalkBob.Shifted(sprite, 2, 0);
+            Assert.AreEqual(sprite.pivot.x - 2f, right.pivot.x, 0.001f);
+            Assert.AreSame(right, WalkBob.Shifted(sprite, 2, 0), "cached");
+            Assert.AreSame(sprite, WalkBob.Shifted(sprite, 0, 0));
+            Assert.AreSame(right, WalkBob.Shifted(right, 1, 1), "a shifted picture is never shifted again");
+        }
     }
 }
