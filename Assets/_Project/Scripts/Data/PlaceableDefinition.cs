@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Farm.Data
 {
-    public enum PlaceableKind { Chest, Machine, Sprinkler, Scarecrow }
+    public enum PlaceableKind { Chest, Machine, Sprinkler, Scarecrow, Decor }
 
     // Something the player can set down in the world: a chest, a machine, a sprinkler, a scarecrow. The item that places
     // it (`ItemId`) names it by `PlaceableId`. Ids are stable: placed objects are saved by TypeId.
@@ -15,6 +15,7 @@ namespace Farm.Data
         [SerializeField] Sprite _sprite;
         [SerializeField] bool _farmingOnly;        // only on maps where farming is allowed (sprinklers, scarecrows)
         [SerializeField] int _capacity;            // chests: slots
+        [SerializeField] bool _walkable;           // decor: can be walked over (a rug)
         [SerializeField] int _range;               // sprinklers: 1 = the four neighbours, 2 = the eight around, 3 = the 24 around; scarecrows: cells
 
         public string Id => _id;
@@ -25,10 +26,11 @@ namespace Farm.Data
         public bool FarmingOnly => _farmingOnly;
         public int Capacity => _capacity;
         public int Range => _range;
+        public bool Walkable => _walkable;
         public string NameKey => $"item.{ItemId}.name";
 
         public static PlaceableDefinition Create(string id, PlaceableKind kind, string station = null, bool farmingOnly = false,
-            int capacity = 0, int range = 0)
+            int capacity = 0, int range = 0, bool walkable = false)
         {
             var p = CreateInstance<PlaceableDefinition>();
             p._id = id;
@@ -38,6 +40,7 @@ namespace Farm.Data
             p._farmingOnly = farmingOnly;
             p._capacity = capacity;
             p._range = range;
+            p._walkable = walkable;
             return p;
         }
 

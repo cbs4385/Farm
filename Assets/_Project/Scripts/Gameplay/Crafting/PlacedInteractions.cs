@@ -27,6 +27,14 @@ namespace Farm.Gameplay
                 case PlaceableKind.Scarecrow:
                     session.Toast(L.Get("placeable.scarecrow_info"));
                     break;
+
+                case PlaceableKind.Decor:       // furniture goes back into the pack with the interact key
+                    switch (PickUp(session, session.State.CurrentMap, obj.X, obj.Y))
+                    {
+                        case PickUpResult.Ok: PlacedObjectsView.Current?.Despawn(obj.Id); AudioService.PlayIfAvailable(Sfx.Harvest); break;
+                        case PickUpResult.NoRoom: session.Toast(L.Get("toast.inventory_full")); break;
+                    }
+                    break;
             }
         }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Farm.Core;
 using Farm.Data;
 using UnityEngine;
@@ -139,8 +140,24 @@ namespace Farm.Gameplay
                 case ItemCategory.Seed: Plant(item); break;
                 case ItemCategory.Food: Eat(item); break;
                 case ItemCategory.Machine: PlaceObject(item); break;
+                case ItemCategory.Furniture: PlaceObject(item); break;
                 case ItemCategory.Animal: PlaceAnimal(item); break;
                 case ItemCategory.Fertilizer: Fertilize(item); break;
+            }
+        }
+
+        // The cells every door (warp) of this map covers.
+        IEnumerable<Vector3Int> DoorCells()
+        {
+            foreach (var warp in Object.FindObjectsByType<Warp>(FindObjectsSortMode.None))
+            {
+                var collider = warp.GetComponent<Collider2D>();
+                if (collider == null) continue;
+                var min = _map.WorldToCell(collider.bounds.min + new Vector3(0.05f, 0.05f, 0f));
+                var max = _map.WorldToCell(collider.bounds.max - new Vector3(0.05f, 0.05f, 0f));
+                for (var x = min.x; x <= max.x; x++)
+                    for (var y = min.y; y <= max.y; y++)
+                        yield return new Vector3Int(x, y, 0);
             }
         }
 
@@ -317,6 +334,11 @@ namespace Farm.Gameplay
             if (def == null) return;
             var cell = TargetCell;
             if (def.FarmingOnly && !_map.AllowFarming) { Session.Toast(L.Get("placeable.farm_only")); return; }
+            if (def.Kind == PlaceableKind.Decor)
+            {
+                if (!DecorRules.AllowedOn(_map.MapId)) { Session.Toast(L.Get("placeable.decor_where")); return; }
+                if (DecorRules.BlocksDoor(cell, def.Walkable, DoorCells())) { Session.Toast(L.Get("placeable.decor_door")); return; }
+            }
             var grid = Session.GetGrid(_map.MapId);
             var objects = Session.GetObjects(_map.MapId);
             if (!_map.CanPlaceAt(cell) || objects.Has(cell.x, cell.y) || grid.IsTilled(cell.x, cell.y) || Session.GetNodes(_map.MapId).Has(cell.x, cell.y))

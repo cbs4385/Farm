@@ -60,9 +60,10 @@ namespace Farm.Tests
             {
                 Assert.IsNotNull(p.Sprite, p.Id);
                 Assert.IsTrue(db.TryGetItem(p.ItemId, out var item), p.Id);
-                Assert.AreEqual(ItemCategory.Machine, item.Category, p.Id);
+                var decor = p.Kind == PlaceableKind.Decor;       // furniture is bought at the carpenter's, not crafted
+                Assert.AreEqual(decor ? ItemCategory.Furniture : ItemCategory.Machine, item.Category, p.Id);
                 Assert.AreEqual(p.Id, item.PlaceableId);
-                Assert.IsTrue(db.AllRecipes.Any(r => r.OutputItemId == p.ItemId), $"{p.Id} can be crafted");
+                if (!decor) Assert.IsTrue(db.AllRecipes.Any(r => r.OutputItemId == p.ItemId), $"{p.Id} can be crafted");
                 if (p.Kind == PlaceableKind.Machine) Assert.IsTrue(db.AllRecipes.Any(r => r.Station == p.Station), p.Id);
             }
         }

@@ -50,6 +50,7 @@ namespace Farm.Tests
             yield return null;
             _session = ServiceLocator.Get<GameSession>();
             _session.BeginNewGame("Tester", "Test Farm", 0);
+            _session.Backpack.Remove("machine.chest", _session.Backpack.Count("machine.chest"));      // these tests count chests: not the starter one
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             _session.Clock.SetTime(new GameDateTime(1, season, 10, 10 * 60));
@@ -93,7 +94,7 @@ namespace Farm.Tests
         public IEnumerator CraftingAChest_FromTheMenu_ClickingCraft()
         {
             yield return Start();
-            _session.Backpack.Add(ItemIds.Wood, 60);
+            _session.Backpack.Add(ItemIds.Wood, 40);          // a chest costs 25: enough for one, not for a second
             yield return Tap(Key.M);
             while (Ui.GameMenu.Current.Id != MenuTabs.Crafting) yield return Tap(Key.E);
 
@@ -104,7 +105,7 @@ namespace Farm.Tests
             yield return null;
 
             Assert.AreEqual(1, _session.Backpack.Count("machine.chest"));
-            Assert.AreEqual(10, _session.Backpack.Count(ItemIds.Wood));
+            Assert.AreEqual(15, _session.Backpack.Count(ItemIds.Wood));
             Assert.IsFalse(Find("chest", "Craft").interactable, "not enough wood for a second");
         }
 

@@ -28,7 +28,8 @@ namespace Farm.Gameplay
             var box = gameObject.AddComponent<BoxCollider2D>();
             box.size = Vector2.one;
             // Sprinklers can be walked over; everything else blocks the way. Both can be found by a point query.
-            box.isTrigger = def.Kind == PlaceableKind.Sprinkler;
+            box.isTrigger = def.Kind == PlaceableKind.Sprinkler || def.Walkable;
+            if (def.Walkable) _renderer.sortingOrder = 1;       // a rug lies under everything that walks over it
         }
 
         // Machines show whether they are working or done.
