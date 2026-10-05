@@ -82,6 +82,14 @@ namespace Farm.Gameplay
             _rb.linearVelocity = _move * _speed;
         }
 
+        // Dresses the farmer in a chosen look (the layered avatar sprites replace the plain placeholder ones).
+        public void ApplyAvatar(AvatarData look)
+        {
+            var set = AvatarSprites.For(look);
+            _down = set.Down; _up = set.Up; _left = set.Left; _right = set.Right;
+            UpdateSprite();
+        }
+
         public void Face(Vector2Int dir)
         {
             Facing = dir;

@@ -95,3 +95,5 @@ Slice scenes and barks check (2026-10-03, development build, Windows): `Farm.exe
 
 ## Real-input checks on the built Windows player (tools/qa)
 `python tools/qa/real_input_aim.py <path to Farm.exe> <output folder>` launches the player, focuses it, moves the mouse (as real mouse input) around the avatar and screenshots the screen; it prints where the yellow tool square lands for the cell under the avatar, the four sides, the diagonals and a far pointer. `python tools/qa/real_input_till.py <exe> <folder>` walks onto grass with the keyboard, aims at the cells in and around the avatar and clicks with the hoe. Windows only; the PC must be left alone while they run (they use the real keyboard and mouse and need the game window focused). A development build can write a log with `-logFile`.
+
+Farmer creator: `-farmScene Farm -farmOpen avatar -farmCapture <folder>` opens the creator over the farm; `-farmOpen newgame` shows the new-game screen with the farmer preview and Customize button.

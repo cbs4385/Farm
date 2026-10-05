@@ -19,6 +19,7 @@ namespace Farm.Gameplay
         // The cooking list of a station (the kitchen), and a chest's contents next to the backpack.
         void ShowCrafting(string station);
         void ShowChest(string objectId);
+        void ShowAvatarCreator(AvatarData look, System.Action<AvatarData> onDone) { }     // the farmer creator (also reachable for QA with -farmOpen avatar)
         void ShowShipping() { }        // the shipping bin as a window: pick items and amounts, ship them as one lot
         void ShowLetter(LetterDefinition letter, Action onClosed);
         void ShowBoard();

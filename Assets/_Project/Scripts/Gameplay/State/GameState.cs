@@ -28,6 +28,7 @@ namespace Farm.Gameplay
 
         public string PlayerName = "Farmer";
         public string FarmName = "Farm";
+        public AvatarData Avatar = AvatarOptions.Default();       // how the farmer looks (chosen when the game starts)
 
         // Calendar (flattened so the save format does not depend on GameDateTime's layout)
         public int Year = 1;
@@ -112,13 +113,14 @@ namespace Farm.Gameplay
             return map;
         }
 
-        public static GameState NewGame(string playerName, string farmName, Func<string, int> maxStack, int? worldSeed = null)
+        public static GameState NewGame(string playerName, string farmName, Func<string, int> maxStack, int? worldSeed = null, AvatarData avatar = null)
         {
             var state = new GameState
             {
                 WorldSeed = worldSeed ?? Guid.NewGuid().GetHashCode(),
                 PlayerName = string.IsNullOrWhiteSpace(playerName) ? "Farmer" : playerName.Trim(),
                 FarmName = string.IsNullOrWhiteSpace(farmName) ? "Farm" : farmName.Trim(),
+                Avatar = AvatarOptions.Sanitize(avatar),
             };
 
             var pack = new Inventory(StartingBackpackSlots, maxStack);

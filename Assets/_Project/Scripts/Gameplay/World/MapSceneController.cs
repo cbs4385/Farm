@@ -35,6 +35,7 @@ namespace Farm.Gameplay
             L.SetLanguage(ServiceLocator.Get<SettingsStore>().Current.Language);
 
             _session.State.CurrentMap = _map.MapId;
+            _player.ApplyAvatar(_session.State.Avatar);
             if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
             if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
             var mine = FindAnyObjectByType<MineController>();
@@ -178,6 +179,9 @@ namespace Farm.Gameplay
                     ui.ShowGameMenu(MenuTabs.Gossip);
                     break;
                 }
+                case "avatar":
+                    ui.ShowAvatarCreator(_session.State.Avatar, look => { _session.State.Avatar = look; _player.ApplyAvatar(look); });
+                    break;
                 case "shipping":
                     _session.Backpack.Add("crop.parsnip", 12);
                     _session.Backpack.Add("crop.potato", 7, 1);

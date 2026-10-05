@@ -108,10 +108,15 @@ namespace Farm.UI
         readonly TMP_InputField _farm;
         readonly RectTransform _slots;
         readonly TextMeshProUGUI _status;
+        readonly Image _avatarPreview;
+        AvatarScreen _creator;
+        AvatarData _avatar = AvatarOptions.Default();
+
+        public AvatarData Avatar => _avatar;
 
         public NewGameScreen(UiService ui, UiScreen parent) : base(ui)
         {
-            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "NewGame", new Vector2(520, 430), out var root);
+            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "NewGame", new Vector2(520, 500), out var root);
             Root = root;
             var stack = UiKit.VStack(frame, "Stack", 8f, 16);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -121,6 +126,16 @@ namespace Farm.UI
             _name = UiKit.MakeInput(stack.transform, L.Get("newgame.player_name"), "Farmer", 16, 300f);
             UiKit.Label(stack.transform, L.Get("newgame.farm_name"), 16f, TextAlignmentOptions.Left, UiKit.DimText);
             _farm = UiKit.MakeInput(stack.transform, L.Get("newgame.farm_name"), "Meadow", 20, 300f);
+            // The farmer: a small preview and the button that opens the creator.
+            var farmer = UiKit.HStack(stack.transform, "Farmer", 10f);
+            UiKit.Size(farmer.gameObject, -1f, 64f);
+            var stage = UiKit.Panel(farmer.transform, "Stage", UiKit.PanelLight);
+            UiKit.Size(stage.gameObject, 44f, 62f);
+            _avatarPreview = UiKit.Panel(stage.transform, "Preview", Color.white);
+            _avatarPreview.preserveAspect = true;
+            _avatarPreview.raycastTarget = false;
+            UiKit.Place(_avatarPreview.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(32f, 64f), Vector2.zero);
+            UiKit.MakeButton(farmer.transform, L.Get("newgame.customize"), OpenCreator, 300f, 38f).name = "Customize";
             UiKit.Label(stack.transform, L.Get("newgame.choose_slot"), 16f, TextAlignmentOptions.Left, UiKit.DimText);
 
             var slots = UiKit.VStack(stack.transform, "Slots", 4f);
@@ -136,8 +151,17 @@ namespace Farm.UI
             base.Open();
         }
 
+        void OpenCreator()
+        {
+            _creator ??= new AvatarScreen(Ui);
+            _creator.OpenWith(_avatar, look => { _avatar = look; ShowAvatar(); });
+        }
+
+        void ShowAvatar() => _avatarPreview.sprite = AvatarSprites.For(_avatar).Down;
+
         void Rebuild()
         {
+            ShowAvatar();
             _status.text = string.Empty;
             UiKit.ClearChildren(_slots);
             var saves = ServiceLocator.Get<SaveService>();
@@ -168,7 +192,7 @@ namespace Farm.UI
         void Start(int slot)
         {
             var session = ServiceLocator.Get<GameSession>();
-            session.BeginNewGame(_name.text, _farm.text, slot);
+            session.BeginNewGame(_name.text, _farm.text, slot, _avatar.Clone());
             SaveSlots.EnterGame(Ui, session);
         }
     }

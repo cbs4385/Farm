@@ -315,10 +315,10 @@ namespace Farm.Gameplay
 
         // ---- lifecycle -----------------------------------------------------------------------------------------
 
-        public void BeginNewGame(string playerName, string farmName, int slot)
+        public void BeginNewGame(string playerName, string farmName, int slot, AvatarData avatar = null)
         {
             // Defence in depth: the new-game screen already refuses blocked names (T-145).
-            Begin(GameState.NewGame(NameFilter.Sanitize(playerName, "Farmer"), NameFilter.Sanitize(farmName, "Meadow"), _db.MaxStack), slot);
+            Begin(GameState.NewGame(NameFilter.Sanitize(playerName, "Farmer"), NameFilter.Sanitize(farmName, "Meadow"), _db.MaxStack, avatar: avatar), slot);
             StoryDay.NewGame(this);
             Save();
         }

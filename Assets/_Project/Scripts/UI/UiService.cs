@@ -340,6 +340,14 @@ namespace Farm.UI
             _board.OpenBoard();
         }
 
+        AvatarScreen _avatarCreator;
+
+        public void ShowAvatarCreator(AvatarData look, System.Action<AvatarData> onDone)
+        {
+            _avatarCreator ??= new AvatarScreen(this);
+            _avatarCreator.OpenWith(look, onDone);
+        }
+
         ShippingScreen _shipping;
 
         public void ShowShipping()
