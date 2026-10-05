@@ -31,6 +31,7 @@ namespace Farm.Gameplay
             _db = db;
             _nodeGrid = nodes;
             _nodeCatalog = nodeCatalog;
+            if (!TryGetComponent<TileSway>(out _)) gameObject.AddComponent<TileSway>();
             RefreshAll();
         }
 
@@ -39,12 +40,53 @@ namespace Farm.Gameplay
             _map.Soil.ClearAllTiles();
             _map.Crops.ClearAllTiles();
             _map.Nodes?.ClearAllTiles();
+            _lean.Clear();
             if (_grid != null) foreach (var t in _grid.Tiles) Draw(t);
             if (_nodeGrid != null) foreach (var n in _nodeGrid.Nodes) DrawNode(n.X, n.Y);
         }
 
+        readonly Dictionary<Vector3Int, int> _lean = new Dictionary<Vector3Int, int>();
+        readonly List<Vector3Int> _gone = new List<Vector3Int>();
+
+        // Leans every growing crop, fruit tree and soft (walk-through) forage plant the way the wind does at `time`. Only tiles whose lean
+        // changed are touched; a tile that is redrawn loses its matrix, so redrawing forgets its cached lean and the next pass sets it again.
+        public void ApplySway(float time, float strength = 1f)
+        {
+            if (_map == null || _map.Crops == null) return;
+            _gone.Clear();
+            foreach (var kv in _lean)
+                if (_map.Crops.GetTile(kv.Key) == null && (_map.Nodes == null || _map.Nodes.GetTile(kv.Key) == null)) _gone.Add(kv.Key);
+            foreach (var cell in _gone) _lean.Remove(cell);
+
+            if (_grid != null)
+                foreach (var t in _grid.Tiles)
+                {
+                    if (t.Crop == null || t.Crop.Stage < 1) continue;
+                    SetLean(_map.Crops, new Vector3Int(t.X, t.Y, 0), Sway.LeanPixels(time, t.X, t.Y, strength));
+                }
+            if (_nodeGrid != null && _map.Nodes != null && _nodeCatalog != null)
+                foreach (var n in _nodeGrid.Nodes)
+                {
+                    var def = _nodeCatalog.Get(n.TypeId);
+                    if (def == null || def.Solid) continue;                                      // solid nodes keep their collider still
+                    SetLean(_map.Nodes, new Vector3Int(n.X, n.Y, 0), Sway.LeanPixels(time, n.X, n.Y, strength));
+                }
+        }
+
+        void SetLean(Tilemap map, Vector3Int cell, int lean)
+        {
+            if (_lean.TryGetValue(cell, out var current) && current == lean) return;
+            _lean[cell] = lean;
+            map.SetTransformMatrix(cell, lean == 0 ? Matrix4x4.identity : Sway.Shear(lean));
+        }
+
         // Draws (or clears) the resource node standing on a cell.
-        public void RefreshNode(Vector3Int cell) => DrawNode(cell.x, cell.y);
+        public void RefreshNode(Vector3Int cell)
+        {
+            _lean.Remove(cell);
+            _map.Nodes?.SetTransformMatrix(cell, Matrix4x4.identity);      // SetTile keeps the old matrix: start upright
+            DrawNode(cell.x, cell.y);
+        }
 
         void DrawNode(int x, int y)
         {
@@ -78,6 +120,8 @@ namespace Farm.Gameplay
         public void RefreshCell(Vector3Int cell)
         {
             if (_grid == null) return;
+            _lean.Remove(cell);
+            _map.Crops.SetTransformMatrix(cell, Matrix4x4.identity);       // SetTile keeps the old matrix: start upright
             if (_grid.TryGetTile(cell.x, cell.y, out var tile)) Draw(tile);
             else
             {

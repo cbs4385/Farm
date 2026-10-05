@@ -97,5 +97,30 @@ namespace Farm.Tests
             Assert.Greater(ActionPuff.BitAt(0.5f, 4, 5).offset.x, 0f);
             Assert.DoesNotThrow(() => ActionPuff.BitAt(0.5f, 0, 1));
         }
+
+        [Test]
+        public void TheWind_LeansPlantsInWholePixels_InAWaveAcrossTheMap()
+        {
+            var seen = new System.Collections.Generic.HashSet<int>();
+            for (var t = 0f; t < Sway.Period; t += 0.05f) seen.Add(Sway.LeanPixels(t, 5, 5));
+            CollectionAssert.AreEquivalent(new[] { -1, 0, 1 }, seen, "a breath goes left, upright, right");
+            var differs = false;
+            for (var x = 0; x < 8; x++) if (Sway.LeanPixels(0.3f, x, 0) != Sway.LeanPixels(0.3f, 0, 0)) differs = true;
+            Assert.IsTrue(differs, "neighbours are out of step");
+            Assert.AreEqual(0, Sway.LeanPixels(0.3f, 4, 4, 0f), "dead calm");
+        }
+
+        [Test]
+        public void ALeanShear_MovesTheTopButNotTheBase()
+        {
+            var m = Sway.Shear(1);
+            var bottom = m.MultiplyPoint3x4(new Vector3(0f, -0.5f, 0f));
+            var top = m.MultiplyPoint3x4(new Vector3(0f, 0.5f, 0f));
+            Assert.AreEqual(0f, bottom.x, 0.0001f, "the base stays");
+            Assert.AreEqual(1f / 16f, top.x, 0.0001f, "the top leans a pixel");
+            Assert.AreEqual(Matrix4x4.identity, Sway.Shear(0));
+            Assert.AreEqual(0f, Sway.AngleFor(0));
+            Assert.AreEqual(-Sway.AngleFor(1), Sway.AngleFor(-1), 0.0001f);
+        }
     }
 }
