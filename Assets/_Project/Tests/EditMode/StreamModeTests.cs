@@ -206,5 +206,30 @@ namespace Farm.Tests
                 Assert.IsTrue(table.ContainsKey(key), key);
             StringAssert.Contains("{0}", table["stream.badge"]);
         }
+
+        [Test]
+        public void TheOfferedFarmerName_IsNeverTheAccountNameInStreamMode()
+        {
+            Assert.AreEqual("Farmer", DefaultFarmerName.Offer(true, "chris"));
+            Assert.AreEqual("Chris", DefaultFarmerName.Offer(false, "chris"));
+        }
+
+        [Test]
+        public void TheOfferedFarmerName_IsTheTidiedAccountName_OrTheFallback()
+        {
+            NameFilter.SetBlocklist(new[] { "badword" });
+            try
+            {
+                Assert.AreEqual("Chris", NameFilter.FromAccountName("chris", 16, "Farmer"), "a lower-case name gets a capital");
+                Assert.AreEqual("McKay", NameFilter.FromAccountName("McKay", 16, "Farmer"), "mixed case is left alone");
+                Assert.AreEqual("Ann lee", NameFilter.FromAccountName("  ann.lee ".Replace('.', ' '), 16, "Farmer"));
+                Assert.AreEqual("Abcdefghijklmnop", NameFilter.FromAccountName("abcdefghijklmnopqrstuv", 16, "Farmer"), "cut to fit the field");
+                Assert.AreEqual("Farmer", NameFilter.FromAccountName("", 16, "Farmer"));
+                Assert.AreEqual("Farmer", NameFilter.FromAccountName(null, 16, "Farmer"));
+                Assert.AreEqual("Farmer", NameFilter.FromAccountName("...", 16, "Farmer"));
+                Assert.AreEqual("Farmer", NameFilter.FromAccountName("badword", 16, "Farmer"), "a name the filter blocks is not offered");
+            }
+            finally { NameFilter.ResetForTests(); }
+        }
     }
 }

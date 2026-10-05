@@ -60,6 +60,19 @@ namespace Farm.Core
             return sb.ToString();
         }
 
+        // The farmer name offered on the new game screen: the signed-in user's account name, tidied (letters, digits, spaces; at most
+        // maxLength; an all-lower-case name gets a capital), or the fallback when it is empty or would not pass the filter.
+        public static string FromAccountName(string account, int maxLength, string fallback)
+        {
+            var sb = new StringBuilder();
+            foreach (var c in account ?? string.Empty)
+                if (char.IsLetterOrDigit(c) || (c == ' ' && sb.Length > 0)) sb.Append(c);
+            var name = sb.ToString().Trim();
+            if (name.Length > maxLength) name = name.Substring(0, maxLength).TrimEnd();
+            if (name.Length == 0 || !IsAllowed(name)) return fallback;
+            return name == name.ToLowerInvariant() ? char.ToUpperInvariant(name[0]) + name.Substring(1) : name;
+        }
+
         public static bool IsAllowed(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return true;

@@ -124,7 +124,7 @@ namespace Farm.UI
             UiKit.Label(stack.transform, L.Get("newgame.title"), 26f, TextAlignmentOptions.Left, UiKit.Accent);
 
             UiKit.Label(stack.transform, L.Get("newgame.player_name"), 16f, TextAlignmentOptions.Left, UiKit.DimText);
-            _name = UiKit.MakeInput(stack.transform, L.Get("newgame.player_name"), "Farmer", 16, 300f);
+            _name = UiKit.MakeInput(stack.transform, L.Get("newgame.player_name"), DefaultFarmerName.Fallback, DefaultFarmerName.MaxLength, 300f);
             UiKit.Label(stack.transform, L.Get("newgame.farm_name"), 16f, TextAlignmentOptions.Left, UiKit.DimText);
             _farm = UiKit.MakeInput(stack.transform, L.Get("newgame.farm_name"), "Meadow", 20, 300f);
             // The farmer: a small preview and the button that opens the creator.
@@ -148,6 +148,7 @@ namespace Farm.UI
 
         public override void Open()
         {
+            _name.text = DefaultFarmerName.ForThisUser();   // the signed-in user (not in stream mode)
             _avatar = AvatarOptions.Random(System.Environment.TickCount + _opens++ * 7919);   // as if Surprise Me was pressed; Customize changes it
             Rebuild();
             base.Open();
