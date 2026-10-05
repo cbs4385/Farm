@@ -58,6 +58,11 @@ namespace Farm.Gameplay
             _bus.Subscribe<PassOutTimeReached>(OnPassOut);
             if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetHudVisible(true);
             ServiceLocator.Get<InputService>().EnableGameplay();
+            if (_session.PendingIntro && _map.MapId == MapIds.Farm && ServiceLocator.TryGet<IUiService>(out var introUi))
+            {
+                _session.PendingIntro = false;
+                OpeningStory.Show(introUi, _session);
+            }
 
             // Let optional modules react to the map (spawn objects, add atmosphere, hide/show things).
             _session.Hooks.RaiseMapLoaded(new MapLoadedContext

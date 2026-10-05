@@ -142,6 +142,9 @@ namespace Farm.Gameplay
         public bool MemoryHasReturnPosition { get; set; }
         public bool MemoryRestorePosition { get; set; }
 
+        // Set by the new-game screen: the farm scene tells how the player came by the farm once, on arrival.
+        public bool PendingIntro { get; set; }
+
         // Authored story data (dialogue, quests, letters, events); loaded from Resources/Story by GameServices.
         public StoryContent Story { get; set; } = new StoryContent();
 

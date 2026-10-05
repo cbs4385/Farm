@@ -13,7 +13,6 @@ namespace Farm.Gameplay
         DayNightLighting _lighting;
         float _next;
         float _nextShot = 15f;
-        float _nextMeow = 45f;
         int _lastHour = -1;
         bool _village;
 
@@ -36,7 +35,7 @@ namespace Farm.Gameplay
             Apply();
         }
 
-        // Thunder in storms, a gust in the wind, a meow in the village by day, the bell at noon and at six in the evening.
+        // Thunder in storms, a gust in the wind, the bell at noon and at six in the evening.
         void OneShots()
         {
             if (_session == null || !_session.InGame || _session.Clock.IsPaused) return;
@@ -52,11 +51,6 @@ namespace Farm.Gameplay
             {
                 if (_village && BellHour(hour)) StartCoroutine(Strikes(hour == 12 ? 3 : 2));
                 _lastHour = hour;
-            }
-            if (_village && now >= _nextMeow)
-            {
-                _nextMeow = now + UnityEngine.Random.Range(45f, 100f);
-                if (hour >= 7 && hour < 20 && Last != AmbienceKind.Rain) AudioService.PlayIfAvailable(Sfx.Meow, 0.3f, UnityEngine.Random.Range(0.9f, 1.15f));
             }
         }
 

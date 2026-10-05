@@ -193,6 +193,7 @@ namespace Farm.UI
         {
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame(_name.text, _farm.text, slot, _avatar.Clone());
+            session.PendingIntro = true;
             SaveSlots.EnterGame(Ui, session);
         }
     }
