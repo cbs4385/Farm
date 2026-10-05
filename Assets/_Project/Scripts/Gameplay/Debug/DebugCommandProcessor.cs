@@ -55,6 +55,7 @@ namespace Farm.Gameplay
                 ["energy"] = ("energy <amount|full>", "set energy", Energy),
                 ["give"] = ("give <itemId> [count]", "add items to the backpack", Give),
                 ["tp"] = ("tp <MapId> [spawn]", "go to a map (Farm, FarmHouse...)", Teleport),
+                ["animal"] = ("animal <chicken|duck|rabbit|cow|goat|sheep>", "add an animal to the coop or barn you are in (tp Coop or tp Barn first)", AddAnimal),
                 ["floor"] = ("floor <1-40>", "go to a mine floor", MineFloor),
                 ["sleep"] = ("sleep", "start the real sleep flow (fade, summary, wake in bed)", Sleep),
                 ["save"] = ("save", "save the game to the active slot", Save),
@@ -230,6 +231,21 @@ namespace Farm.Gameplay
             _session.State.CurrentMap = a[0];
             _session.State.SpawnPoint = a.Length == 2 ? a[1] : "default";
             return DebugCommandResult.Success($"Going to {a[0]} ({_session.State.SpawnPoint}).", reload: true);
+        }
+
+        DebugCommandResult AddAnimal(string[] a)
+        {
+            if (a.Length != 1) return DebugCommandResult.Fail("Usage: animal <type>");
+            var row = AnimalDefaults.Find(a[0]);
+            if (row == null) return DebugCommandResult.Fail($"No animal called '{a[0]}'.");
+            var building = row.Value.Building;
+            if (_session.State.CurrentMap != building) return DebugCommandResult.Fail($"A {a[0]} lives in the {building}: tp {building} first.");
+            if (!AnimalRules.HasRoom(_session.State, building)) return DebugCommandResult.Fail($"The {building} is full.");
+            var count = AnimalRules.In(_session.State, building).Count;
+            var animal = AnimalRules.Add(_session.State, row.Value.Id, Guid.NewGuid().ToString("N").Substring(0, 8), $"{row.Value.Name} {count + 1}");
+            if (animal == null) return DebugCommandResult.Fail("Could not add it.");
+            AnimalManager.Current?.Spawn(animal, 4 + count % 5 * 2, 4 + count / 5 * 2);
+            return DebugCommandResult.Success($"Added a {row.Value.Name} to the {building}.");
         }
 
         DebugCommandResult MineFloor(string[] a)

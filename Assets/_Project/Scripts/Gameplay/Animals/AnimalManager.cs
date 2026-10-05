@@ -11,6 +11,8 @@ namespace Farm.Gameplay
 
         public static AnimalManager Current { get; private set; }
         public FarmMap Map { get; private set; }
+        // The animals sleep at night (the picture changes and they stay put).
+        public bool Night => _session != null && AnimalSprites.IsNight(_session.Clock.Now.MinuteOfDay / 60);
         public bool Running => _session != null && _session.InGame && !_session.Clock.IsPaused;
 
         public void Init(FarmMap map, GameSession session)
@@ -46,6 +48,12 @@ namespace Farm.Gameplay
             actor.Setup(state, this);
             _actors.Add(actor);
             return actor;
+        }
+
+        // The trough was filled: every animal in the building turns to the front and munches.
+        public void Munch(float seconds = 2.5f)
+        {
+            foreach (var a in _actors) if (a != null) a.Eat(seconds);
         }
 
         public AnimalActor ActorAt(Vector3Int cell)

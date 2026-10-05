@@ -28,7 +28,7 @@ namespace Farm.Tests
             _session = _go.AddComponent<GameSession>();
             _session.Init(new EventBus(), _db, new SaveService(Path.GetTempPath()));
             _session.BeginDevGame();
-            _cmd = new DebugCommandProcessor(_session, name => name == "Farm" || name == "FarmHouse" || name == "Mine");
+            _cmd = new DebugCommandProcessor(_session, name => name == "Farm" || name == "FarmHouse" || name == "Mine" || name == "Coop" || name == "Barn");
         }
 
         [TearDown]
@@ -223,6 +223,21 @@ namespace Farm.Tests
             Assert.IsFalse(Run("floor 41").Ok);
             Assert.IsFalse(Run("floor abc").Ok);
             Assert.AreEqual(25, _session.State.Mine.Floor, "unchanged after a bad number");
+        }
+
+        [Test]
+        public void Animal_AddsAnAnimalToTheBuildingYouAreIn_ForItsOwnTypeOnly()
+        {
+            Assert.IsFalse(Run("animal chicken").Ok, "not in the coop yet");
+            Run("tp Coop");
+            var ok = Run("animal chicken");
+            Assert.IsTrue(ok.Ok, ok.Message);
+            Assert.AreEqual(1, _session.State.Animals.Count);
+            Assert.AreEqual("chicken", _session.State.Animals[0].Type);
+            Assert.AreEqual("Coop", _session.State.Animals[0].Building);
+            Assert.IsFalse(Run("animal cow").Ok, "a cow lives in the barn");
+            Assert.IsFalse(Run("animal dragon").Ok);
+            Assert.IsFalse(Run("animal").Ok);
         }
 
         [Test]

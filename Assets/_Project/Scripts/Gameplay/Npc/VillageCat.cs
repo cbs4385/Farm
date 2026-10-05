@@ -51,6 +51,7 @@ namespace Farm.Gameplay
             name = "VillageCat";
             _bob = gameObject.AddComponent<WalkBob>();
             _bob.Breathes = true;
+            _bob.StepsLegs = false;
             var box = gameObject.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
             box.size = new Vector2(0.8f, 0.8f);

@@ -305,6 +305,8 @@ namespace Farm.Gameplay
 
         public const int FishingEnergy = 5;
 
+        Vector3Int _castCell;
+
         void Cast(Vector3Int cell)
         {
             var spot = FishSpots.ForMap(_map.MapId);
@@ -312,6 +314,8 @@ namespace Farm.Gameplay
             if (!ServiceLocator.TryGet<IUiService>(out var ui) || !SpendEnergy(FishingEnergy)) return;
             var bait = Session.Backpack.Has(FishDefaults.Bait);
             if (bait) Session.Backpack.Remove(FishDefaults.Bait, 1);
+            _castCell = cell;
+            ActionPuff.Burst(_map.CellCenter(cell), new Color(0.75f, 0.9f, 1f), 6);          // the line hits the water
             var n = Session.AddVar("stat.casts", 1);
             float R(int k) => WeatherRoller.Unit(n * 97 + k * 13, Session.State.WorldSeed ^ 0x3C6EF372);
             var eligible = FishingModel.Eligible(FishDefaults.Rows, spot, Session.World);
@@ -325,6 +329,7 @@ namespace Farm.Gameplay
             if (done == null) return;
             if (!done.Caught || !done.Fish.HasValue) { Session.Toast(L.Get("fishing.escaped")); return; }
             var fish = done.Fish.Value;
+            ActionPuff.Burst(_map.CellCenter(_castCell), new Color(0.75f, 0.9f, 1f), 9);          // a fish breaks the surface
             if (Session.Backpack.Add(fish.ItemId, 1, done.Quality) > 0) { Session.Toast(L.Get("toast.inventory_full")); return; }
             Session.AddVar("stat.fished", 1);
             Session.AddSkillXp(SkillIds.Fishing, FishingModel.Xp(fish));

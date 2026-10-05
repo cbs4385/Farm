@@ -30,7 +30,12 @@ namespace Farm.Gameplay
         // Standing still, the picture rises a pixel for the second half of every breath. Off for the farmer, on for villagers and animals.
         public bool Breathes;
 
+        // Walking, alternate a lifted left foot and a lifted right foot with the body's own hop (StepFrames). Off for things that have walking
+        // pictures of their own (the cat, the farm animals).
+        public bool StepsLegs = true;
+
         public bool IsRaised { get; private set; }
+        public int StepPhase { get; private set; }               // 0 left foot, 1 passing, 2 right foot, 3 passing (while walking)
         public bool IsLunging => _lungeLeft > 0f;
 
         // Is the picture up at this moment of a walk? (pure, so it can be tested)
@@ -63,7 +68,12 @@ namespace Farm.Gameplay
         }
 
         // The sprite that was set by the game, whether or not we have swapped in a shifted copy of it.
-        static Sprite BaseOf(Sprite shown) => shown != null && BaseOfShifted.TryGetValue(shown, out var original) ? original : shown;
+        static Sprite BaseOf(Sprite shown)
+        {
+            if (shown == null) return null;
+            if (BaseOfShifted.TryGetValue(shown, out var original)) return original;
+            return StepFrames.TryGetOriginal(shown, out var stepped) ? stepped : shown;
+        }
 
         // A tool swing or a strike: the picture lunges a couple of pixels the way the farmer faces, then settles back.
         public void Lunge(Vector2Int direction)
@@ -102,7 +112,10 @@ namespace Farm.Gameplay
                 var push = LungeOffset(1f - _lungeLeft / LungeSeconds);
                 dx += _lungeDir.x * push; dy += _lungeDir.y * push;
             }
-            var want = Shifted(original, dx, dy);
+            var step = _movingNow ? (int)(_clock / StepSeconds) % 4 : 0;
+            StepPhase = step;
+            var legs = _movingNow && StepsLegs && _lungeLeft <= 0f && !wantRaised ? StepFrames.For(original) : null;
+            var want = legs != null ? legs[step / 2] : Shifted(original, dx, dy);
             if (want != shown) _renderer.sprite = want;
         }
     }

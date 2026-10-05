@@ -98,6 +98,54 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator InTheCoop_TheAnimalsSleepAtNight_AndShowTheViewTheyAreWalking()
+        {
+            yield return Start(MapIds.Coop);
+            _s.SetFlag(AnimalRules.BuildingFlag(MapIds.Coop));
+            _s.Backpack.Add("animal.chicken", 1);
+            Select("animal.chicken");
+            Player.transform.position = new Vector3(5.5f, 3.5f, 0f);
+            Player.Face(Vector2Int.right);
+            for (var i = 0; i < 4; i++) yield return null;
+            yield return Tap(Key.C);
+            var actor = UnityEngine.Object.FindAnyObjectByType<AnimalActor>();
+            Assert.IsNotNull(actor);
+
+            // By day it wanders, and what it shows matches the way it last stepped.
+            _s.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 12 * 60));
+            var views = new System.Collections.Generic.HashSet<string>();
+            var end = Time.realtimeSinceStartup + 30f;
+            while (Time.realtimeSinceStartup < end && views.Count < 2)
+            {
+                yield return null;
+                if (actor.ShownPicture != null) views.Add(actor.ShownPicture.Substring(0, actor.ShownPicture.Length - 1));
+            }
+            Assert.GreaterOrEqual(views.Count, 2, "it shows more than one view as it wanders: " + string.Join(",", views));
+
+            // At night it lies down and stays put.
+            _s.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 23 * 60));
+            var settle = Time.realtimeSinceStartup + 4f;            // a step in progress is finished first
+            var last = actor.transform.position;
+            var still = 0;
+            while (Time.realtimeSinceStartup < settle && still < 20)
+            {
+                yield return null;
+                still = actor.transform.position == last ? still + 1 : 0;
+                last = actor.transform.position;
+            }
+            Assert.IsTrue(actor.IsAsleep);
+            Assert.AreEqual("sleep", actor.ShownPicture);
+            var at = actor.transform.position;
+            for (var i = 0; i < 60; i++) yield return null;
+            Assert.AreEqual(at, actor.transform.position, "asleep, it does not wander");
+
+            _s.Clock.SetTime(new GameDateTime(1, Season.Spring, 4, 9 * 60));
+            for (var i = 0; i < 5; i++) yield return null;
+            Assert.IsFalse(actor.IsAsleep);
+            Assert.AreNotEqual("sleep", actor.ShownPicture);
+        }
+
+        [UnityTest]
         public IEnumerator InTheCoop_AnAnimalIsPlaced_Fed_AndGivesAnEggTheNextMorning()
         {
             yield return Start(MapIds.Coop);
@@ -111,7 +159,7 @@ namespace Farm.Tests
             yield return Tap(Key.C);
             Assert.AreEqual(1, _s.State.Animals.Count, "the chicken moved in");
             var actor = UnityEngine.Object.FindAnyObjectByType<AnimalActor>();
-            StringAssert.StartsWith("item_animal_chicken", actor.GetComponent<SpriteRenderer>().sprite.name, "it is drawn with the chicken's own art, not a square");
+            StringAssert.StartsWith("animal_chicken_", actor.GetComponent<SpriteRenderer>().sprite.name, "it is drawn with the chicken's own art, not a square");
             Assert.AreEqual(0, _s.Backpack.Count("animal.chicken"));
 
             // The trough is at (10, 6): stand below it.
@@ -120,6 +168,9 @@ namespace Farm.Tests
             for (var i = 0; i < 4; i++) yield return null;
             yield return Tap(Key.E);
             Assert.IsTrue(_s.State.Animals[0].FedToday, "the trough fed it");
+            Assert.IsTrue(actor.IsEating, "it munches after being fed");
+            for (var i = 0; i < 3; i++) yield return null;
+            StringAssert.StartsWith("eat", actor.ShownPicture, "and shows the munching picture");
             Assert.AreEqual(2, _s.Backpack.Count(AnimalRules.Feed));
 
             _s.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 22 * 60));

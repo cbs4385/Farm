@@ -49,6 +49,7 @@ namespace Farm.Gameplay
                 return;
             }
             AudioService.PlayIfAvailable(Sfx.Door);
+            DoorFlash.Show(TryGetComponent<Collider2D>(out var door) ? door.bounds.center : transform.position);
             MapTravel.GoTo(_targetMap, _targetSpawn);
         }
 

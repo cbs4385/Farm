@@ -679,7 +679,7 @@ namespace Farm.Editor
             sr.sprite = Sprite(spriteName);
             sr.sortingOrder = 4;
             if (solid) go.AddComponent<BoxCollider2D>().size = Vector2.one;
-            if (spriteName == "obj_tree") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
+            if (spriteName == "obj_tree" || spriteName == "obj_bramble") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
             return go;
         }
 

@@ -91,6 +91,8 @@ namespace Farm.Gameplay
             if (lighting == null || !lighting.IsIndoor)
                 new GameObject("WeatherEffects").AddComponent<WeatherEffects>();
 
+            new GameObject("WaterSparkle").AddComponent<WaterSparkle>().Init(_map);      // glints on any open water (it removes itself if there is none)
+
             StartCoroutine(OpenRequestedScreen());
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             RunStartupCommands();

@@ -17,6 +17,7 @@ namespace Farm.Gameplay
             if (hungry == 0) { s.Toast(L.Get("animal.all_fed")); return; }
             var fed = AnimalRules.FeedAll(s.State, building, s.Backpack);
             s.Toast(fed == 0 ? L.Get("animal.no_feed") : L.Get("animal.fed", fed));
+            if (fed > 0) AnimalManager.Current?.Munch();
             s.NotifyChanged();
         }
     }
