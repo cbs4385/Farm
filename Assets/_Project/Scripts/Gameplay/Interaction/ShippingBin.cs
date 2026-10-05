@@ -4,13 +4,15 @@ using UnityEngine;
 
 namespace Farm.Gameplay
 {
-    // Ships the stack selected on the hotbar. Placed on the farm next to the house.
+    // The shipping bin next to the house: opens the shipping window. Goods put in are paid for overnight.
     public sealed class ShippingBin : MonoBehaviour, IInteractable
     {
         public string HoverLabel => Farm.Core.L.Get("hover.shipping_bin");
 
         public void Interact(PlayerActions player)
         {
+            // Normally the bin opens as a window (pick items and amounts, ship them as one lot); without a UI the selected stack goes in.
+            if (ServiceLocator.TryGet<IUiService>(out var ui) && ui != null) { ui.ShowShipping(); return; }
             var session = player.Session;
             var slot = session.State.SelectedHotbar;
             var stack = session.Backpack.Get(slot);

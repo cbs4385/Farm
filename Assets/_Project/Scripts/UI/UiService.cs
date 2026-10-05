@@ -340,6 +340,16 @@ namespace Farm.UI
             _board.OpenBoard();
         }
 
+        ShippingScreen _shipping;
+
+        public void ShowShipping()
+        {
+            _shipping ??= new ShippingScreen(this);
+            _shipping.OpenShipping();
+        }
+
+        public ShippingScreen Shipping => _shipping;
+
         public void ShowChest(string objectId)
         {
             _chest ??= new ChestScreen(this);

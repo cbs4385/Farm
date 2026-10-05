@@ -178,6 +178,12 @@ namespace Farm.Gameplay
                     ui.ShowGameMenu(MenuTabs.Gossip);
                     break;
                 }
+                case "shipping":
+                    _session.Backpack.Add("crop.parsnip", 12);
+                    _session.Backpack.Add("crop.potato", 7, 1);
+                    _session.Backpack.Add("forage.mushroom", 3);
+                    ui.ShowShipping();
+                    break;
                 case "gazette":
                     foreach (var id in new[] { "wren", "hazel", "bram", "tilda" }) _session.State.Npcs[id] = new NpcState { Met = true };
                     ui.ShowGameMenu(MenuTabs.Gazette);

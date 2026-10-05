@@ -598,12 +598,15 @@ namespace Farm.Gameplay
         // ---- shipping ------------------------------------------------------------------------------------------
 
         // Moves the whole stack in a backpack slot into the shipping bin. Returns false if it cannot be sold.
-        public bool ShipSlot(int slot)
+        public bool ShipSlot(int slot) => ShipSlot(slot, int.MaxValue);
+
+        // The same, for some of the stack (the shipping window ships a lot of several stacks at once).
+        public bool ShipSlot(int slot, int count)
         {
             var stack = Backpack.Get(slot);
-            if (stack == null || !_db.TryGetItem(stack.ItemId, out var item) || item.IsTool || item.SellPrice <= 0) return false;
+            if (stack == null || count <= 0 || !_db.TryGetItem(stack.ItemId, out var item) || item.IsTool || item.SellPrice <= 0) return false;
 
-            var removed = Backpack.RemoveFromSlot(slot, stack.Count);
+            var removed = Backpack.RemoveFromSlot(slot, System.Math.Min(count, stack.Count));
             AddVar(QuestLog.Stats.Shipped, removed.Count);
             foreach (var existing in State.ShippingBin)
             {
