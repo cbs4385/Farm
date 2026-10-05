@@ -76,6 +76,33 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void ThePathOpensQuest_StartsWhenTheWoodsOpen_AndEndsWhenThePlayerWalksIn()
+        {
+            var text = System.IO.File.ReadAllText(System.IO.Path.Combine(UnityEngine.Application.dataPath, "_Project", "Resources", "Mythos", "mythos_story.json"));
+            var quest = Newtonsoft.Json.Linq.JObject.Parse(text)["quests"].First(q => (string)q["id"] == "mythos_woods");
+            Assert.IsTrue((bool)quest["autoStart"]);
+            Assert.AreEqual("horror:1 && flag:woods.open", (string)quest["available"]);
+            Assert.AreEqual("flag:mythos.woods_entered", (string)quest["objectives"][0]["condition"]);
+            L.SetLanguage("en");
+            foreach (var key in new[] { "quest.mythos_woods.title", "quest.mythos_woods.desc", "quest.mythos_woods.o0", "mythos.woods_open" })
+                Assert.AreNotEqual(key, L.Get(key), key);
+
+            Install(1);
+            MythosMaps.NoteWoodsEntered(S, MapIds.Forest);
+            Assert.IsFalse(S.HasFlag(MythosIds.Flags.WoodsEntered), "the forest is not the wood");
+            MythosMaps.NoteWoodsEntered(S, MapIds.Woods);
+            Assert.IsTrue(S.HasFlag(MythosIds.Flags.WoodsEntered));
+        }
+
+        [Test]
+        public void AtLevel0_WalkingIntoTheWoodsSetsNothing()
+        {
+            Install(0);
+            MythosMaps.NoteWoodsEntered(S, MapIds.Woods);
+            Assert.IsFalse(S.HasFlag(MythosIds.Flags.WoodsEntered));
+        }
+
+        [Test]
         public void ARitualThatRunsToTheEnd_LowersWakefulness()
         {
             Install(2);

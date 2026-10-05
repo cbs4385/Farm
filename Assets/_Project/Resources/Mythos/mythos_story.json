@@ -748,6 +748,24 @@
   ],
   "quests": [
     {
+      "id": "mythos_woods",
+      "titleKey": "quest.mythos_woods.title",
+      "descriptionKey": "quest.mythos_woods.desc",
+      "category": "story",
+      "autoStart": true,
+      "autoComplete": true,
+      "available": "horror:1 && flag:woods.open",
+      "objectives": [
+        {
+          "text": "quest.mythos_woods.o0",
+          "condition": "flag:mythos.woods_entered"
+        }
+      ],
+      "rewards": [
+        "lore:1"
+      ]
+    },
+    {
       "id": "mythos_investigate",
       "titleKey": "quest.mythos_investigate.title",
       "descriptionKey": "quest.mythos_investigate.desc",

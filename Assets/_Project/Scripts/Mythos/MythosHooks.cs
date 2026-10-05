@@ -75,7 +75,11 @@ namespace Farm.Mythos
             _s.SetFlag(MythosIds2.RitualFlag, RitualDirector.IsRitualDay(now) && !save.Sealed && save.ResolvedSeason != save.PlannedSeason);
 
             // The woods open to the player when summer comes (the cult's first season has passed).
-            if (RitualDirector.SeasonIndex(now) >= 1 && !_s.HasFlag(MapIds.WoodsOpenFlag)) _s.SetFlag(MapIds.WoodsOpenFlag);
+            if (RitualDirector.SeasonIndex(now) >= 1 && !_s.HasFlag(MapIds.WoodsOpenFlag))
+            {
+                _s.SetFlag(MapIds.WoodsOpenFlag);
+                context.Note("mythos.woods_open");   // the day summary says the way is open; the quest "The Path Opens" says where it leads
+            }
 
             if (MythosMutation.Mutate(_s, now.TotalDays) > 0) context.Note("mythos.mutation");
 

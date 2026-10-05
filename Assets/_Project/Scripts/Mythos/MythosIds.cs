@@ -26,6 +26,7 @@ namespace Farm.Mythos
             public const string CultRevealed = "mythos.cult_revealed";
             public const string WoodsOpen = Farm.Gameplay.MapIds.WoodsOpenFlag;   // the Forest gate (core)
             public const string Initiated = "mythos.initiated";
+            public const string WoodsEntered = "mythos.woods_entered";   // set the first time the player walks into Harrow Wood (ends the quest that points there)
         }
 
         // Weather ids a weather modifier may return (each needs a "weather.<id>" string)
