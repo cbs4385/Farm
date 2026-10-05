@@ -86,8 +86,53 @@ namespace Farm.Tests
                 Assert.IsTrue(_actions.MouseAiming, "the mouse is steering");
                 Assert.AreEqual(me + d, _actions.Target, "square on " + d);
             }
+            yield return PointAt(me);
+            Assert.AreEqual(me, _actions.Target, "the pointer over the avatar puts the square under the avatar (playtest report: it could not be tilled)");
             yield return PointAt(me + new Vector3Int(7, 5, 0));
             Assert.AreEqual(me + new Vector3Int(1, 1, 0), _actions.Target, "a far pointer aims in its direction, one cell out");
+        }
+
+        // Playtest report: "I was unable to till the tiles around the avatar nor under the avatar without having to move the avatar."
+        [UnityTest]
+        public IEnumerator TheHoe_TillsEveryCellAroundAndUnderTheAvatar_WithoutWalking()
+        {
+            yield return Enter(true);
+            // Stand on open grass with grass all around.
+            var b = _map.Ground.cellBounds;
+            Vector3Int? spot = null;
+            for (var y = b.yMin + 3; y < b.yMax - 3 && spot == null; y++)
+                for (var x = b.xMin + 3; x < b.xMax - 3 && spot == null; x++)
+                {
+                    var ok = true;
+                    for (var dx = -1; dx <= 1 && ok; dx++)
+                        for (var dy = -1; dy <= 1 && ok; dy++) ok = _map.IsTillable(new Vector3Int(x + dx, y + dy, 0));
+                    if (ok) spot = new Vector3Int(x, y, 0);
+                }
+            Assert.IsTrue(spot.HasValue, "the farm has a 3 x 3 patch of open grass");
+            _player.Teleport(_map.CellCenter(spot.Value) + new Vector3(0f, -0.25f, 0f));
+            yield return null;
+            var me = PlayerCell;
+            Assert.AreEqual(spot.Value, me);
+
+            var session = ServiceLocator.Get<GameSession>();
+            for (var i = 0; i < session.Backpack.Capacity; i++)
+                if (session.Backpack.Get(i)?.ItemId == Farm.Data.ItemIds.Hoe) session.State.SelectedHotbar = i;
+            var grid = session.GetGrid(MapIds.Farm);
+            var tilled = 0;
+            for (var dx = -1; dx <= 1; dx++)
+                for (var dy = -1; dy <= 1; dy++)
+                {
+                    var cell = me + new Vector3Int(dx, dy, 0);
+                    yield return PointAt(cell);
+                    Assert.AreEqual(cell, _actions.Target, "the square is on " + dx + "," + dy);
+                    _actions.UseSelected();
+                    yield return null;
+                    if (grid.IsTilled(cell.x, cell.y)) tilled++;
+                    Assert.IsTrue(grid.IsTilled(cell.x, cell.y), $"the hoe tilled the cell at offset {dx},{dy}" + (dx == 0 && dy == 0 ? " (under the avatar)" : ""));
+                    session.State.Energy = session.State.MaxEnergy;
+                }
+            Assert.AreEqual(9, tilled);
+            Assert.AreEqual(me, PlayerCell, "and the avatar never moved");
         }
 
         [UnityTest]

@@ -61,7 +61,7 @@ namespace Farm.Gameplay
             get
             {
                 var cell = _map.WorldToCell(_player.CellSamplePoint);
-                if (_mouseAim) return AimMath.Target(cell, _pointerCell, _player.Facing);
+                if (_mouseAim) return AimMath.Target(cell, _pointerCell);
                 return cell + new Vector3Int(_player.Facing.x, _player.Facing.y, 0);
             }
         }
@@ -85,7 +85,7 @@ namespace Farm.Gameplay
             var world = cam.ScreenToWorldPoint(new Vector3(position.x, position.y, -cam.transform.position.z));
             _pointerCell = _map.WorldToCell(world);
             var playerCell = _map.WorldToCell(_player.CellSamplePoint);
-            var facing = AimMath.FacingToward(playerCell, AimMath.Target(playerCell, _pointerCell, _player.Facing), _player.Facing);
+            var facing = AimMath.FacingToward(playerCell, AimMath.Target(playerCell, _pointerCell), _player.Facing);
             if (facing != _player.Facing) _player.Face(facing);
         }
 
@@ -341,6 +341,7 @@ namespace Farm.Gameplay
             }
             var grid = Session.GetGrid(_map.MapId);
             var objects = Session.GetObjects(_map.MapId);
+            if (cell == _map.WorldToCell(_player.CellSamplePoint) && !def.Walkable && def.Kind != PlaceableKind.Sprinkler) { Session.Toast(L.Get("placeable.blocked")); return; }
             if (!_map.CanPlaceAt(cell) || objects.Has(cell.x, cell.y) || grid.IsTilled(cell.x, cell.y) || Session.GetNodes(_map.MapId).Has(cell.x, cell.y))
             {
                 Session.Toast(L.Get("placeable.blocked"));
