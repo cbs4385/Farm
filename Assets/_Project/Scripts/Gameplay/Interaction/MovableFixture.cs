@@ -10,10 +10,29 @@ namespace Farm.Gameplay
         [SerializeField] string _id;
         [SerializeField] string _spawnId;
         [SerializeField] Vector2Int _spawnOffset;
+        [SerializeField] Vector2Int _size = Vector2Int.one;      // the cells it covers, from the cell it is saved at upwards and to the right (the double bed is 2 x 2)
 
         public string Id { get => _id; set => _id = value; }
         public string SpawnId { get => _spawnId; set => _spawnId = value; }
         public Vector2Int SpawnOffset { get => _spawnOffset; set => _spawnOffset = value; }
+        public Vector2Int Size { get => new Vector2Int(Mathf.Max(1, _size.x), Mathf.Max(1, _size.y)); set => _size = value; }
+
+        // The cells it covers when its saved cell is `origin`.
+        public System.Collections.Generic.IEnumerable<Vector3Int> Footprint(Vector3Int origin)
+        {
+            var size = Size;
+            for (var y = 0; y < size.y; y++)
+                for (var x = 0; x < size.x; x++) yield return origin + new Vector3Int(x, y, 0);
+        }
+
+        public bool Covers(FarmMap map, Vector3Int cell)
+        {
+            foreach (var c in Footprint(Cell(map))) if (c == cell) return true;
+            return false;
+        }
+
+        // Where its middle stands when the saved cell is `origin`.
+        public Vector3 CenterAt(FarmMap map, Vector3Int origin) => map.CellCenter(origin) + new Vector3((Size.x - 1) * 0.5f, (Size.y - 1) * 0.5f, 0f);
 
         // Moves the fixture to the cell the save says (when it says anything).
         public void Apply(GameSession session, FarmMap map)
@@ -25,7 +44,7 @@ namespace Farm.Gameplay
         // Puts it on a cell and moves its spawn point; the caller records it with Remember.
         public void Place(FarmMap map, Vector3Int cell)
         {
-            transform.position = map.CellCenter(cell);
+            transform.position = CenterAt(map, cell);
             if (string.IsNullOrEmpty(_spawnId)) return;
             foreach (var sp in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None))
                 if (sp.Id == _spawnId) sp.transform.position = map.CellCenter(cell + new Vector3Int(_spawnOffset.x, _spawnOffset.y, 0));
@@ -46,6 +65,6 @@ namespace Farm.Gameplay
             foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = !carried;
         }
 
-        public Vector3Int Cell(FarmMap map) => map.WorldToCell(transform.position);
+        public Vector3Int Cell(FarmMap map) => map.WorldToCell(transform.position - new Vector3((Size.x - 1) * 0.5f, (Size.y - 1) * 0.5f, 0f));
     }
 }

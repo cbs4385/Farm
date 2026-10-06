@@ -161,7 +161,8 @@ namespace Farm.Editor
             AddWarp(Center(DoorX, HouseY0), MapIds.FarmHouse, "default");
             AddWarp(Center(MapLayout.FarmExitX, MapLayout.FarmRoadY), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
 
-            AddObject("Mailbox", "obj_mailbox", Center(10, 19), solid: true).AddComponent<Mailbox>();
+            // A tall red box with a yellow flag (16 x 32): the old one was a small blue blob that was easy to miss. It stands on cell (10, 19) and reaches up a cell.
+            AddObject("Mailbox", "obj_mailbox_tall", Center(10, 19) + new Vector3(0f, 0.5f, 0f), solid: true, size: new Vector2(1f, 2f)).AddComponent<Mailbox>();
 
             // The shipping bin stays on the farm; the general store now lives in the village.
             var bin = AddObject("ShippingBin", "obj_shipping_bin", Center(13, 17) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));      // a 2 x 2 bin on cells (13..14, 17..18)
@@ -171,6 +172,28 @@ namespace Farm.Editor
         }
 
         // ---- FarmHouse ----------------------------------------------------------------------------------------
+
+        struct Furnishing
+        {
+            public string Name, Sprite;
+            public int X, Y, W, H;
+            public bool Solid;
+            public Furnishing(string name, string sprite, int x, int y, int w = 1, int h = 1, bool solid = true) { Name = name; Sprite = sprite; X = x; Y = y; W = w; H = h; Solid = solid; }
+        }
+
+        // The farmhouse is 12 x 9 (floor cells 1..10 by 1..7, the door at x 5 on the south wall). The north wall carries the bed, a lamp, a picture, the
+        // hearth, a clock and the wardrobe (the kitchen stands at 9, 7); the east wall a bookshelf; a dining corner and a sitting corner fill the rest.
+        static readonly Furnishing[] HouseFurnishings =
+        {
+            new Furnishing("RugLarge", "obj_rug_large", 3, 3, 2, 2, solid: false),
+            new Furnishing("Fireplace", "obj_fireplace", 5, 6, 2, 2),
+            new Furnishing("Lamp", "obj_lamp", 3, 7), new Furnishing("Painting", "obj_painting", 4, 7), new Furnishing("Clock", "obj_clock", 7, 7),
+            new Furnishing("Bookshelf", "obj_bookshelf", 8, 7), new Furnishing("Wardrobe", "obj_wardrobe", 10, 7),
+            new Furnishing("BookshelfEast", "obj_bookshelf", 10, 5), new Furnishing("PlantEast", "obj_plant", 10, 2),
+            new Furnishing("Couch", "obj_couch", 1, 4), new Furnishing("Armchair", "obj_armchair", 6, 4), new Furnishing("PlantWest", "obj_plant", 1, 1),
+            new Furnishing("DiningTable", "obj_dining_table", 8, 3), new Furnishing("ChairWest", "obj_chair", 7, 3), new Furnishing("ChairEast", "obj_chair", 9, 3),
+            new Furnishing("Vase", "obj_vase", 10, 1), new Furnishing("Bench", "obj_bench", 8, 1),
+        };
 
         static void BuildFarmHouse()
         {
@@ -190,12 +213,21 @@ namespace Farm.Editor
             AddSpawn("bed", Center(3, 6));
             AddWarp(Center(5, 0), MapIds.Farm, "fromHouse");
 
-            var bed = AddObject("Bed", "obj_bed", Center(2, 6), solid: true);
+            // Furnishings the farmhouse starts with (more can be bought at the carpenter's). Nothing here may close off the bed, the kitchen or the door.
+            foreach (var p in HouseFurnishings)
+            {
+                var piece = AddObject(p.Name, p.Sprite, Center(p.X, p.Y) + new Vector3((p.W - 1) * 0.5f, (p.H - 1) * 0.5f, 0f), solid: p.Solid, size: new Vector2(p.W, p.H));
+                if (!p.Solid) piece.GetComponent<SpriteRenderer>().sortingOrder = 1;      // a rug lies under everything that stands on it
+            }
+
+            // A double bed, two cells square, in the north-west corner (cells 1..2, 6..7). One wakes up on the cell east of it.
+            var bed = AddObject("Bed", "obj_bed_double", Center(1, 6) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));
             bed.AddComponent<Bed>();
             var bedFixture = bed.AddComponent<MovableFixture>();
             bedFixture.Id = "bed";
             bedFixture.SpawnId = "bed";
-            bedFixture.SpawnOffset = new Vector2Int(1, 0);
+            bedFixture.SpawnOffset = new Vector2Int(2, 0);
+            bedFixture.Size = new Vector2Int(2, 2);
 
             // The kitchen: cook with what is in the backpack.
             var kitchen = AddObject("Kitchen", "obj_kitchen", Center(9, 7), solid: true);

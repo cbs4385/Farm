@@ -138,14 +138,14 @@ namespace Farm.Tests
             yield return Start(MapIds.FarmHouse);
             var bed = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "bed");
             var home = bed.Cell(_map);
-            _hammer.Use(home);
+            _hammer.Use(home + new Vector3Int(1, 1, 0));                   // any of the four cells of the double bed lifts it
             Assert.IsTrue(_hammer.Carrying);
             var target = new Vector3Int(8, 4, 0);
             _hammer.Use(target);
             Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
             Assert.AreEqual(target, bed.Cell(_map));
             var sleepSpawn = UnityEngine.Object.FindObjectsByType<SpawnPoint>().First(sp => sp.Id == "bed");
-            Assert.AreEqual(new Vector3Int(9, 4, 0), _map.WorldToCell(sleepSpawn.transform.position), "one wakes up beside the bed");
+            Assert.AreEqual(new Vector3Int(10, 4, 0), _map.WorldToCell(sleepSpawn.transform.position), "one wakes up beside the bed");
 
             yield return Start(MapIds.FarmHouse);                  // load the room again
             var bedAgain = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "bed");

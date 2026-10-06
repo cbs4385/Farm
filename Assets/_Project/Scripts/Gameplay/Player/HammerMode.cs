@@ -81,11 +81,11 @@ namespace Farm.Gameplay
             // A fixture of the room.
             foreach (var f in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None))
             {
-                if (f.Cell(_map) != cell) continue;
+                if (!f.Covers(_map, cell)) continue;
                 _kind = Kind.Fixture;
                 _fixture = f;
                 _picture = f.GetComponentInChildren<SpriteRenderer>()?.sprite;
-                _origin = cell;
+                _origin = f.Cell(_map);
                 f.SetCarried(true);
                 Told("build.lifted");
                 return;
@@ -180,21 +180,32 @@ namespace Farm.Gameplay
                     return result == FarmBuildings.Placement.Ok ? null : "build.refused." + result.ToString().ToLowerInvariant();
                 }
                 case Kind.Fixture:
+                    foreach (var c in _fixture.Footprint(cell))
+                    {
+                        var refused = WhyNotOnCell(c, walkable: false);
+                        if (refused != null) return refused;
+                    }
+                    return null;
                 case Kind.Placed:
                 {
-                    if (!_map.CanPlaceAt(cell)) return "placeable.blocked";
-                    var objects = _session.GetObjects(_map.MapId);
-                    var there = objects.At(cell.x, cell.y);
-                    if (there != null && there != _placed) return "placeable.blocked";
-                    if (_session.GetGrid(_map.MapId).IsTilled(cell.x, cell.y) || _session.GetNodes(_map.MapId).Has(cell.x, cell.y)) return "placeable.blocked";
-                    if (cell == _map.WorldToCell(_actions.transform.position)) return "placeable.blocked";
-                    if (CellOccupants.IsTaken(cell)) return "placeable.blocked";
-                    var walkable = _kind == Kind.Placed && _session.Placeables.Get(_placed.TypeId) is PlaceableDefinition def && def.Walkable;      // a rug may lie in a doorway
-                    if (DecorRules.BlocksDoor(cell, walkable, DoorCells())) return "placeable.decor_door";
-                    return null;
+                    var walkable = _session.Placeables.Get(_placed.TypeId) is PlaceableDefinition def && def.Walkable;      // a rug may lie in a doorway
+                    return WhyNotOnCell(cell, walkable);
                 }
             }
             return "placeable.blocked";
+        }
+
+        string WhyNotOnCell(Vector3Int cell, bool walkable)
+        {
+            if (!_map.CanPlaceAt(cell)) return "placeable.blocked";
+            var objects = _session.GetObjects(_map.MapId);
+            var there = objects.At(cell.x, cell.y);
+            if (there != null && there != _placed) return "placeable.blocked";
+            if (_session.GetGrid(_map.MapId).IsTilled(cell.x, cell.y) || _session.GetNodes(_map.MapId).Has(cell.x, cell.y)) return "placeable.blocked";
+            if (cell == _map.WorldToCell(_actions.transform.position)) return "placeable.blocked";
+            if (CellOccupants.IsTaken(cell)) return "placeable.blocked";
+            if (DecorRules.BlocksDoor(cell, walkable, DoorCells())) return "placeable.decor_door";
+            return null;
         }
 
         // A building needs open ground: grass or dirt, no wall, nothing planted, dug, growing or set down there, and nobody standing on it.
@@ -229,23 +240,39 @@ namespace Farm.Gameplay
             }
             else cells.Add(cell);
 
+            if (_kind == Kind.Fixture && _fixture.Size != Vector2Int.one)       // one picture, as big as the piece, instead of a square per cell
+            {
+                var big = EnsureGhost(0);
+                big.transform.position = _fixture.CenterAt(_map, cell);
+                big.sprite = _picture != null ? _picture : _square;
+                big.color = new Color(color.r, color.g, color.b, 0.85f);
+                for (var i = 1; i < _ghost.Count; i++) _ghost[i].gameObject.SetActive(false);
+                return;
+            }
+
             for (var i = 0; i < cells.Count; i++)
             {
-                if (i >= _ghost.Count)
-                {
-                    var go = new GameObject("BuildGhost");
-                    go.transform.SetParent(transform, false);
-                    var sr = go.AddComponent<SpriteRenderer>();
-                    sr.sortingOrder = 20;
-                    _ghost.Add(sr);
-                }
-                var r = _ghost[i];
-                r.gameObject.SetActive(true);
+                var r = EnsureGhost(i);
                 r.transform.position = _map.CellCenter(cells[i]);
                 r.sprite = _kind != Kind.Building && _picture != null ? _picture : _square;
                 r.color = _kind != Kind.Building && _picture != null ? new Color(color.r, color.g, color.b, 0.85f) : color;
             }
             for (var i = cells.Count; i < _ghost.Count; i++) _ghost[i].gameObject.SetActive(false);
+        }
+
+        SpriteRenderer EnsureGhost(int i)
+        {
+            while (i >= _ghost.Count)
+            {
+                var go = new GameObject("BuildGhost");
+                go.transform.SetParent(transform, false);
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sortingOrder = 20;
+                _ghost.Add(sr);
+            }
+            var r = _ghost[i];
+            r.gameObject.SetActive(true);
+            return r;
         }
     }
 }
