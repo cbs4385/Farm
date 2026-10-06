@@ -54,6 +54,7 @@ namespace Farm.Gameplay
                 ["gold"] = ("gold <amount|+N|-N>", "set or change gold", Gold),
                 ["energy"] = ("energy <amount|full>", "set energy", Energy),
                 ["give"] = ("give <itemId> [count]", "add items to the backpack", Give),
+                ["hold"] = ("hold <itemId>", "select an item on the hotbar (adding one if needed), to see it carried", Hold),
                 ["tp"] = ("tp <MapId> [spawn]", "go to a map (Farm, FarmHouse...)", Teleport),
                 ["animal"] = ("animal <chicken|duck|rabbit|cow|goat|sheep>", "add an animal to the coop or barn you are in (tp Coop or tp Barn first)", AddAnimal),
                 ["floor"] = ("floor <1-40>", "go to a mine floor", MineFloor),
@@ -222,6 +223,21 @@ namespace Farm.Gameplay
             return left == 0
                 ? DebugCommandResult.Success($"Gave {count} x {item.Id}.")
                 : DebugCommandResult.Success($"Gave {count - left} x {item.Id}; the backpack is full ({left} did not fit).");
+        }
+
+        DebugCommandResult Hold(string[] a)
+        {
+            if (a.Length != 1) return DebugCommandResult.Fail("Usage: hold <itemId>");
+            if (!_session.Db.TryGetItem(a[0], out var item)) return DebugCommandResult.Fail($"Unknown item '{a[0]}'.");
+            if (!_session.Backpack.Has(item.Id) && _session.Backpack.Add(item.Id, 1) > 0) return DebugCommandResult.Fail("The backpack is full.");
+            for (var i = 0; i < InputNames.HotbarSlots; i++)
+            {
+                var stack = _session.Backpack.Get(i);
+                if (stack == null || stack.ItemId != item.Id) continue;
+                _session.State.SelectedHotbar = i;
+                return DebugCommandResult.Success($"Holding {item.Id}.");
+            }
+            return DebugCommandResult.Fail($"{item.Id} is in the backpack but not on the hotbar.");
         }
 
         DebugCommandResult Teleport(string[] a)

@@ -196,6 +196,16 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void Hold_SelectsTheItemOnTheHotbar_AddingItIfNeeded()
+        {
+            var held = Run("hold seed.parsnip");
+            Assert.IsTrue(held.Ok, held.Message);
+            Assert.AreEqual("seed.parsnip", _session.Backpack.Get(_session.State.SelectedHotbar).ItemId);
+            Assert.IsFalse(Run("hold nothing.here").Ok);
+            Assert.IsFalse(Run("hold").Ok);
+        }
+
+        [Test]
         public void Teleport_SetsTheMapAndSpawn_ForKnownScenesOnly()
         {
             var ok = Run("tp FarmHouse bed");
