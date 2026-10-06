@@ -62,6 +62,7 @@ namespace Farm.Mythos
             var save = RitualDirector.Load(s);
             save.EndingShown = Array.IndexOf(new[] { Awakened, Sealed, Joined, Ignored }, ending) + 1;
             RitualDirector.Store(s, save);
+            s.Publish(new MusicCue("ending_" + ending));          // nothing plays it until the audio pass; docs/audio/MUSIC_PROMPTS.md
             // Every ending gets its picture; the fiery one then says goodbye and returns to the main menu (the world is over).
             System.Action after = null;
             if (ending == Awakened)

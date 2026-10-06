@@ -97,9 +97,14 @@ Keep these restrained and uncanny, never gory and with no jump scares. The Keepe
 ### 30. `nharoth_stirs` (a wakefulness-threshold sting, 10 to 20 seconds)
 - Style: `instrumental sting, one enormous low note swelling from silence, sub drone, distant rolling timpani, strings tremolo, resolves into quiet, no screaming, awe`
 
-### 31 and 32. `ending_sleep`, `ending_wake`
-- `ending_sleep` (Nharoth sleeps on): base + `a hopeful resolution, the main title melody returning on piano and strings, dawn, relief, gentle and full, 72 BPM, D major, ends on a long warm chord`
-- `ending_wake` (the world burns): `instrumental, the title melody broken apart and slowed, low organ, rolling drums, embers and wind, tragic grandeur, ends on a long fading note` (sad, not gory)
+### 31 to 34. `ending_sealed`, `ending_joined`, `ending_ignored`, `ending_awakened` (one per ending; each plays under its illustration and caption, so 60 to 90 seconds, must end; the cue name is `ending_<ending id>`, published by `MythosEnding.Finish`)
+Each ending has its own picture (`Resources/Endings/ending_<id>.png`); the music should match what the picture shows. All four reuse the title theme's four-note motif (a rising fourth, then a step down) so the player hears the same world one last time.
+- `ending_sealed` (dawn in the clearing, the relics glowing, Nharoth asleep for good): base + `a hopeful resolution, the title melody returning on solo piano then full strings, a sunrise in a quiet forest, birdsong-like flute, relief and gratitude, gentle and full, 72 BPM, D major, ends on a long warm chord`
+- `ending_joined` (the moonlit circle of hooded Keepers, the player chosen): `instrumental, solemn and tender chamber music, harmonium and pipe organ, low cello choir without words, a slow processional in 3/4, the title motif played slowly and in a minor key, bells like a distant church, candlelight and moon, belonging and duty rather than menace, 54 BPM, A minor resolving to A major at the very end, ends on a long held chord`
+- `ending_ignored` (a cozy sunset farm, a faint strange light in the wood that nobody notices): base + `a warm golden-hour farm theme, fingerstyle guitar and upright piano, the title melody played sweetly and contentedly, and then, in the last twenty seconds, one faint detuned music-box note and a low drone slip in underneath and are not resolved, sweet with a very faint uneasy hint, 80 BPM, G major, ends on an open unresolved chord`
+- `ending_awakened` (the sky burns, Nharoth rises; the world ends): `instrumental, the title melody broken apart and slowed down, low pipe organ, rolling timpani and frame drums, embers and wind, strings tremolo swelling to a vast chord, then thinning to a single fading piano note, tragic grandeur and awe, 46 BPM, D minor, no screaming, no choir shrieks, ends on a long fading note` (sad and awe-struck, not gory)
+
+At mild the same pieces play; none contains explicit ritual imagery or harsh sounds.
 
 ## After generating
 1. Pick, trim and loop-check each track; keep the master with its Suno prompt and date.

@@ -1,4 +1,5 @@
 using Farm.Core;
+using Farm.Gameplay;
 using Farm.Mythos;
 using NUnit.Framework;
 using UnityEngine;
@@ -18,6 +19,23 @@ namespace Farm.Tests
             Assert.AreEqual(320, texture.width, ending);
             Assert.AreEqual(180, texture.height, ending);
             Assert.IsTrue(L.Has("mythos.ending." + ending + ".caption"), ending);
+        }
+
+        [TestCaseSource(nameof(Endings))]
+        public void EveryEnding_AsksForItsMusic(string ending)
+        {
+            using (var f = new TestSessionFixture())
+            {
+                GameSession.HorrorLevelOverride = 2;
+                try
+                {
+                    var cues = new System.Collections.Generic.List<string>();
+                    f.Bus.Subscribe<MusicCue>(c => cues.Add(c.Name));
+                    MythosEnding.Finish(f.Session, ending);
+                    CollectionAssert.Contains(cues, "ending_" + ending);
+                }
+                finally { GameSession.HorrorLevelOverride = null; }
+            }
         }
 
         [Test]
