@@ -4,6 +4,7 @@ using Farm.Data;
 using Farm.Gameplay;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Farm.UI
@@ -91,6 +92,7 @@ namespace Farm.UI
         Image _dateIcon, _timeIcon, _weatherIcon, _goldIcon, _healthIcon;
         static readonly string[] SeasonArt = { "spring", "summer", "fall", "winter" };
         bool _dirty = true;
+        bool _tooltipShown;
         float _toastTimer;
         HudDriver _driver;
 
@@ -296,6 +298,7 @@ namespace Farm.UI
         {
             UpdateFade();
             UpdateStreamBadge();
+            UpdateHotbarTooltip();
             TickToast();
             if (!_dirty) return;
             _dirty = false;
@@ -353,6 +356,27 @@ namespace Farm.UI
                 slot.Count.text = stack != null && stack.Count > 1 ? stack.Count.ToString() : "";
             }
         }
+
+        // Rests the mouse on a hotbar slot: a label says what the item is and, for a tool, how to use it.
+        void UpdateHotbarTooltip()
+        {
+            var s = _ui.Session;
+            var mouse = Mouse.current;
+            var shown = -1;
+            if (mouse != null && s != null && s.InGame && !_ui.AnyModalOpen)
+            {
+                var position = mouse.position.ReadValue();
+                for (var i = 0; i < _slots.Length && shown < 0; i++)
+                    if (_slots[i] != null && _slots[i].Background.gameObject.activeInHierarchy
+                        && RectTransformUtility.RectangleContainsScreenPoint(_slots[i].Background.rectTransform, position, null)) shown = i;
+                var stack = shown >= 0 && shown < s.Backpack.Capacity ? s.Backpack.Get(shown) : null;
+                var text = stack != null ? HotbarTooltip.Text(s, stack.ItemId) : null;
+                if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }
+            }
+            if (_tooltipShown) { _ui.HideHover(); _tooltipShown = false; }
+        }
+
+        public string HotbarTooltipText => _tooltipShown ? _ui.HoverText : null;
 
         void TickToast()
         {

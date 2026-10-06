@@ -9,6 +9,7 @@ namespace Farm.UI
     // The hover label: a small panel that follows the mouse and names what it is over (a shipping bin, a door, a villager...).
     public sealed partial class UiService
     {
+        const float MaxHoverWidth = 360f;
         RectTransform _hover;
         TextMeshProUGUI _hoverText;
 
@@ -27,11 +28,11 @@ namespace Farm.UI
                 _hoverText = UiKit.Label(_hover, "", 17f, TextAlignmentOptions.Left, UiKit.TextColor);
                 _hoverText.raycastTarget = false;
                 UiKit.Stretch(_hoverText.rectTransform, 6f);
-                _hoverText.textWrappingMode = TextWrappingModes.NoWrap;
+                _hoverText.textWrappingMode = TextWrappingModes.Normal;
             }
             _hoverText.text = text;
             _hoverText.ForceMeshUpdate();
-            var size = _hoverText.GetPreferredValues(text);
+            var size = _hoverText.GetPreferredValues(text, MaxHoverWidth, 0f);      // long help text wraps instead of running off the screen
             _hover.sizeDelta = new Vector2(size.x + 14f, size.y + 10f);
             _hover.gameObject.SetActive(true);
             _hover.SetAsLastSibling();
