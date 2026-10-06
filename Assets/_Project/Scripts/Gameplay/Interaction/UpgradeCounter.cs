@@ -7,6 +7,7 @@ namespace Farm.Gameplay
     // energy reserve at the clinic). Like a shop counter it keeps the business's hours.
     public sealed class UpgradeCounter : MonoBehaviour, IInteractable
     {
+        public int Reach => 1;
         public string HoverLabel => Farm.Core.L.Get("hover.upgrades");
 
         [SerializeField] string _shopId = "blacksmith";

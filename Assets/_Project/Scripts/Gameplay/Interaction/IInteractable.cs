@@ -7,5 +7,8 @@ namespace Farm.Gameplay
 
         // A short plain-language name for what this is, shown when the mouse is over it (null: nothing to show).
         string HoverLabel => null;
+
+        // How many tiles beyond the one in front of the player it can still be used from (large counters and bins: 1).
+        int Reach => 0;
     }
 }

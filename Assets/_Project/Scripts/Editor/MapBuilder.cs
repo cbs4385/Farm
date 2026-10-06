@@ -59,9 +59,9 @@ namespace Farm.Editor
         {
             public string Name, Sprite, ShopId, UpgradesAt;   // UpgradesAt: a counter selling upgrades for that business
             public string SeatNpc, SeatKey, Curio;                   // a seat kept for the player by that villager
-            public int X, Y;
-            public Prop(string name, string sprite, int x, int y, string shopId = null, string upgradesAt = null, string seatNpc = null, string seatKey = null, string curio = null)
-            { Name = name; Sprite = sprite; X = x; Y = y; ShopId = shopId; UpgradesAt = upgradesAt; SeatNpc = seatNpc; SeatKey = seatKey; Curio = curio; }
+            public int X, Y, W, H;                                   // the cells it covers: W x H from (X, Y) upwards and to the right
+            public Prop(string name, string sprite, int x, int y, string shopId = null, string upgradesAt = null, string seatNpc = null, string seatKey = null, string curio = null, int w = 1, int h = 1)
+            { Name = name; Sprite = sprite; X = x; Y = y; W = w; H = h; ShopId = shopId; UpgradesAt = upgradesAt; SeatNpc = seatNpc; SeatKey = seatKey; Curio = curio; }
         }
 
         public static void BuildAll()
@@ -80,31 +80,29 @@ namespace Farm.Editor
 
             BuildInterior(MapIds.GeneralStore, 12, 9, 5, new[]
             {
-                new Prop("Counter", "obj_counter", 4, 5, "general"), new Prop("Counter2", "obj_counter", 5, 5, "general"),
-                new Prop("Counter3", "obj_counter", 6, 5, "general"),
+                new Prop("Counter", "obj_counter_wide", 3, 5, "general", w: 2), new Prop("Counter2", "obj_counter_wide", 5, 5, "general", w: 2),
                 new Prop("Shelf1", "obj_shelf", 2, 7), new Prop("Shelf2", "obj_shelf", 3, 7), new Prop("Shelf3", "obj_shelf", 4, 7),
                 new Prop("Shelf4", "obj_shelf", 7, 7), new Prop("Shelf5", "obj_shelf", 8, 7), new Prop("Shelf6", "obj_shelf", 9, 7),
                 new Prop("Crate1", "obj_bin", 1, 2), new Prop("Crate2", "obj_bin", 10, 2),
-                new Prop("PackCounter", "obj_counter", 9, 4, upgradesAt: "general"),
+                new Prop("PackCounter", "obj_counter_wide", 9, 4, upgradesAt: "general", w: 2),
                 new Prop("Seat", "obj_chair", 1, 5, seatNpc: "tilda", seatKey: "window"),
                 new Prop("CatDoor", "obj_cat_door", 10, 5, curio: "catdoor"),
             });
             BuildInterior(MapIds.Blacksmith, 10, 8, 4, new[]
             {
-                new Prop("Counter1", "obj_counter", 3, 4), new Prop("Counter2", "obj_counter", 4, 4, upgradesAt: "blacksmith"), new Prop("Counter3", "obj_counter", 5, 4),
+                new Prop("Counter1", "obj_counter_wide", 2, 4, w: 2), new Prop("Counter2", "obj_counter_wide", 4, 4, upgradesAt: "blacksmith", w: 2),
                 new Prop("Shelf1", "obj_shelf", 1, 6), new Prop("Shelf2", "obj_shelf", 2, 6), new Prop("Shelf3", "obj_shelf", 7, 6),
                 new Prop("Shelf4", "obj_shelf", 8, 6), new Prop("Anvil", "obj_table", 7, 2),
             });
             BuildInterior(MapIds.Carpenter, 10, 8, 4, new[]
             {
-                new Prop("Counter1", "obj_counter", 3, 4, "carpenter"), new Prop("Counter2", "obj_counter", 4, 4, upgradesAt: "carpenter"), new Prop("Counter3", "obj_counter", 5, 4),
+                new Prop("Counter1", "obj_counter_wide", 2, 4, "carpenter", w: 2), new Prop("Counter2", "obj_counter_wide", 4, 4, upgradesAt: "carpenter", w: 2),
                 new Prop("Shelf1", "obj_shelf", 1, 6), new Prop("Shelf2", "obj_shelf", 2, 6), new Prop("Bench", "obj_table", 7, 5),
                 new Prop("Bench2", "obj_table", 8, 5), new Prop("Planks", "obj_bin", 8, 2),
             });
             BuildInterior(MapIds.Saloon, 14, 10, 6, new[]
             {
-                new Prop("Bar1", "obj_counter", 3, 7), new Prop("Bar2", "obj_counter", 4, 7), new Prop("Bar3", "obj_counter", 5, 7),
-                new Prop("Bar4", "obj_counter", 6, 7), new Prop("Bar5", "obj_counter", 7, 7), new Prop("Bar6", "obj_counter", 8, 7),
+                new Prop("Bar1", "obj_counter_wide", 3, 7, w: 2), new Prop("Bar2", "obj_counter_wide", 5, 7, w: 2), new Prop("Bar3", "obj_counter_wide", 7, 7, w: 2),
                 new Prop("Table1", "obj_table", 2, 3), new Prop("Table2", "obj_table", 11, 3), new Prop("Table3", "obj_table", 11, 5),
                 new Prop("Table4", "obj_table", 2, 5), new Prop("Shelf1", "obj_shelf", 4, 8), new Prop("Shelf2", "obj_shelf", 6, 8),
                 new Prop("Seat", "obj_chair", 12, 3, seatNpc: "wren", seatKey: "stool"),
@@ -113,7 +111,7 @@ namespace Farm.Editor
             {
                 new Prop("Bed1", "obj_bed", 2, 6), new Prop("Bed2", "obj_bed", 4, 6), new Prop("Bed3", "obj_bed", 6, 6),
                 new Prop("Couch", "obj_couch", 8, 6, seatNpc: "elara", seatKey: "couch"),
-                new Prop("Desk1", "obj_counter", 7, 3, upgradesAt: "clinic"), new Prop("Desk2", "obj_counter", 8, 3), new Prop("Shelf", "obj_shelf", 1, 4),
+                new Prop("Desk1", "obj_counter_wide", 7, 3, upgradesAt: "clinic", w: 2), new Prop("Shelf", "obj_shelf", 1, 4),
             });
             BuildInterior(MapIds.CommunityHall, 14, 10, 7, new[]
             {
@@ -125,7 +123,7 @@ namespace Farm.Editor
                 new Prop("Shelf1", "obj_shelf", 2, 7), new Prop("Shelf2", "obj_shelf", 3, 7), new Prop("Shelf3", "obj_shelf", 4, 7),
                 new Prop("Shelf4", "obj_shelf", 7, 7), new Prop("Shelf5", "obj_shelf", 8, 7), new Prop("Shelf6", "obj_shelf", 9, 7),
                 new Prop("Shelf7", "obj_shelf", 2, 4), new Prop("Shelf8", "obj_shelf", 3, 4), new Prop("Shelf9", "obj_shelf", 8, 4),
-                new Prop("Shelf10", "obj_shelf", 9, 4), new Prop("Desk", "obj_counter", 5, 5), new Prop("Reading", "obj_table", 10, 2),
+                new Prop("Shelf10", "obj_shelf", 9, 4), new Prop("Desk", "obj_counter_wide", 5, 5, w: 2), new Prop("Reading", "obj_table", 10, 2),
                 new Prop("Seat", "obj_chair", 1, 2, seatNpc: "ione", seatKey: "chair"),
                 new Prop("NookSeat", "obj_armchair", 10, 5, seatNpc: "hazel", seatKey: "nook"),
             });
@@ -177,7 +175,7 @@ namespace Farm.Editor
             AddObject("Mailbox", "obj_mailbox", Center(10, 19), solid: true).AddComponent<Mailbox>();
 
             // The shipping bin stays on the farm; the general store now lives in the village.
-            var bin = AddObject("ShippingBin", "obj_bin", Center(13, 17), solid: true);
+            var bin = AddObject("ShippingBin", "obj_shipping_bin", Center(13, 17) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));      // a 2 x 2 bin on cells (13..14, 17..18)
             bin.AddComponent<ShippingBin>();
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Farm}.unity");
@@ -565,7 +563,7 @@ namespace Farm.Editor
 
             foreach (var p in props)
             {
-                var go = AddObject(p.Name, p.Sprite, Center(p.X, p.Y), solid: true);
+                var go = AddObject(p.Name, p.Sprite, Center(p.X, p.Y) + new Vector3((p.W - 1) * 0.5f, (p.H - 1) * 0.5f, 0f), solid: true, size: new Vector2(p.W, p.H));
                 if (p.ShopId != null) go.AddComponent<ShopCounter>().ShopId = p.ShopId;
                 if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
                 if (p.Name == "Board" && mapId == MapIds.CommunityHall) go.AddComponent<HallBoard>();
@@ -698,14 +696,14 @@ namespace Farm.Editor
             warp.BlockedMessageKey = blockedKey;
         }
 
-        static GameObject AddObject(string name, string spriteName, Vector3 position, bool solid)
+        static GameObject AddObject(string name, string spriteName, Vector3 position, bool solid, Vector2? size = null)
         {
             var go = new GameObject(name);
             go.transform.position = position;
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = Sprite(spriteName);
             sr.sortingOrder = 4;
-            if (solid) go.AddComponent<BoxCollider2D>().size = Vector2.one;
+            if (solid) go.AddComponent<BoxCollider2D>().size = size ?? Vector2.one;
             if (spriteName == "obj_tree" || spriteName == "obj_bramble") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
             return go;
         }

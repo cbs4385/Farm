@@ -514,20 +514,24 @@ namespace Farm.Gameplay
                 return;
             }
 
-            // 2. Something interactable on that tile (bin, bed, shop counter...).
-            foreach (var hit in Physics2D.OverlapPointAll(_map.CellCenter(cell)))
-            {
-                var interactable = hit.GetComponentInParent<IInteractable>();
-                if (interactable != null)
-                {
-                    interactable.Interact(this);
-                    return;
-                }
-            }
+            // 2. Something interactable on that tile (bin, bed, shop counter...), or a large one (counter, bin) one tile further on.
+            if (InteractableAt(cell, 0) is IInteractable here) { here.Interact(this); return; }
+            if (!_mouseAim && InteractableAt(cell + new Vector3Int(_player.Facing.x, _player.Facing.y, 0), 1) is IInteractable far) { far.Interact(this); return; }
 
             // 3. Convenience: Interact also plants the selected seeds (the main way is Use Tool).
             var stack = Session.Backpack.Get(Session.State.SelectedHotbar);
             if (stack != null && Session.Db.TryGetItem(stack.ItemId, out var item) && item.Category == ItemCategory.Seed) Plant(item);
+        }
+
+        // The thing to use on a cell: the first interactable there whose reach is at least `minReach`.
+        IInteractable InteractableAt(Vector3Int cell, int minReach)
+        {
+            foreach (var hit in Physics2D.OverlapPointAll(_map.CellCenter(cell)))
+            {
+                var interactable = hit.GetComponentInParent<IInteractable>();
+                if (interactable != null && interactable.Reach >= minReach) return interactable;
+            }
+            return null;
         }
 
         CropDefinition CropLookup(string id) => id != null && Session.Db.TryGetCrop(id, out var c) ? c : null;

@@ -93,10 +93,10 @@ namespace Farm.Gameplay
                         Stop(10 * 60, MapIds.Forest, 19, 15, "up"), Stop(15 * 60, MapIds.Village, 21, 17, "right"),
                         Stop(Ten, MapIds.Library, 7, 3)),
                     Day("summer_evenings", "season:summer", 3, home,
-                        Stop(Eight50, MapIds.Library, 6, 5, "down"), Stop(Half5, MapIds.Beach, 20, 9, "up"),
+                        Stop(Eight50, MapIds.Library, 7, 5, "down"), Stop(Half5, MapIds.Beach, 20, 9, "up"),
                         Stop(Nine, MapIds.Library, 7, 3)),
                     Day("workday", null, 0, home,
-                        Stop(Eight50, MapIds.Library, 6, 5, "down"), Stop(Half5, MapIds.Village, 21, 17, "right"),
+                        Stop(Eight50, MapIds.Library, 7, 5, "down"), Stop(Half5, MapIds.Village, 21, 17, "right"),
                         Stop(Nine, MapIds.Library, 7, 3)),
                 });
         }

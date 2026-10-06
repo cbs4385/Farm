@@ -105,6 +105,11 @@ SETS = {
         ("crop_blight_1", "a half-grown plant, wilted and sickly: grey-green leaves curled and drooping, a dark purple-black stain spreading on the stem and leaves", (16, 16)),
         ("crop_blight_2", "a tall dead plant: a bare dry brown stalk bent over, a few black curled leaves and one shrivelled grey pod hanging, purple-black rot at its base", (16, 16)),
     ]),
+    "wide": dict(cols=3, rows=1, what="larger shop furniture for a cozy farming village, each seen from the front and slightly above, filling its frame", bottom=False, items=[
+        ("obj_counter_wide", "a long wooden shop counter, twice as wide as it is tall: a warm honey-brown wooden front with a lighter cream countertop, a small brass bell and a little scale on top", (32, 16)),
+        ("obj_shipping_bin", "a big wooden shipping bin as wide as it is tall: a sturdy open-topped crate with slatted sides, iron corners, a hinged lid propped open and a few vegetables peeking out", (32, 32)),
+        ("obj_stall_wide", "a market stall twice as wide as it is tall: a wooden table with a striped red-and-cream awning, baskets of fish and goods on the front", (32, 16)),
+    ]),
     "extra": dict(cols=5, rows=3, what="small game sprites of different shapes, one clear object each", bottom=False, items=[
         ("fx_puff_2", "a large faint grey-white smoke cloud puff", (16, 16)),
         ("fx_ore_spark", "a burst of bright orange and yellow sparks flying out from a centre point", (16, 16)),

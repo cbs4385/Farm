@@ -54,7 +54,13 @@ namespace Farm.Tests
                 Fill(snap.Walls, tilemaps.Single(t => t.name == "Walls"));
                 foreach (var col in All<BoxCollider2D>(scene))
                     if (!col.isTrigger && !col.CompareTag("Player") && col.GetComponentInParent<Tilemap>() == null)
-                        snap.Blocked.Add(Cell(col.transform.position));
+                    {
+                        // every cell the collider covers (a wide counter or a 2 x 2 bin covers several)
+                        var b = col.bounds;
+                        for (var x = Mathf.FloorToInt(b.min.x + 0.01f); x <= Mathf.FloorToInt(b.max.x - 0.01f); x++)
+                            for (var y = Mathf.FloorToInt(b.min.y + 0.01f); y <= Mathf.FloorToInt(b.max.y - 0.01f); y++)
+                                snap.Blocked.Add(new Vector2Int(x, y));
+                    }
                 var min = new Vector2Int(snap.Ground.Min(c => c.x), snap.Ground.Min(c => c.y));
                 var max = new Vector2Int(snap.Ground.Max(c => c.x), snap.Ground.Max(c => c.y));
                 snap.Grid = new WalkGrid(min.x, min.y, max.x - min.x + 1, max.y - min.y + 1, snap.Walkable);

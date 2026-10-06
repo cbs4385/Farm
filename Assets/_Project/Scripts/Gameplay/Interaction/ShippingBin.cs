@@ -7,6 +7,7 @@ namespace Farm.Gameplay
     // The shipping bin next to the house: opens the shipping window. Goods put in are paid for overnight.
     public sealed class ShippingBin : MonoBehaviour, IInteractable
     {
+        public int Reach => 1;
         public string HoverLabel => Farm.Core.L.Get("hover.shipping_bin");
 
         public void Interact(PlayerActions player)

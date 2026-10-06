@@ -8,6 +8,7 @@ namespace Farm.Gameplay
     // library's opening hours.
     public sealed class LibraryDesk : MonoBehaviour, IInteractable
     {
+        public int Reach => 1;
         public const string BookItemId = "prop.book";
         public const string TakenFlag = "library.desk_book_taken";          // the first book (kept for the dialogue conditions that read it)
         const string BusinessId = "library";
