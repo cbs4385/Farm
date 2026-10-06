@@ -90,7 +90,7 @@ M3b completion (`mythos/M3b-COMPLETION-PLAN.md`), started 2026-10-06
 X-008a | done (automated) | claude/2026-10-06 | text distortion filter (`MythosTextFilter`, full intensity, dread 50+); EditMode tests only, not seen by a person
 X-005a | open | - | sleepwalking and blight
 X-006a | open | - | moon-phase events
-X-008b | open | - | sound layers
+X-008b | done (automated) | claude/2026-10-06 | sound layers: generic `AudioService.SetAmbienceLayer`; `MythosSoundscape` drone by step (5/10/15/20), tones from step 10, heartbeat in the Wood by dread; mild half, off silent. Loops are written to `Builds/sfx/mythos_*.wav` by the tests; nobody has listened to them or heard them in a build
 X-010a | open | - | ending art and music, balance bots
 X-011a | open | - | level-0 equivalence test; a human playthrough at each level
 

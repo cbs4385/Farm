@@ -60,7 +60,9 @@ namespace Farm.Mythos
 
         static void OnMinute(GameSession s, MinuteChanged e)
         {
-            if (!s.InGame || !MythosLevel.On(s)) return;
+            if (!s.InGame) return;
+            if (e.Now.MinuteOfDay % 10 == 0) MythosSoundscape.Apply(s);          // dread moves through the day; also lets the layers fall silent after a level change
+            if (!MythosLevel.On(s)) return;
             RitualDirector.Progress(s, e.Now.MinuteOfDay);
         }
 

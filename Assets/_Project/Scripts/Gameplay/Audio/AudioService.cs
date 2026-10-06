@@ -197,9 +197,73 @@ namespace Farm.Gameplay
             }
             else if (_playing != AmbienceKind.None) _ambienceLevel = Mathf.MoveTowards(_ambienceLevel, 1f, step);
             _ambience.volume = _ambienceLevel * _ambienceVolume * AmbienceGain;
+            UpdateLayers(step);
         }
 
         public AmbienceKind AmbiencePlaying => _playing;
+
+        // ---- ambience layers: extra looping beds that modules lay over the main bed (ADR 0002), each fading to its own volume --------------
+        sealed class Layer
+        {
+            public string Id;
+            public Func<float[]> Render;
+            public float Wanted, Level;
+            public AudioSource Source;
+        }
+
+        readonly System.Collections.Generic.List<Layer> _layers = new System.Collections.Generic.List<Layer>();
+
+        public const int LayerSampleRate = AmbienceSynth.SampleRate;
+
+        // A looping bed laid over the main ambience. `render` makes the seamless loop (called once, on first use); volume 0 fades it out.
+        public void SetAmbienceLayer(string id, Func<float[]> render, float volume)
+        {
+            if (string.IsNullOrEmpty(id)) return;
+            Layer layer = null;
+            foreach (var l in _layers) if (l.Id == id) { layer = l; break; }
+            if (layer == null)
+            {
+                if (volume <= 0f) return;
+                layer = new Layer { Id = id, Render = render };
+                _layers.Add(layer);
+            }
+            layer.Wanted = Mathf.Clamp01(volume);
+        }
+
+        public float LayerWanted(string id)
+        {
+            foreach (var l in _layers) if (l.Id == id) return l.Wanted;
+            return 0f;
+        }
+
+        public static void SetLayerIfAvailable(string id, Func<float[]> render, float volume)
+        {
+            if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.SetAmbienceLayer(id, render, volume);
+        }
+
+        void UpdateLayers(float step)
+        {
+            for (var i = 0; i < _layers.Count; i++)
+            {
+                var l = _layers[i];
+                l.Level = Mathf.MoveTowards(l.Level, l.Wanted, step);
+                if (l.Source == null)
+                {
+                    if (l.Wanted <= 0f) continue;
+                    var samples = l.Render();
+                    var clip = AudioClip.Create("layer." + l.Id, samples.Length, 1, LayerSampleRate, false);
+                    clip.SetData(samples, 0);
+                    l.Source = gameObject.AddComponent<AudioSource>();
+                    l.Source.loop = true;
+                    l.Source.playOnAwake = false;
+                    l.Source.spatialBlend = 0f;
+                    l.Source.clip = clip;
+                }
+                if (l.Level > 0f && !l.Source.isPlaying) l.Source.Play();
+                else if (l.Level <= 0f && l.Source.isPlaying) l.Source.Stop();
+                l.Source.volume = l.Level * _ambienceVolume * AmbienceGain;
+            }
+        }
 
         static AudioClip Tone(string name, float frequency, float seconds, float vibrato = 0f)
         {

@@ -30,6 +30,7 @@ namespace Farm.Mythos
         // The layer's mood over the light: the ladder's tint for the current step, scaled by the intensity setting.
         public static void ApplyAtmosphere(GameSession s)
         {
+            MythosSoundscape.Apply(s);
             if (!ServiceLocator.TryGet<AtmosphereService>(out var atmosphere)) return;
             var scale = MythosLevel.Scale(s);
             if (scale <= 0f) { atmosphere.Stack.Remove(MythosIds.Atmosphere.Dread); return; }
