@@ -41,7 +41,8 @@ UNITY="C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Unity.exe"
 Exit code 0 = success; a non-zero code with `error CS` lines in the log means a compile error. `Builds/` and `BuildsDev/` are git-ignored. After every run, read the log for compile errors and the XML for test failures.
 
 ## CI
-`.github/workflows/ci.yml` (GameCI): EditMode + PlayMode tests, then Windows and Linux IL2CPP builds as artifacts. Requires repo secrets `UNITY_LICENSE`, `UNITY_EMAIL`, `UNITY_PASSWORD`. **Not yet run**: the repo has no remote.
+`.github/workflows/ci.yml` (GameCI): EditMode + PlayMode tests, then Windows and Linux IL2CPP builds as artifacts. The repo is at `github.com/cbs4385/Farm`.
+**The first run (2026-10-06) failed because the repo had no Unity licence**: the log said "License activation strategy could not be determined" (the Docker image `unityci/editor:ubuntu-6000.6.2f1-linux-il2cpp-3` does exist). Until a licence is configured the workflow now skips the test and build jobs with a notice instead of failing. To turn them on, add repository secrets (Settings > Secrets and variables > Actions): `UNITY_EMAIL` and `UNITY_PASSWORD` of a Unity account with a (Personal) licence, or `UNITY_LICENSE` with the contents of an activated `.ulf` file (GameCI: https://game.ci/docs/github/activation). After that the first full run takes a long time (the PlayMode suite alone is about 25 minutes locally) and may show tests that only fail on a headless Linux runner: the project has never been run there.
 
 ## Developer tools and development builds (T-043)
 Development builds include a **developer console** and the `-farmCommands` launch option; release builds must not. Build one with `-development`; its output goes to `BuildsDev/` (release builds go to `Builds/`):

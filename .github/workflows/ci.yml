@@ -12,7 +12,30 @@ env:
   UNITY_VERSION: 6000.6.2f1
 
 jobs:
+  # Unity needs a licence to run in CI. Without one of the repo secrets below the real jobs are skipped with a notice (instead of failing every push);
+  # see docs/BUILD.md "CI" for how to add them.
+  license:
+    runs-on: ubuntu-latest
+    outputs:
+      available: ${{ steps.check.outputs.available }}
+    steps:
+      - id: check
+        shell: bash
+        env:
+          LICENSE: ${{ secrets.UNITY_LICENSE }}
+          EMAIL: ${{ secrets.UNITY_EMAIL }}
+          PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        run: |
+          if [ -n "$LICENSE" ] || { [ -n "$EMAIL" ] && [ -n "$PASSWORD" ]; }; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Unity tests and builds skipped::No Unity licence is configured. Add the repo secrets UNITY_EMAIL and UNITY_PASSWORD (or UNITY_LICENSE) to run them; see docs/BUILD.md, section CI."
+          fi
+
   test:
+    needs: license
+    if: needs.license.outputs.available == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +58,8 @@ jobs:
           path: artifacts
 
   build:
-    needs: test
+    needs: [license, test]
+    if: needs.license.outputs.available == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

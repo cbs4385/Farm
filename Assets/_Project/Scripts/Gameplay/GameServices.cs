@@ -13,6 +13,9 @@ namespace Farm.Gameplay
         // Tests point this at a temp folder so they never touch the player's real saves and settings.
         public static string DataRootOverride;
 
+        // Test runs: every volume of the options is forced to this value (the tests set 1% so that the constant sound effects do not become a noise).
+        public static float? AudioVolumeOverride;
+
         static string DataRoot => DataRootOverride ?? Application.persistentDataPath;
         public static string DataRootPath => DataRoot;
 
@@ -33,6 +36,11 @@ namespace Farm.Gameplay
 
             var settings = new SettingsStore(DataRoot);
             settings.Load();
+            if (AudioVolumeOverride.HasValue)
+            {
+                var quiet = Mathf.Clamp01(AudioVolumeOverride.Value);
+                settings.Current.MasterVolume = settings.Current.MusicVolume = settings.Current.SfxVolume = settings.Current.AmbienceVolume = quiet;
+            }
             ServiceLocator.Register(settings);
 
             BusinessHoursRegistry.RegisterConditionAtom();   // `open:<shopId>` in conditions
