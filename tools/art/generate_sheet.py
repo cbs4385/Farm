@@ -110,6 +110,9 @@ SETS = {
         ("obj_shipping_bin", "a big wooden shipping bin as wide as it is tall: a sturdy open-topped crate with slatted sides, iron corners, a hinged lid propped open and a few vegetables peeking out", (32, 32)),
         ("obj_stall_wide", "a market stall twice as wide as it is tall: a wooden table with a striped red-and-cream awning, baskets of fish and goods on the front", (32, 16)),
     ]),
+    "mallet": dict(cols=1, rows=1, what="a single tool for a cozy farming game", bottom=False, items=[
+        ("item_tool_hammer", "a builder's wooden mallet: a chunky honey-brown wooden head with two dark iron bands on a short brown handle, slightly tilted", (16, 16)),
+    ]),
     "extra": dict(cols=5, rows=3, what="small game sprites of different shapes, one clear object each", bottom=False, items=[
         ("fx_puff_2", "a large faint grey-white smoke cloud puff", (16, 16)),
         ("fx_ore_spark", "a burst of bright orange and yellow sparks flying out from a centre point", (16, 16)),

@@ -372,6 +372,12 @@ namespace Farm.Gameplay
                 _nodeGrids[kv.Key] = NodeGrid.FromNodes(kv.Value.Nodes);
                 _objectGrids[kv.Key] = ObjectGrid.FromList(kv.Value.Objects, _db.MaxStack);
             }
+            // Saves from before the builder's mallet existed get one, once (what does not fit waits in the mailbox).
+            if (!state.Flags.Contains(GameState.HammerGivenFlag) && _db.TryGetItem(ItemIds.Hammer, out _))
+            {
+                state.Flags.Add(GameState.HammerGivenFlag);
+                GiveItem(ItemIds.Hammer);
+            }
             _bus.Publish(new StatsChanged());
         }
 

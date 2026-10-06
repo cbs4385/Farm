@@ -73,6 +73,18 @@ namespace Farm.Gameplay
             return obj;
         }
 
+        // Moves an object to another cell. False when the cell is taken (by another object) or the object is unknown.
+        public bool Move(string id, int x, int y)
+        {
+            var obj = ById(id);
+            if (obj == null) return false;
+            if (_byCell.TryGetValue((x, y), out var there) && there != obj) return false;
+            _byCell.Remove((obj.X, obj.Y));
+            obj.X = x; obj.Y = y;
+            _byCell[(x, y)] = obj;
+            return true;
+        }
+
         public bool Remove(string id)
         {
             var obj = ById(id);

@@ -24,11 +24,12 @@ namespace Farm.Gameplay
         }
 
         // Clears what was drawn and draws every building where the state says it stands.
-        public void Rebuild(GameSession session)
+        // `hide` names a building that is being carried: it is left out until it is put down (the saved state still holds it).
+        public void Rebuild(GameSession session, string hide = null)
         {
             if (_map == null || session == null) return;
             FarmBuildings.EnsureDefaults(session.State);
-            Build(session.State.FarmBuildings);
+            Build(hide == null ? session.State.FarmBuildings : session.State.FarmBuildings.FindAll(b => b.TypeId != hide));
         }
 
         // Draws these buildings (also used by the tests, which have no game).

@@ -5,6 +5,14 @@ using Farm.Data;
 
 namespace Farm.Gameplay
 {
+    // Where a fixture of a map (the bed, the kitchen) has been moved to; an absent entry means it stands where the scene put it.
+    [Serializable]
+    public sealed class FixtureState
+    {
+        public string Map, Id;
+        public int X, Y;
+    }
+
     [Serializable]
     public sealed class MapState
     {
@@ -22,6 +30,7 @@ namespace Farm.Gameplay
     {
         public const int CurrentVersion = 1;
         public const int StartingBackpackSlots = 12;
+        public const string HammerGivenFlag = "tutorial.hammer_given";      // saves from before the mallet existed get one, once
         public const int HotbarSlots = 12;
 
         public int SaveVersion = CurrentVersion;
@@ -53,6 +62,7 @@ namespace Farm.Gameplay
 
         // Where the greenhouse, coop and barn stand on the farm (empty in saves made before they could be moved: FarmBuildings.EnsureDefaults fills it).
         public List<FarmBuildingState> FarmBuildings = new List<FarmBuildingState>();
+        public List<FixtureState> Fixtures = new List<FixtureState>();          // the bed, the kitchen: where the player has put them
         public string Weather = "sunny";
 
         // Tomorrow's weather, rolled a day ahead so it can be shown as a forecast. Empty until the first roll.
@@ -134,6 +144,8 @@ namespace Farm.Gameplay
             pack.Add(ItemIds.Scythe, 1);
             pack.Add(ItemIds.Seed("parsnip"), 15);
             pack.Add(ItemIds.Sword, 1);
+            pack.Add(ItemIds.Hammer, 1);
+            state.Flags.Add(HammerGivenFlag);
             pack.Add(ItemIds.Machine("chest"), 1);      // somewhere to put things: playtesters never found the recipe
             state.Backpack = pack.ToData();
             return state;

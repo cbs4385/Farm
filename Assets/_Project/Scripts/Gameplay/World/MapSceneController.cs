@@ -40,6 +40,7 @@ namespace Farm.Gameplay
             if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
             var mine = FindAnyObjectByType<MineController>();
             if (mine != null) mine.Build(_session, _map);
+            foreach (var fixture in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None)) fixture.Apply(_session, _map);         // the bed and the kitchen where the player put them
             if (FindAnyObjectByType<FarmBuildingsView>() is FarmBuildingsView buildings) buildings.Rebuild(_session);           // the farm's own buildings, before anyone is placed at their doors
             PlacePlayer(_session.State.SpawnPoint);
             if (_session.MemoryRestorePosition && _session.MemoryId == null)       // back from a memory replay
@@ -48,6 +49,7 @@ namespace Farm.Gameplay
                 _session.MemoryRestorePosition = false;
             }
 
+            _player.gameObject.AddComponent<HammerMode>().Init(_player.GetComponent<PlayerActions>(), _map, _session);
             if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
             _session.RunSpawns(_map.MapId, SpawnCandidates);
             _view.Bind(_session.GetGrid(_map.MapId), _session.Db, _session.GetNodes(_map.MapId), _session.Nodes);

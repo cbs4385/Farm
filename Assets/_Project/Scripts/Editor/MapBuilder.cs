@@ -189,10 +189,15 @@ namespace Farm.Editor
 
             var bed = AddObject("Bed", "obj_bed", Center(2, 6), solid: true);
             bed.AddComponent<Bed>();
+            var bedFixture = bed.AddComponent<MovableFixture>();
+            bedFixture.Id = "bed";
+            bedFixture.SpawnId = "bed";
+            bedFixture.SpawnOffset = new Vector2Int(1, 0);
 
             // The kitchen: cook with what is in the backpack.
             var kitchen = AddObject("Kitchen", "obj_kitchen", Center(9, 7), solid: true);
             kitchen.AddComponent<Kitchen>();
+            kitchen.AddComponent<MovableFixture>().Id = "kitchen";
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.FarmHouse}.unity");
         }

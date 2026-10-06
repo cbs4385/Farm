@@ -200,6 +200,10 @@ namespace Farm.Gameplay
                     Cast(cell);
                     return;
 
+                case ToolType.Hammer:
+                    GetComponent<HammerMode>()?.Use(cell);
+                    return;
+
                 case ToolType.Sword:
                     var held = Session.Backpack.Get(Session.State.SelectedHotbar);
                     var combat = GetComponent<PlayerCombat>();
@@ -458,6 +462,7 @@ namespace Farm.Gameplay
 
         void Interact()
         {
+            if (GetComponent<HammerMode>() is HammerMode hammer && hammer.Cancel()) return;          // the Interact button puts a lifted thing back
             var cell = TargetCell;
             var grid = Session.GetGrid(_map.MapId);
 

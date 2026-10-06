@@ -48,6 +48,7 @@ namespace Farm.Editor
             Tool(items, ItemIds.Axe, ToolType.Axe, "item_tool_axe");
             Tool(items, ItemIds.Pickaxe, ToolType.Pickaxe, "item_tool_pickaxe");
             Tool(items, ItemIds.Scythe, ToolType.Scythe, "item_tool_scythe");
+            Tool(items, ItemIds.Hammer, ToolType.Hammer, "item_tool_hammer");
 
             // Story props (cat, umbrella, notes ...) are shown by scenes through an item icon; they are never sold or given.
             foreach (var prop in new[] { "cat", "umbrella", "note", "lantern", "trophy", "pumpkin", "scarecrow", "shell", "book", "almanac", "fieldguide", "carving", "charm", "feather", "hat", "sock", "ribbon", "anvil", "clasp", "horseshoe", "pinecone", "drawing", "salve", "scarf", "longbook" })
