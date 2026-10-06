@@ -75,6 +75,20 @@ SETS = {
         ("fx_coin_fly", "a spinning gold coin seen edge-on, slightly tilted", (16, 16)),
         ("fx_hit_star", "a white-yellow impact star with pointed spikes", (16, 16)),
     ]),
+    "extra": dict(cols=5, rows=3, what="small game sprites of different shapes, one clear object each", bottom=False, items=[
+        ("fx_puff_2", "a large faint grey-white smoke cloud puff", (16, 16)),
+        ("fx_ore_spark", "a burst of bright orange and yellow sparks flying out from a centre point", (16, 16)),
+        ("fx_petal", "a single pink blossom petal, a simple teardrop shape with one soft fold", (16, 16)),
+        ("hud_weather_festival", "a string of colourful bunting: four triangular flags (red, yellow, green, blue) hanging in a shallow curve from a string, drawn large and filling the cell", (16, 16)),
+        ("ui_dialogue_box", "a wide parchment dialogue box with a warm brown wooden border and a ribbon edge, wider than tall", (64, 24)),
+        ("ui_speaker_plate", "a small wide name plate: a cream label with a brown wooden border and a tiny scroll end on each side", (32, 12)),
+        ("hud_bar_energy_frame", "an empty horizontal bar frame: a long thin brown wooden rounded rectangle with a dark empty inside", (48, 16)),
+        ("hud_bar_energy_fill", "a long thin horizontal bar filled solid bright green with a lighter top highlight, rounded ends", (48, 16)),
+        ("hud_bar_health_frame", "an empty horizontal bar frame: a long thin brown wooden rounded rectangle with a dark empty inside", (48, 16)),
+        ("hud_bar_health_fill", "a long thin horizontal bar filled solid red with a lighter top highlight, rounded ends", (48, 16)),
+        ("hud_bar_fatigue_frame", "an empty horizontal bar frame: a long thin brown wooden rounded rectangle with a dark empty inside", (48, 16)),
+        ("hud_bar_fatigue_fill", "a long thin horizontal bar filled solid purple with a lighter top highlight, rounded ends", (48, 16)),
+    ]),
 }
 
 # The model does not always draw the sprites in the order asked for, so a sheet that was looked at gets a hand-checked map: name -> (detected
@@ -103,7 +117,15 @@ ASSIGN["fx"] = {
     "fx_harvest_pop": (23, "whole"), "fx_level_up": (27, "whole"), "fx_heart_pop": (25, "whole"), "fx_coin_fly": (26, "whole"), "fx_hit_star": (28, "whole"),
 }
 
+ASSIGN["extra"] = {
+    "fx_puff_2": (1, "whole"), "fx_ore_spark": (2, "whole"), "hud_weather_festival": (4, "whole"), "ui_dialogue_box": (7, "whole"),
+    "ui_speaker_plate": (5, "whole"), "hud_bar_energy_frame": (8, "whole"), "hud_bar_energy_fill": (9, "whole"), "hud_bar_health_frame": (10, "whole"),
+    "hud_bar_health_fill": (12, "whole"), "hud_bar_fatigue_frame": (11, "whole"), "hud_bar_fatigue_fill": (13, "whole"),
+}
+
+THIN = {"fx_ore_spark"}
 REPLACE_UI = False
+OVERWRITE = {"hud_weather_festival"} if "extra" in sys.argv else set()      # the weak first try is replaced
 
 
 def prompt(spec):
@@ -150,6 +172,7 @@ def slice_sheet(spec, sheet, tag):
     rgb, fg = S.key_background(img)
     r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
     fg = fg & ~((r - g > 50) & (b - g > 35) & (abs(r - b) < 90))
+    raw_fg = fg
     fg = S.clean_mask(fg)
     rows = S.segment(fg, spec["rows"], dilate=7)
     boxes = [bx for row in rows for bx in row]
@@ -165,11 +188,11 @@ def slice_sheet(spec, sheet, tag):
         x0, y0, x1, y1 = boxes[number - 1]
         if part == "top": y1 = y0 + (y1 - y0) // 2 - 4
         elif part == "bottom": y0 = y0 + (y1 - y0) // 2 + 4
-        c, m = rgb[y0:y1, x0:x1], fg[y0:y1, x0:x1]
+        c, m = rgb[y0:y1, x0:x1], (raw_fg if name in THIN else fg)[y0:y1, x0:x1]       # thin rays do not survive the speck filter
         ys, xs = np.where(m)
         if len(xs):                                                      # trim to what is drawn (a half may have empty margin)
             c, m = c[ys.min():ys.max() + 1, xs.min():xs.max() + 1], m[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
-        if tag == "ui":                                                  # frames fill their cell so that they can be 9-sliced
+        if name.startswith(("ui_", "hud_bar")):                          # frames fill their cell so that they can be 9-sliced
             nw, nh = tw, th
         else:
             scale = min((tw - 2) / c.shape[1], (th - 2) / c.shape[0])
@@ -191,7 +214,7 @@ def slice_sheet(spec, sheet, tag):
         im = Image.fromarray(a, "RGBA")
         path = os.path.join(PH, name + ".png")
         existing = os.path.exists(path)
-        if not existing or (tag == "ui" and REPLACE_UI):
+        if not existing or (tag == "ui" and REPLACE_UI) or name in OVERWRITE:
             im.save(path)
             wrote.append(name)
         big = im.resize((tw * cell, th * cell), Image.NEAREST)
