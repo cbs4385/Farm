@@ -135,5 +135,43 @@ namespace Farm.Tests
             enter.Invoke(warp, new object[] { player.GetComponent<Collider2D>() });
             Assert.IsNotNull(UnityEngine.Object.FindAnyObjectByType<DoorFlash>(), "the doorway opens as the farmer steps in");
         }
+
+        [UnityTest]
+        public IEnumerator TheFarmer_CarriesWhatIsSelected_HoistsAFind_AndFishesWithARod()
+        {
+            yield return Load(MapIds.Farm);
+            var session = ServiceLocator.Get<GameSession>();
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+            var held = HeldItem.For(player.gameObject);
+            yield return null;
+
+            session.Backpack.Add("crop.parsnip", 3);
+            var slot = Enumerable.Range(0, InputNames.HotbarSlots).First(i => session.Backpack.Get(i) != null && session.Backpack.Get(i).ItemId == "crop.parsnip");
+            session.State.SelectedHotbar = slot;
+            for (var i = 0; i < 3; i++) yield return null;
+            Assert.IsTrue(held.IsCarrying, "a crop is carried");
+            Assert.IsNotNull(held.ShownSprite);
+
+            session.State.SelectedHotbar = Enumerable.Range(0, InputNames.HotbarSlots).First(i => session.Backpack.Get(i) != null && session.Backpack.Get(i).ItemId == "tool.hoe");
+            for (var i = 0; i < 3; i++) yield return null;
+            Assert.IsFalse(held.IsCarrying, "a tool is not");
+            Assert.IsNull(held.ShownSprite);
+
+            held.Hoist(session.Db.GetItem("crop.parsnip").Icon);
+            yield return null;
+            Assert.IsTrue(held.IsHoisting);
+            Assert.IsNotNull(held.ShownSprite, "the find is held up");
+
+            var pose = FishingPose.For(player.gameObject);
+            var target = player.transform.position + new Vector3(2f, 0f, 0f);
+            pose.Show(target);
+            yield return null;
+            Assert.IsTrue(pose.IsActive);
+            Assert.That(Vector3.Distance(pose.BobberPosition, target), Is.LessThan(0.1f), "the bobber sits where the cast landed");
+            Assert.IsTrue(pose.GetComponentsInChildren<SpriteRenderer>().Count(r => r.enabled && r.name.StartsWith("Rod")) == 1, "the rod is drawn");
+            pose.Hide();
+            Assert.IsFalse(pose.IsActive);
+            Assert.IsFalse(pose.GetComponentsInChildren<SpriteRenderer>().Any(r => r.enabled && (r.name == "Rod" || r.name == "Line")), "and gone again");
+        }
     }
 }

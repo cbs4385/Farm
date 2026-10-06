@@ -45,6 +45,7 @@ namespace Farm.Gameplay
         {
             Session = ServiceLocator.Get<GameSession>();
             _input = ServiceLocator.Get<InputService>();
+            HeldItem.For(gameObject);                // the carry poses
         }
 
         // The cell the tool square is on: the one in front of the player, or, while the mouse is steering it, the one around the player
@@ -321,19 +322,28 @@ namespace Farm.Gameplay
             var eligible = FishingModel.Eligible(FishDefaults.Rows, spot, Session.World);
             var fishing = new FishingSession(eligible, Session.GetSkillLevel(SkillIds.Fishing),
                 Session.Luck + Professions.LuckBonus(Session.State, ProfessionEffect.LuckFishing), bait, R(1), R(2), R(3), R(4), Professions.BiteSpeed(Session.State));
+            FishingPose.For(gameObject).Show(_map.CellCenter(cell));
             ui.ShowFishing(fishing, OnFished);
         }
 
         void OnFished(FishingSession done)
         {
+            FishingPose.For(gameObject).Hide();
             if (done == null) return;
             if (!done.Caught || !done.Fish.HasValue) { Session.Toast(L.Get("fishing.escaped")); return; }
             var fish = done.Fish.Value;
             ActionPuff.Burst(_map.CellCenter(_castCell), new Color(0.75f, 0.9f, 1f), 9);          // a fish breaks the surface
             if (Session.Backpack.Add(fish.ItemId, 1, done.Quality) > 0) { Session.Toast(L.Get("toast.inventory_full")); return; }
+            Hoist(fish.ItemId);
             Session.AddVar("stat.fished", 1);
             Session.AddSkillXp(SkillIds.Fishing, FishingModel.Xp(fish));
             Session.Toast(L.Get(done.Perfect ? "fishing.perfect" : "fishing.caught", L.Get("item." + fish.ItemId + ".name")));
+        }
+
+        // Holds a fresh find over the head for a moment.
+        void Hoist(string itemId)
+        {
+            if (Session.Db.TryGetItem(itemId, out var item)) HeldItem.For(gameObject).Hoist(item.Icon);
         }
 
         // ---- placing objects, fertilizer ------------------------------------------------------------------------------------
@@ -452,6 +462,7 @@ namespace Farm.Gameplay
                     var quality = CropQuality.Roll(Session.GetSkillLevel(SkillIds.Farming), fertilizer, Session.Luck + Professions.LuckBonus(Session.State, ProfessionEffect.LuckFarming),
                         WeatherRoller.Unit(cell.x * 61 + cell.y * 29 + Session.Clock.Now.TotalDays * 5, Session.State.WorldSeed ^ 0x2545F491));
                     Session.Backpack.Add(result.ItemId, result.Count, quality);
+                    Hoist(result.ItemId);
                     Session.AddVar(QuestLog.Stats.Harvested, 1);
                     Session.AddSkillXp(SkillIds.Farming, result.Xp);
                     AudioService.PlayIfAvailable(Sfx.Harvest);
