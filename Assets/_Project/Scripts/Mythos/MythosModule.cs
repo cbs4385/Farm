@@ -44,6 +44,7 @@ namespace Farm.Mythos
                 Achievements.Register(new AchievementDefinition("end_" + ending, "horror:1 && flag:ending." + ending));
             MythosContent.Load(session.Story);
 
+            MythosTextFilter.Install(session);
             hooks.AddDayCycleHook(new MythosDayHook(session));
             hooks.AddLuckModifier(new DreadLuckModifier(session));
             hooks.AddWeatherWeightModifier(new DreadWeatherWeights(session));

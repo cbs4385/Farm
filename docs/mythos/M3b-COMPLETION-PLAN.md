@@ -28,7 +28,7 @@
 ## Order and size
 G4 → G3 → G1 → G2 (code, each about a day, independent) → G5 (needs art and the closing screen) → G6/G8 (tests) → G7 (owner time). Steps 1-4 can be parallel agents. Each step: tests first, build and capture when scenes or UI change (`CLAUDE.md`), then update STATUS with what was verified by whom.
 
-## Decisions needed from the owner
-1. Is a sleepwalking wake-up spot allowed anywhere (including Harrow Wood) or only on the farm?
-2. May blight destroy planted crops (with a ward to prevent it), or only damage yield?
-3. Ending art style: one illustration each, or a short text-and-music sequence?
+## Owner decisions (2026-10-06)
+1. **Sleepwalking:** the player can wake anywhere, including Harrow Wood and other maps (never inside a locked or story-critical scene state; the walk home costs the usual fatigue and is skipped at off).
+2. **Blight:** it can destroy planted crops, leaving withered, obviously blighted plants (a distinct sprite state the player can see and clear); a ward or a ritual success prevents it. Needs art: a withered/blighted variant per crop growth look (a small set of generic blight sprites is acceptable).
+3. **Endings:** each of the four endings gets its own illustration (awakened, sealed, joined, ignored), generated with the image pipeline.

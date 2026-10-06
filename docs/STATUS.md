@@ -86,6 +86,14 @@ X-009 | done | claude/2026-10-02 | Options control (off/mild/full) and content n
 X-010 | done (partial) | claude/2026-10-02 | endings: awakened, sealed, joined, ignored (events + effects). Balance checked by a six-year simulation only; no art or music for the endings
 X-011 | done | claude/2026-10-02 | `MythosLayerTests` (level 0 inert, levels 1 and 2 run, ritual rules, ignoring never wakes the god, hook isolation), validator covers the Mythos JSON and strings, PlayMode Woods test. NOT verified by a person: a playthrough at each level, the look of the Woods, the pacing of dread, the mood of the endings
 
+M3b completion (`mythos/M3b-COMPLETION-PLAN.md`), started 2026-10-06
+X-008a | done (automated) | claude/2026-10-06 | text distortion filter (`MythosTextFilter`, full intensity, dread 50+); EditMode tests only, not seen by a person
+X-005a | open | - | sleepwalking and blight
+X-006a | open | - | moon-phase events
+X-008b | open | - | sound layers
+X-010a | open | - | ending art and music, balance bots
+X-011a | open | - | level-0 equivalence test; a human playthrough at each level
+
 ## Decisions and open questions (owner)
 Decided 2026-10-01 (GDD section 9, 1-8 and A-E): the horror layer ships with 1.0; the Community Hall is a cozy arc the cult quietly uses; Nharoth, a sleeping cosmic entity, is kept asleep by the Keepers of the Covenant's rituals, and full awakening ends the world; wakefulness rises 25% per season and each ritual lowers it 30-40%, rituals each new moon in Harrow Wood, world changes every 5%; the cult looks menacing but protects the world; resisting risks waking the god unless another way is found; about a third of NPCs are Keepers (romance allowed, never exploitative); dread (mild, optional, never blocking) affects luck, dialogue options, seasonal events, weather and NPC attitude decay, gates crops, and ordinary crops may mutate; the main shop does not sell horror seeds; default intensity full; New England village Wetherell.
 Hooks and code added because of the answers: crop grow conditions, shop opt-in and conditions (`ShopCatalog`), luck modifiers (`ILuckModifier`, `GameSession.Luck`), `WakefulnessModel` (the owner's numbers as tested pure functions, not yet driving the game), reserved ids and names (`village.name`, `mythos.*`, map id `HarrowWood`). 138 EditMode + 15 PlayMode tests pass.

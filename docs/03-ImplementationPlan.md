@@ -2,7 +2,7 @@
 
 Read `CLAUDE.md`, `docs/01-GameDesign.md`, `docs/02-TechnicalDesign.md`, and the ADRs in `docs/adr/` first. This plan is an ordered backlog of **tasks**. Each task has an ID, dependencies, deliverables, and acceptance criteria (AC). Track status in `docs/STATUS.md` (one line per task: `T-xxx | status | agent/date | notes`).
 
-**Where we are:** Milestones 0 and 1 are complete (git tags `m0`, `m1`); the extension points for the horror layer (ADR 0002) are built. **The horror layer ships with 1.0** (GDD section 9, decision 1), so it is now Milestone 3b, required before the Release Candidate gate. **Next: Milestone 2.** Task rows for finished milestones keep their original wording with an "As built" note where the result differs; see `STATUS.md` for details and `adr/0001-m1-design-deviations.md` for why.
+**Where we are:** Milestones 0 and 1 are complete (git tags `m0`, `m1`); the extension points for the horror layer (ADR 0002) are built. **The horror layer ships with 1.0** (GDD section 9, decision 1), so it is now Milestone 3b, required before the Release Candidate gate. **Milestones 2, 3 and 3b are built** (`STATUS.md`); what remains of 3b is in `mythos/M3b-COMPLETION-PLAN.md`. Task rows for finished milestones keep their original wording with an "As built" note where the result differs; see `STATUS.md` for details and `adr/0001-m1-design-deviations.md` for why.
 
 ## How agents work this plan
 
