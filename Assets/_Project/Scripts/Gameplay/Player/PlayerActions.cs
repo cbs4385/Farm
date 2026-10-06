@@ -163,7 +163,7 @@ namespace Farm.Gameplay
             }
         }
 
-        NpcActor NpcAt(Vector3Int cell) => NpcManager.Current != null ? NpcManager.Current.ActorAt(cell) : null;
+        NpcActor NpcAt(Vector3Int cell) => NpcManager.Current != null ? NpcManager.Current.ActorNear(cell) : null;
 
         void UseTool(ToolType tool)
         {

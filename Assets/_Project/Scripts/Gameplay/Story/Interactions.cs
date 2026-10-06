@@ -155,7 +155,9 @@ namespace Farm.Gameplay
     public static class InteractionMenu
     {
         public const string PromptKey = "menu.prompt", SocialPromptKey = "menu.social_prompt", SocialKey = "menu.social",
-            GoodbyeKey = "menu.goodbye", BackKey = "menu.back";
+            GoodbyeKey = "menu.goodbye", BackKey = "menu.back", MoreKey = "menu.more";
+
+        public const string MoreVar = "chat.more";         // set by the "keep chatting" choice; read when the menu closes
 
         public static string SocialKeyFor(string action) => "social." + action;
 
@@ -218,6 +220,28 @@ namespace Farm.Gameplay
             return graph;
         }
 
+        // A conversation never just stops: every menu offers "keep chatting" (another line from the same villager) next to Goodbye.
+        public static DialogueGraph WithMore(DialogueGraph graph, string npc)
+        {
+            var menu = graph.Nodes.Find(n => n.Id == "menu");
+            if (menu == null || menu.Choices.Exists(c => c.Text == MoreKey)) return graph;
+            var at = menu.Choices.FindIndex(c => c.Default);
+            var more = new DialogueChoice { Text = MoreKey, Effects = { "talk.more" } };
+            if (at < 0) menu.Choices.Add(more); else menu.Choices.Insert(at, more);
+            return graph;
+        }
+
+        // What is offered when there are no topics or social actions left today: just "keep chatting" and Goodbye.
+        public static DialogueGraph Minimal(string npc, Func<string, bool> hasKey)
+        {
+            var graph = new DialogueGraph { Id = "menu." + npc, Start = "menu" };
+            var promptKey = hasKey != null && hasKey(PromptKey + "." + npc) ? PromptKey + "." + npc : PromptKey;
+            var menu = new DialogueNode { Id = "menu", Speaker = npc, Text = promptKey };
+            menu.Choices.Add(new DialogueChoice { Text = GoodbyeKey, Default = true });
+            graph.Nodes.Add(menu);
+            return WithMore(graph, npc);
+        }
+
         // Copies a dialogue's nodes into `into` with prefixed ids. A speaker of "*" means the villager the menu is for.
         static void CopyInto(DialogueGraph into, DialogueGraph source, string prefix, string npc)
         {
@@ -253,6 +277,7 @@ namespace Farm.Gameplay
                 state.TopicTimes[a[0]] = (state.TopicTimes.TryGetValue(a[0], out var n) ? n : 0) + 1;
                 InteractionState.Store(s, state);
             });
+            Effects.Register("talk.more", 0, 0, (s, a) => s.SetVar(MoreVar, 1));
             Effects.Register("social.done", 3, 3, (s, a) =>
             {
                 var state = InteractionState.Load(s);
@@ -275,8 +300,14 @@ namespace Farm.Gameplay
             var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
             if (settings != null && !settings.ChatMenu) return;
             var state = InteractionState.Load(session);
-            var graph = Build(session.Story, npc.Id, session.World, state, session.Clock.Now.TotalDays, L.Has);
-            if (graph != null) session.BeginDialogueGraph(graph);
+            var graph = Build(session.Story, npc.Id, session.World, state, session.Clock.Now.TotalDays, L.Has) ?? Minimal(npc.Id, L.Has);
+            session.SetVar(MoreVar, 0);
+            session.BeginDialogueGraph(WithMore(graph, npc.Id), () =>
+            {
+                if (session.GetVar(MoreVar) == 0) return;
+                session.SetVar(MoreVar, 0);
+                NpcInteractions.Talk(session, npc);               // another line, then the menu again
+            });
         }
     }
 }

@@ -23,8 +23,9 @@ namespace Farm.Gameplay
         public bool IsWalkable(int x, int y) => Contains(x, y) && _walkable[(y - _minY) * _width + (x - _minX)];
 
         // Cells from start to goal inclusive, or null when there is no way. A blocked start or goal is allowed (an NPC
-        // standing "on" furniture still has to be able to leave); only the cells between must be walkable.
-        public List<(int x, int y)> FindPath(int sx, int sy, int gx, int gy)
+        // standing "on" furniture still has to be able to leave); only the cells between must be walkable. `occupied` (optional) names cells
+        // that are walkable ground but held by someone else right now: they are routed around like walls.
+        public List<(int x, int y)> FindPath(int sx, int sy, int gx, int gy, Func<int, int, bool> occupied = null)
         {
             if (!Contains(sx, sy) || !Contains(gx, gy)) return null;
             if (sx == gx && sy == gy) return new List<(int, int)> { (sx, sy) };
@@ -63,7 +64,7 @@ namespace Farm.Gameplay
                     if (!Contains(nx, ny)) continue;
                     var ni = Index(nx, ny);
                     if (closed[ni]) continue;
-                    if (ni != goal && !_walkable[ni]) continue;
+                    if (ni != goal && (!_walkable[ni] || occupied != null && occupied(nx, ny))) continue;
                     var next = cost[ci] + 1;
                     if (next >= cost[ni]) continue;
                     cost[ni] = next;

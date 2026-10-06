@@ -60,6 +60,7 @@ namespace Farm.Gameplay
             var box = gameObject.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
             box.size = new Vector2(0.8f, 0.8f);
+            ActorBody.Add(gameObject);
         }
 
         // Where the cat sits at first: a walkable cell near the middle of the village.
@@ -98,8 +99,7 @@ namespace Farm.Gameplay
                 _rest -= Time.deltaTime;
                 if (_rest <= 0f)
                 {
-                    _route = CatWander.PickRoute(grid, Cell.x, Cell.y, _rng);
-                    if (_route != null && CellOccupants.IsTaken(new Vector3Int(_route[_route.Count - 1].x, _route[_route.Count - 1].y, 0), this)) _route = null;      // not onto somebody
+                    _route = CatWander.PickRoute(grid, Cell.x, Cell.y, _rng, occupied: (x, y) => CellOccupants.IsTaken(new Vector3Int(x, y, 0), this));      // around anyone in the way
                     _step = 1;
                     _rest = 2f + (float)_rng.NextDouble() * 5f;
                 }

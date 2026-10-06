@@ -35,6 +35,7 @@ namespace Farm.Gameplay
             name = "Npc_" + definition.Id;
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.sortingOrder = 9;
+            ActorBody.Add(gameObject);
             (TryGetComponent<WalkBob>(out var bob) ? bob : gameObject.AddComponent<WalkBob>()).Breathes = true;
             _renderer.sprite = definition.SpriteFor(_facing);
         }
@@ -85,7 +86,8 @@ namespace Farm.Gameplay
         {
             _points.Clear();
             _lengths.Clear();
-            var path = grid != null ? grid.FindPath(place.FromX, place.FromY, place.ToX, place.ToY) : null;
+            // Around whoever is standing in the way when the walk starts; with no such way, the plain route (a villager never gets stuck).
+            var path = grid != null ? grid.FindPath(place.FromX, place.FromY, place.ToX, place.ToY, (x, y) => CellOccupants.IsTaken(new Vector3Int(x, y, 0), this)) ?? grid.FindPath(place.FromX, place.FromY, place.ToX, place.ToY) : null;
             if (path == null) path = new List<(int x, int y)> { (place.FromX, place.FromY), (place.ToX, place.ToY) };   // no way found: straight line
             foreach (var (x, y) in path) _points.Add(map.CellCenter(new Vector3Int(x, y, 0)));
             var length = 0f;
@@ -145,6 +147,7 @@ namespace Farm.Gameplay
             SetFacing(Mathf.Abs(toPlayer.x) > Mathf.Abs(toPlayer.y)
                 ? (toPlayer.x > 0 ? Vector2Int.right : Vector2Int.left)
                 : (toPlayer.y > 0 ? Vector2Int.up : Vector2Int.down));
+            if (NpcManager.Current != null) NpcManager.Current.Hold(_definition.Id);       // stand still for a while
             NpcInteractions.Talk(player.Session, _definition);
         }
     }

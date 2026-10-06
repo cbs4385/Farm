@@ -113,5 +113,39 @@ namespace Farm.Tests
 
             Assert.IsFalse(CellOccupants.TryFindFree(mid, c => c == mid, me, out _), "no floor around it");
         }
+
+        [Test]
+        public void Pathfinding_RoutesAroundOccupiedCells_AndFallsBackWhenNoWayExists()
+        {
+            // a 5 x 3 field; a villager stands in the middle of the straight route
+            var grid = new WalkGrid(0, 0, 5, 3, (x, y) => true);
+            var straight = grid.FindPath(0, 1, 4, 1);
+            Assert.AreEqual(5, straight.Count);
+            System.Func<int, int, bool> occupied = (x, y) => x == 2 && y == 1;
+            var around = grid.FindPath(0, 1, 4, 1, occupied);
+            Assert.IsNotNull(around);
+            CollectionAssert.DoesNotContain(around, (2, 1));
+            Assert.AreEqual(7, around.Count, "one step either way and back");
+
+            // a corridor one cell wide with someone in it: no way through when occupied counts, so the caller falls back to the plain route
+            var corridor = new WalkGrid(0, 0, 5, 1, (x, y) => true);
+            Assert.IsNull(corridor.FindPath(0, 0, 4, 0, occupied == null ? null : (x, y) => x == 2));
+            Assert.IsNotNull(corridor.FindPath(0, 0, 4, 0));
+
+            // the goal itself may be occupied (somebody standing where you are walking to is the caller's business)
+            Assert.IsNotNull(grid.FindPath(0, 1, 2, 1, occupied));
+        }
+
+        [Test]
+        public void TheLag_GrowsWhileHeld_AndIsCaughtUpAtTwiceTheSpeedAfterwards_NeverBelowZero()
+        {
+            var lag = 0f;
+            for (var i = 0; i < 5; i++) lag = NpcManager.NextLag(lag, 1f, true);
+            Assert.AreEqual(5f, lag, 1e-5f, "five minutes held, five minutes behind");
+            lag = NpcManager.NextLag(lag, 1f, false);
+            Assert.AreEqual(4f, lag, 1e-5f, "a minute of catching up recovers a minute");
+            for (var i = 0; i < 10; i++) lag = NpcManager.NextLag(lag, 1f, false);
+            Assert.AreEqual(0f, lag);
+        }
     }
 }

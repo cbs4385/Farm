@@ -113,6 +113,25 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator KeepChatting_GivesAnotherLine_AndTheMenuComesBack_SoAConversationNeverJustStops()
+        {
+            yield return Begin();
+            yield return Chat();
+            yield return WaitFor("Keep chatting");
+            var pointsBefore = _session.State.Npcs["wren"].Points;
+            yield return PickByLabel("Keep chatting");
+            for (var i = 0; i < 4; i++) yield return null;
+            Assert.IsTrue(Ui.AnyModalOpen, "another line is on screen, not the end of the conversation");
+            Assert.IsNull(Label("Keep chatting"), "it is a line, not the menu");
+            yield return WaitFor("Keep chatting");                          // Enter through the line and the menu is back
+            Assert.IsNotNull(Label("Goodbye for now"));
+            Assert.AreEqual(pointsBefore, _session.State.Npcs["wren"].Points, "talking more does not farm friendship");
+            yield return Tap(Key.Escape);
+            for (var i = 0; i < 3; i++) yield return null;
+            Assert.IsFalse(Ui.AnyModalOpen);
+        }
+
+        [UnityTest]
         public IEnumerator Escape_OnTheMenu_SaysGoodbye()
         {
             yield return Begin();

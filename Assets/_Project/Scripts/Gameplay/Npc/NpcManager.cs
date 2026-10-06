@@ -28,6 +28,46 @@ namespace Farm.Gameplay
             return null;
         }
 
+        // The villager standing on the cell, or one walking across it or just leaving it (a click lands on the picture, not on the rounded cell).
+        public NpcActor ActorNear(Vector3Int cell, float reach = NearReach)
+        {
+            var exact = ActorAt(cell);
+            if (exact != null) return exact;
+            var centre = _map != null ? _map.CellCenter(cell) : Vector3.zero;
+            NpcActor best = null;
+            var bestDistance = reach * reach;
+            foreach (var actor in _actors.Values)
+            {
+                var d = (actor.transform.position - centre).sqrMagnitude;
+                if (d < bestDistance) { best = actor; bestDistance = d; }
+            }
+            return best;
+        }
+
+        public const float NearReach = 0.75f;            // tiles
+        public const float HoldSeconds = 12f;            // how long a villager stands still after being spoken to (the clock of the hold only runs with no dialogue open)
+
+        // A villager the player has clicked stops where they are (and is late for whatever came next by exactly that long, then hurries to catch
+        // up), so that the player can talk to them without chasing them.
+        public void Hold(string npcId, float seconds = HoldSeconds)
+        {
+            if (!string.IsNullOrEmpty(npcId)) _holdLeft[npcId] = seconds;
+        }
+
+        public bool IsHeld(string npcId) => _holdLeft.TryGetValue(npcId, out var left) && left > 0f;
+        public float LagMinutes(string npcId) => _lag.TryGetValue(npcId, out var lag) ? lag : 0f;
+
+        // Pure: the new lag after `dtMinutes` of clock time, held or not. While held the villager falls behind the schedule at the clock rate;
+        // afterwards they run at twice the rate until they have caught up.
+        public static float NextLag(float lag, float dtMinutes, bool held) =>
+            held ? lag + dtMinutes : Mathf.Max(0f, lag - dtMinutes * CatchUp);
+
+        public const float CatchUp = 1f;                 // extra schedule minutes per clock minute while catching up (2x speed)
+        const float MaxLag = 90f;
+        readonly Dictionary<string, float> _holdLeft = new Dictionary<string, float>();
+        readonly Dictionary<string, float> _lag = new Dictionary<string, float>();
+        float _lastMinute = -1f;
+
         void OnDestroy()
         {
             if (Current == this) Current = null;
@@ -82,11 +122,20 @@ namespace Farm.Gameplay
             if (_session == null || !_session.InGame || _map == null) return;
             var minute = _session.Clock.PreciseMinuteOfDay;
             var day = _session.Clock.Now.TotalDays;
+            var dMinute = _lastMinute < 0f ? 0f : minute - _lastMinute;
+            if (dMinute < 0f || dMinute > 30f) { _lag.Clear(); dMinute = 0f; }          // a new day or a jump of the clock: everybody is on time
+            _lastMinute = minute;
+            var modal = ServiceLocator.TryGet<IUiService>(out var uiService) && uiService.AnyModalOpen;
 
             foreach (var npc in _session.Npcs.All)
             {
                 if (_suspended.Contains(npc.Id)) continue;
-                var place = NpcSchedule.Where(npc, PlanFor(npc, day), minute);
+                var held = _holdLeft.TryGetValue(npc.Id, out var left) && left > 0f;
+                if (held && !modal) _holdLeft[npc.Id] = left - Time.unscaledDeltaTime;
+                _lag.TryGetValue(npc.Id, out var lag);
+                lag = Mathf.Min(MaxLag, NextLag(lag, dMinute, held));
+                _lag[npc.Id] = lag;
+                var place = NpcSchedule.Where(npc, PlanFor(npc, day), Mathf.Max(0f, minute - lag));
                 if (place.Map != _map.MapId)
                 {
                     if (_actors.TryGetValue(npc.Id, out var gone)) { Destroy(gone.gameObject); _actors.Remove(npc.Id); }
@@ -117,7 +166,7 @@ namespace Farm.Gameplay
                 if (_map.Ground.GetTile(cell) == null) return false;
                 if (_map.Walls != null && _map.Walls.GetTile(cell) != null) return false;
                 foreach (var hit in Physics2D.OverlapPointAll(_map.CellCenter(cell)))
-                    if (!hit.isTrigger && !hit.CompareTag("Player")) return false;
+                    if (!hit.isTrigger && !hit.CompareTag("Player") && hit.GetComponentInParent<ICellOccupant>() == null) return false;      // people and animals move; they are not walls
                 return true;
             });
             return _grid;

@@ -123,5 +123,58 @@ namespace Farm.Tests
             }
             Assert.AreEqual(0, shared, "frames in which the cat stood on the villager cell");
         }
+
+        [UnityTest]
+        public IEnumerator AVillagerIsASolidBody_TheTileIsNotPlaceable_ButTheRouteGridStillSeesFloor()
+        {
+            yield return Start(MapIds.Village, 12);
+            var npcs = UnityEngine.Object.FindAnyObjectByType<NpcManager>();
+            var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
+            var cell = new Vector3Int(10, 17, 0);
+            Assert.IsTrue(map.CanPlaceAt(cell), "the road is free");
+            var grid = npcs.Grid();
+            Assert.IsTrue(grid.IsWalkable(cell.x, cell.y));
+
+            var actor = npcs.Take("tilda", cell);
+            Assert.IsNotNull(actor);
+            Physics2D.SyncTransforms();
+            Assert.IsFalse(map.CanPlaceAt(cell), "nothing can be set down on a villager");
+            var solid = false;
+            foreach (var hit in Physics2D.OverlapPointAll(map.CellCenter(cell))) if (!hit.isTrigger && hit.GetComponentInParent<NpcActor>() == actor) solid = true;
+            Assert.IsTrue(solid, "the villager has a solid body the player cannot walk through");
+
+            var other = new WalkGrid(0, 0, 3, 1, (x, y) => true);
+            Assert.IsNotNull(other.FindPath(0, 0, 2, 0));
+        }
+
+        [UnityTest]
+        public IEnumerator AClickedVillager_StandsStill_ThenCatchesUpToTheSchedule()
+        {
+            yield return Start(MapIds.Village, 12);
+            var npcs = UnityEngine.Object.FindAnyObjectByType<NpcManager>();
+            for (var hour = 8; hour <= 21 && npcs.Actors.Count == 0; hour++)          // find a time when somebody is out in the village
+            {
+                _s.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, hour * 60));
+                for (var i = 0; i < 4; i++) yield return null;
+            }
+            Assert.Greater(npcs.Actors.Count, 0, "somebody is in the village at some hour");
+            var actor = System.Linq.Enumerable.First(npcs.Actors.Values);
+            var id = actor.Definition.Id;
+
+            npcs.Hold(id, 60f);
+            yield return null;
+            var where = actor.transform.position;
+            _s.Clock.AdvanceMinutes(3);
+            for (var i = 0; i < 6; i++) yield return null;
+            Assert.AreEqual(where.x, actor.transform.position.x, 0.01f, "held: it did not move");
+            Assert.AreEqual(where.y, actor.transform.position.y, 0.01f);
+            Assert.GreaterOrEqual(npcs.LagMinutes(id), 2.5f, "and it is now behind the schedule");
+
+            npcs.Hold(id, 0f);                                          // released
+            var before = npcs.LagMinutes(id);
+            _s.Clock.AdvanceMinutes(1);
+            for (var i = 0; i < 6; i++) yield return null;
+            Assert.Less(npcs.LagMinutes(id), before, "it catches up once released");
+        }
     }
 }
