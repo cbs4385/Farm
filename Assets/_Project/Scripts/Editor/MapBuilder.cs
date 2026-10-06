@@ -169,6 +169,7 @@ namespace Farm.Editor
             AddWarp(Center(CoopDoorX, OutY0), MapIds.Coop, "default", condition: "flag:" + AnimalRules.BuildingFlag(MapIds.Coop), blockedKey: "coop.locked");
             AddWarp(Center(BarnDoorX, OutY0), MapIds.Barn, "default", condition: "flag:" + AnimalRules.BuildingFlag(MapIds.Barn), blockedKey: "barn.locked");
             AddSpawn("fromGreenhouse", Center(GhDoorX, GhY0 - 2));
+            AddSpawn("sleepwalk", Center(10, 15));
             AddWarp(Center(DoorX, HouseY0), MapIds.FarmHouse, "default");
             AddWarp(Center(GhDoorX, GhY0), MapIds.Greenhouse, "default", condition: "flag:" + MapIds.GreenhouseFlag, blockedKey: "greenhouse.locked");
             AddWarp(Center(FarmW - 1, 15), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
@@ -286,6 +287,7 @@ namespace Farm.Editor
             AddSpawn("fromFarm", Center(2, 17));
             AddSpawn("fromForest", Center(25, VillageH - 3));
             AddSpawn("fromBeach", Center(25, 2));
+            AddSpawn("sleepwalk", Center(24, 17));
             AddWarp(Center(0, 17), MapIds.Farm, "fromVillage", new Vector2(1f, 3f));
             AddWarp(Center(25, VillageH - 1), MapIds.Forest, "fromVillage", new Vector2(3f, 1f));
             AddWarp(Center(25, 0), MapIds.Beach, "fromVillage", new Vector2(3f, 1f));
@@ -380,6 +382,7 @@ namespace Farm.Editor
             AddSpawn("default", Center(19, 2));
             AddSpawn("fromVillage", Center(19, 2));
             AddSpawn("fromWoods", Center(19, ForestH - 4));
+            AddSpawn("sleepwalk", Center(19, 10));
             AddWarp(Center(19, 0), MapIds.Village, "fromForest", new Vector2(3f, 1f));
 
             // Trees on a loose lattice, leaving the path and the arrival area clear.
@@ -449,6 +452,7 @@ namespace Farm.Editor
                 }
 
             AddSpawn("default", Center(19, 2));
+            AddSpawn("sleepwalk", Center(19, 16));
             AddWarp(Center(19, 0), MapIds.Forest, "fromWoods", new Vector2(3f, 1f));
 
             // The three relics that can seal the god away, hidden in the wood (no tree is grown on top of one).
@@ -526,6 +530,7 @@ namespace Farm.Editor
 
             AddSpawn("default", Center(17, BeachH - 3));
             AddSpawn("fromVillage", Center(17, BeachH - 3));
+            AddSpawn("sleepwalk", Center(13, 7));
             AddWarp(Center(17, BeachH - 1), MapIds.Village, "fromBeach", new Vector2(3f, 1f));
 
             // The fish stall: a working counter whose hours (06:00-14:00, closed Thursday) are enforced.

@@ -68,6 +68,7 @@ namespace Farm.Editor
                 var sprites = Enumerable.Range(0, row.Stages + 1).Select(i => Sprite($"crop_{row.Id}_{i}")).ToArray();
                 var crop = CropDefinition.Create(row.Id, row.Days, row.Seasons, row.Regrow, sprites).WithKind(row.Kind);
                 if (row.IsTree) crop.AsTree(row.Seasons);
+                else crop.SetWitheredSprites(new[] { Sprite("crop_blight_0"), Sprite("crop_blight_1"), Sprite("crop_blight_2") });
                 SaveCrop(crops, crop);
                 // Seeds are sold only while they can be planted (saplings any time).
                 Save(items, ItemDefinition.Create(ItemIds.Seed(row.Id), ItemCategory.Seed, buyPrice: row.SeedPrice,

@@ -212,6 +212,7 @@ namespace Farm.Gameplay
                     // The axe and pickaxe take a placed chest, machine or sprinkler back (no energy needed).
                     if (tool != ToolType.Scythe && TryPickUp(cell)) return;
                     cost = Mathf.Max(1, Mathf.RoundToInt(ToolModel.EnergyCost(EnergyCost(tool), tier) * Professions.EnergyMultiplier(Session.State)));
+                    if (tool == ToolType.Scythe && TryClearWithered(cell, cost)) break;
                     if (!SwingAtNode(tool, tier, cost, cell)) return;
                     _view.RefreshNode(cell);
                     break;
@@ -248,6 +249,18 @@ namespace Farm.Gameplay
             Session.AddSkillXp(result.Skill, result.Xp);
             AudioService.PlayIfAvailable(Sfx.Harvest);
             _view.RefreshNode(cell);
+            return true;
+        }
+
+        // The scythe clears a withered crop off the soil (blight, frost). Returns true when the swing was used on one.
+        bool TryClearWithered(Vector3Int cell, int cost)
+        {
+            var grid = Session.GetGrid(_map.MapId);
+            if (!grid.IsWithered(cell.x, cell.y)) return false;
+            if (!SpendEnergy(cost)) return true;
+            grid.ClearCrop(cell.x, cell.y);
+            AudioService.PlayIfAvailable(Sfx.Harvest);
+            ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.38f, 0.30f), 3, Fx.DigDirt);
             return true;
         }
 
@@ -447,6 +460,8 @@ namespace Farm.Gameplay
         {
             var cell = TargetCell;
             var grid = Session.GetGrid(_map.MapId);
+
+            if (grid.IsWithered(cell.x, cell.y)) { Session.Toast(L.Get("toast.crop_withered")); return; }
 
             // 1. Harvest a mature crop in front of the player.
             if (grid.IsMature(cell.x, cell.y, CropLookup))

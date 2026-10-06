@@ -100,6 +100,11 @@ SETS = {
         ("obj_cat_door", "a very small arched wooden cat door set in a tiny wooden frame, with a little brass key hanging beside it", (16, 16)),
         ("obj_couch", "a small cosy teal couch with a patchwork blanket draped over one arm", (16, 16)),
     ]),
+    "blight": dict(cols=3, rows=1, what="blighted, withered garden plants seen from the front, each a single plant growing from a small mound of soil", bottom=False, items=[
+        ("crop_blight_0", "a tiny shrivelled seedling, two limp grey-brown leaves drooping from a thin bent stem", (16, 16)),
+        ("crop_blight_1", "a half-grown plant, wilted and sickly: grey-green leaves curled and drooping, a dark purple-black stain spreading on the stem and leaves", (16, 16)),
+        ("crop_blight_2", "a tall dead plant: a bare dry brown stalk bent over, a few black curled leaves and one shrivelled grey pod hanging, purple-black rot at its base", (16, 16)),
+    ]),
     "extra": dict(cols=5, rows=3, what="small game sprites of different shapes, one clear object each", bottom=False, items=[
         ("fx_puff_2", "a large faint grey-white smoke cloud puff", (16, 16)),
         ("fx_ore_spark", "a burst of bright orange and yellow sparks flying out from a centre point", (16, 16)),

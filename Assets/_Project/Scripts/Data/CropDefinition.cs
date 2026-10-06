@@ -27,6 +27,7 @@ namespace Farm.Data
         [SerializeField] bool _isTree;
         [SerializeField] SeasonMask _fruitSeasons;
         [SerializeField] CropKind _kind;
+        [SerializeField] Sprite[] _witheredSprites;      // small, medium, tall: what the crop looks like when it has withered
 
         public string Id => _id;
         public string SeedItemId => _seedItemId;
@@ -46,6 +47,14 @@ namespace Farm.Data
         {
             if (_stageSprites == null || _stageSprites.Length == 0) return null;
             return _stageSprites[Mathf.Clamp(stage, 0, _stageSprites.Length - 1)];
+        }
+
+        // The picture of a withered crop that was at `stage` (tall plants wither tall); the live picture when no withered art is set.
+        public Sprite SpriteForWithered(int stage)
+        {
+            if (_witheredSprites == null || _witheredSprites.Length == 0) return SpriteForStage(stage);
+            var tier = Mathf.Clamp(stage * _witheredSprites.Length / (MatureStage + 1), 0, _witheredSprites.Length - 1);
+            return _witheredSprites[tier];
         }
 
         public static CropDefinition Create(string id, int[] growthDays, SeasonMask seasons, int regrowDays = 0,
@@ -77,6 +86,7 @@ namespace Farm.Data
         public void SetHarvestXp(int xp) => _harvestXp = xp;
 
         public void SetStageSprites(Sprite[] sprites) => _stageSprites = sprites;
+        public void SetWitheredSprites(Sprite[] sprites) => _witheredSprites = sprites;
         public void SetGrowCondition(string condition) => _growCondition = condition;
     }
 }

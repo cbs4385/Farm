@@ -52,6 +52,8 @@ namespace Farm.Mythos
         public override void OnNightFalls(DayCycleContext context)
         {
             if (!MythosLevel.On(_s)) return;
+            var blighted = MythosBlight.Strike(_s, context.Clock.Now.TotalDays);
+            if (blighted > 0) context.Note("mythos.blight", blighted);
             RitualDirector.Progress(_s, GameDateTime.DayEndMinute);
             _s.SetFlag(MythosIds2.RitualFlag, false);
         }
@@ -88,6 +90,8 @@ namespace Farm.Mythos
             var dread = _s.GetVar(MythosIds.Vars.Dread);
             if (dread >= 15 && WeatherRoller.Unit(now.TotalDays * 29 + 3, _s.State.WorldSeed ^ 0x77) < Math.Min(0.7f, dread / 100f + 0.15f))
                 context.Note(MythosLevel.Full(_s) && dread >= 40 ? "mythos.dream.full" : "mythos.dream.mild");
+
+            MythosSleepwalk.Check(_s, context);
 
             RitualDirector.Store(_s, save);
         }

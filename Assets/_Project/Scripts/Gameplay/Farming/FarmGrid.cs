@@ -13,6 +13,7 @@ namespace Farm.Gameplay
         public int DaysInStage;
         public bool Regrowing;   // true after a harvest of a regrowing crop: the last stage then takes RegrowDays
         public bool Fruit;       // fruit trees: there is fruit to pick
+        public bool Withered;    // blighted or otherwise dead: it stops growing and cannot be harvested; the scythe clears it
     }
 
     [Serializable]
@@ -102,7 +103,7 @@ namespace Farm.Gameplay
         {
             if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop == null) return false;
             var def = cropLookup(tile.Crop.CropId);
-            return def != null && tile.Crop.Stage >= def.MatureStage && (!def.IsTree || tile.Crop.Fruit);
+            return def != null && !tile.Crop.Withered && tile.Crop.Stage >= def.MatureStage && (!def.IsTree || tile.Crop.Fruit);
         }
 
         // Returns false if there is nothing mature to harvest.
@@ -111,7 +112,7 @@ namespace Farm.Gameplay
             result = default;
             if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop == null) return false;
             var def = cropLookup(tile.Crop.CropId);
-            if (def == null || tile.Crop.Stage < def.MatureStage) return false;
+            if (def == null || tile.Crop.Withered || tile.Crop.Stage < def.MatureStage) return false;
             if (def.IsTree && !tile.Crop.Fruit) return false;
 
             result = new HarvestResult(def.HarvestItemId, 1, def.HarvestXp);
@@ -134,6 +135,16 @@ namespace Farm.Gameplay
             }
             return true;
         }
+
+        // Kills the crop on a tile where it stands (a blight, a frost): it stays, withered, until it is cleared. Returns true if a living crop withered.
+        public bool Wither(int x, int y)
+        {
+            if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop == null || tile.Crop.Withered) return false;
+            tile.Crop.Withered = true;
+            return true;
+        }
+
+        public bool IsWithered(int x, int y) => _tiles.TryGetValue((x, y), out var tile) && tile.Crop != null && tile.Crop.Withered;
 
         // Removes a crop (scythe on a dead/unwanted plant). Returns true if something was removed.
         public bool ClearCrop(int x, int y)
@@ -161,7 +172,7 @@ namespace Farm.Gameplay
                         tile.Fertilizer = null;
                         died++;
                     }
-                    else if ((def.IsTree || tile.Watered || rainedToday) && crop.Stage < def.MatureStage && CanGrow(def, world))
+                    else if (!crop.Withered && (def.IsTree || tile.Watered || rainedToday) && crop.Stage < def.MatureStage && CanGrow(def, world))
                     {
                         crop.DaysInStage++;
                         var needed = crop.Regrowing && crop.Stage == def.MatureStage - 1
@@ -178,7 +189,7 @@ namespace Farm.Gameplay
                     }
 
                     // A mature tree bears fruit overnight while it is in season.
-                    if (tile.Crop != null && def != null && def.IsTree && crop.Stage >= def.MatureStage)
+                    if (tile.Crop != null && !crop.Withered && def != null && def.IsTree && crop.Stage >= def.MatureStage)
                         crop.Fruit = def.FruitSeasons.Includes(newSeason);
                 }
                 tile.Watered = false;

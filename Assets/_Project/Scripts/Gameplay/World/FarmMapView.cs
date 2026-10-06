@@ -61,7 +61,7 @@ namespace Farm.Gameplay
             if (_grid != null)
                 foreach (var t in _grid.Tiles)
                 {
-                    if (t.Crop == null || t.Crop.Stage < 1) continue;
+                    if (t.Crop == null || t.Crop.Withered || t.Crop.Stage < 1) continue;
                     SetLean(_map.Crops, new Vector3Int(t.X, t.Y, 0), Sway.LeanPixels(time, t.X, t.Y, strength));
                 }
             if (_nodeGrid != null && _map.Nodes != null && _nodeCatalog != null)
@@ -137,7 +137,7 @@ namespace Farm.Gameplay
 
             Sprite cropSprite = null;
             if (tile.Crop != null && _db != null && _db.TryGetCrop(tile.Crop.CropId, out var def))
-                cropSprite = def.SpriteForStage(tile.Crop.Stage);
+                cropSprite = tile.Crop.Withered ? def.SpriteForWithered(tile.Crop.Stage) : def.SpriteForStage(tile.Crop.Stage);
             _map.Crops.SetTile(cell, cropSprite != null ? TileFor(cropSprite) : null);
         }
 
