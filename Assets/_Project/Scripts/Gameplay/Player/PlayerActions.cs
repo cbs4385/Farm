@@ -183,7 +183,7 @@ namespace Farm.Gameplay
                     grid.Till(cell.x, cell.y);
                     Session.AddVar(QuestLog.Stats.Tilled, 1);
                     AudioService.PlayIfAvailable(Sfx.Hoe);
-                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.30f, 0.16f), 6);
+                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.30f, 0.16f), 3, Fx.DigDirt);
                     break;
 
                 case ToolType.WateringCan:
@@ -193,7 +193,7 @@ namespace Farm.Gameplay
                     grid.Water(cell.x, cell.y);
                     Session.AddVar(QuestLog.Stats.Watered, 1);
                     AudioService.PlayIfAvailable(Sfx.Water);
-                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.35f, 0.65f, 0.95f), 6);
+                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.35f, 0.65f, 0.95f), 3, Fx.WaterDrop);
                     break;
 
                 case ToolType.Rod:
@@ -271,7 +271,8 @@ namespace Farm.Gameplay
 
             var roll = WeatherRoller.Unit(cell.x * 131 + cell.y * 17 + Session.Clock.Now.TotalDays * 7, Session.State.WorldSeed);
             var result = nodes.Hit(cell.x, cell.y, tool, tier, Session.Nodes.Get, roll);
-            ActionPuff.Burst(_map.CellCenter(cell), result.Outcome == NodeHit.Cleared ? new Color(0.7f, 0.62f, 0.45f) : new Color(0.75f, 0.75f, 0.75f), result.Outcome == NodeHit.Cleared ? 7 : 3);
+            ActionPuff.Burst(_map.CellCenter(cell), result.Outcome == NodeHit.Cleared ? new Color(0.7f, 0.62f, 0.45f) : new Color(0.75f, 0.75f, 0.75f), result.Outcome == NodeHit.Cleared ? 7 : 3,
+                tool == ToolType.Axe ? Fx.ChopChip : tool == ToolType.Pickaxe ? Fx.OreSpark : Fx.Dust);
             if (result.Outcome == NodeHit.Cleared)
             {
                 if (!string.IsNullOrEmpty(result.DropItemId) && result.DropCount > 0)
@@ -316,7 +317,7 @@ namespace Farm.Gameplay
             var bait = Session.Backpack.Has(FishDefaults.Bait);
             if (bait) Session.Backpack.Remove(FishDefaults.Bait, 1);
             _castCell = cell;
-            ActionPuff.Burst(_map.CellCenter(cell), new Color(0.75f, 0.9f, 1f), 6);          // the line hits the water
+            ActionPuff.Burst(_map.CellCenter(cell), new Color(0.75f, 0.9f, 1f), 1, Fx.Splash);          // the line hits the water
             var n = Session.AddVar("stat.casts", 1);
             float R(int k) => WeatherRoller.Unit(n * 97 + k * 13, Session.State.WorldSeed ^ 0x3C6EF372);
             var eligible = FishingModel.Eligible(FishDefaults.Rows, spot, Session.World);
@@ -332,7 +333,7 @@ namespace Farm.Gameplay
             if (done == null) return;
             if (!done.Caught || !done.Fish.HasValue) { Session.Toast(L.Get("fishing.escaped")); return; }
             var fish = done.Fish.Value;
-            ActionPuff.Burst(_map.CellCenter(_castCell), new Color(0.75f, 0.9f, 1f), 9);          // a fish breaks the surface
+            ActionPuff.Burst(_map.CellCenter(_castCell), new Color(0.75f, 0.9f, 1f), 4, Fx.WaterDrop);          // a fish breaks the surface
             if (Session.Backpack.Add(fish.ItemId, 1, done.Quality) > 0) { Session.Toast(L.Get("toast.inventory_full")); return; }
             Hoist(fish.ItemId);
             Session.AddVar("stat.fished", 1);
@@ -466,7 +467,7 @@ namespace Farm.Gameplay
                     Session.AddVar(QuestLog.Stats.Harvested, 1);
                     Session.AddSkillXp(SkillIds.Farming, result.Xp);
                     AudioService.PlayIfAvailable(Sfx.Harvest);
-                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.78f, 0.30f), 5);
+                    ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.78f, 0.30f), 3, Fx.HarvestPop);
                     _view.RefreshCell(cell);
                 }
                 return;

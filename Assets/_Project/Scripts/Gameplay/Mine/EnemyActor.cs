@@ -72,7 +72,7 @@ namespace Farm.Gameplay
         {
             var killed = _brain.Hurt(damage);
             _flash = FlashSeconds;
-            ActionPuff.Burst(transform.position, new Color(1f, 0.95f, 0.7f), killed ? 8 : 4);
+            ActionPuff.Burst(transform.position, new Color(1f, 0.95f, 0.7f), killed ? 5 : 2, Fx.HitStar);
             AudioService.PlayIfAvailable(Sfx.Hit, 0.5f, Random.Range(1.1f, 1.4f));
             if (!killed)
             {

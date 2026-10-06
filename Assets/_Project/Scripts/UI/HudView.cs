@@ -88,6 +88,8 @@ namespace Farm.UI
         TextMeshProUGUI _streamText;
         string _streamShown;
         Image _energyFill;
+        Image _dateIcon, _timeIcon, _weatherIcon, _goldIcon, _healthIcon;
+        static readonly string[] SeasonArt = { "spring", "summer", "fall", "winter" };
         bool _dirty = true;
         float _toastTimer;
         HudDriver _driver;
@@ -156,6 +158,28 @@ namespace Farm.UI
             _weather = UiKit.Label(stack.transform, "", 15f, TextAlignmentOptions.Right, UiKit.DimText);
             _forecast = UiKit.Label(stack.transform, "", 13f, TextAlignmentOptions.Right, UiKit.DimText);
             _gold = UiKit.Label(stack.transform, "", 20f, TextAlignmentOptions.Right);
+            _dateIcon = Icon(_date.rectTransform, 20f);
+            _timeIcon = Icon(_time.rectTransform, 22f);
+            _weatherIcon = Icon(_weather.rectTransform, 20f);
+            _goldIcon = Icon(_gold.rectTransform, 22f);
+        }
+
+        // A small picture at the left edge of a label (the labels are right-aligned, so the left is free). Hidden until it has a sprite.
+        static Image Icon(RectTransform label, float size)
+        {
+            var icon = UiKit.Panel(label, "Icon", Color.white);
+            icon.raycastTarget = false;
+            icon.preserveAspect = true;
+            UiKit.Place(icon.rectTransform, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(size, size), Vector2.zero);
+            icon.enabled = false;
+            return icon;
+        }
+
+        static void Show(Image icon, string art)
+        {
+            var sprite = art != null ? UiArt.Get(art) : null;
+            icon.sprite = sprite;
+            icon.enabled = sprite != null;
         }
 
         void BuildEnergy(Transform canvas)
@@ -191,6 +215,7 @@ namespace Farm.UI
             UiKit.Stretch(_healthFill.rectTransform);
             _healthLabel = UiKit.Label(frame.transform, "", 13f, TextAlignmentOptions.Center);
             UiKit.Stretch(_healthLabel.rectTransform);
+            _healthIcon = Icon(_healthLabel.rectTransform, 18f);
             _healthFrame.SetActive(false);
         }
 
@@ -286,6 +311,10 @@ namespace Farm.UI
             _forecast.text = string.IsNullOrEmpty(s.State.ForecastWeather) ? string.Empty
                 : L.Get("hud.forecast", L.Get("weather." + s.State.ForecastWeather));
             _gold.text = L.Get("hud.gold", s.State.Gold);
+            Show(_dateIcon, "hud_season_" + SeasonArt[(int)d.Season]);
+            Show(_timeIcon, "hud_clock_face");
+            Show(_weatherIcon, "hud_weather_" + s.State.Weather);
+            Show(_goldIcon, "hud_gold");
 
             var fraction = s.State.MaxEnergy > 0 ? Mathf.Clamp01((float)s.State.Energy / s.State.MaxEnergy) : 0f;
             _energyFill.rectTransform.anchorMax = new Vector2(1f, fraction);
@@ -299,6 +328,7 @@ namespace Farm.UI
                 _healthFill.color = UiPalette.Health;
                 _healthFill.rectTransform.anchorMax = new Vector2(Mathf.Clamp01((float)s.State.Health / Mathf.Max(1, s.State.MaxHealth)), 1f);
                 _healthLabel.text = L.Get("hud.health", s.State.Health, s.State.MaxHealth);
+                Show(_healthIcon, "hud_health_icon");
             }
 
             var tired = s.FatigueRating;

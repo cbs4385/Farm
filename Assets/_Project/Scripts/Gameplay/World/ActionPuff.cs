@@ -1,12 +1,22 @@
+using Farm.Data;
 using UnityEngine;
 
 namespace Farm.Gameplay
 {
     // A few small specks thrown up by an action (dirt from the hoe, drops from the can, leaves from a harvest) that arc, fall and fade.
     // Made on the spot and destroyed after their life; no art needed.
+    // The effect pictures (names in UiArt) that actions throw.
+    public static class Fx
+    {
+        public const string DigDirt = "fx_dig_dirt", WaterDrop = "fx_water_drop", ChopChip = "fx_chop_chip", OreSpark = "fx_ore_spark",
+            HarvestPop = "fx_harvest_pop", HeartPop = "fx_heart_pop", HitStar = "fx_hit_star", Splash = "fx_rain_splash", Dust = "fx_dust",
+            LevelUp = "fx_level_up", Sparkle = "fx_sparkle", CoinFly = "fx_coin_fly";
+    }
+
     public sealed class ActionPuff : MonoBehaviour
     {
         public const float Life = 0.45f;
+        public const float PictureScale = 0.6f;                 // 16 px pictures are drawn smaller than a tile
 
         static Sprite _speck;
         SpriteRenderer[] _bits;
@@ -14,17 +24,18 @@ namespace Farm.Gameplay
         int _count;
         float _age;
 
-        public static void Burst(Vector3 position, Color color, int count = 5)
+        // `art` names a picture from UiArt (fx_dig_dirt ...) to throw instead of plain specks; without one (or without that picture) it is specks.
+        public static void Burst(Vector3 position, Color color, int count = 5, string art = null)
         {
             var go = new GameObject("ActionPuff");
             go.transform.position = position;
-            go.AddComponent<ActionPuff>().Begin(color, count);
+            go.AddComponent<ActionPuff>().Begin(color, count, art);
         }
 
         // A burst of pink specks over someone who is pleased (a petted animal, a villager given a gift), and a little hop of joy.
         public static void Hearts(Vector3 position, WalkBob hopper = null)
         {
-            Burst(position, new Color(1f, 0.45f, 0.6f), 5);
+            Burst(position, new Color(1f, 0.45f, 0.6f), 3, Fx.HeartPop);
             if (hopper != null) hopper.Lunge(Vector2Int.up);
         }
 
@@ -39,10 +50,11 @@ namespace Farm.Gameplay
             return (new Vector2(x, y), 1f - t * t);
         }
 
-        void Begin(Color color, int count)
+        void Begin(Color color, int count, string art)
         {
-            _color = color;
             _count = Mathf.Max(1, count);
+            var picture = string.IsNullOrEmpty(art) ? null : UiArt.Get(art);
+            _color = picture != null ? Color.white : color;                    // a picture keeps its own colours
             _speck ??= MakeSpeck();
             _bits = new SpriteRenderer[_count];
             for (var i = 0; i < _count; i++)
@@ -50,7 +62,8 @@ namespace Farm.Gameplay
                 var child = new GameObject("Speck" + i);
                 child.transform.SetParent(transform, false);
                 var sr = child.AddComponent<SpriteRenderer>();
-                sr.sprite = _speck;
+                sr.sprite = picture != null ? picture : _speck;
+                if (picture != null) child.transform.localScale = Vector3.one * PictureScale;
                 sr.sortingOrder = 12;
                 _bits[i] = sr;
             }

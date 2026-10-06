@@ -21,6 +21,7 @@ namespace Farm.Gameplay
         SpriteRenderer[] _renderers;
         Particle[] _particles;
         Sprite _pixel;
+        Sprite _snowflake, _leaf;
         SpriteRenderer _flash;
         Camera _camera;
         GameSession _session;
@@ -39,6 +40,8 @@ namespace Farm.Gameplay
             tex.Apply();
             _pixel = Sprite.Create(tex, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f), 1f);
 
+            _snowflake = UiArt.Get("fx_snowflake");
+            _leaf = UiArt.Get("fx_wind_leaf");
             var rng = new System.Random(12345);
             _renderers = new SpriteRenderer[MaxParticles];
             _particles = new Particle[MaxParticles];
@@ -114,6 +117,7 @@ namespace Farm.Gameplay
             {
                 var r = _renderers[i];
                 r.enabled = i < _active;
+                r.sprite = _pixel;                                  // a picture from the last weather is put back
                 if (i >= _active) continue;
                 switch (def.Particles)
                 {
@@ -123,11 +127,13 @@ namespace Farm.Gameplay
                         break;
                     case WeatherParticles.Snow:
                         r.color = new Color(1f, 1f, 1f, 0.9f);
-                        r.transform.localScale = new Vector3(2f / PixelsPerUnit, 2f / PixelsPerUnit, 1f);
+                        if (_snowflake != null) { r.sprite = _snowflake; r.transform.localScale = Vector3.one * 0.4f; }
+                        else r.transform.localScale = new Vector3(2f / PixelsPerUnit, 2f / PixelsPerUnit, 1f);
                         break;
                     default:
                         r.color = new Color(0.85f, 0.80f, 0.55f, 0.75f);
-                        r.transform.localScale = new Vector3(3f / PixelsPerUnit, 1f / PixelsPerUnit, 1f);
+                        if (_leaf != null) { r.sprite = _leaf; r.color = new Color(1f, 1f, 1f, 0.85f); r.transform.localScale = Vector3.one * 0.35f; }
+                        else r.transform.localScale = new Vector3(3f / PixelsPerUnit, 1f / PixelsPerUnit, 1f);
                         break;
                 }
             }
