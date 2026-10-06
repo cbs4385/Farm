@@ -891,6 +891,88 @@
         "crows:2",
         "dread:2"
       ]
+    },
+    {
+      "id": "moon_new_dark",
+      "weight": 7,
+      "textKey": "random.moon_new_dark",
+      "mood": "bad",
+      "condition": "horror:1 && moon:new",
+      "effects": [
+        "dread:2"
+      ]
+    },
+    {
+      "id": "moon_new_lanterns",
+      "weight": 6,
+      "textKey": "random.moon_new_lanterns",
+      "mood": "neutral",
+      "condition": "horror:1 && moon:new && var:lore>=1",
+      "effects": [
+        "lore:1",
+        "dread:2"
+      ]
+    },
+    {
+      "id": "moon_waxing_mushrooms",
+      "weight": 7,
+      "textKey": "random.moon_waxing_mushrooms",
+      "mood": "good",
+      "condition": "horror:1 && (moon:waxingcrescent || moon:firstquarter || moon:waxinggibbous)",
+      "effects": [
+        "give:forage.mushroom,2"
+      ]
+    },
+    {
+      "id": "moon_waxing_seedlings",
+      "weight": 5,
+      "textKey": "random.moon_waxing_seedlings",
+      "mood": "good",
+      "condition": "horror:1 && (moon:waxingcrescent || moon:firstquarter || moon:waxinggibbous)",
+      "effects": [
+        "dread:-2"
+      ]
+    },
+    {
+      "id": "moon_full_coins",
+      "weight": 7,
+      "textKey": "random.moon_full_coins",
+      "mood": "good",
+      "condition": "horror:1 && moon:full",
+      "effects": [
+        "gold:25"
+      ]
+    },
+    {
+      "id": "moon_full_humming",
+      "weight": 6,
+      "textKey": "random.moon_full_humming",
+      "mood": "bad",
+      "condition": "horror:2 && moon:full && var:lore>=2",
+      "effects": [
+        "lore:1",
+        "dread:4"
+      ]
+    },
+    {
+      "id": "moon_waning_restless",
+      "weight": 6,
+      "textKey": "random.moon_waning_restless",
+      "mood": "bad",
+      "condition": "horror:1 && (moon:waningcrescent || moon:lastquarter || moon:waninggibbous)",
+      "effects": [
+        "dread:2"
+      ]
+    },
+    {
+      "id": "moon_waning_calm",
+      "weight": 6,
+      "textKey": "random.moon_waning_calm",
+      "mood": "good",
+      "condition": "horror:1 && (moon:waningcrescent || moon:lastquarter || moon:waninggibbous)",
+      "effects": [
+        "dread:-3"
+      ]
     }
   ],
   "events": [
