@@ -7,7 +7,7 @@ namespace Farm.Gameplay
     // The on-screen body of a villager. It only renders the NpcPlacement it is given (a pure function of the clock), so it
     // is always where the schedule says, and walking is smooth along an A* path without ever teleporting in view.
     [RequireComponent(typeof(SpriteRenderer))]
-    public sealed class NpcActor : MonoBehaviour, IInteractable
+    public sealed class NpcActor : MonoBehaviour, IInteractable, ICellOccupant
     {
         public string HoverLabel => _definition != null ? Farm.Core.L.Get(_definition.NameKey) : null;
 
@@ -24,6 +24,10 @@ namespace Farm.Gameplay
         public bool IsWalking { get; private set; }
         public Vector2Int Facing => _facing;
         public Vector3Int Cell { get; private set; }
+        public bool IsPlaced { get; private set; }
+
+        void OnEnable() => CellOccupants.Add(this);
+        void OnDisable() => CellOccupants.Remove(this);
 
         public void Setup(NpcDefinition definition)
         {
@@ -43,6 +47,7 @@ namespace Farm.Gameplay
                 var cell = new Vector3Int(place.ToX, place.ToY, 0);
                 transform.position = map.CellCenter(cell);
                 Cell = cell;
+                IsPlaced = true;
                 SetFacing(NpcSchedule.FacingVector(place.Facing));
                 return;
             }
@@ -68,6 +73,7 @@ namespace Farm.Gameplay
             var a = _points[i - 1]; var b = _points[i];
             transform.position = Vector3.Lerp(a, b, t);
             Cell = map.WorldToCell(transform.position);
+            IsPlaced = true;
             var direction = b - a;
             if (direction.sqrMagnitude > 0.0001f)
                 SetFacing(Mathf.Abs(direction.x) > Mathf.Abs(direction.y)
@@ -96,12 +102,14 @@ namespace Farm.Gameplay
         {
             transform.position = map.CellCenter(cell);
             Cell = cell;
+            IsPlaced = true;
         }
 
         public void SetWorld(Vector3 position, FarmMap map)
         {
             transform.position = position;
             Cell = map.WorldToCell(position);
+            IsPlaced = true;
         }
 
         public void SetFacing(Vector2Int facing)

@@ -7,7 +7,7 @@ namespace Farm.Gameplay
     // The black cat that ambles about the village by day. It walks short hops between nearby cells, rests between them, meows now and then
     // while it is on screen (so a meow always has a cat to go with it), and can be petted.
     [RequireComponent(typeof(SpriteRenderer))]
-    public sealed class VillageCat : MonoBehaviour, IInteractable
+    public sealed class VillageCat : MonoBehaviour, IInteractable, ICellOccupant
     {
         const float Speed = 1.4f;
         const float FrameTime = 0.2f;
@@ -20,6 +20,11 @@ namespace Farm.Gameplay
 
         public string HoverLabel => L.Get("cat.name");
         public Vector3Int Cell { get; private set; }
+        public bool IsPlaced => _placed && _renderer != null && _renderer.enabled;
+        public Vector3Int? Claim => _route != null && _step < _route.Count ? new Vector3Int(_route[_step].x, _route[_step].y, 0) : (Vector3Int?)null;
+
+        void OnEnable() => CellOccupants.Add(this);
+        void OnDisable() => CellOccupants.Remove(this);
         public bool IsWalking => _route != null;
         public bool IsShown => _renderer != null && _renderer.enabled;
 
@@ -86,6 +91,7 @@ namespace Farm.Gameplay
             _renderer.enabled = Daytime(_session.Clock.Now.MinuteOfDay / 60);
             if (!_renderer.enabled) { _route = null; return; }
 
+            if (CellOccupants.SharingWith(this) > 0 && _purr <= 0f) StepAside(grid);
             if (_route != null) Walk();
             else
             {
@@ -93,6 +99,7 @@ namespace Farm.Gameplay
                 if (_rest <= 0f)
                 {
                     _route = CatWander.PickRoute(grid, Cell.x, Cell.y, _rng);
+                    if (_route != null && CellOccupants.IsTaken(new Vector3Int(_route[_route.Count - 1].x, _route[_route.Count - 1].y, 0), this)) _route = null;      // not onto somebody
                     _step = 1;
                     _rest = 2f + (float)_rng.NextDouble() * 5f;
                 }
@@ -116,8 +123,23 @@ namespace Farm.Gameplay
             }
         }
 
+        // A villager walked onto the cat's cell: it hops to the nearest free one.
+        void StepAside(WalkGrid grid)
+        {
+            if (!CellOccupants.TryFindFree(Cell, c => grid.IsWalkable(c.x, c.y), this, out var free)) return;
+            _route = new List<(int x, int y)> { (Cell.x, Cell.y), (free.x, free.y) };
+            _step = 1;
+        }
+
         void Walk()
         {
+            var next = new Vector3Int(_route[_step].x, _route[_step].y, 0);
+            if (next != Cell && CellOccupants.IsTaken(next, this))            // somebody is in the way: wait and try another time
+            {
+                _route = null;
+                _rest = 1f;
+                return;
+            }
             var target = _map.CellCenter(new Vector3Int(_route[_step].x, _route[_step].y, 0));
             var here = transform.position;
             var delta = target - here;

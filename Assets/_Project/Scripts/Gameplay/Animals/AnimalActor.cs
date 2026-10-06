@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Farm.Gameplay
 {
     // A farm animal in its coop or barn: wanders about; Interact pets it, or collects its product when ready.
-    public sealed class AnimalActor : MonoBehaviour, IInteractable
+    public sealed class AnimalActor : MonoBehaviour, IInteractable, ICellOccupant
     {
         public string HoverLabel => _state != null ? _state.Name : null;
 
@@ -44,6 +44,11 @@ namespace Farm.Gameplay
         }
 
         public Vector3Int Cell => _manager.Map.WorldToCell(transform.position);
+        public bool IsPlaced => _manager != null;
+        public Vector3Int? Claim => _moving || Vector3.Distance(transform.position, _target) > 0.02f ? _manager.Map.WorldToCell(_target) : (Vector3Int?)null;
+
+        void OnEnable() => CellOccupants.Add(this);
+        void OnDisable() => CellOccupants.Remove(this);
 
         public void Setup(AnimalState state, AnimalManager manager)
         {
@@ -75,8 +80,19 @@ namespace Farm.Gameplay
                 transform.position = Vector3.MoveTowards(transform.position, _target, Speed * Time.deltaTime);
                 _moving = true;
             }
+            else if (running && StepAside()) { }
             else if (running && !IsAsleep && _eatLeft <= 0f) Wander();
             ShowPicture();
+        }
+
+        // Someone else is on this cell (a villager walked in): move to the nearest free cell, whatever it was doing.
+        bool StepAside()
+        {
+            if (CellOccupants.SharingWith(this) == 0) return false;
+            if (!CellOccupants.TryFindFree(Cell, c => _manager.Map.CanPlaceAt(c), this, out var free)) return false;
+            _target = _manager.Map.CellCenter(free);
+            _idleLeft = 0f;
+            return true;
         }
 
         void Wander()

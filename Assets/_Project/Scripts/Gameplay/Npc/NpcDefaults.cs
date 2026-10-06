@@ -49,10 +49,10 @@ namespace Farm.Gameplay
                     Day("rainy_sunday", "weekday:sun && weather:rain", 10, home, Stop(Ten, MapIds.GeneralStore, 6, 3)),
                     Day("sunday", "weekday:sun", 5, home,
                         Stop(10 * 60, MapIds.Beach, 14, 12, "up"), Stop(15 * 60, MapIds.Village, 25, 20, "down"),
-                        Stop(Seven, MapIds.Saloon, 5, 4, "up"), Stop(Ten, MapIds.GeneralStore, 6, 3)),
+                        Stop(Seven, MapIds.Saloon, 6, 4, "up"), Stop(Ten, MapIds.GeneralStore, 6, 3)),
                     Day("workday", null, 0, home,
                         Stop(Eight40, MapIds.GeneralStore, 7, 5, "down"), Stop(Half5, MapIds.Village, 25, 20, "down"),
-                        Stop(Seven, MapIds.Saloon, 5, 4, "up"), Stop(Ten, MapIds.GeneralStore, 6, 3)),
+                        Stop(Seven, MapIds.Saloon, 6, 4, "up"), Stop(Ten, MapIds.GeneralStore, 6, 3)),
                 });
         }
 
@@ -70,9 +70,9 @@ namespace Farm.Gameplay
                     Day("rainy_day_off", "weekday:mon && weather:rain", 10, home, Stop(Nine, MapIds.Blacksmith, 6, 3)),
                     Day("day_off", "weekday:mon", 5, home,
                         Stop(10 * 60, MapIds.Forest, 19, 10, "up"), Stop(14 * 60, MapIds.Village, 30, 17, "left"),
-                        Stop(18 * 60, MapIds.Saloon, 8, 4, "up"), Stop(Nine, MapIds.Blacksmith, 6, 3)),
+                        Stop(18 * 60, MapIds.Saloon, 7, 4, "up"), Stop(Nine, MapIds.Blacksmith, 6, 3)),
                     Day("workday", null, 0, home,
-                        Stop(Eight50, MapIds.Blacksmith, 6, 4, "down"), Stop(Half5, MapIds.Saloon, 8, 4, "up"),
+                        Stop(Eight50, MapIds.Blacksmith, 6, 4, "down"), Stop(Half5, MapIds.Saloon, 7, 4, "up"),
                         Stop(Nine, MapIds.Blacksmith, 6, 3)),
                 });
         }
@@ -90,13 +90,13 @@ namespace Farm.Gameplay
                 {
                     Day("rainy_saturday", "weekday:sat && weather:rain", 10, home, Stop(Ten, MapIds.Library, 7, 3)),
                     Day("saturday", "weekday:sat", 5, home,
-                        Stop(10 * 60, MapIds.Forest, 19, 15, "up"), Stop(15 * 60, MapIds.Village, 20, 17, "right"),
+                        Stop(10 * 60, MapIds.Forest, 19, 15, "up"), Stop(15 * 60, MapIds.Village, 21, 17, "right"),
                         Stop(Ten, MapIds.Library, 7, 3)),
                     Day("summer_evenings", "season:summer", 3, home,
                         Stop(Eight50, MapIds.Library, 6, 5, "down"), Stop(Half5, MapIds.Beach, 20, 9, "up"),
                         Stop(Nine, MapIds.Library, 7, 3)),
                     Day("workday", null, 0, home,
-                        Stop(Eight50, MapIds.Library, 6, 5, "down"), Stop(Half5, MapIds.Village, 20, 17, "right"),
+                        Stop(Eight50, MapIds.Library, 6, 5, "down"), Stop(Half5, MapIds.Village, 21, 17, "right"),
                         Stop(Nine, MapIds.Library, 7, 3)),
                 });
         }

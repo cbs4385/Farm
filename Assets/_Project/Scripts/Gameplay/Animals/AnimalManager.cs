@@ -43,7 +43,9 @@ namespace Farm.Gameplay
         public AnimalActor Spawn(AnimalState state, int x, int y)
         {
             var go = new GameObject("animal", typeof(SpriteRenderer));
-            go.transform.position = Map.CellCenter(new Vector3Int(x, y, 0));
+            var start = new Vector3Int(x, y, 0);
+            if ((!Map.CanPlaceAt(start) || CellOccupants.IsTaken(start)) && CellOccupants.TryFindFree(start, c => Map.CanPlaceAt(c), null, out var free, 6)) start = free;
+            go.transform.position = Map.CellCenter(start);
             var actor = go.AddComponent<AnimalActor>();
             actor.Setup(state, this);
             _actors.Add(actor);
@@ -66,8 +68,7 @@ namespace Farm.Gameplay
         public bool Free(Vector3Int cell, AnimalActor self)
         {
             if (!Map.CanPlaceAt(cell)) return false;
-            foreach (var a in _actors) if (a != null && a != self && a.Cell == cell) return false;
-            return true;
+            return !CellOccupants.IsTaken(cell, self);                    // no other animal, villager or cat
         }
     }
 }
