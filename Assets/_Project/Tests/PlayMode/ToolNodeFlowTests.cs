@@ -261,7 +261,7 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
 
             var nodes = _session.GetNodes(MapIds.Farm);
-            Assert.That(nodes.Count, Is.InRange(40, 200), "trees, rocks and weeds");
+            Assert.That(nodes.Count, Is.InRange(80, 500), "trees, rocks and weeds (the farm is about twice as big as it was)");
             var kinds = nodes.Nodes.Select(n => n.TypeId).Distinct().ToList();
             CollectionAssert.IsSupersetOf(kinds, new[] { "weed", "rock", "tree" });
 

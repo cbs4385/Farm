@@ -279,7 +279,7 @@ namespace Farm.Tests
             Assert.GreaterOrEqual(slots.Count, 8);
 
             var hoe = s.Backpack.Get(0).ItemId;
-            Assert.IsNull(s.Backpack.Get(8));
+            Assert.IsNull(s.Backpack.Get(9));
 
             var data = new PointerEventData(EventSystem.current) { position = new Vector2(100, 100), button = PointerEventData.InputButton.Left };
             ExecuteEvents.Execute(slots[0].gameObject, data, ExecuteEvents.beginDragHandler);
@@ -287,12 +287,12 @@ namespace Farm.Tests
             var screen = FindScreen(ui);
             Assert.IsTrue(screen.IsDragging, "a drag is in progress");
             Assert.IsNotNull(GameObject.Find("DragIcon"), "an icon follows the pointer");
-            ExecuteEvents.Execute(slots[8].gameObject, data, ExecuteEvents.dropHandler);
+            ExecuteEvents.Execute(slots[9].gameObject, data, ExecuteEvents.dropHandler);
             ExecuteEvents.Execute(slots[0].gameObject, data, ExecuteEvents.endDragHandler);
             yield return null;
 
             Assert.IsNull(s.Backpack.Get(0), "the stack left its slot");
-            Assert.AreEqual(hoe, s.Backpack.Get(8).ItemId, "and arrived in the target slot");
+            Assert.AreEqual(hoe, s.Backpack.Get(9).ItemId, "and arrived in the target slot");
             Assert.IsFalse(screen.IsDragging);
         }
 

@@ -185,6 +185,8 @@ namespace Farm.Tests
         {
             yield return Start(MapIds.CommunityHall);
             _s.Story = StoryContent.LoadFromResources();
+            _s.Backpack.Remove(Farm.Data.ItemIds.Hammer, 1);                       // the starting backpack is nearly full: make room for four kinds of crop
+            _s.Backpack.Remove(Farm.Data.ItemIds.Machine("chest"), 1);
             foreach (var id in new[] { "crop.parsnip", "crop.potato", "crop.kale", "crop.cauliflower" }) _s.Backpack.Add(id, 3);
             Player.transform.position = new Vector3(7.5f, 6.5f, 0f);
             Player.Face(Vector2Int.up);
