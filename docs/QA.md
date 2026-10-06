@@ -63,6 +63,7 @@ Manual checks (not yet done by a person): cast a rod at the beach and the forest
 Automated: `MineAndCombatTests`, `FishingTests`, `AnimalTests`, `HallAndFestivalTests`, `Milestone3Tests` (EditMode, including the two-year simulation); `MineFlowTests`, `AdventureFlowTests` (PlayMode).
 
 ## Milestone 3b additions (horror layer)
+**A person must play a year at each intensity before the M3b gate: `docs/qa/MYTHOS_PLAYTHROUGH.md` is the checklist.**
 Manual checks (not yet done by a person): Options > Content cycles Off / Mild / Full and "Content notes" opens; at Off nothing changes (no fog, no Woods gate, no clues, no dreams) over a season; at Full with a development build `date spring 3`, `time 21:50`, `var lore 2`: Keepers leave their shops, walk to the Woods and stand at the altar at about 22:30 (the Woods open from summer: `flag woods.open`); the altar's lights appear and dissolve; `date summer 4` + `flag mythos.interference` lets you take an offering (the ritual fails); `var mythos.wakefulness 600` shows tint and fog and `dread 50` grows hollowroot; talk to Tilda, Marcus, Dr. Penn, Dorian, Wren, Hazel for clue lines (`var lore 1`, then 3 and 5); read the stones and pick up the three relics, then `quest.start mythos_seal`, `var lore 8` and use the altar to seal; `var mythos.wakefulness 1000` plays the awakening and returns to the menu.
 Automated: `MythosLayerTests`, `MythosModelTests`, `RitualModelTests`, `DataValidationTests.MythosData_*` (EditMode); `VillageFlowTests` Woods tests (PlayMode).
 

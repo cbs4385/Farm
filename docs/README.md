@@ -8,6 +8,7 @@
 | [`03-ImplementationPlan.md`](03-ImplementationPlan.md) | Ordered task backlog, Definition of Done, release checklist | agents |
 | [`ItemGapAudit.md`](ItemGapAudit.md) | Items, gifts and places that dialogue/events promise but the game lacks | agents |
 | [`PLAYTEST_2026-10-06.md`](PLAYTEST_2026-10-06.md) | A playtester's comments, what is done and the plan for bigger maps and build mode | agents |
+| [`qa/MYTHOS_PLAYTHROUGH.md`](qa/MYTHOS_PLAYTHROUGH.md) | The checklist for a person playing the horror layer at off, mild and full | testers |
 | [`mythos/M3b-COMPLETION-PLAN.md`](mythos/M3b-COMPLETION-PLAN.md) | What remains of Milestone 3b and how to finish and verify it | agents |
 | [`STATUS.md`](STATUS.md) | Task status, what a human verified, open decisions | everyone |
 | [`BUILD.md`](BUILD.md) | Setup, test/build commands, QA flags, running players | developers, agents |
