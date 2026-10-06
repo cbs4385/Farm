@@ -88,6 +88,7 @@ namespace Farm.Gameplay
                 a.Length > 2 ? Int(a[2], int.MinValue) : int.MinValue, a.Length > 3 ? Int(a[3], int.MaxValue) : int.MaxValue));
             Register("gold", 1, 1, (s, a) => s.ChangeGold(Int(a[0])));
             Register("give", 1, 3, (s, a) => { s.GiveItem(a[0], a.Length > 1 ? Int(a[1], 1) : 1, a.Length > 2 ? Int(a[2]) : 0); AudioService.PlayIfAvailable(Sfx.Pickup); });
+            Register("parcel", 1, 2, (s, a) => { if (s.Db.TryGetItem(a[0], out _)) Parcels.Send(s, a[0], a.Length > 1 ? Int(a[1], 1) : 1); else Log.Error($"parcel: unknown item '{a[0]}'"); });
             Register("take", 2, 2, (s, a) => s.Backpack.Remove(a[0], Int(a[1], 1)));
             Register("toast", 1, 1, (s, a) => s.Toast(L.Get(a[0])));
             Register("xp", 2, 2, (s, a) => s.AddSkillXp(a[0], Int(a[1])));

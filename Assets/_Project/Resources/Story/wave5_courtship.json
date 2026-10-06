@@ -197,12 +197,13 @@
         "map": "Blacksmith",
         "px": 2,
         "py": 2,
-        "prop": "prop.trophy",
+        "prop": "prop.anvil",
         "nx": 3,
         "ny": 2,
         "when": "hearts:juno>=10 && flag:choice.courtship.juno.yes && !flag:partners.juno && !weekday:mon && hour>=9 && hour<17",
         "reward": [
           "flag:partners.juno",
+          "give:prop.anvil",
           "friend:juno,50"
         ],
         "intro": "event.juno_partners.intro",
@@ -419,6 +420,7 @@
         "when": "hearts:dorian>=10 && flag:choice.courtship.dorian.yes && !flag:partners.dorian && hour>=8 && hour<17",
         "reward": [
           "flag:partners.dorian",
+          "give:prop.feather",
           "friend:dorian,50"
         ],
         "intro": "event.dorian_partners.intro",
@@ -490,6 +492,7 @@
         "when": "hearts:elara>=10 && flag:choice.courtship.elara.yes && !flag:partners.elara && !weekday:sat && hour>=9 && hour<17",
         "reward": [
           "flag:partners.elara",
+          "give:prop.hat",
           "friend:elara,50"
         ],
         "intro": "event.elara_partners.intro",

@@ -553,12 +553,15 @@ namespace Farm.Gameplay
             _bus.Publish(new StatsChanged());
         }
 
-        // Puts items in the backpack (a reward, a gift). What does not fit is lost, with a toast saying so.
+        // Puts items in the backpack (a reward, a gift). What does not fit waits in the mailbox (Parcels), with a toast saying so.
         public void GiveItem(string itemId, int count = 1, int quality = 0)
         {
             if (!InGame || count <= 0) return;
             if (!_db.TryGetItem(itemId, out _)) { Log.Error($"give: unknown item '{itemId}'"); return; }
-            if (Backpack.Add(itemId, count, quality) > 0) Toast(L.Get("toast.inventory_full"));
+            var left = Backpack.Add(itemId, count, quality);
+            if (left <= 0) return;
+            Parcels.Send(this, itemId, left);
+            Toast(L.Get("toast.parcel_waiting"));
         }
 
         public bool TrySpendGold(int amount)

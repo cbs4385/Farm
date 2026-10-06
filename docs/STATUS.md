@@ -226,3 +226,6 @@ T-072 | draft | claude/2026-10-02 | `docs/store/`: store text, intensity descrip
 T-073 | not started | | demo build needs T-069 first
 T-074 | not done | | not released. `CHANGELOG.md` and the hotfix/patch process are written
 Release checklist: the automatable lines have tests (`ReleaseChecklistTests`: no horror item in any shop, every ending reachable from data, version and release files present, store text mentions the intensity setting, runs without Steam). The rest (IL2CPP builds from CI, full playthroughs on both OS, Steam Deck, no placeholder art/audio, controller-only playthrough) is open.
+
+## Item gap pass (2026-10-05, verified by automation only; no person has played it yet)
+Parcels (mailbox holds gifts that do not fit the backpack), villager seats (General Store, Saloon, Library), library desk books (almanac, field guide), and six story props wired as rewards (carving, charm, feather, hat, sock, ribbon). See `ItemGapAudit.md` for what is still promised but not built. EditMode 1180 and PlayMode all green; dev Windows build captured: the three seats draw and the props show in the hotbar.

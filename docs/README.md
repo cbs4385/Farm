@@ -6,6 +6,7 @@
 | [`01-GameDesign.md`](01-GameDesign.md) | What we are building: pillars, systems, content guidelines, Steam requirements, the horror layer, open design questions | everyone |
 | [`02-TechnicalDesign.md`](02-TechnicalDesign.md) | Architecture as built, extension points, conventions, testing, build, risks | developers, agents |
 | [`03-ImplementationPlan.md`](03-ImplementationPlan.md) | Ordered task backlog, Definition of Done, release checklist | agents |
+| [`ItemGapAudit.md`](ItemGapAudit.md) | Items, gifts and places that dialogue/events promise but the game lacks | agents |
 | [`STATUS.md`](STATUS.md) | Task status, what a human verified, open decisions | everyone |
 | [`BUILD.md`](BUILD.md) | Setup, test/build commands, QA flags, running players | developers, agents |
 | [`QA.md`](QA.md) | Automated checks and the manual smoke checklist | testers, agents |

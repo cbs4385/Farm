@@ -58,9 +58,10 @@ namespace Farm.Editor
         struct Prop
         {
             public string Name, Sprite, ShopId, UpgradesAt;   // UpgradesAt: a counter selling upgrades for that business
+            public string SeatNpc, SeatKey, Curio;                   // a seat kept for the player by that villager
             public int X, Y;
-            public Prop(string name, string sprite, int x, int y, string shopId = null, string upgradesAt = null)
-            { Name = name; Sprite = sprite; X = x; Y = y; ShopId = shopId; UpgradesAt = upgradesAt; }
+            public Prop(string name, string sprite, int x, int y, string shopId = null, string upgradesAt = null, string seatNpc = null, string seatKey = null, string curio = null)
+            { Name = name; Sprite = sprite; X = x; Y = y; ShopId = shopId; UpgradesAt = upgradesAt; SeatNpc = seatNpc; SeatKey = seatKey; Curio = curio; }
         }
 
         public static void BuildAll()
@@ -85,6 +86,8 @@ namespace Farm.Editor
                 new Prop("Shelf4", "obj_shelf", 7, 7), new Prop("Shelf5", "obj_shelf", 8, 7), new Prop("Shelf6", "obj_shelf", 9, 7),
                 new Prop("Crate1", "obj_bin", 1, 2), new Prop("Crate2", "obj_bin", 10, 2),
                 new Prop("PackCounter", "obj_counter", 9, 4, upgradesAt: "general"),
+                new Prop("Seat", "obj_chair", 1, 5, seatNpc: "tilda", seatKey: "window"),
+                new Prop("CatDoor", "obj_cat_door", 10, 5, curio: "catdoor"),
             });
             BuildInterior(MapIds.Blacksmith, 10, 8, 4, new[]
             {
@@ -104,10 +107,12 @@ namespace Farm.Editor
                 new Prop("Bar4", "obj_counter", 6, 7), new Prop("Bar5", "obj_counter", 7, 7), new Prop("Bar6", "obj_counter", 8, 7),
                 new Prop("Table1", "obj_table", 2, 3), new Prop("Table2", "obj_table", 11, 3), new Prop("Table3", "obj_table", 11, 5),
                 new Prop("Table4", "obj_table", 2, 5), new Prop("Shelf1", "obj_shelf", 4, 8), new Prop("Shelf2", "obj_shelf", 6, 8),
+                new Prop("Seat", "obj_chair", 12, 3, seatNpc: "wren", seatKey: "stool"),
             });
             BuildInterior(MapIds.Clinic, 10, 8, 4, new[]
             {
                 new Prop("Bed1", "obj_bed", 2, 6), new Prop("Bed2", "obj_bed", 4, 6), new Prop("Bed3", "obj_bed", 6, 6),
+                new Prop("Couch", "obj_couch", 3, 4, seatNpc: "elara", seatKey: "couch"),
                 new Prop("Desk1", "obj_counter", 7, 3, upgradesAt: "clinic"), new Prop("Desk2", "obj_counter", 8, 3), new Prop("Shelf", "obj_shelf", 1, 4),
             });
             BuildInterior(MapIds.CommunityHall, 14, 10, 7, new[]
@@ -121,6 +126,8 @@ namespace Farm.Editor
                 new Prop("Shelf4", "obj_shelf", 7, 7), new Prop("Shelf5", "obj_shelf", 8, 7), new Prop("Shelf6", "obj_shelf", 9, 7),
                 new Prop("Shelf7", "obj_shelf", 2, 4), new Prop("Shelf8", "obj_shelf", 3, 4), new Prop("Shelf9", "obj_shelf", 8, 4),
                 new Prop("Shelf10", "obj_shelf", 9, 4), new Prop("Desk", "obj_counter", 5, 5), new Prop("Reading", "obj_table", 10, 2),
+                new Prop("Seat", "obj_chair", 1, 2, seatNpc: "ione", seatKey: "chair"),
+                new Prop("NookSeat", "obj_armchair", 10, 5, seatNpc: "hazel", seatKey: "nook"),
             });
         }
 
@@ -444,6 +451,9 @@ namespace Farm.Editor
             AddSpawn("default", Center(19, 2));
             AddWarp(Center(19, 0), MapIds.Forest, "fromWoods", new Vector2(3f, 1f));
 
+            // The three relics that can seal the god away, hidden in the wood (no tree is grown on top of one).
+            var relicCells = new[] { (6, 20), (33, 12), (30, 26) };
+
             // Dense trees everywhere except the track and the clearing.
             for (var y = 3; y < WoodsH - 1; y++)
                 for (var x = 1; x < WoodsW - 1; x++)
@@ -451,6 +461,7 @@ namespace Farm.Editor
                     if (x >= 17 && x <= 21 && y < 14) continue;
                     if (x >= 13 && x <= 25 && y >= 13 && y <= 24) continue;
                     if ((x * 5 + y * 11) % 4 != 0) continue;
+                    if (System.Array.IndexOf(relicCells, (x, y)) >= 0) continue;
                     AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
                 }
 
@@ -463,8 +474,6 @@ namespace Farm.Editor
                 stone.Key = $"mythos.stone.{(i % 2) + 1}";
                 stone.FlagId = $"mythos.stone.read.{i + 1}";
             }
-            // The three relics that can seal the god away, hidden in the wood.
-            var relicCells = new[] { (6, 20), (33, 12), (30, 26) };
             for (var i = 0; i < Farm.Mythos.MythosData.Relics.Length; i++)
             {
                 var relic = AddObject($"Relic_{i + 1}", "obj_relic", Center(relicCells[i].Item1, relicCells[i].Item2), solid: true).AddComponent<Farm.Mythos.RelicPickup>();
@@ -523,6 +532,11 @@ namespace Farm.Editor
             var stall = AddObject("FishStall", "obj_stall", Center(10, 11), solid: true);
             stall.AddComponent<ShopCounter>().ShopId = "fish";
 
+            // The good rock Felix keeps warm for the player.
+            var rock = AddObject("FishingRock", "obj_fishing_rock", Center(13, 9), solid: true).AddComponent<SeatSpot>();
+            rock.NpcId = "felix";
+            rock.SeatKey = "rock";
+
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Beach}.unity");
         }
 
@@ -551,6 +565,13 @@ namespace Farm.Editor
                 if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
                 if (p.Name == "Board" && mapId == MapIds.CommunityHall) go.AddComponent<HallBoard>();
                 if (p.Name == "Desk" && mapId == MapIds.Library) go.AddComponent<LibraryDesk>();
+                if (p.Curio != null) go.AddComponent<Curio>().Key = p.Curio;
+                if (p.SeatKey != null)
+                {
+                    var seat = go.AddComponent<SeatSpot>();
+                    seat.NpcId = p.SeatNpc;
+                    seat.SeatKey = p.SeatKey;
+                }
             }
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");

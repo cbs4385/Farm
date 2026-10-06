@@ -85,6 +85,21 @@ SETS = {
         ("item_prop_almanac", "a thick farming almanac book with a green cover and a small golden sprout on the front", (16, 16)),
         ("item_prop_fieldguide", "a slim field guide book with a brown cover and a small red mushroom on the front", (16, 16)),
     ]),
+    "gifts": dict(cols=4, rows=2, what="small handmade gifts that villagers promise to make for a friend, one object each, seen slightly from above", bottom=False, items=[
+        ("item_prop_anvil", "a tiny iron anvil, a desk ornament, dark grey with a lighter top", (16, 16)),
+        ("item_prop_clasp", "a small hand-forged iron clasp, a curled hook-and-loop fastener in dark grey", (16, 16)),
+        ("item_prop_horseshoe", "a small hand-forged iron horseshoe tied with a short red cord", (16, 16)),
+        ("item_prop_pinecone", "a single brown pinecone with layered scales", (16, 16)),
+        ("item_prop_drawing", "a small torn notebook page with a tiny pencil sketch of a green mushroom, cream paper", (16, 16)),
+        ("item_prop_salve", "a small round tin of salve with a cream lid and a dab of green balm", (16, 16)),
+        ("item_prop_scarf", "a folded knitted scarf in many coloured stripes, with fringe at the end", (16, 16)),
+        ("item_prop_longbook", "a very long and thick old book with a dusty blue cover and a gold clasp", (16, 16)),
+    ]),
+    "places": dict(cols=3, rows=1, what="small cozy furnishings for a village interior and shore, one object each, front view slightly from above", bottom=False, items=[
+        ("obj_fishing_rock", "a smooth flat grey boulder worn comfortable to sit on, with a folded cream blanket on top", (16, 16)),
+        ("obj_cat_door", "a very small arched wooden cat door set in a tiny wooden frame, with a little brass key hanging beside it", (16, 16)),
+        ("obj_couch", "a small cosy teal couch with a patchwork blanket draped over one arm", (16, 16)),
+    ]),
     "extra": dict(cols=5, rows=3, what="small game sprites of different shapes, one clear object each", bottom=False, items=[
         ("fx_puff_2", "a large faint grey-white smoke cloud puff", (16, 16)),
         ("fx_ore_spark", "a burst of bright orange and yellow sparks flying out from a centre point", (16, 16)),
