@@ -39,6 +39,21 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void EveryFurnishing_CanBeMovedWithTheMallet_WithItsOwnStableId()
+        {
+            var scene = EditorSceneManager.OpenScene($"{SceneDir}/{MapIds.FarmHouse}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);
+            var fixtures = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<MovableFixture>(true)).ToList();
+            var pieces = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<SpriteRenderer>(true))
+                .Where(r => r.sprite != null && r.sprite.name.StartsWith("obj_") && r.GetComponentInParent<Warp>() == null).ToList();
+            foreach (var piece in pieces)
+                Assert.IsNotNull(piece.GetComponent<MovableFixture>(), piece.name + " cannot be moved");
+            Assert.AreEqual(fixtures.Count, fixtures.Select(f => f.Id).Distinct().Count(), "ids are unique");
+            Assert.IsFalse(fixtures.Any(f => string.IsNullOrEmpty(f.Id)));
+            Assert.IsTrue(fixtures.Single(f => f.Id == "furn_ruglarge").Walkable, "the rug can be walked over");
+            Assert.IsFalse(fixtures.Single(f => f.Id == "furn_couch").Walkable);
+        }
+
+        [Test]
         public void TheMailbox_IsTallAndBold()
         {
             var scene = EditorSceneManager.OpenScene($"{SceneDir}/{MapIds.Farm}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);

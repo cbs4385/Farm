@@ -79,14 +79,16 @@ namespace Farm.Gameplay
                 }
             }
             // A fixture of the room.
-            foreach (var f in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None))
+            MovableFixture lifted = null;
+            foreach (var candidate in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None))
+                if (candidate.Covers(_map, cell) && (lifted == null || lifted.Walkable)) lifted = candidate;      // a piece standing on a rug is lifted before the rug
+            if (lifted != null)
             {
-                if (!f.Covers(_map, cell)) continue;
                 _kind = Kind.Fixture;
-                _fixture = f;
-                _picture = f.GetComponentInChildren<SpriteRenderer>()?.sprite;
-                _origin = f.Cell(_map);
-                f.SetCarried(true);
+                _fixture = lifted;
+                _picture = lifted.GetComponentInChildren<SpriteRenderer>()?.sprite;
+                _origin = lifted.Cell(_map);
+                lifted.SetCarried(true);
                 Told("build.lifted");
                 return;
             }
@@ -182,7 +184,7 @@ namespace Farm.Gameplay
                 case Kind.Fixture:
                     foreach (var c in _fixture.Footprint(cell))
                     {
-                        var refused = WhyNotOnCell(c, walkable: false);
+                        var refused = WhyNotOnCell(c, _fixture.Walkable, ignoreBodies: _fixture.Walkable);
                         if (refused != null) return refused;
                     }
                     return null;
@@ -195,15 +197,15 @@ namespace Farm.Gameplay
             return "placeable.blocked";
         }
 
-        string WhyNotOnCell(Vector3Int cell, bool walkable)
+        string WhyNotOnCell(Vector3Int cell, bool walkable, bool ignoreBodies = false)
         {
-            if (!_map.CanPlaceAt(cell)) return "placeable.blocked";
+            if (!_map.CanPlaceAt(cell, ignoreBodies)) return "placeable.blocked";
             var objects = _session.GetObjects(_map.MapId);
             var there = objects.At(cell.x, cell.y);
             if (there != null && there != _placed) return "placeable.blocked";
             if (_session.GetGrid(_map.MapId).IsTilled(cell.x, cell.y) || _session.GetNodes(_map.MapId).Has(cell.x, cell.y)) return "placeable.blocked";
-            if (cell == _map.WorldToCell(_actions.transform.position)) return "placeable.blocked";
-            if (CellOccupants.IsTaken(cell)) return "placeable.blocked";
+            if (!ignoreBodies && cell == _map.WorldToCell(_actions.transform.position)) return "placeable.blocked";
+            if (!ignoreBodies && CellOccupants.IsTaken(cell)) return "placeable.blocked";
             if (DecorRules.BlocksDoor(cell, walkable, DoorCells())) return "placeable.decor_door";
             return null;
         }

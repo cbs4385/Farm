@@ -69,10 +69,11 @@ namespace Farm.Gameplay
         }
 
         // Any floor (not only farmland) with no wall tile and nothing solid on it: chests, machines and the like may go here.
-        public bool CanPlaceAt(Vector3Int cell)
+        public bool CanPlaceAt(Vector3Int cell, bool ignoreBodies = false)
         {
             if (_ground.GetTile(cell) == null) return false;
             if (_walls != null && _walls.GetTile(cell) != null) return false;
+            if (ignoreBodies) return true;
             foreach (var h in Physics2D.OverlapPointAll(CellCenter(cell)))
                 if (!h.isTrigger && !h.CompareTag("Player")) return false;
             return true;

@@ -153,6 +153,34 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator EveryPieceOfFurniture_CanBeMoved_AndTheRugCanLieUnderAnotherPiece()
+        {
+            yield return Start(MapIds.FarmHouse);
+            var couch = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "furn_couch");
+            _hammer.Use(couch.Cell(_map));
+            Assert.IsTrue(_hammer.Carrying);
+            var target = new Vector3Int(3, 5, 0);
+            _hammer.Use(target);
+            Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
+            Assert.AreEqual(target, couch.Cell(_map));
+
+            // The rug goes under the couch (a walkable piece ignores the solid one), and the couch is lifted before the rug.
+            var rug = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "furn_ruglarge");
+            _hammer.Use(rug.Cell(_map));
+            Assert.IsTrue(_hammer.Carrying);
+            _hammer.Use(new Vector3Int(3, 4, 0));
+            Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
+            _hammer.Use(target);
+            Assert.IsTrue(_hammer.Carrying);
+            Assert.IsTrue(_hammer.Cancel());
+            Assert.AreEqual(target, couch.Cell(_map), "the couch, not the rug, was lifted and went back");
+
+            yield return Start(MapIds.FarmHouse);
+            var again = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "furn_couch");
+            Assert.AreEqual(target, again.Cell(_map), "the couch is where it was put");
+        }
+
+        [UnityTest]
         public IEnumerator AChest_KeepsItsContents_WhenItIsMoved()
         {
             yield return Start(MapIds.FarmHouse);
@@ -175,7 +203,7 @@ namespace Farm.Tests
         public IEnumerator SwingingAtNothing_SaysSo()
         {
             yield return Start(MapIds.FarmHouse);
-            _hammer.Use(new Vector3Int(6, 6, 0));
+            _hammer.Use(new Vector3Int(4, 5, 0));      // bare floor: the fireplace stands at (5..6, 6..7)
             Assert.IsFalse(_hammer.Carrying);
         }
     }

@@ -218,6 +218,10 @@ namespace Farm.Editor
             {
                 var piece = AddObject(p.Name, p.Sprite, Center(p.X, p.Y) + new Vector3((p.W - 1) * 0.5f, (p.H - 1) * 0.5f, 0f), solid: p.Solid, size: new Vector2(p.W, p.H));
                 if (!p.Solid) piece.GetComponent<SpriteRenderer>().sortingOrder = 1;      // a rug lies under everything that stands on it
+                var fixture = piece.AddComponent<MovableFixture>();      // everything the player can furnish with can be lifted with the mallet and set down elsewhere
+                fixture.Id = "furn_" + p.Name.ToLowerInvariant();
+                fixture.Size = new Vector2Int(p.W, p.H);
+                fixture.Walkable = !p.Solid;
             }
 
             // A double bed, two cells square, in the north-west corner (cells 1..2, 6..7). One wakes up on the cell east of it.

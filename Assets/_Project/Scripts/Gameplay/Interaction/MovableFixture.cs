@@ -14,6 +14,8 @@ namespace Farm.Gameplay
 
         public string Id { get => _id; set => _id = value; }
         public string SpawnId { get => _spawnId; set => _spawnId = value; }
+        [SerializeField] bool _walkable;      // a rug: one may walk over it, and it may lie under other furniture
+        public bool Walkable { get => _walkable; set => _walkable = value; }
         public Vector2Int SpawnOffset { get => _spawnOffset; set => _spawnOffset = value; }
         public Vector2Int Size { get => new Vector2Int(Mathf.Max(1, _size.x), Mathf.Max(1, _size.y)); set => _size = value; }
 

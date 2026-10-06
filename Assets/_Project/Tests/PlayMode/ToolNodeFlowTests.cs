@@ -265,11 +265,11 @@ namespace Farm.Tests
             var kinds = nodes.Nodes.Select(n => n.TypeId).Distinct().ToList();
             CollectionAssert.IsSupersetOf(kinds, new[] { "weed", "rock", "tree" });
 
-            // Nothing within three cells of the farmhouse door, the bin, or the spawn points.
+            // Nothing within three cells of the farmhouse door, the bin (its transform is on cell 14,18: it covers 13..14, 17..18), or the spawn points.
             foreach (var n in nodes.Nodes)
             {
                 Assert.Greater(Mathf.Max(Mathf.Abs(n.X - 7), Mathf.Abs(n.Y - 20)), 3, $"clutter at the door: {n.X},{n.Y}");
-                Assert.Greater(Mathf.Max(Mathf.Abs(n.X - 13), Mathf.Abs(n.Y - 17)), 3, $"clutter at the bin: {n.X},{n.Y}");
+                Assert.Greater(Mathf.Max(Mathf.Abs(n.X - 14), Mathf.Abs(n.Y - 18)), 3, $"clutter at the bin: {n.X},{n.Y}");
             }
             Assert.IsTrue(_session.State.GetMap(MapIds.Farm).ClutterSeeded);
 
