@@ -20,20 +20,20 @@ namespace Farm.Editor
         const string TileDir = "Assets/_Project/Art/Tiles";
 
         // Farm: 44 x 32 cells. House block at x 4..11, y 20..24, door at (7, 20). The east edge opens onto the village.
-        const int FarmW = 44, FarmH = 32;
+        const int FarmW = MapLayout.FarmW, FarmH = MapLayout.FarmH;
         const int HouseX0 = 4, HouseX1 = 11, HouseY0 = 20, HouseY1 = 24, DoorX = 7;
         // The greenhouse stands beside the house; its door is locked until the carpenter has built it.
         const int GhX0 = 15, GhX1 = 23, GhY0 = 20, GhY1 = 24, GhDoorX = 19;
         // The coop and the barn stand east of the greenhouse; their doors are locked until the carpenter has built them.
         const int CoopX0 = 26, CoopX1 = 30, CoopDoorX = 28, BarnX0 = 32, BarnX1 = 38, BarnDoorX = 35, OutY0 = 20, OutY1 = 24;
-        const int FarmExitY0 = 14, FarmExitY1 = 16;
+        const int FarmExitY0 = MapLayout.FarmRoadY - 1, FarmExitY1 = MapLayout.FarmRoadY + 1;
 
         // FarmHouse interior: 12 x 9 cells.
         const int InW = 12, InH = 9;
 
         // Village: 50 x 36. A main road (y 16..18) runs west-east to the farm; a lane (x 24..26) runs south to the
         // beach and north to the forest. Four buildings face the road from the north, two from the south.
-        const int VillageW = 50, VillageH = 36;
+        const int VillageW = MapLayout.VillageW, VillageH = MapLayout.VillageH;
         const int RoadY0 = 16, RoadY1 = 18, LaneX0 = 24, LaneX1 = 26;
 
         struct Building
@@ -161,7 +161,7 @@ namespace Farm.Editor
 
             AddSpawn("default", Center(DoorX, HouseY0 - 3));
             AddSpawn("fromHouse", Center(DoorX, HouseY0 - 2));
-            AddSpawn("fromVillage", Center(FarmW - 3, 15));
+            AddSpawn("fromVillage", Center(MapLayout.FarmArriveX, MapLayout.FarmRoadY));
             AddSpawn("fromCoop", Center(CoopDoorX, OutY0 - 2));
             AddSpawn("fromBarn", Center(BarnDoorX, OutY0 - 2));
             AddWarp(Center(CoopDoorX, OutY0), MapIds.Coop, "default", condition: "flag:" + AnimalRules.BuildingFlag(MapIds.Coop), blockedKey: "coop.locked");
@@ -170,7 +170,7 @@ namespace Farm.Editor
             AddSpawn("sleepwalk", Center(10, 15));
             AddWarp(Center(DoorX, HouseY0), MapIds.FarmHouse, "default");
             AddWarp(Center(GhDoorX, GhY0), MapIds.Greenhouse, "default", condition: "flag:" + MapIds.GreenhouseFlag, blockedKey: "greenhouse.locked");
-            AddWarp(Center(FarmW - 1, 15), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
+            AddWarp(Center(MapLayout.FarmExitX, MapLayout.FarmRoadY), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
 
             AddObject("Mailbox", "obj_mailbox", Center(10, 19), solid: true).AddComponent<Mailbox>();
 
@@ -304,6 +304,17 @@ namespace Farm.Editor
             // A few trees at the corners so the village is not a bare lawn.
             foreach (var t in new[] { new Vector2Int(3, 31), new Vector2Int(46, 33), new Vector2Int(3, 3), new Vector2Int(46, 3), new Vector2Int(20, 4), new Vector2Int(30, 33) })
                 AddObject($"Tree_{t.x}_{t.y}", "obj_tree", Center(t.x, t.y), solid: true);
+
+            // The land added to the east and north (the village grew): scattered trees and a thin wood along the edge, never on the road, the lane or a building.
+            for (var y = 2; y < VillageH - 2; y++)
+                for (var x = 2; x < VillageW - 2; x++)
+                {
+                    if (x < 50 && y < 36) continue;                                            // the original village
+                    if (y >= RoadY0 - 1 && y <= RoadY1 + 1 || x >= LaneX0 - 1 && x <= LaneX1 + 1) continue;
+                    var edgeBand = x >= VillageW - 6 || y >= VillageH - 6;
+                    if ((x * 37 + y * 53) % (edgeBand ? 3 : 17) != 0) continue;
+                    AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
+                }
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Village}.unity");
         }

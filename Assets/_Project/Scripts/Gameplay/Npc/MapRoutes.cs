@@ -47,8 +47,8 @@ namespace Farm.Gameplay
             void Pair(RouteEdge a, RouteEdge b) { e.Add(a); e.Add(b); }
 
             // Farm <-> village road, farm <-> farmhouse.
-            Pair(new RouteEdge(MapIds.Farm, 43, 15, MapIds.Village, 2, 17, "fromFarm"),
-                 new RouteEdge(MapIds.Village, 0, 17, MapIds.Farm, 41, 15, "fromVillage"));
+            Pair(new RouteEdge(MapIds.Farm, MapLayout.FarmExitX, MapLayout.FarmRoadY, MapIds.Village, 2, 17, "fromFarm"),
+                 new RouteEdge(MapIds.Village, 0, 17, MapIds.Farm, MapLayout.FarmArriveX, MapLayout.FarmRoadY, "fromVillage"));
             Pair(new RouteEdge(MapIds.Farm, 7, 20, MapIds.FarmHouse, 5, 2, "default"),
                  new RouteEdge(MapIds.FarmHouse, 5, 0, MapIds.Farm, 7, 18, "fromHouse"));
 
@@ -67,8 +67,8 @@ namespace Farm.Gameplay
                  new RouteEdge(MapIds.Woods, 19, 0, MapIds.Forest, 19, 26, "fromWoods"));
 
             // Village <-> forest (south end of the lane) and beach (north end).
-            Pair(new RouteEdge(MapIds.Village, 25, 35, MapIds.Forest, 19, 2, "fromVillage"),
-                 new RouteEdge(MapIds.Forest, 19, 0, MapIds.Village, 25, 33, "fromForest"));
+            Pair(new RouteEdge(MapIds.Village, MapLayout.VillageLaneX, MapLayout.VillageForestExitY, MapIds.Forest, 19, 2, "fromVillage"),
+                 new RouteEdge(MapIds.Forest, 19, 0, MapIds.Village, MapLayout.VillageLaneX, MapLayout.VillageForestArriveY, "fromForest"));
             Pair(new RouteEdge(MapIds.Village, 25, 0, MapIds.Beach, 17, 21, "fromVillage"),
                  new RouteEdge(MapIds.Beach, 17, 23, MapIds.Village, 25, 2, "fromBeach"));
 
