@@ -113,6 +113,9 @@ SETS = {
     "mallet": dict(cols=1, rows=1, what="a single tool for a cozy farming game", bottom=False, items=[
         ("item_tool_hammer", "a builder's wooden mallet: a chunky honey-brown wooden head with two dark iron bands on a short brown handle, slightly tilted", (16, 16)),
     ]),
+    "dull": dict(cols=1, rows=1, what="a single book for a cozy village library", bottom=False, items=[
+        ("item_prop_dullbook", "a plain, thick, very dull book with a grey-brown cloth cover, a faded label and a bent corner, slightly tilted", (16, 16)),
+    ]),
     "extra": dict(cols=5, rows=3, what="small game sprites of different shapes, one clear object each", bottom=False, items=[
         ("fx_puff_2", "a large faint grey-white smoke cloud puff", (16, 16)),
         ("fx_ore_spark", "a burst of bright orange and yellow sparks flying out from a centre point", (16, 16)),

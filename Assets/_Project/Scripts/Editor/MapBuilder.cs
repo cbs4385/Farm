@@ -104,6 +104,7 @@ namespace Farm.Editor
                 new Prop("Table1", "obj_table", 2, 3), new Prop("Table2", "obj_table", 11, 3), new Prop("Table3", "obj_table", 11, 5),
                 new Prop("Table4", "obj_table", 2, 5), new Prop("Shelf1", "obj_shelf", 4, 8), new Prop("Shelf2", "obj_shelf", 6, 8),
                 new Prop("Seat", "obj_chair", 12, 3, seatNpc: "wren", seatKey: "stool"),
+                new Prop("WindowLantern", "item_prop_lantern", 10, 8, curio: "lantern"),
             });
             BuildInterior(MapIds.Clinic, 10, 8, 4, new[]
             {
@@ -124,6 +125,8 @@ namespace Farm.Editor
                 new Prop("Shelf10", "obj_shelf", 9, 4), new Prop("Desk", "obj_counter_wide", 5, 5, w: 2), new Prop("Reading", "obj_table", 10, 2),
                 new Prop("Seat", "obj_chair", 1, 2, seatNpc: "ione", seatKey: "chair"),
                 new Prop("NookSeat", "obj_armchair", 10, 5, seatNpc: "hazel", seatKey: "nook"),
+                new Prop("BackShelf", "obj_shelf", 10, 7, curio: "backshelf"),
+                new Prop("HazelShelf", "obj_shelf", 1, 7, curio: "hazelshelf"),
             });
         }
 

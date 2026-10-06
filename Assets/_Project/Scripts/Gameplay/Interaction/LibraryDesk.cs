@@ -27,6 +27,7 @@ namespace Farm.Gameplay
             new Book("almanac", "prop.almanac", "hearts:ione>=3"),
             new Book("fieldguide", "prop.fieldguide", "var:stat.foraged>=10"),
             new Book("longbook", "prop.longbook", "season:winter && hearts:ione>=2"),
+            new Book("dullbook", "prop.dullbook", "flag:social.ione.tease.great"),
         };
 
         public string HoverLabel => L.Get("hover.library_desk");

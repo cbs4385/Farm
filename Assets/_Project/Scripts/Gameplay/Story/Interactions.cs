@@ -290,6 +290,7 @@ namespace Farm.Gameplay
                 NpcInteractions.StateOf(s.State, a[0]).LastContactDay = today;
                 if (points > 0) NpcInteractions.AddPoints(s, a[0], points);
                 s.AddVar("stat.social", 1);
+                s.SetFlag($"social.{a[0]}.{a[1]}.{a[2]}".ToLowerInvariant());          // remembered: "social.ione.tease.great"
             });
         }
 
