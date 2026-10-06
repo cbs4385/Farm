@@ -75,6 +75,16 @@ SETS = {
         ("fx_coin_fly", "a spinning gold coin seen edge-on, slightly tilted", (16, 16)),
         ("fx_hit_star", "a white-yellow impact star with pointed spikes", (16, 16)),
     ]),
+    "keep": dict(cols=4, rows=2, what="small keepsake items that a friend gives as a gift, one object each, seen slightly from above", bottom=False, items=[
+        ("item_prop_sock", "a single knitted wool sock in warm red and cream stripes", (16, 16)),
+        ("item_prop_hat", "a small knitted wool hat in teal with a cream bobble on top", (16, 16)),
+        ("item_prop_carving", "a small hand-carved wooden bird figurine in honey-brown wood", (16, 16)),
+        ("item_prop_charm", "a lucky charm: a small gold four-leaf clover pendant on a short brown cord", (16, 16)),
+        ("item_prop_feather", "a bundle of a grey-brown feather, a short stick and a bit of twine tied together", (16, 16)),
+        ("item_prop_ribbon", "a blue prize rosette ribbon with two hanging tails and a gold centre", (16, 16)),
+        ("item_prop_almanac", "a thick farming almanac book with a green cover and a small golden sprout on the front", (16, 16)),
+        ("item_prop_fieldguide", "a slim field guide book with a brown cover and a small red mushroom on the front", (16, 16)),
+    ]),
     "extra": dict(cols=5, rows=3, what="small game sprites of different shapes, one clear object each", bottom=False, items=[
         ("fx_puff_2", "a large faint grey-white smoke cloud puff", (16, 16)),
         ("fx_ore_spark", "a burst of bright orange and yellow sparks flying out from a centre point", (16, 16)),

@@ -216,6 +216,9 @@ Everything here is automated only; **nobody has watched or played any of it.** T
 7. Windows and Linux (Mono) player builds both succeed (2026-10-05). The Linux build was not run (no Linux machine here); Windows captures were looked at for the New Game screen, the village, crops, the forest pond and mine floor 28.
 Known: the hoe and chest-placement PlayMode tests failed once in a full run and passed on a re-run (the timing-sensitive tests QA.md lists); not explained further.
 
+## Playtest round 5 (2026-10-06)
+1. *On the first talk Ione says she put something on the library desk, but the desk could not be used.* The line was only text: the desk was decoration and no book item existed. `LibraryDesk` (an interactable on the Library `Desk`, added by `MapBuilder`) hands over `prop.book` ("Ione's Slim Book", a project-drawn icon) once (flag `library.desk_book_taken`), keeps the library's opening hours, and says there is nothing more afterwards. Test: PlayMode `LibraryDeskFlowTests` (failed before the fix). Verified by automation and a Windows capture of the library only; nobody has pressed the key on it. A full PlayMode run passed 212 of 213; `CraftingFlowTests.AKeg_TakesAnIngredient...` failed once and passed on a re-run (the known timing-sensitive class).
+
 ## Milestone 5 - Steam release (prepared; cannot be completed without the owner)
 T-070 | blocked (human) | | Steamworks partner setup: App ID, depots and branches. `Steam/*.vdf` are templates with placeholder ids (0); `upload.sh` refuses them
 T-071 | done (partial) | claude/2026-10-02 | `Steam/upload.sh` and the release process in `docs/RELEASE.md`. NOT verified: no upload has run, no download/install/play on `beta` on Windows, Linux or Steam Deck

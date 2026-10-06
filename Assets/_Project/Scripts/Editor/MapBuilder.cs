@@ -550,6 +550,7 @@ namespace Farm.Editor
                 if (p.ShopId != null) go.AddComponent<ShopCounter>().ShopId = p.ShopId;
                 if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
                 if (p.Name == "Board" && mapId == MapIds.CommunityHall) go.AddComponent<HallBoard>();
+                if (p.Name == "Desk" && mapId == MapIds.Library) go.AddComponent<LibraryDesk>();
             }
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");
