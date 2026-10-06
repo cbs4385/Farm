@@ -75,6 +75,7 @@ namespace Farm.Gameplay
             var audio = root.AddComponent<AudioService>();
             ServiceLocator.Register(audio);
             audio.ApplySettings(settings.Current);
+            root.AddComponent<MusicDirector>();
 
             DisplaySettings.ApplyAtStartup(settings.Current);
 

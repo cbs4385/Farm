@@ -1,6 +1,6 @@
 # Music prompts for Suno (T-061, T-133)
 
-Prompts for the music the game still lacks. Nothing here has been generated or heard. Licence and ownership depend on the Suno plan used: record the plan and each track's generation date in `docs/ASSET_LICENSES.md`, and keep the prompts with the files (as `tools/art` does for art). Do not name artists, games or composers in any prompt (originality rule; Suno also rejects artist names).
+**Status (2026-10-06): tracks 1 to 6 (`title`, `farm_spring`, `farm_summer`, `farm_fall`, `farm_winter`, `farm_night`) were generated from these prompts by the owner and are in the game (`Assets/_Project/Resources/Music/`, played by `MusicDirector`; the source files are in `audio/`). Tracks 7 and later do not exist yet.** Prompts for the music the game still lacks. Licence and ownership depend on the Suno plan used: record the plan and each track's generation date in `docs/ASSET_LICENSES.md`, and keep the prompts with the files (as `tools/art` does for art). Do not name artists, games or composers in any prompt (originality rule; Suno also rejects artist names).
 
 ## How to use
 - Create every track as **Instrumental** (lyrics box: `[Instrumental]`). Put the *Style* line in the **Style of music** box. Where a *Structure* line is given, put those tags in the lyrics box.
