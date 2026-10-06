@@ -54,6 +54,7 @@ namespace Farm.Gameplay
                 ["gold"] = ("gold <amount|+N|-N>", "set or change gold", Gold),
                 ["energy"] = ("energy <amount|full>", "set energy", Energy),
                 ["give"] = ("give <itemId> [count]", "add items to the backpack", Give),
+                ["effect"] = ("effect <name:args>", "run a story effect, for example ending:sealed or give:prop.sock", Effect),
                 ["hold"] = ("hold <itemId>", "select an item on the hotbar (adding one if needed), to see it carried", Hold),
                 ["tp"] = ("tp <MapId> [spawn]", "go to a map (Farm, FarmHouse...)", Teleport),
                 ["animal"] = ("animal <chicken|duck|rabbit|cow|goat|sheep>", "add an animal to the coop or barn you are in (tp Coop or tp Barn first)", AddAnimal),
@@ -223,6 +224,13 @@ namespace Farm.Gameplay
             return left == 0
                 ? DebugCommandResult.Success($"Gave {count} x {item.Id}.")
                 : DebugCommandResult.Success($"Gave {count - left} x {item.Id}; the backpack is full ({left} did not fit).");
+        }
+
+        DebugCommandResult Effect(string[] a)
+        {
+            if (a.Length != 1) return DebugCommandResult.Fail("Usage: effect <name:args> (no spaces; arguments are comma separated)");
+            Effects.RunAll(_session, new[] { a[0] });
+            return DebugCommandResult.Success("Ran " + a[0] + ".");
         }
 
         DebugCommandResult Hold(string[] a)

@@ -61,6 +61,7 @@ namespace Farm.UI
         ShopScreen _shop;
         ConfirmDialog _confirm;
         MessageDialog _message;
+        IllustrationScreen _illustration;
         DialogueScreen _dialogue;
         GameMenuScreen _menu;
         CraftingScreen _crafting;
@@ -386,6 +387,12 @@ namespace Farm.UI
         {
             _message ??= new MessageDialog(this);
             _message.OpenMessage(messageKey, onClose);
+        }
+
+        public void ShowIllustration(string resourcePath, string captionKey, Action onClose = null)
+        {
+            _illustration ??= new IllustrationScreen(this);
+            _illustration.OpenIllustration(resourcePath, captionKey, onClose);
         }
 
         public void ShowDialogue(DialogueRunner runner, Action onClosed = null)

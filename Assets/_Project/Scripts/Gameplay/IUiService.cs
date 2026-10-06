@@ -13,6 +13,8 @@ namespace Farm.Gameplay
         void ShowConfirm(string messageKey, Action onYes, Action onNo = null);
         void ShowUpgrades(string shopId);
         void ShowMessage(string messageKey, Action onClose = null);
+        // A full-screen picture (a Texture2D under Resources, for example "Endings/ending_sealed") with a caption; onClose runs when it is dismissed.
+        void ShowIllustration(string resourcePath, string captionKey, Action onClose = null) => onClose?.Invoke();
         void ShowDialogue(DialogueRunner runner, Action onClosed = null);
         void SetLetterbox(bool on, float seconds) { }      // cinematic bars for scenes (T-100)
         void ApplyUiScale(float scale) { }                 // the text size option (and stream mode) rescale the whole UI

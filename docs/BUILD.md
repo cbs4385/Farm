@@ -62,6 +62,7 @@ The console also works in the Editor. **F1** (or the backtick key) opens and clo
 | `flag <id> [on\|off]`, `var <name> <n\|+n\|-n>` | set story flags and variables |
 | `gold <n\|+n\|-n>`, `energy <n\|full>` | change gold and energy |
 | `give <itemId> [count]` | add items to the backpack |
+| `effect <name:args>` | run a story effect, for example `ending:sealed` or `give:prop.sock` |
 | `hold <itemId>` | select an item on the hotbar (adding one if needed), to see it carried |
 | `tp <MapId> [spawn]` | go to a map |
 | `sleep`, `save` | the real sleep flow; save to the active slot |

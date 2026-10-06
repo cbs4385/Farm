@@ -10,10 +10,24 @@ namespace Farm.Editor
         public const int PixelsPerUnit = 16;
 
         // Bump when import rules change so existing art is reimported.
-        public override uint GetVersion() => 3;
+        public override uint GetVersion() => 4;
+
+        // Full-screen pictures (the ending illustrations) are loaded as plain textures, kept at their exact size and crisp.
+        const string PictureRoot = "Assets/_Project/Resources/Endings/";
 
         void OnPreprocessTexture()
         {
+            if (assetPath.StartsWith(PictureRoot))
+            {
+                var picture = (TextureImporter)assetImporter;
+                picture.textureType = TextureImporterType.Default;
+                picture.filterMode = FilterMode.Point;
+                picture.textureCompression = TextureImporterCompression.Uncompressed;
+                picture.mipmapEnabled = false;
+                picture.npotScale = TextureImporterNPOTScale.None;
+                picture.alphaSource = TextureImporterAlphaSource.None;
+                return;
+            }
             if (!assetPath.StartsWith(ArtRoot)) return;
 
             var importer = (TextureImporter)assetImporter;

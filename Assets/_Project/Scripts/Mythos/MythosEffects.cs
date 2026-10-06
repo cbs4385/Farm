@@ -29,6 +29,8 @@ namespace Farm.Mythos
     // The endings (X-010): resist (the true fix), join, ignore (the quiet curdling), and the fiery one when Nharoth wakes.
     public static class MythosEnding
     {
+        public static string IllustrationPath(string ending) => "Endings/ending_" + ending;
+
         public const string Awakened = "awakened", Sealed = "sealed", Joined = "joined", Ignored = "ignored";
 
         // The true fix: Nharoth is put to sleep for good. Wakefulness is reset and no longer rises.
@@ -60,13 +62,20 @@ namespace Farm.Mythos
             var save = RitualDirector.Load(s);
             save.EndingShown = Array.IndexOf(new[] { Awakened, Sealed, Joined, Ignored }, ending) + 1;
             RitualDirector.Store(s, save);
-            if (ending != Awakened) return;
-            if (ServiceLocator.TryGet<IUiService>(out var ui))
-                ui.ShowMessage("mythos.ending.awakened", () =>
+            // Every ending gets its picture; the fiery one then says goodbye and returns to the main menu (the world is over).
+            System.Action after = null;
+            if (ending == Awakened)
+                after = () =>
                 {
-                    s.Save();
-                    if (ServiceLocator.TryGet<SceneLoader>(out var loader)) { s.EndGame(); loader.Load(SceneNames.MainMenu); }
-                });
+                    if (ServiceLocator.TryGet<IUiService>(out var ui2))
+                        ui2.ShowMessage("mythos.ending.awakened", () =>
+                        {
+                            s.Save();
+                            if (ServiceLocator.TryGet<SceneLoader>(out var loader)) { s.EndGame(); loader.Load(SceneNames.MainMenu); }
+                        });
+                };
+            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowIllustration(IllustrationPath(ending), "mythos.ending." + ending + ".caption", after);
+            else after?.Invoke();
         }
     }
 }
