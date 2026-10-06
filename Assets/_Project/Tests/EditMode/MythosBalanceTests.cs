@@ -193,7 +193,7 @@ namespace Farm.Tests
         {
             // FINDING (docs/balance/mythos.md): an unaware farmer fails 15-30% of the rituals without ever touching the altar, because the Keepers mark
             // some of the player's own crops, items and animals and the ritual fails when a marked thing is gone. Nobody woke the god in these worlds,
-            // but the peaks reach 50-70%. What should happen is the owner's call (options in the document); until then the test pins the outcome.
+            // but the peaks reach 50-70%. The owner decided to keep the rule as designed (2026-10-06), so the test pins the outcome.
             foreach (var r in PlayAll("farmer: harvests and ships every day", level, 5, daily: Farmer(1)))
             {
                 Assert.GreaterOrEqual(r.Successes + r.Failures, 1, $"seed {r.Seed}: rituals ran");
