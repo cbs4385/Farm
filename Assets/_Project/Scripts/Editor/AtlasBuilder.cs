@@ -25,7 +25,7 @@ namespace Farm.Editor
             ("Crops", new[] { "crop_" }),
             ("Items", new[] { "item_" }),
             ("World", new[] { "obj_" }),
-            ("UI", new[] { "ui_" }),
+            ("UI", new[] { "ui_", "hud_", "fx_" }),
         };
 
         public static string AtlasNameFor(string spriteFileName)
