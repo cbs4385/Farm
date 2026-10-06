@@ -66,6 +66,9 @@ namespace Farm.Gameplay
         public Inventory Backpack { get; private set; }
         public int ActiveSlot { get; private set; } = -1;
         public bool InGame => State != null;
+
+        // The whole current state as JSON (for a bug report: the same data a save holds).
+        public string StateJson() => Newtonsoft.Json.JsonConvert.SerializeObject(State);
         public bool IsSleeping => _sleeping;
         public GameDatabase Db => _db;
 

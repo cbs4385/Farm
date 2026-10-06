@@ -83,6 +83,8 @@ namespace Farm.UI
         public bool AnyModalOpen => _modals.Count > 0;
         public bool PointerOverUi => EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
 
+        BugReportScreen _bugReport;
+        public BugReportScreen BugReporter => _bugReport ?? (_bugReport = new BugReportScreen(this));
         public OptionsScreen Options => _options ?? (_options = new OptionsScreen(this));
 
         // Hooked up before the first scene loads; creates the UI service on the persistent root.
@@ -408,6 +410,7 @@ namespace Farm.UI
         }
 
         public void ShowOptions() => Options.Open();
+        public void ShowBugReport() => BugReporter.Open();
 
         public void ShowPause()
         {

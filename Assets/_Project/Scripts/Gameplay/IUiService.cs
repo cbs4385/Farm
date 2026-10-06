@@ -31,6 +31,7 @@ namespace Farm.Gameplay
         void ShowDaySummary(DaySummary summary, Action onContinue);
         void ShowPause();
         void ShowOptions();
+        void ShowBugReport() { }                          // the "report a bug" window (main menu and pause menu)
         bool AnyModalOpen { get; }
         bool PointerOverUi => false;
         void ShowHover(string text, UnityEngine.Vector2 screenPosition) { }     // a small label next to the mouse (hover help)

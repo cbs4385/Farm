@@ -145,6 +145,7 @@ namespace Farm.Gameplay
                 case "shop": ui.ShowShop("general"); break;
                 case "pause": ui.ShowPause(); break;
                 case "options": ui.ShowOptions(); break;
+                case "bugreport": ui.ShowBugReport(); break;
                 case "message": ui.ShowMessage("late_night.warning"); break;
                 case "upgrades": ui.ShowUpgrades("blacksmith"); break;
                 case "sleep": _session.StartSleep(false); break;   // fade, summary over black, wait for Continue

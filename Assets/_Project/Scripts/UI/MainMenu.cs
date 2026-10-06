@@ -21,7 +21,7 @@ namespace Farm.UI
             Root = scrim.gameObject;
 
             var stack = UiKit.VStack(scrim.transform, "Stack", 12f, 0, TextAnchor.MiddleCenter);
-            UiKit.Place((RectTransform)stack.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(320, 380), Vector2.zero);
+            UiKit.Place((RectTransform)stack.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(320, 430), Vector2.zero);
 
             var title = UiKit.Label(stack.transform, L.Get("game.title"), 54f, TextAlignmentOptions.Center, UiKit.Accent);
             UiKit.Size(title.gameObject, -1f, 90f);
@@ -29,6 +29,7 @@ namespace Farm.UI
             UiKit.MakeButton(stack.transform, L.Get("menu.new_game"), () => _newGame.Open(), 260f, 40f);
             UiKit.MakeButton(stack.transform, L.Get("menu.load_game"), () => _load.Open(), 260f, 40f);
             UiKit.MakeButton(stack.transform, L.Get("menu.options"), () => Ui.Options.Open(), 260f, 40f);
+            UiKit.MakeButton(stack.transform, L.Get("menu.report_bug"), () => Ui.BugReporter.Open(), 260f, 40f).name = "ReportBug";
             UiKit.MakeButton(stack.transform, L.Get("menu.quit"), Quit, 260f, 40f);
 
             var version = UiKit.Label(scrim.transform, $"v{Application.version}", 14f, TextAlignmentOptions.BottomRight, UiKit.DimText);

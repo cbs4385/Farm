@@ -237,7 +237,7 @@ namespace Farm.UI
     {
         public PauseScreen(UiService ui) : base(ui)
         {
-            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "Pause", new Vector2(320, 340), out var root);
+            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "Pause", new Vector2(320, 390), out var root);
             Root = root;
             var stack = UiKit.VStack(frame, "Stack", 10f, 18, TextAnchor.MiddleCenter);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -245,6 +245,7 @@ namespace Farm.UI
             UiKit.MakeButton(stack.transform, L.Get("pause.resume"), Close, 240f, 38f);
             UiKit.MakeButton(stack.transform, L.Get("pause.save"), Save, 240f, 38f);
             UiKit.MakeButton(stack.transform, L.Get("pause.options"), () => Ui.Options.Open(), 240f, 38f);
+            UiKit.MakeButton(stack.transform, L.Get("pause.report_bug"), () => Ui.BugReporter.Open(), 240f, 38f).name = "ReportBug";
             UiKit.MakeButton(stack.transform, L.Get("pause.main_menu"), ToMainMenu, 240f, 38f);
             UiKit.MakeButton(stack.transform, L.Get("pause.quit"), Quit, 240f, 38f);
             root.SetActive(false);
