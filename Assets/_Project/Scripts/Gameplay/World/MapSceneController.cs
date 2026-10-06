@@ -40,6 +40,7 @@ namespace Farm.Gameplay
             if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
             var mine = FindAnyObjectByType<MineController>();
             if (mine != null) mine.Build(_session, _map);
+            if (FindAnyObjectByType<FarmBuildingsView>() is FarmBuildingsView buildings) buildings.Rebuild(_session);           // the farm's own buildings, before anyone is placed at their doors
             PlacePlayer(_session.State.SpawnPoint);
             if (_session.MemoryRestorePosition && _session.MemoryId == null)       // back from a memory replay
             {

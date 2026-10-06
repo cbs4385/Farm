@@ -46,6 +46,7 @@ namespace Farm.Tests
             foreach (var id in MapIds.All)
             {
                 var scene = EditorSceneManager.OpenScene($"{SceneDir}/{id}.unity", OpenSceneMode.Single);
+                foreach (var v in All<FarmBuildingsView>(scene)) v.Build(FarmBuildings.Defaults());          // the farm's buildings are drawn at run time
                 var snap = new Snapshot();
                 foreach (var sp in All<SpawnPoint>(scene)) snap.Spawns[sp.Id] = Cell(sp.transform.position);
                 foreach (var w in All<Warp>(scene)) snap.Warps.Add((Cell(w.transform.position), w.TargetMap, w.TargetSpawn));
@@ -117,6 +118,7 @@ namespace Farm.Tests
                 foreach (var warp in pair.Value.Warps)
                 {
                     if (!MapIds.All.Contains(warp.target)) continue;     // the gated Woods slot
+                    if (FarmBuildings.IsInteriorMap(warp.target) || FarmBuildings.IsInteriorMap(pair.Key)) continue;      // the movable buildings have no fixed route
                     Assert.IsTrue(MapRoutes.All.Any(e => e.From == pair.Key && e.To == warp.target && e.ExitX == warp.cell.x && e.ExitY == warp.cell.y),
                         $"{pair.Key}: the warp to {warp.target} at {warp.cell} is not in MapRoutes");
                 }

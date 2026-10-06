@@ -22,10 +22,8 @@ namespace Farm.Editor
         // Farm: 44 x 32 cells. House block at x 4..11, y 20..24, door at (7, 20). The east edge opens onto the village.
         const int FarmW = MapLayout.FarmW, FarmH = MapLayout.FarmH;
         const int HouseX0 = 4, HouseX1 = 11, HouseY0 = 20, HouseY1 = 24, DoorX = 7;
-        // The greenhouse stands beside the house; its door is locked until the carpenter has built it.
-        const int GhX0 = 15, GhX1 = 23, GhY0 = 20, GhY1 = 24, GhDoorX = 19;
-        // The coop and the barn stand east of the greenhouse; their doors are locked until the carpenter has built them.
-        const int CoopX0 = 26, CoopX1 = 30, CoopDoorX = 28, BarnX0 = 32, BarnX1 = 38, BarnDoorX = 35, OutY0 = 20, OutY1 = 24;
+        // The greenhouse, coop and barn are not baked into the scene: FarmBuildingsView draws them from the saved game state (the player can
+        // move them), and their doors are locked until the carpenter has built them (FarmBuildings has the types and the default places).
         const int FarmExitY0 = MapLayout.FarmRoadY - 1, FarmExitY1 = MapLayout.FarmRoadY + 1;
 
         // FarmHouse interior: 12 x 9 cells.
@@ -148,28 +146,16 @@ namespace Farm.Editor
                     var exit = x == FarmW - 1 && y >= FarmExitY0 && y <= FarmExitY1;
                     var edge = (x == 0 || y == 0 || x == FarmW - 1 || y == FarmH - 1) && !exit;
                     var house = x >= HouseX0 && x <= HouseX1 && y >= HouseY0 && y <= HouseY1 && !(x == DoorX && y == HouseY0);
-                    var greenhouse = x >= GhX0 && x <= GhX1 && y >= GhY0 && y <= GhY1 && !(x == GhDoorX && y == GhY0);
-                    var coop = x >= CoopX0 && x <= CoopX1 && y >= OutY0 && y <= OutY1 && !(x == CoopDoorX && y == OutY0);
-                    var barn = x >= BarnX0 && x <= BarnX1 && y >= OutY0 && y <= OutY1 && !(x == BarnDoorX && y == OutY0);
-                    var roof = (greenhouse || coop || barn) && y == OutY1;
-                    if (edge || house || greenhouse || coop || barn) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(roof ? "tile_roof" : "tile_wall"));
+                    if (edge || house) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
             rig.Ground.SetTile(new Vector3Int(DoorX, HouseY0, 0), GetTile("tile_floor_wood"));
-            rig.Ground.SetTile(new Vector3Int(GhDoorX, GhY0, 0), GetTile("tile_door"));
-            rig.Ground.SetTile(new Vector3Int(CoopDoorX, OutY0, 0), GetTile("tile_door"));
-            rig.Ground.SetTile(new Vector3Int(BarnDoorX, OutY0, 0), GetTile("tile_door"));
+            rig.Map.gameObject.AddComponent<FarmBuildingsView>().Configure(rig.Map, GetTile("tile_wall"), GetTile("tile_roof"), GetTile("tile_door"));
 
             AddSpawn("default", Center(DoorX, HouseY0 - 3));
             AddSpawn("fromHouse", Center(DoorX, HouseY0 - 2));
             AddSpawn("fromVillage", Center(MapLayout.FarmArriveX, MapLayout.FarmRoadY));
-            AddSpawn("fromCoop", Center(CoopDoorX, OutY0 - 2));
-            AddSpawn("fromBarn", Center(BarnDoorX, OutY0 - 2));
-            AddWarp(Center(CoopDoorX, OutY0), MapIds.Coop, "default", condition: "flag:" + AnimalRules.BuildingFlag(MapIds.Coop), blockedKey: "coop.locked");
-            AddWarp(Center(BarnDoorX, OutY0), MapIds.Barn, "default", condition: "flag:" + AnimalRules.BuildingFlag(MapIds.Barn), blockedKey: "barn.locked");
-            AddSpawn("fromGreenhouse", Center(GhDoorX, GhY0 - 2));
             AddSpawn("sleepwalk", Center(10, 15));
             AddWarp(Center(DoorX, HouseY0), MapIds.FarmHouse, "default");
-            AddWarp(Center(GhDoorX, GhY0), MapIds.Greenhouse, "default", condition: "flag:" + MapIds.GreenhouseFlag, blockedKey: "greenhouse.locked");
             AddWarp(Center(MapLayout.FarmExitX, MapLayout.FarmRoadY), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
 
             AddObject("Mailbox", "obj_mailbox", Center(10, 19), solid: true).AddComponent<Mailbox>();
@@ -596,6 +582,7 @@ namespace Farm.Editor
         struct Rig
         {
             public Tilemap Ground, Walls;
+            public FarmMap Map;
         }
 
         static Rig CreateMapRig(string mapId, bool indoor, bool allowFarming)
@@ -668,7 +655,7 @@ namespace Farm.Editor
             var controllerGo = new GameObject("MapSceneController");
             controllerGo.AddComponent<MapSceneController>().Configure(map, view, controller, follow);
 
-            return new Rig { Ground = ground, Walls = walls };
+            return new Rig { Ground = ground, Walls = walls, Map = map };
         }
 
         static Tilemap TilemapLayer(GameObject grid, string name, int order, bool collider)

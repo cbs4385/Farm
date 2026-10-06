@@ -404,8 +404,8 @@ namespace Farm.Tests
         [Test]
         public void Routes_EveryMapCanReachEveryOtherMap()
         {
-            foreach (var from in MapIds.All)
-                foreach (var to in MapIds.All)
+            foreach (var from in MapIds.All.Where(m => !FarmBuildings.IsInteriorMap(m)))        // the movable buildings have no fixed route
+                foreach (var to in MapIds.All.Where(m => !FarmBuildings.IsInteriorMap(m)))
                     Assert.IsNotNull(MapRoutes.Path(from, to), $"{from} -> {to}");
         }
 

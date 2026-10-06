@@ -50,6 +50,9 @@ namespace Farm.Gameplay
         public Dictionary<string, MapState> Maps = new Dictionary<string, MapState>();
 
         public List<ItemStack> ShippingBin = new List<ItemStack>();
+
+        // Where the greenhouse, coop and barn stand on the farm (empty in saves made before they could be moved: FarmBuildings.EnsureDefaults fills it).
+        public List<FarmBuildingState> FarmBuildings = new List<FarmBuildingState>();
         public string Weather = "sunny";
 
         // Tomorrow's weather, rolled a day ahead so it can be shown as a forecast. Empty until the first roll.

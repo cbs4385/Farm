@@ -52,15 +52,7 @@ namespace Farm.Gameplay
             Pair(new RouteEdge(MapIds.Farm, 7, 20, MapIds.FarmHouse, 5, 2, "default"),
                  new RouteEdge(MapIds.FarmHouse, 5, 0, MapIds.Farm, 7, 18, "fromHouse"));
 
-            // Farm <-> greenhouse (the door of the greenhouse on the farm, once it is built).
-            Pair(new RouteEdge(MapIds.Farm, 19, 20, MapIds.Greenhouse, 7, 2, "default"),
-                 new RouteEdge(MapIds.Greenhouse, 7, 0, MapIds.Farm, 19, 18, "fromGreenhouse"));
-
-            // Farm <-> coop and barn (once built).
-            Pair(new RouteEdge(MapIds.Farm, 28, 20, MapIds.Coop, 6, 2, "default"),
-                 new RouteEdge(MapIds.Coop, 6, 0, MapIds.Farm, 28, 18, "fromCoop"));
-            Pair(new RouteEdge(MapIds.Farm, 35, 20, MapIds.Barn, 6, 2, "default"),
-                 new RouteEdge(MapIds.Barn, 6, 0, MapIds.Farm, 35, 18, "fromBarn"));
+            // The greenhouse, coop and barn doors are on buildings the player can move (FarmBuildingsView), so they are not fixed route edges.
 
             // Forest <-> Harrow Wood (the gated path at the top of the forest; only an optional layer ships the scene).
             Pair(new RouteEdge(MapIds.Forest, 19, 27, MapIds.Woods, 19, 2, "default"),

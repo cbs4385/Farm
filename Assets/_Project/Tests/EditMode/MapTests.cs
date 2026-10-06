@@ -63,6 +63,7 @@ namespace Farm.Tests
             foreach (var id in MapIds.All)
             {
                 var scene = EditorSceneManager.OpenScene($"{SceneDir}/{id}.unity", OpenSceneMode.Single);
+                foreach (var v in All<FarmBuildingsView>(scene)) v.Build(FarmBuildings.Defaults());          // the farm's buildings are drawn at run time
                 var map = All<FarmMap>(scene).Single();
                 var info = new Info
                 {
