@@ -7,6 +7,7 @@
 | [`02-TechnicalDesign.md`](02-TechnicalDesign.md) | Architecture as built, extension points, conventions, testing, build, risks | developers, agents |
 | [`03-ImplementationPlan.md`](03-ImplementationPlan.md) | Ordered task backlog, Definition of Done, release checklist | agents |
 | [`ItemGapAudit.md`](ItemGapAudit.md) | Items, gifts and places that dialogue/events promise but the game lacks | agents |
+| [`mythos/M3b-COMPLETION-PLAN.md`](mythos/M3b-COMPLETION-PLAN.md) | What remains of Milestone 3b and how to finish and verify it | agents |
 | [`STATUS.md`](STATUS.md) | Task status, what a human verified, open decisions | everyone |
 | [`BUILD.md`](BUILD.md) | Setup, test/build commands, QA flags, running players | developers, agents |
 | [`QA.md`](QA.md) | Automated checks and the manual smoke checklist | testers, agents |
