@@ -112,7 +112,7 @@ namespace Farm.Editor
             BuildInterior(MapIds.Clinic, 10, 8, 4, new[]
             {
                 new Prop("Bed1", "obj_bed", 2, 6), new Prop("Bed2", "obj_bed", 4, 6), new Prop("Bed3", "obj_bed", 6, 6),
-                new Prop("Couch", "obj_couch", 3, 4, seatNpc: "elara", seatKey: "couch"),
+                new Prop("Couch", "obj_couch", 8, 6, seatNpc: "elara", seatKey: "couch"),
                 new Prop("Desk1", "obj_counter", 7, 3, upgradesAt: "clinic"), new Prop("Desk2", "obj_counter", 8, 3), new Prop("Shelf", "obj_shelf", 1, 4),
             });
             BuildInterior(MapIds.CommunityHall, 14, 10, 7, new[]
