@@ -1,4 +1,4 @@
-"""Farmhouse furniture (the bed, fireplace, rug and couch) and the farm mailbox, drawn by the project (playtest 2026-10-06: the bed was tiny, the mailbox hard to see, the house bare).
+"""Farmhouse furniture (the bed, fireplace, rug, couch and armchair) and the farm mailbox, drawn by the project (playtest 2026-10-06: the bed was tiny, the mailbox hard to see, the house bare).
 Writes into Assets/_Project/Art/Placeholders: obj_bed_double (32 x 32, two cells square), obj_fireplace (32 x 32), obj_rug_large (32 x 32, walkable),
 obj_mailbox_tall (16 x 32, a bold red box on a white post with a raised yellow flag).
 Usage: python tools/art/build_home_furniture.py"""
@@ -124,6 +124,29 @@ def couch():
     c.save("obj_couch")
 
 
+def armchair():
+    # Playtest 2026-10-07: like the old couch, the AI-drawn armchair was a small teal blob. A crisp front view: tall tufted backrest, a gold seat
+    # cushion (the same gold as the couch's, so they read as a set), padded arms and legs. Green, so it differs from the red couch.
+    c = Canvas(16, 16)
+    green, green_l, green_d = (86, 140, 98, 255), (130, 184, 134, 255), (52, 92, 66, 255)
+    gold, gold_l, gold_d = (232, 196, 128, 255), (248, 224, 164, 255), (190, 150, 92, 255)
+    c.box(2, 1, 13, 9, green)                               # the backrest
+    c.rect(3, 2, 12, 3, green_l)
+    c.rect(3, 8, 12, 8, green_d)
+    c.rect(2, 1, 2, 1, CLEAR); c.rect(13, 1, 13, 1, CLEAR)    # rounded top corners
+    for x in (5, 8, 11): c.rect(x, 5, x, 5, green_d)        # tufting buttons
+    c.box(3, 9, 12, 12, gold)                               # the seat cushion
+    c.rect(4, 10, 11, 10, gold_l)
+    c.rect(4, 12, 11, 12, gold_d)
+    c.box(0, 6, 3, 13, green_d)                             # the padded arms
+    c.rect(1, 7, 2, 7, green)
+    c.box(12, 6, 15, 13, green_d)
+    c.rect(13, 7, 14, 7, green)
+    c.rect(1, 14, 2, 15, OUTLINE); c.rect(13, 14, 14, 15, OUTLINE)    # legs
+    c.rect(5, 13, 6, 13, OUTLINE); c.rect(9, 13, 10, 13, OUTLINE)
+    c.save("obj_armchair")
+
+
 def mailbox_tall():
     c = Canvas(16, 32)
     post, post_d = (244, 240, 230, 255), (176, 168, 156, 255)
@@ -150,7 +173,7 @@ def mailbox_tall():
 
 
 if __name__ == "__main__":
-    bed_double(); fireplace(); rug_large(); mailbox_tall(); couch()
+    bed_double(); fireplace(); rug_large(); mailbox_tall(); couch(); armchair()
     final = os.path.join(OUT, "final_art.txt")
     have = set(open(final).read().split())
     with open(final, "a") as f:
