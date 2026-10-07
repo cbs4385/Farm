@@ -23,7 +23,11 @@ namespace Farm.Gameplay
         // Playtest 2026-10-07: villagers walked into the player and pushed them, and walked through whatever was in the way. A walking villager now
         // stops short of anything solid on its way (the player, a piece of furniture put down since the map loaded), which holds its schedule back
         // (NpcManager) until the way is clear, and after RerouteAfter seconds of waiting finds a way round. Other villagers and animals do not block
-        // it (two villagers in a corridor could wait for each other for ever).
+        // it (two villagers in a corridor could wait for each other for ever). Another villager stops it too, but only for VillagerGiveUp seconds:
+        // after that it walks on, so two villagers in a corridor cannot wait for each other for ever.
+        public const float VillagerGiveUp = 4f;
+        static readonly List<NpcActor> Active = new List<NpcActor>();
+        float _villagerWait;
         public const float RerouteAfter = 1.5f;
         const float ProbeSize = ActorBody.Size + 0.04f;          // as wide as the villager's body, or it would stop with its body already touching the player
         float _waitFor;
@@ -41,8 +45,8 @@ namespace Farm.Gameplay
         public Vector3Int Cell { get; private set; }
         public bool IsPlaced { get; private set; }
 
-        void OnEnable() => CellOccupants.Add(this);
-        void OnDisable() => CellOccupants.Remove(this);
+        void OnEnable() { CellOccupants.Add(this); Active.Add(this); }
+        void OnDisable() { CellOccupants.Remove(this); Active.Remove(this); }
 
         public void Setup(NpcDefinition definition)
         {
@@ -68,6 +72,7 @@ namespace Farm.Gameplay
                 IsPlaced = true;
                 Waiting = false;
                 _waitFor = 0f;
+                _villagerWait = 0f;
                 SetFacing(NpcSchedule.FacingVector(place.Facing));
                 YieldBodyToPlayer();
                 return;
@@ -100,7 +105,11 @@ namespace Farm.Gameplay
             // Something solid at the next step (but not on the cell it leaves or the one it is going to: a villager may sit on a seat that is a solid thing).
             var atEnds = (proposed - _points[0]).sqrMagnitude < 0.36f || (proposed - _points[_points.Count - 1]).sqrMagnitude < 0.36f;
             // The player stops a villager everywhere along its route, the first and last steps too; only a solid thing (a seat) is excused there.
-            if (IsPlaced && (PlayerAt(proposed, ProbeSize) || (!atEnds && SolidAt(proposed, ProbeSize))))
+            var villagerNear = IsPlaced && !atEnds && VillagerAt(proposed, ProbeSize);
+            if (!villagerNear) _villagerWait = 0f;
+            var blockedByVillager = villagerNear && _villagerWait < VillagerGiveUp;
+            if (blockedByVillager) _villagerWait += Time.deltaTime;
+            if (IsPlaced && (PlayerAt(proposed, ProbeSize) || (!atEnds && SolidAt(proposed, ProbeSize)) || blockedByVillager))
             {
                 Waiting = true;
                 _waitFor += Time.deltaTime;
@@ -142,6 +151,35 @@ namespace Farm.Gameplay
             return p.min.x < centre.x + half && p.max.x > centre.x - half && p.min.y < centre.y + half && p.max.y > centre.y - half;
         }
 
+        // Is another villager's body in the way of a box of this size at `centre`? Only when the step brings this villager closer to it, so that
+        // stepping aside (or away) is always allowed.
+        bool VillagerAt(Vector3 centre, float size)
+        {
+            var reach = (size + ActorBody.Size) * 0.5f;
+            foreach (var other in Active)
+            {
+                if (other == this || !other.IsPlaced) continue;
+                var d = other.transform.position - centre;
+                if (Mathf.Abs(d.x) >= reach || Mathf.Abs(d.y) >= reach) continue;
+                var now = other.transform.position - transform.position;
+                if (d.sqrMagnitude < now.sqrMagnitude - 0.0001f) return true;
+            }
+            return false;
+        }
+
+        // Is another villager's body within a box of this size at `centre` (used to plan a route round them)?
+        bool VillagerNear(Vector3 centre, float size)
+        {
+            var reach = (size + ActorBody.Size) * 0.5f;
+            foreach (var other in Active)
+            {
+                if (other == this || !other.IsPlaced) continue;
+                var d = other.transform.position - centre;
+                if (Mathf.Abs(d.x) < reach && Mathf.Abs(d.y) < reach) return true;
+            }
+            return false;
+        }
+
         // Is anything solid in a box of this size at `centre`? The player counts; this villager's own body, triggers and other actors do not.
         bool SolidAt(Vector3 centre, float size)
         {
@@ -162,11 +200,15 @@ namespace Farm.Gameplay
             if (grid == null) return;
             var from = map.WorldToCell(transform.position);
             var path = grid.FindPath(from.x, from.y, place.ToX, place.ToY,
-                (x, y) => { var c = new Vector3Int(x, y, 0); return CellOccupants.IsTaken(c, this) || SolidAt(map.CellCenter(c), 0.9f); });
+                (x, y) => { var c = new Vector3Int(x, y, 0); return CellOccupants.IsTaken(c, this) || SolidAt(map.CellCenter(c), 0.9f) || VillagerNear(map.CellCenter(c), 0.9f); });
             if (path == null || path.Count < 2) return;
             _points.Clear();
             _lengths.Clear();
             _points.Add(transform.position);
+            // The first step is taken straight along its axis, not cut diagonally across the corner of whoever is in the way.
+            var first = map.CellCenter(new Vector3Int(path[1].x, path[1].y, 0));
+            var vertical = path[1].x == path[0].x;
+            _points.Add(vertical ? new Vector3(transform.position.x, first.y, first.z) : new Vector3(first.x, transform.position.y, first.z));
             for (var i = 1; i < path.Count; i++) _points.Add(map.CellCenter(new Vector3Int(path[i].x, path[i].y, 0)));
             var length = 0f;
             _lengths.Add(0f);
