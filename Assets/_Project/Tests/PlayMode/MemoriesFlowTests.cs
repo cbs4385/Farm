@@ -75,7 +75,7 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator TheMemoriesTab_ListsScenes_LockedUntilSeen()
+        public IEnumerator TheMemoriesTab_ListsTheSeenScenesOfTheChosenGroup_AndCountsTheRest()
         {
             yield return Begin();
             _session.State.EventsSeen.Add("wren_heart2");
@@ -83,16 +83,25 @@ namespace Farm.Tests
             Ui.ShowGameMenu(MenuTabs.Memories);
             for (var i = 0; i < 4; i++) yield return null;
 
-            Button Find(string id) => UnityEngine.Object.FindObjectsByType<Button>().FirstOrDefault(b => b.name == "Memory_" + id && b.gameObject.activeInHierarchy);
-            var seen = Find("wren_heart2");
-            Assert.IsNotNull(seen, "a seen scene is listed");
-            Assert.IsTrue(seen.interactable, "and can be replayed");
-            Assert.IsNotNull(Find("festival_spring"));
-            var locked = Find("wren_heart5");
-            Assert.IsNotNull(locked);
-            Assert.IsFalse(locked.interactable, "an unseen scene is locked");
-            StringAssert.Contains("???", locked.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+            Button Find(string id) => UnityEngine.Object.FindObjectsByType<Button>().FirstOrDefault(b => b.name == id && b.gameObject.activeInHierarchy);
+            Assert.IsNotNull(Find("Group_festival"), "the festivals are a group");
+            Assert.IsNotNull(Find("Group_wren"), "and so is each villager with scenes");
+            Assert.IsNotNull(Find("Group_other"));
+            var seenFestival = Find("Memory_festival_spring");
+            Assert.IsNotNull(seenFestival, "the first group with a seen scene is open: the festival");
+            Assert.IsTrue(seenFestival.interactable, "and it can be replayed");
+            Assert.IsNull(Find("Memory_wren_heart2"), "Wren's scenes are in her own group");
+
+            Find("Group_wren").onClick.Invoke();
+            yield return null;
+            var seen = Find("Memory_wren_heart2");
+            Assert.IsNotNull(seen, "her seen scene is listed");
+            Assert.IsTrue(seen.interactable);
             StringAssert.Contains("The New Recipe", seen.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+            Assert.IsNull(Find("Memory_wren_heart5"), "a scene not yet seen is not listed, only counted");
+            var texts = UnityEngine.Object.FindObjectsByType<TMPro.TextMeshProUGUI>().Where(t => t.gameObject.activeInHierarchy).Select(t => t.text).ToList();
+            Assert.IsTrue(texts.Any(t => t.Contains("more to be seen")), "the rest are counted");
+            Assert.IsFalse(texts.Any(t => t.Contains("???")), "no wall of question marks");
         }
 
         [UnityTest]

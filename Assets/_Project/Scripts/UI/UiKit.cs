@@ -204,6 +204,33 @@ namespace Farm.UI
             return slider;
         }
 
+        // A vertical scrolling list that fills its slot: the returned rect is the viewport, `content` is where the rows go (a column that grows to fit them).
+        public static RectTransform Scroll(Transform parent, string name, out RectTransform content)
+        {
+            var scroll = Rect(name, parent);
+            var catcher = scroll.gameObject.AddComponent<Image>();
+            catcher.color = new Color(0f, 0f, 0f, 0f);
+            var rect = scroll.gameObject.AddComponent<ScrollRect>();
+            scroll.gameObject.AddComponent<RectMask2D>();
+            var column = VStack(scroll, "Content", 4f, 4);
+            var fitter = column.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            var crt = (RectTransform)column.transform;
+            crt.anchorMin = new Vector2(0, 1);
+            crt.anchorMax = new Vector2(1, 1);
+            crt.pivot = new Vector2(0.5f, 1f);
+            crt.offsetMin = crt.offsetMax = Vector2.zero;
+            rect.content = crt;
+            rect.viewport = scroll;
+            rect.horizontal = false;
+            rect.scrollSensitivity = 30f;
+            rect.movementType = ScrollRect.MovementType.Clamped;
+            rect.verticalScrollbar = MakeScrollbar(scroll);
+            rect.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+            content = crt;
+            return scroll;
+        }
+
         // Vertical scrollbar docked to the right edge of a ScrollRect.
         public static Scrollbar MakeScrollbar(RectTransform scrollRoot)
         {

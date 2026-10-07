@@ -8,6 +8,7 @@ using Farm.UI;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
@@ -194,7 +195,7 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator TheMapPage_MarksWhereYouAre_AndWhoIsWhere()
+        public IEnumerator TheMapPage_IsAPicture_WithABuildingIconAndAHoverLabelForEachPlace()
         {
             yield return Start(MapIds.Village);
             _session.State.Npcs["tilda"] = new NpcState { Met = true };
@@ -203,10 +204,37 @@ namespace Farm.Tests
             for (var i = 0; i < 3; i++) yield return Tap(Key.E);
             var map = Ui.GameMenu.Current;
             Assert.AreEqual(MenuTabs.Map, map.Id);
-            var village = map.Root.GetComponentsInChildren<Image>(true).First(i => i.name == MapIds.Village);
-            StringAssert.Contains("(you are here)", village.GetComponentInChildren<TextMeshProUGUI>().text);
-            var store = map.Root.GetComponentsInChildren<Image>(true).First(i => i.name == MapIds.GeneralStore);
-            StringAssert.Contains("Tilda Ashby", store.GetComponentInChildren<TextMeshProUGUI>().text, "she is at work on a Wednesday morning");
+
+            Image Spot(string name) => map.Root.GetComponentsInChildren<Image>(true).FirstOrDefault(i => i.name == name);
+            foreach (var place in new[] { MapIds.Clinic, MapIds.Library, MapIds.GeneralStore, MapIds.Blacksmith, MapIds.Carpenter, MapIds.Saloon, MapIds.CommunityHall, MapIds.FarmHouse, MapIds.Mine, MapIds.Forest, MapIds.Beach })
+            {
+                var icon = Spot("Spot_" + place);
+                Assert.IsNotNull(icon, place + " is on the map");
+                Assert.IsNotNull(icon.sprite, place + " has a picture");
+            }
+
+            void Enter(Image target) => ExecuteEvents.Execute(target.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerEnterHandler);
+            void Exit(Image target) => ExecuteEvents.Execute(target.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerExitHandler);
+
+            Enter(Spot("Spot_" + MapIds.GeneralStore));
+            StringAssert.Contains("General Store", Ui.HoverText);
+            StringAssert.Contains("Open now", Ui.HoverText, "a Wednesday morning");
+            StringAssert.Contains("Tilda Ashby", Ui.HoverText, "she is at work, and the player has met her");
+            Exit(Spot("Spot_" + MapIds.GeneralStore));
+            Assert.IsNull(Ui.HoverText, "the label goes when the mouse moves off");
+
+            Enter(Spot("Spot_" + MapIds.Clinic));
+            StringAssert.Contains("Clinic", Ui.HoverText);
+            Exit(Spot("Spot_" + MapIds.Clinic));
+
+            Enter(Spot("Region_" + MapIds.Village));
+            StringAssert.Contains("(you are here)", Ui.HoverText, "the village is where the farmer is");
+
+            var pin = Spot("YouAreHere");
+            Assert.IsNotNull(pin, "the gold pin marks the farmer");
+            var villageBox = Spot(MapIds.Village).rectTransform;
+            var middle = (pin.rectTransform.anchorMin.x + pin.rectTransform.anchorMax.x) * 0.5f;
+            Assert.IsTrue(villageBox.anchorMin.x <= middle && middle <= villageBox.anchorMax.x, "the middle of the pin is inside the village on the picture");
         }
     }
 }

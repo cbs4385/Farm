@@ -17,6 +17,8 @@ Chat menu check: `... -farmOpen chatmenu -farmCapture <dir>` (the social submenu
 
 Memories tab check: `... -farmOpen memories -farmCapture <dir>` (eight tab labels on one line, the grid of scene buttons unclipped, locked entries dimmed; checked 2026-10-02). Known flaky PlayMode tests under machine load: the hoe, placement and gamepad movement tests (`GameFlowTests`, `RealInputTests`, `GamepadAndUiInputTests`, `CraftingFlowTests`) have each failed once and then passed on a re-run with no change; they are timing-sensitive.
 
+Map and memories tabs check (2026-10-07): `... -farmScene Village -farmOpen map -farmCapture <dir>` (the pictorial map: farm west of the village, forest north with the mine hill to its east, beach south, a picture for each building at its door, the gold pin at the farmer; the woods appear only once open) and `... -farmOpen memories -farmCapture <dir>` (groups with counts on the left, the chosen group's scenes on the right, no wrapped names or question-mark walls). Hover labels cannot be captured: `GameMenuFlowTests` rests a simulated pointer on the icons.
+
 Stream mode check: `... -farmOpen stream -farmCapture <dir>` (stream mode with a 30 second timer and the UI size at 1.4: the dialogue box must fit the screen with the portrait, the countdown and the content badge all visible; checked 2026-10-03).
 
 **When to also run the player capture:** any change to scenes, scene components, UI layering/canvases, sprite import, or serialization. The Editor and tests missed two real problems that only a player build showed (a scene that crashed the player, and a fade overlay hiding the day summary).

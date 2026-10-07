@@ -170,6 +170,11 @@ namespace Farm.Gameplay
                         _session.State.EventsSeen.Add(id);
                     ui.ShowGameMenu(MenuTabs.Memories);
                     break;
+                case "map":
+                    // QA only (a throwaway game): meet a few villagers so the hover labels name them, then open the map tab.
+                    foreach (var id in new[] { "wren", "hazel", "bram", "tilda", "juno" }) _session.State.Npcs[id] = new NpcState { Met = true };
+                    ui.ShowGameMenu(MenuTabs.Map);
+                    break;
                 case "neighbours":
                 {
                     // QA only (a throwaway game): meet a few villagers at different stages, with a gift or two and a topic found out.
