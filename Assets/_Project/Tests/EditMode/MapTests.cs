@@ -137,7 +137,7 @@ namespace Farm.Tests
         [Test]
         public void InteriorsAreIndoor_AndOutdoorMapsAreNot()
         {
-            var indoor = new[] { MapIds.FarmHouse, MapIds.Greenhouse, MapIds.Coop, MapIds.Barn, MapIds.CommunityHall, MapIds.GeneralStore, MapIds.Blacksmith, MapIds.Carpenter, MapIds.Saloon, MapIds.Clinic, MapIds.Library };
+            var indoor = new[] { MapIds.FarmHouse, MapIds.Greenhouse, MapIds.Coop, MapIds.Barn, MapIds.CommunityHall, MapIds.GeneralStore, MapIds.Blacksmith, MapIds.Carpenter, MapIds.Saloon, MapIds.Clinic, MapIds.Library }.Concat(MapIds.Homes).ToArray();       // the villagers' rooms are indoors too
             foreach (var info in Maps.Values) Assert.AreEqual(indoor.Contains(info.Id), info.Indoor, info.Id);
         }
 

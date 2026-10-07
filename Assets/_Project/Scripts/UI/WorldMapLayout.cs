@@ -11,7 +11,7 @@ namespace Farm.UI
     public static class WorldMapLayout
     {
         public const float Width = 720f, Height = 440f;
-        public const float IconSize = 28f;
+        public const float IconSize = 28f, HomeIconSize = 18f;
 
         public sealed class Region
         {
@@ -47,6 +47,8 @@ namespace Farm.UI
             public string Icon;             // the sprite in UiArt
             public string Business;         // the shop id for its opening hours, or null
             public string UnlockFlag;       // a farm building opens when this flag is set (null: always)
+            public string Condition;        // a home's door is open when this holds (the villagers are asleep otherwise)
+            public float Size = IconSize;   // the picture's width and height (the villagers' cottages are drawn small)
             public Vector2 Position;        // design units
         }
 
@@ -72,6 +74,8 @@ namespace Farm.UI
             foreach (var (map, icon, business, x, y) in VillageDoors)
                 spots.Add(new Spot { Map = map, Icon = icon, Business = business, Position = Village.At(x, y) });
             spots.Add(new Spot { Map = MapIds.FarmHouse, Icon = "ui_map_house", Position = Farm.At(FarmHouseDoorX, FarmHouseDoorY) });
+            foreach (var home in NpcHomes.All)
+                spots.Add(new Spot { Map = home.Map, Icon = "ui_map_house", Condition = NpcHomes.OpenCondition, Size = HomeIconSize, Position = Village.At(home.DoorX, home.DoorY) });
             foreach (var type in FarmBuildings.Types)
             {
                 var at = state != null ? FarmBuildings.Find(state, type.Id) : null;
@@ -83,7 +87,7 @@ namespace Farm.UI
                     Icon = type.Id == "coop" ? "ui_map_coop" : type.Id == "barn" ? "ui_map_barn" : "ui_map_greenhouse",
                 });
             }
-            Separate(spots, IconSize + 2f);
+            Separate(spots);
 
             spots.Add(new Spot { Map = MapIds.Forest, Icon = "ui_map_forest", Position = Forest.At(8, 21) });
             if (woodsOpen) spots.Add(new Spot { Map = MapIds.Woods, Icon = "ui_map_woods", Position = Woods.Centre });
@@ -108,7 +112,7 @@ namespace Farm.UI
         }
 
         // Moves apart pictures that would sit on top of each other (the farm's buildings stand close together), keeping their order from left to right.
-        public static void Separate(List<Spot> spots, float minimum)
+        public static void Separate(List<Spot> spots)
         {
             for (var pass = 0; pass < 8; pass++)
             {
@@ -118,6 +122,7 @@ namespace Farm.UI
                     {
                         var a = spots[i]; var b = spots[j];
                         var d = b.Position - a.Position;
+                        var minimum = (a.Size + b.Size) * 0.5f + 2f;
                         if (Mathf.Abs(d.x) >= minimum || Mathf.Abs(d.y) >= minimum) continue;
                         // too close in both directions: push the right-hand one to the right
                         var right = d.x >= 0f ? b : a; var left = d.x >= 0f ? a : b;

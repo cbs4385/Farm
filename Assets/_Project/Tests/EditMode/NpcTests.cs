@@ -395,8 +395,11 @@ namespace Farm.Tests
             StringAssert.Contains("outside the day", range);
             Assert.IsFalse(NpcSchedule.IsValid(Day("x", null, 0, Stop(400, "Village", 1, 1), Stop(500, "Nowhere", 2, 2)), out var route));
             StringAssert.Contains("no route", route);
-            Assert.IsFalse(NpcSchedule.IsValid(Day("x", null, 0, Stop(400, "Village", 1, 17), Stop(405, "Village", 40, 17)), out var rushed));
-            StringAssert.Contains("not enough time", rushed);
+            // A stop's minute is when they leave the place before it, so they must have arrived somewhere before leaving it: the walk from (1, 17) to
+            // (40, 17) takes 24 minutes from the 410 departure, so leaving there at 420 is leaving before they have arrived.
+            Assert.IsFalse(NpcSchedule.IsValid(Day("x", null, 0, Stop(400, "Village", 1, 17), Stop(410, "Village", 40, 17), Stop(420, "Village", 1, 17)), out var rushed));
+            StringAssert.Contains("before arriving", rushed);
+            Assert.IsTrue(NpcSchedule.IsValid(Day("x", null, 0, Stop(400, "Village", 1, 17), Stop(405, "Village", 40, 17)), out _), "leaving at once is fine: they start the day at the first stop");
         }
 
         // ---- routes ----------------------------------------------------------------------------------------------

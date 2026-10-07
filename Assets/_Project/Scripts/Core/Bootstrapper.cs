@@ -13,6 +13,9 @@ namespace Farm.Core
 
         void Start()
         {
+            // The game was renamed, which moved its data folder: carry the old saves and settings across the first time (failure-isolated).
+            try { DataMigration.Run(Application.persistentDataPath); }
+            catch (Exception e) { Debug.LogWarning("[Bootstrapper] Could not carry the old saves across: " + e.Message); }
             CrashLog.Install(System.IO.Path.Combine(Application.persistentDataPath, "logs"));
             var sceneLoader = InitializeServices();
             ScreenshotCapture.StartIfRequested(sceneLoader);

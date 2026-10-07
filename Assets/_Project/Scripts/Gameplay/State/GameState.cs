@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Farm.Core;
 using Farm.Data;
@@ -172,6 +173,18 @@ namespace Farm.Gameplay
         public const string CommunityHall = "CommunityHall";
         public const string Mine = "Mine";
 
+        // The villagers' homes, a cottage and a room inside it for each (NpcHomes).
+        public const string HomeTilda = "HomeTilda", HomeBram = "HomeBram", HomeIone = "HomeIone", HomeMarcus = "HomeMarcus", HomeOdalys = "HomeOdalys",
+            HomeWren = "HomeWren", HomeFelix = "HomeFelix", HomeJuno = "HomeJuno", HomeHazel = "HomeHazel", HomePiper = "HomePiper",
+            HomeDorian = "HomeDorian", HomeElara = "HomeElara";
+
+        public static readonly string[] Homes =
+        {
+            HomeTilda, HomeBram, HomeIone, HomeMarcus, HomeOdalys, HomeWren, HomeFelix, HomeJuno, HomeHazel, HomePiper, HomeDorian, HomeElara,
+        };
+
+        public static bool IsHome(string mapId) => System.Array.IndexOf(Homes, mapId) >= 0;
+
         // The gated slot at the top of the Forest. Nothing is behind it in the base game (the gate is brambles
         // while the flag `woods.open` is off); an optional layer ships the scene and opens the gate.
         public const string Woods = "Woods";
@@ -181,10 +194,10 @@ namespace Farm.Gameplay
         public const string GreenhouseFlag = "farm.greenhouse";
 
         // The insides of buildings: going between one of these and anywhere else is a walk through a door (and so shows the door swinging).
-        public static readonly string[] Interiors =
+        public static readonly string[] Interiors = new[]
         {
             FarmHouse, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library, Greenhouse, Coop, Barn, CommunityHall,
-        };
+        }.Concat(Homes).ToArray();
 
         public static bool IsInterior(string mapId) => System.Array.IndexOf(Interiors, mapId) >= 0;
 
@@ -192,9 +205,9 @@ namespace Farm.Gameplay
         public static readonly string[] Dungeons = { Mine };
 
         // Every map scene that ships in the base game, in a stable order.
-        public static readonly string[] All =
+        public static readonly string[] All = new[]
         {
             Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library, Greenhouse, Coop, Barn, CommunityHall,
-        };
+        }.Concat(Homes).ToArray();
     }
 }

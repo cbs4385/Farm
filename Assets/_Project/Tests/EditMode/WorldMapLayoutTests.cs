@@ -57,7 +57,8 @@ namespace Farm.Tests
                 for (var j = i + 1; j < spots.Count; j++)
                 {
                     var d = spots[i].Position - spots[j].Position;
-                    Assert.IsTrue(Mathf.Abs(d.x) >= WorldMapLayout.IconSize || Mathf.Abs(d.y) >= WorldMapLayout.IconSize, $"{spots[i].Map} and {spots[j].Map} overlap");
+                    var apart = (spots[i].Size + spots[j].Size) * 0.5f;
+                    Assert.IsTrue(Mathf.Abs(d.x) >= apart || Mathf.Abs(d.y) >= apart, $"{spots[i].Map} and {spots[j].Map} overlap");
                 }
         }
 
@@ -71,6 +72,14 @@ namespace Farm.Tests
                 var warp = warps.FirstOrDefault(w => w.TargetMap == map);
                 Assert.IsNotNull(warp, map);
                 Assert.AreEqual(new Vector2(x + 0.5f, y + 0.5f), (Vector2)warp.transform.position, map + ": the door is where the map table says");
+            }
+            foreach (var home in NpcHomes.All)
+            {
+                var warp = warps.FirstOrDefault(w => w.TargetMap == home.Map);
+                Assert.IsNotNull(warp, home.Map);
+                var spot = WorldMapLayout.Spots(new GameState(), false).First(s => s.Map == home.Map);
+                Assert.AreEqual(WorldMapLayout.Village.At(home.DoorX, home.DoorY), spot.Position, home.Map + ": drawn at its real door");
+                Assert.AreEqual(new Vector2(home.DoorX + 0.5f, home.DoorY + 0.5f), (Vector2)warp.transform.position, home.Map);
             }
             EditorSceneManager.OpenScene("Assets/_Project/Scenes/Farm.unity", OpenSceneMode.Single);
             var house = Object.FindObjectsByType<Warp>(FindObjectsSortMode.None).First(w => w.TargetMap == MapIds.FarmHouse);

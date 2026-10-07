@@ -76,26 +76,30 @@ namespace Farm.Gameplay
         {
             error = null;
             var last = int.MinValue;
+            var previousArrival = 0f;
             NpcStop previous = null;
             foreach (var stop in entry.Stops)
             {
                 if (stop.Minute < GameDateTime.DayStartMinute || stop.Minute >= GameDateTime.DayEndMinute) { error = $"stop at minute {stop.Minute} is outside the day"; return false; }
                 if (stop.Minute <= last) { error = $"stop at minute {stop.Minute} is not after the previous stop"; return false; }
+                var arrival = (float)stop.Minute;               // when they are there: the first stop is where the day starts; after that, the walk to it takes time
                 if (previous != null)
                 {
                     var legs = MapRoutes.Legs(previous.Map, previous.X, previous.Y, stop.Map, stop.X, stop.Y);
                     if (legs == null) { error = $"no route from {previous.Map} to {stop.Map}"; return false; }
                     var walk = 0f;
                     foreach (var leg in legs) walk += leg.Minutes;
-                    // They must have arrived before they leave again, or the walk would start from a place they never reached.
-                    if (stop.Minute - previous.Minute < walk)
+                    arrival = stop.Minute + walk;
+                    // They must have arrived at the previous stop before they leave it, or the walk would start from a place they never reached.
+                    if (stop.Minute < previousArrival)
                     {
-                        error = $"not enough time to walk from {previous.Map} to {stop.Map} ({walk:0} minutes needed, {stop.Minute - previous.Minute} given)";
+                        error = $"leaves {previous.Map} at minute {stop.Minute} before arriving there (at {previousArrival:0})";
                         return false;
                     }
                 }
                 last = stop.Minute;
                 previous = stop;
+                previousArrival = arrival;
             }
             return true;
         }

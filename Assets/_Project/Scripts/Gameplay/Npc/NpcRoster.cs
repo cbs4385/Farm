@@ -45,12 +45,14 @@ namespace Farm.Gameplay
 
         // A person with a job: home -> post -> evening spot -> home, a day off somewhere else, and staying in when it rains
         // on the day off.
-        static NpcDefinition Person(string id, Season season, int day, string homeMap, int hx, int hy, bool romanceable, string business,
+        static NpcDefinition Person(string id, Season season, int day, bool romanceable, string business,
             int workStart, int workEnd, string offDay, Post offSpot, Post evening, string[] loved, string[] liked, string[] disliked,
             string[] dislikedCategories = null, string[] lovedCategories = null)
         {
             var post = PostOf(id);
-            var home = Stop(360, homeMap, hx, hy);
+            var homeMap = NpcHomes.MapOf(id);
+            int hx = NpcHomes.StandX, hy = NpcHomes.StandY;
+            var home = NpcHomes.Stop(360, id);
             var entries = new List<NpcScheduleEntry>();
             if (offDay != null)
             {
@@ -60,8 +62,8 @@ namespace Farm.Gameplay
             }
             // Late workers (the saloon) go straight home when it closes; the others spend the evening out first.
             entries.Add(workEnd >= 1260
-                ? Day("workday", null, 0, home, Stop(workStart, post.Map, post.X, post.Y), Stop(workEnd, homeMap, hx, hy))
-                : Day("workday", null, 0, home, Stop(workStart, post.Map, post.X, post.Y), Stop(workEnd, evening.Map, evening.X, evening.Y),
+                ? Day("workday", null, 0, home, NpcHomes.Depart(workStart, id, post.Map, post.X, post.Y), Stop(workEnd, homeMap, hx, hy))
+                : Day("workday", null, 0, home, NpcHomes.Depart(workStart, id, post.Map, post.X, post.Y), Stop(workEnd, evening.Map, evening.X, evening.Y),
                     Stop(workEnd + 240 > 1380 ? 1380 : workEnd + 240, homeMap, hx, hy)));
             return NpcDefinition.Create(id, season, day, homeMap, hx, hy, romanceable, business)
                 .WithTastes(loved, liked, disliked, lovedCategories, dislikedCategories)
@@ -71,31 +73,31 @@ namespace Farm.Gameplay
         public static NpcDefinition[] CreateAll() => new[]
         {
             // Carpenter. Closed Wednesdays.
-            Person(Marcus, Season.Summer, 9, MapIds.Carpenter, 6, 3, false, "carpenter", 520, 1050, "wed", new Post(MapIds.Forest, 19, 15), new Post(MapIds.Saloon, 8, 4),
+            Person(Marcus, Season.Summer, 9, false, "carpenter", 520, 1050, "wed", new Post(MapIds.Forest, 19, 15), new Post(MapIds.Saloon, 8, 4),
                 new[] { "resource.wood", "crop.pumpkin", "food.roasted_roots" }, new[] { "resource.stone", "forage.hazelnut", "resource.copperbar" }, new[] { "forage.dandelion", "crop.kale", "resource.slime" }),
             // The clinic's doctor. Closed Saturdays.
-            Person(Odalys, Season.Winter, 3, MapIds.Clinic, 8, 5, false, "clinic", 520, 1050, "sat", new Post(MapIds.Library, 5, 3), new Post(MapIds.Library, 8, 5),
+            Person(Odalys, Season.Winter, 3, false, "clinic", 520, 1050, "sat", new Post(MapIds.Library, 5, 3), new Post(MapIds.Library, 8, 5),
                 new[] { "forage.elderflower", "crop.spinach", "food.salad" }, new[] { "crop.kale", "forage.snowdrop", "crop.cauliflower" }, new[] { "resource.slime", "resource.bone", "forage.clam" }),
             // Keeps the saloon (12:00-02:00, closed Tuesdays).
-            Person(Wren, Season.Fall, 17, MapIds.Saloon, 11, 8, true, "saloon", 700, 1560, "tue", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 30, 17),
+            Person(Wren, Season.Fall, 17, true, "saloon", 700, 1560, "tue", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 30, 17),
                 new[] { "artisan.wine", "crop.hops", "artisan.pickles" }, new[] { "artisan.juice", "crop.tomato", "crop.pepper" }, new[] { "forage.clam", "food.bean_stew", "resource.slime" }),
             // Runs the fish stall (06:00-14:00, closed Thursdays).
-            Person(Felix, Season.Summer, 21, MapIds.Saloon, 12, 8, true, "fish", 420, 840, "thu", new Post(MapIds.Forest, 7, 7), new Post(MapIds.Saloon, 5, 4),
+            Person(Felix, Season.Summer, 21, true, "fish", 420, 840, "thu", new Post(MapIds.Forest, 7, 7), new Post(MapIds.Saloon, 5, 4),
                 new[] { "fish.tuna", "fish.sturgeon", "fish.moonfish" }, new[] { "fish.carp", "forage.seashell", "fish.sea_bass" }, new[] { "forage.dandelion", "crop.kale", "crop.cucumber" }, lovedCategories: new[] { "Fish" }),
             // The blacksmith's apprentice.
-            Person(Juno, Season.Spring, 25, MapIds.Blacksmith, 8, 3, true, "blacksmith", 540, 1080, "mon", new Post(MapIds.Beach, 14, 12), new Post(MapIds.Saloon, 9, 4),
+            Person(Juno, Season.Spring, 25, true, "blacksmith", 540, 1080, "mon", new Post(MapIds.Beach, 14, 12), new Post(MapIds.Saloon, 9, 4),
                 new[] { "resource.goldbar", "forage.truffle", "crop.pepper" }, new[] { "resource.copperbar", "crop.potato", "resource.coal" }, new[] { "crop.kale", "forage.dandelion", "crop.cucumber" }),
             // Looks after the library with Ione.
-            Person(Hazel, Season.Fall, 8, MapIds.Library, 9, 3, true, "library", 530, 1050, "sat", new Post(MapIds.Forest, 19, 10), new Post(MapIds.Village, 20, 17),
+            Person(Hazel, Season.Fall, 8, true, "library", 530, 1050, "sat", new Post(MapIds.Forest, 19, 10), new Post(MapIds.Village, 20, 17),
                 new[] { "forage.blackberry", "crop.strawberry", "food.berry_tart" }, new[] { "forage.elderflower", "crop.cauliflower", "artisan.jam" }, new[] { "resource.stone", "resource.slime", "resource.bat_wing" }),
             // Plays in the saloon in the evenings.
-            Person(Piper, Season.Spring, 5, MapIds.Saloon, 12, 7, true, "saloon", 1060, 1440, "tue", new Post(MapIds.Beach, 25, 12), new Post(MapIds.Village, 25, 22),
+            Person(Piper, Season.Spring, 5, true, "saloon", 1060, 1440, "tue", new Post(MapIds.Beach, 25, 12), new Post(MapIds.Village, 25, 22),
                 new[] { "crop.sunflower", "artisan.jam", "artisan.juice" }, new[] { "crop.strawberry", "forage.raspberry", "crop.corn" }, new[] { "resource.coal", "resource.slime", "resource.bat_wing" }),
             // Gathers things in the forest all day; lodges at the carpenter's.
-            Person(Dorian, Season.Winter, 11, MapIds.Carpenter, 8, 3, true, null, 480, 1020, null, new Post(MapIds.Forest, 19, 10), new Post(MapIds.Saloon, 4, 4),
+            Person(Dorian, Season.Winter, 11, true, null, 480, 1020, null, new Post(MapIds.Forest, 19, 10), new Post(MapIds.Saloon, 4, 4),
                 new[] { "forage.mushroom", "forage.truffle", "forage.wildgarlic" }, new[] { "forage.hazelnut", "forage.blackberry", "forage.raspberry" }, new[] { "crop.tomato", "fish.pufferfish", "resource.slime" }),
             // The clinic's nurse.
-            Person(Elara, Season.Spring, 18, MapIds.Clinic, 2, 3, true, "clinic", 520, 1050, "sat", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 28, 17),
+            Person(Elara, Season.Spring, 18, true, "clinic", 520, 1050, "sat", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 28, 17),
                 new[] { "forage.snowdrop", "crop.cranberry", "artisan.jam" }, new[] { "forage.seashell", "crop.spinach", "artisan.juice" }, new[] { "resource.bone", "resource.bat_wing", "resource.slime" }),
         };
     }

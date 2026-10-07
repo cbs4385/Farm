@@ -77,6 +77,7 @@ namespace Farm.Gameplay
             Building(MapIds.Saloon, 10, 11, 12, 6);
             Building(MapIds.Clinic, 35, 11, 12, 4);
             Building(MapIds.CommunityHall, 44, 11, 12, 7);
+            foreach (var home in NpcHomes.All) Building(home.Map, home.DoorX, home.DoorY, home.OutsideY, NpcHomes.InteriorDoorX);          // the villagers' cottages
             return e;
         }
 

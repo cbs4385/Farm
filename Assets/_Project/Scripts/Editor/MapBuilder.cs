@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Farm.Core;
 using Farm.Gameplay;
@@ -38,6 +39,7 @@ namespace Farm.Editor
         {
             public string MapId, Business, Style;   // Style picks the wall, roof, window, sign and roof ornament art (bld_<style>_*)
             public int X0, X1, Y0, Y1, DoorX;
+            public string Condition, BlockedKey;   // a door that is locked at times (the villagers' homes at night)
             public bool FacesSouth;       // door on the south wall (north row of buildings) or the north wall
         }
 
@@ -51,6 +53,18 @@ namespace Farm.Editor
             new Building { MapId = MapIds.Clinic, Style = "clinic",       Business = "clinic",     X0 = 31, X1 = 39, Y0 = 6,  Y1 = 11, DoorX = 35, FacesSouth = false },
             new Building { MapId = MapIds.CommunityHall, Style = "hall", Business = null,        X0 = 41, X1 = 48, Y0 = 6,  Y1 = 11, DoorX = 44, FacesSouth = false },
         };
+
+        // The villagers' cottages (NpcHomes) built like the shops: a door, windows, a nameplate, a chimney that smokes.
+        static IEnumerable<Building> VillageBuildings()
+        {
+            foreach (var b in Buildings) yield return b;
+            foreach (var h in NpcHomes.All)
+                yield return new Building
+                {
+                    MapId = h.Map, Style = h.Style, Business = null, X0 = h.X0, X1 = h.X1, Y0 = h.Y0, Y1 = h.Y1, DoorX = h.DoorX, FacesSouth = h.FacesSouth,
+                    Condition = NpcHomes.OpenCondition, BlockedKey = NpcHomes.LockedKey,
+                };
+        }
 
         // A piece of furniture in an interior. ShopId makes it a working counter.
         struct Prop
@@ -75,6 +89,8 @@ namespace Farm.Editor
             BuildWoods();
             BuildBeach();
             BuildMine();
+
+            foreach (var home in NpcHomes.All) BuildHome(home);
 
             BuildInterior(MapIds.GeneralStore, 12, 9, 5, new[]
             {
@@ -127,6 +143,30 @@ namespace Farm.Editor
                 new Prop("NookSeat", "obj_armchair", 10, 5, seatNpc: "hazel", seatKey: "nook"),
                 new Prop("BackShelf", "obj_shelf", 10, 7, curio: "backshelf"),
                 new Prop("HazelShelf", "obj_shelf", 1, 7, curio: "hazelshelf"),
+            });
+        }
+
+        // ---- the villagers' homes ----------------------------------------------------------------------------------
+
+        // What makes one room its own: two pieces of furniture, put in the two spare corners.
+        static readonly Dictionary<string, (string a, string b)> HomeExtras = new Dictionary<string, (string, string)>
+        {
+            { NpcIds.Tilda, ("obj_shelf", "obj_vase") }, { NpcIds.Bram, ("obj_table", "obj_clock") }, { NpcIds.Ione, ("obj_bookshelf", "obj_armchair") },
+            { NpcRoster.Marcus, ("obj_table", "obj_painting") }, { NpcRoster.Odalys, ("obj_vase", "obj_plant") }, { NpcRoster.Wren, ("obj_painting", "obj_chair") },
+            { NpcRoster.Felix, ("obj_bin", "obj_plant") }, { NpcRoster.Juno, ("obj_table", "obj_lamp") }, { NpcRoster.Hazel, ("obj_bookshelf", "obj_vase") },
+            { NpcRoster.Piper, ("obj_clock", "obj_armchair") }, { NpcRoster.Dorian, ("obj_bin", "obj_bookshelf") }, { NpcRoster.Elara, ("obj_plant", "obj_vase") },
+        };
+
+        // A one-room home, 10 x 8: a bed, a hearth, a table with two chairs, a shelf, and two things of the owner's. The owner stands at (3, 3).
+        static void BuildHome(NpcHomes.Home home)
+        {
+            var extras = HomeExtras[home.Npc];
+            BuildInterior(home.Map, NpcHomes.InteriorW, NpcHomes.InteriorH, NpcHomes.InteriorDoorX, new[]
+            {
+                new Prop("Bed", "obj_bed", 1, 6), new Prop("Hearth", "obj_fireplace", 4, 5, w: 2, h: 2),
+                new Prop("Table", "obj_dining_table", 7, 3), new Prop("ChairWest", "obj_chair", 6, 3), new Prop("ChairEast", "obj_chair", 8, 3),
+                new Prop("Shelf", "obj_bookshelf", 8, 6), new Prop("Plant", "obj_plant", 8, 1), new Prop("Lamp", "obj_lamp", 1, 2),
+                new Prop("OwnerA", extras.a, 1, 4), new Prop("OwnerB", extras.b, 8, 4),
             });
         }
 
@@ -299,8 +339,9 @@ namespace Farm.Editor
                     var onRoad = y >= RoadY0 && y <= RoadY1;
                     var onLane = x >= LaneX0 && x <= LaneX1;
                     var ground = onRoad || onLane ? "tile_cobble" : (x * 31 + y * 17) % 29 == 0 ? "tile_dirt" : "tile_grass";
-                    foreach (var b in Buildings)
-                        if (x == b.DoorX && InConnector(b, y)) ground = "tile_path";
+                    foreach (var b in VillageBuildings())
+                        if (x == b.DoorX && InConnector(b, y) && (!MapIds.IsHome(b.MapId) || b.Y0 == 22 || !b.FacesSouth)) ground = "tile_path";
+                    if (NpcHomes.IsCobbled(x, y)) ground = "tile_cobble";
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(ground));
                 }
 
@@ -323,7 +364,7 @@ namespace Farm.Editor
             AddWarp(Center(25, VillageH - 1), MapIds.Forest, "fromVillage", new Vector2(3f, 1f));
             AddWarp(Center(25, 0), MapIds.Beach, "fromVillage", new Vector2(3f, 1f));
 
-            foreach (var b in Buildings) PlaceBuilding(rig, b);
+            foreach (var b in VillageBuildings()) PlaceBuilding(rig, b);
             AddObject("HelpWantedBoard", "obj_board", Center(22, 19), solid: true).AddComponent<HelpWantedBoard>();
 
             // The traveling merchant's stall appears on some days only (the condition `merchant`).
@@ -343,6 +384,7 @@ namespace Farm.Editor
                 for (var x = 2; x < VillageW - 2; x++)
                 {
                     if (x < 50 && y < 36) continue;                                            // the original village
+                    if (NpcHomes.InStreet(x, y)) continue;                                      // the villagers' street
                     if (y >= RoadY0 - 1 && y <= RoadY1 + 1 || x >= LaneX0 - 1 && x <= LaneX1 + 1) continue;
                     var edgeBand = x >= VillageW - 6 || y >= VillageH - 6;
                     if ((x * 37 + y * 53) % (edgeBand ? 3 : 17) != 0) continue;
@@ -376,7 +418,7 @@ namespace Farm.Editor
             var top = AddDecorObject($"{b.MapId}_RoofTop", $"bld_{b.Style}_roof_top", Center(b.X1 - 1, roofY));
             var frame2 = AssetDatabase.LoadAssetAtPath<Sprite>($"{ArtDir}/bld_{b.Style}_roof_top2.png");
             if (frame2 != null) top.AddComponent<FrameAnimator>().Configure(new[] { Sprite($"bld_{b.Style}_roof_top"), frame2 }, 0.7f, b.X0 * 0.23f);   // a flag or vane that moves
-            else if (b.Style == "blacksmith" || b.Style == "saloon") top.AddComponent<RoofSmoke>();                                                   // a chimney that smokes
+            else if (b.Style == "blacksmith" || b.Style == "saloon" || b.Style.StartsWith("cottage")) top.AddComponent<RoofSmoke>();                                                   // a chimney that smokes
 
             // A tag beside the door: green when the business is open, red when it is closed.
             if (!string.IsNullOrEmpty(b.Business))
@@ -389,7 +431,7 @@ namespace Farm.Editor
 
             var outsideY = b.FacesSouth ? doorY - 1 : doorY + 1;
             AddSpawn("from" + b.MapId, Center(b.DoorX, outsideY));
-            AddWarp(Center(b.DoorX, doorY), b.MapId, "default", Vector2.one, business: b.Business);
+            AddWarp(Center(b.DoorX, doorY), b.MapId, "default", Vector2.one, business: b.Business, condition: b.Condition, blockedKey: b.BlockedKey);
         }
 
         // A picture on a building's wall: drawn over the wall tiles, not solid.

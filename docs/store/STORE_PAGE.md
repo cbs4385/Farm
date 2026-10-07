@@ -1,6 +1,6 @@
-# Store page draft (T-072)
+# Store page draft: Wetherell Farm Saga (T-072)
 
-Status: DRAFT text for the owner to edit. The title "Farm" is a working title (rename before the page goes up). Trademark and name checks for Nharoth, Wetherell, Harrow Wood and the Keepers of the Covenant are still to do (lore bible). No trailer, capsule art or real screenshots exist yet: the game still uses placeholder art and sound (T-060, T-061).
+Status: DRAFT text for the owner to edit. Title confirmed 2026-10-07: **Wetherell Farm Saga** (Steam app created). Trademark/name screening on 2026-10-07 found no conflicts for the full title in USPTO-indexed sources or on Steam (note: King's "Saga" mark family means a future USPTO *registration* could draw opposition; using the name on Steam is unaffected — this was a screening, not legal clearance). Name checks still open for Nharoth, Harrow Wood and the Keepers of the Covenant (lore bible). No trailer, capsule art or real screenshots exist yet: the game still uses placeholder art and sound (T-060, T-061).
 
 ## Short description (under 300 characters)
 Restore a run-down farm on the edge of a quiet New England village. Plant, fish, mine and make friends, and decide how much of the village's secret you want to know. An optional folk-horror story runs beneath the cozy surface: turn it up, down or off.

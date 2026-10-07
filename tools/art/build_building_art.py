@@ -159,6 +159,15 @@ def sign_cross():
     d.rectangle([4, 7, 11, 8], fill=hexc('#c0453f'))
     return im
 
+def sign_nameplate():
+    # A small plaque by a villager's front door.
+    im, d = canvas()
+    d.rectangle([4, 5, 11, 10], fill=hexc('#3a2414'))
+    d.rectangle([5, 6, 10, 9], fill=hexc('#d9c9a0'))
+    d.line([(6, 7), (9, 7)], fill=hexc('#7a5230'))
+    d.line([(6, 8), (8, 8)], fill=hexc('#7a5230'))
+    return im
+
 def sign_flag():
     im, d = board('#d9c48a', '#6a4a22')
     d.line([(5, 4), (5, 11)], fill=hexc('#5a3a1a'))
@@ -252,6 +261,19 @@ BUILDINGS = {
                       window=lambda: window('#9a8a68', '#f0d890', arch=True), sign=sign_flag, top=lambda: top_banner('#6a4a8a'), top2=lambda: top_banner('#6a4a8a', 1)),
 }
 
+# The villagers' cottages (playtest 2026-10-07: they should live in homes): four colourings of the same small house.
+COTTAGES = {
+    'cottage1': dict(wall=lambda: wall_plaster('#efe4cc', '#b8864f'), roof=lambda: roof('#b5532f', '#7a3418'),
+                     window=lambda: window('#8a5a2e', '#a8d8e8', shutters='#3f7a4a'), sign=sign_nameplate, top=lambda: top_chimney(True)),
+    'cottage2': dict(wall=lambda: wall_horizontal_planks('#d9b98a', '#b08a58'), roof=lambda: roof('#4a6a8a', '#2c4258'),
+                     window=lambda: window('#f0e6c8', '#9ad0e0', shutters='#b5532f'), sign=sign_nameplate, top=lambda: top_chimney(True)),
+    'cottage3': dict(wall=lambda: wall_blocks('#b8a888', '#8a7a5c'), roof=lambda: roof('#3f7a4a', '#2c5a35'),
+                     window=lambda: window('#e8dcc0', '#a8d0e8', shutters='#6a4a8a'), sign=sign_nameplate, top=lambda: top_chimney(True)),
+    'cottage4': dict(wall=lambda: wall_vertical_planks('#9a6a4a', '#74482e'), roof=lambda: roof('#8a6a3a', '#5a4220'),
+                     window=lambda: window('#3a2414', '#f0c860', shutters='#c8a040'), sign=sign_nameplate, top=lambda: top_chimney(True)),
+}
+BUILDINGS.update(COTTAGES)
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     count = 0
@@ -269,7 +291,7 @@ def main():
     print(f'wrote {count} sprites to {os.path.abspath(OUT)}')
 
     # A contact sheet for a person to look at: each building as it will be placed (roof row, wall rows, windows, sign).
-    sheet = Image.new('RGBA', (8 + 7 * 80, 16 * 5 + 16), (110, 170, 90, 255))
+    sheet = Image.new('RGBA', (8 + len(BUILDINGS) * 80, 16 * 5 + 16), (110, 170, 90, 255))
     for i, (key, b) in enumerate(BUILDINGS.items()):
         ox, oy = 8 + i * 80, 8
         roof_t, wall_t = b['roof'](), b['wall']()

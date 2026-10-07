@@ -1,6 +1,6 @@
 # Privacy policy (DRAFT: needs legal review before publishing)
 
-Farm is a single-player game. It does not collect, transmit or sell personal data and contains no analytics, advertising or accounts of its own.
+Wetherell Farm Saga is a single-player game. It does not collect, transmit or sell personal data and contains no analytics, advertising or accounts of its own.
 
 - **What is stored on your device:** save games, settings and a diagnostic log (`logs/farm.log`, errors only), under the game's data folder. Nothing is sent anywhere by the game.
 - **Steam:** if you run the game through Steam, Steam handles your account, achievements and cloud saves under Steam's own privacy policy. The game works without Steam.

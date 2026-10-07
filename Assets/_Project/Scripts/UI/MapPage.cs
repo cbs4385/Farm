@@ -166,8 +166,8 @@ namespace Farm.UI
             {
                 var built = spot.UnlockFlag == null || session.HasFlag(spot.UnlockFlag);
                 if (spot.Map == here)
-                    Box(_places, "Here_" + spot.Map, spot.Position.x - 17f, spot.Position.y - 17f, spot.Position.x + 17f, spot.Position.y + 17f, new Color(0.99f, 0.80f, 0.25f, 0.9f));
-                var icon = Picture(_places, "Spot_" + spot.Map, spot.Icon, spot.Position, WorldMapLayout.IconSize);
+                    Box(_places, "Here_" + spot.Map, spot.Position.x - spot.Size * 0.6f, spot.Position.y - spot.Size * 0.6f, spot.Position.x + spot.Size * 0.6f, spot.Position.y + spot.Size * 0.6f, new Color(0.99f, 0.80f, 0.25f, 0.9f));
+                var icon = Picture(_places, "Spot_" + spot.Map, spot.Icon, spot.Position, spot.Size);
                 icon.color = built ? Color.white : new Color(1f, 1f, 1f, 0.45f);
                 icon.raycastTarget = true;
                 Hover(icon.gameObject, spot, true);
@@ -180,7 +180,8 @@ namespace Farm.UI
             if (at.HasValue)
             {
                 var indoors = !(here == MapIds.Farm || here == MapIds.Village || here == MapIds.Forest || here == MapIds.Beach);
-                var pin = Picture(_places, "YouAreHere", "ui_map_here", at.Value + new Vector2(0f, indoors ? WorldMapLayout.IconSize * 0.9f : 10f), 22f);
+                var spotSize = spots.FirstOrDefault(sp => sp.Map == here)?.Size ?? WorldMapLayout.IconSize;
+                var pin = Picture(_places, "YouAreHere", "ui_map_here", at.Value + new Vector2(0f, indoors ? spotSize * 0.9f : 10f), 22f);
                 pin.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             }
         }
@@ -208,6 +209,7 @@ namespace Farm.UI
             var text = L.Get("map." + spot.Map);
             if (spot.UnlockFlag != null && !session.HasFlag(spot.UnlockFlag)) text += "\n" + L.Get("map.not_built");
             else if (!string.IsNullOrEmpty(spot.Business)) text += "\n" + L.Get(BusinessHoursRegistry.IsOpen(spot.Business, session.Clock.Now) ? "map.open" : "map.closed");
+            else if (!string.IsNullOrEmpty(spot.Condition)) text += "\n" + L.Get(Conditions.TryEvaluate(spot.Condition, session.World, out var open) && open ? "map.home_open" : "map.home_closed");
             var names = session.Npcs.All
                 .Where(npc => session.State.Npcs.TryGetValue(npc.Id, out var s) && s.Met && NpcLocator.MapOf(session, npc) == spot.Map)
                 .Select(npc => L.Get(npc.NameKey)).ToList();

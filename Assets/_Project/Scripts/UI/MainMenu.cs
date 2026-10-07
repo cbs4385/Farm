@@ -24,7 +24,10 @@ namespace Farm.UI
             UiKit.Place((RectTransform)stack.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(320, 430), Vector2.zero);
 
             var title = UiKit.Label(stack.transform, L.Get("game.title"), 54f, TextAlignmentOptions.Center, UiKit.Accent);
-            UiKit.Size(title.gameObject, -1f, 90f);
+            title.enableAutoSizing = true;                                  // "Wetherell Farm Saga" is longer than the old title: two lines at a size that fits
+            title.fontSizeMin = 24f; title.fontSizeMax = 54f;
+            title.textWrappingMode = TextWrappingModes.Normal;
+            UiKit.Size(title.gameObject, -1f, 110f);
             _continue = UiKit.MakeButton(stack.transform, L.Get("menu.continue"), Continue, 260f, 40f);
             UiKit.MakeButton(stack.transform, L.Get("menu.new_game"), () => _newGame.Open(), 260f, 40f);
             UiKit.MakeButton(stack.transform, L.Get("menu.load_game"), () => _load.Open(), 260f, 40f);

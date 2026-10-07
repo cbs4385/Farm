@@ -36,8 +36,8 @@ namespace Farm.Gameplay
         // ---- Tilda: shopkeeper. Open 09:00-17:00, closed Sunday. Warm and chatty; first neighbour the player meets. ----
         static NpcDefinition Tilda()
         {
-            var home = Stop(Six, MapIds.GeneralStore, 6, 3);
-            return NpcDefinition.Create(NpcIds.Tilda, Season.Spring, 12, MapIds.GeneralStore, 6, 3, romanceable: false, business: "general")
+            var home = NpcHomes.Stop(Six, NpcIds.Tilda);
+            return NpcDefinition.Create(NpcIds.Tilda, Season.Spring, 12, MapIds.HomeTilda, NpcHomes.StandX, NpcHomes.StandY, romanceable: false, business: "general")
                 .WithTastes(
                     loved: new[] { "crop.strawberry", "forage.elderflower", "food.pumpkin_pie" },
                     liked: new[] { "crop.cauliflower", "crop.potato", "forage.raspberry" },
@@ -46,58 +46,58 @@ namespace Farm.Gameplay
                 .WithSchedule(new[]
                 {
                     // Rainy Sundays she stays upstairs with a book.
-                    Day("rainy_sunday", "weekday:sun && weather:rain", 10, home, Stop(Ten, MapIds.GeneralStore, 6, 3)),
+                    Day("rainy_sunday", "weekday:sun && weather:rain", 10, home, NpcHomes.Stop(Ten, NpcIds.Tilda)),
                     Day("sunday", "weekday:sun", 5, home,
                         Stop(10 * 60, MapIds.Beach, 14, 12, "up"), Stop(15 * 60, MapIds.Village, 25, 20, "down"),
-                        Stop(Seven, MapIds.Saloon, 6, 4, "up"), Stop(Ten, MapIds.GeneralStore, 6, 3)),
+                        Stop(Seven, MapIds.Saloon, 6, 4, "up"), NpcHomes.Stop(Ten, NpcIds.Tilda)),
                     Day("workday", null, 0, home,
-                        Stop(Eight40, MapIds.GeneralStore, 7, 5, "down"), Stop(Half5, MapIds.Village, 25, 20, "down"),
-                        Stop(Seven, MapIds.Saloon, 6, 4, "up"), Stop(Ten, MapIds.GeneralStore, 6, 3)),
+                        NpcHomes.Depart(Eight40, NpcIds.Tilda, MapIds.GeneralStore, 7, 5), Stop(Half5, MapIds.Village, 25, 20, "down"),
+                        Stop(Seven, MapIds.Saloon, 6, 4, "up"), NpcHomes.Stop(Ten, NpcIds.Tilda)),
                 });
         }
 
         // ---- Bram: blacksmith. Open 09:00-17:00, closed Monday. Gruff, loves a good mushroom. ----
         static NpcDefinition Bram()
         {
-            var home = Stop(Six, MapIds.Blacksmith, 6, 3);
-            return NpcDefinition.Create(NpcIds.Bram, Season.Fall, 4, MapIds.Blacksmith, 6, 3, romanceable: false, business: "blacksmith")
+            var home = NpcHomes.Stop(Six, NpcIds.Bram);
+            return NpcDefinition.Create(NpcIds.Bram, Season.Fall, 4, MapIds.HomeBram, NpcHomes.StandX, NpcHomes.StandY, romanceable: false, business: "blacksmith")
                 .WithTastes(
                     loved: new[] { "forage.truffle", "forage.mushroom", "food.roasted_roots" },
                     liked: new[] { "resource.copperbar", "forage.hazelnut", "crop.potato" },
                     disliked: new[] { "forage.dandelion", "crop.kale", "fish.pufferfish" })
                 .WithSchedule(new[]
                 {
-                    Day("rainy_day_off", "weekday:mon && weather:rain", 10, home, Stop(Nine, MapIds.Blacksmith, 6, 3)),
+                    Day("rainy_day_off", "weekday:mon && weather:rain", 10, home, NpcHomes.Stop(Nine, NpcIds.Bram)),
                     Day("day_off", "weekday:mon", 5, home,
                         Stop(10 * 60, MapIds.Forest, 19, 10, "up"), Stop(14 * 60, MapIds.Village, 30, 17, "left"),
-                        Stop(18 * 60, MapIds.Saloon, 7, 4, "up"), Stop(Nine, MapIds.Blacksmith, 6, 3)),
+                        Stop(18 * 60, MapIds.Saloon, 7, 4, "up"), NpcHomes.Stop(Nine, NpcIds.Bram)),
                     Day("workday", null, 0, home,
-                        Stop(Eight50, MapIds.Blacksmith, 6, 4, "down"), Stop(Half5, MapIds.Saloon, 7, 4, "up"),
-                        Stop(Nine, MapIds.Blacksmith, 6, 3)),
+                        NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Half5, MapIds.Saloon, 7, 4, "up"),
+                        NpcHomes.Stop(Nine, NpcIds.Bram)),
                 });
         }
 
         // ---- Ione: librarian. Open 09:00-17:00, closed Saturday. Quiet; likes the sea and the first snow. ----
         static NpcDefinition Ione()
         {
-            var home = Stop(Six, MapIds.Library, 7, 3);
-            return NpcDefinition.Create(NpcIds.Ione, Season.Winter, 20, MapIds.Library, 7, 3, romanceable: true, business: "library")
+            var home = NpcHomes.Stop(Six, NpcIds.Ione);
+            return NpcDefinition.Create(NpcIds.Ione, Season.Winter, 20, MapIds.HomeIone, NpcHomes.StandX, NpcHomes.StandY, romanceable: true, business: "library")
                 .WithTastes(
                     loved: new[] { "forage.pearl", "forage.snowdrop", "forage.elderflower" },
                     liked: new[] { "forage.seashell", "crop.kale", "forage.blackberry" },
                     disliked: new[] { "resource.stone", "resource.wood", "resource.coal" })
                 .WithSchedule(new[]
                 {
-                    Day("rainy_saturday", "weekday:sat && weather:rain", 10, home, Stop(Ten, MapIds.Library, 7, 3)),
+                    Day("rainy_saturday", "weekday:sat && weather:rain", 10, home, NpcHomes.Stop(Ten, NpcIds.Ione)),
                     Day("saturday", "weekday:sat", 5, home,
                         Stop(10 * 60, MapIds.Forest, 19, 15, "up"), Stop(15 * 60, MapIds.Village, 21, 17, "right"),
-                        Stop(Ten, MapIds.Library, 7, 3)),
+                        NpcHomes.Stop(Ten, NpcIds.Ione)),
                     Day("summer_evenings", "season:summer", 3, home,
-                        Stop(Eight50, MapIds.Library, 7, 5, "down"), Stop(Half5, MapIds.Beach, 20, 9, "up"),
-                        Stop(Nine, MapIds.Library, 7, 3)),
+                        NpcHomes.Depart(Eight50, NpcIds.Ione, MapIds.Library, 7, 5), Stop(Half5, MapIds.Beach, 20, 9, "up"),
+                        NpcHomes.Stop(Nine, NpcIds.Ione)),
                     Day("workday", null, 0, home,
-                        Stop(Eight50, MapIds.Library, 7, 5, "down"), Stop(Half5, MapIds.Village, 21, 17, "right"),
-                        Stop(Nine, MapIds.Library, 7, 3)),
+                        NpcHomes.Depart(Eight50, NpcIds.Ione, MapIds.Library, 7, 5), Stop(Half5, MapIds.Village, 21, 17, "right"),
+                        NpcHomes.Stop(Nine, NpcIds.Ione)),
                 });
         }
     }
