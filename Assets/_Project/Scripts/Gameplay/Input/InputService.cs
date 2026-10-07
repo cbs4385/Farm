@@ -25,6 +25,7 @@ namespace Farm.Gameplay
         public InputAction Move => Gameplay[InputNames.Move];
         public InputAction UseTool => Gameplay[InputNames.UseTool];
         public InputAction Interact => Gameplay[InputNames.Interact];
+        public InputAction Rotate => Gameplay[InputNames.Rotate];
         public InputAction HotbarNext => Gameplay[InputNames.HotbarNext];
         public InputAction HotbarPrev => Gameplay[InputNames.HotbarPrev];
         public InputAction Inventory => Gameplay[InputNames.Inventory];

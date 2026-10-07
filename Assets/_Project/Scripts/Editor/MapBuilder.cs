@@ -193,7 +193,7 @@ namespace Farm.Editor
             new Furnishing("Lamp", "obj_lamp", 3, 7), new Furnishing("Painting", "obj_painting", 4, 7), new Furnishing("Clock", "obj_clock", 7, 7),
             new Furnishing("Bookshelf", "obj_bookshelf", 8, 7), new Furnishing("Wardrobe", "obj_wardrobe", 10, 7),
             new Furnishing("BookshelfEast", "obj_bookshelf", 10, 5), new Furnishing("PlantEast", "obj_plant", 10, 2),
-            new Furnishing("Couch", "obj_couch", 1, 4), new Furnishing("Armchair", "obj_armchair", 6, 4), new Furnishing("PlantWest", "obj_plant", 1, 1),
+            new Furnishing("Couch", "obj_couch", 1, 4, 2, 1), new Furnishing("Armchair", "obj_armchair", 6, 4), new Furnishing("PlantWest", "obj_plant", 1, 1),
             new Furnishing("DiningTable", "obj_dining_table", 8, 3), new Furnishing("ChairWest", "obj_chair", 7, 3), new Furnishing("ChairEast", "obj_chair", 9, 3),
             new Furnishing("Vase", "obj_vase", 10, 1), new Furnishing("Bench", "obj_bench", 8, 1),
         };

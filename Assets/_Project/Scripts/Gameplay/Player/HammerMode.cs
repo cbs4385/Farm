@@ -12,6 +12,7 @@ namespace Farm.Gameplay
     public sealed class HammerMode : MonoBehaviour
     {
         enum Kind { None, Building, Fixture, Placed }
+        int _turns;                                 // quarter turns the carried piece will be put down with
 
         static readonly Color Good = new Color(0.45f, 0.95f, 0.45f, 0.55f);
         static readonly Color Bad = new Color(0.95f, 0.35f, 0.35f, 0.55f);
@@ -43,8 +44,20 @@ namespace Farm.Gameplay
         {
             if (!Carrying) return;
             if (_session == null || !_session.InGame || !HoldingTheMallet()) { Cancel(); return; }
+            if (ServiceLocator.TryGet<InputService>(out var input) && input.Rotate.WasPressedThisFrame()) Rotate();
             ShowGhost(_actions.Target);
         }
+
+        // Turns what is carried a quarter turn (R). Buildings, and anything but furniture that was set down, do not turn. Returns whether it turned.
+        public bool Rotate()
+        {
+            if (!CanTurn()) return false;
+            _turns = (_turns + 1) & 3;
+            AudioService.PlayIfAvailable(Sfx.Plant, 0.5f, 1.2f);
+            return true;
+        }
+
+        bool CanTurn() => _kind == Kind.Fixture || (_kind == Kind.Placed && _placed != null && _session.Placeables.Get(_placed.TypeId) is PlaceableDefinition def && def.Kind == PlaceableKind.Decor);
 
         bool HoldingTheMallet()
         {
@@ -63,6 +76,7 @@ namespace Farm.Gameplay
         void LiftAt(Vector3Int cell)
         {
             _origin = cell;
+            _turns = 0;
             // A building (on the farm).
             var buildings = FindFirstObjectByType<FarmBuildingsView>();
             if (buildings != null)
@@ -88,8 +102,9 @@ namespace Farm.Gameplay
                 _fixture = lifted;
                 _picture = lifted.GetComponentInChildren<SpriteRenderer>()?.sprite;
                 _origin = lifted.Cell(_map);
+                _turns = lifted.Turns;
                 lifted.SetCarried(true);
-                Told("build.lifted");
+                Told("build.lifted_turn");
                 return;
             }
             // Something set down (a chest, a machine, furniture).
@@ -99,10 +114,11 @@ namespace Farm.Gameplay
             {
                 _kind = Kind.Placed;
                 _placed = placed;
+                _turns = placed.Turns;
                 var actor = PlacedObjectsView.Current != null ? PlacedObjectsView.Current.At(cell) : null;
                 _picture = actor != null ? actor.GetComponent<SpriteRenderer>().sprite : null;
                 if (actor != null) PlacedObjectsView.Current.Despawn(placed.Id);
-                Told("build.lifted");
+                Told(CanTurn() ? "build.lifted_turn" : "build.lifted");
                 return;
             }
             _session.Toast(L.Get("build.nothing"));
@@ -126,11 +142,13 @@ namespace Farm.Gameplay
                 }
                 case Kind.Fixture:
                     _fixture.SetCarried(false);
+                    _fixture.Turns = _turns;
                     _fixture.Place(_map, cell);
                     _fixture.Remember(_session, _map, cell);
                     break;
                 case Kind.Placed:
                     _session.GetObjects(_map.MapId).Move(_placed.Id, cell.x, cell.y);
+                    _placed.Turns = _turns;
                     PlacedObjectsView.Current?.Spawn(_placed);
                     break;
             }
@@ -182,7 +200,7 @@ namespace Farm.Gameplay
                     return result == FarmBuildings.Placement.Ok ? null : "build.refused." + result.ToString().ToLowerInvariant();
                 }
                 case Kind.Fixture:
-                    foreach (var c in _fixture.Footprint(cell))
+                    foreach (var c in _fixture.Footprint(cell, _turns))
                     {
                         var refused = WhyNotOnCell(c, _fixture.Walkable, ignoreBodies: _fixture.Walkable);
                         if (refused != null) return refused;
@@ -245,7 +263,8 @@ namespace Farm.Gameplay
             if (_kind == Kind.Fixture && _fixture.Size != Vector2Int.one)       // one picture, as big as the piece, instead of a square per cell
             {
                 var big = EnsureGhost(0);
-                big.transform.position = _fixture.CenterAt(_map, cell);
+                big.transform.rotation = Quaternion.Euler(0f, 0f, 90f * _turns);
+                big.transform.position = _fixture.CenterAt(_map, cell, _turns);
                 big.sprite = _picture != null ? _picture : _square;
                 big.color = new Color(color.r, color.g, color.b, 0.85f);
                 for (var i = 1; i < _ghost.Count; i++) _ghost[i].gameObject.SetActive(false);
@@ -256,6 +275,7 @@ namespace Farm.Gameplay
             {
                 var r = EnsureGhost(i);
                 r.transform.position = _map.CellCenter(cells[i]);
+                r.transform.rotation = _kind == Kind.Building ? Quaternion.identity : Quaternion.Euler(0f, 0f, 90f * _turns);
                 r.sprite = _kind != Kind.Building && _picture != null ? _picture : _square;
                 r.color = _kind != Kind.Building && _picture != null ? new Color(color.r, color.g, color.b, 0.85f) : color;
             }

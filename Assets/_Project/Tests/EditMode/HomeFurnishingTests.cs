@@ -54,6 +54,39 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheCouch_IsDrawnAsACouch_TwoCellsWide_NotATealSmudge()
+        {
+            var scene = EditorSceneManager.OpenScene($"{SceneDir}/{MapIds.FarmHouse}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);
+            var couch = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<MovableFixture>(true)).Single(f => f.Id == "furn_couch");
+            var sprite = couch.GetComponent<SpriteRenderer>().sprite;
+            Assert.AreEqual("obj_couch", sprite.name);
+            Assert.AreEqual(32, (int)sprite.rect.width, "two cells wide");
+            Assert.AreEqual(16, (int)sprite.rect.height);
+            Assert.AreEqual(new Vector2Int(2, 1), couch.Size);
+            Assert.AreEqual(new Vector2(2f, 1f), couch.GetComponent<BoxCollider2D>().size);
+        }
+
+        [Test]
+        public void ATurnedFixture_SwapsItsWidthAndHeight_AndKeepsTheTurnsInRange()
+        {
+            var go = new GameObject("fixture");
+            try
+            {
+                var f = go.AddComponent<MovableFixture>();
+                f.Size = new Vector2Int(2, 1);
+                CollectionAssert.AreEquivalent(new[] { new Vector3Int(3, 4, 0), new Vector3Int(4, 4, 0) }, f.Footprint(new Vector3Int(3, 4, 0), 0).ToArray());
+                CollectionAssert.AreEquivalent(new[] { new Vector3Int(3, 4, 0), new Vector3Int(3, 5, 0) }, f.Footprint(new Vector3Int(3, 4, 0), 1).ToArray());
+                CollectionAssert.AreEquivalent(f.Footprint(new Vector3Int(3, 4, 0), 0), f.Footprint(new Vector3Int(3, 4, 0), 2), "half a turn is the same cells");
+                f.Turns = 5;
+                Assert.AreEqual(1, f.Turns, "turns wrap round");
+                Assert.AreEqual(new Vector2Int(1, 2), f.CurrentSize);
+                Assert.AreEqual(0, new FixtureState().Turns, "older saves have no turns");
+                Assert.AreEqual(0, new PlacedObject().Turns);
+            }
+            finally { Object.DestroyImmediate(go); }
+        }
+
+        [Test]
         public void TheShippingBin_IsAMovable_TwoByTwoPiece()
         {
             var scene = EditorSceneManager.OpenScene($"{SceneDir}/{MapIds.Farm}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);

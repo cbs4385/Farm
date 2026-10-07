@@ -107,6 +107,7 @@ namespace Farm.Gameplay
 
             if (_input.UseTool.WasPressedThisFrame() && !ClickLandedOnTheHud()) { if (MouseClicked && ClickUsesTheHand()) Interact(); else UseSelected(); }
             if (_input.Interact.WasPressedThisFrame()) Interact();
+            if (_input.Rotate.WasPressedThisFrame()) TurnPlacement();
 
             if (_input.Inventory.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui)) ui.ToggleInventory();
             if (_input.Pause.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui2)) ui2.ShowPause();
@@ -116,6 +117,7 @@ namespace Farm.Gameplay
 
         void SelectHotbar(int slot)
         {
+            _placeTurns = 0;
             Session.State.SelectedHotbar = Mathf.Clamp(slot, 0, InputNames.HotbarSlots - 1);
             ServiceLocator.Get<EventBus>().Publish(new StatsChanged());
         }
@@ -366,6 +368,21 @@ namespace Farm.Gameplay
 
         // ---- placing objects, fertilizer ------------------------------------------------------------------------------------
 
+        // Quarter turns the next piece of furniture from the hotbar will be set down with (R turns it; picking another slot resets it).
+        int _placeTurns;
+
+        public int PlacementTurns => _placeTurns;
+
+        // R with furniture in hand turns it before it is set down. Does nothing while the mallet is carrying something (it turns that instead).
+        public void TurnPlacement()
+        {
+            if (GetComponent<HammerMode>() is HammerMode hammer && hammer.Carrying) return;
+            var stack = Session.Backpack.Get(Session.State.SelectedHotbar);
+            if (stack == null || !Session.Db.TryGetItem(stack.ItemId, out var item) || item.Category != ItemCategory.Furniture) return;
+            _placeTurns = (_placeTurns + 1) & 3;
+            Session.Toast(L.Get("placeable.turned", _placeTurns * 90));
+        }
+
         void PlaceObject(ItemDefinition item)
         {
             var def = Session.Placeables.Get(item.PlaceableId);
@@ -387,6 +404,7 @@ namespace Farm.Gameplay
             }
             var placed = objects.Place(def, cell.x, cell.y, System.Guid.NewGuid().ToString("N").Substring(0, 10));
             if (placed == null) return;
+            if (def.Kind == PlaceableKind.Decor) placed.Turns = _placeTurns;
             Session.Backpack.Remove(item.Id, 1);
             PlacedObjectsView.Current?.Spawn(placed);
             AudioService.PlayIfAvailable(Sfx.Plant);

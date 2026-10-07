@@ -21,6 +21,7 @@ namespace Farm.Gameplay
             Definition = def;
             name = $"{def.Id}_{obj.Id}";
             transform.position = position;
+            transform.rotation = Quaternion.Euler(0f, 0f, 90f * (obj.Turns & 3));
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.sprite = def.Sprite;
             _renderer.sortingOrder = 4;

@@ -19,10 +19,18 @@ namespace Farm.Gameplay
         public Vector2Int SpawnOffset { get => _spawnOffset; set => _spawnOffset = value; }
         public Vector2Int Size { get => new Vector2Int(Mathf.Max(1, _size.x), Mathf.Max(1, _size.y)); set => _size = value; }
 
+        // Quarter turns the player has given it (0 to 3, counter-clockwise). A turn swaps its width and height; its picture and collider turn with it.
+        [SerializeField] int _turns;
+        public int Turns { get => _turns & 3; set => _turns = value & 3; }
+        public Vector2Int SizeFor(int turns) => (turns & 1) == 0 ? Size : new Vector2Int(Size.y, Size.x);
+        public Vector2Int CurrentSize => SizeFor(Turns);
+
         // The cells it covers when its saved cell is `origin`.
-        public System.Collections.Generic.IEnumerable<Vector3Int> Footprint(Vector3Int origin)
+        public System.Collections.Generic.IEnumerable<Vector3Int> Footprint(Vector3Int origin) => Footprint(origin, Turns);
+
+        public System.Collections.Generic.IEnumerable<Vector3Int> Footprint(Vector3Int origin, int turns)
         {
-            var size = Size;
+            var size = SizeFor(turns);
             for (var y = 0; y < size.y; y++)
                 for (var x = 0; x < size.x; x++) yield return origin + new Vector3Int(x, y, 0);
         }
@@ -34,18 +42,25 @@ namespace Farm.Gameplay
         }
 
         // Where its middle stands when the saved cell is `origin`.
-        public Vector3 CenterAt(FarmMap map, Vector3Int origin) => map.CellCenter(origin) + new Vector3((Size.x - 1) * 0.5f, (Size.y - 1) * 0.5f, 0f);
+        public Vector3 CenterAt(FarmMap map, Vector3Int origin) => CenterAt(map, origin, Turns);
+
+        public Vector3 CenterAt(FarmMap map, Vector3Int origin, int turns)
+        {
+            var size = SizeFor(turns);
+            return map.CellCenter(origin) + new Vector3((size.x - 1) * 0.5f, (size.y - 1) * 0.5f, 0f);
+        }
 
         // Moves the fixture to the cell the save says (when it says anything).
         public void Apply(GameSession session, FarmMap map)
         {
             foreach (var f in session.State.Fixtures)
-                if (f.Map == map.MapId && f.Id == _id) { Place(map, new Vector3Int(f.X, f.Y, 0)); return; }
+                if (f.Map == map.MapId && f.Id == _id) { Turns = f.Turns; Place(map, new Vector3Int(f.X, f.Y, 0)); return; }
         }
 
         // Puts it on a cell and moves its spawn point; the caller records it with Remember.
         public void Place(FarmMap map, Vector3Int cell)
         {
+            transform.rotation = Quaternion.Euler(0f, 0f, 90f * Turns);
             transform.position = CenterAt(map, cell);
             if (string.IsNullOrEmpty(_spawnId)) return;
             foreach (var sp in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None))
@@ -57,7 +72,7 @@ namespace Farm.Gameplay
             var list = session.State.Fixtures;
             var entry = list.Find(f => f.Map == map.MapId && f.Id == _id);
             if (entry == null) { entry = new FixtureState { Map = map.MapId, Id = _id }; list.Add(entry); }
-            entry.X = cell.x; entry.Y = cell.y;
+            entry.X = cell.x; entry.Y = cell.y; entry.Turns = Turns;
         }
 
         // While it is being carried it is neither seen nor in the way.
@@ -67,6 +82,10 @@ namespace Farm.Gameplay
             foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = !carried;
         }
 
-        public Vector3Int Cell(FarmMap map) => map.WorldToCell(transform.position - new Vector3((Size.x - 1) * 0.5f, (Size.y - 1) * 0.5f, 0f));
+        public Vector3Int Cell(FarmMap map)
+        {
+            var size = CurrentSize;
+            return map.WorldToCell(transform.position - new Vector3((size.x - 1) * 0.5f, (size.y - 1) * 0.5f, 0f));
+        }
     }
 }

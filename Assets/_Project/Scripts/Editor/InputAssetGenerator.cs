@@ -49,6 +49,7 @@ namespace Farm.Editor
 
             Button(map, InputNames.UseTool, ("<Mouse>/leftButton", Kbm), ("<Keyboard>/c", Kbm), ("<Gamepad>/buttonWest", Pad));
             Button(map, InputNames.Interact, ("<Keyboard>/e", Kbm), ("<Mouse>/rightButton", Kbm), ("<Gamepad>/buttonSouth", Pad));
+            Button(map, InputNames.Rotate, ("<Keyboard>/r", Kbm), ("<Gamepad>/buttonEast", Pad));
             Button(map, InputNames.HotbarNext, ("<Mouse>/scroll/up", Kbm), ("<Keyboard>/period", Kbm), ("<Gamepad>/rightShoulder", Pad));
             Button(map, InputNames.HotbarPrev, ("<Mouse>/scroll/down", Kbm), ("<Keyboard>/comma", Kbm), ("<Gamepad>/leftShoulder", Pad));
             Button(map, InputNames.Inventory, ("<Keyboard>/tab", Kbm), ("<Keyboard>/i", Kbm), ("<Gamepad>/buttonNorth", Pad));

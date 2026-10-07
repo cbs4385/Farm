@@ -11,6 +11,7 @@ namespace Farm.Gameplay
     {
         public string Map, Id;
         public int X, Y;
+        public int Turns;                 // quarter turns, 0 to 3 (the older saves have none: 0)
     }
 
     [Serializable]

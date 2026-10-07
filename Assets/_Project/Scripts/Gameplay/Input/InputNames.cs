@@ -11,6 +11,7 @@ namespace Farm.Gameplay
         public const string Move = "Move";
         public const string UseTool = "UseTool";
         public const string Interact = "Interact";
+        public const string Rotate = "Rotate";
         public const string HotbarNext = "HotbarNext";
         public const string HotbarPrev = "HotbarPrev";
         public const string Inventory = "Inventory";
@@ -33,7 +34,7 @@ namespace Farm.Gameplay
         // Actions the player may rebind from the options screen (button actions only).
         public static readonly string[] Rebindable =
         {
-            UseTool, Interact, Inventory, Menu, Journal, HotbarPrev, HotbarNext,
+            UseTool, Interact, Rotate, Inventory, Menu, Journal, HotbarPrev, HotbarNext,
         };
     }
 }

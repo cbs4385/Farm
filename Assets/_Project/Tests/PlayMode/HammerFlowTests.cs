@@ -202,6 +202,73 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator TheCouch_CanBeTurned_WhileCarried_AndStaysTurned()
+        {
+            yield return Start(MapIds.FarmHouse);
+            var couch = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "furn_couch");
+            _hammer.Use(couch.Cell(_map));
+            Assert.IsTrue(_hammer.Carrying);
+            Assert.IsTrue(_hammer.Rotate(), "R turns what is carried");
+            var target = new Vector3Int(9, 5, 0);                               // a free spot: the turned couch stands two cells high
+            _hammer.Use(target);
+            Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
+            Assert.AreEqual(1, couch.Turns);
+            Assert.AreEqual(new Vector2Int(1, 2), couch.CurrentSize);
+            Assert.AreEqual(target, couch.Cell(_map));
+            Assert.AreEqual(90f, couch.transform.eulerAngles.z, 0.1f, "its picture turned too");
+            Physics2D.SyncTransforms();
+            Assert.IsNotNull(Physics2D.OverlapPoint(_map.CellCenter(new Vector3Int(9, 6, 0))), "and so did its collider: it now covers the cell above");
+            Assert.IsNull(Physics2D.OverlapPoint(_map.CellCenter(new Vector3Int(8, 5, 0))), "and no longer the cell beside");
+
+            yield return Start(MapIds.FarmHouse);
+            var again = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "furn_couch");
+            Assert.AreEqual(1, again.Turns, "the turn is saved");
+            Assert.AreEqual(target, again.Cell(_map));
+        }
+
+        [UnityTest]
+        public IEnumerator ABuilding_CannotBeTurned()
+        {
+            yield return Start(MapIds.Farm);
+            ClearPatch(50, 25, 70, 40);
+            var at = FarmBuildings.Find(_s.State, "barn");
+            _hammer.Use(new Vector3Int(at.X, at.Y + 1, 0));
+            Assert.IsTrue(_hammer.Carrying);
+            Assert.IsFalse(_hammer.Rotate());
+            Assert.IsTrue(_hammer.Cancel());
+        }
+
+        [UnityTest]
+        public IEnumerator FurnitureFromTheHotbar_IsSetDownTurned_AfterR()
+        {
+            yield return Start(MapIds.FarmHouse);
+            var actions = _hammer.GetComponent<PlayerActions>();
+            var id = ItemIds.Machine(CraftingDefaults.Decor[0].id);
+            _s.Backpack.Add(id, 2);
+            var slot = Enumerable.Range(0, _s.Backpack.Capacity).First(i => _s.Backpack.Get(i)?.ItemId == id);
+            _s.State.SelectedHotbar = slot;
+            actions.TurnPlacement();
+            Assert.AreEqual(1, actions.PlacementTurns);
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+            player.Teleport(new Vector3(6.5f, 2.5f, 0f));
+            player.Face(Vector2Int.right);
+            yield return null;
+            actions.UseSelected();
+            var placed = _s.GetObjects(MapIds.FarmHouse).At(7, 2);
+            Assert.IsNotNull(placed, "it was set down in front of the player");
+            Assert.AreEqual(1, placed.Turns);
+            Assert.AreEqual(90f, PlacedObjectsView.Current.At(new Vector3Int(7, 2, 0)).transform.eulerAngles.z, 0.1f);
+
+            // The mallet can turn it again and it keeps that turn.
+            _hammer.Use(new Vector3Int(7, 2, 0));
+            Assert.IsTrue(_hammer.Carrying);
+            Assert.IsTrue(_hammer.Rotate());
+            _hammer.Use(new Vector3Int(8, 2, 0));
+            Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
+            Assert.AreEqual(2, _s.GetObjects(MapIds.FarmHouse).At(8, 2).Turns);
+        }
+
+        [UnityTest]
         public IEnumerator AChest_KeepsItsContents_WhenItIsMoved()
         {
             yield return Start(MapIds.FarmHouse);

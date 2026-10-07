@@ -1,4 +1,4 @@
-"""Farmhouse furniture and the farm mailbox, drawn by the project (playtest 2026-10-06: the bed was tiny, the mailbox hard to see, the house bare).
+"""Farmhouse furniture (the bed, fireplace, rug and couch) and the farm mailbox, drawn by the project (playtest 2026-10-06: the bed was tiny, the mailbox hard to see, the house bare).
 Writes into Assets/_Project/Art/Placeholders: obj_bed_double (32 x 32, two cells square), obj_fireplace (32 x 32), obj_rug_large (32 x 32, walkable),
 obj_mailbox_tall (16 x 32, a bold red box on a white post with a raised yellow flag).
 Usage: python tools/art/build_home_furniture.py"""
@@ -97,6 +97,33 @@ def rug_large():
     c.save("obj_rug_large")
 
 
+def couch():
+    # Playtest 2026-10-06: the old couch was a 16 x 16 teal smudge that nobody recognised. A front view, two cells wide: backrest, two seat
+    # cushions, armrests with a patchwork blanket on one, and legs. Warm red so it cannot be mistaken for the teal armchair.
+    c = Canvas(32, 16)
+    red, red_l, red_d = (178, 66, 62, 255), (214, 104, 92, 255), (124, 42, 48, 255)
+    gold, gold_l, gold_d = (232, 196, 128, 255), (248, 224, 164, 255), (190, 150, 92, 255)
+    c.box(2, 1, 29, 9, red)                                 # the backrest
+    c.rect(3, 2, 28, 3, red_l)
+    c.rect(3, 8, 28, 8, red_d)
+    c.rect(2, 1, 3, 1, CLEAR); c.rect(28, 1, 29, 1, CLEAR)    # rounded top corners
+    c.box(4, 9, 27, 13, gold, OUTLINE)                      # the seat: two cushions
+    c.rect(5, 10, 14, 10, gold_l); c.rect(17, 10, 26, 10, gold_l)
+    c.rect(5, 12, 14, 12, gold_d); c.rect(17, 12, 26, 12, gold_d)
+    c.rect(15, 9, 16, 13, OUTLINE)
+    c.box(0, 5, 4, 14, red_d)                               # the armrests
+    c.rect(1, 6, 3, 6, red)
+    c.box(27, 5, 31, 14, red_d)
+    c.rect(28, 6, 30, 6, red)
+    blanket = [(70, 112, 170, 255), (240, 232, 208, 255)]   # a patchwork blanket over the right arm
+    for i, y in enumerate(range(7, 14)):
+        for j, x in enumerate(range(28, 31)):
+            c.rect(x, y, x, y, blanket[(i + j) % 2])
+    c.rect(1, 15, 2, 15, OUTLINE); c.rect(29, 15, 30, 15, OUTLINE)    # legs
+    c.rect(6, 14, 8, 14, OUTLINE); c.rect(23, 14, 25, 14, OUTLINE)
+    c.save("obj_couch")
+
+
 def mailbox_tall():
     c = Canvas(16, 32)
     post, post_d = (244, 240, 230, 255), (176, 168, 156, 255)
@@ -123,7 +150,7 @@ def mailbox_tall():
 
 
 if __name__ == "__main__":
-    bed_double(); fireplace(); rug_large(); mailbox_tall()
+    bed_double(); fireplace(); rug_large(); mailbox_tall(); couch()
     final = os.path.join(OUT, "final_art.txt")
     have = set(open(final).read().split())
     with open(final, "a") as f:

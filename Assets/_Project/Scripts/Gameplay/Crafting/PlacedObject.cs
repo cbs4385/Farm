@@ -11,6 +11,7 @@ namespace Farm.Gameplay
         public string Id;                 // unique within the save
         public string TypeId;             // PlaceableDefinition.Id
         public int X, Y;
+        public int Turns;                 // quarter turns, 0 to 3, for furniture (the older saves have none: 0)
         public InventoryData Items;       // chests
         public string RecipeId;           // machines: what is being made (null when idle)
         public int ReadyAt;               // machines: game minute (ObjectGrid.Minute) the output is ready

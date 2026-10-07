@@ -19,6 +19,7 @@ namespace Farm.UI
                 if (use != null) text += "\n" + L.Get("hotbar.how_to_use", L.Get(use));
             }
             else if (item.SellPrice > 0) text += "\n" + L.Get("inventory.sell_value", item.SellPrice);
+            if (item.Category == ItemCategory.Furniture) text += "\n" + L.Get("hotbar.turn_hint");
             return text;
         }
 
