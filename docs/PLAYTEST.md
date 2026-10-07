@@ -1,6 +1,6 @@
 # Hosting playtest builds on Steam
 
-Wetherell Farm Saga is **Steam App ID 5408390**. Steam can host the playtest builds instead of GitHub: you upload once with SteamPipe, testers click Install, and every later upload reaches them as an ordinary game update. Nothing in this guide has been run yet (T-070 is partly done: the App ID 5408390 and the depot ids 5408391 for Windows and 5408392 for Linux are in `Steam/`; the branch, launch options and tester access are still to do in Steamworks).
+Wetherell Farm Saga is **Steam App ID 5408390**. Steam can host the playtest builds instead of GitHub: you upload once with SteamPipe, testers click Install, and every later upload reaches them as an ordinary game update. Nothing in this guide has been run yet (T-070 is partly done: the App ID 5408390 and the depot ids 5408391 for Windows and 5408392 for Linux and 5408393 for macOS are in `Steam/`; the branch, launch options and tester access are still to do in Steamworks).
 
 ## Two ways, and which to use now
 | | A. A password-protected **beta branch** on the main app (recommended now) | B. **Steam Playtest** (a separate child app) |
@@ -12,15 +12,15 @@ Wetherell Farm Saga is **Steam App ID 5408390**. Steam can host the playtest bui
 Both use the same SteamPipe upload. Start with A; B can be added later without changing how you upload.
 
 ## One-time setup (these steps are in the Steamworks partner site: only the owner can do them)
-1. **Depots.** Done: Windows is depot 5408391 and Linux is depot 5408392 (set the operating system of each in its depot settings so a Windows player does not download the Linux files).
+1. **Depots.** Done: Windows is depot 5408391, Linux is depot 5408392 and macOS is depot 5408393. Add all three depots to the same packages (a depot not in a package is never delivered), and set the operating system of each in its depot settings so a Windows player does not download the Linux files).
 2. **The depot ids in the repo.** Done: `Steam/depot_windows.vdf`, `Steam/depot_linux.vdf` and the depot list in `Steam/app_build.vdf`. `Steam/upload.sh` refuses to run if a placeholder `0` ever comes back.
-3. **Launch options.** In the app's installation settings: Windows launches `Farm.exe`, Linux launches `Farm` (the executable keeps its code name).
+3. **Launch options.** In the app's installation settings: Windows launches `Farm.exe`, Linux launches `Farm`, macOS launches `Farm.app` (the executable keeps its code name).
 4. **Access for testers (option A).** Request Steam keys for the app and give one to each tester (they redeem it in Steam under Games > Activate a Product), or grant licenses to named accounts from your Steamworks tools.
 5. **The branch.** On the Builds page create a branch named `playtest` and **set its password before the first upload** (Valve: set the password before setting a build live if the contents must stay private).
 6. **Build account and steamcmd.** Install steamcmd, log in once by hand (password and Steam Guard code), then every later run needs only the account name.
 
 ## Each playtest build
-1. Build the release builds (`docs/BUILD.md`): `Builds/Windows/<version>` and `Builds/Linux/<version>`.
+1. Build the release builds (`docs/BUILD.md`): `Builds/Windows/<version>`, `Builds/Linux/<version>` and `Builds/Mac/<version>` (`SKIP_MAC=1` on the upload script skips macOS).
 2. From the repo root, in Git Bash:
    ```
    export STEAMCMD="C:/steamcmd/steamcmd.exe"      # wherever steamcmd is
@@ -42,3 +42,5 @@ Both use the same SteamPipe upload. Start with A; B can be added later without c
 
 ## Sources
 Valve's documentation: [Uploading to Steam](https://partner.steamgames.com/doc/sdk/uploading), [Branches (Betas)](https://partner.steamgames.com/doc/store/application/branches), [Steam Playtest](https://partner.steamgames.com/doc/features/playtest). These pages are several years old in places; check the live versions for exact limits.
+
+- **The macOS app is unsigned and unrun.** Built on Windows, `Farm.app` is Intel only (`-macArchitecture x64`), which Apple silicon runs through Rosetta 2; an unsigned arm64 or universal app is refused there, so a universal, signed build needs a Mac (or a macOS runner). Gatekeeper may also ask testers to allow the app, and the executable flag has the same problem as the Linux build. Try it on a real Mac before telling testers it works.

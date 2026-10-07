@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased (Milestones 4 and 5 preparation)
+
+- A macOS build (`BuildScript.BuildMac`, `Farm.app`) and a macOS Steam depot (5408393) in the build and upload scripts.
 - The game is called **Wetherell Farm Saga**: the window title, main menu, crash log and bug reports use it. Existing saves and settings are copied over from the old data folder the first time the game starts (the old folder is kept). The code name, folders and executable stay `Farm`.
 - Steam upload templates and script, release process, store page / EULA / privacy drafts, release-checklist tests.
 - Accessibility and quality of life: colour-blind palette for the bars, reduce flashes, relaxed energy (half cost), day length (long/normal/short).

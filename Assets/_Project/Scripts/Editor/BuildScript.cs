@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -11,18 +12,22 @@ namespace Farm.Editor
     // T-005: command-line builds. See docs/BUILD.md.
     //   Unity -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildWindows
     //   Unity -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildLinux
-    // Optional args: -scriptingBackend il2cpp|mono (default mono), -development (includes the developer tools; output defaults to BuildsDev), -buildOutput <dir>
+    //   Unity -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildMac
+    // Optional args: -scriptingBackend il2cpp|mono (default mono), -development (includes the developer tools; output defaults to BuildsDev), -buildOutput <dir>,
+    // -macArchitecture x64|arm64|universal (macOS only; default universal on a Mac and x64 elsewhere, see MacArchitecture)
     public static class BuildScript
     {
         const string ExecutableName = "Farm";
 
         public static void BuildWindows() => Build(BuildTarget.StandaloneWindows64, "Windows", $"{ExecutableName}.exe");
         public static void BuildLinux() => Build(BuildTarget.StandaloneLinux64, "Linux", ExecutableName);
+        public static void BuildMac() => Build(BuildTarget.StandaloneOSX, "Mac", $"{ExecutableName}.app");
 
         // Entry point for game-ci/unity-builder, which passes -buildTarget and -customBuildPath.
         public static void BuildFromCI()
         {
-            var target = GetArg("-buildTarget") == "StandaloneLinux64" ? BuildTarget.StandaloneLinux64 : BuildTarget.StandaloneWindows64;
+            var named = GetArg("-buildTarget");
+            var target = named == "StandaloneLinux64" ? BuildTarget.StandaloneLinux64 : named == "StandaloneOSX" ? BuildTarget.StandaloneOSX : BuildTarget.StandaloneWindows64;
             var customPath = GetArg("-customBuildPath");
             if (!string.IsNullOrEmpty(customPath))
             {
@@ -32,7 +37,7 @@ namespace Farm.Editor
                 BuildTo(target, dir, exe);
                 return;
             }
-            if (target == BuildTarget.StandaloneLinux64) BuildLinux(); else BuildWindows();
+            if (target == BuildTarget.StandaloneLinux64) BuildLinux(); else if (target == BuildTarget.StandaloneOSX) BuildMac(); else BuildWindows();
         }
 
         [MenuItem("Farm/Build/Windows x64")]
@@ -40,6 +45,9 @@ namespace Farm.Editor
 
         [MenuItem("Farm/Build/Linux x64")]
         static void MenuLinux() => BuildLinux();
+
+        [MenuItem("Farm/Build/macOS")]
+        static void MenuMac() => BuildMac();
 
         static void Build(BuildTarget target, string folder, string exe)
         {
@@ -67,6 +75,7 @@ namespace Farm.Editor
             var options = BuildOptions.None;
             if (HasFlag("-development")) options |= BuildOptions.Development;
 
+            var previousMacArchitecture = target == BuildTarget.StandaloneOSX ? SetMacArchitecture(MacArchitecture(GetArg("-macArchitecture"))) : null;
             try
             {
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
@@ -93,10 +102,41 @@ namespace Farm.Editor
             finally
             {
                 PlayerSettings.SetScriptingBackend(namedTarget, previousBackend);
+                if (previousMacArchitecture != null) RestoreMacArchitecture(previousMacArchitecture);
             }
 
             if (Application.isBatchMode) EditorApplication.Exit(0);
         }
+
+        // The macOS architecture: a universal app (Intel and Apple silicon) when built on a Mac, where Unity can sign it; Intel only elsewhere, because
+        // Apple silicon refuses an unsigned arm64 app, while an unsigned Intel app still runs there through Rosetta 2. -macArchitecture overrides.
+        public static string MacArchitecture(string requested)
+        {
+            switch ((requested ?? "").ToLowerInvariant())
+            {
+                case "x64": case "intel": return "x64";
+                case "arm64": return "ARM64";
+                case "universal": case "x64arm64": return "x64ARM64";
+            }
+            return Application.platform == RuntimePlatform.OSXEditor ? "x64ARM64" : "x64";
+        }
+
+        const string MacSettingsType = "UnityEditor.OSXStandalone.UserBuildSettings, UnityEditor.OSXStandalone.Extensions";
+
+        // Sets the architecture through reflection (the type only exists where Mac build support is installed, so CI machines without it still compile this).
+        // Returns the previous value to restore, or null when it could not be set.
+        static object SetMacArchitecture(string name)
+        {
+            var property = Type.GetType(MacSettingsType)?.GetProperty("architecture", BindingFlags.Public | BindingFlags.Static);
+            if (property == null) { Debug.LogWarning("[BuildScript] Mac build support is not installed: building with the default architecture."); return null; }
+            var previous = property.GetValue(null);
+            property.SetValue(null, Enum.Parse(property.PropertyType, name));
+            Debug.Log($"[BuildScript] macOS architecture: {name}");
+            return previous;
+        }
+
+        static void RestoreMacArchitecture(object previous) =>
+            Type.GetType(MacSettingsType)?.GetProperty("architecture", BindingFlags.Public | BindingFlags.Static)?.SetValue(null, previous);
 
         static void Fail(string message)
         {

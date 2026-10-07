@@ -2,7 +2,7 @@
 
 (The game's name is **Wetherell Farm Saga**. "Farm" is the code name and stays in namespaces, folders, the executable `Farm.exe` and the data folder's old name; user-facing text says Wetherell Farm Saga.)
 
-A cozy farming/life sim (original content) for **Steam on Windows and Linux**, with a cosmic-horror layer that **ships with 1.0** (a New England village whose cult keeps a sleeping Elder God in the woods from waking). The horror is player-tunable (intensity off/mild/full, default full) and the cozy game must stay complete at "off". Unity 6000.6.2f1, URP 2D, Input System. Milestones 0 to 3 and 3b are built (see `docs/STATUS.md` for what is partial and what no person has played yet); `docs/mythos/M3b-COMPLETION-PLAN.md` lists what is left of the horror layer, then polish and release.
+A cozy farming/life sim (original content) for **Steam on Windows, Linux and macOS**, with a cosmic-horror layer that **ships with 1.0** (a New England village whose cult keeps a sleeping Elder God in the woods from waking). The horror is player-tunable (intensity off/mild/full, default full) and the cozy game must stay complete at "off". Unity 6000.6.2f1, URP 2D, Input System. Milestones 0 to 3 and 3b are built (see `docs/STATUS.md` for what is partial and what no person has played yet); `docs/mythos/M3b-COMPLETION-PLAN.md` lists what is left of the horror layer, then polish and release.
 
 ## Read first
 1. `docs/README.md` - index of all documents.

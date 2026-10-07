@@ -37,8 +37,13 @@ UNITY="C:/Program Files/Unity/Hub/Editor/6000.6.2f1/Editor/Unity.exe"
 # Builds -> Builds/<Windows|Linux>/<version>/   options: -scriptingBackend il2cpp  -development  -buildOutput <dir>
 "$UNITY" -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildWindows -logFile Builds/build-win.log
 "$UNITY" -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildLinux -logFile Builds/build-linux.log
+# macOS -> Builds/Mac/<version>/Farm.app   (needs Mac Build Support (Mono); -macArchitecture x64|arm64|universal, see below)
+"$UNITY" -batchmode -nographics -projectPath . -executeMethod Farm.Editor.BuildScript.BuildMac -logFile Builds/build-mac.log
 ```
 Exit code 0 = success; a non-zero code with `error CS` lines in the log means a compile error. `Builds/` and `BuildsDev/` are git-ignored. After every run, read the log for compile errors and the XML for test failures.
+
+### macOS
+`BuildMac` writes `Builds/Mac/<version>/Farm.app` (Mono only; Unity has no IL2CPP variant installed for Mac). `-macArchitecture x64|arm64|universal` picks the CPU: the default is universal on a Mac editor and Intel-only elsewhere, because Apple silicon refuses an unsigned arm64 app (Rosetta 2 runs an unsigned Intel one). The build is unsigned unless made on a Mac; Steam uploads need `SKIP_MAC=1` if there is no Mac build.
 
 ## CI
 `.github/workflows/ci.yml` (GameCI): EditMode + PlayMode tests, then Windows and Linux IL2CPP builds as artifacts. The repo is at `github.com/cbs4385/Farm`.

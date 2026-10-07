@@ -84,3 +84,28 @@ jobs:
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+
+  # macOS (T-070 follow-up, unverified: it is skipped without a Unity licence). game-ci builds it on Linux with Mono; IL2CPP would need a macOS runner.
+  # The app is not code-signed here, so the CI build is for checking that the player builds, not for shipping to Apple silicon.
+  build-mac:
+    needs: [license, test]
+    if: needs.license.outputs.available == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-StandaloneOSX-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: Library-StandaloneOSX-
+      - uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: StandaloneOSX
+          buildMethod: Farm.Editor.BuildScript.BuildFromCI
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Build-StandaloneOSX
+          path: build/StandaloneOSX
