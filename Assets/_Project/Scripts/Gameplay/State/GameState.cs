@@ -180,6 +180,14 @@ namespace Farm.Gameplay
         // Set when the carpenter has built the greenhouse on the farm.
         public const string GreenhouseFlag = "farm.greenhouse";
 
+        // The insides of buildings: going between one of these and anywhere else is a walk through a door (and so shows the door swinging).
+        public static readonly string[] Interiors =
+        {
+            FarmHouse, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library, Greenhouse, Coop, Barn, CommunityHall,
+        };
+
+        public static bool IsInterior(string mapId) => System.Array.IndexOf(Interiors, mapId) >= 0;
+
         // Dungeon scenes: built, but not part of the village's walkable world (no schedule routes lead to them).
         public static readonly string[] Dungeons = { Mine };
 

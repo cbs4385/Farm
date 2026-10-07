@@ -48,10 +48,18 @@ namespace Farm.Gameplay
                 else if (!string.IsNullOrEmpty(_blockedMessageKey)) session.Toast(L.Get(_blockedMessageKey));
                 return;
             }
-            AudioService.PlayIfAvailable(Sfx.Door);
-            DoorFlash.Show(TryGetComponent<Collider2D>(out var door) ? door.bounds.center : transform.position);
+            // A door only swings (and creaks) when the player really walks through one: not on the road out of the farm, into the mine or onto the beach.
+            var from = session != null && session.InGame ? session.State.CurrentMap : null;
+            if (ShowsDoor(from, _targetMap))
+            {
+                AudioService.PlayIfAvailable(Sfx.Door);
+                DoorFlash.Show(TryGetComponent<Collider2D>(out var door) ? door.bounds.center : transform.position);
+            }
             MapTravel.GoTo(_targetMap, _targetSpawn);
         }
+
+        // Is going from one map to the other a walk through a building's door? (pure)
+        public static bool ShowsDoor(string fromMap, string toMap) => MapIds.IsInterior(fromMap) || MapIds.IsInterior(toMap);
 
         public bool IsOpen(out GameSession session)
         {
