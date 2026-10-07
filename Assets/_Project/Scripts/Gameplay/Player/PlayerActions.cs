@@ -105,7 +105,7 @@ namespace Farm.Gameplay
             if (_input.HotbarPrev.WasPressedThisFrame())
                 SelectHotbar((Session.State.SelectedHotbar + InputNames.HotbarSlots - 1) % InputNames.HotbarSlots);
 
-            if (_input.UseTool.WasPressedThisFrame()) UseSelected();
+            if (_input.UseTool.WasPressedThisFrame() && !ClickLandedOnTheHud()) { if (MouseClicked && ClickUsesTheHand()) Interact(); else UseSelected(); }
             if (_input.Interact.WasPressedThisFrame()) Interact();
 
             if (_input.Inventory.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui)) ui.ToggleInventory();
@@ -459,6 +459,35 @@ namespace Farm.Gameplay
         }
 
         // ---- interaction ---------------------------------------------------------------------------------------
+
+        // Playtest 2026-10-06: the player had to switch between E and a click for no reason they could see. A mouse click on something that is
+        // used by hand (a villager, an animal, a ripe crop, forage, a chest or machine, a bin, bed or counter) does what E does; on bare ground
+        // it still uses what is held. An item held out to a villager is still a gift, the mallet and the rod act on the world themselves, and the
+        // axe and pickaxe still take a placed chest or machine back.
+        // A mouse click on the hotbar or another HUD panel belongs to the HUD (it selects a slot), not to the world behind it.
+        static bool MouseClicked => UnityEngine.InputSystem.Mouse.current != null && UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame;
+
+        static bool ClickLandedOnTheHud() =>
+            UnityEngine.InputSystem.Mouse.current != null && UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame
+            && ServiceLocator.TryGet<IUiService>(out var ui) && ui.PointerOverUi;
+
+        bool ClickUsesTheHand()
+        {
+            var stack = Session.Backpack.Get(Session.State.SelectedHotbar);
+            ItemDefinition item = null;
+            if (stack != null) Session.Db.TryGetItem(stack.ItemId, out item);
+            var tool = item != null && item.IsTool ? item.ToolType : ToolType.None;
+            if (tool == ToolType.Hammer || tool == ToolType.Rod) return false;
+            if (GetComponent<HammerMode>() is HammerMode hammer && hammer.Carrying) return false;
+
+            var cell = TargetCell;
+            if (NpcAt(cell) != null) return item == null || item.IsTool;
+            if (AnimalManager.Current != null && AnimalManager.Current.ActorAt(cell) != null) return true;
+            if (Session.GetGrid(_map.MapId).IsMature(cell.x, cell.y, CropLookup)) return true;
+            if (Session.GetNodes(_map.MapId).TryGet(cell.x, cell.y, out var node) && Session.Nodes.Get(node.TypeId) is ResourceNodeDefinition def && def.Tool == ToolType.None) return true;
+            if (PlacedObjectsView.Current != null && PlacedObjectsView.Current.At(cell) != null) return tool != ToolType.Axe && tool != ToolType.Pickaxe;
+            return InteractableAt(cell, 0) != null;
+        }
 
         void Interact()
         {

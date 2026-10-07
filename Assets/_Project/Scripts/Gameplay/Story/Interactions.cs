@@ -158,6 +158,7 @@ namespace Farm.Gameplay
             GoodbyeKey = "menu.goodbye", BackKey = "menu.back", MoreKey = "menu.more";
 
         public const string MoreVar = "chat.more";         // set by the "keep chatting" choice; read when the menu closes
+        public const string AgainVar = "chat.again";       // set when a topic or social reply has been said: the menu is offered again
 
         public static string SocialKeyFor(string action) => "social." + action;
 
@@ -188,6 +189,7 @@ namespace Farm.Gameplay
                 if (source == null) continue;
                 var prefix = "topic:" + topic.Id + "/";
                 CopyInto(graph, source, prefix, npc);
+                ReturnToMenu(graph, prefix);
                 menu.Choices.Add(new DialogueChoice
                 {
                     Text = topic.LabelKey ?? "topic." + topic.Id,
@@ -206,6 +208,7 @@ namespace Farm.Gameplay
                     var prefix = "social:" + action + "/";
                     var source = story.Dialogue(dialogue);
                     CopyInto(graph, source, prefix, npc);
+                    ReturnToMenu(graph, prefix);
                     social.Choices.Add(new DialogueChoice
                     {
                         Text = SocialKeyFor(action),
@@ -218,6 +221,19 @@ namespace Farm.Gameplay
 
             menu.Choices.Add(new DialogueChoice { Text = GoodbyeKey, Default = true });
             return graph;
+        }
+
+        // The last line of a topic or a reaction asks for the menu again (rebuilt, so what was just done is no longer offered): a villager's reply
+        // is never the end of the conversation unless the player says Goodbye.
+        static void ReturnToMenu(DialogueGraph graph, string prefix)
+        {
+            foreach (var n in graph.Nodes)
+            {
+                if (!n.Id.StartsWith(prefix)) continue;
+                if (string.IsNullOrEmpty(n.Next) && n.Choices.Count == 0) n.Effects.Add("talk.again");
+                foreach (var c in n.Choices)
+                    if (string.IsNullOrEmpty(c.Next)) c.Effects.Add("talk.again");          // a choice that would end the conversation
+            }
         }
 
         // A conversation never just stops: every menu offers "keep chatting" (another line from the same villager) next to Goodbye.
@@ -278,6 +294,7 @@ namespace Farm.Gameplay
                 InteractionState.Store(s, state);
             });
             Effects.Register("talk.more", 0, 0, (s, a) => s.SetVar(MoreVar, 1));
+            Effects.Register("talk.again", 0, 0, (s, a) => s.SetVar(AgainVar, 1));
             Effects.Register("social.done", 3, 3, (s, a) =>
             {
                 var state = InteractionState.Load(s);
@@ -294,17 +311,18 @@ namespace Farm.Gameplay
             });
         }
 
-        // After a normal chat: offer the menu. Not after story beats (first meetings, quest offers, scenes).
-        public static void Offer(GameSession session, NpcDefinition npc, int pickedPriority)
+        // After a chat, and after a story beat too (playtest 2026-10-06: the conversation ended after one line): offer the menu.
+        public static void Offer(GameSession session, NpcDefinition npc)
         {
-            if (pickedPriority >= DialogueSet.StoryBandPriority) return;
             var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
             if (settings != null && !settings.ChatMenu) return;
             var state = InteractionState.Load(session);
             var graph = Build(session.Story, npc.Id, session.World, state, session.Clock.Now.TotalDays, L.Has) ?? Minimal(npc.Id, L.Has);
             session.SetVar(MoreVar, 0);
+            session.SetVar(AgainVar, 0);
             session.BeginDialogueGraph(WithMore(graph, npc.Id), () =>
             {
+                if (session.GetVar(AgainVar) != 0) { session.SetVar(AgainVar, 0); Offer(session, npc); return; }          // the menu again
                 if (session.GetVar(MoreVar) == 0) return;
                 session.SetVar(MoreVar, 0);
                 NpcInteractions.Talk(session, npc);               // another line, then the menu again

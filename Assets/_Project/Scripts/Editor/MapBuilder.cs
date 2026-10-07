@@ -167,6 +167,9 @@ namespace Farm.Editor
             // The shipping bin stays on the farm; the general store now lives in the village.
             var bin = AddObject("ShippingBin", "obj_shipping_bin", Center(13, 17) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));      // a 2 x 2 bin on cells (13..14, 17..18)
             bin.AddComponent<ShippingBin>();
+            var binFixture = bin.AddComponent<MovableFixture>();      // the mallet can carry it next to the house or anywhere else on the farm
+            binFixture.Id = "shipping_bin";
+            binFixture.Size = new Vector2Int(2, 2);
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Farm}.unity");
         }
@@ -709,7 +712,14 @@ namespace Farm.Editor
             var tm = go.AddComponent<Tilemap>();
             var tr = go.AddComponent<TilemapRenderer>();
             tr.sortingOrder = order;
-            if (collider) go.AddComponent<TilemapCollider2D>();
+            if (collider)
+            {
+                // One merged outline instead of a square per tile: a player pushed into a wall while walking along it caught on the seams between
+                // the squares (bug report "Stuck?").
+                go.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                go.AddComponent<CompositeCollider2D>().geometryType = CompositeCollider2D.GeometryType.Polygons;
+                go.AddComponent<TilemapCollider2D>().compositeOperation = Collider2D.CompositeOperation.Merge;
+            }
             return tm;
         }
 

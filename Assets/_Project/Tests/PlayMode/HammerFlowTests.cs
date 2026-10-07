@@ -181,6 +181,27 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator TheShippingBin_CanBeMovedNextToTheHouse_AndStaysThere()
+        {
+            yield return Start(MapIds.Farm);
+            ClearPatch(6, 13, 12, 19);
+            var bin = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "shipping_bin");
+            var home = bin.Cell(_map);
+            _hammer.Use(home + new Vector3Int(1, 1, 0));                     // any of its four cells lifts it
+            Assert.IsTrue(_hammer.Carrying);
+            var target = new Vector3Int(9, 16, 0);
+            _hammer.Use(target);
+            Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
+            Assert.AreEqual(target, bin.Cell(_map));
+            Physics2D.SyncTransforms();                                       // the physics world learns of the move at the next step otherwise
+            Assert.IsNotNull(Physics2D.OverlapPoint(_map.CellCenter(new Vector3Int(10, 17, 0))), "its collider moved with it");
+
+            yield return Start(MapIds.Farm);                                  // leave and come back
+            var again = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "shipping_bin");
+            Assert.AreEqual(target, again.Cell(_map), "the bin is where it was put");
+        }
+
+        [UnityTest]
         public IEnumerator AChest_KeepsItsContents_WhenItIsMoved()
         {
             yield return Start(MapIds.FarmHouse);

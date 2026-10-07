@@ -141,6 +141,10 @@ namespace Farm.UI
             });
             tsSlider.name = "TextScale";
 
+            var hudRow = Row(L.Get("options.hud_transparency"));
+            var hudSlider = UiKit.MakeSlider(hudRow, s.HudTransparency / 0.6f, v => s.HudTransparency = v * 0.6f);
+            hudSlider.name = "HudTransparency";
+
             // Content intensity (X-009): off, mild or full. Takes effect at once; saved with the other settings.
             Section(L.Get("options.content"));
             var horror = Row(L.Get("options.horror"));

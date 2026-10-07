@@ -60,12 +60,27 @@ namespace Farm.Gameplay
             foreach (var sp in FindObjectsByType<SpawnPoint>())
                 if (sp.Id == "default") sp.transform.position = map.CellCenter(new Vector3Int(_floor.Spawn.x, _floor.Spawn.y, 0));
 
+            var below = new GameObject("Spawn_" + MineTravel.FromBelowSpawn).AddComponent<SpawnPoint>();
+            below.Id = MineTravel.FromBelowSpawn;
+            var arrival = BesideLadder();
+            below.transform.position = map.CellCenter(new Vector3Int(arrival.x, arrival.y, 0));
+
             AddStairs(MineStairs.StairKind.Up, _floor.Spawn.x - 1, _floor.Spawn.y);
             if (_floor.Ladder.HasValue) AddStairs(MineStairs.StairKind.Down, _floor.Ladder.Value.x, _floor.Ladder.Value.y);
             if (ms.Floor == 1 && ms.Deepest >= 5) AddStairs(MineStairs.StairKind.Elevator, _floor.Spawn.x, _floor.Spawn.y + 1);
 
             var manager = new GameObject("Enemies").AddComponent<EnemyManager>();
             manager.Init(map, session, this, _floor.Enemies);
+        }
+
+        // The open cell next to the ladder down (the arrival cell when climbing up from the floor below); the usual arrival cell on the last floor, which has no ladder.
+        (int x, int y) BesideLadder()
+        {
+            if (!_floor.Ladder.HasValue) return _floor.Spawn;
+            var l = _floor.Ladder.Value;
+            foreach (var (dx, dy) in new[] { (-1, 0), (0, -1), (1, 0), (0, 1) })
+                if (!_floor.IsWall(l.x + dx, l.y + dy)) return (l.x + dx, l.y + dy);
+            return _floor.Spawn;
         }
 
         void AddStairs(MineStairs.StairKind kind, int x, int y)

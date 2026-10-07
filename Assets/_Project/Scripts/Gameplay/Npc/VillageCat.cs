@@ -18,7 +18,11 @@ namespace Farm.Gameplay
         // How many hops fall between two moments of a purr (pure).
         public static int HopsBetween(float from, float to) => Mathf.FloorToInt(to / HopEvery) - Mathf.FloorToInt(from / HopEvery);
 
-        public string HoverLabel => L.Get("cat.name");
+        public string HoverLabel => L.Get(AtHome ? "cat.home_name" : "cat.name");
+
+        // Once the cat has adopted the player it lives in the farmhouse, day and night, and is no longer seen in the village.
+        bool AtHome => _map != null && _map.MapId == MapIds.FarmHouse;
+        bool Present(int hour) => AtHome ? CatBond.Adopted(_session.State) : !CatBond.Adopted(_session.State) && Daytime(hour);
         public Vector3Int Cell { get; private set; }
         public bool IsPlaced => _placed && _renderer != null && _renderer.enabled;
         public Vector3Int? Claim => _route != null && _step < _route.Count ? new Vector3Int(_route[_step].x, _route[_step].y, 0) : (Vector3Int?)null;
@@ -67,10 +71,11 @@ namespace Farm.Gameplay
         void Place(WalkGrid grid)
         {
             var b = _map.WorldBounds;
+            var spread = AtHome ? 2 : 10;
             var cx = Mathf.RoundToInt(b.center.x); var cy = Mathf.RoundToInt(b.center.y);
             for (var i = 0; i < 200; i++)
             {
-                var x = cx + _rng.Next(-10, 11); var y = cy + _rng.Next(-8, 9);
+                var x = cx + _rng.Next(-spread, spread + 1); var y = cy + _rng.Next(-spread + 2, spread - 1);
                 if (!grid.IsWalkable(x, y)) continue;
                 Cell = new Vector3Int(x, y, 0);
                 transform.position = _map.CellCenter(Cell);
@@ -89,7 +94,8 @@ namespace Farm.Gameplay
             if (!_placed) Place(grid);
             if (!_placed) return;
 
-            _renderer.enabled = Daytime(_session.Clock.Now.MinuteOfDay / 60);
+            _renderer.enabled = Present(_session.Clock.Now.MinuteOfDay / 60);
+            SetBodiesEnabled(_renderer.enabled);
             if (!_renderer.enabled) { _route = null; return; }
 
             if (CellOccupants.SharingWith(this) > 0 && _purr <= 0f) StepAside(grid);
@@ -107,6 +113,15 @@ namespace Farm.Gameplay
             Meow();
             Purr();
             Animate();
+        }
+
+        // A cat that is not there (night, or gone to live at the farm) must not block its cell.
+        bool _bodiesOn = true;
+        void SetBodiesEnabled(bool on)
+        {
+            if (on == _bodiesOn) return;
+            _bodiesOn = on;
+            foreach (var c in GetComponents<Collider2D>()) c.enabled = on;
         }
 
         // After a pet the cat bounces on the spot and hearts rise, for a moment.
@@ -189,7 +204,13 @@ namespace Farm.Gameplay
             }
             ActionPuff.Hearts(transform.position + Vector3.up * 0.6f, _bob);
             AudioService.PlayIfAvailable(Sfx.Meow, 0.5f, Random.Range(0.95f, 1.1f));
-            _session.Toast(L.Get("cat.pet." + _rng.Next(3)));
+            var result = CatBond.Pet(_session.State, _session.Clock.Now.TotalDays);
+            var bond = CatBond.Bond(_session.State);
+            var key = result == CatBond.PetResult.Adopted ? "cat.adopted"
+                : result == CatBond.PetResult.DayLimit ? "cat.pet.enough"
+                : !CatBond.Adopted(_session.State) && (bond == 5 || bond == 10 || bond == 15) ? "cat.bond." + bond
+                : "cat.pet." + _rng.Next(3);
+            _session.Toast(L.Get(key));
         }
     }
 }

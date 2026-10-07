@@ -380,5 +380,15 @@ namespace Farm.Tests
             Assert.IsTrue(new SettingsData().ChatMenu);
             Assert.IsTrue(Newtonsoft.Json.JsonConvert.DeserializeObject<SettingsData>("{\"MasterVolume\":0.5}").ChatMenu, "old settings files get the default");
         }
+
+        // Playtest 2026-10-06: a topic or a social reply ended the conversation. Now its last line asks for the menu again.
+        [Test]
+        public void TheLastLineOfEveryTopicAndReaction_AsksForTheMenuAgain()
+        {
+            var g = Menu(Story(), "wren");
+            var ends = g.Nodes.Where(n => (n.Id.StartsWith("topic:") || n.Id.StartsWith("social:")) && string.IsNullOrEmpty(n.Next) && n.Choices.Count == 0).ToList();
+            Assert.IsNotEmpty(ends);
+            foreach (var n in ends) CollectionAssert.Contains(n.Effects, "talk.again", n.Id);
+        }
     }
 }

@@ -512,14 +512,14 @@
       "set": "npc.marcus.talk",
       "entries": [
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "marcus.pie.1",
           "tag": "funny",
           "category": "reactive"
         },
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "marcus.pie.2",
           "category": "reactive"
@@ -537,14 +537,14 @@
       "set": "npc.odalys.talk",
       "entries": [
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "odalys.pie.1",
           "tag": "funny",
           "category": "reactive"
         },
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "odalys.pie.2",
           "category": "reactive"
@@ -597,7 +597,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows",
+          "condition": "storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows && (heard:tilda.scare.1 || heard:tilda.scare.2)",
           "priority": 2,
           "dialogue": "wren.scare.1",
           "tag": "funny",
@@ -660,7 +660,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows",
+          "condition": "storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows && (heard:tilda.scare.1 || heard:tilda.scare.2)",
           "priority": 2,
           "dialogue": "bram.scare.1",
           "category": "reactive"
@@ -720,14 +720,14 @@
       "set": "npc.felix.talk",
       "entries": [
         {
-          "condition": "storyline:lost_umbrella && !flag:storydone.lost_umbrella",
+          "condition": "storyline:lost_umbrella && !flag:storydone.lost_umbrella && (heard:piper.umbrella.1 || heard:piper.umbrella.2)",
           "priority": 2,
           "dialogue": "felix.umbrella.1",
           "tag": "funny",
           "category": "reactive"
         },
         {
-          "condition": "storyline:lost_umbrella && weather:rain && !flag:storydone.lost_umbrella",
+          "condition": "storyline:lost_umbrella && weather:rain && !flag:storydone.lost_umbrella && (heard:piper.umbrella.1 || heard:piper.umbrella.2)",
           "priority": 2,
           "dialogue": "felix.umbrella.2",
           "category": "reactive"
@@ -738,13 +738,13 @@
       "set": "npc.elara.talk",
       "entries": [
         {
-          "condition": "storyline:lost_umbrella && !flag:storydone.lost_umbrella",
+          "condition": "storyline:lost_umbrella && !flag:storydone.lost_umbrella && (heard:piper.umbrella.1 || heard:piper.umbrella.2)",
           "priority": 2,
           "dialogue": "elara.umbrella.1",
           "category": "reactive"
         },
         {
-          "condition": "storyline:lost_umbrella && weather:rain && !flag:storydone.lost_umbrella",
+          "condition": "storyline:lost_umbrella && weather:rain && !flag:storydone.lost_umbrella && (heard:piper.umbrella.1 || heard:piper.umbrella.2)",
           "priority": 2,
           "dialogue": "elara.umbrella.2",
           "tag": "funny",
@@ -763,14 +763,14 @@
       "set": "npc.dorian.talk",
       "entries": [
         {
-          "condition": "storyline:rival_scarecrows && !flag:storydone.rival_scarecrows",
+          "condition": "storyline:rival_scarecrows && !flag:storydone.rival_scarecrows && (heard:tilda.scare.1 || heard:tilda.scare.2)",
           "priority": 2,
           "dialogue": "dorian.scare.1",
           "tag": "funny",
           "category": "reactive"
         },
         {
-          "condition": "storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows",
+          "condition": "storyline:rival_scarecrows && season:fall && !flag:storydone.rival_scarecrows && (heard:tilda.scare.1 || heard:tilda.scare.2)",
           "priority": 2,
           "dialogue": "dorian.scare.2",
           "category": "reactive"
@@ -831,14 +831,14 @@
       "set": "npc.bram.talk",
       "entries": [
         {
-          "condition": "storyline:mystery_whistler.bram && !flag:storydone.mystery_whistler && hour>=15",
+          "condition": "storyline:mystery_whistler.bram && !flag:storydone.mystery_whistler && hour>=15 && (heard:ione.whistle.1 || heard:ione.whistle.2 || heard:juno.whistle.1 || heard:juno.whistle.2)",
           "priority": 2,
           "dialogue": "bram.whistle.1",
           "tag": "funny",
           "category": "reactive"
         },
         {
-          "condition": "storyline:mystery_whistler.bram && !flag:storydone.mystery_whistler",
+          "condition": "storyline:mystery_whistler.bram && !flag:storydone.mystery_whistler && (heard:ione.whistle.1 || heard:ione.whistle.2 || heard:juno.whistle.1 || heard:juno.whistle.2)",
           "priority": 2,
           "dialogue": "bram.whistle.2",
           "category": "reactive"
@@ -856,7 +856,7 @@
       "set": "npc.marcus.talk",
       "entries": [
         {
-          "condition": "storyline:mystery_whistler.marcus && !flag:storydone.mystery_whistler",
+          "condition": "storyline:mystery_whistler.marcus && !flag:storydone.mystery_whistler && (heard:ione.whistle.1 || heard:ione.whistle.2 || heard:juno.whistle.1 || heard:juno.whistle.2)",
           "priority": 2,
           "dialogue": "marcus.whistle.1",
           "category": "reactive"
@@ -874,7 +874,7 @@
       "set": "npc.felix.talk",
       "entries": [
         {
-          "condition": "storyline:mystery_whistler.felix && !flag:storydone.mystery_whistler",
+          "condition": "storyline:mystery_whistler.felix && !flag:storydone.mystery_whistler && (heard:ione.whistle.1 || heard:ione.whistle.2 || heard:juno.whistle.1 || heard:juno.whistle.2)",
           "priority": 2,
           "dialogue": "felix.whistle.1",
           "tag": "funny",

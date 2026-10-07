@@ -31,6 +31,7 @@ namespace Farm.Core
         public int DayLength = 1;           // 0 = long days, 1 = normal, 2 = short
         public int DialogueSpeed = 1;       // text speed in conversations: 0 slow, 1 normal, 2 fast, 3 instant
         public bool AutoAdvance;            // conversations move on by themselves after a read time
+        public float HudTransparency = 0.2f;   // how see-through the status bar along the top of the screen is (0 solid, 0.6 mostly clear)
         public bool HoverLabels = true;     // a small label names what the mouse is over in the world
         public bool MouseAim = true;        // the tool square follows the mouse around the player (playtest feedback); off keeps facing-only aiming
         public bool Barks = true;           // villagers near you say short ambient lines in speech bubbles (T-125)
@@ -62,6 +63,7 @@ namespace Farm.Core
             SfxVolume = Mathf.Clamp01(SfxVolume);
             AmbienceVolume = Mathf.Clamp01(AmbienceVolume);
             TextScale = Mathf.Clamp(TextScale, 0.75f, 1.5f);
+            HudTransparency = Mathf.Clamp(HudTransparency, 0f, 0.6f);
             ResolutionWidth = Mathf.Max(640, ResolutionWidth);
             ResolutionHeight = Mathf.Max(360, ResolutionHeight);
             if (string.IsNullOrEmpty(Language)) Language = "en";

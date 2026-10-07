@@ -100,6 +100,7 @@ namespace Farm.Gameplay
             summary.NewDate = clock.Now;
             NpcInteractions.NewDay(state, clock.Now, hooks);
             AnimalRules.NewDay(state);
+            if (CatBond.NewDay(state, clock.Now.TotalDays) == CatBond.DayResult.Left) summary.Notes.Add(new SummaryNote("summary.cat_left", System.Array.Empty<object>()));
 
             // 4. The new day's weather is the forecast made yesterday (rolled now if there is none, e.g. after a date
             // jump), which modules may still override. Then the next day is forecast.

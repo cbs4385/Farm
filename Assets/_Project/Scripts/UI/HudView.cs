@@ -84,7 +84,9 @@ namespace Farm.UI
         GameObject _fatigueFrame;
         Image _fatigueFill;
         TextMeshProUGUI _fatigueLabel;
-        TextMeshProUGUI _date, _time, _weather, _forecast, _gold, _energyLabel, _toast;
+        TextMeshProUGUI _date, _time, _weather, _forecast, _gold, _energyLabel, _toast, _mineFloor;
+        Image _clockPanel;
+        float _transparency = -1f;
         GameObject _streamBadge;
         TextMeshProUGUI _streamText;
         string _streamShown;
@@ -130,7 +132,7 @@ namespace Farm.UI
         void BuildStreamBadge(Transform canvas)
         {
             var panel = UiKit.Panel(canvas, "StreamBadge", UiKit.PanelColor);
-            UiKit.Place(panel.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(230, 30), new Vector2(10, -10));
+            UiKit.Place(panel.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(230, 30), new Vector2(10, -(BarHeight + 8f)));
             panel.raycastTarget = false;
             _streamBadge = panel.gameObject;
             _streamText = UiKit.Label(panel.transform, "", 16f, TextAlignmentOptions.Center, UiKit.Accent);
@@ -148,22 +150,65 @@ namespace Farm.UI
             if (text != null) _streamText.text = text;
         }
 
+        const float BarHeight = 34f;
+
+        // The status bar: date, time, weather, the forecast and (underground) the mine floor on the left, gold on the right, across the whole top
+        // of the screen. It is a little see-through (Options: "Status bar see-through"), so the map shows behind it.
         void BuildClockPanel(Transform canvas)
         {
             var panel = UiKit.Panel(canvas, "ClockPanel", UiKit.PanelColor);
+            _clockPanel = panel;
             Fadable(panel);
-            UiKit.Place(panel.rectTransform, new Vector2(1, 1), new Vector2(1, 1), new Vector2(190, 136), new Vector2(-10, -10));
-            var stack = UiKit.VStack(panel.transform, "Stack", 2f, 8);
-            UiKit.Stretch((RectTransform)stack.transform);
-            _date = UiKit.Label(stack.transform, "", 17f, TextAlignmentOptions.Right);
-            _time = UiKit.Label(stack.transform, "", 24f, TextAlignmentOptions.Right, UiKit.Accent);
-            _weather = UiKit.Label(stack.transform, "", 15f, TextAlignmentOptions.Right, UiKit.DimText);
-            _forecast = UiKit.Label(stack.transform, "", 13f, TextAlignmentOptions.Right, UiKit.DimText);
-            _gold = UiKit.Label(stack.transform, "", 20f, TextAlignmentOptions.Right);
-            _dateIcon = Icon(_date.rectTransform, 20f);
-            _timeIcon = Icon(_time.rectTransform, 22f);
-            _weatherIcon = Icon(_weather.rectTransform, 20f);
-            _goldIcon = Icon(_gold.rectTransform, 22f);
+            panel.raycastTarget = false;
+            var rt = panel.rectTransform;
+            rt.anchorMin = new Vector2(0f, 1f);
+            rt.anchorMax = new Vector2(1f, 1f);
+            rt.pivot = new Vector2(0.5f, 1f);
+            rt.sizeDelta = new Vector2(0f, BarHeight);
+            rt.anchoredPosition = Vector2.zero;
+            var row = UiKit.HStack(panel.transform, "Row", 18f);
+            UiKit.Stretch((RectTransform)row.transform);
+            row.padding = new RectOffset(12, 12, 2, 2);
+            row.childAlignment = TextAnchor.MiddleLeft;
+            _date = BarLabel(row.transform, 17f, TextAlignmentOptions.Left, UiKit.TextColor);
+            _time = BarLabel(row.transform, 22f, TextAlignmentOptions.Left, UiKit.Accent);
+            _weather = BarLabel(row.transform, 15f, TextAlignmentOptions.Left, UiKit.DimText);
+            _forecast = BarLabel(row.transform, 13f, TextAlignmentOptions.Left, UiKit.DimText);
+            _mineFloor = BarLabel(row.transform, 17f, TextAlignmentOptions.Left, UiKit.Accent);
+            var spacer = UiKit.Panel(row.transform, "Spacer", Color.clear);
+            spacer.raycastTarget = false;
+            spacer.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
+            _gold = BarLabel(row.transform, 20f, TextAlignmentOptions.Right, UiKit.TextColor);
+            _dateIcon = BarIcon(_date, 20f);
+            _timeIcon = BarIcon(_time, 22f);
+            _weatherIcon = BarIcon(_weather, 20f);
+            _goldIcon = BarIcon(_gold, 22f);
+            _mineFloor.gameObject.SetActive(false);
+        }
+
+        static TextMeshProUGUI BarLabel(Transform row, float size, TextAlignmentOptions align, Color color)
+        {
+            var label = UiKit.Label(row, "", size, align, color);
+            label.raycastTarget = false;
+            label.textWrappingMode = TextWrappingModes.NoWrap;
+            return label;
+        }
+
+        // The icon sits in a margin at the left edge of its label.
+        static Image BarIcon(TextMeshProUGUI label, float size)
+        {
+            label.margin = new Vector4(size + 4f, 0f, 0f, 0f);
+            return Icon(label.rectTransform, size);
+        }
+
+        void ApplyTransparency()
+        {
+            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            var t = settings != null ? settings.HudTransparency : 0.2f;
+            if (Mathf.Approximately(t, _transparency)) return;
+            _transparency = t;
+            var c = UiKit.PanelColor;
+            _clockPanel.color = new Color(c.r, c.g, c.b, 1f - t);
         }
 
         // A small picture at the left edge of a label (the labels are right-aligned, so the left is free). Hidden until it has a sprite.
@@ -278,7 +323,7 @@ namespace Farm.UI
         {
             if (_ui.Session.Hooks.HudWidgets.Count == 0) return;
             var stack = UiKit.VStack(canvas, "ExtensionWidgets", 4f);
-            UiKit.Place((RectTransform)stack.transform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(220, 200), new Vector2(10, -10));
+            UiKit.Place((RectTransform)stack.transform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(220, 200), new Vector2(10, -(BarHeight + 8f)));
             foreach (var factory in _ui.Session.Hooks.HudWidgets)
             {
                 var widget = factory();
@@ -298,7 +343,8 @@ namespace Farm.UI
         {
             UpdateFade();
             UpdateStreamBadge();
-            UpdateHotbarTooltip();
+            ApplyTransparency();
+            UpdateHotbarPointer();
             TickToast();
             if (!_dirty) return;
             _dirty = false;
@@ -318,6 +364,9 @@ namespace Farm.UI
             Show(_timeIcon, "hud_clock_face");
             Show(_weatherIcon, "hud_weather_" + s.State.Weather);
             Show(_goldIcon, "hud_gold");
+            var floor = s.State.Mine.Floor;
+            _mineFloor.gameObject.SetActive(floor > 0);
+            if (floor > 0) _mineFloor.text = L.Get("hud.mine_floor", floor);
 
             var fraction = s.State.MaxEnergy > 0 ? Mathf.Clamp01((float)s.State.Energy / s.State.MaxEnergy) : 0f;
             _energyFill.rectTransform.anchorMax = new Vector2(1f, fraction);
@@ -357,8 +406,8 @@ namespace Farm.UI
             }
         }
 
-        // Rests the mouse on a hotbar slot: a label says what the item is and, for a tool, how to use it.
-        void UpdateHotbarTooltip()
+        // The mouse over a hotbar slot: a click selects the item, and resting there shows a label saying what the item is and, for a tool, how to use it.
+        void UpdateHotbarPointer()
         {
             var s = _ui.Session;
             var mouse = Mouse.current;
@@ -369,6 +418,11 @@ namespace Farm.UI
                 for (var i = 0; i < _slots.Length && shown < 0; i++)
                     if (_slots[i] != null && _slots[i].Background.gameObject.activeInHierarchy
                         && RectTransformUtility.RectangleContainsScreenPoint(_slots[i].Background.rectTransform, position, null)) shown = i;
+                if (shown >= 0 && mouse.leftButton.wasPressedThisFrame && s.State.SelectedHotbar != shown)
+                {
+                    s.State.SelectedHotbar = shown;
+                    _ui.Bus.Publish(new StatsChanged());
+                }
                 var stack = shown >= 0 && shown < s.Backpack.Capacity ? s.Backpack.Get(shown) : null;
                 var text = stack != null ? HotbarTooltip.Text(s, stack.ItemId) : null;
                 if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }

@@ -145,7 +145,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "wren.pie.2",
           "category": "reactive"
@@ -158,7 +158,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:anonymous_notes && !flag:storydone.anonymous_notes",
+          "condition": "storyline:anonymous_notes && !flag:storydone.anonymous_notes && (heard:wren.notes.1 || heard:hazel.notes.1 || heard:bram.notes.1 || heard:tilda.notes.1)",
           "priority": 2,
           "dialogue": "wren.notes.2",
           "category": "reactive"
@@ -169,13 +169,13 @@
       "set": "npc.hazel.talk",
       "entries": [
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "hazel.pie.1",
           "category": "reactive"
         },
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "hazel.pie.2",
           "category": "reactive"
@@ -187,7 +187,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:anonymous_notes && !flag:storydone.anonymous_notes",
+          "condition": "storyline:anonymous_notes && !flag:storydone.anonymous_notes && (heard:wren.notes.1 || heard:hazel.notes.1 || heard:bram.notes.1 || heard:tilda.notes.1)",
           "priority": 2,
           "dialogue": "hazel.notes.2",
           "category": "reactive"
@@ -198,13 +198,13 @@
       "set": "npc.bram.talk",
       "entries": [
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "bram.pie.1",
           "category": "reactive"
         },
         {
-          "condition": "storyline:pie_feud && !flag:storydone.pie_feud",
+          "condition": "storyline:pie_feud && !flag:storydone.pie_feud && (heard:wren.pie.1)",
           "priority": 2,
           "dialogue": "bram.pie.2",
           "tag": "funny",
@@ -217,7 +217,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:anonymous_notes && !flag:storydone.anonymous_notes",
+          "condition": "storyline:anonymous_notes && !flag:storydone.anonymous_notes && (heard:wren.notes.1 || heard:hazel.notes.1 || heard:bram.notes.1 || heard:tilda.notes.1)",
           "priority": 2,
           "dialogue": "bram.notes.2",
           "category": "reactive"

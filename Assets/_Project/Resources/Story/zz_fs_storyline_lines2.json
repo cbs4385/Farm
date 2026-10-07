@@ -321,7 +321,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:competing_band && !flag:storydone.competing_band",
+          "condition": "storyline:competing_band && !flag:storydone.competing_band && (heard:piper.band.1 || heard:juno.band.1)",
           "priority": 2,
           "dialogue": "piper.band.2",
           "category": "reactive"
@@ -346,7 +346,7 @@
           "category": "reactive"
         },
         {
-          "condition": "storyline:competing_band && !flag:storydone.competing_band",
+          "condition": "storyline:competing_band && !flag:storydone.competing_band && (heard:piper.band.1 || heard:juno.band.1)",
           "priority": 2,
           "dialogue": "juno.band.2",
           "category": "reactive"
@@ -364,7 +364,7 @@
       "set": "npc.wren.talk",
       "entries": [
         {
-          "condition": "storyline:competing_band && !flag:storydone.competing_band",
+          "condition": "storyline:competing_band && !flag:storydone.competing_band && (heard:piper.band.1 || heard:juno.band.1)",
           "priority": 2,
           "dialogue": "wren.band.1",
           "tag": "funny",
@@ -382,7 +382,7 @@
       "set": "npc.bram.talk",
       "entries": [
         {
-          "condition": "storyline:competing_band && !flag:storydone.competing_band",
+          "condition": "storyline:competing_band && !flag:storydone.competing_band && (heard:piper.band.1 || heard:juno.band.1)",
           "priority": 2,
           "dialogue": "bram.band.1",
           "tag": "funny",
@@ -425,7 +425,7 @@
       "set": "npc.felix.talk",
       "entries": [
         {
-          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin",
+          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin && (heard:tilda.pumpkin.1 || heard:tilda.pumpkin.2)",
           "priority": 2,
           "dialogue": "felix.pumpkin.1",
           "tag": "funny",
@@ -437,7 +437,7 @@
       "set": "npc.marcus.talk",
       "entries": [
         {
-          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin",
+          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin && (heard:tilda.pumpkin.1 || heard:tilda.pumpkin.2)",
           "priority": 2,
           "dialogue": "marcus.pumpkin.1",
           "category": "reactive"
@@ -448,7 +448,7 @@
       "set": "npc.dorian.talk",
       "entries": [
         {
-          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin",
+          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin && (heard:tilda.pumpkin.1 || heard:tilda.pumpkin.2)",
           "priority": 2,
           "dialogue": "dorian.pumpkin.1",
           "category": "reactive"
@@ -459,7 +459,7 @@
       "set": "npc.wren.talk",
       "entries": [
         {
-          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin",
+          "condition": "storyline:missing_pumpkin && !flag:storydone.missing_pumpkin && (heard:tilda.pumpkin.1 || heard:tilda.pumpkin.2)",
           "priority": 2,
           "dialogue": "wren.pumpkin.1",
           "tag": "funny",
@@ -538,7 +538,7 @@
       "set": "npc.wren.talk",
       "entries": [
         {
-          "condition": "storyline:five_names_cat && !flag:storydone.five_names_cat",
+          "condition": "storyline:five_names_cat && !flag:storydone.five_names_cat && (heard:tilda.cat.1 || heard:juno.cat.1 || heard:piper.cat.1 || heard:hazel.cat.1 || heard:bram.cat.1)",
           "priority": 2,
           "dialogue": "wren.cat.1",
           "tag": "funny",

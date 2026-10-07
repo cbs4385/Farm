@@ -73,7 +73,7 @@ namespace Farm.Gameplay
             if (WarmthModel.Missed(wasMet, daysAway, FriendshipModel.Hearts(state.Points)) && session.Story.Dialogue(WarmthModel.DialogueId(npc.Id)) != null)
             {
                 AddPoints(session, npc.Id, WarmthModel.ReturnBonusPoints);
-                if (session.BeginDialogue(WarmthModel.DialogueId(npc.Id), () => InteractionMenu.Offer(session, npc, 0))) return true;
+                if (session.BeginDialogue(WarmthModel.DialogueId(npc.Id), () => InteractionMenu.Offer(session, npc))) return true;
             }
 
             var set = session.Story.Set(npc.TalkSetId);
@@ -86,8 +86,7 @@ namespace Farm.Gameplay
                 Reactions.MarkConsumed(reactions, npc.Id, dialogue, today);
                 ReactionState.Store(session, reactions);
             }
-            var pickedPriority = dialogue != null ? memory.LastOf(set.Id)?.Priority ?? 0 : 0;
-            if (dialogue == null || !session.BeginDialogue(dialogue, () => InteractionMenu.Offer(session, npc, pickedPriority)))
+            if (dialogue == null || !session.BeginDialogue(dialogue, () => InteractionMenu.Offer(session, npc)))
             {
                 session.Toast(L.Get("npc.no_reply", L.Get(npc.NameKey)));
                 return false;

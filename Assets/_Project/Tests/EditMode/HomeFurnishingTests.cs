@@ -54,6 +54,18 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheShippingBin_IsAMovable_TwoByTwoPiece()
+        {
+            var scene = EditorSceneManager.OpenScene($"{SceneDir}/{MapIds.Farm}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);
+            var bin = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<ShippingBin>(true)).Single();
+            var fixture = bin.GetComponent<MovableFixture>();
+            Assert.IsNotNull(fixture, "the bin can be lifted with the mallet");
+            Assert.AreEqual("shipping_bin", fixture.Id);
+            Assert.AreEqual(new Vector2Int(2, 2), fixture.Size);
+            Assert.AreEqual(new Vector2(2f, 2f), bin.GetComponent<BoxCollider2D>().size);
+        }
+
+        [Test]
         public void TheMailbox_IsTallAndBold()
         {
             var scene = EditorSceneManager.OpenScene($"{SceneDir}/{MapIds.Farm}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);

@@ -21,7 +21,7 @@ namespace Farm.Gameplay
                     MineTravel.GoToFloor(s, s.State.Mine.Floor + 1);
                     break;
                 case StairKind.Up:
-                    MineTravel.GoToFloor(s, s.State.Mine.Floor - 1);
+                    MineTravel.GoToFloor(s, s.State.Mine.Floor - 1, fromBelow: true);
                     break;
                 case StairKind.Elevator:
                     if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowElevator();
@@ -33,7 +33,10 @@ namespace Farm.Gameplay
     public static class MineTravel
     {
         // Moves between floors by reloading the Mine scene (floor 0 leaves the mine for the forest).
-        public static void GoToFloor(GameSession s, int floor)
+        public const string FromBelowSpawn = "fromBelow";
+
+        // Coming up from the floor below one arrives beside that floor's ladder down, not beside its way up.
+        public static void GoToFloor(GameSession s, int floor, bool fromBelow = false)
         {
             if (floor <= 0)
             {
@@ -49,7 +52,7 @@ namespace Farm.Gameplay
                 if (floor % 5 == 0) s.Toast(Farm.Core.L.Get("mine.elevator_unlocked", floor));
             }
             s.Toast(Farm.Core.L.Get("mine.floor", floor));
-            MapTravel.GoTo(MapIds.Mine, "default");
+            MapTravel.GoTo(MapIds.Mine, fromBelow ? FromBelowSpawn : "default");
         }
     }
 }
