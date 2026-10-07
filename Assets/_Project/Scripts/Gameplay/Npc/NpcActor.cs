@@ -20,6 +20,21 @@ namespace Farm.Gameplay
         readonly List<Vector3> _points = new List<Vector3>();
         readonly List<float> _lengths = new List<float>();
 
+        // Playtest 2026-10-07: villagers walked into the player and pushed them, and walked through whatever was in the way. A walking villager now
+        // stops short of anything solid on its way (the player, a piece of furniture put down since the map loaded), which holds its schedule back
+        // (NpcManager) until the way is clear, and after RerouteAfter seconds of waiting finds a way round. Other villagers and animals do not block
+        // it (two villagers in a corridor could wait for each other for ever).
+        public const float RerouteAfter = 1.5f;
+        const float ProbeSize = ActorBody.Size + 0.04f;          // as wide as the villager's body, or it would stop with its body already touching the player
+        float _waitFor;
+        float _fromT;                            // the schedule's progress along the leg when the route was last changed (0 at the start of a leg)
+        Collider2D _playerBody;
+        float _nextPlayerSearch;
+        BoxCollider2D _body;
+
+        // True while this villager is held up by something in the way.
+        public bool Waiting { get; private set; }
+
         public NpcDefinition Definition => _definition;
         public bool IsWalking { get; private set; }
         public Vector2Int Facing => _facing;
@@ -36,6 +51,8 @@ namespace Farm.Gameplay
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.sortingOrder = 9;
             ActorBody.Add(gameObject);
+            var bodyTransform = transform.Find(ActorBody.BodyName);
+            _body = bodyTransform != null ? bodyTransform.GetComponent<BoxCollider2D>() : null;
             (TryGetComponent<WalkBob>(out var bob) ? bob : gameObject.AddComponent<WalkBob>()).Breathes = true;
             _renderer.sprite = definition.SpriteFor(_facing);
         }
@@ -49,7 +66,10 @@ namespace Farm.Gameplay
                 transform.position = map.CellCenter(cell);
                 Cell = cell;
                 IsPlaced = true;
+                Waiting = false;
+                _waitFor = 0f;
                 SetFacing(NpcSchedule.FacingVector(place.Facing));
+                YieldBodyToPlayer();
                 return;
             }
 
@@ -57,11 +77,14 @@ namespace Farm.Gameplay
             if (!key.Equals(_pathKey))
             {
                 _pathKey = key;
+                _fromT = 0f;
+                _waitFor = 0f;
                 BuildPath(place, map, grid);
             }
 
             var total = _lengths.Count > 0 ? _lengths[_lengths.Count - 1] : 0f;
-            var distance = Mathf.Clamp01(place.T) * total;
+            var progress = _fromT >= 1f ? 1f : Mathf.Clamp01((Mathf.Clamp01(place.T) - _fromT) / (1f - _fromT));
+            var distance = progress * total;
             var i = 1;
             while (i < _lengths.Count - 1 && _lengths[i] < distance) i++;
             if (_points.Count < 2)
@@ -72,14 +95,84 @@ namespace Farm.Gameplay
             var segment = _lengths[i] - _lengths[i - 1];
             var t = segment > 0f ? Mathf.Clamp01((distance - _lengths[i - 1]) / segment) : 1f;
             var a = _points[i - 1]; var b = _points[i];
-            transform.position = Vector3.Lerp(a, b, t);
+            var proposed = Vector3.Lerp(a, b, t);
+
+            // Something solid at the next step (but not on the cell it leaves or the one it is going to: a villager may sit on a seat that is a solid thing).
+            var atEnds = (proposed - _points[0]).sqrMagnitude < 0.36f || (proposed - _points[_points.Count - 1]).sqrMagnitude < 0.36f;
+            if (IsPlaced && !atEnds && SolidAt(proposed, ProbeSize))
+            {
+                Waiting = true;
+                _waitFor += Time.deltaTime;
+                if (_waitFor >= RerouteAfter) Reroute(place, map, grid);
+                YieldBodyToPlayer();
+                return;
+            }
+            Waiting = false;
+            _waitFor = 0f;
+            transform.position = proposed;
             Cell = map.WorldToCell(transform.position);
             IsPlaced = true;
+            YieldBodyToPlayer();
             var direction = b - a;
             if (direction.sqrMagnitude > 0.0001f)
                 SetFacing(Mathf.Abs(direction.x) > Mathf.Abs(direction.y)
                     ? (direction.x > 0 ? Vector2Int.right : Vector2Int.left)
                     : (direction.y > 0 ? Vector2Int.up : Vector2Int.down));
+        }
+
+        // Is anything solid in a box of this size at `centre`? The player counts; this villager's own body, triggers and other actors do not.
+        bool SolidAt(Vector3 centre, float size)
+        {
+            foreach (var hit in Physics2D.OverlapBoxAll(centre, new Vector2(size, size), 0f))
+            {
+                if (hit.isTrigger || hit.transform.IsChildOf(transform)) continue;
+                if (hit.GetComponentInParent<ICellOccupant>() != null) continue;
+                return true;
+            }
+            return false;
+        }
+
+        // Held up for a while: a new route from where it stands to where it is going, round whatever is in the way (the villager keeps its place in
+        // the schedule: the new route is walked over the rest of the leg). With no way round it keeps waiting.
+        void Reroute(NpcPlacement place, FarmMap map, WalkGrid grid)
+        {
+            _waitFor = 0f;
+            if (grid == null) return;
+            var from = map.WorldToCell(transform.position);
+            var path = grid.FindPath(from.x, from.y, place.ToX, place.ToY,
+                (x, y) => { var c = new Vector3Int(x, y, 0); return CellOccupants.IsTaken(c, this) || SolidAt(map.CellCenter(c), 0.9f); });
+            if (path == null || path.Count < 2) return;
+            _points.Clear();
+            _lengths.Clear();
+            _points.Add(transform.position);
+            for (var i = 1; i < path.Count; i++) _points.Add(map.CellCenter(new Vector3Int(path[i].x, path[i].y, 0)));
+            var length = 0f;
+            _lengths.Add(0f);
+            for (var i = 1; i < _points.Count; i++)
+            {
+                length += Vector3.Distance(_points[i - 1], _points[i]);
+                _lengths.Add(length);
+            }
+            _fromT = Mathf.Clamp01(place.T);
+        }
+
+        // The body of a villager never pushes the player: if the schedule puts it on top of the player (it arrives where the player stands), it is
+        // not solid until the player has stepped out of it.
+        void YieldBodyToPlayer()
+        {
+            if (_body == null) return;
+            if (_playerBody == null && Time.unscaledTime >= _nextPlayerSearch)
+            {
+                _nextPlayerSearch = Time.unscaledTime + 0.5f;
+                var player = Object.FindAnyObjectByType<PlayerController>();
+                _playerBody = player != null ? player.GetComponent<Collider2D>() : null;
+            }
+            if (_playerBody == null) { _body.enabled = true; return; }
+            var p = _playerBody.bounds;
+            var half = (ActorBody.Size - 0.06f) * 0.5f;
+            var c = transform.position;
+            var overlapping = p.min.x < c.x + half && p.max.x > c.x - half && p.min.y < c.y + half && p.max.y > c.y - half;
+            _body.enabled = !overlapping;
         }
 
         void BuildPath(NpcPlacement place, FarmMap map, WalkGrid grid)

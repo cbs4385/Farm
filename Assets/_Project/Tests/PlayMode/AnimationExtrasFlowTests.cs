@@ -130,7 +130,7 @@ namespace Farm.Tests
         {
             yield return Load(MapIds.Farm);
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-            var warp = UnityEngine.Object.FindObjectsByType<Warp>(FindObjectsSortMode.None).First(w => w.IsOpen(out _));
+            var warp = UnityEngine.Object.FindObjectsByType<Warp>(FindObjectsSortMode.None).First(w => w.TargetMap == MapIds.FarmHouse && w.IsOpen(out _));      // a real door: the road to the village shows none
             var enter = typeof(Warp).GetMethod("OnTriggerEnter2D", BindingFlags.NonPublic | BindingFlags.Instance);
             enter.Invoke(warp, new object[] { player.GetComponent<Collider2D>() });
             Assert.IsNotNull(UnityEngine.Object.FindAnyObjectByType<DoorFlash>(), "the doorway opens as the farmer steps in");

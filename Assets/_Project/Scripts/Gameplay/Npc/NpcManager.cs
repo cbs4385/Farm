@@ -133,7 +133,8 @@ namespace Farm.Gameplay
                 var held = _holdLeft.TryGetValue(npc.Id, out var left) && left > 0f;
                 if (held && !modal) _holdLeft[npc.Id] = left - Time.unscaledDeltaTime;
                 _lag.TryGetValue(npc.Id, out var lag);
-                lag = Mathf.Min(MaxLag, NextLag(lag, dMinute, held));
+                var waiting = _actors.TryGetValue(npc.Id, out var current) && current != null && current.Waiting;      // held up by something in the way: the schedule waits too
+                lag = Mathf.Min(MaxLag, NextLag(lag, dMinute, held || waiting));
                 _lag[npc.Id] = lag;
                 var place = NpcSchedule.Where(npc, PlanFor(npc, day), Mathf.Max(0f, minute - lag));
                 if (place.Map != _map.MapId)
