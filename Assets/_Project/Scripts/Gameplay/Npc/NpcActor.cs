@@ -99,7 +99,8 @@ namespace Farm.Gameplay
 
             // Something solid at the next step (but not on the cell it leaves or the one it is going to: a villager may sit on a seat that is a solid thing).
             var atEnds = (proposed - _points[0]).sqrMagnitude < 0.36f || (proposed - _points[_points.Count - 1]).sqrMagnitude < 0.36f;
-            if (IsPlaced && !atEnds && SolidAt(proposed, ProbeSize))
+            // The player stops a villager everywhere along its route, the first and last steps too; only a solid thing (a seat) is excused there.
+            if (IsPlaced && (PlayerAt(proposed, ProbeSize) || (!atEnds && SolidAt(proposed, ProbeSize))))
             {
                 Waiting = true;
                 _waitFor += Time.deltaTime;
@@ -118,6 +119,27 @@ namespace Farm.Gameplay
                 SetFacing(Mathf.Abs(direction.x) > Mathf.Abs(direction.y)
                     ? (direction.x > 0 ? Vector2Int.right : Vector2Int.left)
                     : (direction.y > 0 ? Vector2Int.up : Vector2Int.down));
+        }
+
+        Collider2D FindPlayerBody()
+        {
+            if (_playerBody == null && Time.unscaledTime >= _nextPlayerSearch)
+            {
+                _nextPlayerSearch = Time.unscaledTime + 0.5f;
+                var player = Object.FindAnyObjectByType<PlayerController>();
+                _playerBody = player != null ? player.GetComponent<Collider2D>() : null;
+            }
+            return _playerBody;
+        }
+
+        // Would a villager's body, `size` wide, centred on `centre` touch the player?
+        bool PlayerAt(Vector3 centre, float size)
+        {
+            var body = FindPlayerBody();
+            if (body == null) return false;
+            var p = body.bounds;
+            var half = size * 0.5f;
+            return p.min.x < centre.x + half && p.max.x > centre.x - half && p.min.y < centre.y + half && p.max.y > centre.y - half;
         }
 
         // Is anything solid in a box of this size at `centre`? The player counts; this villager's own body, triggers and other actors do not.
@@ -161,18 +183,7 @@ namespace Farm.Gameplay
         void YieldBodyToPlayer()
         {
             if (_body == null) return;
-            if (_playerBody == null && Time.unscaledTime >= _nextPlayerSearch)
-            {
-                _nextPlayerSearch = Time.unscaledTime + 0.5f;
-                var player = Object.FindAnyObjectByType<PlayerController>();
-                _playerBody = player != null ? player.GetComponent<Collider2D>() : null;
-            }
-            if (_playerBody == null) { _body.enabled = true; return; }
-            var p = _playerBody.bounds;
-            var half = (ActorBody.Size - 0.06f) * 0.5f;
-            var c = transform.position;
-            var overlapping = p.min.x < c.x + half && p.max.x > c.x - half && p.min.y < c.y + half && p.max.y > c.y - half;
-            _body.enabled = !overlapping;
+            _body.enabled = !PlayerAt(transform.position, ActorBody.Size - 0.06f);
         }
 
         void BuildPath(NpcPlacement place, FarmMap map, WalkGrid grid)
