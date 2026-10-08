@@ -201,6 +201,27 @@ namespace Farm.UI
             var exit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
             exit.callback.AddListener(_ => _ui.HideHover());
             trigger.triggers.Add(exit);
+            if (atTheIcon) MakeFocusable(target, trigger, spot);
+        }
+
+        // The same label for someone with no mouse: each building icon can take keyboard and gamepad focus (the arrows or the stick move between the
+        // icons by position) and the label shows at the focused one, which is tinted gold. The regions stay mouse-only (they overlap the icons).
+        void MakeFocusable(GameObject target, EventTrigger trigger, WorldMapLayout.Spot spot)
+        {
+            var button = target.AddComponent<Button>();
+            button.targetGraphic = target.GetComponent<Image>();
+            var colors = button.colors;
+            colors.normalColor = colors.highlightedColor = Color.white;
+            colors.selectedColor = colors.pressedColor = new Color(1f, 0.82f, 0.38f, 1f);
+            colors.colorMultiplier = 1f;
+            button.colors = colors;
+            button.navigation = new Navigation { mode = Navigation.Mode.Automatic };
+            var select = new EventTrigger.Entry { eventID = EventTriggerType.Select };
+            select.callback.AddListener(_ => _ui.ShowHover(HoverText(_ui.Session, spot), target.transform.position));
+            trigger.triggers.Add(select);
+            var deselect = new EventTrigger.Entry { eventID = EventTriggerType.Deselect };
+            deselect.callback.AddListener(_ => _ui.HideHover());
+            trigger.triggers.Add(deselect);
         }
 
         // The label of a place: its name, whether a shop is open, a farm building's state, the villagers met who are there, and "you are here". (pure given the session)

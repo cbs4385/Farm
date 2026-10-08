@@ -236,5 +236,45 @@ namespace Farm.Tests
             var middle = (pin.rectTransform.anchorMin.x + pin.rectTransform.anchorMax.x) * 0.5f;
             Assert.IsTrue(villageBox.anchorMin.x <= middle && middle <= villageBox.anchorMax.x, "the middle of the pin is inside the village on the picture");
         }
+
+        [UnityTest]
+        public IEnumerator TheMapPage_CanBeFocusedWithoutAMouse_AndTheLabelFollowsTheFocus()
+        {
+            yield return Start(MapIds.Village);
+            _session.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 10 * 60));
+            yield return Tap(Key.M);
+            for (var i = 0; i < 3; i++) yield return Tap(Key.E);
+            var map = Ui.GameMenu.Current;
+            Assert.AreEqual(MenuTabs.Map, map.Id);
+
+            Button Spot(string place) => map.Root.GetComponentsInChildren<Button>(true).First(b => b.name == "Spot_" + place);
+            foreach (var place in new[] { MapIds.Clinic, MapIds.GeneralStore, MapIds.Saloon, MapIds.FarmHouse })
+                Assert.IsTrue(Spot(place).IsInteractable(), place + " can take focus");
+
+            EventSystem.current.SetSelectedGameObject(Spot(MapIds.GeneralStore).gameObject);
+            yield return null;
+            StringAssert.Contains("General Store", Ui.HoverText, "the label shows at the focused building");
+            StringAssert.Contains("Open now", Ui.HoverText);
+
+            EventSystem.current.SetSelectedGameObject(Spot(MapIds.Clinic).gameObject);
+            yield return null;
+            StringAssert.Contains("Clinic", Ui.HoverText, "and moves with the focus");
+
+            EventSystem.current.SetSelectedGameObject(null);
+            yield return null;
+            Assert.IsNull(Ui.HoverText, "and goes when nothing is focused");
+
+            // The arrow keys move the focus from one icon to another by position (the same navigation a gamepad stick uses).
+            EventSystem.current.SetSelectedGameObject(Spot(MapIds.GeneralStore).gameObject);
+            yield return null;
+            var before = Ui.HoverText;
+            foreach (var key in new[] { Key.RightArrow, Key.LeftArrow, Key.UpArrow, Key.DownArrow })
+            {
+                yield return Tap(key);
+                if (Ui.HoverText != before) break;
+            }
+            Assert.AreNotEqual(before, Ui.HoverText, "an arrow key moved the focus to another place");
+            Assert.IsNotNull(EventSystem.current.currentSelectedGameObject.GetComponent<Button>());
+        }
     }
 }
