@@ -16,18 +16,29 @@ namespace Farm.UI
 
         public MainMenuScreen(UiService ui) : base(ui)
         {
-            var scrim = UiKit.Panel(ui.ScreenCanvas.transform, "MainMenu", new Color(0.10f, 0.20f, 0.12f, 1f));
+            var scrim = UiKit.Panel(ui.ScreenCanvas.transform, "MainMenu", new Color(0.10f, 0.20f, 0.12f, 1f));       // the colour behind the picture (and without it)
             UiKit.Stretch(scrim.rectTransform);
             Root = scrim.gameObject;
+            AddPicture(scrim.transform);
 
-            var stack = UiKit.VStack(scrim.transform, "Stack", 12f, 0, TextAnchor.MiddleCenter);
-            UiKit.Place((RectTransform)stack.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(320, 430), Vector2.zero);
-
-            var title = UiKit.Label(stack.transform, L.Get("game.title"), 54f, TextAlignmentOptions.Center, UiKit.Accent);
-            title.enableAutoSizing = true;                                  // "Wetherell Farm Saga" is longer than the old title: two lines at a size that fits
-            title.fontSizeMin = 24f; title.fontSizeMax = 54f;
+            // The title sits in the calm sky at the top of the picture; the buttons are on a dark plate below it so they read over any part of the picture.
+            var title = UiKit.Label(scrim.transform, L.Get("game.title"), 64f, TextAlignmentOptions.Center, UiKit.Accent);
+            title.enableAutoSizing = true;                                  // "Wetherell Farm Saga" is long: one or two lines at a size that fits
+            title.fontSizeMin = 28f; title.fontSizeMax = 64f;
             title.textWrappingMode = TextWrappingModes.Normal;
-            UiKit.Size(title.gameObject, -1f, 110f);
+            UiKit.Place(title.rectTransform, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(900f, 130f), new Vector2(0f, -24f));
+            // A dark copy just behind and below the letters, so they read over the trees as well as over the sky.
+            var shadow = UiKit.Label(scrim.transform, L.Get("game.title"), 64f, TextAlignmentOptions.Center, new Color(0.10f, 0.05f, 0.03f, 0.85f));
+            shadow.name = "TitleShadow";
+            shadow.enableAutoSizing = true; shadow.fontSizeMin = 28f; shadow.fontSizeMax = 64f;
+            shadow.textWrappingMode = TextWrappingModes.Normal;
+            UiKit.Place(shadow.rectTransform, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(900f, 130f), new Vector2(3f, -28f));
+            shadow.transform.SetSiblingIndex(title.transform.GetSiblingIndex());           // behind the title
+
+            var plate = UiKit.Panel(scrim.transform, "ButtonPlate", new Color(0.09f, 0.06f, 0.04f, 0.78f));
+            UiKit.Place(plate.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(320f, 346f), new Vector2(0f, -56f));
+            var stack = UiKit.VStack(plate.transform, "Stack", 12f, 14, TextAnchor.MiddleCenter);
+            UiKit.Stretch((RectTransform)stack.transform);
             _continue = UiKit.MakeButton(stack.transform, L.Get("menu.continue"), Continue, 260f, 40f);
             UiKit.MakeButton(stack.transform, L.Get("menu.new_game"), () => _newGame.Open(), 260f, 40f);
             UiKit.MakeButton(stack.transform, L.Get("menu.load_game"), () => _load.Open(), 260f, 40f);
@@ -41,6 +52,34 @@ namespace Farm.UI
             _newGame = new NewGameScreen(ui, this);
             _load = new LoadGameScreen(ui, this);
             Root.SetActive(false);
+        }
+
+        public const string PicturePath = "Title/title_background";
+        public TitleBackdrop Backdrop { get; private set; }
+
+        // The picture behind the menu, scaled to fill the screen (cropped, never stretched) and moved gently by the breeze. Without the picture the menu is
+        // the plain colour it used to be.
+        void AddPicture(Transform parent)
+        {
+            var picture = Resources.Load<Texture2D>(PicturePath);
+            if (picture == null) return;
+            var holder = UiKit.Rect("Picture", parent);
+            holder.anchorMin = holder.anchorMax = holder.pivot = new Vector2(0.5f, 0.5f);
+            var fit = holder.gameObject.AddComponent<AspectRatioFitter>();
+            fit.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+            fit.aspectRatio = picture.width / (float)picture.height;
+            holder.localScale = new Vector3(1.04f, 1.04f, 1f);               // a little over, so the moving edges never show the colour behind
+
+            var backdrop = UiKit.Rect("Backdrop", holder);
+            UiKit.Stretch(backdrop);
+            Backdrop = backdrop.gameObject.AddComponent<TitleBackdrop>();
+            Backdrop.raycastTarget = false;
+            Backdrop.Show(picture);
+            TitleAmbience.Create(holder);
+
+            var shade = UiKit.Panel(parent, "Shade", new Color(0.04f, 0.02f, 0.06f, 0.22f));          // takes a little of the glare off the picture
+            shade.raycastTarget = false;
+            UiKit.Stretch(shade.rectTransform);
         }
 
         public override void Open()

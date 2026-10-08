@@ -10,13 +10,30 @@ namespace Farm.Editor
         public const int PixelsPerUnit = 16;
 
         // Bump when import rules change so existing art is reimported.
-        public override uint GetVersion() => 4;
+        public override uint GetVersion() => 5;
 
         // Full-screen pictures (the ending illustrations) are loaded as plain textures, kept at their exact size and crisp.
         const string PictureRoot = "Assets/_Project/Resources/Endings/";
 
+        // The title picture is moved by the breeze in less than a pixel steps, so it is smooth-filtered, and readable so that the game can work out which
+        // parts of it are foliage (TitleSway.Weights).
+        const string TitleRoot = "Assets/_Project/Resources/Title/";
+
         void OnPreprocessTexture()
         {
+            if (assetPath.StartsWith(TitleRoot))
+            {
+                var title = (TextureImporter)assetImporter;
+                title.textureType = TextureImporterType.Default;
+                title.filterMode = FilterMode.Bilinear;
+                title.isReadable = true;
+                title.textureCompression = TextureImporterCompression.Uncompressed;
+                title.mipmapEnabled = false;
+                title.npotScale = TextureImporterNPOTScale.None;
+                title.alphaSource = TextureImporterAlphaSource.None;
+                title.maxTextureSize = 2048;
+                return;
+            }
             if (assetPath.StartsWith(PictureRoot))
             {
                 var picture = (TextureImporter)assetImporter;

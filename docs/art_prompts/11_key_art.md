@@ -33,3 +33,19 @@ SHEET: Application and store art. A sprite sheet laid out as a strict grid of 3 
 Store art in the same style: an app icon (a farmhouse and sprouting seedling in a round badge), a header capsule (460x215) showing the farm, a small capsule, a main capsule, a vertical capsule (600x900) and a library hero. Include the cozy farm foreground, the village, and a thin hint of moonlit woods; leave room for the logo.
 NEGATIVE: photorealism, 3D render, smooth gradients, anti-aliased edges, blur, black outlines, neon colours, harsh contrast, gore, blood, violence, scary faces, text, watermark, signature, extra limbs, inconsistent perspective, different art style, background scenery (unless requested).
 ```
+
+## Title screen background (the picture the game uses: made by the owner with ChatGPT image generation, 2026-10-08)
+
+Saved as `Assets/_Project/Resources/Title/title_background.png` (the game scales it to fill the screen and animates it; see `docs/STATUS.md`). The prompt used:
+
+```text
+Create a widescreen 16:9 title-screen background illustration for a cozy farming and village-life game with a faint, quiet hint of mystery. No text, no letters, no logo, no watermark, no UI.
+
+STYLE: Cozy hand-crafted pixel art, top-down three-quarter view (camera slightly above, like a storybook diorama). Soft, friendly shapes with slightly rounded corners and chunky, readable silhouettes. Crisp hard pixel edges, no anti-aliasing, no blur, no photorealism, no 3D render, no smooth gradients, no dithering noise. One-pixel warm dark brown outlines (#3A2618, never pure black) with a lighter inner highlight on the upper left. Light comes from the upper left. Limited warm palette of about 24 colours (the project palette in STYLE_GUIDE.md).
+
+SCENE: A New England-style farm at the edge of a small village, at golden hour sliding into dusk. Weathered farmhouse with a smoking chimney, a barn, a split-rail fence, tidy crop rows (pumpkins, cabbages, sunflowers), a scarecrow, a dirt path winding toward a lane of small colourful cottages and a steepled community hall. Autumn leaves drifting in the air.
+
+THE HINT OF STORY (subtle, never frightening): along the far upper edge a dark pine tree line with a few pale softly glowing lavender-white specks among the trunks, and a large pale moon rising above it with a faint lavender halo. No monsters, no faces, no gore.
+
+COMPOSITION: keep the upper centre calm for the title and a central or side band quiet enough for a column of menu buttons; main detail in the bottom third and along the edges.
+```
