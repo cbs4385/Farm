@@ -9,7 +9,7 @@ namespace Farm.Gameplay
     //   { "id": "wren.harvest_hello", "on": "flag:first_harvest", "npcs": "wren,tilda", "condition": "hearts:wren>=1",
     //     "ttlDays": 3, "priority": 3, "cooldownDays": 28, "once": false, "dialogue": "wren.react_harvest" }
     // `on` is one of: flag:<flag> (set), quest.start:<id>, quest.done:<id>, skill.up:<skill>, event:<id> (a scene ended),
-    // season:<spring|summer|fall|winter>, gift:<npc> (the player gave that villager a gift), random:<id>, or `day`
+    // season:<spring|summer|fall|winter>, gift:<npc> (the player gave that villager a gift), wake:<npc> (that villager was woken from their bed, by the player or a story effect), random:<id>, or `day`
     // (checked every morning: use it with a condition such as festival.in:==1).
     [Serializable]
     public sealed class ReactionDefinition
@@ -48,7 +48,7 @@ namespace Farm.Gameplay
 
     public static class Reactions
     {
-        static readonly string[] TriggerPrefixes = { "flag:", "quest.start:", "quest.done:", "skill.up:", "event:", "season:", "gift:", "random:" };
+        static readonly string[] TriggerPrefixes = { "flag:", "quest.start:", "quest.done:", "skill.up:", "event:", "season:", "gift:", "random:", "wake:" };
 
         public static bool IsKnownTrigger(string on) =>
             on == "day" || (on != null && TriggerPrefixes.Any(p => on.StartsWith(p, StringComparison.Ordinal) && on.Length > p.Length));

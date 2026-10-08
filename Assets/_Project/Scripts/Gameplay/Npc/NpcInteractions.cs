@@ -54,7 +54,8 @@ namespace Farm.Gameplay
         }
 
         // The player talks to a villager. The first talk each day is worth a little friendship.
-        public static bool Talk(GameSession session, NpcDefinition npc)
+        // `first`: a dialogue to say before anything else (the reaction of someone just woken).
+        public static bool Talk(GameSession session, NpcDefinition npc, string first = null)
         {
             var state = StateOf(session.State, npc.Id);
             var today = session.Clock.Now.TotalDays;
@@ -68,6 +69,8 @@ namespace Farm.Gameplay
             }
             state.LastContactDay = today;
             session.Publish(new NpcTalked(npc.Id));
+
+            if (first != null && session.BeginDialogue(first, () => InteractionMenu.Offer(session, npc))) return true;
 
             // Back after a week or more: a "missed you" greeting and a small return bonus (T-108), instead of today's usual line.
             if (WarmthModel.Missed(wasMet, daysAway, FriendshipModel.Hearts(state.Points)) && session.Story.Dialogue(WarmthModel.DialogueId(npc.Id)) != null)

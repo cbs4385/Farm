@@ -9,7 +9,8 @@ namespace Farm.Gameplay
         public static NpcPlacement Where(GameSession session, NpcDefinition npc)
         {
             var plan = NpcSchedule.PlanFor(npc, session.World, session.Hooks.ScheduleEntriesFor(npc));
-            return NpcSchedule.Where(npc, plan, session.Clock.PreciseMinuteOfDay);
+            var minute = session.Clock.PreciseMinuteOfDay;
+            return NpcWake.Adjust(session, npc.Id, NpcSchedule.Where(npc, plan, minute), minute);
         }
 
         // The map the villager is on or heading for.

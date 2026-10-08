@@ -330,14 +330,24 @@ namespace Farm.Gameplay
         public void Interact(PlayerActions player)
         {
             if (_definition == null) return;
-            if (Sleeping) { player.Session.Toast(Farm.Core.L.Get("npc.asleep", Farm.Core.L.Get(_definition.NameKey))); return; }
+            // Talking to someone asleep wakes them: they get up, and their reaction (grumpy, or warm to a friend) is the first thing they say.
+            string reaction = null;
+            if (Sleeping)
+            {
+                if (!NpcWake.Wake(player.Session, _definition.Id, byPlayer: true))
+                {
+                    player.Session.Toast(Farm.Core.L.Get("npc.asleep", Farm.Core.L.Get(_definition.NameKey)));
+                    return;
+                }
+                reaction = NpcWake.TakeReaction(player.Session, _definition.Id);
+            }
             // Turn to face the player, like someone who has been spoken to.
             var toPlayer = player.transform.position - transform.position;
             SetFacing(Mathf.Abs(toPlayer.x) > Mathf.Abs(toPlayer.y)
                 ? (toPlayer.x > 0 ? Vector2Int.right : Vector2Int.left)
                 : (toPlayer.y > 0 ? Vector2Int.up : Vector2Int.down));
             if (NpcManager.Current != null) NpcManager.Current.Hold(_definition.Id);       // stand still for a while
-            NpcInteractions.Talk(player.Session, _definition);
+            NpcInteractions.Talk(player.Session, _definition, reaction);
         }
     }
 }

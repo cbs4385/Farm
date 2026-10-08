@@ -136,7 +136,8 @@ namespace Farm.Gameplay
                 var waiting = _actors.TryGetValue(npc.Id, out var current) && current != null && current.Waiting;      // held up by something in the way: the schedule waits too
                 lag = Mathf.Min(MaxLag, NextLag(lag, dMinute, held || waiting));
                 _lag[npc.Id] = lag;
-                var place = NpcSchedule.Where(npc, PlanFor(npc, day), Mathf.Max(0f, minute - lag));
+                var behind = Mathf.Max(0f, minute - lag);
+                var place = NpcWake.Adjust(_session, npc.Id, NpcSchedule.Where(npc, PlanFor(npc, day), behind), behind);
                 if (place.Map != _map.MapId)
                 {
                     if (_actors.TryGetValue(npc.Id, out var gone)) { Destroy(gone.gameObject); _actors.Remove(npc.Id); }
