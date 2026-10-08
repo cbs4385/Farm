@@ -56,6 +56,15 @@ namespace Farm.Gameplay
             new Street { LaneX = 59, RowY = 4 },        // south-east
         };
 
+        // Each street's way to the main cross streets (playtest 2026-10-08: the streets stood alone): a cobbled strip from the street's lane to the main road
+        // (y 16 to 18, all the way across the village) or to the lane to the forest and the beach (x 24 to 26, all the way up and down). Cells are inclusive.
+        public static readonly RectInt[] Links =
+        {
+            new RectInt(13, 33, 11, 3),     // north-west: from the lane's south end east along y 33 to 35 to the forest lane (x 13 to 23)
+            new RectInt(61, 19, 3, 17),     // north-east: from the lane's south end straight down to the main road (y 19 to 35)
+            new RectInt(59, 14, 3, 2),      // south-east: from the lane's north end up to the main road (y 14 and 15)
+        };
+
         // The middle of the village map, and how far a street (the middle of its lane) and a home (its door) are from it, in cells. (pure)
         public static readonly Vector2 VillageCentre = new Vector2(MapLayout.VillageW * 0.5f, MapLayout.VillageH * 0.5f);
         public static Vector2 StreetCentre(Street street) => new Vector2(street.LaneX + LaneWidth * 0.5f, street.RowY + (RowRise + CottageH) * 0.5f - 1f);
@@ -161,9 +170,11 @@ namespace Farm.Gameplay
             return new NpcStop { Minute = Math.Max(GameDateTime.DayStartMinute + 5, arriveBy - (int)Math.Ceiling(walk)), Map = map, X = x, Y = y, Facing = facing };
         }
 
-        // The cells that are cobbled in the village: each street's lane and the two-cell alleys in front of its rows of doors. (pure)
+        // The cells that are cobbled in the village: each street's lane, the two-cell alleys in front of its rows of doors, and the links to the main streets. (pure)
         public static bool IsCobbled(int x, int y)
         {
+            foreach (var link in Links)
+                if (link.Contains(new Vector2Int(x, y))) return true;
             foreach (var street in Streets)
             {
                 if (x >= street.LaneX && x < street.LaneX + LaneWidth && y >= street.RowY - 2 && y <= street.RowY + RowRise + CottageH - 1) return true;
@@ -179,6 +190,8 @@ namespace Farm.Gameplay
         // The land a street takes, with a margin (no scattered trees there).
         public static bool InStreet(int x, int y)
         {
+            foreach (var link in Links)
+                if (x >= link.xMin - 1 && x <= link.xMax && y >= link.yMin - 1 && y <= link.yMax) return true;
             foreach (var street in Streets)
                 if (x >= street.LaneX - CottageW - 2 && x <= street.LaneX + LaneWidth + CottageW + 1 && y >= street.RowY - 3 && y <= street.RowY + RowRise + CottageH + 1) return true;
             return false;

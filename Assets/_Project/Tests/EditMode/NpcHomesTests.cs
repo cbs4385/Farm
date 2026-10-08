@@ -84,6 +84,47 @@ namespace Farm.Tests
             Assert.IsTrue(centres.Any(c => c.y < NpcHomes.VillageCentre.y) && centres.Any(c => c.y > NpcHomes.VillageCentre.y), "north and south");
         }
 
+        // Playtest 2026-10-08: "the roads the homes are on do not link to the main cross streets of the village, leaving them isolated". Cobbles join every
+        // street and every door to the main road or to the lane to the forest and the beach.
+        [Test]
+        public void EveryStreet_AndEveryDoor_IsJoinedByCobblesToTheMainCrossStreets()
+        {
+            bool Paved(int x, int y) =>
+                x > 0 && y > 0 && x < MapLayout.VillageW - 1 && y < MapLayout.VillageH - 1 && (NpcHomes.IsCobbled(x, y) || (y >= 16 && y <= 18) || (x >= 24 && x <= 26));
+            var seen = new HashSet<Vector2Int>();
+            var queue = new Queue<Vector2Int>();
+            queue.Enqueue(new Vector2Int(40, 17)); seen.Add(new Vector2Int(40, 17));         // a cell of the main road
+            while (queue.Count > 0)
+            {
+                var c = queue.Dequeue();
+                foreach (var d in new[] { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right })
+                {
+                    var n = c + d;
+                    if (Paved(n.x, n.y) && seen.Add(n)) queue.Enqueue(n);
+                }
+            }
+            Assert.IsTrue(seen.Contains(new Vector2Int(25, 40)), "the lane to the forest is part of the same network");
+            foreach (var street in NpcHomes.Streets)
+                Assert.IsTrue(seen.Contains(new Vector2Int(street.LaneX + 1, street.RowY + 3)), $"the lane of the street at x {street.LaneX} is joined to the main streets");
+            foreach (var home in NpcHomes.All)
+                Assert.IsTrue(seen.Contains(new Vector2Int(home.DoorX, home.OutsideY)), $"the door of {home.Map} is joined to the main streets");
+        }
+
+        [Test]
+        public void TheLinks_StayInsideTheVillage_AndClearOfTheShopsAndTheCottages()
+        {
+            var shops = Farm.Editor.MapBuilder.ShopFootprints();
+            foreach (var link in NpcHomes.Links)
+                for (var x = link.xMin; x < link.xMax; x++)
+                    for (var y = link.yMin; y < link.yMax; y++)
+                    {
+                        var cell = new Vector2Int(x, y);
+                        Assert.IsTrue(x > 0 && x < MapLayout.VillageW - 1 && y > 0 && y < MapLayout.VillageH - 1, $"{cell} is inside the walls");
+                        foreach (var shop in shops) Assert.IsFalse(shop.Contains(cell), $"{cell} is in a shop");
+                        foreach (var home in NpcHomes.All) Assert.IsFalse(x >= home.X0 && x <= home.X1 && y >= home.Y0 && y <= home.Y1, $"{cell} is in {home.Map}");
+                    }
+        }
+
         [Test]
         public void TheStreets_KeepClearOfTheRoad_TheLane_AndTheShops()
         {
