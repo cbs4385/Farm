@@ -227,6 +227,7 @@ namespace Farm.UI
             rect.movementType = ScrollRect.MovementType.Clamped;
             rect.verticalScrollbar = MakeScrollbar(scroll);
             rect.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+            scroll.gameObject.AddComponent<ScrollFollowSelection>();
             content = crt;
             return scroll;
         }

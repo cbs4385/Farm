@@ -79,6 +79,44 @@ namespace Farm.Tests
             StringAssert.DoesNotContain("Dislikes", text, "nothing disliked has been found out");
         }
 
+        // Playtest 2026-10-08: "the list of villagers in the tab does not scroll, so the player cannot see the whole list". Every row can be brought into view.
+        [UnityTest]
+        public IEnumerator EveryVillagerRow_CanBeScrolledIntoView()
+        {
+            yield return Start();
+            var ui = (UiService)ServiceLocator.Get<IUiService>();
+            ui.ShowGameMenu(MenuTabs.Social);
+            yield return null;
+            yield return null;
+            var page = ui.GameMenu.Current;
+            Canvas.ForceUpdateCanvases();
+            var rows = page.Root.GetComponentsInChildren<Button>(true).Where(b => b.name.StartsWith("Neighbor_")).ToList();
+            Assert.AreEqual(12, rows.Count, "a row for each villager");
+
+            foreach (var row in rows) Assert.GreaterOrEqual(((RectTransform)row.transform).rect.height, 30f, row.name + " keeps its full height (a squeezed list is hard to read)");
+            var scroll = rows[0].GetComponentInParent<ScrollRect>();
+            var view = new Vector3[4];
+            if (scroll != null) ((RectTransform)scroll.viewport).GetWorldCorners(view); else ((RectTransform)page.Root.transform).GetWorldCorners(view);
+            var hidden = rows.Where(r => !InView(r, view)).ToList();
+            if (hidden.Count > 0)
+            {
+                Assert.IsNotNull(scroll, "rows are out of view (" + string.Join(", ", hidden.Select(h => h.name)) + ") and the list does not scroll");
+                scroll.verticalNormalizedPosition = 0f;
+                Canvas.ForceUpdateCanvases();
+                Assert.IsTrue(InView(rows[rows.Count - 1], view), "scrolled to the bottom, the last villager shows");
+                scroll.verticalNormalizedPosition = 1f;
+                Canvas.ForceUpdateCanvases();
+                Assert.IsTrue(InView(rows[0], view), "and scrolled back, the first one does");
+            }
+        }
+
+        static bool InView(Button row, Vector3[] view)
+        {
+            var corners = new Vector3[4];
+            ((RectTransform)row.transform).GetWorldCorners(corners);
+            return corners[0].y >= view[0].y - 0.5f && corners[1].y <= view[1].y + 0.5f;
+        }
+
         [UnityTest]
         public IEnumerator AnUnmetVillager_StaysAMystery_EvenWhenSelected()
         {

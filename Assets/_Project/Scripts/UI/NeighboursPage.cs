@@ -25,12 +25,11 @@ namespace Farm.UI
             UiKit.Label(stack.transform, L.Get("social.title"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
             var body = UiKit.HStack(stack.transform, "Body", 12f);
             UiKit.Size(body.gameObject, -1f, -1f, 1f, 1f);
-            var list = UiKit.VStack(body.transform, "List", 3f);
-            UiKit.Size(list.gameObject, 330f, -1f, -1f, 1f);
-            _list = (RectTransform)list.transform;
-            var detail = UiKit.VStack(body.transform, "Detail", 5f, 8);
+            // Twelve villagers do not fit in the page at every screen shape and text size, so the list scrolls (it used to squeeze the rows instead).
+            var list = UiKit.Scroll(body.transform, "List", out _list);
+            UiKit.Size(list.gameObject, 340f, -1f, -1f, 1f);
+            var detail = UiKit.Scroll(body.transform, "Detail", out _detail);      // a long entry (tastes, what they told you, a favor) scrolls too
             UiKit.Size(detail.gameObject, -1f, -1f, 1f, 1f);
-            _detail = (RectTransform)detail.transform;
         }
 
         public override void OnMenuOpened() => _selected = null;
@@ -46,7 +45,7 @@ namespace Farm.UI
                 var state = session.State.Npcs.TryGetValue(npc.Id, out var s) ? s : null;
                 var met = state != null && state.Met;
                 var id = npc.Id;
-                var button = UiKit.MakeButton(_list, string.Empty, () => { _selected = id; Refresh(ui); }, 330f, 31f);
+                var button = UiKit.MakeButton(_list, string.Empty, () => { _selected = id; Refresh(ui); }, 322f, 31f);
                 button.name = "Neighbor_" + npc.Id;
                 var row = UiKit.HStack(button.transform, "Row", 8f, TextAnchor.MiddleLeft);
                 UiKit.Stretch((RectTransform)row.transform);
