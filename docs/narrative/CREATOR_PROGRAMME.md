@@ -12,7 +12,7 @@ The game is meant to be worth streaming. This programme finds out whether it is,
 |---|---|---|
 | Choices by number key, chat-friendly | dialogue box | every choice has a number key; tone tags are icons, never hidden penalties |
 | Choice timer | Options | off by default; 15, 30 or 60 seconds; the default choice is taken at zero and choosing in time cancels it; no timer for a lone option |
-| Stream mode | Options | dialogue text 20% larger and at least fast; content badge in the HUD. The UI never shows save paths or account names (a guard test enforces it) |
+| Stream mode | Options | dialogue text 20% larger and at least fast (the content badge in the HUD was removed 2026-10-08). The UI never shows save paths or account names (a guard test enforces it) |
 | Name filter | new-game screen (player and farm names) | always on; the blocklist is only a seed list and **must be extended before release** |
 | Content level | Options | horror off, mild or full (default full); the cozy game is complete at off. Say so on the store page and in the press kit |
 | Photo mode | F8 in the world | hides the HUD, stops the clock, emotes on nearby villagers, saves a PNG to the data folder `Photos/` |

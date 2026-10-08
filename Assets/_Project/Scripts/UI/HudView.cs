@@ -87,9 +87,6 @@ namespace Farm.UI
         TextMeshProUGUI _date, _time, _weather, _forecast, _gold, _energyLabel, _toast, _mineFloor;
         Image _clockPanel;
         float _transparency = -1f;
-        GameObject _streamBadge;
-        TextMeshProUGUI _streamText;
-        string _streamShown;
         Image _energyFill;
         Image _dateIcon, _timeIcon, _weatherIcon, _goldIcon, _healthIcon;
         static readonly string[] SeasonArt = { "spring", "summer", "fall", "winter" };
@@ -105,7 +102,6 @@ namespace Farm.UI
             BuildEnergy(canvas);
             BuildHotbar(canvas);
             BuildToast(canvas);
-            BuildStreamBadge(canvas);
             BuildExtensions(canvas);
 
             ui.Bus.Subscribe<StatsChanged>(_ => _dirty = true);
@@ -126,28 +122,6 @@ namespace Farm.UI
             HudView _view;
             public void Init(HudView view) => _view = view;
             void LateUpdate() => _view.Tick();
-        }
-
-        // Stream mode (T-145): a small badge that tells viewers what content level this game is running at.
-        void BuildStreamBadge(Transform canvas)
-        {
-            var panel = UiKit.Panel(canvas, "StreamBadge", UiKit.PanelColor);
-            UiKit.Place(panel.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(230, 30), new Vector2(10, -(BarHeight + 8f)));
-            panel.raycastTarget = false;
-            _streamBadge = panel.gameObject;
-            _streamText = UiKit.Label(panel.transform, "", 16f, TextAlignmentOptions.Center, UiKit.Accent);
-            UiKit.Stretch(_streamText.rectTransform);
-            _streamBadge.SetActive(false);
-        }
-
-        void UpdateStreamBadge()
-        {
-            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
-            var text = settings != null && settings.StreamMode ? L.Get("stream.badge", L.Get("options.horror." + settings.HorrorLevel)) : null;
-            if (text == _streamShown) return;
-            _streamShown = text;
-            _streamBadge.SetActive(text != null);
-            if (text != null) _streamText.text = text;
         }
 
         const float BarHeight = 34f;
@@ -342,7 +316,6 @@ namespace Farm.UI
         void Tick()
         {
             UpdateFade();
-            UpdateStreamBadge();
             ApplyTransparency();
             UpdateHotbarPointer();
             TickToast();

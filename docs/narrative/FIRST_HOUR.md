@@ -4,7 +4,7 @@ Status: DRAFT by the agent, not played by a person. It exists so a stream's open
 
 | Minute | Beat | Source |
 |---|---|---|
-| 0 to 3 | Wake in the farmhouse; the mailbox letter from Tilda; the stream badge and name filter are visible but not intrusive | `letter.welcome`, `tut_farm` |
+| 0 to 3 | Wake in the farmhouse; the mailbox letter from Tilda; the name filter is not intrusive (the stream content badge was removed) | `letter.welcome`, `tut_farm` |
 | 3 to 10 | First chores: hoe, seed, water; a quick win (first plant) | tutorial quests |
 | 10 to 20 | Walk to the village; first meeting with Tilda (priority 100 line); the map is small enough to see three villagers | `tut_village`, `npc.tilda.first` |
 | 20 to 30 | Meet Wren at the saloon: a loud, funny first line, the daily bet, the voice blip is audible for the first time | `npc.wren.talk` (friend tier not yet) |

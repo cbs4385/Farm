@@ -202,9 +202,8 @@ namespace Farm.Tests
         public void TheStreamStrings_Exist()
         {
             var table = L.Parse(File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
-            foreach (var key in new[] { "options.stream_mode", "options.choice_timer", "options.choice_timer.seconds", "newgame.name_blocked", "dialogue.timer", "stream.badge", "ui.off" })
+            foreach (var key in new[] { "options.stream_mode", "options.choice_timer", "options.choice_timer.seconds", "newgame.name_blocked", "dialogue.timer", "ui.off" })
                 Assert.IsTrue(table.ContainsKey(key), key);
-            StringAssert.Contains("{0}", table["stream.badge"]);
         }
 
         [Test]

@@ -178,22 +178,21 @@ namespace Farm.Tests
             Assert.IsTrue(OnScreen(menu), "the 900 by 500 game menu fits the screen at the largest UI size");
         }
 
+        // Removed at the owner's request (2026-10-08): the "Content: Full" box in the upper left of the game screen. Stream mode on or off, at any level, it is not drawn.
         [UnityTest]
-        public IEnumerator StreamMode_ShowsTheContentBadge_AndHidesItWhenOff()
+        public IEnumerator StreamMode_DrawsNoContentBox_AtAnyLevel()
         {
             yield return Begin(timer: 0, stream: true);
-            yield return WaitUntil(() => Label("Content:") != null, 3f);
-            var badge = Label("Content:");
-            Assert.IsNotNull(badge, "the badge is on screen in stream mode");
-            StringAssert.Contains("Full", badge.text, "the default horror level is full");
+            for (var i = 0; i < 20; i++) yield return null;
+            Assert.IsNull(Label("Content:"), "no content box in stream mode");
+            Assert.IsNull(GameObject.Find("StreamBadge"), "and no badge object");
 
             _settings.HorrorLevel = 0;
-            yield return WaitUntil(() => Label("Content: Off") != null, 3f);
-            Assert.IsNotNull(Label("Content: Off"), "the badge follows the setting");
-
+            for (var i = 0; i < 20; i++) yield return null;
+            Assert.IsNull(Label("Content:"), "at the lowest level either");
             _settings.StreamMode = false;
-            yield return WaitUntil(() => Label("Content:") == null, 3f);
-            Assert.IsNull(Label("Content:"), "no badge when stream mode is off");
+            for (var i = 0; i < 20; i++) yield return null;
+            Assert.IsNull(Label("Content:"), "and with stream mode off");
         }
     }
 }

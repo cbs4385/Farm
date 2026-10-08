@@ -7,7 +7,7 @@ Status: built (T-145), with the dialogue debugger (T-137) and moment framework (
 A setting, off by default, saved with the other settings.
 
 - **Dialogue text is 20% larger and no slower than "fast"** (a player who chose instant keeps instant). Menus keep the player's own UI size; stream mode never changes the saved choices.
-- **A content badge** ("Content: Full / Mild / Off") sits in the top-left corner while stream mode is on, so viewers always know which level the game runs at. It follows the Content setting live.
+- **No on-screen content badge** (removed 2026-10-08 at the owner's request: it was a box in the top-left corner naming the Content level while stream mode was on). The Content level is still chosen in Options.
 - Everything else a streamer needs is on by default for everyone: number keys 1-9 pick a choice, the conversation log (L) shows what was said, and the dialogue box fits the screen at every UI size.
 
 ## The game never shows paths or account names
@@ -28,7 +28,7 @@ Player and farm names (and any future pet name) are checked by `NameFilter` on t
 
 ## For the streamer's checklist
 
-- Stream mode on, a timer if chat votes, Content level chosen deliberately (the badge shows it).
+- Stream mode on, a timer if chat votes, Content level chosen deliberately.
 - The dialogue debugger and memories (below) are for prepping a stream: `hearts`, `mood`, `scene` and `memory` set up and replay moments in a development build.
 
 ## Dialogue debugger (development builds only)
