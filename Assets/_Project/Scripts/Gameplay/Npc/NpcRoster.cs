@@ -67,7 +67,7 @@ namespace Farm.Gameplay
                     Stop(workEnd + 240 > 1380 ? 1380 : workEnd + 240, homeMap, hx, hy)));
             return NpcDefinition.Create(id, season, day, homeMap, hx, hy, romanceable, business)
                 .WithTastes(loved, liked, disliked, lovedCategories, dislikedCategories)
-                .WithSchedule(entries);
+                .WithSchedule(NpcHomes.WithSleep(id, entries));
         }
 
         public static NpcDefinition[] CreateAll() => new[]

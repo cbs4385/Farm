@@ -114,7 +114,7 @@ namespace Farm.Tests
                 var warp = warps.FirstOrDefault(w => w.TargetMap == home.Map);
                 Assert.IsNotNull(warp, home.Map + " has a door");
                 Assert.AreEqual(new Vector2(home.DoorX + 0.5f, home.DoorY + 0.5f), (Vector2)warp.transform.position, home.Map);
-                Assert.AreEqual(NpcHomes.OpenCondition, warp.Condition, "locked at night");
+                Assert.AreEqual(NpcHomes.OpenConditionFor(home.Npc), warp.Condition, "locked at night, except to a friend");
                 Assert.AreEqual(NpcHomes.LockedKey, warp.BlockedMessageKey);
                 var spawn = spawns.FirstOrDefault(s => s.Id == "from" + home.Map);
                 Assert.IsNotNull(spawn, home.Map + " has a place to stand outside the door");

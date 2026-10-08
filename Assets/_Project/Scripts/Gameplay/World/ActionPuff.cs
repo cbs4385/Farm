@@ -10,7 +10,7 @@ namespace Farm.Gameplay
     {
         public const string DigDirt = "fx_dig_dirt", WaterDrop = "fx_water_drop", ChopChip = "fx_chop_chip", OreSpark = "fx_ore_spark",
             HarvestPop = "fx_harvest_pop", HeartPop = "fx_heart_pop", HitStar = "fx_hit_star", Splash = "fx_rain_splash", Dust = "fx_dust",
-            LevelUp = "fx_level_up", Sparkle = "fx_sparkle", CoinFly = "fx_coin_fly";
+            LevelUp = "fx_level_up", Sparkle = "fx_sparkle", CoinFly = "fx_coin_fly", SleepZzz = "fx_sleep_zzz";
     }
 
     public sealed class ActionPuff : MonoBehaviour

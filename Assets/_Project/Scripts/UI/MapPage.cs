@@ -209,7 +209,12 @@ namespace Farm.UI
             var text = L.Get("map." + spot.Map);
             if (spot.UnlockFlag != null && !session.HasFlag(spot.UnlockFlag)) text += "\n" + L.Get("map.not_built");
             else if (!string.IsNullOrEmpty(spot.Business)) text += "\n" + L.Get(BusinessHoursRegistry.IsOpen(spot.Business, session.Clock.Now) ? "map.open" : "map.closed");
-            else if (!string.IsNullOrEmpty(spot.Condition)) text += "\n" + L.Get(Conditions.TryEvaluate(spot.Condition, session.World, out var open) && open ? "map.home_open" : "map.home_closed");
+            else if (!string.IsNullOrEmpty(spot.Condition))
+            {
+                var byDay = Conditions.TryEvaluate(NpcHomes.OpenCondition, session.World, out var day) && day;
+                var welcome = Conditions.TryEvaluate(spot.Condition, session.World, out var open) && open;
+                text += "\n" + L.Get(byDay ? "map.home_open" : welcome ? "map.home_friend" : "map.home_closed");
+            }
             var names = session.Npcs.All
                 .Where(npc => session.State.Npcs.TryGetValue(npc.Id, out var s) && s.Met && NpcLocator.MapOf(session, npc) == spot.Map)
                 .Select(npc => L.Get(npc.NameKey)).ToList();

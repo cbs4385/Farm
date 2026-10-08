@@ -62,7 +62,7 @@ namespace Farm.Editor
                 yield return new Building
                 {
                     MapId = h.Map, Style = h.Style, Business = null, X0 = h.X0, X1 = h.X1, Y0 = h.Y0, Y1 = h.Y1, DoorX = h.DoorX, FacesSouth = h.FacesSouth,
-                    Condition = NpcHomes.OpenCondition, BlockedKey = NpcHomes.LockedKey,
+                    Condition = NpcHomes.OpenConditionFor(h.Npc), BlockedKey = NpcHomes.LockedKey,
                 };
         }
 
@@ -163,7 +163,7 @@ namespace Farm.Editor
             var extras = HomeExtras[home.Npc];
             BuildInterior(home.Map, NpcHomes.InteriorW, NpcHomes.InteriorH, NpcHomes.InteriorDoorX, new[]
             {
-                new Prop("Bed", "obj_bed", 1, 6), new Prop("Hearth", "obj_fireplace", 4, 5, w: 2, h: 2),
+                new Prop("Bed", "obj_bed_double", NpcHomes.BedCellsX, NpcHomes.BedCellsY, w: NpcHomes.BedSize, h: NpcHomes.BedSize), new Prop("Hearth", "obj_fireplace", 4, 5, w: 2, h: 2),
                 new Prop("Table", "obj_dining_table", 7, 3), new Prop("ChairWest", "obj_chair", 6, 3), new Prop("ChairEast", "obj_chair", 8, 3),
                 new Prop("Shelf", "obj_bookshelf", 8, 6), new Prop("Plant", "obj_plant", 8, 1), new Prop("Lamp", "obj_lamp", 1, 2),
                 new Prop("OwnerA", extras.a, 1, 4), new Prop("OwnerB", extras.b, 8, 4),

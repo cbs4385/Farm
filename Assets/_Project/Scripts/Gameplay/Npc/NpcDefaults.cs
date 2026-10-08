@@ -43,7 +43,7 @@ namespace Farm.Gameplay
                     liked: new[] { "crop.cauliflower", "crop.potato", "forage.raspberry" },
                     disliked: new[] { "resource.stone", "forage.clam", "resource.slime" },
                     dislikedCategories: new[] { "Fish" })
-                .WithSchedule(new[]
+                .WithSchedule(NpcHomes.WithSleep(NpcIds.Tilda, new[]
                 {
                     // Rainy Sundays she stays upstairs with a book.
                     Day("rainy_sunday", "weekday:sun && weather:rain", 10, home, NpcHomes.Stop(Ten, NpcIds.Tilda)),
@@ -53,7 +53,7 @@ namespace Farm.Gameplay
                     Day("workday", null, 0, home,
                         NpcHomes.Depart(Eight40, NpcIds.Tilda, MapIds.GeneralStore, 7, 5), Stop(Half5, MapIds.Village, 25, 20, "down"),
                         Stop(Seven, MapIds.Saloon, 6, 4, "up"), NpcHomes.Stop(Ten, NpcIds.Tilda)),
-                });
+                }));
         }
 
         // ---- Bram: blacksmith. Open 09:00-17:00, closed Monday. Gruff, loves a good mushroom. ----
@@ -65,7 +65,7 @@ namespace Farm.Gameplay
                     loved: new[] { "forage.truffle", "forage.mushroom", "food.roasted_roots" },
                     liked: new[] { "resource.copperbar", "forage.hazelnut", "crop.potato" },
                     disliked: new[] { "forage.dandelion", "crop.kale", "fish.pufferfish" })
-                .WithSchedule(new[]
+                .WithSchedule(NpcHomes.WithSleep(NpcIds.Bram, new[]
                 {
                     Day("rainy_day_off", "weekday:mon && weather:rain", 10, home, NpcHomes.Stop(Nine, NpcIds.Bram)),
                     Day("day_off", "weekday:mon", 5, home,
@@ -74,7 +74,7 @@ namespace Farm.Gameplay
                     Day("workday", null, 0, home,
                         NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Half5, MapIds.Saloon, 7, 4, "up"),
                         NpcHomes.Stop(Nine, NpcIds.Bram)),
-                });
+                }));
         }
 
         // ---- Ione: librarian. Open 09:00-17:00, closed Saturday. Quiet; likes the sea and the first snow. ----
@@ -86,7 +86,7 @@ namespace Farm.Gameplay
                     loved: new[] { "forage.pearl", "forage.snowdrop", "forage.elderflower" },
                     liked: new[] { "forage.seashell", "crop.kale", "forage.blackberry" },
                     disliked: new[] { "resource.stone", "resource.wood", "resource.coal" })
-                .WithSchedule(new[]
+                .WithSchedule(NpcHomes.WithSleep(NpcIds.Ione, new[]
                 {
                     Day("rainy_saturday", "weekday:sat && weather:rain", 10, home, NpcHomes.Stop(Ten, NpcIds.Ione)),
                     Day("saturday", "weekday:sat", 5, home,
@@ -98,7 +98,7 @@ namespace Farm.Gameplay
                     Day("workday", null, 0, home,
                         NpcHomes.Depart(Eight50, NpcIds.Ione, MapIds.Library, 7, 5), Stop(Half5, MapIds.Village, 21, 17, "right"),
                         NpcHomes.Stop(Nine, NpcIds.Ione)),
-                });
+                }));
         }
     }
 }

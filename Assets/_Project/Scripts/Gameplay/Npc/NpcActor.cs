@@ -39,6 +39,38 @@ namespace Farm.Gameplay
         // True while this villager is held up by something in the way.
         public bool Waiting { get; private set; }
 
+        // Asleep in bed, and not to be talked to. The beds run north to south with the pillow at the top, so a sleeper is drawn as the head and shoulders
+        // (the top of their picture) on the pillow, as if tucked in, rather than as a figure turned on its side across the bed.
+        public bool Sleeping { get; private set; }
+        SleepIcon _icon;
+        public bool SleepIconShown => _icon != null && _icon.Shown;
+        const float SleepKeep = 0.5f;                                                    // the top half of the picture stays above the blanket
+        static readonly Dictionary<Sprite, Sprite> SleepSprites = new Dictionary<Sprite, Sprite>();
+
+        // The top part of a villager's picture (null when they have none). Made once per picture; it shares the texture, so it costs nothing.
+        public static Sprite SleepSpriteOf(Sprite whole)
+        {
+            if (whole == null) return null;
+            if (SleepSprites.TryGetValue(whole, out var cached) && cached != null) return cached;
+            var r = whole.textureRect;
+            var part = new Rect(r.x, r.y + r.height * (1f - SleepKeep), r.width, r.height * SleepKeep);
+            var sprite = Sprite.Create(whole.texture, part, new Vector2(0.5f, 0.5f), whole.pixelsPerUnit);
+            sprite.name = whole.name + "_asleep";
+            return SleepSprites[whole] = sprite;
+        }
+
+        void SetSleeping(bool sleeping)
+        {
+            if (Sleeping == sleeping) return;
+            Sleeping = sleeping;
+            if (_renderer != null)
+            {
+                _renderer.sortingOrder = sleeping ? 10 : 9;
+                if (_definition != null) _renderer.sprite = sleeping ? SleepSpriteOf(_definition.SpriteFor(Vector2Int.down)) ?? _renderer.sprite : _definition.SpriteFor(_facing);
+            }
+            if (!sleeping && _icon != null) _icon.Hide();
+        }
+
         public NpcDefinition Definition => _definition;
         public bool IsWalking { get; private set; }
         public Vector2Int Facing => _facing;
@@ -73,11 +105,21 @@ namespace Farm.Gameplay
                 Waiting = false;
                 _waitFor = 0f;
                 _villagerWait = 0f;
-                SetFacing(NpcSchedule.FacingVector(place.Facing));
+                var asleep = place.Facing == NpcSchedule.SleepFacing;
+                SetSleeping(asleep);
+                SetFacing(asleep ? Vector2Int.down : NpcSchedule.FacingVector(place.Facing));
+                // The picture is moved so that it lies on the pillow, at the top (north end) of the bed.
+                if (Sleeping && _renderer != null)
+                {
+                    var bed = map.CellCenter(cell) + (Vector3)NpcHomes.SleepOffset;
+                    transform.position += bed + new Vector3(0f, NpcHomes.PillowLift, 0f) - _renderer.bounds.center;
+                    (_icon ??= SleepIcon.Create(transform)).Show(bed);
+                }
                 YieldBodyToPlayer();
                 return;
             }
 
+            SetSleeping(false);
             var key = (place.FromX, place.FromY, place.ToX, place.ToY);
             if (!key.Equals(_pathKey))
             {
@@ -263,7 +305,7 @@ namespace Farm.Gameplay
         public void SetFacing(Vector2Int facing)
         {
             _facing = facing;
-            if (_pose == null && _renderer != null && _definition != null) _renderer.sprite = _definition.SpriteFor(facing);
+            if (_pose == null && !Sleeping && _renderer != null && _definition != null) _renderer.sprite = _definition.SpriteFor(facing);
         }
 
         // T-131: a full-body pose (wave, sit, shrug, point) replaces the idle sprite until ClearPose. False when this villager has no such pose.
@@ -288,6 +330,7 @@ namespace Farm.Gameplay
         public void Interact(PlayerActions player)
         {
             if (_definition == null) return;
+            if (Sleeping) { player.Session.Toast(Farm.Core.L.Get("npc.asleep", Farm.Core.L.Get(_definition.NameKey))); return; }
             // Turn to face the player, like someone who has been spoken to.
             var toPlayer = player.transform.position - transform.position;
             SetFacing(Mathf.Abs(toPlayer.x) > Mathf.Abs(toPlayer.y)

@@ -28,6 +28,7 @@ namespace Farm.Gameplay
     // stop; they arrive after the walk time MapRoutes computes.
     public static class NpcSchedule
     {
+        public const string SleepFacing = "sleep";      // a stop with this facing is asleep in bed (facing down, drawn lying)
         // The day's plan: the highest-priority entry whose condition holds (list order breaks ties); null when the NPC
         // has no schedule. Callers keep the answer for the whole day so a flag changing mid-day cannot make an NPC jump.
         public static NpcScheduleEntry PlanFor(NpcDefinition npc, IWorldQuery world, IEnumerable<NpcScheduleEntry> extra = null)

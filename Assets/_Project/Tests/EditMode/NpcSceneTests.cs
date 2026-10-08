@@ -148,6 +148,9 @@ namespace Farm.Tests
                 Assert.IsTrue(Maps[npc.HomeMap].Walkable(npc.HomeX, npc.HomeY), $"{npc.Id}'s home cell is blocked");
                 foreach (var entry in npc.Schedule)
                     foreach (var stop in entry.Stops)
+                        if (stop.Facing == NpcSchedule.SleepFacing)       // a bed is furniture they lie on: the right cell, in their own room
+                            Assert.AreEqual((NpcHomes.MapOf(npc.Id), NpcHomes.BedX, NpcHomes.BedY), (stop.Map, stop.X, stop.Y), $"{npc.Id}/{entry.Id}: sleeps in the bed");
+                        else
                         Assert.IsTrue(Maps[stop.Map].Walkable(stop.X, stop.Y), $"{npc.Id}/{entry.Id}: stop ({stop.X},{stop.Y}) on {stop.Map} is blocked or off the map");
             }
         }

@@ -1,4 +1,4 @@
-"""Two effect sprites the AI sheet could not give, and the slim library book (item_prop_book) (the spark's thin rays were lost when slicing, the petal came out as an egg): drawn here as
+"""Effect sprites the AI sheet could not give (and the sleeping "Z z z" over a villager asleep in bed, fx_sleep_zzz), and the slim library book (item_prop_book) (the spark's thin rays were lost when slicing, the petal came out as an egg): drawn here as
 pixel grids. Project-made, not AI-generated. Writes Art/Placeholders/fx_ore_spark.png and fx_petal.png (16 x 16)."""
 import os
 from PIL import Image
@@ -67,6 +67,23 @@ BOOK = [
 ]
 
 
+def sleep_icon():
+    """Three Zs climbing to the right, pale blue with a darker outline (fx_sleep_zzz, 16 x 16)."""
+    fill = set()
+    for x0, y0, n in ((8, 1, 7), (3, 7, 5), (1, 12, 3)):
+        for i in range(n):
+            fill.add((x0 + i, y0)); fill.add((x0 + i, y0 + n - 1))                 # top and bottom bars
+            fill.add((x0 + n - 1 - i, y0 + i))                                        # the diagonal from top right to bottom left
+    im = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    for (x, y) in fill:
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                ox, oy = x + dx, y + dy
+                if 0 <= ox < 16 and 0 <= oy < 16 and (ox, oy) not in fill: im.putpixel((ox, oy), (74, 100, 160, 255))
+    for (x, y) in fill: im.putpixel((x, y), (236, 244, 255, 255))
+    im.save(os.path.join(PH, "fx_sleep_zzz.png"))
+
+
 def draw(rows, name):
     im = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
     for y, row in enumerate(rows):
@@ -79,3 +96,4 @@ if __name__ == "__main__":
     draw(SPARK, "fx_ore_spark.png")
     draw(PETAL, "fx_petal.png")
     draw(BOOK, "item_prop_book.png")
+    sleep_icon()

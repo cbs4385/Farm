@@ -75,7 +75,7 @@ namespace Farm.UI
                 spots.Add(new Spot { Map = map, Icon = icon, Business = business, Position = Village.At(x, y) });
             spots.Add(new Spot { Map = MapIds.FarmHouse, Icon = "ui_map_house", Position = Farm.At(FarmHouseDoorX, FarmHouseDoorY) });
             foreach (var home in NpcHomes.All)
-                spots.Add(new Spot { Map = home.Map, Icon = "ui_map_house", Condition = NpcHomes.OpenCondition, Size = HomeIconSize, Position = Village.At(home.DoorX, home.DoorY) });
+                spots.Add(new Spot { Map = home.Map, Icon = "ui_map_house", Condition = NpcHomes.OpenConditionFor(home.Npc), Size = HomeIconSize, Position = Village.At(home.DoorX, home.DoorY) });
             foreach (var type in FarmBuildings.Types)
             {
                 var at = state != null ? FarmBuildings.Find(state, type.Id) : null;
