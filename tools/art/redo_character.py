@@ -1,8 +1,9 @@
 """Redraws one villager's four idle sprites (npc_<id>_idle_down/up/left/right, 16 x 32) from their portrait: generates a 4 x 1 sheet on a
 magenta background with Gemini 2.5 Flash Image via OpenRouter (the villager's base portrait is the reference image), then slices it with the
 same keying, scaling and palette steps as slice_sheets.py.
-Usage: python tools/art/redo_character.py hazel [--slice-only] [--swap]
+Usage: python tools/art/redo_character.py hazel [--slice-only] [--swap] [--sides-only]
   --slice-only  reuse Art/Generated/chr_<id>.png without calling the API
+  --sides-only  write only the left and right pictures and keep the existing front and back ones (used when only the side views were wrong)
   --swap        the generated 'left' view faces right (check by eye): swap the pair
 Key: OPENROUTER_API_KEY in the environment or tools/art/.env (git-ignored). Provenance: Art/Generated/chr_<id>.png and chr_<id>_prompt.txt."""
 import base64, io, json, os, sys, urllib.request, urllib.error
@@ -16,6 +17,12 @@ from generate_expressions import load_key, data_uri, STYLE, URL, GEN, PH, ROOT
 LOOK = {
     "dorian": "Dorian Lake, the forager: quiet young man, moss-green coat, grey scarf, a small basket of mushrooms on his arm, dark trousers and boots",
     "piper": "Piper Vance, the saloon musician: lanky young woman, mustard coat, black curly hair, a fiddle on her back, dark trousers and boots",
+    "bram": "Bram Hollis, the blacksmith: broad, gruff man with a full dark beard and short dark hair, a grey leather smith's apron over a cream shirt with rolled sleeves, brown work gloves, dark trousers and boots",
+    "marcus": "Marcus Dell, the carpenter: middle-aged man in a flat brown cap with a short brown beard, a brown waistcoat over a cream shirt, a tool belt, dark trousers and boots",
+    "wren": "Wren Calloway, the saloon keeper: young woman with wavy copper-red hair, a red waistcoat over a cream blouse with rolled sleeves, dark red-brown trousers and boots",
+    "felix": "Felix Hartwell, the fish seller: man in a wide straw hat with short stubble, a blue fisherman's jacket with a teal scarf, dark trousers and rubber boots",
+    "juno": "Juno Hale, the blacksmith's apprentice: young woman with red-orange hair in two short tails and goggles pushed up on her forehead, a tan leather apron over a cream shirt, dark trousers and boots",
+    "elara": "Elara Finch, the clinic nurse: young woman with long dark purple hair in a braid, a light blue cap and a light blue dress, a small brown satchel on a strap, brown boots",
     "hazel": "Hazel Brandt, the library assistant: slight, shy young woman, round glasses, dark bob haircut, a mustard cardigan over a teal blouse, dark trousers and boots",
 }
 
@@ -49,7 +56,7 @@ def generate(npc, key, model="google/gemini-2.5-flash-image"):
     print(f"{npc}: sheet written ({Image.open(io.BytesIO(raw)).size})")
 
 
-def slice_sheet(npc, swap):
+def slice_sheet(npc, swap, sides_only=False):
     img = Image.open(os.path.join(GEN, f"chr_{npc}.png")).convert("RGB")
     rgb, fg = S.key_background(img)
     fg = S.clean_mask(fg)
@@ -74,8 +81,11 @@ def slice_sheet(npc, swap):
         sprites[n] = canvas
     sprites["right"] = np.ascontiguousarray(sprites["left"][:, ::-1])          # the generator rarely draws a true right profile
     if swap: sprites["left"], sprites["right"] = sprites["right"], sprites["left"]
-    keys = list(sprites)
+    keys = [k for k in sprites if not sides_only or k in ("left", "right")]
     out = S.quantize([sprites[k] for k in keys])
+    for arr in out:                                                      # a leftover pixel of the magenta background (pink: red and blue well above green) is not part of the character
+        pink = (arr[:, :, 3] > 0) & (arr[:, :, 0].astype(int) - arr[:, :, 1] >= 50) & (arr[:, :, 2].astype(int) - arr[:, :, 1] >= 25)
+        arr[pink] = 0
     names_out = []
     for k, a in zip(keys, out):
         name = f"npc_{npc}_idle_{k}"
@@ -94,4 +104,4 @@ if __name__ == "__main__":
     if npc not in LOOK: sys.exit("Usage: redo_character.py hazel [--slice-only] [--swap]")
     os.makedirs(os.path.join(ROOT, "Builds"), exist_ok=True)
     if "--slice-only" not in sys.argv: generate(npc, load_key())
-    slice_sheet(npc, "--swap" in sys.argv)
+    slice_sheet(npc, "--swap" in sys.argv, "--sides-only" in sys.argv)

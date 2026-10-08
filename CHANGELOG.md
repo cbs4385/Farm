@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased (Milestones 4 and 5 preparation)
+## 0.1.0 (the first Steam playtests, 2026-10-08)
+
+- Villagers face the way they walk: six of them (Bram, Marcus, Wren, Felix, Juno, Elara) had no real side-view pictures and now do.
+- Xbox controller support: hints that name the controls in use, an on-screen keyboard, photo mode from the pad, a pause when the pad is unplugged; the end-of-day pop-up closes with A.
+- A fourth day length, "Very long" (about 45 real minutes).
+- Villagers live in homes on three streets, sleep in beds and can be woken; the title screen has a picture with a gentle breeze; the Neighbors list scrolls; the walls of the village are solid.
+- Playtests are published to Steam's default branch while the game is not live.
 
 - A macOS build (`BuildScript.BuildMac`, `Farm.app`) and a macOS Steam depot (5408393) in the build and upload scripts.
 - The game is called **Wetherell Farm Saga**: the window title, main menu, crash log and bug reports use it. Existing saves and settings are copied over from the old data folder the first time the game starts (the old folder is kept). The code name, folders and executable stay `Farm`.
