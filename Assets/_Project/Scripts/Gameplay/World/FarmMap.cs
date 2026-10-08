@@ -19,6 +19,21 @@ namespace Farm.Gameplay
 
         HashSet<string> _tillable;
 
+        // Playtest 2026-10-07: the player walked through the village's buildings. The merged collider of the wall layer (and of the nodes layer) is empty when a
+        // scene that was saved with its tiles in place loads (the farm, whose tiles change at run time, was fine); switching each tile collider off and on
+        // makes Unity build it.
+        void Start() => BuildColliders();
+
+        public void BuildColliders()
+        {
+            foreach (var layer in new[] { _walls, _nodes })
+            {
+                if (layer == null || !layer.TryGetComponent<TilemapCollider2D>(out var collider) || !collider.enabled) continue;
+                collider.enabled = false;
+                collider.enabled = true;
+            }
+        }
+
         public string MapId => _mapId;
         public Tilemap Ground => _ground;
         public Tilemap Soil => _soil;
