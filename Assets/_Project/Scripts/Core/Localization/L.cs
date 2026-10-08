@@ -84,7 +84,7 @@ namespace Farm.Core
                 catch (FormatException) { /* keep the unformatted text */ }
             }
             for (var i = 0; i < Filters.Count; i++) text = Filters[i](key, text);
-            return text;
+            return ControlPrompts.Expand(text);
         }
     }
 }

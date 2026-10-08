@@ -31,6 +31,7 @@ namespace Farm.UI
             UiKit.Label(stack.transform, L.Get("inventory.title"), 20f, TextAlignmentOptions.Left, UiKit.Accent);
             _packGrid = Grid(stack.transform, "PackGrid", 3);
             _info = UiKit.Label(stack.transform, L.Get("chest.hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
+            PromptText.Attach(_info, "chest.hint");
             UiKit.MakeButton(stack.transform, L.Get("ui.close"), Close, 160f, 32f).name = "Close";
             root.SetActive(false);
         }

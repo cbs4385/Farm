@@ -226,6 +226,7 @@ namespace Farm.UI
             var top = _modals[_modals.Count - 1];
             top.Tick();
             if (_input.Ui[InputNames.Cancel].WasPressedThisFrame() && Time.frameCount != top.OpenedFrame) top.OnCancel();
+            RecoverFocus(top);
         }
 
         // ---- modal stack ---------------------------------------------------------------------------------------
@@ -262,6 +263,18 @@ namespace Farm.UI
             {
                 FocusFirst(_modals[_modals.Count - 1].Root);
             }
+        }
+
+        // A pad or the arrow keys with nothing in the top screen focused (the focus was cleared as the screen opened, or lost to a click on the background):
+        // the screen's first control takes the focus, so the player is never left with a screen that only the mouse can use.
+        void RecoverFocus(UiScreen top)
+        {
+            var system = EventSystem.current;
+            if (system == null || top.Root == null) return;
+            var selected = system.currentSelectedGameObject;
+            if (selected != null && selected.activeInHierarchy && selected.transform.IsChildOf(top.Root.transform)) return;
+            var moved = _input.Ui[InputNames.Navigate].ReadValue<Vector2>().sqrMagnitude > 0.16f;
+            if (moved || _input.Ui[InputNames.Submit].WasPressedThisFrame()) FocusFirst(top.Root);
         }
 
         public void CloseAllModals()

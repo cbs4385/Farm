@@ -61,6 +61,7 @@ namespace Farm.UI
             var footer = UiKit.HStack(stack.transform, "Footer", 8f, TextAnchor.MiddleCenter);
             UiKit.Size(footer.gameObject, -1f, 34f);
             var hint = UiKit.Label(footer.transform, L.Get("menu.hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
+            PromptText.Attach(hint, "menu.hint");
             UiKit.Size(hint.gameObject, -1f, 30f, 1f);
             UiKit.MakeButton(footer.transform, L.Get("ui.close"), Close, 140f, 32f).name = "Close";
 

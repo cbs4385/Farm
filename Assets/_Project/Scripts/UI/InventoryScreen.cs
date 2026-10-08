@@ -20,6 +20,7 @@ namespace Farm.UI
         readonly TextMeshProUGUI _tooltipName;
         readonly TextMeshProUGUI _tooltipBody;
         readonly TextMeshProUGUI _hint;
+        readonly PromptText _hintPrompt;
         readonly Button _discard;
         int _hovered = -1;
         int _picked = -1;
@@ -52,7 +53,9 @@ namespace Farm.UI
             _tooltipName = UiKit.Label(tipStack.transform, "", 19f, TextAlignmentOptions.Left, UiKit.Accent);
             _tooltipBody = UiKit.Label(tipStack.transform, "", 15f, TextAlignmentOptions.Left);
             _hint = UiKit.Label(stack.transform, L.Get("inventory.hint"), 14f, TextAlignmentOptions.Left, UiKit.DimText);
+            _hintPrompt = PromptText.Attach(_hint, "inventory.hint").GetComponent<PromptText>();
             _discard = UiKit.MakeButton(stack.transform, L.Get("inventory.discard"), AskDiscard, 220f, 30f);
+            PromptText.Attach(_discard.GetComponentInChildren<TMP_Text>(), "inventory.discard");
             _discard.gameObject.SetActive(false);
 
             root.SetActive(false);
@@ -184,7 +187,8 @@ namespace Farm.UI
                 trigger.triggers.Add(hover);
             }
 
-            _hint.text = _picked >= 0 ? L.Get("inventory.hint_place") : L.Get("inventory.hint");
+            _hintPrompt.Key = _picked >= 0 ? "inventory.hint_place" : "inventory.hint";
+            _hintPrompt.Refresh();
             ShowTooltip(-1);
             // While closed, Open() -> PushModal focuses the first slot once the screen is active (so Select fires).
             if (IsOpen && _grid.childCount > 0)

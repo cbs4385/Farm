@@ -130,7 +130,7 @@ namespace Farm.Tests
             Assert.AreEqual(GameClock.DefaultSecondsPerStep, s.SecondsPerStep);
             s.DayLength = 9;
             s.Clamp();
-            Assert.AreEqual(2, s.DayLength);
+            Assert.AreEqual(SettingsData.DayLengthCount - 1, s.DayLength);
         }
 
         [Test]
@@ -154,6 +154,23 @@ namespace Farm.Tests
                 }
             }
             finally { ServiceLocator.Clear(); }
+        }
+
+        // A tester who plays from an exercise bike wanted a day of about 45 minutes (2026-10-08).
+        [Test]
+        public void ThereIsADayLength_OfAboutFortyFiveMinutes_AndTheOthersAreInOrder()
+        {
+            Assert.AreEqual(4, SettingsData.DayLengthCount);
+            Assert.That(SettingsData.RealMinutesPerDay(3), Is.InRange(43f, 47f), "very long: about 45 minutes");
+            Assert.Greater(SettingsData.RealMinutesPerDay(3), SettingsData.RealMinutesPerDay(0), "longer than the long day");
+            Assert.Greater(SettingsData.RealMinutesPerDay(0), SettingsData.RealMinutesPerDay(1));
+            Assert.Greater(SettingsData.RealMinutesPerDay(1), SettingsData.RealMinutesPerDay(2));
+            var s = new SettingsData { DayLength = 3 };
+            s.Clamp();
+            Assert.AreEqual(3, s.DayLength, "the new setting survives");
+            Assert.AreEqual(19f, s.SecondsPerStep);
+            foreach (var key in new[] { "options.day_length.0", "options.day_length.1", "options.day_length.2", "options.day_length.3" })
+                Assert.IsTrue(L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json")).ContainsKey(key), key);
         }
 
         [Test]

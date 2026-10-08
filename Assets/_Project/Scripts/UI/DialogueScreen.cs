@@ -111,6 +111,7 @@ namespace Farm.UI
             _logText.overflowMode = TextOverflowModes.Overflow;
             _logText.textWrappingMode = TextWrappingModes.Normal;
             var close = UiKit.Label(logFrame.transform, L.Get("dialogue.log_close"), 14f, TextAlignmentOptions.Right, UiKit.DimText);
+            PromptText.Attach(close, "dialogue.log_close");
             UiKit.Place(close.rectTransform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(300f, 22f), new Vector2(-16f, 10f));
             _logPanel.SetActive(false);
 

@@ -224,6 +224,13 @@ namespace Farm.UI
 
         public override void OnCancel() { }   // must be acknowledged with the Continue button
 
+        // Playtest 2026-10-08: a pad player could not get past this screen without the mouse. A, Enter or Space (the Submit control) now continues whatever has the
+        // focus (or nothing), so no pad or keyboard player is ever stuck here.
+        public override void Tick()
+        {
+            if (Time.frameCount != OpenedFrame && Ui.Input.Ui[InputNames.Submit].WasPressedThisFrame()) Continue();
+        }
+
         void Continue()
         {
             var cb = _onContinue;

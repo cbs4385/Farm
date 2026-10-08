@@ -84,6 +84,7 @@ namespace Farm.Gameplay
             ServiceLocator.Register(audio);
             audio.ApplySettings(settings.Current);
             root.AddComponent<MusicDirector>();
+            root.AddComponent<InputDeviceWatcher>();
 
             DisplaySettings.ApplyAtStartup(settings.Current);
 

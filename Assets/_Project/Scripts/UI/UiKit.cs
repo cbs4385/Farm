@@ -308,6 +308,7 @@ namespace Farm.UI
             c.highlightedColor = new Color(0.16f, 0.12f, 0.08f, 1f);
             c.selectedColor = new Color(0.22f, 0.16f, 0.10f, 1f);
             input.colors = c;
+            input.gameObject.AddComponent<OnScreenKeyboardOpener>();       // a pad player chooses the field with A and gets a keyboard
             return input;
         }
 

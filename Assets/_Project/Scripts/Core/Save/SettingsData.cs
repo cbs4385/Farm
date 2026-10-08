@@ -28,7 +28,7 @@ namespace Farm.Core
         public bool ColorblindPalette;      // bars and warnings use colours that stay apart for red-green colour blindness
         public bool ReduceFlashes;          // no lightning flashes
         public bool RelaxedEnergy;          // tools and combat cost half the energy
-        public int DayLength = 1;           // 0 = long days, 1 = normal, 2 = short
+        public int DayLength = 1;           // 0 = long days, 1 = normal, 2 = short, 3 = very long (about 45 minutes, for a player on an exercise bike)
         public int DialogueSpeed = 1;       // text speed in conversations: 0 slow, 1 normal, 2 fast, 3 instant
         public bool AutoAdvance;            // conversations move on by themselves after a read time
         public float HudTransparency = 0.2f;   // how see-through the status bar along the top of the screen is (0 solid, 0.6 mostly clear)
@@ -49,13 +49,18 @@ namespace Farm.Core
         public float DialogueTextFactor => StreamMode ? StreamDialogueTextFactor : 1f;
         public int EffectiveDialogueSpeed => StreamMode ? Mathf.Max(DialogueSpeed, StreamMinDialogueSpeed) : DialogueSpeed;
 
-        public static readonly float[] SecondsPerStepByDayLength = { 10f, 7f, 5f };
-        public float SecondsPerStep => SecondsPerStepByDayLength[Mathf.Clamp(DayLength, 0, 2)];
+        public static readonly float[] SecondsPerStepByDayLength = { 10f, 7f, 5f, 19f };
+        public static int DayLengthCount => SecondsPerStepByDayLength.Length;
+        public float SecondsPerStep => SecondsPerStepByDayLength[Mathf.Clamp(DayLength, 0, DayLengthCount - 1)];
+
+        // How long a whole day (6 in the morning to 6 the next morning, 144 steps of ten minutes) lasts in real minutes at a day length setting. (pure)
+        public static float RealMinutesPerDay(int dayLength) =>
+            (GameDateTime.DayEndMinute - GameDateTime.DayStartMinute) / GameClock.MinutesPerStep * SecondsPerStepByDayLength[Mathf.Clamp(dayLength, 0, DayLengthCount - 1)] / 60f;
 
         public void Clamp()
         {
             HorrorLevel = Mathf.Clamp(HorrorLevel, 0, 2);
-            DayLength = Mathf.Clamp(DayLength, 0, 2);
+            DayLength = Mathf.Clamp(DayLength, 0, DayLengthCount - 1);
             DialogueSpeed = Mathf.Clamp(DialogueSpeed, 0, 3);
             ChoiceTimer = Mathf.Clamp(ChoiceTimer, 0, 120);
             MasterVolume = Mathf.Clamp01(MasterVolume);

@@ -18,7 +18,7 @@ namespace Farm.Gameplay
         NpcManager _npcs;
         PlayerController _player;
         bool _on, _shooting;
-        int _target;
+        int _target, _emote = -1;
         GameObject _bubble;
         string _notice;
         float _noticeUntil;
@@ -35,19 +35,28 @@ namespace Farm.Gameplay
         void Update()
         {
             var keyboard = Keyboard.current;
-            if (keyboard == null || _session == null || !_session.InGame) return;
+            var pad = Gamepad.current;
+            if ((keyboard == null && pad == null) || _session == null || !_session.InGame) return;
+            bool Key_(Key key) => keyboard != null && keyboard[key].wasPressedThisFrame;
             if (!_on)
             {
-                if (keyboard[Key.F8].wasPressedThisFrame && !AnyModal()) Enter();
+                // F8, or the left stick pressed in on a pad.
+                if ((Key_(Key.F8) || (pad != null && pad.leftStickButton.wasPressedThisFrame)) && !AnyModal()) Enter();
                 return;
             }
             if (_shooting) return;
-            if (keyboard[Key.Escape].wasPressedThisFrame) { Leave(); return; }
-            if (keyboard[Key.F8].wasPressedThisFrame || keyboard[Key.Enter].wasPressedThisFrame) { StartCoroutine(Shoot()); return; }
-            if (keyboard[Key.Tab].wasPressedThisFrame) { _target++; ClearBubble(); }
+            // On a pad: B leaves, A takes the photo, Y picks the next villager, X clears the bubble, LB and RB step through the emotes.
+            if (Key_(Key.Escape) || (pad != null && pad.buttonEast.wasPressedThisFrame)) { Leave(); return; }
+            if (Key_(Key.F8) || Key_(Key.Enter) || (pad != null && pad.buttonSouth.wasPressedThisFrame)) { StartCoroutine(Shoot()); return; }
+            if (Key_(Key.Tab) || (pad != null && pad.buttonNorth.wasPressedThisFrame)) { _target++; ClearBubble(); }
             for (var i = 0; i < Emotes.Length; i++)
-                if (keyboard[Key.Digit1 + i].wasPressedThisFrame) Pose(Emotes[i]);
-            if (keyboard[Key.Digit0].wasPressedThisFrame) ClearBubble();
+                if (Key_(Key.Digit1 + i)) Pose(Emotes[i]);
+            if (pad != null)
+            {
+                if (pad.rightShoulder.wasPressedThisFrame) { _emote = (_emote + 1) % Emotes.Length; Pose(Emotes[_emote]); }
+                if (pad.leftShoulder.wasPressedThisFrame) { _emote = (_emote + Emotes.Length - 1) % Emotes.Length; Pose(Emotes[_emote]); }
+            }
+            if (Key_(Key.Digit0) || (pad != null && pad.buttonWest.wasPressedThisFrame)) ClearBubble();
         }
 
         static bool AnyModal() => ServiceLocator.TryGet<IUiService>(out var ui) && ui.AnyModalOpen;
