@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Farm.Core;
 using Farm.Gameplay;
 using UnityEditor;
@@ -53,6 +54,9 @@ namespace Farm.Editor
             new Building { MapId = MapIds.Clinic, Style = "clinic",       Business = "clinic",     X0 = 31, X1 = 39, Y0 = 6,  Y1 = 11, DoorX = 35, FacesSouth = false },
             new Building { MapId = MapIds.CommunityHall, Style = "hall", Business = null,        X0 = 41, X1 = 48, Y0 = 6,  Y1 = 11, DoorX = 44, FacesSouth = false },
         };
+
+        // The footprints of the old shops (for tests that keep the villagers' streets clear of them).
+        public static List<RectInt> ShopFootprints() => Buildings.Select(b => new RectInt(b.X0, b.Y0, b.X1 - b.X0 + 1, b.Y1 - b.Y0 + 1)).ToList();
 
         // The villagers' cottages (NpcHomes) built like the shops: a door, windows, a nameplate, a chimney that smokes.
         static IEnumerable<Building> VillageBuildings()
@@ -340,7 +344,7 @@ namespace Farm.Editor
                     var onLane = x >= LaneX0 && x <= LaneX1;
                     var ground = onRoad || onLane ? "tile_cobble" : (x * 31 + y * 17) % 29 == 0 ? "tile_dirt" : "tile_grass";
                     foreach (var b in VillageBuildings())
-                        if (x == b.DoorX && InConnector(b, y) && (!MapIds.IsHome(b.MapId) || b.Y0 == 22 || !b.FacesSouth)) ground = "tile_path";
+                        if (x == b.DoorX && InConnector(b, y) && !MapIds.IsHome(b.MapId)) ground = "tile_path";       // a shop's path to the road (the cottages have alleys)
                     if (NpcHomes.IsCobbled(x, y)) ground = "tile_cobble";
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(ground));
                 }

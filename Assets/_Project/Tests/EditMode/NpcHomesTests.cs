@@ -34,16 +34,21 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheCottages_DoNotOverlap_AndStayInsideTheVillage_ClearOfTheRoadAndTheOldBuildings()
+        public void TheCottages_DoNotOverlap_AndStayInsideTheVillage_ClearOfTheRoadTheLaneAndTheOldShops()
         {
             var homes = NpcHomes.All;
+            var shops = Farm.Editor.MapBuilder.ShopFootprints();
             for (var i = 0; i < homes.Count; i++)
             {
                 var a = homes[i];
+                Assert.Greater(a.X0, 0, a.Map + " is inside the west wall");
                 Assert.Less(a.X1, MapLayout.VillageW - 1, a.Map + " is inside the east wall");
+                Assert.Greater(a.Y0 - 2, 0, a.Map + " leaves room for its alley below");
                 Assert.Less(a.Y1 + 1, MapLayout.VillageH - 1);
-                Assert.IsTrue(a.FacesSouth ? a.Y0 > 19 : a.Y1 < 15, a.Map + " is off the road (y 16 to 18)");
-                Assert.Greater(a.X0, 50, a.Map + " is east of the old village buildings (which end at x 48)");
+                Assert.IsTrue(a.Y0 > 19 || a.Y1 < 15, a.Map + " is off the road (y 16 to 18)");
+                Assert.IsTrue(a.X1 < 24 || a.X0 > 26, a.Map + " is off the lane to the forest and the beach (x 24 to 26)");
+                foreach (var shop in shops)
+                    Assert.IsTrue(a.X1 < shop.xMin - 1 || a.X0 > shop.xMax || a.Y1 < shop.yMin - 1 || a.Y0 > shop.yMax, a.Map + " is clear of a shop at " + shop);
                 for (var j = i + 1; j < homes.Count; j++)
                 {
                     var b = homes[j];
@@ -52,6 +57,47 @@ namespace Farm.Tests
                 }
                 Assert.IsFalse(NpcHomes.IsCobbled(a.DoorX, a.DoorY), "a door is not on the cobbles");
             }
+        }
+
+        // Playtest 2026-10-08: "all the npc homes are on one path in the village". Three streets of four, spread round the village at about the same distance
+        // from its middle.
+        [Test]
+        public void TheHomes_AreOnThreeStreetsOfFour_SpreadRoundTheVillage_AtAboutTheSameDistanceFromItsMiddle()
+        {
+            Assert.AreEqual(3, NpcHomes.Streets.Length);
+            for (var s = 0; s < NpcHomes.Streets.Length; s++)
+                Assert.AreEqual(NpcHomes.HomesPerStreet, NpcHomes.All.Count(h => h.Street == s), "homes on street " + s);
+            Assert.LessOrEqual(NpcHomes.HomesPerStreet, 4, "at most four to a street");
+
+            var centres = NpcHomes.Streets.Select(NpcHomes.StreetCentre).ToArray();
+            var distances = centres.Select(c => Vector2.Distance(c, NpcHomes.VillageCentre)).ToArray();
+            foreach (var d in distances) Assert.That(d, Is.InRange(24f, 33f), "a street's distance from the middle: " + string.Join(", ", distances));
+            Assert.LessOrEqual(distances.Max() - distances.Min(), 5f, "the streets are about equally far out");
+            foreach (var home in NpcHomes.All) Assert.That(NpcHomes.DistanceFromCentre(home), Is.InRange(18f, 38f), home.Map);
+
+            // Spread, not bunched: the streets are far from each other (a street is 17 cells wide).
+            for (var i = 0; i < centres.Length; i++)
+                for (var j = i + 1; j < centres.Length; j++)
+                    Assert.Greater(Vector2.Distance(centres[i], centres[j]), 30f, $"streets {i} and {j} are well apart");
+            // And they are on different sides of the middle: not all in one half of the village.
+            Assert.IsTrue(centres.Any(c => c.x < NpcHomes.VillageCentre.x) && centres.Any(c => c.x > NpcHomes.VillageCentre.x), "west and east");
+            Assert.IsTrue(centres.Any(c => c.y < NpcHomes.VillageCentre.y) && centres.Any(c => c.y > NpcHomes.VillageCentre.y), "north and south");
+        }
+
+        [Test]
+        public void TheStreets_KeepClearOfTheRoad_TheLane_AndTheShops()
+        {
+            var shops = Farm.Editor.MapBuilder.ShopFootprints();
+            foreach (var street in NpcHomes.Streets)
+                for (var x = street.LaneX - 7; x <= street.LaneX + 9; x++)
+                    for (var y = street.RowY - 2; y <= street.RowY + 9; y++)
+                    {
+                        var cell = new Vector2Int(x, y);
+                        Assert.IsTrue(x > 0 && x < MapLayout.VillageW - 1 && y > 0 && y < MapLayout.VillageH - 1, $"{cell} is inside the village walls");
+                        Assert.IsFalse(y >= 16 && y <= 18, $"{cell} is on the road");
+                        Assert.IsFalse(x >= 24 && x <= 26, $"{cell} is on the lane");
+                        foreach (var shop in shops) Assert.IsFalse(shop.Contains(cell), $"{cell} is in a shop");
+                    }
         }
 
         [Test]

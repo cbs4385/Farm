@@ -7,17 +7,20 @@ using UnityEngine;
 namespace Farm.Gameplay
 {
     // Where each villager lives (playtest 2026-10-07: "npcs should live in homes; currently the only home is the player's"; before this a villager's home
-    // was the shop they worked in). Twelve cottages on a street in the east of the village, one for each villager, with a room inside for each. The scene
+    // was the shop they worked in). Twelve cottages on three streets round the village, one for each villager, with a room inside for each. The scene
     // builder, the route table, the schedules, the map picture and the tests all read this one table, so they cannot drift apart.
     //
-    // The street: a lane runs north from the road at x 60..62; the cottages stand in two columns either side of it, five rows north of the road (doors on
-    // their south walls, reached along two-cell alleys between the rows) and two south of it (doors on their north walls, straight onto the road).
+    // The streets: three short cobbled lanes, each with four cottages (two rows of two, either side of the lane, the doors on the south walls looking onto
+    // an alley that leads to the lane). They are spread round the village so that the homes are all about the same distance from its middle (the village
+    // is 75 x 54 cells, the middle about (37, 27)): one in the north-west, one in the north-east and one in the south-east, clear of the old buildings
+    // (x 5 to 48, y 6 to 29), the main road (y 16 to 18) and the lane to the forest and the beach (x 24 to 26).
     public static class NpcHomes
     {
         public sealed class Home
         {
             public string Npc, Map, Style;
             public int X0, X1, Y0, Y1, DoorX;
+            public int Street;                            // the index in Streets
             public bool FacesSouth;                       // the door is on the south wall (north of the road) or the north wall (south of it)
 
             public int DoorY => FacesSouth ? Y0 : Y1;     // the door cell in the village
@@ -42,12 +45,21 @@ namespace Farm.Gameplay
         // The condition for a villager's door: open by day to everyone, and at any hour to a friend.
         public static string OpenConditionFor(string npcId) => $"({OpenCondition}) || hearts:{npcId}>={FriendHearts}";
 
-        // The street's lane and alleys (cells that are cobbled), and the land the street takes (no scattered trees there).
-        public const int LaneX0 = 60, LaneX1 = 62, LaneTopY = 50;
-        public const int StreetX0 = 51, StreetX1 = 71, StreetY0 = 5, StreetY1 = 51;
+        // A street: the left cell of its three-cell lane and the y of the south row of cottages (the second row is RowRise above it).
+        public sealed class Street { public int LaneX, RowY; }
 
-        static readonly int[] NorthRows = { 22, 28, 34, 40, 46 };
-        const int WestX0 = 53, EastX0 = 64, CottageW = 6, CottageH = 4, SouthY0 = 6;
+        public const int HomesPerStreet = 4, CottageW = 6, CottageH = 4, RowRise = 6, LaneWidth = 3;
+        public static readonly Street[] Streets =
+        {
+            new Street { LaneX = 13, RowY = 38 },       // north-west
+            new Street { LaneX = 61, RowY = 38 },       // north-east
+            new Street { LaneX = 59, RowY = 4 },        // south-east
+        };
+
+        // The middle of the village map, and how far a street (the middle of its lane) and a home (its door) are from it, in cells. (pure)
+        public static readonly Vector2 VillageCentre = new Vector2(MapLayout.VillageW * 0.5f, MapLayout.VillageH * 0.5f);
+        public static Vector2 StreetCentre(Street street) => new Vector2(street.LaneX + LaneWidth * 0.5f, street.RowY + (RowRise + CottageH) * 0.5f - 1f);
+        public static float DistanceFromCentre(Home home) => Vector2.Distance(new Vector2(home.DoorX + 0.5f, home.DoorY + 0.5f), VillageCentre);
 
         public static readonly IReadOnlyList<Home> All = Build();
 
@@ -63,13 +75,14 @@ namespace Farm.Gameplay
             for (var i = 0; i < order.Length; i++)
             {
                 var (npc, map) = order[i];
-                var east = i % 2 == 1;
-                var north = i < 10;
-                var x0 = east ? EastX0 : WestX0;
-                var y0 = north ? NorthRows[i / 2] : SouthY0;
+                var street = i / HomesPerStreet;
+                var slot = i % HomesPerStreet;                  // 0 and 1: the south row (west, east); 2 and 3: the north row
+                var east = slot % 2 == 1;
+                var x0 = east ? Streets[street].LaneX + LaneWidth + 1 : Streets[street].LaneX - CottageW - 1;
+                var y0 = Streets[street].RowY + slot / 2 * RowRise;
                 homes.Add(new Home
                 {
-                    Npc = npc, Map = map, Style = "cottage" + (1 + i % 4), FacesSouth = north,
+                    Npc = npc, Map = map, Style = "cottage" + (1 + i % 4), Street = street, FacesSouth = true,
                     X0 = x0, X1 = x0 + CottageW - 1, Y0 = y0, Y1 = y0 + CottageH - 1, DoorX = x0 + 2,
                 });
             }
@@ -148,17 +161,27 @@ namespace Farm.Gameplay
             return new NpcStop { Minute = Math.Max(GameDateTime.DayStartMinute + 5, arriveBy - (int)Math.Ceiling(walk)), Map = map, X = x, Y = y, Facing = facing };
         }
 
-        // The cells of the alleys between the rows of the north side and of the lane (cobbled in the village). (pure)
+        // The cells that are cobbled in the village: each street's lane and the two-cell alleys in front of its rows of doors. (pure)
         public static bool IsCobbled(int x, int y)
         {
-            if (x >= LaneX0 && x <= LaneX1 && y >= 19 && y <= LaneTopY) return true;
-            foreach (var h in All)
+            foreach (var street in Streets)
             {
-                if (h.FacesSouth && h.Y0 > NorthRows[0] && (y == h.Y0 - 1 || y == h.Y0 - 2) && x >= WestX0 + 2 && x <= EastX0 + 2) return true;
+                if (x >= street.LaneX && x < street.LaneX + LaneWidth && y >= street.RowY - 2 && y <= street.RowY + RowRise + CottageH - 1) return true;
+                for (var row = 0; row < 2; row++)
+                {
+                    var door = street.RowY + row * RowRise;
+                    if ((y == door - 1 || y == door - 2) && x >= street.LaneX - CottageW + 1 && x <= street.LaneX + LaneWidth + 3) return true;
+                }
             }
             return false;
         }
 
-        public static bool InStreet(int x, int y) => x >= StreetX0 && x <= StreetX1 && y >= StreetY0 && y <= StreetY1;
+        // The land a street takes, with a margin (no scattered trees there).
+        public static bool InStreet(int x, int y)
+        {
+            foreach (var street in Streets)
+                if (x >= street.LaneX - CottageW - 2 && x <= street.LaneX + LaneWidth + CottageW + 1 && y >= street.RowY - 3 && y <= street.RowY + RowRise + CottageH + 1) return true;
+            return false;
+        }
     }
 }
