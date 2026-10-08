@@ -1,12 +1,17 @@
 #!/bin/bash
-# Usage: Steam/upload.sh <branch>     (branch must not be "default": promote that on the partner site)
+# Usage: Steam/upload.sh <branch>     ("default" needs ALLOW_DEFAULT=1: it is what every player gets. While the game is not live (the owner, 2026-10-08) that is how
+#                                     playtests are published; before the real release, drop ALLOW_DEFAULT from the build routine and promote on the partner site.)
 # Branch "none" uploads the build without setting it live anywhere (nobody receives it): use it for the very first upload, because Steamworks only
 # lets you create a branch once a build exists; then create the branch, set a password, and set this build live on it from the Builds page.
 # Uploads the Windows, Linux and macOS depots. SKIP_MAC=1 uploads only Windows and Linux (when there is no macOS build of this version yet).
 # Needs: STEAMCMD (path to steamcmd), STEAM_USER (build account). Run from the repo root after the release builds exist.
 set -euo pipefail
 branch="${1:?branch name, e.g. beta}"
-[ "$branch" != "default" ] || { echo "refusing to set default live from a script"; exit 1; }
+# Steam calls the default branch "public" (steamcmd refuses SetLive "default"): both names mean the branch every player gets.
+if [ "$branch" = "default" ] || [ "$branch" = "public" ]; then
+  [ "${ALLOW_DEFAULT:-}" = "1" ] || { echo "refusing to set the default branch live from a script without ALLOW_DEFAULT=1"; exit 1; }
+  branch=public
+fi
 : "${STEAMCMD:?set STEAMCMD}" "${STEAM_USER:?set STEAM_USER}"
 
 version=$(grep -m1 'bundleVersion:' ProjectSettings/ProjectSettings.asset | awk '{print $2}')
