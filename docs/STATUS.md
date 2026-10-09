@@ -318,6 +318,8 @@ The walking code was right: `NpcFacingFlowTests` walks every villager in all fou
 
 ## The world looks flat, Help tab, pad labels (2026-10-09; version 0.3.1; automated checks, nobody has played it)
 
+The start of the game is now a walkthrough of the screen (`MenuTourScreen`: HUD frames, the controls, then the menu tabs; begins from `OpeningStory` when the last intro page is closed; `MenuTourFlowTests`); the "Help tab" reminder in the tool tip is gone. Not yet looked at in a capture: the frames and caption positions for each HUD step (see the next entry if they were).
+
 Music: twelve more tracks wired in (`MusicChoice` has the rules, `MusicChoiceTests` and `MusicFlowTests` check them): a theme each for the village, forest, beach, saloon, library, indoors, mine and rain, and a festival theme for each season on festival days in the village. Nobody has listened to how the changes of track sound in play.
 
 Ground decoration (`GroundDecor`, `DecorPlanner`, pictures cut from the Mini Farm tileset by `tools/art/import_pack_decor.py`), ponds on the farm and in the village, a wandering beach shore, planters at the shop doors (`MapBuilder`), the Help tab (`HelpPage`), the once-per-item tool tip, the pad hover labels. Looked at in Windows captures: the farm, village, forest and beach decoration and the planters; the Help tab and the pond on the farm were checked in a capture before publishing (see below if not). Not found: why a controller could not select anything in the farmhouse (a pad-only test of the bed, kitchen and item bar passes; the labels were the gap).

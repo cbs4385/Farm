@@ -41,8 +41,11 @@ namespace Farm.UI
                 var item = ui.Session.Db.AllItems.FirstOrDefault(i => i.IsTool && i.ToolType == tool);
                 var row = UiKit.HStack(_list, "Tool_" + tool, 10f);
                 UiKit.Size(row.gameObject, -1f, 56f);
-                var icon = UiKit.Panel(row.transform, "Icon", Color.white);
-                UiKit.Size(icon.gameObject, 40f, 40f);
+                var slot = UiKit.Rect("IconSlot", row.transform);                 // a fixed-size slot, so that every name starts at the same place whatever the icon is
+                UiKit.Size(slot.gameObject, 48f, 56f);
+                var icon = UiKit.Panel(slot, "Icon", Color.white);
+                icon.rectTransform.anchorMin = icon.rectTransform.anchorMax = icon.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                icon.rectTransform.sizeDelta = new Vector2(40f, 40f);
                 icon.preserveAspect = true;
                 icon.sprite = item != null ? item.Icon : null;
                 icon.enabled = icon.sprite != null;

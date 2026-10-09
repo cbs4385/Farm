@@ -87,6 +87,7 @@ namespace Farm.UI
         TextMeshProUGUI _fatigueLabel;
         TextMeshProUGUI _date, _time, _weather, _forecast, _gold, _energyLabel, _toast, _mineFloor;
         Image _clockPanel;
+        RectTransform _energyFrame, _hotbarBar;
         float _transparency = -1f;
         Image _energyFill;
         Image _dateIcon, _timeIcon, _weatherIcon, _goldIcon, _healthIcon;
@@ -210,6 +211,7 @@ namespace Farm.UI
         {
             var frame = UiKit.Panel(canvas, "EnergyBar", UiKit.PanelColor);
             Fadable(frame);
+            _energyFrame = frame.rectTransform;
             UiKit.Place(frame.rectTransform, new Vector2(1, 0), new Vector2(1, 0), new Vector2(34, 140), new Vector2(-12, 12));
             var back = UiKit.Panel(frame.transform, "Back", new Color(0.08f, 0.06f, 0.04f, 1f));
             UiKit.Stretch(back.rectTransform, 5f);
@@ -267,6 +269,7 @@ namespace Farm.UI
         {
             var bar = UiKit.Panel(canvas, "Hotbar", UiKit.PanelColor);
             Fadable(bar);
+            _hotbarBar = bar.rectTransform;
             const float slot = 44f;
             const float gap = 3f;
             var width = InputNames.HotbarSlots * slot + (InputNames.HotbarSlots + 1) * gap;
@@ -383,13 +386,54 @@ namespace Farm.UI
                 if (text != null && s.GetVar(HelpShownKey + itemId) < HelpTimes)           // only the first few times (playtest 2026-10-09: "the Hoe tip appears each time")
                 {
                     s.AddVar(HelpShownKey + itemId, 1);
-                    _help.text = text + "\n" + L.Get("help.more");
+                    _help.text = text;
                     _helpTimer = HelpSeconds;
                 }
             }
             if (_helpTimer > 0f) _helpTimer -= Time.unscaledDeltaTime;
             var show = _helpTimer > 0f && !_tooltipShown;
             if (_helpPanel.gameObject.activeSelf != show) _helpPanel.gameObject.SetActive(show);
+        }
+
+        // The part of the screen a piece of the HUD occupies, in screen pixels, for the walkthrough to point at: "statusbar" (date, time, weather, forecast), "gold",
+        // "energy", "hotbar" or "tracker". False when it is not on screen.
+        public bool TryGetTourRect(string id, out Rect rect)
+        {
+            rect = default;
+            switch (id)
+            {
+                case "statusbar": return Union(out rect, _date != null ? _date.rectTransform : null, _forecast != null ? _forecast.rectTransform : null);
+                case "gold": return Union(out rect, _gold != null ? _gold.rectTransform : null);
+                case "energy": return Union(out rect, _energyFrame);
+                case "hotbar": return Union(out rect, _hotbarBar);
+                case "tracker":
+                    if (_tracker == null || string.IsNullOrEmpty(_tracker.text)) return false;
+                    // the label's box is bigger than its text: the text hangs from the top right corner
+                    var corners = new Vector3[4];
+                    _tracker.rectTransform.GetWorldCorners(corners);
+                    var scale = (corners[2].x - corners[0].x) / Mathf.Max(1f, _tracker.rectTransform.rect.width);
+                    var width = Mathf.Min(_tracker.preferredWidth, _tracker.rectTransform.rect.width) * scale;
+                    var height = Mathf.Min(_tracker.preferredHeight, _tracker.rectTransform.rect.height) * scale;
+                    rect = new Rect(corners[2].x - width, corners[2].y - height, width, height);
+                    return true;
+            }
+            return false;
+        }
+
+        static bool Union(out Rect rect, params RectTransform[] parts)
+        {
+            rect = default;
+            var any = false;
+            var corners = new Vector3[4];
+            foreach (var part in parts)
+            {
+                if (part == null || !part.gameObject.activeInHierarchy) continue;
+                part.GetWorldCorners(corners);
+                var r = Rect.MinMaxRect(corners[0].x, corners[0].y, corners[2].x, corners[2].y);
+                if (!any) { rect = r; any = true; }
+                else rect = Rect.MinMaxRect(Mathf.Min(rect.xMin, r.xMin), Mathf.Min(rect.yMin, r.yMin), Mathf.Max(rect.xMax, r.xMax), Mathf.Max(rect.yMax, r.yMax));
+            }
+            return any;
         }
 
         void BuildToast(Transform canvas)

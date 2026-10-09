@@ -12,14 +12,14 @@ namespace Farm.Gameplay
             if (session.HasFlag(SeenFlag)) return;
             session.SetFlag(SeenFlag);
             session.AddGold(WelcomeGold);   // the note folded into Tilda's letter, read on the bus
-            Run(ui.ShowMessage);
+            Run(ui.ShowMessage, 0, ui.StartTourAfterIntro);          // the walkthrough of the screen begins when the last page is closed
         }
 
         // Each page opens when the one before is closed.
-        public static void Run(System.Action<string, System.Action> showPage, int index = 0)
+        public static void Run(System.Action<string, System.Action> showPage, int index = 0, System.Action onDone = null)
         {
-            if (index >= Pages.Length) return;
-            showPage(Pages[index], () => Run(showPage, index + 1));
+            if (index >= Pages.Length) { onDone?.Invoke(); return; }
+            showPage(Pages[index], () => Run(showPage, index + 1, onDone));
         }
     }
 }

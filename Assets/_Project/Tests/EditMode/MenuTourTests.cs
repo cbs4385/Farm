@@ -34,5 +34,24 @@ namespace Farm.Tests
             Assert.AreNotEqual("tour.end", L.Get("tour.end"));
             StringAssert.DoesNotContain("[[", L.Get("tour.end"), "the control names are filled in");
         }
+
+        [Test]
+        public void EveryPartOfTheScreen_HasACaptionAndATitle_WithTheControlNamesFilledIn()
+        {
+            foreach (var id in MenuTourScreen.HudSteps)
+            {
+                Assert.IsTrue(L.Has("tour.hud." + id), id);
+                Assert.IsTrue(L.Has("tour.hud." + id + ".title"), id + " title");
+                StringAssert.DoesNotContain("[[", L.Get("tour.hud." + id), id);
+            }
+            var controls = L.Get("tour.hud.controls");
+            foreach (var word in new[] { "Move", "Use", "Talk", "Backpack", "Menu", "Journal", "Pause" }) StringAssert.Contains(word, controls, "the controls call out " + word);
+        }
+
+        [Test]
+        public void TheWalkthrough_CoversTheStatusBarTheGoldTheEnergyTheItemBarTheQuestsAndTheControls_InThatOrder()
+        {
+            CollectionAssert.AreEqual(new[] { "statusbar", "gold", "energy", "hotbar", "tracker", "controls" }, MenuTourScreen.HudSteps);
+        }
     }
 }

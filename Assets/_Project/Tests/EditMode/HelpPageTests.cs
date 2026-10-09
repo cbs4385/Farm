@@ -31,7 +31,7 @@ namespace Farm.Tests
         [Test]
         public void TheEverydayTopicsAndControls_AreAllWritten_WithTheirControlNamesFilledIn()
         {
-            foreach (var key in HelpPage.Topics.Concat(HelpPage.Controls).Concat(new[] { "help.title", "help.hint", "help.tools", "help.everyday", "help.controls", "help.more", "menu.tab.help", "tour.help" }))
+            foreach (var key in HelpPage.Topics.Concat(HelpPage.Controls).Concat(new[] { "help.title", "help.hint", "help.tools", "help.everyday", "help.controls", "menu.tab.help", "tour.help" }))
             {
                 Assert.IsTrue(L.Has(key), key);
                 StringAssert.DoesNotContain("[[", L.Get(key), key);

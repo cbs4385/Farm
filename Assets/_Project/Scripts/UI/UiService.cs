@@ -239,6 +239,26 @@ namespace Farm.UI
 
         public MenuTourScreen MenuTour => _tour;
 
+        // The game menu, made if it has not been (the walkthrough asks which tabs it has before it opens it).
+        public GameMenuScreen EnsureGameMenu() => _menu ??= new GameMenuScreen(this, CreateMenuPages());
+        public HudView Hud => _hud;
+
+        // After the opening story's last page: the walkthrough of the screen and the menu begins (not in automated tests, which must not be interrupted).
+        public void StartTourAfterIntro()
+        {
+            if (!MenuTourScreen.Suppressed) ShowMenuTour();
+        }
+
+        // The tour opens the menu while it is on top: put it back in front so that its buttons are the ones that answer.
+        public void BringToFront(UiScreen screen)
+        {
+            if (!_modals.Remove(screen)) return;
+            _modals.Add(screen);
+            screen.Root.transform.SetAsLastSibling();
+            ConfineNavigation();
+            FocusFirst(screen.Root);
+        }
+
         public void ShowMenuTour()
         {
             _tour ??= new MenuTourScreen(this);

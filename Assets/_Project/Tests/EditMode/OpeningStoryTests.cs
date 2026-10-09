@@ -65,5 +65,17 @@ namespace Farm.Tests
             var story = StoryContent.LoadFromResources();
             Assert.IsNull(story.Letter("welcome"), "no copy of it waits in the mailbox");
         }
+
+        // Owner, 2026-10-09: the walkthrough of the screen begins when the last page of the opening story is closed.
+        [Test]
+        public void WhenTheLastPageIsClosed_TheWalkthroughIsStarted()
+        {
+            var closers = new System.Collections.Generic.List<System.Action>();
+            var done = 0;
+            OpeningStory.Run((key, onClose) => closers.Add(onClose), 0, () => done++);
+            for (var i = 0; i < OpeningStory.Pages.Length - 1; i++) { closers[i](); Assert.AreEqual(0, done, "not before the last page is closed"); }
+            closers[OpeningStory.Pages.Length - 1]();
+            Assert.AreEqual(1, done);
+        }
     }
 }

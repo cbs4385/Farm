@@ -22,6 +22,7 @@ namespace Farm.Gameplay
         void ShowCrafting(string station);
         void ShowChest(string objectId);
         void ShowMenuTour() { }
+        void StartTourAfterIntro() { }
         void ShowAvatarCreator(AvatarData look, System.Action<AvatarData> onDone) { }     // the farmer creator (also reachable for QA with -farmOpen avatar)
         void ShowShipping() { }        // the shipping bin as a window: pick items and amounts, ship them as one lot
         void ShowLetter(LetterDefinition letter, Action onClosed);
