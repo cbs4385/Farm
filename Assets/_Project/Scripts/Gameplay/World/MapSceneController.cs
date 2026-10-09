@@ -43,6 +43,9 @@ namespace Farm.Gameplay
             foreach (var fixture in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None)) fixture.Apply(_session, _map);         // the bed and the kitchen where the player put them
             if (FindAnyObjectByType<FarmBuildingsView>() is FarmBuildingsView buildings) buildings.Rebuild(_session);           // the farm's own buildings, before anyone is placed at their doors
             PlacePlayer(_session.State.SpawnPoint);
+            var daylight = FindAnyObjectByType<DayNightLighting>();
+            if (daylight != null && !daylight.IsIndoor && _map.MapId != MapIds.Mine)           // tufts and flowers over the grass, in the colours of the season
+                gameObject.AddComponent<GroundDecor>().Build(_map, _session.State.WorldSeed, _session.Clock.Now.Season);
             if (_session.MemoryRestorePosition && _session.MemoryId == null)       // back from a memory replay
             {
                 _player.transform.position = _session.MemoryReturnPosition;
@@ -133,7 +136,7 @@ namespace Farm.Gameplay
         }
 #endif
 
-        // QA aid: `-farmOpen inventory|shop|pause|options|message|upgrades|summary|sleep|dialogue|chatmenu|memories|neighbours|gossip|stream|tour` opens a screen shortly after the scene starts.
+        // QA aid: `-farmOpen inventory|shop|pause|options|message|upgrades|summary|sleep|dialogue|chatmenu|memories|neighbours|gossip|stream|tour|help` opens a screen shortly after the scene starts.
         System.Collections.IEnumerator OpenRequestedScreen()
         {
             var which = CommandLine.GetArg("-farmOpen");
@@ -150,6 +153,7 @@ namespace Farm.Gameplay
                 case "upgrades": ui.ShowUpgrades("blacksmith"); break;
                 case "sleep": _session.StartSleep(false); break;   // fade, summary over black, wait for Continue
                 case "tour": ui.ShowMenuTour(); break;
+                case "help": ui.ShowGameMenu(MenuTabs.Help); break;
                 case "crops": PlantShowcase(); break;
                 case "dialogue": OpenDialogueShowcase(ui); break;
                 case "chatmenu": OpenChatMenuShowcase(); break;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using Farm.Core;
+using Farm.Data;
 using Farm.Gameplay;
 using NUnit.Framework;
 using UnityEngine;
@@ -71,16 +72,44 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator InTheMine_ThereIsNoMusic()
+        public IEnumerator InTheMine_TheMineThemePlays()
         {
             yield return Enter(MapIds.Farm, Season.Summer, 12);
             yield return WaitForMusic("farm_summer");
             _s.State.CurrentMap = MapIds.Mine;
             var op = SceneManager.LoadSceneAsync(MapIds.Mine);
             while (!op.isDone) yield return null;
-            var end = Time.realtimeSinceStartup + 4f;
-            while (Time.realtimeSinceStartup < end && MusicDirector.Current.Playing != null) yield return null;
-            Assert.IsNull(MusicDirector.Current.Playing);
+            yield return WaitForMusic("mine");
+            Assert.AreEqual("mine", MusicDirector.Current.Playing);
+        }
+
+        [UnityTest]
+        public IEnumerator EachPlaceHasItsOwnTheme_TheVillage_TheSaloon_TheLibrary_TheShops()
+        {
+            yield return Enter(MapIds.Village, Season.Summer, 12);
+            yield return WaitForMusic("village");
+            Assert.AreEqual("village", MusicDirector.Current.Playing);
+            foreach (var (map, cue) in new[] { (MapIds.Saloon, "saloon"), (MapIds.Library, "library"), (MapIds.GeneralStore, "indoors"), (MapIds.Forest, "forest"), (MapIds.Beach, "beach") })
+            {
+                _s.State.CurrentMap = map;
+                var op = SceneManager.LoadSceneAsync(map);
+                while (!op.isDone) yield return null;
+                yield return WaitForMusic(cue);
+                Assert.AreEqual(cue, MusicDirector.Current.Playing, map);
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator InTheRainOnTheFarm_TheRainThemePlays_AndTheDryDayTheFarmTheme()
+        {
+            yield return Enter(MapIds.Farm, Season.Spring, 12);
+            yield return WaitForMusic("farm_spring");
+            _s.State.Weather = WeatherDefaults.Rain;
+            yield return WaitForMusic("rain");
+            Assert.AreEqual("rain", MusicDirector.Current.Playing);
+            _s.State.Weather = WeatherDefaults.Sunny;
+            yield return WaitForMusic("farm_spring");
+            Assert.AreEqual("farm_spring", MusicDirector.Current.Playing);
         }
 
         [UnityTest]

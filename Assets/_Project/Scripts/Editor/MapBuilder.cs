@@ -215,6 +215,10 @@ namespace Farm.Editor
             binFixture.Id = "shipping_bin";
             binFixture.Size = new Vector2Int(2, 2);
 
+            // A pond to the north-east of the fields (fishing, and something to look at): one oval of water with a shoreline, walled so that one stops at the shore.
+            bool FarmPond(int px, int py) { var dx = (px - 58f) / 6.2f; var dy = (py - 39f) / 4.2f; return dx * dx + dy * dy <= 1f; }
+            PaintPond(rig, FarmPond, 50, 66, 33, 45);
+
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Farm}.unity");
         }
 
@@ -395,7 +399,24 @@ namespace Farm.Editor
                     AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
                 }
 
+            // A pond on the green between the saloon and the lane.
+            bool VillagePond(int px, int py) { var dx = (px - 19.5f) / 3.2f; var dy = (py - 8.5f) / 3.6f; return dx * dx + dy * dy <= 1f; }
+            PaintPond(rig, VillagePond, 15, 23, 4, 13);
+
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Village}.unity");
+        }
+
+        // Paints a pond: every cell of the shape in the box becomes the water tile for its neighbours (so the shore reads as a shore), and walled.
+        static void PaintPond(Rig rig, System.Func<int, int, bool> isWater, int x0, int x1, int y0, int y1)
+        {
+            for (var y = y0; y <= y1; y++)
+                for (var x = x0; x <= x1; x++)
+                {
+                    if (!isWater(x, y)) continue;
+                    var water = GetTile(WaterShore.TileNameAt(isWater, x, y));
+                    rig.Ground.SetTile(new Vector3Int(x, y, 0), water);
+                    rig.Walls.SetTile(new Vector3Int(x, y, 0), water);
+                }
         }
 
         // The cells of the lane from a door to the road.
@@ -434,6 +455,12 @@ namespace Farm.Editor
             }
 
             var outsideY = b.FacesSouth ? doorY - 1 : doorY + 1;
+            var planterY = b.FacesSouth ? outsideY - 1 : outsideY + 1;           // one row further out than the door's own row, which people walk along
+            if (!string.IsNullOrEmpty(b.Business))          // the shops: a planter a little way off each side of the door (the cells beside the door stay open for walking; the cottages' alleys stay clear)
+            {
+                AddObject($"{b.MapId}_PlanterWest", "obj_plant", Center(b.DoorX - 2, planterY), solid: true);
+                AddObject($"{b.MapId}_PlanterEast", "obj_plant", Center(b.DoorX + 2, planterY), solid: true);
+            }
             AddSpawn("from" + b.MapId, Center(b.DoorX, outsideY));
             AddWarp(Center(b.DoorX, doorY), b.MapId, "default", Vector2.one, business: b.Business, condition: b.Condition, blockedKey: b.BlockedKey);
         }
@@ -598,6 +625,13 @@ namespace Farm.Editor
 
         const int BeachW = 36, BeachH = 24, BeachWaterRows = 5, BeachExitX0 = 16, BeachExitX1 = 18;
 
+        // The shore is not a ruler line: the water reaches a little further up the sand in places (never past row 6, so the fishing rock, the stall and the spawns stay on land).
+        static bool IsBeachWater(int x, int y)
+        {
+            var wave = Mathf.Clamp(Mathf.RoundToInt(1.2f * Mathf.Sin(x * 0.4f) + 0.8f * Mathf.Sin(x * 1.1f + 1f)), -1, 2);
+            return y < BeachWaterRows + wave;
+        }
+
         static void BuildBeach()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -606,9 +640,9 @@ namespace Farm.Editor
             for (var y = 0; y < BeachH; y++)
                 for (var x = 0; x < BeachW; x++)
                 {
-                    var water = y < BeachWaterRows;
+                    var water = IsBeachWater(x, y);
                     var sand = y < BeachH - 6;
-                    var tileName = water ? WaterShore.TileNameAt((wx, wy) => wy < BeachWaterRows, x, y) : sand ? "tile_sand" : "tile_grass";   // the sea runs on past the map's sides
+                    var tileName = water ? WaterShore.TileNameAt(IsBeachWater, x, y) : sand ? "tile_sand" : "tile_grass";   // the sea runs on past the map's sides
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(tileName));
                     if (water) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(tileName));
                     var edge = x == 0 || y == BeachH - 1 || x == BeachW - 1;

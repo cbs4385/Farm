@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Farm.Core;
 using Farm.Gameplay;
@@ -261,7 +261,7 @@ namespace Farm.Tests
                         {
                             var path = Maps[leg.Map].Grid.FindPath(leg.FromX, leg.FromY, leg.ToX, leg.ToY);
                             var manhattan = Mathf.Abs(leg.ToX - leg.FromX) + Mathf.Abs(leg.ToY - leg.FromY);
-                            Assert.LessOrEqual(path.Count - 1, manhattan * 1.5f + 4f, $"{npc.Id}/{entry.Id} on {leg.Map}");
+                            Assert.LessOrEqual(path.Count - 1, manhattan * 1.5f + 4f, $"{npc.Id}/{entry.Id} on {leg.Map}: ({leg.FromX},{leg.FromY}) to ({leg.ToX},{leg.ToY}), path {path.Count - 1}, manhattan {manhattan}");
                         }
                     }
         }

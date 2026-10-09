@@ -55,5 +55,6 @@ namespace Farm.Gameplay
         public const string Memories = "memories";
         public const string Gossip = "gossip";
         public const string Gazette = "gazette";
+        public const string Help = "help";
     }
 }

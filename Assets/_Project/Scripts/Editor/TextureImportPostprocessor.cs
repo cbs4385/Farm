@@ -10,7 +10,7 @@ namespace Farm.Editor
         public const int PixelsPerUnit = 16;
 
         // Bump when import rules change so existing art is reimported.
-        public override uint GetVersion() => 7;
+        public override uint GetVersion() => 8;
 
         // Full-screen pictures (the ending illustrations) are loaded as plain textures, kept at their exact size and crisp.
         const string PictureRoot = "Assets/_Project/Resources/Endings/";
@@ -18,6 +18,9 @@ namespace Farm.Editor
         // The title picture is moved by the breeze in less than a pixel steps, so it is smooth-filtered, and readable so that the game can work out which
         // parts of it are foliage (TitleSway.Weights).
         const string TitleRoot = "Assets/_Project/Resources/Title/";
+
+        // The ground decoration (tufts and flowers laid over the grass at run time): crisp sprites like the rest of the art.
+        const string DecorRoot = "Assets/_Project/Resources/Decor/";
 
         void OnPreprocessTexture()
         {
@@ -45,7 +48,7 @@ namespace Farm.Editor
                 picture.alphaSource = TextureImporterAlphaSource.None;
                 return;
             }
-            if (!assetPath.StartsWith(ArtRoot)) return;
+            if (!assetPath.StartsWith(ArtRoot) && !assetPath.StartsWith(DecorRoot)) return;
 
             var importer = (TextureImporter)assetImporter;
             importer.textureType = TextureImporterType.Sprite;

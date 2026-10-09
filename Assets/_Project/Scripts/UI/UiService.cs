@@ -367,7 +367,7 @@ namespace Farm.UI
 
         static MenuPage[] CreateMenuPages() => new MenuPage[]
         {
-            new SkillsPage(), new SocialPage(), new CalendarPage(), new MapPage(), new CollectionsPage(), new MemoriesPage(), new GossipPage(), new GazettePage(), new JournalPage(), new CraftingPage(),
+            new SkillsPage(), new SocialPage(), new CalendarPage(), new MapPage(), new CollectionsPage(), new MemoriesPage(), new GossipPage(), new GazettePage(), new JournalPage(), new CraftingPage(), new HelpPage(),
         };
 
         public void ShowCrafting(string station)

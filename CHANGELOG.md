@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1 (2026-10-09)
+
+- The world is less flat. Tufts and flowers are scattered over the grass in the colors of the season (green in spring and summer, orange in fall, pale blue in winter), pebbles, driftwood and dune grass lie on the beach, there is a pond on the farm and one in the village, the beach shore wanders instead of running straight, and the shops have planters beside their doors.
+- Help: a new Help tab in the menu explains every tool, everyday things (eating, chests, quality, trees, wild plants, quests, sleeping) and the controls. The tool tip over the item bar now shows once per item per game and says that the Help tab keeps it; the menu tour covers the new tab, and the pause menu has a Menu tour button to play it again.
+- Twelve more pieces of music: each place has its own theme (the village, the forest, the beach, the saloon, the library, the mine, the shops and homes), the rain has one, and each season's festival has its own on the village on festival day.
+- With a controller, the label of what you face (bed, kitchen, door...) shows as the mouse's does.
+
 ## 0.3.0 (2026-10-09)
 
 - A guided tour of the menu: a few seconds into a new game (and once for a game still in its first days) the menu opens on the Journal and a box walks through every tab, saying briefly what each is for (Next, Back or Skip; the Menu and Journal keys are named at the end). It is offered once.

@@ -350,6 +350,8 @@ namespace Farm.UI
         string _helpItem;
         float _helpTimer;
         const float HelpSeconds = 5f;
+        public const int HelpTimes = 1;                   // how many times the help for one item shows by itself in a game: once; the Help tab keeps it
+        public const string HelpShownKey = "help.shown.";
 
         // What the picked item is and how to use it, above the item bar for a few seconds whenever the pick changes (and when the game starts). The mouse has the
         // same text when it rests on a slot, but a pad or the keyboard never gets there (playtest 2026-10-09: "I can select tools but have no idea how to use them").
@@ -376,9 +378,14 @@ namespace Farm.UI
             {
                 _helpSlot = slot;
                 _helpItem = itemId;
-                _helpTimer = itemId != null ? HelpSeconds : 0f;
+                _helpTimer = 0f;
                 var text = itemId != null ? HotbarTooltip.Text(s, itemId) : null;
-                if (text != null) _help.text = text;
+                if (text != null && s.GetVar(HelpShownKey + itemId) < HelpTimes)           // only the first few times (playtest 2026-10-09: "the Hoe tip appears each time")
+                {
+                    s.AddVar(HelpShownKey + itemId, 1);
+                    _help.text = text + "\n" + L.Get("help.more");
+                    _helpTimer = HelpSeconds;
+                }
             }
             if (_helpTimer > 0f) _helpTimer -= Time.unscaledDeltaTime;
             var show = _helpTimer > 0f && !_tooltipShown;

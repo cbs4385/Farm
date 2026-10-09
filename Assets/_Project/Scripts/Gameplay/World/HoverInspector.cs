@@ -12,6 +12,7 @@ namespace Farm.Gameplay
     {
         GameSession _session;
         FarmMap _map;
+        PlayerActions _actions;
         string _label;
 
         public static string Current { get; private set; }
@@ -25,17 +26,30 @@ namespace Farm.Gameplay
         void Update()
         {
             var mouse = Mouse.current;
+            // With a pad the label follows the cell the player faces, as a mouse's does the pointer (playtest 2026-10-09: a controller player never saw what a thing was).
+            var pad = ControlPrompts.Kind == InputKind.Gamepad && Gamepad.current != null;
             var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
             var ui = ServiceLocator.TryGet<IUiService>(out var service) ? service : null;
             var blocked = ServiceLocator.TryGet<InputService>(out var input) && input.GameplayBlocked;
-            if (mouse == null || ui == null || _session == null || !_session.InGame || _map == null || blocked || ui.AnyModalOpen
-                || ui.PointerOverUi || (settings != null && !settings.HoverLabels) || Camera.main == null)
+            if (_actions == null) _actions = FindAnyObjectByType<PlayerActions>();
+            if ((mouse == null && !pad) || ui == null || _session == null || !_session.InGame || _map == null || blocked || ui.AnyModalOpen
+                || (!pad && ui.PointerOverUi) || (pad && _actions == null) || (settings != null && !settings.HoverLabels) || Camera.main == null)
             {
                 Clear(ui);
                 return;
             }
-            var position = mouse.position.ReadValue();
-            var world = Camera.main.ScreenToWorldPoint(new Vector3(position.x, position.y, -Camera.main.transform.position.z));
+            Vector2 position;
+            Vector3 world;
+            if (pad)
+            {
+                world = _map.CellCenter(_actions.Target);
+                position = Camera.main.WorldToScreenPoint(world) + new Vector3(0f, 28f, 0f);
+            }
+            else
+            {
+                position = mouse.position.ReadValue();
+                world = Camera.main.ScreenToWorldPoint(new Vector3(position.x, position.y, -Camera.main.transform.position.z));
+            }
             var label = LabelAt(world);
             if (label == null) { Clear(ui); return; }
             _label = label;

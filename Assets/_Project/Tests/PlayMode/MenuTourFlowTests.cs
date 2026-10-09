@@ -107,5 +107,30 @@ namespace Farm.Tests
             yield return null;
             Assert.IsFalse(Ui.AnyModalOpen);
         }
+
+        // Owner / playtester, 2026-10-09: "can a player refer to it later if they forget how to do something?" The pause menu has a button that plays the tour again.
+        [UnityTest]
+        public IEnumerator ThePauseMenu_CanPlayTheTourAgain_AfterItWasSeen()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var session = ServiceLocator.Get<GameSession>();
+            session.BeginNewGame("Tester", "Test Farm", 0);
+            session.SetFlag(FatigueModel.WarnedFlag);
+            session.SetFlag(MenuTourScreen.DoneFlag);                        // already seen
+            var op = SceneManager.LoadSceneAsync(MapIds.Farm);
+            while (!op.isDone) yield return null;
+            for (var i = 0; i < 10; i++) yield return null;
+            Ui.ShowPause();
+            yield return null;
+            UnityEngine.Object.FindObjectsByType<Button>().First(b => b.name == "MenuTour" && b.gameObject.activeInHierarchy).onClick.Invoke();
+            yield return null;
+            Assert.IsTrue(Ui.MenuTour.IsOpen, "the tour plays again");
+            Assert.AreEqual(MenuTabs.Journal, Ui.GameMenu.Current.Id);
+            UnityEngine.Object.FindObjectsByType<Button>().First(b => b.name == "TourSkip" && b.gameObject.activeInHierarchy).onClick.Invoke();
+            yield return null;
+            Assert.IsTrue(Ui.AnyModalOpen, "the pause menu is still there after the tour");
+            Assert.IsFalse(Ui.MenuTour.IsOpen);
+        }
     }
 }

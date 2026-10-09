@@ -75,7 +75,11 @@ namespace Farm.Tests
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             Assert.IsTrue(map.IsWater(new Vector3Int(10, 1, 0)), "the sea is water");
             Assert.IsFalse(map.IsWater(new Vector3Int(10, 10, 0)), "the sand is not");
-            Assert.AreEqual("tile_water_m1", map.Ground.GetTile(new Vector3Int(10, 4, 0)).name, "the sea's land edge has a shoreline on its north side");
+            // The waterline wanders (bays and points), so find the top of the water in this column rather than a fixed row.
+            var top = 0;
+            for (var y = 0; y < 12; y++) if (map.IsWater(new Vector3Int(10, y, 0))) top = y;
+            var edge = map.Ground.GetTile(new Vector3Int(10, top, 0)).name;
+            Assert.IsTrue(edge.StartsWith("tile_water_m") && !edge.StartsWith("tile_water_m0"), "the sea's land edge has a shoreline: " + edge);
         }
     }
 }

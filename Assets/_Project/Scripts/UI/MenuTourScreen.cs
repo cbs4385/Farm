@@ -16,7 +16,7 @@ namespace Farm.UI
         // The Journal first (it holds the quests), then the rest in the order of the tabs.
         public static readonly string[] Order =
         {
-            MenuTabs.Journal, MenuTabs.Skills, MenuTabs.Social, MenuTabs.Calendar, MenuTabs.Map, MenuTabs.Collections, MenuTabs.Memories, MenuTabs.Gossip, MenuTabs.Gazette, MenuTabs.Crafting,
+            MenuTabs.Journal, MenuTabs.Skills, MenuTabs.Social, MenuTabs.Calendar, MenuTabs.Map, MenuTabs.Collections, MenuTabs.Memories, MenuTabs.Gossip, MenuTabs.Gazette, MenuTabs.Crafting, MenuTabs.Help,
         };
 
         readonly TextMeshProUGUI _step;

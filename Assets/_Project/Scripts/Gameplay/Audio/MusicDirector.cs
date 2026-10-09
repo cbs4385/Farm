@@ -67,7 +67,9 @@ namespace Farm.Gameplay
         {
             var inGame = ServiceLocator.TryGet<GameSession>(out var session) && session.InGame;
             var now = inGame ? session.Clock.Now : default;
-            return MusicChoice.For(SceneManager.GetActiveScene().name, inGame, now.Season, inGame ? now.MinuteOfDay / 60 : 12);
+            var rain = inGame && session.Weather.Get(session.State.Weather).WateringCrops;
+            var festival = inGame && session.Story != null && StoryCalendar.DaysUntilFestival(session.Story.Events, now) == 0;
+            return MusicChoice.For(SceneManager.GetActiveScene().name, inGame, now.Season, inGame ? now.MinuteOfDay / 60 : 12, rain, festival);
         }
 
         // Starts `cue` on the idle source (it fades in while the other fades out); null fades everything out.

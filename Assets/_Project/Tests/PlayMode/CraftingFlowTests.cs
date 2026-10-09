@@ -167,6 +167,8 @@ namespace Farm.Tests
         {
             yield return Start();
             _session.Backpack.Add("machine.chest", 1);
+            _session.GetNodes(MapIds.Farm).Remove(21, 8);                      // the morning's clutter may have landed on the spot
+            UnityEngine.Object.FindAnyObjectByType<FarmMapView>().RefreshAll();
             yield return Face(20, 8, Vector2Int.right, "machine.chest");
             yield return Tap(Key.C);
             var placed = _session.GetObjects(MapIds.Farm).At(21, 8);
