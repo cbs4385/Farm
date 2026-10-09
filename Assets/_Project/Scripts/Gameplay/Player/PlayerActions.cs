@@ -142,6 +142,7 @@ namespace Farm.Gameplay
             {
                 case ItemCategory.Tool: UseTool(item.ToolType); break;
                 case ItemCategory.Seed: Plant(item); break;
+                case ItemCategory.Resource when item.Id == ItemIds.Acorn: PlantAcorn(item); break;
                 case ItemCategory.Food: Eat(item); break;
                 case ItemCategory.Machine: PlaceObject(item); break;
                 case ItemCategory.Furniture: PlaceObject(item); break;
@@ -247,6 +248,7 @@ namespace Farm.Gameplay
             }
 
             var day = Session.Clock.Now.TotalDays;
+            var wasLast = ForageRules.IsLastOfItsKind(nodes, node.TypeId);
             var result = nodes.Gather(cell.x, cell.y, Session.Nodes.Get, WeatherRoller.Unit(cell.x * 53 + cell.y * 19 + day, Session.State.WorldSeed));
             var quality = ForageModel.Quality(Session.GetSkillLevel(SkillIds.Foraging), Session.Luck + Professions.LuckBonus(Session.State, ProfessionEffect.LuckForaging),
                 WeatherRoller.Unit(cell.x * 97 + cell.y * 41 + day * 3, Session.State.WorldSeed ^ 0x7F4A7C15));
@@ -255,6 +257,7 @@ namespace Farm.Gameplay
             Session.AddSkillXp(result.Skill, result.Xp);
             AudioService.PlayIfAvailable(Sfx.Harvest);
             _view.RefreshNode(cell);
+            if (wasLast && Session.Db.TryGetItem(def.DropItemId, out var picked)) Session.Toast(L.Get("toast.forage_last", L.Get(picked.NameKey)));
             return true;
         }
 
@@ -297,6 +300,11 @@ namespace Farm.Gameplay
                 if (!string.IsNullOrEmpty(result.DropItemId) && result.DropCount > 0)
                     Session.Backpack.Add(result.DropItemId, result.DropCount);
                 Session.AddSkillXp(result.Skill, result.Xp);
+                if (result.LeftBehind == NodeDefaults.Stump)                          // a tree came down: it may have dropped acorns
+                {
+                    var acorns = TreeRules.AcornsFor(WeatherRoller.Unit(cell.x * 977 + cell.y * 31 + Session.Clock.Now.TotalDays * 13, Session.State.WorldSeed ^ 0x3C6EF372));
+                    if (acorns > 0 && Session.Backpack.Add(ItemIds.Acorn, acorns) == 0) Session.Toast(L.Get("toast.acorn_found", acorns));
+                }
                 AudioService.PlayIfAvailable(Sfx.Harvest);
             }
             else
@@ -457,6 +465,29 @@ namespace Farm.Gameplay
             Session.AddVar(QuestLog.Stats.Planted, 1);
             AudioService.PlayIfAvailable(Sfx.Plant);
             _view.RefreshCell(cell);
+            return true;
+        }
+
+        // An acorn on open ground becomes a sapling that grows into a tree in a few days. Explains with a toast when it cannot go there.
+        bool PlantAcorn(ItemDefinition acorn)
+        {
+            var cell = TargetCell;
+            var nodes = Session.GetNodes(_map.MapId);
+            var grid = Session.GetGrid(_map.MapId);
+            var sapling = Session.Nodes.Get(NodeDefaults.Sapling);
+            if (sapling == null) return false;
+            if (!_map.AllowFarming) { Session.Toast(L.Get("toast.acorn_where")); return false; }
+            if (grid.IsTilled(cell.x, cell.y) || nodes.Has(cell.x, cell.y) || Session.GetObjects(_map.MapId).Has(cell.x, cell.y)
+                || cell == _map.WorldToCell(_player.CellSamplePoint) || !_map.IsTillable(cell))
+            {
+                Session.Toast(L.Get("toast.acorn_blocked"));
+                return false;
+            }
+            if (!nodes.Add(cell.x, cell.y, sapling)) return false;
+            Session.Backpack.Remove(acorn.Id, 1);
+            AudioService.PlayIfAvailable(Sfx.Plant);
+            _view.RefreshNode(cell);
+            Session.Toast(L.Get("toast.acorn_planted", NodeDefaults.SaplingDays));
             return true;
         }
 

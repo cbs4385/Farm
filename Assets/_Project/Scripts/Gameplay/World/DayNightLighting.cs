@@ -10,10 +10,17 @@ namespace Farm.Gameplay
         [SerializeField] Light2D _light;
         [SerializeField] bool _indoor;
 
-        static readonly Color Dawn = new Color(0.85f, 0.80f, 0.95f);
+        // The colours are tints (their strongest channel is 1): how bright the light is comes from Brightness() below, so night is half as bright as noon
+        // whatever its colour (owner, 2026-10-09: "night at about 50% brightness and noon at 100%").
+        public const float NightBrightness = 0.5f;
+        static readonly Color DawnTint = new Color(0.97f, 0.92f, 1f);
+        static readonly Color DayTint = Color.white;
+        static readonly Color DuskTint = new Color(1f, 0.88f, 0.78f);
+        static readonly Color NightTint = new Color(0.88f, 0.92f, 1f);
+        static readonly Color Dawn = Dim(DawnTint, 0.62f);
         static readonly Color Day = Color.white;
-        static readonly Color Dusk = new Color(1f, 0.72f, 0.55f);
-        static readonly Color Night = new Color(0.30f, 0.34f, 0.60f);
+        static readonly Color Dusk = Dim(DuskTint, 0.75f);
+        static readonly Color Night = Dim(NightTint, NightBrightness);
         static readonly Color Indoor = new Color(1f, 0.95f, 0.85f);
 
         GameSession _session;
@@ -86,16 +93,35 @@ namespace Farm.Gameplay
             _light.intensity = 1f;
         }
 
-        // Piecewise gradient: 6:00 dawn, 9:00 day, 17:00 day, 19:30 dusk, 22:00 night, 28:00 night, 30:00 dawn.
+        // How bright the outdoor light is at a time of day, from NightBrightness (about 50%) to 1 at noon: it rises from 06:00 to noon, falls from noon until
+        // 22:00 and stays at the night level until the sky lightens again before 06:00 (the day runs on past midnight, so 24:00 is 24).
+        public static float Brightness(int minuteOfDay)
+        {
+            var h = minuteOfDay / 60f;
+            var sun = 0f;
+            if (h >= 6f && h < 12f) sun = Smooth((h - 6f) / 6f);
+            else if (h >= 12f && h < 22f) sun = Smooth(1f - (h - 12f) / 10f);
+            else if (h >= 28f) sun = Smooth((h - 28f) / 2f) * 0.5f;               // the sky lightens a little before 06:00 (30:00)
+            return Mathf.Lerp(NightBrightness, 1f, sun);
+        }
+
+        static Color Dim(Color c, float f) => new Color(c.r * f, c.g * f, c.b * f, 1f);
+
+        static float Smooth(float t) { t = Mathf.Clamp01(t); return t * t * (3f - 2f * t); }
+
+        // The colour of the light: a tint that moves dawn, day, dusk, night, at the brightness above.
         public static Color ColorAt(int minuteOfDay)
         {
             var h = minuteOfDay / 60f;
-            if (h < 9f) return Color.Lerp(Dawn, Day, Mathf.InverseLerp(6f, 9f, h));
-            if (h < 17f) return Day;
-            if (h < 19.5f) return Color.Lerp(Day, Dusk, Mathf.InverseLerp(17f, 19.5f, h));
-            if (h < 22f) return Color.Lerp(Dusk, Night, Mathf.InverseLerp(19.5f, 22f, h));
-            if (h < 28f) return Night;
-            return Color.Lerp(Night, Dawn, Mathf.InverseLerp(28f, 30f, h));   // the sky lightens before 06:00
+            Color tint;
+            if (h < 9f) tint = Color.Lerp(DawnTint, DayTint, Mathf.InverseLerp(6f, 9f, h));
+            else if (h < 17f) tint = DayTint;
+            else if (h < 19.5f) tint = Color.Lerp(DayTint, DuskTint, Mathf.InverseLerp(17f, 19.5f, h));
+            else if (h < 22f) tint = Color.Lerp(DuskTint, NightTint, Mathf.InverseLerp(19.5f, 22f, h));
+            else if (h < 28f) tint = NightTint;
+            else tint = Color.Lerp(NightTint, DawnTint, Mathf.InverseLerp(28f, 30f, h));
+            var b = Brightness(minuteOfDay);
+            return new Color(tint.r * b, tint.g * b, tint.b * b, 1f);
         }
     }
 }

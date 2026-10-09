@@ -10,7 +10,7 @@ namespace Farm.Editor
         public const int PixelsPerUnit = 16;
 
         // Bump when import rules change so existing art is reimported.
-        public override uint GetVersion() => 5;
+        public override uint GetVersion() => 6;
 
         // Full-screen pictures (the ending illustrations) are loaded as plain textures, kept at their exact size and crisp.
         const string PictureRoot = "Assets/_Project/Resources/Endings/";
@@ -67,6 +67,16 @@ namespace Farm.Editor
                 settings.spriteAlignment = (int)SpriteAlignment.Custom;
                 importer.SetTextureSettings(settings);
                 importer.spritePivot = new Vector2(0.5f, 0f);
+            }
+            else if (file == "obj_tree.png" || file == "obj_sapling.png")
+            {
+                // A tree is taller than its cell: the pivot puts the foot of the trunk at the foot of the cell (a Tilemap centres the pivot in the cell, and a
+                // scene object stands on its position), and the crown rises over the cells above.
+                var settings = new TextureImporterSettings();
+                importer.ReadTextureSettings(settings);
+                settings.spriteAlignment = (int)SpriteAlignment.Custom;
+                importer.SetTextureSettings(settings);
+                importer.spritePivot = new Vector2(0.5f, file == "obj_tree.png" ? 0.375f : 0.5f);
             }
         }
     }

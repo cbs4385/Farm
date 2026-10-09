@@ -12,6 +12,7 @@ namespace Farm.Gameplay
         public int Y;
         public string TypeId;
         public int Hp;     // damage still needed
+        public int Age;    // days a sapling has been growing
     }
 
     // Looks resource node definitions up by id (the game database's, or the built-in defaults when it has none).
@@ -81,6 +82,25 @@ namespace Farm.Gameplay
         }
 
         public bool Remove(int x, int y) => _nodes.Remove((x, y));
+
+        // One night for everything that grows (a sapling): returns the cells where a node turned into another (a sapling into a tree).
+        public List<(int x, int y)> Grow(Func<string, ResourceNodeDefinition> lookup)
+        {
+            var grown = new List<(int x, int y)>();
+            foreach (var node in _nodes.Values.ToList())
+            {
+                var def = lookup(node.TypeId);
+                if (def == null || string.IsNullOrEmpty(def.GrowsIntoNodeId)) continue;
+                node.Age++;
+                if (node.Age < def.GrowDays) continue;
+                var into = lookup(def.GrowsIntoNodeId);
+                if (into == null) continue;
+                _nodes.Remove((node.X, node.Y));
+                Add(node.X, node.Y, into);
+                grown.Add((node.X, node.Y));
+            }
+            return grown;
+        }
 
         public void Clear() => _nodes.Clear();
 

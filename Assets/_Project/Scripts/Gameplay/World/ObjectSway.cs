@@ -16,13 +16,13 @@ namespace Farm.Gameplay
         {
             var sr = GetComponent<SpriteRenderer>();
             if (sr == null || sr.sprite == null) { enabled = false; return; }
-            var halfHeight = sr.sprite.bounds.extents.y;
+            var foot = sr.sprite.bounds.min.y;                           // the base of the picture, whatever the sprite pivot is
             var pivot = new GameObject("SwayPivot").transform;
             pivot.SetParent(transform, false);
-            pivot.localPosition = new Vector3(0f, -halfHeight, 0f);      // the base of the picture
+            pivot.localPosition = new Vector3(0f, foot, 0f);
             var visual = new GameObject("SwayVisual");
             visual.transform.SetParent(pivot, false);
-            visual.transform.localPosition = new Vector3(0f, halfHeight, 0f);
+            visual.transform.localPosition = new Vector3(0f, -foot, 0f);
             var copy = visual.AddComponent<SpriteRenderer>();
             copy.sprite = sr.sprite;
             copy.color = sr.color;

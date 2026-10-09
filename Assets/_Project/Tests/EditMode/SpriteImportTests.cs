@@ -37,7 +37,9 @@ namespace Farm.Tests
                 var isCharacter = name.StartsWith("player_") || name.StartsWith("npc_");
                 // sprite.pivot is in pixels from the bottom-left corner of the sprite rect
                 Assert.AreEqual(sprite.rect.width / 2f, sprite.pivot.x, 0.01f, path);
-                Assert.AreEqual(isCharacter ? 0f : sprite.rect.height / 2f, sprite.pivot.y, 0.01f, path);
+                // A tree is taller than its cell: its pivot is set so that the trunk stands at the foot of the cell (see TextureImportPostprocessor).
+                var expected = isCharacter ? 0f : name == "obj_tree.png" ? sprite.rect.height * 0.375f : sprite.rect.height / 2f;
+                Assert.AreEqual(expected, sprite.pivot.y, 0.01f, path);
             }
         }
     }

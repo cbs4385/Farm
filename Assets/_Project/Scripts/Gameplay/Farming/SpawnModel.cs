@@ -47,6 +47,13 @@ namespace Farm.Gameplay
 
             var kinds = new HashSet<string>(table.Entries.Select(e => e.NodeId));
             var present = grid.Nodes.Count(n => kinds.Contains(n.TypeId));
+            if (table.Spreads)
+            {
+                // Plants spread from the ones still standing: a kind that is on the map comes back more readily, one picked clean only rarely.
+                var standing = new HashSet<string>(grid.Nodes.Select(n => n.TypeId));
+                entries = entries.Select(p => (p.entry, weight: p.weight * (standing.Contains(p.entry.NodeId) ? ForageRules.StandingBoost : ForageRules.PickedCleanFactor))).ToList();
+                total = entries.Sum(p => p.weight);
+            }
             var salt = StableHash(table.Id);
             var placed = 0;
 

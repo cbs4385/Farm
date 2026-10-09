@@ -1,3 +1,4 @@
+using Farm.Core;
 using UnityEngine;
 
 namespace Farm.Gameplay
@@ -7,6 +8,13 @@ namespace Farm.Gameplay
     public static class SpeechBubbleFactory
     {
         const int WrapColumns = 22;
+
+        // Playtest 2026-10-09: "I can read the text in the big box but absolutely not that smaller text in the white box". The bubble text is world-space, so it
+        // was a fraction of the dialogue box's size on screen; it is now half as large again, and follows the player's Text size option.
+        public const float BaseSize = 1.5f;
+        public const float BaseCharacterSize = 0.085f;
+
+        public static float SizeFactor(float textScale) => BaseSize * Mathf.Clamp(textScale, 0.75f, 1.5f);
         static Sprite _panel;
 
         static Sprite Panel()
@@ -37,6 +45,7 @@ namespace Farm.Gameplay
 
         public static GameObject Create(Transform actor, string text)
         {
+            var size = SizeFactor(ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current.TextScale : 1f);
             var wrapped = Wrap(text);
             var rows = wrapped.Split('\n');
             var longest = 0;
@@ -44,12 +53,12 @@ namespace Farm.Gameplay
 
             var root = new GameObject("Bark");
             root.transform.SetParent(actor, false);
-            root.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+            root.transform.localPosition = new Vector3(0f, 1.6f + 0.1f * (size - 1f), 0f);
 
             var back = new GameObject("Panel", typeof(SpriteRenderer));
             back.transform.SetParent(root.transform, false);
-            back.transform.localPosition = new Vector3(0f, rows.Length * 0.08f, 0f);
-            back.transform.localScale = new Vector3(0.17f * longest + 0.4f, 0.28f * rows.Length + 0.25f, 1f);
+            back.transform.localPosition = new Vector3(0f, rows.Length * 0.08f * size, 0f);
+            back.transform.localScale = new Vector3((0.17f * longest + 0.4f) * size, (0.28f * rows.Length + 0.25f) * size, 1f);
             var sr = back.GetComponent<SpriteRenderer>();
             sr.sprite = Panel();
             sr.color = new Color(0.97f, 0.92f, 0.80f, 0.95f);
@@ -57,12 +66,12 @@ namespace Farm.Gameplay
 
             var label = new GameObject("Text", typeof(TextMesh));
             label.transform.SetParent(root.transform, false);
-            label.transform.localPosition = new Vector3(0f, rows.Length * 0.08f, -0.01f);
+            label.transform.localPosition = new Vector3(0f, rows.Length * 0.08f * size, -0.01f);
             var mesh = label.GetComponent<TextMesh>();
             mesh.text = wrapped;
             mesh.anchor = TextAnchor.MiddleCenter;
             mesh.alignment = TextAlignment.Center;
-            mesh.characterSize = 0.085f;
+            mesh.characterSize = BaseCharacterSize * size;
             mesh.fontSize = 36;
             mesh.color = new Color(0.16f, 0.11f, 0.08f, 1f);
             mesh.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");

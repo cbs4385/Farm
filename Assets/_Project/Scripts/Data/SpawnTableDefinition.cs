@@ -27,6 +27,7 @@ namespace Farm.Data
         [SerializeField] string[] _groundTiles;     // names of the ground tiles it may spawn on
         [SerializeField] int _dailyAttempts = 3;
         [SerializeField] int _maxNodes = 20;
+        [SerializeField] bool _spreads;             // kinds still standing on the map come back more readily than kinds picked clean (forage)
         [SerializeField] List<SpawnEntry> _entries = new List<SpawnEntry>();
 
         public string Id => _id;
@@ -34,10 +35,11 @@ namespace Farm.Data
         public IReadOnlyList<string> GroundTiles => _groundTiles;
         public int DailyAttempts => _dailyAttempts;
         public int MaxNodes => _maxNodes;
+        public bool Spreads => _spreads;
         public IReadOnlyList<SpawnEntry> Entries => _entries;
 
         public static SpawnTableDefinition Create(string id, string mapId, string[] groundTiles, int dailyAttempts, int maxNodes,
-            IEnumerable<SpawnEntry> entries)
+            IEnumerable<SpawnEntry> entries, bool spreads = false)
         {
             var t = CreateInstance<SpawnTableDefinition>();
             t._id = id;
@@ -46,6 +48,7 @@ namespace Farm.Data
             t._groundTiles = groundTiles;
             t._dailyAttempts = dailyAttempts;
             t._maxNodes = maxNodes;
+            t._spreads = spreads;
             t._entries = entries.ToList();
             return t;
         }
@@ -98,21 +101,21 @@ namespace Farm.Data
         {
             SpawnTableDefinition Forage(string id, string map, Place place, string tile, int attempts, int max) =>
                 SpawnTableDefinition.Create(id, map, new[] { tile }, attempts, max,
-                    Rows.Where(r => r.Where == place).Select(r => Entry(r.Id, r.Weight, r.Seasons, r.Rare)));
+                    Rows.Where(r => r.Where == place).Select(r => Entry(r.Id, r.Weight, r.Seasons, r.Rare)), spreads: true);
 
             return new[]
             {
                 // The farm slowly grows over again.
-                SpawnTableDefinition.Create("farm.clutter", MapIdFarm, new[] { "tile_grass", "tile_dirt" }, 5, 160, new[]
+                SpawnTableDefinition.Create("farm.clutter", MapIdFarm, new[] { "tile_grass", "tile_dirt" }, 8, 160, new[]
                 {
-                    Entry(NodeDefaults.Weed, 80f, SeasonMask.Spring | SeasonMask.Summer | SeasonMask.Fall),
+                    Entry(NodeDefaults.Weed, 60f, SeasonMask.Spring | SeasonMask.Summer | SeasonMask.Fall),
                     Entry(NodeDefaults.Rock, 8f, SeasonMask.All),
-                    Entry(NodeDefaults.Tree, 4f, SeasonMask.All),
+                    Entry(NodeDefaults.Tree, 12f, SeasonMask.All),          // playtest 2026-10-09: not enough trees (was 4 in 94 on 5 tries a day)
                     Entry(NodeDefaults.Stump, 2f, SeasonMask.All),
                 }),
-                Forage("village.forage", "Village", Place.Meadow, "tile_grass", 3, 18),
-                Forage("forest.forage", "Forest", Place.Wood, "tile_forest", 4, 30),
-                Forage("beach.forage", "Beach", Place.Shore, "tile_sand", 3, 15),
+                Forage("village.forage", "Village", Place.Meadow, "tile_grass", 5, 26),
+                Forage("forest.forage", "Forest", Place.Wood, "tile_forest", 7, 42),
+                Forage("beach.forage", "Beach", Place.Shore, "tile_sand", 5, 22),
             };
         }
 

@@ -278,11 +278,11 @@ namespace Farm.Tests
 
                 s.Clock.SetTime(new GameDateTime(1, Season.Spring, 11, 600));
                 var next = s.RunSpawns("Village", Meadow);
-                Assert.That(next, Is.InRange(1, 3), "one morning's worth");
+                Assert.That(next, Is.InRange(1, ForageDefaults.CreateTables().Where(t => t.MapId == "Village").Sum(t => t.DailyAttempts)), "one morning's worth");
 
                 s.Clock.SetTime(new GameDateTime(1, Season.Spring, 25, 600));
                 var away = s.RunSpawns("Village", Meadow);
-                Assert.That(away, Is.InRange(1, 9), "two weeks away counts as three mornings at most");
+                Assert.That(away, Is.InRange(1, 3 * ForageDefaults.CreateTables().Where(t => t.MapId == "Village").Sum(t => t.DailyAttempts)), "two weeks away counts as three mornings at most");
                 Assert.AreEqual(after + next + away, s.GetNodes("Village").Count);
                 Assert.AreEqual(s.Clock.Now.TotalDays, s.State.GetMap("Village").LastSpawnDay);
             }
@@ -344,7 +344,7 @@ namespace Farm.Tests
             Assert.AreEqual(1, db.Merge(pack));
             var catalog = SpawnCatalog.From(db);
             Assert.AreEqual(1, catalog.For("Woods").Count());
-            Assert.AreEqual(3, catalog.For("Beach").Single().DailyAttempts, "the core beach table stays as it was");
+            Assert.AreEqual(ForageDefaults.CreateTables().First(t => t.Id == "beach.forage").DailyAttempts, catalog.For("Beach").Single().DailyAttempts, "the core beach table stays as it was");
         }
 
         [Test]

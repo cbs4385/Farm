@@ -649,6 +649,7 @@ namespace Farm.Gameplay
             if (!InGame || _endingDay) return null;
             _endingDay = true;
 
+            foreach (var nodes in _nodeGrids.Values) nodes.Grow(Nodes.Get);                // saplings grow a day
             SyncToState();
             var summary = DayCycle.EndDay(State, Clock, _grids,
                 id => _db.TryGetItem(id, out var i) ? i : null,

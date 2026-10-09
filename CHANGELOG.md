@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.2 (2026-10-09)
+
+- Controller: the cursor no longer escapes onto the title menu hiding behind the Options screen (down from the last volume slider used to land on a hidden title button and snap back to the top, so nothing past the volume could be reached). Only the top screen can be navigated now, for every screen that opens over another.
+- Trees are bigger (a 32 x 32 pine from the Mini Farm pack; only the picture grows, the tree still blocks one cell), and the tool pictures (hoe, axe, pickaxe, watering can, fishing rod) are new: the hoe no longer looks like the axe.
+- More trees and plants: felled trees may drop acorns, and an acorn planted on bare grass on your farm becomes a sapling that grows into a tree in five days. New trees grow back on the farm about once a day (it was about one in five days), and wild plants grow back faster in the village, forest and beach. Plants spread from the ones left standing, so leave some: the hover label names wild plants and says when one is the last of its kind, and picking the last one tells you.
+- The villagers' speech bubbles have larger text (and follow the Text size option).
+- The first anonymous note no longer compliments your corn whatever you grow ("Your fields are doing well").
+- The outdoor light follows the day: about half as bright at night as at noon, rising from dawn to noon and falling to night.
+
 ## 0.2.1 (2026-10-09)
 
 - Controller and keyboard players can now see how to use a tool: the picked item's name and instructions show above the item bar for a few seconds whenever the pick changes (before, only a mouse resting on a slot showed them). The first quest names the hoe and how to use it.

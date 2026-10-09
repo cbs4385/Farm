@@ -60,6 +60,7 @@ namespace Farm.Editor
             Save(items, ItemDefinition.Create(ItemIds.IronBar, ItemCategory.Resource, sellPrice: 120, icon: Sprite("item_resource_ironbar")));
             Save(items, ItemDefinition.Create(ItemIds.GoldBar, ItemCategory.Resource, sellPrice: 250, icon: Sprite("item_resource_goldbar")));
             Save(items, ItemDefinition.Create(ItemIds.Fiber, ItemCategory.Resource, sellPrice: 1, icon: Sprite("item_resource_fiber")));
+            Save(items, ItemDefinition.Create(ItemIds.Acorn, ItemCategory.Resource, sellPrice: 4, icon: Sprite("item_resource_acorn")));
 
             foreach (var row in ForageDefaults.Rows)
                 Save(items, ItemDefinition.Create(row.ItemId, ItemCategory.Forage, sellPrice: row.Price, icon: Sprite("item_forage_" + row.Id)));
@@ -204,19 +205,8 @@ namespace Farm.Editor
             return Persist(fresh, $"{PlaceableDir}/{fresh.Id}.asset");
         }
 
-        // Spawn tables are tuned in the inspector: an existing asset is kept.
-        static SpawnTableDefinition SaveSpawnTable(SpawnTableDefinition fresh)
-        {
-            var path = $"{SpawnDir}/{fresh.Id}.asset";
-            var existing = AssetDatabase.LoadAssetAtPath<SpawnTableDefinition>(path);
-            if (existing != null)
-            {
-                Object.DestroyImmediate(fresh);
-                return existing;
-            }
-            AssetDatabase.CreateAsset(fresh, path);
-            return fresh;
-        }
+        // Spawn tables are tuned in code (ForageDefaults): an existing asset takes the new values (playtest 2026-10-09 changed how fast trees and forage grow back).
+        static SpawnTableDefinition SaveSpawnTable(SpawnTableDefinition fresh) => Persist(fresh, $"{SpawnDir}/{fresh.Id}.asset");
 
         // Upgrade prices are tuned in the inspector: an existing asset is kept.
         static UpgradeDefinition SaveUpgrade(UpgradeDefinition fresh)

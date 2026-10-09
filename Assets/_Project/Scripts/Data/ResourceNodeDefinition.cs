@@ -22,6 +22,8 @@ namespace Farm.Data
         [SerializeField] bool _solid;               // blocks walking
         [SerializeField] float _spawnWeight = 1f;   // relative share when clutter is generated (0 = never spawns)
         [SerializeField] Sprite _sprite;
+        [SerializeField] string _growsIntoNodeId;   // a sapling: after GrowDays days it becomes this node (a tree), or empty
+        [SerializeField] int _growDays;
 
         public string Id => _id;
         public string NameKey => "node." + _id;
@@ -37,8 +39,17 @@ namespace Farm.Data
         public bool Solid => _solid;
         public float SpawnWeight => _spawnWeight;
         public Sprite Sprite => _sprite;
+        public string GrowsIntoNodeId => _growsIntoNodeId;
+        public int GrowDays => _growDays;
 
         public void SetSprite(Sprite sprite) => _sprite = sprite;
+
+        public ResourceNodeDefinition WithGrowth(string growsInto, int days)
+        {
+            _growsIntoNodeId = growsInto;
+            _growDays = days;
+            return this;
+        }
 
         public static ResourceNodeDefinition Create(string id, ToolType tool, int hitPoints, int minToolTier, string dropItemId,
             int dropMin, int dropMax, string skill, int xp, string leavesNodeId, bool solid, float spawnWeight)
@@ -70,6 +81,8 @@ namespace Farm.Data
         public const string Boulder = "boulder";
         public const string Tree = "tree";
         public const string Stump = "stump";
+        public const string Sapling = "sapling";      // planted from an acorn; grows into a tree
+        public const int SaplingDays = 5;
 
         public static ResourceNodeDefinition[] CreateAll() => Clutter().Concat(ForageDefaults.CreateNodes()).ToArray();
 
@@ -80,6 +93,7 @@ namespace Farm.Data
             ResourceNodeDefinition.Create(Boulder, ToolType.Pickaxe, 6, 1, ItemIds.Stone, 4, 6, "mining", 12, null, true, 3f),
             ResourceNodeDefinition.Create(Tree, ToolType.Axe, 6, 0, ItemIds.Wood, 8, 12, "foraging", 12, Stump, true, 12f),
             ResourceNodeDefinition.Create(Stump, ToolType.Axe, 3, 0, ItemIds.Wood, 3, 5, "foraging", 4, null, true, 5f),
+            ResourceNodeDefinition.Create(Sapling, ToolType.Axe, 1, 0, ItemIds.Acorn, 1, 1, "foraging", 0, null, false, 0f).WithGrowth(Tree, SaplingDays),
         };
     }
 }

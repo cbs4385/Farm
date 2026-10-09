@@ -243,12 +243,35 @@ namespace Farm.UI
                 }
             }
             _modals.Add(screen);
+            ConfineNavigation();
             FocusFirst(screen.Root);
+        }
+
+        // Only the top screen can be navigated: the screens under it (the title menu under Options, the game menu under a confirm box ...) stay on screen, but a
+        // pad or the arrow keys must not move the cursor onto them (playtest 2026-10-09: with a pad, "down" from the last volume slider selected a hidden title
+        // button, and the options menu seemed not to work).
+        void ConfineNavigation()
+        {
+            for (var i = 0; i < _modals.Count; i++)
+            {
+                var root = _modals[i].Root;
+                if (root == null) continue;
+                var group = root.GetComponent<CanvasGroup>();
+                var top = i == _modals.Count - 1;
+                if (group == null)
+                {
+                    if (top) continue;
+                    group = root.AddComponent<CanvasGroup>();
+                }
+                group.interactable = top;
+            }
         }
 
         public void PopModal(UiScreen screen)
         {
             _modals.Remove(screen);
+            if (screen.Root != null && screen.Root.TryGetComponent<CanvasGroup>(out var closedGroup)) closedGroup.interactable = true;
+            ConfineNavigation();
             if (_modals.Count == 0)
             {
                 _input.UnblockGameplay();

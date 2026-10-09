@@ -1,4 +1,5 @@
 using Farm.Core;
+using Farm.Data;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -80,7 +81,18 @@ namespace Farm.Gameplay
         string CropLabel(Vector3Int cell)
         {
             var grid = _session.GetGrid(_map.MapId);
-            return grid != null && grid.TryGetTile(cell.x, cell.y, out var tile) ? CropInfo.Label(tile, _session.Db) : null;
+            if (grid != null && grid.TryGetTile(cell.x, cell.y, out var tile)) return CropInfo.Label(tile, _session.Db);
+            return ForageLabel(cell);
+        }
+
+        // A wild plant, with a reminder to leave the last one of its kind so that more can grow.
+        string ForageLabel(Vector3Int cell)
+        {
+            var nodes = _session.GetNodes(_map.MapId);
+            if (!nodes.TryGet(cell.x, cell.y, out var node)) return null;
+            var def = _session.Nodes.Get(node.TypeId);
+            if (def == null || def.Tool != ToolType.None || !_session.Db.TryGetItem(def.DropItemId, out var item)) return null;
+            return L.Get(ForageRules.IsLastOfItsKind(nodes, node.TypeId) ? "hover.forage_last" : "hover.forage", L.Get(item.NameKey));
         }
     }
 }

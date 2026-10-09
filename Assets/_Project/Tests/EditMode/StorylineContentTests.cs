@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Farm.Core;
 using Farm.Gameplay;
@@ -98,6 +98,19 @@ namespace Farm.Tests
             var letter = _story.Letters.First(l => l.Id == "notes_first");
             StringAssert.Contains("storyline:anonymous_notes", letter.Condition);
             CollectionAssert.Contains(letter.Effects, "flag:notes.began");
+        }
+
+        // Playtest 2026-10-09: "I received a letter complimenting her on her corn. She was not growing any corn." The note comes once any three crops are planted,
+        // so it must not name one.
+        [Test]
+        public void TheFirstNote_NamesNoCrop_BecauseAnyThreeCropsStartIt()
+        {
+            var table = L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));
+            var letter = _story.Letters.First(l => l.Id == "notes_first");
+            Assert.IsTrue(letter.Condition.Contains("farm:crops>=3"), "the condition counts crops of any kind");
+            var body = table[letter.BodyKey].ToLowerInvariant();
+            foreach (var crop in Farm.Data.CropDefaults.Rows)
+                Assert.IsFalse(body.Contains(crop.Id.Replace("_", " ")), "the note names " + crop.Id);
         }
     }
 }

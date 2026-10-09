@@ -103,7 +103,7 @@ namespace Farm.Gameplay
 
         readonly Dictionary<string, Tile> _nodeTiles = new Dictionary<string, Tile>();
 
-        // Solid nodes block walking through their tile collider; weeds do not.
+        // Solid nodes block walking through their cell; weeds do not.
         Tile NodeTileFor(ResourceNodeDefinition def)
         {
             if (!_nodeTiles.TryGetValue(def.Id, out var tile))
@@ -111,7 +111,7 @@ namespace Farm.Gameplay
                 tile = ScriptableObject.CreateInstance<Tile>();
                 tile.sprite = def.Sprite;
                 tile.name = def.Sprite.name;
-                tile.colliderType = def.Solid ? Tile.ColliderType.Sprite : Tile.ColliderType.None;
+                tile.colliderType = def.Solid ? Tile.ColliderType.Grid : Tile.ColliderType.None;      // one cell, however tall the picture is (a tree's crown is not a wall)
                 _nodeTiles[def.Id] = tile;
             }
             return tile;
