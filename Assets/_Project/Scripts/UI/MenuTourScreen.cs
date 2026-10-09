@@ -41,8 +41,8 @@ namespace Farm.UI
             scrim.raycastTarget = false;
             Root = scrim.gameObject;
 
-            var box = UiKit.Panel(scrim.transform, "Box", new Color(UiKit.PanelColor.r, UiKit.PanelColor.g, UiKit.PanelColor.b, 0.97f));
-            UiKit.Place(box.rectTransform, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(780f, 190f), new Vector2(0f, 18f));
+            var box = UiKit.Panel(scrim.transform, "Box", UiKit.PanelLight);            // lighter than the menu behind it, so that it stands out and hides the menu's footer
+            UiKit.Place(box.rectTransform, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(900f, 190f), new Vector2(0f, 20f));
             box.gameObject.AddComponent<FitToCanvas>();
             var stack = UiKit.VStack(box.transform, "Stack", 6f, 12);
             UiKit.Stretch((RectTransform)stack.transform);
