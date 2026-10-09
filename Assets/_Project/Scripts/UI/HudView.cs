@@ -349,7 +349,7 @@ namespace Farm.UI
         int _helpSlot = -2;
         string _helpItem;
         float _helpTimer;
-        const float HelpSeconds = 7f;
+        const float HelpSeconds = 5f;
 
         // What the picked item is and how to use it, above the item bar for a few seconds whenever the pick changes (and when the game starts). The mouse has the
         // same text when it rests on a slot, but a pad or the keyboard never gets there (playtest 2026-10-09: "I can select tools but have no idea how to use them").
@@ -357,8 +357,8 @@ namespace Farm.UI
         {
             _helpPanel = UiKit.Panel(canvas, "SelectionHelp", new Color(UiKit.PanelColor.r, UiKit.PanelColor.g, UiKit.PanelColor.b, 0.85f));
             _helpPanel.raycastTarget = false;
-            UiKit.Place(_helpPanel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(640, 84), new Vector2(0, 112));
-            _help = UiKit.Label(_helpPanel.transform, "", 15f, TextAlignmentOptions.Center);
+            UiKit.Place(_helpPanel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(820, 72), new Vector2(0, 108));
+            _help = UiKit.Label(_helpPanel.transform, "", 14f, TextAlignmentOptions.Center);
             UiKit.Stretch(_help.rectTransform, 8f);
             _help.raycastTarget = false;
             _helpPanel.gameObject.SetActive(false);

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 (2026-10-09)
+
+- A guided tour of the menu: a few seconds into a new game (and once for a game still in its first days) the menu opens on the Journal and a box walks through every tab, saying briefly what each is for (Next, Back or Skip; the Menu and Journal keys are named at the end). It is offered once.
+- The quest list stays in the Journal, as well as at the top right of the screen.
+- New art from the Colored 1-bit Nature pack, scaled up to the game's 16-pixel grid: the wild mushroom and its picture, and tall sunflowers that grow in the meadows in summer and fall (cut them with the scythe for fiber).
+- Carried from the 0.2.2 work that was not published: controller menus no longer lose the cursor behind Options; bigger trees and new tool pictures; acorns and saplings, faster regrowth of trees and wild plants (leave some, they spread); larger speech bubbles; the first note names no crop; outdoor light follows the day from half brightness at night to full at noon; a shorter first quest line and a smaller tool-help box.
+
 ## 0.2.2 (2026-10-09)
 
 - Controller: the cursor no longer escapes onto the title menu hiding behind the Options screen (down from the last volume slider used to land on a hidden title button and snap back to the top, so nothing past the volume could be reached). Only the top screen can be navigated now, for every screen that opens over another.

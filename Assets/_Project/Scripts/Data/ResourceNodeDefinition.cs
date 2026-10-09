@@ -81,6 +81,7 @@ namespace Farm.Data
         public const string Boulder = "boulder";
         public const string Tree = "tree";
         public const string Stump = "stump";
+        public const string Sunpatch = "sunpatch";    // a tall sunflower of the meadow (summer and fall); cut with the scythe
         public const string Sapling = "sapling";      // planted from an acorn; grows into a tree
         public const int SaplingDays = 5;
 
@@ -93,6 +94,7 @@ namespace Farm.Data
             ResourceNodeDefinition.Create(Boulder, ToolType.Pickaxe, 6, 1, ItemIds.Stone, 4, 6, "mining", 12, null, true, 3f),
             ResourceNodeDefinition.Create(Tree, ToolType.Axe, 6, 0, ItemIds.Wood, 8, 12, "foraging", 12, Stump, true, 12f),
             ResourceNodeDefinition.Create(Stump, ToolType.Axe, 3, 0, ItemIds.Wood, 3, 5, "foraging", 4, null, true, 5f),
+            ResourceNodeDefinition.Create(Sunpatch, ToolType.Scythe, 1, 0, ItemIds.Fiber, 1, 2, "foraging", 1, null, false, 0f),
             ResourceNodeDefinition.Create(Sapling, ToolType.Axe, 1, 0, ItemIds.Acorn, 1, 1, "foraging", 0, null, false, 0f).WithGrowth(Tree, SaplingDays),
         };
     }

@@ -79,6 +79,15 @@ namespace Farm.UI
             root.SetActive(false);
         }
 
+        public bool HasTab(string tabId) => _pages.Exists(p => p.Id == tabId);
+
+        // Shows another tab of the open menu (the tour moves through them).
+        public void SelectTab(string tabId)
+        {
+            var index = _pages.FindIndex(p => p.Id == tabId);
+            if (index >= 0) Show(index);
+        }
+
         public void OpenTab(string tabId)
         {
             foreach (var page in _pages) page.OnMenuOpened();

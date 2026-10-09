@@ -222,11 +222,38 @@ namespace Farm.UI
             if (keyboard != null && (keyboard.f1Key.wasPressedThisFrame || keyboard.backquoteKey.wasPressedThisFrame))
                 ToggleDebugConsole();
 #endif
+            TickMenuTour();
             if (_modals.Count == 0) return;
             var top = _modals[_modals.Count - 1];
             top.Tick();
             if (_input.Ui[InputNames.Cancel].WasPressedThisFrame() && Time.frameCount != top.OpenedFrame) top.OnCancel();
             RecoverFocus(top);
+        }
+
+        // ---- the menu tour ---------------------------------------------------------------------------------------
+
+        MenuTourScreen _tour;
+        float _tourWait;
+        const float TourDelaySeconds = 12f;
+        const int TourLastDay = 3;               // a save that is further on than this is not offered the tour
+
+        public MenuTourScreen MenuTour => _tour;
+
+        public void ShowMenuTour()
+        {
+            _tour ??= new MenuTourScreen(this);
+            _tour.Begin();
+        }
+
+        // Early in a game, once the player has had a few seconds on the farm with nothing else going on, the menu tour is offered once.
+        void TickMenuTour()
+        {
+            var s = _session;
+            if (s == null || !s.InGame || MenuTourScreen.Suppressed || _modals.Count > 0 || s.HasFlag(MenuTourScreen.DoneFlag)) { _tourWait = 0f; return; }
+            if (s.Clock.Now.TotalDays > TourLastDay) { s.SetFlag(MenuTourScreen.DoneFlag); return; }
+            if (s.State.CurrentMap != MapIds.Farm || _input.GameplayBlocked || (EventDirector.Current != null && EventDirector.Current.IsPlaying)) { _tourWait = 0f; return; }
+            _tourWait += Time.unscaledDeltaTime;
+            if (_tourWait >= TourDelaySeconds) ShowMenuTour();
         }
 
         // ---- modal stack ---------------------------------------------------------------------------------------

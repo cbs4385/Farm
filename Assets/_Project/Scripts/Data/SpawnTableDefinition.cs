@@ -112,6 +112,7 @@ namespace Farm.Data
                     Entry(NodeDefaults.Rock, 8f, SeasonMask.All),
                     Entry(NodeDefaults.Tree, 12f, SeasonMask.All),          // playtest 2026-10-09: not enough trees (was 4 in 94 on 5 tries a day)
                     Entry(NodeDefaults.Stump, 2f, SeasonMask.All),
+                    Entry(NodeDefaults.Sunpatch, 10f, SeasonMask.Summer | SeasonMask.Fall),
                 }),
                 Forage("village.forage", "Village", Place.Meadow, "tile_grass", 5, 26),
                 Forage("forest.forage", "Forest", Place.Wood, "tile_forest", 7, 42),
