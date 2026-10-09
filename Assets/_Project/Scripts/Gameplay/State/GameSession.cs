@@ -372,6 +372,7 @@ namespace Farm.Gameplay
             {
                 _grids[kv.Key] = FarmGrid.FromTiles(kv.Value.Tiles);
                 _grids[kv.Key].AllSeasons = kv.Key == MapIds.Greenhouse;
+                _grids[kv.Key].RainsToday = RainsOn(kv.Key);
                 _nodeGrids[kv.Key] = NodeGrid.FromNodes(kv.Value.Nodes);
                 _objectGrids[kv.Key] = ObjectGrid.FromList(kv.Value.Objects, _db.MaxStack);
             }
@@ -426,11 +427,14 @@ namespace Farm.Gameplay
             NodeSpawner.Generate(GetNodes(mapId), candidates, Nodes.All, State.WorldSeed, mapId, density);
         }
 
+        // Is the day's weather one that waters crops here? (The greenhouse stays dry.)
+        bool RainsOn(string mapId) => mapId != MapIds.Greenhouse && State != null && !string.IsNullOrEmpty(State.Weather) && Weather.Get(State.Weather).WateringCrops;
+
         public FarmGrid GetGrid(string mapId)
         {
             if (!_grids.TryGetValue(mapId, out var grid))
             {
-                grid = new FarmGrid { AllSeasons = mapId == MapIds.Greenhouse };
+                grid = new FarmGrid { AllSeasons = mapId == MapIds.Greenhouse, RainsToday = RainsOn(mapId) };
                 _grids[mapId] = grid;
             }
             return grid;

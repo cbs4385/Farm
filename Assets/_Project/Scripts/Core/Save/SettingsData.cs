@@ -33,6 +33,7 @@ namespace Farm.Core
         public bool AutoAdvance;            // conversations move on by themselves after a read time
         public float HudTransparency = 0.2f;   // how see-through the status bar along the top of the screen is (0 solid, 0.6 mostly clear)
         public bool HoverLabels = true;     // a small label names what the mouse is over in the world
+        public bool QuestTracker = true;    // the active quests and what each still needs are listed at the top right of the screen
         public bool MouseAim = true;        // the tool square follows the mouse around the player (playtest feedback); off keeps facing-only aiming
         public bool Barks = true;           // villagers near you say short ambient lines in speech bubbles (T-125)
         public bool ChatMenu = true;        // after a chat, offer topics and social actions (jokes, compliments ...)

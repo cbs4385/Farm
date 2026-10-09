@@ -151,6 +151,27 @@ namespace Farm.Gameplay
             return removed;
         }
 
+        // Takes the whole stack out of a slot (null when it is empty); used to carry a stack from one inventory to another.
+        public ItemStack Take(int slot)
+        {
+            var s = _slots[slot];
+            if (s == null) return null;
+            _slots[slot] = null;
+            Changed?.Invoke();
+            return s;
+        }
+
+        // Puts a stack into a slot that must be empty.
+        public void Put(int slot, ItemStack stack)
+        {
+            if (_slots[slot] != null) throw new InvalidOperationException("the slot is not empty");
+            _slots[slot] = stack;
+            Changed?.Invoke();
+        }
+
+        public bool SameKind(ItemStack a, ItemStack b) => a != null && b != null && a.ItemId == b.ItemId && a.Quality == b.Quality && a.Mark == b.Mark;
+        public int MaxStackOf(string itemId) => _maxStack(itemId);
+
         // Swaps two slots, or merges `from` into `to` when they hold the same item and quality.
         public void Move(int from, int to)
         {

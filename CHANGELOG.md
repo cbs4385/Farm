@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0 (fixes from the overnight playtest reports, 2026-10-09)
+
+- Rain: ground tilled while it is raining is watered at once (new fields no longer need the can on a rainy day).
+- Community Hall: items are donated one at a time, as many as you carry, with a Donate button per item and "Donate all"; the progress is kept (before, a room needed every item in the backpack at once). The journal shows how many have been given.
+- Chests: right-click moves one item, Shift-click half, and a stack can be dragged to any slot of the chest or the backpack (tools no longer snap back to their old slot); on a pad X moves one and Y half.
+- Item quality (silver, gold, iridium) is shown as a coloured diamond on the slot and in the name; different qualities are kept in separate stacks, and the tooltip says so.
+- Hovering over tilled soil or a planted crop names it and says whether it needs water and how many days until it is ready.
+- Food: the tooltips say how to eat it, and eating (or being too well to eat) shows a message.
+- A quest tracker at the top right lists active quests and what each still needs (turn it off in Options).
+
 ## 0.1.1 (2026-10-08)
 
 - A new door-knock sound effect.

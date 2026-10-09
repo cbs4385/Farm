@@ -194,11 +194,14 @@ namespace Farm.Tests
             yield return Tap(Key.E);
             for (var i = 0; i < 3; i++) yield return null;
             Assert.IsTrue(Ui.AnyModalOpen, "the board opens");
-            var donate = UnityEngine.Object.FindObjectsByType<Button>()
-                .First(b => b.gameObject.activeInHierarchy && b.name == "Donate" && b.transform.parent.name == "hall_pantry");
-            Assert.IsTrue(donate.interactable);
+            Button Find(string name) => UnityEngine.Object.FindObjectsByType<Button>().First(x => x.gameObject.activeInHierarchy && x.name == name);
             var gold = _s.State.Gold;
-            donate.onClick.Invoke();
+            Find("Donate_crop.parsnip").onClick.Invoke();                              // one thing at a time: the room is not done yet
+            Assert.AreEqual(gold, _s.State.Gold);
+            Assert.AreEqual(0, _s.Backpack.Count("crop.parsnip"));
+            Assert.IsFalse(HallRooms.IsRestored(_s.State, "hall_pantry"));
+            yield return null;
+            Find("DonateAll").onClick.Invoke();
             Assert.AreEqual(gold + 500, _s.State.Gold);
             Assert.IsTrue(HallRooms.IsRestored(_s.State, "hall_pantry"));
         }

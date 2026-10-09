@@ -13,6 +13,8 @@ namespace Farm.Gameplay
         public string Condition;            // done while it holds, e.g. "has:crop.parsnip>=5" or "flag:x"
         public string TakeItem;             // handed over (removed) when the quest is turned in
         public int TakeCount;
+        public string GiveItem;             // handed over a few at a time, whenever the player has some (the Community Hall's bundles): the progress is kept per item
+        public int GiveCount;               // how many in all; the objective is met once that many have been given
     }
 
     [Serializable]

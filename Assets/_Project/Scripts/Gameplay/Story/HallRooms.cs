@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Farm.Core;
 
 namespace Farm.Gameplay
 {
@@ -29,10 +30,32 @@ namespace Farm.Gameplay
             }
         }
 
-        public static bool Donate(GameSession s, string roomQuestId)
+        // Hands over what the backpack holds of one thing a room needs (up to what is still needed); the room is restored as soon as everything has been given.
+        // Returns how many were given.
+        public static int Donate(GameSession s, string roomQuestId, QuestObjective objective)
         {
             var def = s.Story.Quest(roomQuestId);
-            return def != null && QuestLog.TryComplete(s, def);
+            if (def == null) return 0;
+            var given = QuestLog.Give(s, def, objective);
+            if (given > 0)
+            {
+                s.Toast(L.Get("hall.given", given));
+                if (QuestLog.ObjectivesMet(s, def)) QuestLog.TryComplete(s, def);
+            }
+            return given;
+        }
+
+        // Gives everything the backpack has for every room that is still open. Returns how many items were given.
+        public static int DonateAll(GameSession s)
+        {
+            var total = 0;
+            foreach (var room in Rooms)
+            {
+                var def = s.Story.Quest(room);
+                if (def == null || IsRestored(s.State, room)) continue;
+                foreach (var o in def.Objectives) total += Donate(s, room, o);
+            }
+            return total;
         }
     }
 }

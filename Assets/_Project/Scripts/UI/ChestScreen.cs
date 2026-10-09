@@ -1,14 +1,17 @@
+using System.Linq;
 using Farm.Core;
 using Farm.Data;
 using Farm.Gameplay;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Farm.UI
 {
-    // A chest next to the backpack (T-037). Select a stack to move all of it to the other side. Every slot is a Button, so
-    // mouse, keyboard and gamepad all work.
+    // A chest next to the backpack (T-037). A click moves a whole stack to the other side, a right-click one item, Shift-click half; a stack can be dragged onto
+    // any slot to put it exactly there (playtests 2026-10-09). On a pad, A moves the stack, X one item and Y half. Every slot is a Button, so mouse, keyboard and
+    // gamepad all work.
     public sealed class ChestScreen : UiScreen
     {
         const int Columns = 12;
@@ -18,6 +21,10 @@ namespace Farm.UI
         readonly RectTransform _packGrid;
         readonly TextMeshProUGUI _info;
         Inventory _chest;
+        Image _dragIcon;
+        bool _dragChestSide;
+        int _dragSlot = -1;
+        string _focusName;
 
         public ChestScreen(UiService ui) : base(ui)
         {
@@ -60,22 +67,33 @@ namespace Farm.UI
             Open();
         }
 
+        Inventory SideOf(bool chestSide) => chestSide ? _chest : Ui.Session.Backpack;
+
+        static string SlotName(bool chestSide, int slot) => (chestSide ? "ChestSlot" : "PackSlot") + slot;
+
         void Rebuild()
         {
-            var session = Ui.Session;
-            BuildGrid(_chestGrid, _chest, session.Backpack, "Chest");
-            BuildGrid(_packGrid, session.Backpack, _chest, "Pack");
+            BuildGrid(_chestGrid, true);
+            BuildGrid(_packGrid, false);
+            if (_focusName != null && IsOpen && EventSystem.current != null)
+            {
+                var again = Root.GetComponentsInChildren<Button>(true).FirstOrDefault(b => b.name == _focusName);
+                if (again != null) EventSystem.current.SetSelectedGameObject(again.gameObject);
+            }
+            _focusName = null;
         }
 
-        void BuildGrid(RectTransform grid, Inventory source, Inventory target, string prefix)
+        void BuildGrid(RectTransform grid, bool chestSide)
         {
+            var source = SideOf(chestSide);
             UiKit.ClearChildren(grid);
             for (var i = 0; i < source.Capacity; i++)
             {
                 var slot = i;
                 var stack = source.Get(i);
-                var button = UiKit.MakeButton(grid, string.Empty, () => Move(source, slot, target), SlotSize, SlotSize);
-                button.name = $"{prefix}Slot{i}";
+                var button = UiKit.MakeButton(grid, string.Empty, () => Click(chestSide, slot, PointerEventData.InputButton.Left), SlotSize, SlotSize);
+                button.name = SlotName(chestSide, i);
+                button.gameObject.AddComponent<ChestSlotInput>().Bind(this, chestSide, slot);
                 var label = button.GetComponentInChildren<TextMeshProUGUI>();
                 if (stack == null) { label.text = string.Empty; continue; }
 
@@ -84,6 +102,7 @@ namespace Farm.UI
                 icon.preserveAspect = true;
                 icon.raycastTarget = false;
                 icon.sprite = Ui.Session.Db.TryGetItem(stack.ItemId, out var item) ? item.Icon : null;
+                SlotBadges.Quality(button.transform, stack.Quality);
                 label.transform.SetAsLastSibling();
                 label.alignment = TextAlignmentOptions.BottomRight;
                 label.fontSize = 14f;
@@ -91,12 +110,92 @@ namespace Farm.UI
             }
         }
 
-        void Move(Inventory source, int slot, Inventory target)
+        // How many of a stack a click moves: all of it, one with a right-click (or Ctrl), or half with Shift.
+        public static int CountFor(int stackCount, PointerEventData.InputButton button, bool shift, bool control)
         {
-            if (source.Get(slot) == null) return;
-            if (ChestTransfer.Move(source, slot, target, intoChest: source == Ui.Session.Backpack) > 0)
+            if (button == PointerEventData.InputButton.Right || control) return 1;
+            return shift ? ChestTransfer.Half(stackCount) : stackCount;
+        }
+
+        public void Click(bool chestSide, int slot, PointerEventData.InputButton button)
+        {
+            var stack = SideOf(chestSide).Get(slot);
+            if (stack == null) return;
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            var shift = keyboard != null && keyboard.shiftKey.isPressed;
+            var control = keyboard != null && keyboard.ctrlKey.isPressed;
+            MoveAcross(chestSide, slot, CountFor(stack.Count, button, shift, control));
+        }
+
+        // Moves `count` of a slot's stack to the other side (a click, or the pad's buttons).
+        public void MoveAcross(bool chestSide, int slot, int count)
+        {
+            var source = SideOf(chestSide);
+            var stack = source.Get(slot);
+            if (stack == null) return;
+            if (count < stack.Count) _focusName = SlotName(chestSide, slot);             // part of it stays: keep the cursor on it
+            if (ChestTransfer.Move(source, slot, SideOf(!chestSide), intoChest: !chestSide, count: count) > 0)
                 Ui.Session.Toast(L.Get("toast.inventory_full"));
             Rebuild();
+        }
+
+        // The pad: X moves one item and Y half of the stack under the cursor (A, the confirm button, moves it all).
+        public override void Tick()
+        {
+            var pad = UnityEngine.InputSystem.Gamepad.current;
+            if (pad == null || Time.frameCount == OpenedFrame) return;
+            var selected = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+            var input = selected != null ? selected.GetComponent<ChestSlotInput>() : null;
+            if (input == null) return;
+            var stack = SideOf(input.ChestSide).Get(input.Slot);
+            if (stack == null) return;
+            if (pad.buttonWest.wasPressedThisFrame) MoveAcross(input.ChestSide, input.Slot, 1);
+            else if (pad.buttonNorth.wasPressedThisFrame) MoveAcross(input.ChestSide, input.Slot, ChestTransfer.Half(stack.Count));
+        }
+
+        // ---- dragging a stack onto a slot ---------------------------------------------------------------------------------
+
+        public void BeginDrag(bool chestSide, int slot, PointerEventData eventData)
+        {
+            var stack = SideOf(chestSide).Get(slot);
+            if (stack == null || !Ui.Session.Db.TryGetItem(stack.ItemId, out var item)) return;
+            _dragChestSide = chestSide;
+            _dragSlot = slot;
+            if (_dragIcon == null)
+            {
+                _dragIcon = UiKit.Panel(Root.transform, "DragIcon", Color.white);
+                _dragIcon.raycastTarget = false;
+                _dragIcon.preserveAspect = true;
+                _dragIcon.rectTransform.sizeDelta = new Vector2(SlotSize - 8f, SlotSize - 8f);
+            }
+            _dragIcon.sprite = item.Icon;
+            _dragIcon.gameObject.SetActive(true);
+            _dragIcon.transform.SetAsLastSibling();
+            UpdateDrag(eventData);
+        }
+
+        public void UpdateDrag(PointerEventData eventData)
+        {
+            if (_dragIcon == null || _dragSlot < 0) return;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)Root.transform, eventData.position, eventData.pressEventCamera, out var local))
+                _dragIcon.rectTransform.localPosition = local;
+        }
+
+        public void DropOn(bool chestSide, int slot)
+        {
+            if (_dragSlot < 0) return;
+            var from = _dragSlot;
+            var fromChest = _dragChestSide;
+            _dragSlot = -1;
+            if (ChestTransfer.Place(SideOf(fromChest), from, SideOf(chestSide), slot, intoChest: chestSide && !fromChest))
+                _focusName = SlotName(chestSide, slot);
+        }
+
+        public void EndDrag()
+        {
+            _dragSlot = -1;
+            if (_dragIcon != null) _dragIcon.gameObject.SetActive(false);
+            if (IsOpen) Rebuild();
         }
     }
 }

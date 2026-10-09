@@ -43,6 +43,10 @@ namespace Farm.Gameplay
         // A greenhouse: every crop may be planted in every season and none dies with the season.
         public bool AllSeasons { get; set; }
 
+        // It is raining (or storming) today on this map: soil tilled today starts out watered, as the rest was at dawn (playtest 2026-10-09: "new crop fields do
+        // not self water in the rain"). Not kept in saves: the session sets it from the day's weather.
+        public bool RainsToday { get; set; }
+
         public int Count => _tiles.Count;
         public IEnumerable<FarmTile> Tiles => _tiles.Values;
 
@@ -64,7 +68,7 @@ namespace Farm.Gameplay
         public bool Till(int x, int y)
         {
             if (_tiles.ContainsKey((x, y))) return false;
-            _tiles[(x, y)] = new FarmTile { X = x, Y = y };
+            _tiles[(x, y)] = new FarmTile { X = x, Y = y, Watered = RainsToday };
             return true;
         }
 

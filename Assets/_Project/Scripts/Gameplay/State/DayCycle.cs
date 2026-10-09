@@ -110,9 +110,12 @@ namespace Farm.Gameplay
             state.Weather = hooks != null ? hooks.ApplyWeather(clock.Now, rolled, state) : rolled;
             state.ForecastWeather = WeatherRoller.Roll(clock.Now.StartOfNextDay(), weather, state.WorldSeed, hooks, state);
             summary.NewWeather = state.Weather;
-            if (weather.Get(state.Weather).WateringCrops)
-                foreach (var kv in grids)
-                    if (kv.Key != MapIds.Greenhouse) kv.Value.WaterAll();
+            var rainsToday = weather.Get(state.Weather).WateringCrops;
+            foreach (var kv in grids)
+            {
+                kv.Value.RainsToday = rainsToday && kv.Key != MapIds.Greenhouse;
+                if (kv.Value.RainsToday) kv.Value.WaterAll();
+            }
 
             // 5. Rest.
             // Sleeping restores energy (full in bed, 75% after collapsing), less the more tired the player was when they

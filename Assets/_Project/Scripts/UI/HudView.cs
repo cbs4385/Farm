@@ -17,6 +17,7 @@ namespace Farm.UI
             public Image Background;
             public Image Icon;
             public TextMeshProUGUI Count;
+            public Image Quality;
         }
 
         static readonly string[] SeasonKeys = { "season.spring", "season.summer", "season.fall", "season.winter" };
@@ -286,7 +287,16 @@ namespace Farm.UI
                 var key = UiKit.Label(bg.transform, KeyLabel(i), 10f, TextAlignmentOptions.TopLeft, UiKit.DimText);
                 UiKit.Stretch(key.rectTransform, 2f);
 
-                _slots[i] = new HotbarSlot { Background = bg, Icon = icon, Count = count };
+                var quality = UiKit.Panel(bg.transform, "Quality", Color.clear);
+                quality.rectTransform.anchorMin = quality.rectTransform.anchorMax = new Vector2(1f, 1f);
+                quality.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                quality.rectTransform.sizeDelta = new Vector2(9f, 9f);
+                quality.rectTransform.anchoredPosition = new Vector2(-8f, -8f);
+                quality.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 45f);
+                quality.raycastTarget = false;
+                quality.enabled = false;
+
+                _slots[i] = new HotbarSlot { Background = bg, Icon = icon, Count = count, Quality = quality };
             }
         }
 
@@ -304,6 +314,32 @@ namespace Farm.UI
                 widget.Build(stack.transform);
                 _widgets.Add(widget);
             }
+        }
+
+        TextMeshProUGUI _tracker;
+        float _trackerTimer;
+
+        // The quest tracker: below the status bar at the right. It follows the backpack, so it is looked at a few times a second as well as when something changes.
+        void BuildQuestTracker(Transform canvas)
+        {
+            _tracker = UiKit.Label(canvas, "", 15f, TextAlignmentOptions.TopRight, UiKit.Accent);
+            _tracker.name = "QuestTracker";
+            _tracker.raycastTarget = false;
+            UiKit.Place(_tracker.rectTransform, new Vector2(1, 1), new Vector2(1, 1), new Vector2(340, 170), new Vector2(-10, -(BarHeight + 8f)));
+            _tracker.rectTransform.pivot = new Vector2(1, 1);
+        }
+
+        void UpdateQuestTracker(bool force)
+        {
+            if (_tracker == null) return;
+            _trackerTimer -= Time.unscaledDeltaTime;
+            if (!force && _trackerTimer > 0f) return;
+            _trackerTimer = 0.5f;
+            var s = _ui.Session;
+            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            var on = s != null && s.InGame && s.Story != null && (settings == null || settings.QuestTracker);
+            var text = on ? QuestTracker.Text(s) : string.Empty;
+            if (_tracker.text != text) _tracker.text = text;
         }
 
         void BuildToast(Transform canvas)
@@ -376,6 +412,9 @@ namespace Farm.UI
                 slot.Icon.sprite = icon;
                 slot.Icon.enabled = icon != null;
                 slot.Count.text = stack != null && stack.Count > 1 ? stack.Count.ToString() : "";
+                var quality = stack != null ? stack.Quality : 0;
+                slot.Quality.enabled = quality > 0;
+                slot.Quality.color = SlotBadges.TintOf(quality);
             }
         }
 

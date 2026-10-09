@@ -73,7 +73,14 @@ namespace Farm.Gameplay
                 var warp = hit.GetComponentInParent<Warp>();
                 if (warp != null && warp.HoverLabel != null) return warp.HoverLabel;
             }
-            return null;
+            return CropLabel(cell);
+        }
+
+        // Last, so that anything solid wins: tilled soil and what is planted in it.
+        string CropLabel(Vector3Int cell)
+        {
+            var grid = _session.GetGrid(_map.MapId);
+            return grid != null && grid.TryGetTile(cell.x, cell.y, out var tile) ? CropInfo.Label(tile, _session.Db) : null;
         }
     }
 }

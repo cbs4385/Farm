@@ -197,6 +197,7 @@ namespace Farm.Gameplay
                 {
                     Key(where, o.Text);
                     Condition(where, o.Condition);
+                    if (!string.IsNullOrEmpty(o.GiveItem) && (!items.Contains(o.GiveItem) || o.GiveCount <= 0)) Bad(where, $"gives '{o.GiveItem}' x{o.GiveCount}: unknown item or no count");
                     if (!string.IsNullOrEmpty(o.TakeItem) && !items.Contains(o.TakeItem)) Bad(where, $"takes unknown item '{o.TakeItem}'");
                 }
                 Effs(where, q.OnStart);

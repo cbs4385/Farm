@@ -462,10 +462,15 @@ namespace Farm.Gameplay
 
         void Eat(ItemDefinition food)
         {
-            if (Session.State.Energy >= Session.State.MaxEnergy && Session.State.Health >= Session.State.MaxHealth) return;
+            if (Session.State.Energy >= Session.State.MaxEnergy && Session.State.Health >= Session.State.MaxHealth)
+            {
+                Session.Toast(L.Get("toast.not_hungry"));
+                return;
+            }
             Session.Backpack.Remove(food.Id, 1);
             Session.RestoreEnergy(food.EnergyRestore);
             Combat.Heal(Session, food.EnergyRestore / 2);
+            Session.Toast(L.Get("toast.ate", L.Get(food.NameKey), food.EnergyRestore));
         }
 
         bool SpendEnergy(int cost)

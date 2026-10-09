@@ -44,12 +44,34 @@ namespace Farm.Gameplay
         public static IEnumerable<QuestDefinition> Done(GameSession s) =>
             s.Story.Quests.Where(q => StatusOf(s.State, q.Id) == QuestStatus.Done).OrderBy(q => q.Id, System.StringComparer.Ordinal);
 
-        // Is this one objective satisfied right now? (Handing over an item also needs the items to be in the backpack.)
-        public static bool ObjectiveMet(GameSession s, QuestObjective o) =>
+        // Is this one objective satisfied right now? (Handing over an item at turn-in also needs the items to be in the backpack; an item given a few at a time
+        // needs them all to have been given already.)
+        public static bool ObjectiveMet(GameSession s, QuestDefinition def, QuestObjective o) =>
             Conditions.TryEvaluate(o.Condition, s.World, out var ok) && ok
-            && (string.IsNullOrEmpty(o.TakeItem) || s.Backpack.Has(o.TakeItem, o.TakeCount));
+            && (string.IsNullOrEmpty(o.TakeItem) || s.Backpack.Has(o.TakeItem, o.TakeCount))
+            && (string.IsNullOrEmpty(o.GiveItem) || Given(s, def, o) >= o.GiveCount);
 
-        public static bool ObjectivesMet(GameSession s, QuestDefinition def) => def.Objectives.All(o => ObjectiveMet(s, o));
+        // How many of an objective's item have been given so far (a story variable, so it is saved with the game).
+        public static int Given(GameSession s, QuestDefinition def, QuestObjective o) => string.IsNullOrEmpty(o.GiveItem) ? 0 : s.GetVar(GiveKey(def.Id, o.GiveItem));
+
+        // "  (2 of 3 given)" after an objective that is handed over a few at a time; nothing for any other.
+        public static string ProgressText(GameSession s, QuestDefinition def, QuestObjective o) =>
+            string.IsNullOrEmpty(o.GiveItem) ? string.Empty : "  (" + L.Get("hall.progress", System.Math.Min(Given(s, def, o), o.GiveCount), o.GiveCount) + ")";
+
+        public static string GiveKey(string questId, string itemId) => "give." + questId + "." + itemId;
+
+        // Gives as many of an objective's item as the backpack holds, up to what is still needed. Returns how many were handed over.
+        public static int Give(GameSession s, QuestDefinition def, QuestObjective o)
+        {
+            if (string.IsNullOrEmpty(o.GiveItem) || !IsActive(s.State, def.Id)) return 0;
+            var needed = o.GiveCount - Given(s, def, o);
+            if (needed <= 0) return 0;
+            var moved = s.Backpack.Remove(o.GiveItem, needed);
+            if (moved > 0) s.AddVar(GiveKey(def.Id, o.GiveItem), moved);
+            return moved;
+        }
+
+        public static bool ObjectivesMet(GameSession s, QuestDefinition def) => def.Objectives.All(o => ObjectiveMet(s, def, o));
 
         // Begins a quest. Returns false when it is already active or done (unless it can be repeated).
         public static bool Start(GameSession s, QuestDefinition def)

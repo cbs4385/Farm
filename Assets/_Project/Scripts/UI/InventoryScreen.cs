@@ -169,6 +169,7 @@ namespace Farm.UI
                     icon.sprite = item.Icon;
                     icon.preserveAspect = true;
                     icon.raycastTarget = false;
+                    SlotBadges.Quality(button.transform, stack.Quality);
                     if (stack.Count > 1)
                     {
                         var count = UiKit.Label(button.transform, stack.Count.ToString(), 14f, TextAlignmentOptions.BottomRight);
@@ -244,9 +245,11 @@ namespace Farm.UI
                 _tooltipBody.text = string.Empty;
                 return;
             }
-            _tooltipName.text = item.IsTool ? Ui.Session.ToolTitle(item.Id, Ui.Session.ToolTier(item.Id)) : L.Get(item.NameKey);
+            _tooltipName.text = item.IsTool ? Ui.Session.ToolTitle(item.Id, Ui.Session.ToolTier(item.Id)) : SlotBadges.NameWithQuality(L.Get(item.NameKey), stack.Quality);
             var body = L.Get(item.DescriptionKey);
+            if (item.Category == ItemCategory.Food) body += "\n" + L.Get("inventory.eat_hint", item.EnergyRestore);
             if (item.SellPrice > 0) body += "\n" + L.Get("inventory.sell_value", item.SellPrice);
+            if (stack.Quality > 0) body += "  " + L.Get("quality.note");
             _tooltipBody.text = body;
         }
     }
