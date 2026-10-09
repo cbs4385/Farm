@@ -54,6 +54,7 @@ namespace Farm.UI
         public bool HighlightVisible => _highlight.gameObject.activeSelf;
         public Rect HighlightRect { get; private set; }          // in screen pixels
         public bool CaptionOnTop { get; private set; }
+        public Vector2 CaptionSize => _box.rect.size;                    // in canvas units
 
         public MenuTourScreen(UiService ui) : base(ui)
         {
@@ -74,6 +75,7 @@ namespace Farm.UI
 
             var box = UiKit.Panel(scrim.transform, "Box", UiKit.PanelLight);            // lighter than the menu behind it, so that it stands out and hides the menu's footer
             _box = box.rectTransform;
+            _box.sizeDelta = new Vector2(900f, 190f);                                        // before FitToCanvas, which keeps the size it finds when it is added
             box.gameObject.AddComponent<FitToCanvas>();
             var stack = UiKit.VStack(box.transform, "Stack", 6f, 12);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -152,7 +154,6 @@ namespace Farm.UI
             CaptionOnTop = onTop;
             var anchor = new Vector2(0.5f, onTop ? 1f : 0f);
             _box.anchorMin = _box.anchorMax = _box.pivot = anchor;
-            _box.sizeDelta = new Vector2(900f, 190f);
             _box.anchoredPosition = new Vector2(0f, onTop ? -(20f + 34f) : 20f);               // below the status bar when on top
         }
 

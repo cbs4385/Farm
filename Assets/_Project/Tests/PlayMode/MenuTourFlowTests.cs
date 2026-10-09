@@ -103,6 +103,8 @@ namespace Farm.Tests
                     Assert.AreEqual(id, Ui.GameMenu.Current.Id, "on that tab");
                     Assert.IsFalse(Ui.MenuTour.HighlightVisible);
                 }
+                Assert.GreaterOrEqual(Ui.MenuTour.CaptionSize.x, 600f, id + ": the caption box is a real box, not a sliver");
+                Assert.GreaterOrEqual(Ui.MenuTour.CaptionSize.y, 150f, id + ": and tall enough for its words");
                 yield return Tap(_keyboard.enterKey);                        // Next: the focused button
             }
             Assert.IsFalse(Ui.MenuTour.IsOpen, "the last step ends it");
