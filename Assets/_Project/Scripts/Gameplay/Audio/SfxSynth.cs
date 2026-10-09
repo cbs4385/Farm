@@ -45,6 +45,7 @@ namespace Farm.Gameplay
                 case Sfx.Gust: return Gust();
                 case Sfx.Meow: return Meow();
                 case Sfx.Bell: return BigBell();
+                case Sfx.Knock: return Knock();
                 default: return new float[SampleRate / 20];
             }
         }
@@ -186,6 +187,21 @@ namespace Farm.Gameplay
             AddNoiseSweep(data, 0.28f, 0.1f, 900f, 300f, 0.9f, 31, 0.002f);
             AddTone(data, 0.28f, 0.1f, 90f, 55f, 0.6f);
             return Finish(data, 0.55f);
+        }
+
+        // Three knocks on a wooden door: each a low thump with the hollow note of the door behind it and a short click of the knuckle; the last a little softer.
+        static float[] Knock()
+        {
+            var data = Buffer(0.95f);
+            var starts = new[] { 0f, 0.30f, 0.58f };
+            var gains = new[] { 1f, 0.9f, 0.8f };
+            for (var i = 0; i < starts.Length; i++)
+            {
+                AddTone(data, starts[i], 0.09f, 210f - 12f * i, 120f, 0.9f * gains[i]);
+                AddTone(data, starts[i], 0.05f, 420f, 260f, 0.35f * gains[i]);
+                AddNoiseSweep(data, starts[i], 0.018f, 3800f, 1800f, 0.8f * gains[i], (uint)(91 + i), 0.0008f);
+            }
+            return Finish(data, 0.7f);
         }
 
         static float[] Heart()

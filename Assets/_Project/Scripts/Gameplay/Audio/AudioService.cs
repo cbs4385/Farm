@@ -10,7 +10,7 @@ namespace Farm.Gameplay
         Click, Hoe, Water, Plant, Harvest, Coin, Error, Clink, Rustle, Anvil,
         Shutter, PageTurn, Letter, QuestDone, LevelUp, Door, Pickup, Heart, Gift, Cast, Splash, Bite, SwordSwing, Hit, ChestOpen, Rooster, Sleep, Lantern,
         Step, Cluck, Moo, Baa, Quack, Hover,
-        StepHard, StepSand, Thunder, Gust, Meow, Bell,
+        StepHard, StepSand, Thunder, Gust, Meow, Bell, Knock,
     }
 
     // M1 audio: logical buses (master/music/sfx/ambience) implemented as volume multipliers, plus procedurally

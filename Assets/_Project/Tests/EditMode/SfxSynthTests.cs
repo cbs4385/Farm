@@ -16,7 +16,7 @@ namespace Farm.Tests
         [Test]
         public void EveryNewEffect_IsAudible_Bounded_AndEndsQuietly()
         {
-            Assert.AreEqual(30, Synthesised.Length);
+            Assert.AreEqual(31, Synthesised.Length);
             foreach (var sfx in Synthesised)
             {
                 var d = SfxSynth.Make(sfx);
@@ -31,6 +31,27 @@ namespace Farm.Tests
                 Assert.Less(tail, 0.05f, sfx + " ends without a click");
                 Assert.Less(Math.Abs(d.Average()), 0.05f, sfx + " has no DC offset");
             }
+        }
+
+        // A door knock is three separate raps, evenly spaced, the last a little softer, over under a second (Elara's visit).
+        [Test]
+        public void TheKnock_IsThreeSeparateRaps()
+        {
+            var d = SfxSynth.Make(Sfx.Knock);
+            Assert.That(d.Length / (float)SfxSynth.SampleRate, Is.InRange(0.7f, 1.2f));
+            var window = SfxSynth.SampleRate / 100;                          // 10 ms of energy at a time
+            var energy = new System.Collections.Generic.List<float>();
+            for (var i = 0; i + window <= d.Length; i += window) energy.Add((float)Math.Sqrt(d.Skip(i).Take(window).Sum(x => x * x) / window));
+            var loud = energy.Max();
+            var raps = 0; var inRap = false;
+            for (var i = 0; i < energy.Count; i++)
+            {
+                var on = energy[i] > loud * 0.25f;
+                if (on && !inRap) raps++;
+                inRap = on;
+            }
+            Assert.AreEqual(3, raps, "three knocks");
+            Assert.IsTrue(Enum.TryParse<Sfx>("knock", true, out _), "a scene's sfx step can name it");
         }
 
         [Test]

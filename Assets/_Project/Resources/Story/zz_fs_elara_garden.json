@@ -1,0 +1,229 @@
+{
+  "quests": [
+    {
+      "id": "elara_garden",
+      "titleKey": "quest.elara_garden.title",
+      "descriptionKey": "quest.elara_garden.desc",
+      "category": "story",
+      "autoStart": false,
+      "autoComplete": false,
+      "giver": "elara",
+      "objectives": [
+        {
+          "text": "quest.elara_garden.o0",
+          "condition": "has:forage.dandelion>=3",
+          "takeItem": "forage.dandelion",
+          "takeCount": 3
+        },
+        {
+          "text": "quest.elara_garden.o1",
+          "condition": "has:forage.wildgarlic>=3",
+          "takeItem": "forage.wildgarlic",
+          "takeCount": 3
+        }
+      ],
+      "rewards": [
+        "gold:150",
+        "friend:elara,100"
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "id": "elara.garden.visit",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.visit.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.visit.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.visit.2",
+          "choices": [
+            {
+              "text": "dlg.elara.garden.visit.c0",
+              "default": false,
+              "effects": [
+                "quest.start:elara_garden"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.garden.visit.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.visit.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.visit.r1"
+        }
+      ]
+    },
+    {
+      "id": "elara.garden.ask",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.ask.0",
+          "choices": [
+            {
+              "text": "dlg.elara.garden.ask.c0",
+              "default": false,
+              "effects": [
+                "quest.start:elara_garden"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.elara.garden.ask.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.ask.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.ask.r1"
+        }
+      ]
+    },
+    {
+      "id": "elara.garden.remind",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.remind.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.garden.turnin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.garden.turnin.0",
+          "expression": "happy",
+          "effects": [
+            "quest.done:elara_garden"
+          ]
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.elara.talk",
+      "entries": [
+        {
+          "condition": "quest:elara_garden=new && flag:elara.garden.visited",
+          "priority": 4,
+          "dialogue": "elara.garden.ask"
+        },
+        {
+          "condition": "quest:elara_garden=active",
+          "priority": 4,
+          "dialogue": "elara.garden.remind"
+        },
+        {
+          "condition": "quest:elara_garden=active && has:forage.dandelion>=3 && has:forage.wildgarlic>=3",
+          "priority": 5,
+          "dialogue": "elara.garden.turnin"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "elara_garden_visit",
+      "trigger": "map",
+      "map": "Farm",
+      "condition": "year==1 && season:spring && day==2 && hour>=8 && hour<18",
+      "once": true,
+      "recheck": true,
+      "priority": 50,
+      "steps": [
+        {
+          "type": "sfx",
+          "name": "Knock"
+        },
+        {
+          "type": "wait",
+          "seconds": 1.4
+        },
+        {
+          "type": "fadeout",
+          "seconds": 0.4
+        },
+        {
+          "type": "place",
+          "actor": "player",
+          "x": 7,
+          "y": 18
+        },
+        {
+          "type": "place",
+          "actor": "elara",
+          "x": 7,
+          "y": 16
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "down"
+        },
+        {
+          "type": "face",
+          "actor": "elara",
+          "facing": "up"
+        },
+        {
+          "type": "fadein",
+          "seconds": 0.4
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "elara.garden.visit"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "met:elara",
+            "flag:elara.garden.visited"
+          ]
+        }
+      ]
+    }
+  ]
+}

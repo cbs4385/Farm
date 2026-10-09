@@ -83,6 +83,7 @@ namespace Farm.Gameplay
         public int CalendarSeason = -1;     // ... on this season (0 spring .. 3 winter)
         public int CalendarDay;             // ... and day
         public bool RunClock;               // keep the clock running during the scene (timed scenes use "advance" steps)
+        public bool Recheck;                // a "map" event that is also looked for again as the clock moves while its map is on screen (a visitor who comes at 8 in the morning)
         public int Priority;
         public List<EventStep> Steps = new List<EventStep>();
         public List<string> SkipEffects = new List<string>();   // run if the player skips the scene and these were not run

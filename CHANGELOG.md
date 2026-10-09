@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 (2026-10-08)
+
+- A new door-knock sound effect.
+- A new opening: on the second morning (spring 2, from 8 o'clock) Elara Finch, the clinic nurse, comes to the farmhouse door to introduce herself and asks for three dandelions and three wild garlic for the clinic's herb garden (a quest, paid in gold and friendship). With the horror on, the plant is also the first ritual's fixed offering: handing it over makes that ritual fail.
+
 ## 0.1.0 (the first Steam playtests, 2026-10-08)
 
 - Villagers face the way they walk: six of them (Bram, Marcus, Wren, Felix, Juno, Elara) had no real side-view pictures and now do.

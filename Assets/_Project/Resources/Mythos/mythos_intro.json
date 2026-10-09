@@ -1,0 +1,34 @@
+{
+  "dialogues": [
+    {
+      "id": "elara.garden.tilda",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.elara.garden.tilda.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.elara.garden.tilda.1"
+        }
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "id": "elara_garden.tilda",
+      "on": "quest.done:elara_garden",
+      "npcs": "tilda",
+      "condition": "horror:1",
+      "ttlDays": 4,
+      "priority": 3,
+      "cooldownDays": 28,
+      "once": true,
+      "dialogue": "elara.garden.tilda"
+    }
+  ]
+}

@@ -71,7 +71,9 @@ namespace Farm.Tests
                     var place = new NpcPlacement(MapIds.Farm, leg.from.x, leg.from.y, leg.to.x, leg.to.y, 0.5f, true, "down", MapIds.Farm);
                     for (var i = 0; i < 3; i++) { actor.Apply(place, map, grid); yield return null; }
                     Assert.AreEqual(leg.facing, actor.Facing, $"{id} walking {leg.facing}");
-                    Assert.AreSame(actor.Definition.SpriteFor(leg.facing), renderer.sprite, $"{id} shows the {leg.facing} picture while walking {leg.facing}");
+                    // While walking the picture alternates with the same picture one pixel higher (the walking bob, named "<picture>_up").
+                    var expected = actor.Definition.SpriteFor(leg.facing).name;
+                    Assert.IsTrue(renderer.sprite.name == expected || renderer.sprite.name == expected + "_up", $"{id} shows the {leg.facing} picture while walking {leg.facing}: shows {renderer.sprite.name}");
                 }
             }
         }

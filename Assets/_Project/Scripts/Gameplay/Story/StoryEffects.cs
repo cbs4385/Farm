@@ -9,6 +9,14 @@ namespace Farm.Gameplay
             Effects.Register("friend", 2, 2, (s, a) => NpcInteractions.AddPoints(s, a[0], Effects.Int(a[1])));
             InteractionMenu.RegisterEffects();
             // Remembers the current year under a key (annual events); `unseen:<key>` is true until then.
+            // The player has met this villager (an introduction in a scene): their name shows, and their first-meeting greeting is not said again.
+            Effects.Register("met", 1, 1, (s, a) =>
+            {
+                var state = NpcInteractions.StateOf(s.State, a[0]);
+                state.Met = true;
+                state.LastContactDay = s.Clock.Now.TotalDays;
+                s.SetFlag("met." + a[0]);
+            });
             Effects.Register("wake", 1, 1, (s, a) => NpcWake.Wake(s, a[0], byPlayer: false));        // wakes a villager who is asleep in bed (no friendship cost)
             Effects.Register("mark", 1, 1, (s, a) => s.SetVar(a[0], s.Clock.Now.Year));
             Effects.Register("energy", 1, 1, (s, a) => s.RestoreEnergy(Effects.Int(a[0])));

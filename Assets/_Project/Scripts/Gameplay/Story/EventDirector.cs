@@ -22,6 +22,7 @@ namespace Farm.Gameplay
         InputService _input;
         int _frames;
         bool _checkedTriggers;
+        int _recheckedMinute = -1;
         bool _skip;
         EventStage _stage;
         bool _replay;                       // a memory: no effects, no clock change, nothing marked as seen
@@ -76,7 +77,7 @@ namespace Farm.Gameplay
                 var queued = _session.Story.Event(id);
                 if (queued != null) return queued;
             }
-            if (_checkedTriggers) return null;
+            if (_checkedTriggers) return Recheck();
             _checkedTriggers = true;
 
             // The first scene of a new day also allows "dawn" events; remember that this day was already offered.
@@ -85,6 +86,16 @@ namespace Farm.Gameplay
             _session.SetVar("event.dawn_checked", today + 1);
             var found = EventRunner.FindTriggered(_session, _map.MapId, firstOfDay);
             return found.Count > 0 ? found[0] : null;
+        }
+
+        // Events marked `recheck` are looked for again whenever the clock has moved on (every ten game minutes) while their map is on screen.
+        EventDefinition Recheck()
+        {
+            var minute = _session.Clock.Now.MinuteOfDay;
+            if (minute == _recheckedMinute) return null;
+            _recheckedMinute = minute;
+            foreach (var e in EventRunner.FindTriggered(_session, _map.MapId, false)) if (e.Recheck) return e;
+            return null;
         }
 
         // ---- playback -------------------------------------------------------------------------------------------------

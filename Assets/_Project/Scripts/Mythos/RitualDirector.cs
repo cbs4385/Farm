@@ -60,6 +60,14 @@ namespace Farm.Mythos
             {
                 var npc = keepers[(save.PlannedSeason + i) % keepers.Length];
                 var slot = new OfferingSlot { NpcId = npc };
+                // The first ritual of the first spring has a fixed first offering: the plant the opening quest asks the player to gather. Handing it over takes it
+                // from the Keepers (see Progress), so a player who helps Elara makes that ritual fail.
+                if (i == 0 && save.PlannedSeason == 0)
+                {
+                    slot.ItemId = MythosIds.Intro.Item; slot.RefKind = MythosIds.Intro.Kind; slot.RefId = MythosIds.Intro.Quest;
+                    save.Plan.Add(slot);
+                    continue;
+                }
                 // A modest chance that it is something of the player's; otherwise the village's own offering.
                 var roll = WeatherRoller.Unit(save.PlannedSeason * 31 + i * 7 + 1, s.State.WorldSeed ^ 0x2F6E2B1);
                 if (candidates.Count > 0 && roll < 0.25f)
@@ -91,7 +99,8 @@ namespace Farm.Mythos
                 if (offset >= RitualModel.SacrificeStart(i) && !slot.Placed)
                 {
                     slot.Placed = true;
-                    if (!string.IsNullOrEmpty(slot.RefId))
+                    if (slot.RefKind == MythosIds.Intro.Kind) slot.Missing = IntroDelivered(s);           // the player gave the plants to Elara
+                    else if (!string.IsNullOrEmpty(slot.RefId))
                     {
                         var reference = new WorldObjectRef(slot.RefKind, slot.RefId, string.Empty, slot.ItemId);
                         if (!s.Hooks.ConsumeWorldObject(reference)) slot.Missing = true;       // the player used or took it first
@@ -123,6 +132,10 @@ namespace Farm.Mythos
             else save.Failures++;
             s.Publish(new RitualResolved(result.Succeeded, result.Failure));
         }
+
+        // Has the player handed the opening quest's plants over?
+        public static bool IntroDelivered(GameSession s) =>
+            s.State.Quests.TryGetValue(MythosIds.Intro.Quest, out var q) && q != null && q.Status == QuestStatus.Done;
 
         // The slot whose offering is lying on the altar right now (not yet consumed, not taken).
         public static OfferingSlot OnAltar(MythosSave save, int minuteOfDay)

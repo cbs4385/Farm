@@ -47,7 +47,7 @@ namespace Farm.Gameplay
                 switch (verb)
                 {
                     case "give": case "take": if (!items.Contains(a[0])) Bad(where, $"effect '{effect}': unknown item '{a[0]}'"); break;
-                    case "friend": case "wake": if (!npcIds.Contains(a[0])) Bad(where, $"effect '{effect}': unknown NPC '{a[0]}'"); break;
+                    case "friend": case "wake": case "met": if (!npcIds.Contains(a[0])) Bad(where, $"effect '{effect}': unknown NPC '{a[0]}'"); break;
                     case "xp": if (!skills.Contains(a[0])) Bad(where, $"effect '{effect}': unknown skill '{a[0]}'"); break;
                     case "quest.start": case "quest.done": if (v.Story.Quest(a[0]) == null) Bad(where, $"effect '{effect}': unknown quest '{a[0]}'"); break;
                     case "mail": if (v.Story.Letter(a[0]) == null) Bad(where, $"effect '{effect}': unknown letter '{a[0]}'"); break;

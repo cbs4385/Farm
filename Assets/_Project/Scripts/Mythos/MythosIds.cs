@@ -29,6 +29,14 @@ namespace Farm.Mythos
             public const string WoodsEntered = "mythos.woods_entered";   // set the first time the player walks into Harrow Wood (ends the quest that points there)
         }
 
+        // The opening quest (Elara's herb garden): the first ritual's first offering is the plant she asks for, so handing it over takes the Keepers' offering.
+        public static class Intro
+        {
+            public const string Quest = "elara_garden";
+            public const string Item = "forage.wildgarlic";
+            public const string Kind = "intro";                  // OfferingSlot.RefKind of that offering
+        }
+
         // Weather ids a weather modifier may return (each needs a "weather.<id>" string)
         public static class Weather
         {
