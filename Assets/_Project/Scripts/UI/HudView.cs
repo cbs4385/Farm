@@ -104,6 +104,8 @@ namespace Farm.UI
             BuildHotbar(canvas);
             BuildToast(canvas);
             BuildExtensions(canvas);
+            BuildQuestTracker(canvas);
+            BuildSelectionHelp(canvas);
 
             ui.Bus.Subscribe<StatsChanged>(_ => _dirty = true);
             ui.Bus.Subscribe<MinuteChanged>(_ => _dirty = true);
@@ -342,6 +344,47 @@ namespace Farm.UI
             if (_tracker.text != text) _tracker.text = text;
         }
 
+        Image _helpPanel;
+        TextMeshProUGUI _help;
+        int _helpSlot = -2;
+        string _helpItem;
+        float _helpTimer;
+        const float HelpSeconds = 7f;
+
+        // What the picked item is and how to use it, above the item bar for a few seconds whenever the pick changes (and when the game starts). The mouse has the
+        // same text when it rests on a slot, but a pad or the keyboard never gets there (playtest 2026-10-09: "I can select tools but have no idea how to use them").
+        void BuildSelectionHelp(Transform canvas)
+        {
+            _helpPanel = UiKit.Panel(canvas, "SelectionHelp", new Color(UiKit.PanelColor.r, UiKit.PanelColor.g, UiKit.PanelColor.b, 0.85f));
+            _helpPanel.raycastTarget = false;
+            UiKit.Place(_helpPanel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(640, 84), new Vector2(0, 112));
+            _help = UiKit.Label(_helpPanel.transform, "", 15f, TextAlignmentOptions.Center);
+            UiKit.Stretch(_help.rectTransform, 8f);
+            _help.raycastTarget = false;
+            _helpPanel.gameObject.SetActive(false);
+        }
+
+        void UpdateSelectionHelp()
+        {
+            if (_helpPanel == null) return;
+            var s = _ui.Session;
+            if (s == null || !s.InGame || _ui.AnyModalOpen) { _helpPanel.gameObject.SetActive(false); return; }
+            var slot = s.State.SelectedHotbar;
+            var stack = slot >= 0 && slot < s.Backpack.Capacity ? s.Backpack.Get(slot) : null;
+            var itemId = stack?.ItemId;
+            if (slot != _helpSlot || itemId != _helpItem)
+            {
+                _helpSlot = slot;
+                _helpItem = itemId;
+                _helpTimer = itemId != null ? HelpSeconds : 0f;
+                var text = itemId != null ? HotbarTooltip.Text(s, itemId) : null;
+                if (text != null) _help.text = text;
+            }
+            if (_helpTimer > 0f) _helpTimer -= Time.unscaledDeltaTime;
+            var show = _helpTimer > 0f && !_tooltipShown;
+            if (_helpPanel.gameObject.activeSelf != show) _helpPanel.gameObject.SetActive(show);
+        }
+
         void BuildToast(Transform canvas)
         {
             _toast = UiKit.Label(canvas, "", 20f, TextAlignmentOptions.Center, UiKit.Accent);
@@ -355,6 +398,8 @@ namespace Farm.UI
             ApplyTransparency();
             UpdateHotbarPointer();
             TickToast();
+            UpdateQuestTracker(_dirty);
+            UpdateSelectionHelp();
             if (!_dirty) return;
             _dirty = false;
             var s = _ui.Session;

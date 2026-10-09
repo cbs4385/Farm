@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 (2026-10-09)
+
+- Controller and keyboard players can now see how to use a tool: the picked item's name and instructions show above the item bar for a few seconds whenever the pick changes (before, only a mouse resting on a slot showed them). The first quest names the hoe and how to use it.
+- The quest tracker listed in 0.2.0 was not actually connected to the screen; it now shows at the top right (Options can turn it off).
+
 ## 0.2.0 (fixes from the overnight playtest reports, 2026-10-09)
 
 - Rain: ground tilled while it is raining is watered at once (new fields no longer need the can on a rainy day).
