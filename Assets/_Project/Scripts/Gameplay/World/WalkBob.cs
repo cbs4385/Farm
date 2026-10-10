@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Farm.Data;
 using UnityEngine;
 
 namespace Farm.Gameplay
@@ -12,6 +13,7 @@ namespace Farm.Gameplay
         const float MovingSpeed = 0.2f;            // world units per second that count as walking
 
         public const float LungeSeconds = 0.16f;
+        public const float StrikeSeconds = 0.40f;             // a tool swing of four frames
         const int LungePixels = 2;
 
         static readonly Dictionary<(Sprite, int, int), Sprite> ShiftedOf = new Dictionary<(Sprite, int, int), Sprite>();
@@ -22,6 +24,9 @@ namespace Farm.Gameplay
         float _clock;
         bool _movingNow;
         float _lungeLeft;
+        float _strikeLeft;
+        ToolType _strikeTool;
+        SpriteRenderer _shadow;
         float _breathPhase;
         Vector2Int _lungeDir;
 
@@ -34,9 +39,21 @@ namespace Farm.Gameplay
         // pictures of their own (the cat, the farm animals).
         public bool StepsLegs = true;
 
+        public bool NoShadow;                                    // a villager in bed has none
+
         public bool IsRaised { get; private set; }
         public int StepPhase { get; private set; }               // 0 left foot, 1 passing, 2 right foot, 3 passing (while walking)
         public bool IsLunging => _lungeLeft > 0f;
+        public bool IsStriking => _strikeLeft > 0f;
+        public ToolType StrikeTool => _strikeTool;
+        public int StrikeFrame => _strikeLeft <= 0f ? -1 : Mathf.Min(CharacterRig.StrikeFrames - 1, (int)((1f - _strikeLeft / StrikeSeconds) * CharacterRig.StrikeFrames));
+
+        // Swings a tool: the character's own four-frame swing with the tool in the hand (farmer and villagers; for the rest a lunge is all there is).
+        public void Strike(ToolType tool)
+        {
+            _strikeTool = tool;
+            _strikeLeft = StrikeSeconds;
+        }
 
         // Is the picture up at this moment of a walk? (pure, so it can be tested)
         public static bool UpAt(float walkedSeconds) => walkedSeconds >= 0f && (int)(walkedSeconds / StepSeconds) % 2 == 1;
@@ -71,6 +88,7 @@ namespace Farm.Gameplay
         static Sprite BaseOf(Sprite shown)
         {
             if (shown == null) return null;
+            if (CharacterFrames.TryGetBase(shown, out var character)) return character;
             if (BaseOfShifted.TryGetValue(shown, out var original)) return original;
             return StepFrames.TryGetOriginal(shown, out var stepped) ? stepped : shown;
         }
@@ -100,8 +118,30 @@ namespace Farm.Gameplay
             if (moving) { _clock += dt; _movingNow = true; }
             else { _clock = 0f; _movingNow = false; }
 
+            if (_shadow == null && _renderer.sprite != null) _shadow = ActorShadow.Add(gameObject, _renderer);          // once there is a picture to follow
+            if (_shadow != null) { _shadow.enabled = !NoShadow && _renderer.enabled && _renderer.sprite != null; _shadow.sortingOrder = _renderer.sortingOrder - 1; }
             var shown = _renderer.sprite;
             var original = BaseOf(shown);
+            if (_strikeLeft > 0f) _strikeLeft = Mathf.Max(0f, _strikeLeft - dt);
+
+            // A character picture (the farmer, a villager): walks and swings with its own frames, feet on the ground; a pose only gets the look.
+            if (CharacterFrames.IsCharacter(original))
+            {
+                var wantFrame = original;
+                if (CharacterFrames.Animates(original))
+                {
+                    var rigStep = _movingNow ? (int)(_clock / StepSeconds) % 4 : 0;
+                    StepPhase = rigStep;
+                    var breath = !_movingNow && Breathes && BreathUp(Time.time, _breathPhase);
+                    IsRaised = _movingNow ? rigStep % 2 == 1 : breath;
+                    wantFrame = _strikeLeft > 0f ? CharacterFrames.Strike(original, _strikeTool, StrikeFrame)
+                        : _movingNow ? CharacterFrames.Walk(original, rigStep) : CharacterFrames.Idle(original, breath);
+                }
+                else wantFrame = CharacterFrames.Looked(original);
+                if (_lungeLeft > 0f) _lungeLeft = Mathf.Max(0f, _lungeLeft - dt);
+                if (wantFrame != shown) _renderer.sprite = wantFrame;
+                return;
+            }
             var wantRaised = _movingNow && UpAt(_clock);
             if (!_movingNow && Breathes && _lungeLeft <= 0f) wantRaised = BreathUp(Time.time, _breathPhase);
             IsRaised = wantRaised;

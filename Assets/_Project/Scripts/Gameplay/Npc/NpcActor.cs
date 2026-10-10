@@ -60,6 +60,39 @@ namespace Farm.Gameplay
             return SleepSprites[whole] = sprite;
         }
 
+        // The tool a villager works with while standing at their post (the smith's hammer, the fisher's rod...), or None.
+        public static ToolType WorkToolOf(string npcId)
+        {
+            switch (npcId)
+            {
+                case NpcRoster.Juno: case NpcRoster.Marcus: return ToolType.Hammer;
+                case NpcRoster.Felix: return ToolType.Rod;
+                case NpcRoster.Dorian: return ToolType.Scythe;
+                case NpcRoster.Elara: return ToolType.WateringCan;
+                default: return ToolType.None;
+            }
+        }
+
+        // A villager swings a tool (their own four-frame swing; a villager who has none for it just stands).
+        public void Strike(ToolType tool)
+        {
+            if (tool != ToolType.None && TryGetComponent<WalkBob>(out var bob)) bob.Strike(tool);
+        }
+
+        float _nextWork = -1f;
+
+        // Standing at the post, now and then at work: a swing of the tool of the trade, every 7 to 15 seconds.
+        void TickWork(bool asleep)
+        {
+            if (asleep || _seat != null || _pose != null || _definition == null) return;
+            var tool = WorkToolOf(_definition.Id);
+            if (tool == ToolType.None) return;
+            if (_nextWork < 0f) _nextWork = Time.time + Random.Range(2f, 8f);
+            if (Time.time < _nextWork) return;
+            _nextWork = Time.time + Random.Range(7f, 15f);
+            Strike(tool);
+        }
+
         void SetSleeping(bool sleeping)
         {
             if (Sleeping == sleeping) return;
@@ -69,6 +102,7 @@ namespace Farm.Gameplay
                 _renderer.sortingOrder = sleeping ? 10 : 9;
                 if (_definition != null) _renderer.sprite = sleeping ? SleepSpriteOf(_definition.SpriteFor(Vector2Int.down)) ?? _renderer.sprite : _definition.SpriteFor(_facing);
             }
+            if (TryGetComponent<WalkBob>(out var bob)) bob.NoShadow = sleeping;
             if (!sleeping && _icon != null) _icon.Hide();
         }
 
@@ -147,6 +181,7 @@ namespace Farm.Gameplay
                     (_icon ??= SleepIcon.Create(transform)).Show(bed);
                 }
                 if (asleep) LeaveSeat(); else TrySit(map, cell);
+                TickWork(asleep);
                 YieldBodyToPlayer();
                 return;
             }

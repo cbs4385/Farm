@@ -63,7 +63,8 @@ namespace Farm.Tests
             Assert.IsTrue(sprite.name.StartsWith("avatar_"), "the player is drawn from the avatar layers, not the placeholder: " + sprite.name);
             // The pixels on screen are the ones the composer makes for that look.
             var expected = AvatarComposer.Compose(look, AvatarComposer.DownFacing);
-            var actual = sprite.texture.GetPixels32();
+            Assert.IsTrue(CharacterFrames.TryGetBase(sprite, out var plain), "what is shown is a frame of the farmer's own picture: " + sprite.name);
+            var actual = plain.texture.GetPixels32();
             for (var y = 0; y < 32; y++)
                 for (var x = 0; x < 16; x++)
                     Assert.AreEqual(expected[y * 16 + x], actual[(31 - y) * 16 + x], $"pixel {x},{y}");

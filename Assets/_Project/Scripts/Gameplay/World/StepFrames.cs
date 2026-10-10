@@ -75,7 +75,7 @@ namespace Farm.Gameplay
 
         // The sprite's pixels, even when it is packed in an atlas that cannot be read on the CPU: the part of the texture is drawn into a
         // render texture of its own size and read back.
-        static bool Read(Sprite sprite, out Color32[] pixels, out int w, out int h)
+        public static bool Read(Sprite sprite, out Color32[] pixels, out int w, out int h)
         {
             pixels = null;
             var rect = sprite.textureRect;

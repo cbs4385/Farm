@@ -7,6 +7,10 @@
 # Needs: STEAMCMD (path to steamcmd), STEAM_USER (build account). Run from the repo root after the release builds exist.
 set -euo pipefail
 branch="${1:?branch name, e.g. beta}"
+# A hold: while Steam/PUBLISH_HOLD exists nothing is uploaded (the owner, 2026-10-10: no publishing until a human review is done). Delete the file to lift it.
+if [ -f Steam/PUBLISH_HOLD ]; then
+  echo "refusing to upload: Steam/PUBLISH_HOLD exists:"; sed 's/^/  /' Steam/PUBLISH_HOLD; exit 1
+fi
 # Steam calls the default branch "public" (steamcmd refuses SetLive "default"): both names mean the branch every player gets.
 if [ "$branch" = "default" ] || [ "$branch" = "public" ]; then
   [ "${ALLOW_DEFAULT:-}" = "1" ] || { echo "refusing to set the default branch live from a script without ALLOW_DEFAULT=1"; exit 1; }

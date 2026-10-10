@@ -185,7 +185,7 @@ namespace Farm.Gameplay
 
         void UseTool(ToolType tool)
         {
-            if (TryGetComponent<WalkBob>(out var bob) && TryGetComponent<PlayerController>(out var pc)) bob.Lunge(pc.Facing);
+            if (TryGetComponent<WalkBob>(out var bob) && TryGetComponent<PlayerController>(out var pc)) { bob.Lunge(pc.Facing); bob.Strike(tool); }
             var cell = TargetCell;
             var grid = Session.GetGrid(_map.MapId);
             var tier = Session.ToolTier(ToolModel.ItemId(tool));

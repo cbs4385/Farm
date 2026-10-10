@@ -321,7 +321,7 @@ namespace Farm.Tests
                 yield return WaitFrames(3);
 
                 // The avatar's feet are drawn at its transform: the sprite's bottom edge is the transform y.
-                Assert.AreEqual(player.transform.position.y, renderer.bounds.min.y, 0.02f, "sprite pivot must be at the feet");
+                Assert.AreEqual(player.transform.position.y, renderer.bounds.min.y, 0.07f, "sprite pivot must be at the feet (within the pixel of outline under them)");
                 Assert.AreEqual(player.transform.position.x, renderer.bounds.center.x, 0.02f);
 
                 // The cursor sits on the cell in front of the cell the player stands in.

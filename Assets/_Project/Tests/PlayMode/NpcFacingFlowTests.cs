@@ -55,7 +55,8 @@ namespace Farm.Tests
                     Assert.AreEqual(leg.facing, actor.Facing, $"{id} walking {leg.facing}");
                     // While walking the picture alternates with the same picture one pixel higher (the walking bob, named "<picture>_up").
                     var expected = actor.Definition.SpriteFor(leg.facing).name;
-                    Assert.IsTrue(renderer.sprite.name == expected || renderer.sprite.name == expected + "_up", $"{id} shows the {leg.facing} picture while walking {leg.facing}: shows {renderer.sprite.name}");
+                    var shownName = CharacterFrames.TryGetBase(renderer.sprite, out var shownBase) ? shownBase.name : renderer.sprite.name;          // a walk frame is made from the picture
+                    Assert.IsTrue(shownName == expected || shownName == expected + "_up", $"{id} shows the {leg.facing} picture while walking {leg.facing}: shows {renderer.sprite.name}");
                 }
             }
         }

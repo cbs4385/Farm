@@ -75,13 +75,13 @@ namespace Farm.Tests
             var seen = new HashSet<string>();
             var end = Time.realtimeSinceStartup + 3f;
             var start = player.transform.position;
-            while (Time.realtimeSinceStartup < end && !(seen.Any(n => n.EndsWith("_stepL")) && seen.Any(n => n.EndsWith("_stepR"))))
+            while (Time.realtimeSinceStartup < end && seen.Count(n => n.Contains("_walk")) < 4)
             {
                 player.transform.position += Vector3.up * 0f + Vector3.right * 1.6f * Time.deltaTime;
                 yield return null;
                 seen.Add(renderer.sprite.name);
             }
-            Assert.IsTrue(seen.Any(n => n.EndsWith("_stepL")) && seen.Any(n => n.EndsWith("_stepR")), "the farmer lifts each foot in turn: " + string.Join(", ", seen));
+            Assert.GreaterOrEqual(seen.Count(n => n.Contains("_walk")), 3, "the farmer steps through the walk frames: " + string.Join(", ", seen));
         }
 
         [UnityTest]

@@ -17,7 +17,6 @@ namespace Farm.Gameplay
         {
             _buttons = InputSystem.onAnyButtonPress.Call(OnButton);
             InputSystem.onDeviceChange += OnDeviceChange;
-            foreach (var device in InputSystem.devices) NoticeGenericPad(device);
         }
 
         void OnDisable()
@@ -28,6 +27,7 @@ namespace Farm.Gameplay
 
         static void OnButton(InputControl control)
         {
+            NoticeGenericPad(control);
             if (control.device is Gamepad || control.device is Joystick) ControlPrompts.SetKind(InputKind.Gamepad);
             else if (control.device is Keyboard || control.device is Mouse) ControlPrompts.SetKind(InputKind.KeyboardMouse);
         }
@@ -45,16 +45,16 @@ namespace Farm.Gameplay
         }
 
         // A controller that Windows shows only as a generic joystick (a DirectInput pad, an "EasySMX" in its default mode) has no standard layout: its buttons are
-        // guessed. Say once what to do if they do not fit (playtest 2026-10-09: a pad that did nothing).
+        // guessed. When the player presses one of its buttons, say once what to do if they do not fit (playtest 2026-10-09: a pad that did nothing). Many PCs list odd
+        // joystick-class devices (lighting, wheels) that nobody plays with, so merely being plugged in says nothing.
         static bool _noticed;
+        static bool _pendingNotice;
 
-        static void NoticeGenericPad(InputDevice device)
+        static void NoticeGenericPad(InputControl control)
         {
-            if (_noticed || !(device is Joystick) || device is Gamepad) return;
+            if (_noticed || !(control.device is Joystick) || control.device is Gamepad) return;
             _pendingNotice = true;
         }
-
-        static bool _pendingNotice;
 
         // Said once, in a game (not while the game is still starting, when the texts are not there yet).
         static void SayPendingNotice()
@@ -67,7 +67,6 @@ namespace Farm.Gameplay
 
         static void OnDeviceChange(InputDevice device, InputDeviceChange change)
         {
-            if (change == InputDeviceChange.Added) NoticeGenericPad(device);
             if (!(device is Gamepad) || (change != InputDeviceChange.Removed && change != InputDeviceChange.Disconnected)) return;
             if (Gamepad.all.Count > 0) return;                                   // another pad is still there
             var wasPlaying = ControlPrompts.Kind == InputKind.Gamepad;

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.2 (unreleased, held for a human review)
+
+The farmer and every villager are less flat and now really animate:
+- Every character has a dark outline, light on its top-left edge and shade on its far edge and feet, and a soft shadow on the ground under it.
+- Walking is a four-frame cycle in every direction: the feet stay on the ground, the legs step (side view) or lift (front and back view), the arms swing, the body rises as the legs pass. It replaces the old one-pixel hop.
+- Tool actions: the farmer's hoe, watering can, axe, pickaxe, scythe, sword and hammer are swung with four frames (wind-up, swing, strike, recover), the tool drawn in the hand, in every direction. Villagers can swing tools too: the smith's apprentice and the carpenter hammer at their posts, the fisher casts his rod, the forager swings the scythe and the nurse waters, every few seconds while standing at work.
+- The "plain joystick" controller notice now appears only when you press a button on such a controller, not just because one is plugged in (some PCs list lighting or wheel devices).
+
 ## 0.4.1 (2026-10-10)
 
 From the overnight bug reports:
