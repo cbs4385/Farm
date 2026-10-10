@@ -25,6 +25,7 @@ namespace Farm.Gameplay
         public const string Cancel = "Cancel";
         public const string Point = "Point";
         public const string Click = "Click";
+        public const string RightClick = "RightClick";          // a right-click on a window (one item of a stack)
         public const string ScrollWheel = "ScrollWheel";
         public const string TabPrev = "TabPrev";         // previous / next tab in the game menu
         public const string TabNext = "TabNext";

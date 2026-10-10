@@ -272,7 +272,7 @@ namespace Farm.Gameplay
             Session.AddSkillXp(result.Skill, result.Xp);
             AudioService.PlayIfAvailable(Sfx.Harvest);
             _view.RefreshNode(cell);
-            if (wasLast && Session.Db.TryGetItem(def.DropItemId, out var picked)) Session.Toast(L.Get("toast.forage_last", L.Get(picked.NameKey)));
+            if (wasLast && Session.Db.TryGetItem(def.DropItemId, out var picked)) Session.Toast(L.Get(ForageRules.ReminderKey("toast.forage_last", picked.Id), L.Get(picked.NameKey)));
             return true;
         }
 

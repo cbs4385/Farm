@@ -109,7 +109,7 @@ namespace Farm.Gameplay
             if (!nodes.TryGet(cell.x, cell.y, out var node)) return null;
             var def = _session.Nodes.Get(node.TypeId);
             if (def == null || def.Tool != ToolType.None || !_session.Db.TryGetItem(def.DropItemId, out var item)) return null;
-            return L.Get(ForageRules.IsLastOfItsKind(nodes, node.TypeId) ? "hover.forage_last" : "hover.forage", L.Get(item.NameKey));
+            return L.Get(ForageRules.ReminderKey(ForageRules.IsLastOfItsKind(nodes, node.TypeId) ? "hover.forage_last" : "hover.forage", item.Id), L.Get(item.NameKey));
         }
     }
 }

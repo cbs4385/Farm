@@ -50,6 +50,44 @@ namespace Farm.Tests
         static PointerEventData Pointer(PointerEventData.InputButton button) =>
             new PointerEventData(EventSystem.current) { button = button, position = new Vector2(100f, 100f) };
 
+        // Playtest 2026-10-10: "right click still does nothing in the chest page". The events were sent by hand in the other test; here the real mouse is used, which
+        // only works when the UI module has a right-click action.
+        [UnityTest]
+        public IEnumerator ARealRightClickWithTheMouse_MovesOneItem()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            _session = ServiceLocator.Get<GameSession>();
+            _session.BeginNewGame("Tester", "Test Farm", 0);
+            _session.SetFlag(FatigueModel.WarnedFlag);
+            _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
+            var op = SceneManager.LoadSceneAsync(MapIds.Farm);
+            while (!op.isDone) yield return null;
+            for (var i = 0; i < 8; i++) yield return null;
+            var objects = _session.GetObjects(MapIds.Farm);
+            var placed = objects.Place(_session.Db.AllPlaceables.First(p => p.Id == "chest"), ChestX, ChestY, "mousechest");
+            var chest = objects.ChestOf(placed);
+            for (var slot = 0; slot < _session.Backpack.Capacity; slot++)
+                if (_session.Backpack.Get(slot) != null) _session.Backpack.RemoveFromSlot(slot, _session.Backpack.Get(slot).Count);
+            _session.Backpack.Add(ItemIds.Stone, 8, preferredSlot: 5);
+            ServiceLocator.Get<UiService>().ShowChest(placed.Id);
+            yield return null;
+            yield return null;
+
+            var mouse = InputSystem.AddDevice<Mouse>();
+            var slotRect = Find("PackSlot5").GetComponent<RectTransform>();
+            Set(mouse.position, (Vector2)RectTransformUtility.WorldToScreenPoint(null, slotRect.position));
+            yield return null;
+            yield return null;
+            Press(mouse.rightButton);
+            yield return null;
+            Release(mouse.rightButton);
+            yield return null;
+            yield return null;
+            Assert.AreEqual(7, _session.Backpack.Get(5).Count, "a real right-click moved one");
+            Assert.AreEqual(1, chest.Count(ItemIds.Stone));
+        }
+
         [UnityTest]
         public IEnumerator RightClickMovesOne_ShiftClickHalf_AndADragPlacesTheStack()
         {

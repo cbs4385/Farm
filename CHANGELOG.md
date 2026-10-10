@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.1 (2026-10-10)
+
+From the overnight bug reports:
+- Right-click now works in windows (chest, backpack, shipping bin, sell window): the game's UI input had no right button at all, so it never arrived. A test now clicks with a real mouse.
+- You can fish at the pond on the farm and the one in the village (they had no fish), not only in the forest.
+- A closed shop's doorway can no longer trap you: a villager waiting for the door cell now lets you walk through them after a moment. (Standing in the door cell, the villager waited for you, and its body blocked your only way out.)
+- Buildings block only what their pictures cover. The coop, barn and every shop and cottage had invisible walls over empty corners and above their roofs; each building now has a mask made from its picture (`tools/art/build_building_masks.py`).
+- The reminder when you pick the last seashell, clam or pearl on the beach now says to leave some for others (plants still say so more can grow).
+
 ## 0.4.0 (2026-10-10)
 
 A maintenance release: the code under the game was tidied so that future changes are cheaper and safer. What players may notice:

@@ -29,6 +29,7 @@ namespace Farm.Gameplay
         static readonly List<NpcActor> Active = new List<NpcActor>();
         float _villagerWait;
         public const float RerouteAfter = 1.5f;
+        const float YieldBodyAfter = 1.2f;            // seconds held up by the player before the villager lets them through
         const float ProbeSize = ActorBody.Size + 0.04f;          // as wide as the villager's body, or it would stop with its body already touching the player
         float _waitFor;
         float _fromT;                            // the schedule's progress along the leg when the route was last changed (0 at the start of a leg)
@@ -183,11 +184,15 @@ namespace Farm.Gameplay
             if (!villagerNear) _villagerWait = 0f;
             var blockedByVillager = villagerNear && _villagerWait < VillagerGiveUp;
             if (blockedByVillager) _villagerWait += Time.deltaTime;
-            if (IsPlaced && (PlayerAt(proposed, ProbeSize) || (!atEnds && SolidAt(proposed, ProbeSize)) || blockedByVillager))
+            var blockedByPlayer = IsPlaced && PlayerAt(proposed, ProbeSize);
+            if (IsPlaced && (blockedByPlayer || (!atEnds && SolidAt(proposed, ProbeSize)) || blockedByVillager))
             {
                 Waiting = true;
                 _waitFor += Time.deltaTime;
                 if (_waitFor >= RerouteAfter) Reroute(place, map, grid);
+                // A villager held up by the player for a while lets the player through its body, so that the two can never wait on each other (playtest 2026-10-10: the
+                // player in a closed shop's doorway, the villager outside it wanting the door cell, and nobody able to move).
+                if (blockedByPlayer && _waitFor >= YieldBodyAfter && _body != null) { _body.enabled = false; return; }
                 YieldBodyToPlayer();
                 return;
             }

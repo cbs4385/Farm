@@ -155,6 +155,7 @@ namespace Farm.UI
             module.cancel = InputActionReference.Create(_input.Ui[InputNames.Cancel]);
             module.point = InputActionReference.Create(_input.Ui[InputNames.Point]);
             module.leftClick = InputActionReference.Create(_input.Ui[InputNames.Click]);
+            module.rightClick = InputActionReference.Create(_input.Ui[InputNames.RightClick]);          // without it a right-click never reaches a window
             module.scrollWheel = InputActionReference.Create(_input.Ui[InputNames.ScrollWheel]);
         }
 

@@ -16,7 +16,7 @@ namespace Farm.Gameplay
         [SerializeField] Sprite _coopPicture, _barnPicture;             // the kit's chicken coop and barn (the greenhouse keeps the tiles)
 
         // Where the door is in each picture (pixels from its left edge), so that the picture can stand with its door on the building's door cell.
-        const int CoopDoorPixel = 22, BarnDoorPixel = 48;
+        static int DoorPixelOf(string style, int fallback) => BuildingMasks.Get(style)?.DoorPx ?? fallback;
 
         readonly List<GameObject> _made = new List<GameObject>();
         readonly List<Vector3Int> _wallCells = new List<Vector3Int>();
@@ -34,8 +34,8 @@ namespace Farm.Gameplay
         {
             doorPixel = 0;
             if (_hiddenWall == null) return null;
-            if (type.Id == "coop" && _coopPicture != null) { doorPixel = CoopDoorPixel; return _coopPicture; }
-            if (type.Id == "barn" && _barnPicture != null) { doorPixel = BarnDoorPixel; return _barnPicture; }
+            if (type.Id == "coop" && _coopPicture != null) { doorPixel = DoorPixelOf(type.Id, 22); return _coopPicture; }
+            if (type.Id == "barn" && _barnPicture != null) { doorPixel = DoorPixelOf(type.Id, 48); return _barnPicture; }
             return null;
         }
 
@@ -87,20 +87,31 @@ namespace Farm.Gameplay
             var right = left + width / 16f;
             var firstCell = Mathf.FloorToInt(left + 0.5f);
             var lastCell = Mathf.CeilToInt(right - 0.5f) - 1;
-            for (var y = at.Y; y < at.Y + type.H; y++)
-                for (var x = firstCell; x <= lastCell; x++)
+            var doorCell = new Vector3Int(door.x, door.y, 0);
+            _groundBefore[doorCell] = _map.Ground.GetTile(doorCell);
+            _map.Ground.SetTile(doorCell, _door);
+            _doorCells.Add(doorCell);
+            var mask = BuildingMasks.Get(type.Id);
+            if (mask != null)
+            {
+                foreach (var c in mask.SolidCells())          // only the cells the picture covers
                 {
-                    var cell = new Vector3Int(x, y, 0);
-                    if (x == door.x && y == door.y)
-                    {
-                        _groundBefore[cell] = _map.Ground.GetTile(cell);
-                        _map.Ground.SetTile(cell, _door);
-                        _doorCells.Add(cell);
-                        continue;
-                    }
+                    var cell = new Vector3Int(door.x + c.x, door.y + c.y, 0);
                     _map.Walls.SetTile(cell, _hiddenWall);
                     _wallCells.Add(cell);
                 }
+            }
+            else
+            {
+                for (var y = at.Y; y < at.Y + type.H; y++)
+                    for (var x = firstCell; x <= lastCell; x++)
+                    {
+                        if (x == door.x && y == door.y) continue;
+                        var cell = new Vector3Int(x, y, 0);
+                        _map.Walls.SetTile(cell, _hiddenWall);
+                        _wallCells.Add(cell);
+                    }
+            }
             var go = new GameObject("Picture_" + type.Id);
             go.transform.SetParent(transform, false);
             go.transform.position = new Vector3(left + width / 32f, door.y + 0.5f, 0f);          // the picture's pivot is half a cell above its foot

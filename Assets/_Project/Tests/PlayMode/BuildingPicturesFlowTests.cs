@@ -66,6 +66,30 @@ namespace Farm.Tests
             foreach (var home in NpcHomes.All) AssertStands(map, home.Map + "_Building", home.DoorX, home.DoorY);
         }
 
+        // Playtest 2026-10-10: "the footprints of the coop and barn do not fit the pictured outlines and you cannot walk through what looks like empty space".
+        [UnityTest]
+        public IEnumerator TheCoopAndTheBarn_BlockExactlyTheCellsTheirPicturesCover()
+        {
+            yield return Open(MapIds.Farm);
+            var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
+            var state = ServiceLocator.Get<GameSession>().State;
+            foreach (var type in new[] { FarmBuildings.Coop, FarmBuildings.Barn })
+            {
+                var mask = BuildingMasks.Get(type.Id);
+                Assert.IsNotNull(mask, type.Id + " has a mask");
+                var door = FarmBuildings.DoorCell(type, FarmBuildings.Find(state, type.Id));
+                var blocked = 0;
+                for (var dx = -4; dx <= 4; dx++)
+                    for (var dy = 0; dy <= 7; dy++)
+                    {
+                        var wall = map.Walls.GetTile(new Vector3Int(door.x + dx, door.y + dy, 0)) != null;
+                        Assert.AreEqual(mask.Blocks(dx, dy), wall, $"{type.Id}: cell {dx},{dy} from the door");
+                        if (wall) blocked++;
+                    }
+                Assert.Less(blocked, type.W * type.H, type.Id + " blocks fewer cells than its whole footprint (the picture has empty corners)");
+            }
+        }
+
         [UnityTest]
         public IEnumerator OnTheFarm_TheFarmhouseTheCoopAndTheBarn_AreKitPictures()
         {

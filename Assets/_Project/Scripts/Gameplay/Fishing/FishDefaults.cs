@@ -27,9 +27,9 @@ namespace Farm.Gameplay
     public static class FishSpots
     {
         public const string Ocean = "ocean";    // the beach
-        public const string Pond = "pond";      // the forest pond
+        public const string Pond = "pond";      // the ponds of the forest, the village and the farm
 
-        public static string ForMap(string mapId) => mapId == MapIds.Beach ? Ocean : mapId == MapIds.Forest ? Pond : null;
+        public static string ForMap(string mapId) => mapId == MapIds.Beach ? Ocean : mapId == MapIds.Forest || mapId == MapIds.Village || mapId == MapIds.Farm ? Pond : null;
     }
 
     public static class FishDefaults

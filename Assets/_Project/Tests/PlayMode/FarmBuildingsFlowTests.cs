@@ -46,12 +46,25 @@ namespace Farm.Tests
                 Assert.IsNotNull(door, type.Id + " has a door");
                 var cell = map.WorldToCell(door.transform.position);
                 Assert.AreEqual(FarmBuildings.DoorCell(type, at), (cell.x, cell.y));
-                Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(cell.x - 1, at.Y, 0)), "a wall beside the door");
-                Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(cell.x - 1, at.Y + type.H - 1, 0)), "up to the roof");
+                var (side, top) = WallCellsOf(type.Id, cell.x, cell.y, cell.x - 1, at.Y, cell.x - 1, at.Y + type.H - 1);
+                Assert.IsNotNull(map.Walls.GetTile(side), "a wall beside the door");
+                Assert.IsNotNull(map.Walls.GetTile(top), "up to the roof");
                 Assert.IsNull(map.Walls.GetTile(cell), "no wall in the doorway");
                 var spawn = UnityEngine.Object.FindObjectsByType<SpawnPoint>().FirstOrDefault(sp => sp.Id == type.ReturnSpawn);
                 Assert.IsNotNull(spawn, type.Id + " has the spawn point where one comes out");
             }
+        }
+
+        // A cell beside the door and one at the top that a building blocks: from its picture's mask when it has one (the coop and the barn), else the given cells
+        // (the greenhouse, drawn from tiles).
+        static (Vector3Int side, Vector3Int top) WallCellsOf(string type, int doorX, int doorY, int sideX, int sideY, int topX, int topY)
+        {
+            var mask = BuildingMasks.Get(type);
+            if (mask == null) return (new Vector3Int(sideX, sideY, 0), new Vector3Int(topX, topY, 0));
+            var cells = mask.SolidCells().ToList();
+            var side = cells.Where(c => c.y == 0).OrderBy(c => Mathf.Abs(c.x)).First();
+            var top = cells.OrderByDescending(c => c.y).First();
+            return (new Vector3Int(doorX + side.x, doorY + side.y, 0), new Vector3Int(doorX + top.x, doorY + top.y, 0));
         }
 
         [UnityTest]
@@ -63,7 +76,7 @@ namespace Farm.Tests
             var coop = FarmBuildings.Coop;
             var at = FarmBuildings.Find(_s.State, "coop");
             var oldDoor = FarmBuildings.DoorCell(coop, at);
-            var oldCorner = new Vector3Int(oldDoor.x - 1, at.Y, 0);                                // beside the door: a wall of the picture
+            var (oldCorner, oldTop) = WallCellsOf("coop", oldDoor.x, oldDoor.y, oldDoor.x - 1, at.Y, oldDoor.x - 1, at.Y + coop.H - 1);          // beside the door: a wall of the picture
             var groundUnderTheOldDoor = map.Ground.GetTile(new Vector3Int(oldDoor.x, oldDoor.y, 0));
             Assert.IsNotNull(groundUnderTheOldDoor);
 
@@ -72,9 +85,9 @@ namespace Farm.Tests
             view.Rebuild(_s);
 
             Assert.IsNull(map.Walls.GetTile(oldCorner), "the old walls are gone");
-            Assert.IsNull(map.Walls.GetTile(new Vector3Int(oldCorner.x, oldCorner.y + coop.H - 1, 0)), "and the old roof");
+            Assert.IsNull(map.Walls.GetTile(oldTop), "and the old roof");
             Assert.AreNotEqual("tile_door", map.Ground.GetTile(new Vector3Int(oldDoor.x, oldDoor.y, 0))?.name, "the old doorway is ground again");
-            Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(51, 30, 0)), "walls at the new place");
+            Assert.IsNotNull(map.Walls.GetTile(WallCellsOf("coop", 52, 30, 51, 30, 51, 34).side), "walls at the new place");
             Assert.AreEqual("tile_door", map.Ground.GetTile(new Vector3Int(52, 30, 0)).name);
             var door = DoorTo(MapIds.Coop);
             Assert.AreEqual(new Vector3Int(52, 30, 0), map.WorldToCell(door.transform.position), "the door warp moved with it");

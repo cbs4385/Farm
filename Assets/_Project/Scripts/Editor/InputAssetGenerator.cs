@@ -85,6 +85,8 @@ namespace Farm.Editor
                 .AddBinding("<Mouse>/position", groups: Kbm);
             map.AddAction(InputNames.Click, InputActionType.PassThrough)
                 .AddBinding("<Mouse>/leftButton", groups: Kbm);
+            map.AddAction(InputNames.RightClick, InputActionType.PassThrough)
+                .AddBinding("<Mouse>/rightButton", groups: Kbm);
             map.AddAction(InputNames.ScrollWheel, InputActionType.PassThrough, expectedControlLayout: "Vector2")
                 .AddBinding("<Mouse>/scroll", groups: Kbm);
         }

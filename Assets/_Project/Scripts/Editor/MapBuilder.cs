@@ -461,13 +461,6 @@ namespace Farm.Editor
         static bool InConnector(Building b, int y) =>
             b.FacesSouth ? y > RoadY1 && y < b.Y0 : y < RoadY0 && y > b.Y1;
 
-        // Where the door is in each building's picture (pixels from its left edge), so that the picture can stand with its door on the door cell.
-        static readonly Dictionary<string, int> DoorPixels = new Dictionary<string, int>
-        {
-            { "general", 39 }, { "blacksmith", 33 }, { "carpenter", 48 }, { "library", 57 }, { "saloon", 45 }, { "clinic", 50 }, { "hall", 47 },
-            { "cottage1", 26 }, { "cottage2", 32 }, { "cottage3", 24 }, { "cottage4", 33 }, { "farmhouse", 48 },
-        };
-
         // A building from the Cozy Village kit stands on its footprint: its picture (drawn over a player who stands behind it) with the door under the door cell, and
         // collision on the cells the picture covers, with an opening at the door. The old flat wall art is no longer drawn.
         static void PlaceBuilding(Rig rig, Building b)
@@ -505,19 +498,23 @@ namespace Farm.Editor
             var spriteName = "prop_bld_" + style;
             var sprite = Sprite(spriteName);
             var width = sprite != null ? sprite.rect.width : 96f;
-            var doorPx = DoorPixels.TryGetValue(style, out var px) ? px : (int)(width / 2f);
+            var mask = BuildingMasks.Get(style);                                     // where the picture's door is, and which cells it covers
+            var doorPx = mask != null ? mask.DoorPx : (int)(width / 2f);
             var left = doorX + 0.5f - doorPx / 16f;                                 // the picture's left edge, in cells
             var right = left + width / 16f;
             var firstCell = Mathf.FloorToInt(left + 0.5f);
             var lastCell = Mathf.CeilToInt(right - 0.5f) - 1;
 
             var hidden = GetHiddenWall();
-            for (var y = y0; y <= y1; y++)
-                for (var x = firstCell; x <= lastCell; x++)
-                {
-                    if (x == doorX && y == doorY) continue;
-                    rig.Walls.SetTile(new Vector3Int(x, y, 0), hidden);
-                }
+            if (mask != null)
+                foreach (var c in mask.SolidCells()) rig.Walls.SetTile(new Vector3Int(doorX + c.x, doorY + c.y, 0), hidden);          // only what the picture covers
+            else
+                for (var y = y0; y <= y1; y++)
+                    for (var x = firstCell; x <= lastCell; x++)
+                    {
+                        if (x == doorX && y == doorY) continue;
+                        rig.Walls.SetTile(new Vector3Int(x, y, 0), hidden);
+                    }
             rig.Ground.SetTile(new Vector3Int(doorX, doorY, 0), GetTile("tile_door"));
 
             // The picture: its foot at the foot of the door row (the sprite's pivot is half a cell above its foot), centred so that the door falls on the door cell.
