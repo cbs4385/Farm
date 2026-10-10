@@ -37,5 +37,20 @@ namespace Farm.Tests
                 Object.DestroyImmediate(png);
             }
         }
+
+        [Test]
+        public void ARoofLine_HasNoNotchesOrGaps_SoItNeverCatchesAWalker()
+        {
+            foreach (var style in Styles())
+            {
+                var rows = BuildingMasks.Get(style).Rows;
+                for (var r = 0; r < rows.Count; r++)
+                {
+                    var row = rows[r];
+                    var span = row.TrimStart('.').TrimEnd('.');
+                    Assert.IsFalse(span.Contains("."), $"{style} row {r} has a gap: {row}");
+                }
+            }
+        }
     }
 }

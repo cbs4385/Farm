@@ -23,7 +23,16 @@ DOOR_PX = {
     'coop': 22, 'barn': 48,
 }
 CELL = 16
-SOLID_SHARE = 0.20       # a cell blocks when this much of it is picture
+SOLID_SHARE = 0.20       # a wall cell blocks when this much of it is picture
+ROOF_SHARE = 0.50        # the roof rows (from the third up) block only where the picture really fills the cell: a sloping roof line must not catch a walker (playtest 2026-10-10)
+
+
+def smooth(row):
+    # no notches: a row blocks from its first to its last blocking cell, so a roof line or a gap never makes a pocket to be caught in
+    if '#' not in row:
+        return row
+    a, b = row.index('#'), row.rindex('#')
+    return '.' * a + '#' * (b - a + 1) + '.' * (len(row) - b - 1)
 
 
 def mask_for(style, door_px):
@@ -45,9 +54,11 @@ def mask_for(style, door_px):
                 for xx in range(x0, x0 + CELL):
                     if 0 <= xx < w and px[xx, yy][3] > 128:
                         opaque += 1
-            row += '#' if opaque / (CELL * CELL) >= SOLID_SHARE else '.'
-        rows.append(row)
+            row += '#' if opaque / (CELL * CELL) >= (SOLID_SHARE if dy < 2 else ROOF_SHARE) else '.'
+        rows.append(smooth(row))
     while rows and set(rows[-1]) == {'.'}:
+        rows.pop()
+    if len(rows) > 2 and rows[-1].count('#') < rows[-2].count('#'):          # the ridge or tip of the roof narrows: it is drawn over a walker, it does not stop one
         rows.pop()
     return {'doorPx': door_px, 'dx0': dx0, 'rows': rows}
 

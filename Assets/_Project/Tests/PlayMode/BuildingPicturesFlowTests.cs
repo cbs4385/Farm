@@ -41,7 +41,7 @@ namespace Farm.Tests
             Assert.IsNull(map.Walls.GetTile(new Vector3Int(doorX, doorY, 0)), pictureName + ": the door cell is open");
             Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(doorX - 1, doorY, 0)), pictureName + ": solid beside the door on the left");
             Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(doorX + 1, doorY, 0)), pictureName + ": and on the right");
-            Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(doorX, doorY + 2, 0)), pictureName + ": and above the door");
+            Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(doorX, doorY + 1, 0)), pictureName + ": and above the door (the roof above that is drawn over a walker, it does not stop one)");
             Assert.IsNull(map.Walls.GetTile(new Vector3Int(doorX, doorY - 1, 0)), pictureName + ": the cell outside is free");
         }
 

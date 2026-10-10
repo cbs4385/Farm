@@ -2,6 +2,8 @@
 
 ## 0.4.3 (2026-10-10, held for review)
 
+Walking round buildings: the roof no longer catches you. Only the walls block now; a roof's sloping edge and its ridge are drawn over you but no longer stop you, and no building has a notch in its outline to get stuck in (the coop, the barn, the shops, the hall and the cottages were all redrawn this way).
+
 The ritual scenes, updated and polished (horror layer; at "off" none of it exists, and the quieter parts are what "mild" gets):
 - **The Keepers' clues** are rewritten, each Keeper in their own voice: Tilda's dutiful warmth, Marcus's craftsman's bluntness, Odalys's calm, Dorian's short fragments, Wren's dry wit and Hazel's urgency. Each has answers and replies of their own now (they all used to say the same two things), and every clue has a second beat.
 - **The whispers in the saloon** are directed scenes: the lights lower, the camera finds the corner booth, and Marcus and Dorian speak in turn (a quieter version at mild). A second whisper, about the marks, comes once the wood is open.
