@@ -524,7 +524,7 @@ namespace Farm.UI
             var s = _ui.Session;
             var mouse = Mouse.current;
             var shown = -1;
-            if (mouse != null && s != null && s.InGame && !_ui.AnyModalOpen)
+            if (mouse != null && s != null && s.InGame && !_ui.AnyModalOpen && ControlPrompts.Kind != InputKind.Gamepad)          // with a pad in hand, a mouse resting on a slot says nothing
             {
                 var position = mouse.position.ReadValue();
                 for (var i = 0; i < _slots.Length && shown < 0; i++)

@@ -86,5 +86,19 @@ namespace Farm.Tests
             yield return PointAtSlot(empty);
             Assert.IsNull(ui.HoverText, "an empty slot has nothing to say");
         }
+
+        // Playtest 2026-10-10: a player with a pad could not get rid of the scythe's label, because a mouse (a laptop's) was resting on its slot.
+        [UnityTest]
+        public IEnumerator WithAPadInHand_AMouseRestingOnASlotSaysNothing()
+        {
+            yield return Enter();
+            var ui = ServiceLocator.Get<UiService>();
+            yield return PointAtSlot(0);
+            Assert.IsNotNull(ui.HoverText, "the mouse's label is up first");
+            ControlPrompts.SetKind(InputKind.Gamepad);
+            for (var i = 0; i < 6; i++) yield return null;
+            Assert.IsNull(ui.HoverText, "the pad is in use: the resting mouse says nothing");
+            ControlPrompts.SetKind(InputKind.KeyboardMouse);
+        }
     }
 }

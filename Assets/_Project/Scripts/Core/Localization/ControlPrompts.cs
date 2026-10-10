@@ -16,6 +16,8 @@ namespace Farm.Core
         public static InputKind Kind { get; private set; } = InputKind.KeyboardMouse;
         public static event Action Changed;
 
+        static ControlPrompts() => TestResets.Add(() => Kind = InputKind.KeyboardMouse);          // a test that used a pad must not leave the next one with the mouse ignored
+
         public static void SetKind(InputKind kind)
         {
             if (kind == Kind) return;

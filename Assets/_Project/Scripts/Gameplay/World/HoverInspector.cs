@@ -16,6 +16,7 @@ namespace Farm.Gameplay
         string _label;
 
         public static string Current { get; private set; }
+        public static string Why { get; private set; }          // why no label is up (for the bug report)
         static HoverInspector() => TestResets.Add(ResetForTests);
         public static void ResetForTests() { Current = null; }
 
@@ -28,7 +29,7 @@ namespace Farm.Gameplay
         {
             var mouse = Mouse.current;
             // With a pad the label follows the cell the player faces, as a mouse's does the pointer (playtest 2026-10-09: a controller player never saw what a thing was).
-            var pad = ControlPrompts.Kind == InputKind.Gamepad && Gamepad.current != null;
+            var pad = ControlPrompts.Kind == InputKind.Gamepad;          // any pad, a generic joystick too: the label follows the target cell, not a mouse that nobody is using
             var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
             var ui = ServiceLocator.TryGet<IUiService>(out var service) ? service : null;
             var blocked = ServiceLocator.TryGet<InputService>(out var input) && input.GameplayBlocked;
@@ -36,6 +37,8 @@ namespace Farm.Gameplay
             if ((mouse == null && !pad) || ui == null || _session == null || !_session.InGame || _map == null || blocked || ui.AnyModalOpen
                 || (!pad && ui.PointerOverUi) || (pad && _actions == null) || (settings != null && !settings.HoverLabels) || Camera.main == null)
             {
+                Why = ui == null || _session == null || !_session.InGame ? "not in a game" : blocked || ui.AnyModalOpen ? "a window is open" : !pad && ui.PointerOverUi ? "the mouse is over a window"
+                    : settings != null && !settings.HoverLabels ? "hover labels are off" : "no pointer or target";
                 Clear(ui);
                 return;
             }
@@ -52,7 +55,8 @@ namespace Farm.Gameplay
                 world = Camera.main.ScreenToWorldPoint(new Vector3(position.x, position.y, -Camera.main.transform.position.z));
             }
             var label = LabelAt(world);
-            if (label == null) { Clear(ui); return; }
+            if (label == null) { Why = pad ? "nothing at the target cell" : "nothing under the mouse"; Clear(ui); return; }
+            Why = "shown";
             _label = label;
             Current = label;
             ui.ShowHover(label, position);

@@ -2,6 +2,8 @@
 
 ## 0.4.3 (2026-10-10, held for review)
 
+Controllers: the label naming what is under the target tile follows any controller, including a generic one, and a mouse resting on a hotbar slot no longer shows its tool's label while a controller is in use (it could not be cleared). A bug report now says which controller the game sees and why no label was showing.
+
 Walking round buildings: the roof no longer catches you. Only the walls block now; a roof's sloping edge and its ridge are drawn over you but no longer stop you, and no building has a notch in its outline to get stuck in (the coop, the barn, the shops, the hall and the cottages were all redrawn this way).
 
 The ritual scenes, updated and polished (horror layer; at "off" none of it exists, and the quieter parts are what "mild" gets):

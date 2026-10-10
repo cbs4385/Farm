@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Text;
 using System;
 using Farm.Core;
@@ -69,6 +70,8 @@ namespace Farm.Gameplay
             sb.AppendLine("Language: " + L.Language);
             var settings = GameSession.Settings;
             if (settings != null) sb.AppendLine($"Settings: horror level {settings.HorrorLevel}, stream mode {settings.StreamMode}, relaxed energy {settings.RelaxedEnergy}");
+            sb.AppendLine($"Input: hints for {ControlPrompts.Kind}; hover labels {(settings == null || settings.HoverLabels ? "on" : "off")}; hover: {HoverInspector.Why ?? "-"} ({HoverInspector.Current ?? "none"})");
+            sb.AppendLine("Devices: " + string.Join("; ", UnityEngine.InputSystem.InputSystem.devices.Select(d => $"{d.displayName} [{d.layout}{(d is UnityEngine.InputSystem.Gamepad ? ", gamepad" : "")}]")));
             if (session == null || !session.InGame) { sb.AppendLine("In game: no (a menu)"); return sb.ToString(); }
             var s = session.State;
             sb.AppendLine($"In game: yes. Map {s.CurrentMap}, year {s.Year} season {s.SeasonIndex} day {s.Day}, minute {s.MinuteOfDay}, weather {s.Weather}");
