@@ -185,7 +185,7 @@ namespace Farm.Gameplay
 
         void UseTool(ToolType tool)
         {
-            if (TryGetComponent<WalkBob>(out var bob) && TryGetComponent<PlayerController>(out var pc)) { bob.Lunge(pc.Facing); bob.Strike(tool); }
+            if (TryGetComponent<WalkBob>(out var bob) && TryGetComponent<PlayerController>(out var pc)) { bob.Lunge(pc.Facing); var at = TargetCell - _map.WorldToCell(_player.CellSamplePoint); bob.Strike(tool, new Vector2Int(at.x, at.y)); }
             var cell = TargetCell;
             var grid = Session.GetGrid(_map.MapId);
             var tier = Session.ToolTier(ToolModel.ItemId(tool));
@@ -225,7 +225,7 @@ namespace Farm.Gameplay
                 case ToolType.Sword:
                     var held = Session.Backpack.Get(Session.State.SelectedHotbar);
                     var combat = GetComponent<PlayerCombat>();
-                    if (combat != null && held != null) combat.Swing(held.ItemId);
+                    if (combat != null && held != null) combat.Swing(held.ItemId, _map.CellCenter(cell));
                     return;
 
                 case ToolType.Axe:

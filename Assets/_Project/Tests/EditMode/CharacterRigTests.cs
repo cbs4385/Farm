@@ -156,5 +156,38 @@ namespace Farm.Tests
             Assert.AreEqual(ToolType.Rod, NpcActor.WorkToolOf(NpcRoster.Felix));
             Assert.AreEqual(ToolType.None, NpcActor.WorkToolOf(NpcRoster.Wren));
         }
+
+        // Playtest 2026-10-10: "the tool animations do not reach the tile being acted upon".
+        [Test]
+        public void On_the_strike_the_tool_lands_on_the_middle_of_the_tile_aimed_at_for_all_eight_neighbours()
+        {
+            var g = Figure();
+            var worst = 0f; var worstAt = "";
+            foreach (var facing in new[] { "down", "up", "left", "right" })
+                foreach (var tool in new[] { ToolType.Hoe, ToolType.Axe, ToolType.Pickaxe, ToolType.Scythe, ToolType.Hammer, ToolType.Sword })
+                    foreach (var target in new[] { new Vector2Int(0, -1), new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(-1, -1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(1, 1) })
+                    {
+                        var (_, aimed, tip) = CharacterRig.StrikeGeometry(g, facing, tool, target);
+                        var gap = Vector2.Distance(aimed, tip);
+                        if (gap > worst) { worst = gap; worstAt = $"{facing} {tool} {target}"; }
+                    }
+            Assert.LessOrEqual(worst, 5.5f, "the tool's end is within a third of a tile of the aimed tile's middle (worst: " + worstAt + ")");
+        }
+
+        [Test]
+        public void A_swing_at_a_diagonal_tile_differs_from_one_straight_ahead()
+        {
+            var g = Figure();
+            var straight = CharacterRig.Strike(g, "down", ToolType.Hoe, 2, new Vector2Int(0, -1));
+            var diagonal = CharacterRig.Strike(g, "down", ToolType.Hoe, 2, new Vector2Int(1, -1));
+            Assert.AreEqual("different", Same(straight, diagonal));
+        }
+
+        [Test]
+        public void The_frame_canvas_has_room_for_the_tool_below_and_beside_the_feet()
+        {
+            Assert.GreaterOrEqual(CharacterRig.PadBottom, CharacterRig.CellPixels + 4);
+            Assert.GreaterOrEqual(CharacterRig.PadX, CharacterRig.CellPixels);
+        }
     }
 }

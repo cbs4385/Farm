@@ -21,8 +21,31 @@ namespace Farm.Gameplay
         static readonly Color32 Blue = new Color32(0x5b, 0x93, 0xcf, 255), BlueDark = new Color32(0x3a, 0x63, 0x98, 255);
         static readonly Color32 Thread = new Color32(0xe8, 0xe4, 0xd8, 255);
 
-        // The tool in the hand at the given angle. Empty for a tool with no glyph.
-        public static List<Dot> For(ToolType tool, float angleDegrees)
+        // How far the working end of a tool is from the hand, in pixels (the glyphs below stop here).
+        public static int Length(ToolType tool)
+        {
+            switch (tool)
+            {
+                case ToolType.Rod: return 13;
+                case ToolType.Sword: return 13;
+                case ToolType.Scythe: return 10;
+                case ToolType.Hammer: return 9;
+                case ToolType.WateringCan: return 8;
+                default: return 9;
+            }
+        }
+
+        // How far the end of the tool is from the hand when its handle is drawn `stretch` times as long (the head keeps its size).
+        public static float StretchedLength(ToolType tool, float stretch)
+        {
+            var handle = Length(tool) - HeadDepth;
+            return handle * stretch + HeadDepth;
+        }
+
+        const int HeadDepth = 2;
+
+        // The tool in the hand at the given angle. Empty for a tool with no glyph. A `stretch` above one lengthens the handle (a swing that has to reach a long way).
+        public static List<Dot> For(ToolType tool, float angleDegrees, float stretch = 1f)
         {
             var rad = angleDegrees * Mathf.Deg2Rad;
             var d = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
@@ -35,7 +58,12 @@ namespace Farm.Gameplay
                 var steps = Mathf.Max(1, Mathf.CeilToInt(Vector2.Distance(a, b) * 1.5f));
                 for (var i = 0; i <= steps; i++) Put(Vector2.Lerp(a, b, i / (float)steps), c);
             }
-            Vector2 At(float along, float across = 0f) => d * along + p * across;
+            var handleEnd = Length(tool) - HeadDepth;
+            Vector2 At(float along, float across = 0f)
+            {
+                var a = along <= handleEnd ? along * stretch : handleEnd * stretch + (along - handleEnd);
+                return d * a + p * across;
+            }
 
             switch (tool)
             {

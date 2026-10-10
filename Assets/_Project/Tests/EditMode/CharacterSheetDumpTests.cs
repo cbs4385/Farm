@@ -89,6 +89,37 @@ namespace Farm.Tests
                 File.WriteAllBytes(Path.Combine(dir, name + ".png"), sheet.EncodeToPNG());
                 Object.DestroyImmediate(sheet);
             }
+            // the strike frame aimed at each of the eight tiles around the farmer (the tile's middle is marked)
+            {
+                var look = new AvatarData { Build = "masculine", Hair = "short", Shirt = "overalls", Pants = "trousers", Accessory = "cap", ShirtColor = "#c0453f" };
+                var targets = new[] { new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, -1) };
+                var facings = new[] { "down", "left" };
+                var cellW = CharacterRig.OutWidth(16) * Scale; var cellH = CharacterRig.OutHeight(32) * Scale;
+                var sheet = new Texture2D(cellW * targets.Length, cellH * facings.Length, TextureFormat.RGBA32, false);
+                var bg = new Color32[sheet.width * sheet.height];
+                for (var i = 0; i < bg.Length; i++) bg[i] = new Color32(94, 140, 80, 255);
+                sheet.SetPixels32(bg);
+                for (var row = 0; row < facings.Length; row++)
+                {
+                    var f = facings[row];
+                    var g = new PixelGrid(16, 32);
+                    System.Array.Copy(AvatarComposer.Compose(look, f), g.P, g.P.Length);
+                    for (var i = 0; i < targets.Length; i++)
+                    {
+                        var frame = CharacterLook.Apply(CharacterRig.Strike(g, f, ToolType.Hoe, 2, targets[i]));
+                        Blit(sheet, frame, i * cellW, row * cellH);
+                        var (_, aimed, _) = CharacterRig.StrikeGeometry(g, f, ToolType.Hoe, targets[i]);
+                        for (var d = -2; d <= 2; d++)
+                        {
+                            sheet.SetPixel(i * cellW + Mathf.RoundToInt(aimed.x) * Scale + d, sheet.height - 1 - (row * cellH + Mathf.RoundToInt(aimed.y) * Scale), Color.red);
+                            sheet.SetPixel(i * cellW + Mathf.RoundToInt(aimed.x) * Scale, sheet.height - 1 - (row * cellH + Mathf.RoundToInt(aimed.y) * Scale + d), Color.red);
+                        }
+                    }
+                }
+                sheet.Apply();
+                File.WriteAllBytes(Path.Combine(dir, "targets.png"), sheet.EncodeToPNG());
+                Object.DestroyImmediate(sheet);
+            }
             Assert.Pass("pictures are in Builds/anim");
         }
     }

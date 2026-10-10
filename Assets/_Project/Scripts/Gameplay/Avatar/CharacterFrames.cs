@@ -31,8 +31,11 @@ namespace Farm.Gameplay
         public static Sprite Walk(Sprite sprite, int phase) =>
             Frame(sprite, "walk" + (((phase % CharacterRig.WalkPhases) + CharacterRig.WalkPhases) % CharacterRig.WalkPhases), (g, facing) => facing != null ? CharacterRig.Walk(g, facing, phase) : null);
 
-        public static Sprite Strike(Sprite sprite, ToolType tool, int frame) =>
-            Frame(sprite, $"strike_{tool}_{frame}", (g, facing) => facing != null ? CharacterRig.Strike(g, facing, tool, frame) : null);
+        // `target`: the tile aimed at, in cells from the feet (x right, y up); the tool lands on it. Without one, the tile in front.
+        public static Sprite Strike(Sprite sprite, ToolType tool, int frame) => Strike(sprite, tool, frame, Vector2Int.zero);
+
+        public static Sprite Strike(Sprite sprite, ToolType tool, int frame, Vector2Int target) =>
+            Frame(sprite, $"strike_{tool}_{frame}_{target.x}_{target.y}", (g, facing) => facing != null ? CharacterRig.Strike(g, facing, tool, frame, target) : null);
 
         // The picture with the look only (a pose).
         public static Sprite Looked(Sprite sprite) => Frame(sprite, "look", (g, facing) => null);

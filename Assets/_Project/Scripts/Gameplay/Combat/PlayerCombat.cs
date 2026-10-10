@@ -25,7 +25,10 @@ namespace Farm.Gameplay
         }
 
         // Returns true if the swing happened (it costs a little energy).
-        public bool Swing(string weaponItemId)
+        public bool Swing(string weaponItemId) => Swing(weaponItemId, (Vector2)transform.position + new Vector2(_player.Facing.x, _player.Facing.y));
+
+        // A swing at the middle of a tile (the one the farmer is aiming at, whichever of the eight around them).
+        public bool Swing(string weaponItemId, Vector2 targetCentre)
         {
             if (_cooldown > 0f || _session == null || !_session.TrySpendEnergy(CombatModel.SwingEnergy)) return false;
             _cooldown = CombatModel.SwingCooldown;
@@ -33,7 +36,7 @@ namespace Farm.Gameplay
             var enemies = EnemyManager.Current;
             if (enemies == null) return true;
             var damage = Mathf.RoundToInt(CombatModel.SwingDamage(weaponItemId, _session.GetSkillLevel(SkillIds.Combat)) * Professions.DamageMultiplier(_session.State));
-            enemies.HitArea(transform.position, new Vector2(_player.Facing.x, _player.Facing.y), CombatModel.SwingReach, damage);
+            enemies.HitTarget(transform.position, targetCentre, damage);
             return true;
         }
 

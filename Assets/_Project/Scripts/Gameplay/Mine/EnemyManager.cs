@@ -69,6 +69,23 @@ namespace Farm.Gameplay
             return hits;
         }
 
+        // A sword swing aimed at a tile (CombatModel.SwingHits). Returns how many enemies were hit.
+        public int HitTarget(Vector2 player, Vector2 targetCentre, int damage)
+        {
+            var aim = targetCentre - player;
+            if (aim.sqrMagnitude < 0.0001f) aim = Vector2.down;
+            var hits = 0;
+            foreach (var enemy in _enemies.ToArray())
+            {
+                if (enemy == null || enemy.IsDead) continue;
+                if (!CombatModel.SwingHits(player, aim, targetCentre, enemy.transform.position, enemy.Brain.Row.Boss)) continue;
+                hits++;
+                var knock = ((Vector2)enemy.transform.position - player).normalized * 0.9f;
+                if (enemy.Hurt(damage, knock)) Kill(enemy);
+            }
+            return hits;
+        }
+
         void Kill(EnemyActor enemy)
         {
             var row = enemy.Brain.Row;

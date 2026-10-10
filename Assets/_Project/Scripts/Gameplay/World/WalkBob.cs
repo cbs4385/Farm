@@ -26,6 +26,7 @@ namespace Farm.Gameplay
         float _lungeLeft;
         float _strikeLeft;
         ToolType _strikeTool;
+        Vector2Int _strikeTarget;
         SpriteRenderer _shadow;
         float _breathPhase;
         Vector2Int _lungeDir;
@@ -49,9 +50,13 @@ namespace Farm.Gameplay
         public int StrikeFrame => _strikeLeft <= 0f ? -1 : Mathf.Min(CharacterRig.StrikeFrames - 1, (int)((1f - _strikeLeft / StrikeSeconds) * CharacterRig.StrikeFrames));
 
         // Swings a tool: the character's own four-frame swing with the tool in the hand (farmer and villagers; for the rest a lunge is all there is).
-        public void Strike(ToolType tool)
+        public void Strike(ToolType tool) => Strike(tool, Vector2Int.zero);
+
+        // `target`: the tile the swing is aimed at, in cells from the feet (x right, y up); the tool lands on it. Zero means the tile in front.
+        public void Strike(ToolType tool, Vector2Int target)
         {
             _strikeTool = tool;
+            _strikeTarget = target;
             _strikeLeft = StrikeSeconds;
         }
 
@@ -134,7 +139,7 @@ namespace Farm.Gameplay
                     StepPhase = rigStep;
                     var breath = !_movingNow && Breathes && BreathUp(Time.time, _breathPhase);
                     IsRaised = _movingNow ? rigStep % 2 == 1 : breath;
-                    wantFrame = _strikeLeft > 0f ? CharacterFrames.Strike(original, _strikeTool, StrikeFrame)
+                    wantFrame = _strikeLeft > 0f ? CharacterFrames.Strike(original, _strikeTool, StrikeFrame, _strikeTarget)
                         : _movingNow ? CharacterFrames.Walk(original, rigStep) : CharacterFrames.Idle(original, breath);
                 }
                 else wantFrame = CharacterFrames.Looked(original);

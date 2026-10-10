@@ -89,6 +89,48 @@ namespace Farm.Tests
             Assert.IsTrue(sparks, "sparks fly from the hit");
         }
 
+        // Playtest 2026-10-10: a slime in the tile aimed at (a diagonal one too), or close enough to hit the farmer from beside or behind, must be hit by the sword.
+        [UnityTest]
+        public IEnumerator TheSword_HitsASlimeInTheTileAimedAt_AndOneThatIsHittingTheFarmerFromBehind(
+            [Values(1, -1)] int dx, [Values(1, -1)] int dy)
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            _s = ServiceLocator.Get<GameSession>();
+            _s.BeginNewGame("Tester", "Test Farm", 0);
+            _s.Story = new StoryContent();
+            _s.SetFlag(FatigueModel.WarnedFlag);
+            _s.State.WorldSeed = 4242;
+            _s.State.CurrentMap = MapIds.Mine;
+            _s.State.SpawnPoint = "default";
+            _s.State.Mine.Floor = 1;
+            var op = SceneManager.LoadSceneAsync(MapIds.Mine);
+            while (!op.isDone) yield return null;
+            for (var i = 0; i < 10; i++) yield return null;
+            var enemy = EnemyManager.Current.Enemies.First();
+            enemy.Setup(EnemyDefaults.Row("slime"), 1, EnemyManager.Current);
+            foreach (var other in EnemyManager.Current.Enemies.Where(e => e != enemy)) other.gameObject.SetActive(false);
+            var spawn = MineController.Current.Floor.Spawn;
+            var at = new Vector3(spawn.x + 0.5f, spawn.y + 0.5f, 0f);
+            Player.transform.position = at;
+            Player.Face(Vector2Int.right);
+            var combat = Player.GetComponent<PlayerCombat>();
+
+            // 1: the slime stands in the aimed tile, a little off its middle
+            enemy.transform.position = at + new Vector3(dx * 1f + 0.3f * dx, dy * 1f - 0.2f * dy, 0f);
+            var health = enemy.Brain.Health;
+            Assert.IsTrue(combat.Swing(ItemIds.Sword, at + new Vector3(dx, dy, 0f)));
+            Assert.Less(enemy.Brain.Health, health, $"the slime in the tile {dx},{dy} was hit");
+
+            // 2: the slime is hitting the farmer from behind while the sword aims the other way
+            yield return new WaitForSeconds(CombatModel.SwingCooldown + 0.1f);
+            Player.transform.position = at;
+            enemy.transform.position = at + new Vector3(-0.8f * Mathf.Sign(dx), 0f, 0f);
+            health = enemy.Brain.Health;
+            Assert.IsTrue(combat.Swing(ItemIds.Sword, at + new Vector3(dx, 0f, 0f)));
+            Assert.Less(enemy.Brain.Health, health, "a slime close enough to hit the farmer can be hit, whichever way the farmer aims");
+        }
+
         static string[] Ids() => EnemyDefaults.Rows.Select(r => r.Id).ToArray();
     }
 }

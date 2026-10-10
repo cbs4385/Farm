@@ -17,7 +17,24 @@ namespace Farm.Gameplay
     public static class CombatModel
     {
         public const float SwingCooldown = 0.45f;
-        public const float SwingReach = 1.4f;           // cells in front of the player the blade covers
+        public const float SwingReach = 1.6f;           // cells in front of the player the blade covers (the far corner of the tile in front is 1.5 away)
+
+        // Does a sword swing aimed at a tile hit an enemy? (pure) The player and the enemy are where their feet and middles are, both at cell centres.
+        // - the enemy stands in the tile aimed at (any way the player faces to aim at it, a diagonal too), or
+        // - it is in front of the blade within reach, or
+        // - it is close enough to hit the player: whatever can strike the player can be struck back, whichever way they face (playtest 2026-10-10: slimes hit the
+        //   farmer from beside and behind while the sword could not touch the one in the tile being aimed at).
+        public static bool SwingHits(Vector2 player, Vector2 aimDirection, Vector2 targetCentre, Vector2 enemy, bool boss)
+        {
+            var to = enemy - player;
+            var bonus = boss ? 1f : 0f;
+            if (to.magnitude <= EnemyBrain.AttackRange + 0.15f + bonus) return true;
+            if (Vector2.Distance(enemy, targetCentre) <= TargetTileRadius + bonus) return true;
+            if (to.magnitude > SwingReach + bonus) return false;
+            return Vector2.Dot(to.normalized, aimDirection.normalized) >= -0.2f;
+        }
+
+        public const float TargetTileRadius = 0.75f;    // an enemy whose middle is this close to a tile's centre is in it (half a tile's diagonal and a little)
         public const float InvulnerableSeconds = 1f;    // after being hit
         public const int SwingEnergy = 1;
 
