@@ -13,26 +13,8 @@ namespace Farm.Tests
 {
     // Owner, 2026-10-09: "the buildings still look very flat". Every building is a picture from the Cozy Village kit standing on its footprint, with collision under
     // it and an opening at its door. In the real maps.
-    public class BuildingPicturesFlowTests
+    public class BuildingPicturesFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-bldpics-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator Open(string map)
         {

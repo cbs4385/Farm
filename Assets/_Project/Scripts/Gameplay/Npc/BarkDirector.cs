@@ -24,6 +24,7 @@ namespace Farm.Gameplay
         public static string LastText { get; private set; }
         public static int Spoken { get; private set; }
 
+        static BarkDirector() => TestResets.Add(ResetForTests);
         public static void ResetForTests() { LastNpc = null; LastText = null; Spoken = 0; _requested = null; }
 
         // QA and the developer console: the villager speaks as soon as they are on this map, ignoring range, gaps and the Barks option.
@@ -60,7 +61,7 @@ namespace Farm.Gameplay
             var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
             if (settings != null && !settings.Barks) return false;
             if (_events != null && _events.IsPlaying) return false;
-            return !(ServiceLocator.TryGet<IUiService>(out var ui) && ui.AnyModalOpen);
+            return !(UiAccess.AnyModalOpen);
         }
 
         void TrySpeak()

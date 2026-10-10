@@ -38,14 +38,7 @@ namespace Farm.UI
             UiKit.Stretch((RectTransform)stack.transform);
             _title = UiKit.Label(stack.transform, L.Get("inventory.title"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
 
-            var gridHolder = UiKit.Rect("Grid", stack.transform);
-            var layout = gridHolder.gameObject.AddComponent<GridLayoutGroup>();
-            layout.cellSize = new Vector2(SlotSize, SlotSize);
-            layout.spacing = new Vector2(4f, 4f);
-            layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            layout.constraintCount = Columns;
-            UiKit.Size(gridHolder.gameObject, -1f, 3 * SlotSize + 8f);
-            _grid = gridHolder;
+            _grid = SlotUi.Grid(stack.transform, "Grid", Columns, 3, SlotSize);
 
             var tip = UiKit.Panel(stack.transform, "Tooltip", UiKit.PanelLight);
             UiKit.Size(tip.gameObject, -1f, 78f);
@@ -156,27 +149,8 @@ namespace Farm.UI
                 label.text = string.Empty;
 
                 var stack = inv.Get(i);
-                if (_picked == i)
-                {
-                    var mark = UiKit.Panel(button.transform, "Picked", new Color(UiKit.Accent.r, UiKit.Accent.g, UiKit.Accent.b, 0.6f));
-                    UiKit.Stretch(mark.rectTransform);
-                    mark.raycastTarget = false;
-                }
-
-                if (stack != null && Ui.Session.Db.TryGetItem(stack.ItemId, out var item))
-                {
-                    var icon = UiKit.Panel(button.transform, "Icon", Color.white);
-                    UiKit.Stretch(icon.rectTransform, 7f);
-                    icon.sprite = item.Icon;
-                    icon.preserveAspect = true;
-                    icon.raycastTarget = false;
-                    SlotBadges.Quality(button.transform, stack.Quality);
-                    if (stack.Count > 1)
-                    {
-                        var count = UiKit.Label(button.transform, stack.Count.ToString(), 14f, TextAlignmentOptions.BottomRight);
-                        UiKit.Stretch(count.rectTransform, 3f);
-                    }
-                }
+                if (_picked == i) SlotUi.Mark(button.transform, "Picked");
+                if (SlotUi.Icon(button.transform, Ui.Session.Db, stack, 7f) != null && stack.Count > 1) SlotUi.Count(button.transform, stack.Count.ToString(), 14f);
 
                 button.gameObject.AddComponent<InventorySlotDrag>().Bind(this, index);
                 button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => RightClick(index);

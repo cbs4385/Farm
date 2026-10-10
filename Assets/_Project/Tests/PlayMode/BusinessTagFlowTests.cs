@@ -13,26 +13,8 @@ namespace Farm.Tests
 {
     // Playtest comment (2026-10-05): "there is no indication that a village business is closed". Each business has a tag by its door that
     // turns red when it is closed, and its door says so when the mouse rests on it.
-    public class BusinessTagFlowTests
+    public class BusinessTagFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-tags-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         [UnityTest]
         public IEnumerator TheTagBesideEachDoor_FollowsTheBusinessHours()

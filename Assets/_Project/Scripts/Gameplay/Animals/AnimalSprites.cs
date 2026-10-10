@@ -1,3 +1,4 @@
+using Farm.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace Farm.Gameplay
 
         public static bool Has(string type) => AnimalSpriteData.Grids.ContainsKey(type);
 
+        static AnimalSprites() => TestResets.Add(ClearCache);
         public static void ClearCache() => Cache.Clear();
 
         public static bool IsNight(int hour) => hour >= FirstSleepHour || hour < WakeHour;

@@ -14,26 +14,8 @@ namespace Farm.Tests
 {
     // Owner, 2026-10-09: the map tab must show the new buildings and the other things of the world. The map's landmarks and ponds come from the same numbers as the
     // scenes; this checks the built village and its edges against them.
-    public class MapLandmarksFlowTests
+    public class MapLandmarksFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-maplm-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator Open(string map)
         {

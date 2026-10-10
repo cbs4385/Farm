@@ -16,6 +16,7 @@ namespace Farm.Gameplay
         string _label;
 
         public static string Current { get; private set; }
+        static HoverInspector() => TestResets.Add(ResetForTests);
         public static void ResetForTests() { Current = null; }
 
         public void Init(GameSession session, FarmMap map)

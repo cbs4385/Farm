@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0 (2026-10-10)
+
+A maintenance release: the code under the game was tidied so that future changes are cheaper and safer. What players may notice:
+- Props no longer block cells beside or above them: their invisible collision sat up to a cell and a half off (the clock tower's was above its base). Every solid prop now blocks the cell it stands on, and a test checks every scene.
+- A controller notice that could show its raw text name while the game was starting now waits until you are in a game; the bug report now says where the player stands.
+- Under the hood: one table for the village's shops (scene, routes and map read it), one slot-grid builder for the backpack, chest, shipping and sell windows, the game session split by topic, the story checker and the dialogue compiler split into small steps, test caches cleared in one place, silent save and settings read failures now log a warning, the string table is strict JSON, and PlayMode tests are faster (frame cap off, long walks sped up) and share one set-up.
+
 ## 0.3.3 (2026-10-09)
 
 - The buildings are no longer flat: every shop, every villager's cottage, the farmhouse, the chicken coop and the barn are pictures from the Cozy Village kit (roofs, windows, signs, chimneys that smoke), each with its door where the game's door is. They stand over a player who walks behind them. The greenhouse keeps its old look (the kit has none).

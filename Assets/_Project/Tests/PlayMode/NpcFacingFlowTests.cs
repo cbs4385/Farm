@@ -12,26 +12,8 @@ namespace Farm.Tests
 {
     // Playtest 2026-10-08: "several NPCs do not face the correct direction when moving". In the real game: a walking villager turns to the way they are going,
     // in all four directions, and the picture on screen is the one for that direction.
-    public class NpcFacingFlowTests
+    public class NpcFacingFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-npcfacing-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         [UnityTest]
         public IEnumerator EveryVillager_FacesTheWayTheyWalk_InAllFourDirections()

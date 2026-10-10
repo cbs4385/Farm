@@ -88,9 +88,37 @@ namespace Farm.Gameplay
         // `table` is the whole English string table (the spelling rule covers all of it); `text` resolves a key.
         public static List<LintIssue> Run(StoryContent story, IReadOnlyDictionary<string, string> table, NarrativeConfig config, IEnumerable<string> villagers)
         {
-            config = config ?? new NarrativeConfig();
-            var issues = new List<LintIssue>();
-            var villagerList = villagers.ToList();
+            var linter = new Linter(story, table, config ?? new NarrativeConfig(), villagers.ToList());
+            linter.Spelling();
+            linter.Markup();
+            linter.Bands();
+            linter.CollectLines();
+            linter.LineRules();
+            linter.Moments();
+            linter.VillagerRules();
+            return linter.Issues;
+        }
+
+        // One run of the lint: what it looks things up in, the lines collected so far and the issues found. Each rule is a method.
+        sealed class Linter
+        {
+            readonly StoryContent story;
+            readonly IReadOnlyDictionary<string, string> table;
+            readonly NarrativeConfig config;
+            readonly List<string> villagerList;
+            readonly List<LintIssue> issues = new List<LintIssue>();
+            readonly List<Line> lines = new List<Line>();
+
+            public List<LintIssue> Issues => issues;
+
+            public Linter(StoryContent story, IReadOnlyDictionary<string, string> table, NarrativeConfig config, List<string> villagers)
+            {
+                this.story = story;
+                this.table = table;
+                this.config = config;
+                villagerList = villagers;
+            }
+
             string Text(string key) => key != null && table.TryGetValue(key, out var t) ? RichText.Plain(t) : null;
 
             void Add(LintSeverity severity, string rule, string villager, string where, string message)
@@ -99,148 +127,167 @@ namespace Farm.Gameplay
                 issues.Add(new LintIssue { Severity = severity, Rule = rule, Villager = villager, Where = where, Message = message });
             }
 
-            // ---- spelling: every string in the game ----
-            foreach (var kv in table)
-                if (HasBritishSpelling(kv.Value, out var word))
-                    Add(LintSeverity.Error, "spelling", "", kv.Key, $"'{word}' is a British spelling; the game uses American English");
-
-            // ---- markup: every string that uses {braces} must be well formed ----
-            foreach (var kv in table)
-                if (kv.Value.IndexOf('{') >= 0 || kv.Value.IndexOf('}') >= 0)
-                    foreach (var problem in RichText.Validate(kv.Value))
-                        Add(LintSeverity.Error, "markup", "", kv.Key, problem);
-
-            // ---- priority bands ----
-            foreach (var set in story.Sets)
-                foreach (var e in set.Entries)
-                {
-                    var mythos = e.Dialogue != null && e.Dialogue.StartsWith("mythos.", StringComparison.Ordinal);
-                    var at = $"set {set.Id}: {e.Dialogue}";
-                    if (e.Priority >= MythosBandMin && e.Priority <= MythosBandMax && !mythos)
-                        Add(LintSeverity.Error, "band", "", at, $"priority {e.Priority} is reserved for the mythos layer (8-10)");
-                    else if (e.Priority > MythosBandMax && e.Priority != FirstMeetingPriority)
-                        Add(LintSeverity.Error, "band", "", at, $"priority {e.Priority} is outside the bands (0-7, 8-10 mythos, 100 first meeting)");
-                    if (e.Priority < 0) Add(LintSeverity.Error, "band", "", at, "priority must not be negative");
-                }
-
-            // ---- collect lines ----
-            var lines = new List<Line>();
-            var talkDialogues = new Dictionary<string, string>();                    // dialogue id -> villager
-            var barkDialogues = new HashSet<string>();
-            foreach (var v in villagerList)
+            // spelling: every string in the game
+            public void Spelling()
             {
-                var set = story.Set($"npc.{v}.talk");
-                if (set != null) foreach (var e in set.Entries) talkDialogues[e.Dialogue] = v;
-                if (story.Dialogue(WarmthModel.DialogueId(v)) != null) talkDialogues[WarmthModel.DialogueId(v)] = v;     // the "missed you" greeting (T-108)
-                var barkSet = story.Set(Barks.SetId(v));
-                if (barkSet != null) foreach (var e in barkSet.Entries) { talkDialogues[e.Dialogue] = v; barkDialogues.Add(e.Dialogue); }
-            }
-            foreach (var t in story.Topics)
-                if (!string.IsNullOrEmpty(t.Dialogue) && villagerList.Contains(t.Npc ?? string.Empty)) talkDialogues[t.Dialogue] = t.Npc;
-            foreach (var d in story.Dialogues)
-            {
-                string owner = null; var kind = "talk";
-                var socialOwner = villagerList.FirstOrDefault(v => d.Id.StartsWith($"social.{v}.", StringComparison.Ordinal));
-                if (talkDialogues.TryGetValue(d.Id, out var tv)) { owner = tv; if (barkDialogues.Contains(d.Id)) kind = "bark"; }
-                else if (socialOwner != null) owner = socialOwner;
-                else
-                {
-                    var gift = villagerList.FirstOrDefault(v => d.Id.StartsWith($"npc.{v}.gift.", StringComparison.Ordinal));
-                    if (gift != null) { owner = gift; kind = "gift"; }
-                }
-                if (owner == null) continue;
-                foreach (var n in d.Nodes)
-                {
-                    if (!string.IsNullOrEmpty(n.Text) && n.Speaker == owner)
-                        lines.Add(new Line { Villager = owner, Where = $"{d.Id}/{n.Id}", Key = n.Text, Text = Text(n.Text), Kind = kind, Limit = kind == "gift" ? GiftWords : kind == "bark" ? BarkWords : TalkWords });
-                    foreach (var c in n.Choices)
-                        lines.Add(new Line { Villager = owner, Where = $"{d.Id}/{n.Id} choice", Key = c.Text, Text = Text(c.Text), Kind = "choice", Limit = ChoiceWords });
-                }
-            }
-            foreach (var ev in story.Events)
-                foreach (var step in ev.Steps)
-                    if (step.Type == "say" && villagerList.Contains(step.Speaker ?? string.Empty))
-                        lines.Add(new Line { Villager = step.Speaker, Where = $"event {ev.Id}", Key = step.Text, Text = Text(step.Text), Kind = "event", Limit = EventWords });
-            foreach (var l in story.Letters)
-                if (!string.IsNullOrEmpty(l.Sender) && villagerList.Contains(l.Sender))
-                    lines.Add(new Line { Villager = l.Sender, Where = $"letter {l.Id}", Key = l.BodyKey, Text = Text(l.BodyKey), Kind = "letter", Limit = LetterWords });
-
-            // ---- per-line rules ----
-            foreach (var line in lines)
-            {
-                if (line.Text == null) continue;      // a missing key is the data validator's job
-                var words = WordCount(line.Text);
-                if (words > line.Limit)
-                    Add(LintSeverity.Warning, "length", line.Villager, line.Where, $"{words} words; the {line.Kind} budget is {line.Limit}");
-                if (OffTone.Match(line.Text) is Match m && m.Success)
-                    Add(LintSeverity.Warning, "tone", line.Villager, line.Where, $"'{m.Value}' does not fit the village (slang, brand or swearing)");
-                if (Gendered.Match(line.Text) is Match g && g.Success)
-                    Add(LintSeverity.Warning, "inclusive", line.Villager, line.Where, $"'{g.Value}': the player has no gender, so villagers do not address them this way");
-                var voice = config.VoiceOf(line.Villager);
-                if (line.Kind != "choice")
-                {
-                    if (!voice.AllowExclamation && line.Text.Contains("!"))
-                        Add(LintSeverity.Warning, "voice", line.Villager, line.Where, "exclamation mark in a voice that does not use them");
-                    foreach (var sentence in Regex.Split(line.Text, @"(?<=[.!?])\s+"))
-                        if (WordCount(sentence) > voice.MaxSentenceWords)
-                            Add(LintSeverity.Warning, "voice", line.Villager, line.Where, $"a sentence of {WordCount(sentence)} words; this voice stops at {voice.MaxSentenceWords}");
-                    foreach (var banned in voice.Banned)
-                        if (line.Text.IndexOf(banned, StringComparison.OrdinalIgnoreCase) >= 0)
-                            Add(LintSeverity.Warning, "voice", line.Villager, line.Where, $"uses '{banned}', which this villager never says");
-                }
+                foreach (var kv in table)
+                    if (HasBritishSpelling(kv.Value, out var word))
+                        Add(LintSeverity.Error, "spelling", "", kv.Key, $"'{word}' is a British spelling; the game uses American English");
             }
 
-            // ---- tagged scenes against the clip-worthiness checklist ----
-            foreach (var ev in story.Events.Where(e => !string.IsNullOrEmpty(e.Tag)))
+            // markup: every string that uses {braces} must be well formed
+            public void Markup()
             {
-                var group = Memories.GroupOf(ev);
-                var owner = villagerList.Contains(group) ? group : string.Empty;
-                foreach (var problem in MomentChecklist.Problems(ev, Text))
-                    Add(LintSeverity.Warning, "moment", owner, "scene " + ev.Id, problem);
+                foreach (var kv in table)
+                    if (kv.Value.IndexOf('{') >= 0 || kv.Value.IndexOf('}') >= 0)
+                        foreach (var problem in RichText.Validate(kv.Value))
+                            Add(LintSeverity.Error, "markup", "", kv.Key, problem);
             }
 
-            // ---- per-villager rules ----
-            foreach (var v in villagerList)
+            // priority bands of the dialogue sets
+            public void Bands()
             {
-                var talk = lines.Where(l => l.Villager == v && l.Kind == "talk" && l.Text != null).ToList();
-                var voice = config.VoiceOf(v);
-
-                foreach (var dup in talk.GroupBy(l => l.Text.Trim().ToLowerInvariant()).Where(g => g.Count() > 1))
-                    Add(LintSeverity.Warning, "duplicate", v, string.Join(", ", dup.Select(l => l.Where)), $"the same text appears {dup.Count()} times: \"{dup.First().Text}\"");
-
-                // Three per 24 lines (an eighth of the pool, never fewer than three), so a Full villager's 150 lines are held to the same variety as a small one's 24.
-                var openerLimit = Math.Max(3, (talk.Count + 7) / 8);
-                foreach (var group in talk.GroupBy(l => FirstWord(l.Text)).Where(g => g.Count() > openerLimit))
-                    if (!voice.AllowedRepeatedOpeners.Contains(group.Key))
-                        Add(LintSeverity.Warning, "opener", v, group.Key, $"{group.Count()} talk lines start with '{group.Key}' (limit {openerLimit})");
-
-                if (!string.IsNullOrEmpty(voice.TicOpener) && talk.Count > 0)
-                {
-                    var share = talk.Count(l => FirstWord(l.Text) == voice.TicOpener.ToLowerInvariant()) / (float)talk.Count;
-                    if (share < voice.TicMinShare)
-                        Add(LintSeverity.Warning, "voice", v, "talk lines", $"'{voice.TicOpener}' opens {share:P0} of talk lines; the voice needs {voice.TicMinShare:P0}");
-                }
-
-                var playerShare = talk.Count == 0 ? 0f : talk.Count(l => l.Text.Contains("[player]")) / (float)talk.Count;
-                if (playerShare > 0.25f)
-                    Add(LintSeverity.Warning, "voice", v, "talk lines", $"[player] appears in {playerShare:P0} of talk lines (limit 25%)");
-
-                // Quotas: only a locked villager must meet them; Full villagers get them in the report.
-                var tags = TagCounts(story, v, villagerList);
-                void Quota(string name, int have, int need)
-                {
-                    if (have >= need) return;
-                    var severity = config.Locked.Contains(v) ? LintSeverity.Error : LintSeverity.Warning;
-                    if (severity == LintSeverity.Warning && !config.Full.Contains(v)) return;
-                    Add(severity, "quota", v, $"set npc.{v}.talk", $"{name}: {have} of the {need} required");
-                }
-                Quota("funny lines", tags.Funny, QuotaFunny);
-                Quota("wholesome lines", tags.Wholesome, QuotaWholesome);
-                Quota("surprise lines", tags.Surprise, QuotaSurprise);
-                Quota("rare lines", tags.Rare, QuotaRare);
-                Quota("legendary lines", tags.Legendary, QuotaLegendary);
+                foreach (var set in story.Sets)
+                    foreach (var e in set.Entries)
+                    {
+                        var mythos = e.Dialogue != null && e.Dialogue.StartsWith("mythos.", StringComparison.Ordinal);
+                        var at = $"set {set.Id}: {e.Dialogue}";
+                        if (e.Priority >= MythosBandMin && e.Priority <= MythosBandMax && !mythos)
+                            Add(LintSeverity.Error, "band", "", at, $"priority {e.Priority} is reserved for the mythos layer (8-10)");
+                        else if (e.Priority > MythosBandMax && e.Priority != FirstMeetingPriority)
+                            Add(LintSeverity.Error, "band", "", at, $"priority {e.Priority} is outside the bands (0-7, 8-10 mythos, 100 first meeting)");
+                        if (e.Priority < 0) Add(LintSeverity.Error, "band", "", at, "priority must not be negative");
+                    }
             }
-            return issues;
+
+            // collects the villagers' lines (talk, barks, gifts, choices, events, letters)
+            public void CollectLines()
+            {
+                var talkDialogues = new Dictionary<string, string>();                    // dialogue id -> villager
+                var barkDialogues = new HashSet<string>();
+                foreach (var v in villagerList)
+                {
+                    var set = story.Set($"npc.{v}.talk");
+                    if (set != null) foreach (var e in set.Entries) talkDialogues[e.Dialogue] = v;
+                    if (story.Dialogue(WarmthModel.DialogueId(v)) != null) talkDialogues[WarmthModel.DialogueId(v)] = v;     // the "missed you" greeting (T-108)
+                    var barkSet = story.Set(Barks.SetId(v));
+                    if (barkSet != null) foreach (var e in barkSet.Entries) { talkDialogues[e.Dialogue] = v; barkDialogues.Add(e.Dialogue); }
+                }
+                foreach (var t in story.Topics)
+                    if (!string.IsNullOrEmpty(t.Dialogue) && villagerList.Contains(t.Npc ?? string.Empty)) talkDialogues[t.Dialogue] = t.Npc;
+                foreach (var d in story.Dialogues)
+                {
+                    string owner = null; var kind = "talk";
+                    var socialOwner = villagerList.FirstOrDefault(v => d.Id.StartsWith($"social.{v}.", StringComparison.Ordinal));
+                    if (talkDialogues.TryGetValue(d.Id, out var tv)) { owner = tv; if (barkDialogues.Contains(d.Id)) kind = "bark"; }
+                    else if (socialOwner != null) owner = socialOwner;
+                    else
+                    {
+                        var gift = villagerList.FirstOrDefault(v => d.Id.StartsWith($"npc.{v}.gift.", StringComparison.Ordinal));
+                        if (gift != null) { owner = gift; kind = "gift"; }
+                    }
+                    if (owner == null) continue;
+                    foreach (var n in d.Nodes)
+                    {
+                        if (!string.IsNullOrEmpty(n.Text) && n.Speaker == owner)
+                            lines.Add(new Line { Villager = owner, Where = $"{d.Id}/{n.Id}", Key = n.Text, Text = Text(n.Text), Kind = kind, Limit = kind == "gift" ? GiftWords : kind == "bark" ? BarkWords : TalkWords });
+                        foreach (var c in n.Choices)
+                            lines.Add(new Line { Villager = owner, Where = $"{d.Id}/{n.Id} choice", Key = c.Text, Text = Text(c.Text), Kind = "choice", Limit = ChoiceWords });
+                    }
+                }
+                foreach (var ev in story.Events)
+                    foreach (var step in ev.Steps)
+                        if (step.Type == "say" && villagerList.Contains(step.Speaker ?? string.Empty))
+                            lines.Add(new Line { Villager = step.Speaker, Where = $"event {ev.Id}", Key = step.Text, Text = Text(step.Text), Kind = "event", Limit = EventWords });
+                foreach (var l in story.Letters)
+                    if (!string.IsNullOrEmpty(l.Sender) && villagerList.Contains(l.Sender))
+                        lines.Add(new Line { Villager = l.Sender, Where = $"letter {l.Id}", Key = l.BodyKey, Text = Text(l.BodyKey), Kind = "letter", Limit = LetterWords });
+            }
+
+            // rules that look at one line at a time
+            public void LineRules()
+            {
+                foreach (var line in lines)
+                {
+                    if (line.Text == null) continue;      // a missing key is the data validator's job
+                    var words = WordCount(line.Text);
+                    if (words > line.Limit)
+                        Add(LintSeverity.Warning, "length", line.Villager, line.Where, $"{words} words; the {line.Kind} budget is {line.Limit}");
+                    if (OffTone.Match(line.Text) is Match m && m.Success)
+                        Add(LintSeverity.Warning, "tone", line.Villager, line.Where, $"'{m.Value}' does not fit the village (slang, brand or swearing)");
+                    if (Gendered.Match(line.Text) is Match g && g.Success)
+                        Add(LintSeverity.Warning, "inclusive", line.Villager, line.Where, $"'{g.Value}': the player has no gender, so villagers do not address them this way");
+                    var voice = config.VoiceOf(line.Villager);
+                    if (line.Kind != "choice")
+                    {
+                        if (!voice.AllowExclamation && line.Text.Contains("!"))
+                            Add(LintSeverity.Warning, "voice", line.Villager, line.Where, "exclamation mark in a voice that does not use them");
+                        foreach (var sentence in Regex.Split(line.Text, @"(?<=[.!?])\s+"))
+                            if (WordCount(sentence) > voice.MaxSentenceWords)
+                                Add(LintSeverity.Warning, "voice", line.Villager, line.Where, $"a sentence of {WordCount(sentence)} words; this voice stops at {voice.MaxSentenceWords}");
+                        foreach (var banned in voice.Banned)
+                            if (line.Text.IndexOf(banned, StringComparison.OrdinalIgnoreCase) >= 0)
+                                Add(LintSeverity.Warning, "voice", line.Villager, line.Where, $"uses '{banned}', which this villager never says");
+                    }
+                }
+            }
+
+            // tagged scenes against the clip-worthiness checklist
+            public void Moments()
+            {
+                foreach (var ev in story.Events.Where(e => !string.IsNullOrEmpty(e.Tag)))
+                {
+                    var group = Memories.GroupOf(ev);
+                    var owner = villagerList.Contains(group) ? group : string.Empty;
+                    foreach (var problem in MomentChecklist.Problems(ev, Text))
+                        Add(LintSeverity.Warning, "moment", owner, "scene " + ev.Id, problem);
+                }
+            }
+
+            // rules that look at one villager's lines together
+            public void VillagerRules()
+            {
+                foreach (var v in villagerList)
+                {
+                    var talk = lines.Where(l => l.Villager == v && l.Kind == "talk" && l.Text != null).ToList();
+                    var voice = config.VoiceOf(v);
+
+                    foreach (var dup in talk.GroupBy(l => l.Text.Trim().ToLowerInvariant()).Where(g => g.Count() > 1))
+                        Add(LintSeverity.Warning, "duplicate", v, string.Join(", ", dup.Select(l => l.Where)), $"the same text appears {dup.Count()} times: \"{dup.First().Text}\"");
+
+                    // Three per 24 lines (an eighth of the pool, never fewer than three), so a Full villager's 150 lines are held to the same variety as a small one's 24.
+                    var openerLimit = Math.Max(3, (talk.Count + 7) / 8);
+                    foreach (var group in talk.GroupBy(l => FirstWord(l.Text)).Where(g => g.Count() > openerLimit))
+                        if (!voice.AllowedRepeatedOpeners.Contains(group.Key))
+                            Add(LintSeverity.Warning, "opener", v, group.Key, $"{group.Count()} talk lines start with '{group.Key}' (limit {openerLimit})");
+
+                    if (!string.IsNullOrEmpty(voice.TicOpener) && talk.Count > 0)
+                    {
+                        var share = talk.Count(l => FirstWord(l.Text) == voice.TicOpener.ToLowerInvariant()) / (float)talk.Count;
+                        if (share < voice.TicMinShare)
+                            Add(LintSeverity.Warning, "voice", v, "talk lines", $"'{voice.TicOpener}' opens {share:P0} of talk lines; the voice needs {voice.TicMinShare:P0}");
+                    }
+
+                    var playerShare = talk.Count == 0 ? 0f : talk.Count(l => l.Text.Contains("[player]")) / (float)talk.Count;
+                    if (playerShare > 0.25f)
+                        Add(LintSeverity.Warning, "voice", v, "talk lines", $"[player] appears in {playerShare:P0} of talk lines (limit 25%)");
+
+                    // Quotas: only a locked villager must meet them; Full villagers get them in the report.
+                    var tags = TagCounts(story, v, villagerList);
+                    void Quota(string name, int have, int need)
+                    {
+                        if (have >= need) return;
+                        var severity = config.Locked.Contains(v) ? LintSeverity.Error : LintSeverity.Warning;
+                        if (severity == LintSeverity.Warning && !config.Full.Contains(v)) return;
+                        Add(severity, "quota", v, $"set npc.{v}.talk", $"{name}: {have} of the {need} required");
+                    }
+                    Quota("funny lines", tags.Funny, QuotaFunny);
+                    Quota("wholesome lines", tags.Wholesome, QuotaWholesome);
+                    Quota("surprise lines", tags.Surprise, QuotaSurprise);
+                    Quota("rare lines", tags.Rare, QuotaRare);
+                    Quota("legendary lines", tags.Legendary, QuotaLegendary);
+                }
+            }
         }
 
         public struct TagTotals { public int Funny, Wholesome, Surprise, Mystery, Rare, Legendary, Uncommon; }

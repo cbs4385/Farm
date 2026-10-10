@@ -25,6 +25,7 @@ namespace Farm.Tests
         public override void Setup()
         {
             base.Setup();
+            PlayModeFixture.Uncapped();
             _dataRoot = Path.Combine(Path.GetTempPath(), "farm-storyscenes-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(_dataRoot);
             GameServices.DataRootOverride = _dataRoot;

@@ -35,7 +35,8 @@ namespace Farm.Tests
         [Test]
         public void TheVillageBuildings_AreStyledByTheMapBuilder()
         {
-            var source = File.ReadAllText(Path.Combine(Application.dataPath, "_Project", "Scripts", "Editor", "MapBuilder.cs"));
+            var scripts = Path.Combine(Application.dataPath, "_Project", "Scripts");
+            var source = File.ReadAllText(Path.Combine(scripts, "Editor", "MapBuilder.cs")) + File.ReadAllText(Path.Combine(scripts, "Gameplay", "Npc", "VillageShops.cs"));
             foreach (var style in Styles) StringAssert.Contains($"Style = \"{style}\"", source);
         }
     }

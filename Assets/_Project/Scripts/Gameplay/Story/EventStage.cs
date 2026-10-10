@@ -159,7 +159,7 @@ namespace Farm.Gameplay
         {
             _letterbox = on;
             var fade = seconds > 0f ? seconds : 0.5f;
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetLetterbox(on, fade);
+            UiAccess.Run(ui => ui.SetLetterbox(on, fade));
             yield return Wait(fade);
         }
 

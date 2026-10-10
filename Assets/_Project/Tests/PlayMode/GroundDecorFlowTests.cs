@@ -13,26 +13,13 @@ namespace Farm.Tests
 {
     // Owner's feedback, 2026-10-09: "the world looks flat". In the real maps: tufts and flowers over the grass and not on paths or water, in the colours of the
     // season; none indoors; and the farm and the village have a pond.
-    public class GroundDecorFlowTests
+    public class GroundDecorFlowTests : PlayModeFixture
     {
-        string _dataRoot;
 
         [SetUp]
-        public void SetUp()
+        public void SetUpMore()
         {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-decor-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
             GroundDecor.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
         IEnumerator Open(string map, Season season = Season.Spring)

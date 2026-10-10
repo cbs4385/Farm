@@ -13,28 +13,10 @@ namespace Farm.Tests
 {
     // Waking a sleeper, in the real game: the player talks to Tilda asleep in her bed at night; she gets up, loses a little friendship (a stranger) or none
     // (a friend), says her reaction, and goes back to bed after a while. A story effect wakes her without the cost.
-    public class NpcWakeFlowTests
+    public class NpcWakeFlowTests : PlayModeFixture
     {
         const string Tilda = "tilda";
-        string _dataRoot;
         GameSession _session;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-npcwake-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         static GameDateTime At(int minute) => new GameDateTime(1, Season.Spring, 3, minute);
 

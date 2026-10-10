@@ -23,6 +23,8 @@ namespace Farm.Tests
         public override void Setup()
         {
             base.Setup();
+            PlayModeFixture.Uncapped();
+            Time.timeScale = 4f;                  // the walk is long and nothing in it needs real time
             _dataRoot = Path.Combine(Path.GetTempPath(), "farm-edgewalk-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(_dataRoot);
             GameServices.DataRootOverride = _dataRoot;
@@ -32,6 +34,7 @@ namespace Farm.Tests
 
         public override void TearDown()
         {
+            Time.timeScale = 1f;
             Bootstrapper.ResetForTests();
             GameServices.DataRootOverride = null;
             base.TearDown();

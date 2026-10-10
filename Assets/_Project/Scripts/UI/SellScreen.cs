@@ -33,14 +33,7 @@ namespace Farm.UI
             UiKit.Label(stack.transform, L.Get("sell.title"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
             UiKit.Label(stack.transform, L.Get("sell.hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
 
-            var holder = UiKit.Rect("Grid", stack.transform);
-            var layout = holder.gameObject.AddComponent<GridLayoutGroup>();
-            layout.cellSize = new Vector2(SlotSize, SlotSize);
-            layout.spacing = new Vector2(4f, 4f);
-            layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            layout.constraintCount = Columns;
-            UiKit.Size(holder.gameObject, -1f, 3 * SlotSize + 8f);
-            _grid = holder;
+            _grid = SlotUi.Grid(stack.transform, "Grid", Columns, 3, SlotSize);
 
             _focus = UiKit.Label(stack.transform, "", 18f, TextAlignmentOptions.Left);
             UiKit.Size(_focus.gameObject, -1f, 26f);
@@ -107,26 +100,8 @@ namespace Farm.UI
                 button.GetComponentInChildren<TextMeshProUGUI>().text = string.Empty;
                 button.interactable = can;
                 button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => { if (can) { _selected = index; SellSlot(index, 1); } };
-                if (_selected == i)
-                {
-                    var mark = UiKit.Panel(button.transform, "Selected", new Color(UiKit.Accent.r, UiKit.Accent.g, UiKit.Accent.b, 0.6f));
-                    UiKit.Stretch(mark.rectTransform);
-                    mark.raycastTarget = false;
-                }
-                if (stack != null && s.Db.TryGetItem(stack.ItemId, out var item))
-                {
-                    var icon = UiKit.Panel(button.transform, "Icon", can ? Color.white : new Color(1f, 1f, 1f, 0.35f));
-                    UiKit.Stretch(icon.rectTransform, 7f);
-                    icon.sprite = item.Icon;
-                    icon.preserveAspect = true;
-                    icon.raycastTarget = false;
-                    SlotBadges.Quality(button.transform, stack.Quality);
-                    if (stack.Count > 1)
-                    {
-                        var count = UiKit.Label(button.transform, stack.Count.ToString(), 12f, TextAlignmentOptions.BottomRight);
-                        UiKit.Stretch(count.rectTransform, 3f);
-                    }
-                }
+                if (_selected == i) SlotUi.Mark(button.transform);
+                if (SlotUi.Icon(button.transform, s.Db, stack, 7f, dim: !can) != null && stack.Count > 1) SlotUi.Count(button.transform, stack.Count.ToString(), 12f);
             }
 
             var focusStack = _selected >= 0 ? inv.Get(_selected) : null;

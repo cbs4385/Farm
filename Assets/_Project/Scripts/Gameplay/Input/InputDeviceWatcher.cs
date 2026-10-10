@@ -34,6 +34,7 @@ namespace Farm.Gameplay
 
         void Update()
         {
+            SayPendingNotice();
             var joy = Joystick.current;
             if (joy != null && joy.stick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold) ControlPrompts.SetKind(InputKind.Gamepad);
             var pad = Gamepad.current;
@@ -50,8 +51,18 @@ namespace Farm.Gameplay
         static void NoticeGenericPad(InputDevice device)
         {
             if (_noticed || !(device is Joystick) || device is Gamepad) return;
+            _pendingNotice = true;
+        }
+
+        static bool _pendingNotice;
+
+        // Said once, in a game (not while the game is still starting, when the texts are not there yet).
+        static void SayPendingNotice()
+        {
+            if (!_pendingNotice || !ServiceLocator.TryGet<GameSession>(out var session) || !session.InGame || !L.Has("toast.generic_pad")) return;
+            _pendingNotice = false;
             _noticed = true;
-            if (ServiceLocator.TryGet<GameSession>(out var session)) session.Toast(L.Get("toast.generic_pad"));
+            session.Toast(L.Get("toast.generic_pad"));
         }
 
         static void OnDeviceChange(InputDevice device, InputDeviceChange change)

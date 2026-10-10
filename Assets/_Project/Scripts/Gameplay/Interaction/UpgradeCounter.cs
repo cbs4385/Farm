@@ -21,7 +21,7 @@ namespace Farm.Gameplay
                 player.Session.Toast(BusinessHoursRegistry.ClosedMessage(_shopId));
                 return;
             }
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowUpgrades(_shopId);
+            UiAccess.Run(ui => ui.ShowUpgrades(_shopId));
         }
     }
 }

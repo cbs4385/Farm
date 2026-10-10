@@ -11,27 +11,14 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // Ambience in the real game: a sunny morning on the farm has birds, rain has rain, and a house interior is quiet.
-    public class AmbienceFlowTests
+    public class AmbienceFlowTests : PlayModeFixture
     {
-        string _dataRoot;
         GameSession _session;
 
         [SetUp]
-        public void SetUp()
+        public void SetUpMore()
         {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-ambience-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
             AmbienceDirector.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
         IEnumerator Enter(string map, string weather, int hour)

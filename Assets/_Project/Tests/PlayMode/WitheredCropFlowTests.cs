@@ -11,26 +11,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // A withered crop (blight, frost) is drawn as a withered plant, does not sway, and disappears when cleared.
-    public class WitheredCropFlowTests
+    public class WitheredCropFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-wither-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         [UnityTest]
         public IEnumerator AWitheredCrop_ShowsTheBlightSprite_AndClearingRemovesIt()

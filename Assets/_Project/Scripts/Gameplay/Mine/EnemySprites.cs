@@ -1,3 +1,4 @@
+using Farm.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -88,6 +89,7 @@ namespace Farm.Gameplay
 
         public static bool Has(string enemyId) => All.ContainsKey(enemyId);
 
+        static EnemySprites() => TestResets.Add(ClearCache);
         public static void ClearCache() { Cache.Clear(); _pixel = null; }
 
         // Frames 0 and 1, then the white silhouette, for a monster; null when there is no art for it.

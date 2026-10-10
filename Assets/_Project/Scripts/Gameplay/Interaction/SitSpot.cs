@@ -26,6 +26,7 @@ namespace Farm.Gameplay
         void OnEnable() => AllSpots.Add(this);
         void OnDisable() { AllSpots.Remove(this); Occupant = null; }
 
+        static SitSpot() => TestResets.Add(ResetForTests);
         public static void ResetForTests() => AllSpots.Clear();
 
         // Is this seat within reach of a villager standing on a cell?

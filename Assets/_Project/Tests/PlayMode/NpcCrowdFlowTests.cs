@@ -12,30 +12,12 @@ namespace Farm.Tests
 {
     // Villagers walked through each other. In the real game, with the real physics: a villager standing in another's path is gone round, and two
     // villagers walking at each other never overlap and both get where they were going.
-    public class NpcCrowdFlowTests
+    public class NpcCrowdFlowTests : PlayModeFixture
     {
         // Two bodies 0.7 wide touch when their centres are closer than 0.7 on both axes; allow a little for the probe.
         const float Clear = 0.66f;
 
-        string _dataRoot;
         GameSession _session;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-npccrowd-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator EnterFarm()
         {

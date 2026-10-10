@@ -15,26 +15,8 @@ namespace Farm.Tests
 {
     // Playtest chat 2026-10-09: a player on a controller could select tools but had no idea how to use them, because the help appeared only when the mouse rested on
     // a slot. Now the picked item's help shows above the item bar whenever the pick changes, with no mouse involved.
-    public class SelectionHelpFlowTests
+    public class SelectionHelpFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-selhelp-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         static TextMeshProUGUI Help()
         {

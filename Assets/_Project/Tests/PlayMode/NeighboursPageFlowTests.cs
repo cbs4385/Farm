@@ -16,27 +16,9 @@ namespace Farm.Tests
 {
     // T-106 and T-144 in the real game: selecting a villager on the Neighbours page shows what the player has found out, and the Gossip
     // Book counts rare lines and solved stories.
-    public class NeighboursPageFlowTests
+    public class NeighboursPageFlowTests : PlayModeFixture
     {
-        string _dataRoot;
         GameSession _session;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-neighbours-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         static string AllText(MenuPage page) => string.Join("\n", page.Root.GetComponentsInChildren<TextMeshProUGUI>(true).Select(t => t.text));
 

@@ -12,26 +12,8 @@ namespace Farm.Tests
 {
     // The story props in the real game: a storyline scene puts its prop on the map (a cat, an umbrella ...), a capture is saved for a
     // person to look at, and the prop is gone when the scene ends.
-    public class StoryPropsFlowTests
+    public class StoryPropsFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-props-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator Show(string sceneId, string capture)
         {

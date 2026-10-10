@@ -115,7 +115,7 @@ namespace Farm.Core
         static bool IsValid(string text)
         {
             try { return JsonUtility.FromJson<SettingsData>(text) != null; }
-            catch (Exception) { return false; }
+            catch (Exception e) { Log.Warn("The settings file is not valid: " + e.Message); return false; }
         }
     }
 }

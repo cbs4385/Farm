@@ -17,26 +17,8 @@ namespace Farm.Tests
 {
     // Playtest, 2026-10-09: "the builder's mallet help text overflows the display area". The help for every tool, in the Help tab and in the box over the item bar,
     // fits the space it is shown in (measured on the real screen, tool by tool).
-    public class HelpOverflowFlowTests
+    public class HelpOverflowFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-helpfit-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator Start()
         {

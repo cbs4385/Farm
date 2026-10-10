@@ -72,6 +72,8 @@ namespace Farm.Gameplay
             if (session == null || !session.InGame) { sb.AppendLine("In game: no (a menu)"); return sb.ToString(); }
             var s = session.State;
             sb.AppendLine($"In game: yes. Map {s.CurrentMap}, year {s.Year} season {s.SeasonIndex} day {s.Day}, minute {s.MinuteOfDay}, weather {s.Weather}");
+            var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
+            if (player != null) sb.AppendLine($"Player at x {player.transform.position.x:0.00}, y {player.transform.position.y:0.00} (cell {Mathf.FloorToInt(player.transform.position.x)}, {Mathf.FloorToInt(player.transform.position.y)})");
             sb.AppendLine($"Gold {s.Gold}, energy {s.Energy}/{s.MaxEnergy}, health {s.Health}/{s.MaxHealth}");
             sb.AppendLine($"Horror layer: wakefulness {session.GetVar("mythos.wakefulness")}, step {session.GetVar("mythos.step")}, dread {session.GetVar("dread")}, lore {session.GetVar("lore")}");
             sb.AppendLine($"Flags set: {s.Flags.Count}; save slot {session.ActiveSlot}");
@@ -81,7 +83,7 @@ namespace Farm.Gameplay
         public static string Save(GameSession session)
         {
             try { return session.StateJson(); }
-            catch (Exception) { return null; }
+            catch (Exception e) { Log.Warn("The bug report could not include the save: " + e.Message); return null; }
         }
     }
 }

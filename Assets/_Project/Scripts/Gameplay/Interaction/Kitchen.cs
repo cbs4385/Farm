@@ -11,7 +11,7 @@ namespace Farm.Gameplay
 
         public void Interact(PlayerActions player)
         {
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowCrafting(Stations.Kitchen);
+            UiAccess.Run(ui => ui.ShowCrafting(Stations.Kitchen));
         }
     }
 }

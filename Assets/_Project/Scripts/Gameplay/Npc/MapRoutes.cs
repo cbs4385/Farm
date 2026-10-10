@@ -70,13 +70,7 @@ namespace Farm.Gameplay
                 Pair(new RouteEdge(MapIds.Village, villageDoorX, villageDoorY, map, interiorDoorX, 2, "default"),
                      new RouteEdge(map, interiorDoorX, 0, MapIds.Village, villageDoorX, outsideY, "from" + map));
             }
-            Building(MapIds.GeneralStore, 8, 24, 23, 5);
-            Building(MapIds.Blacksmith, 17, 24, 23, 4);
-            Building(MapIds.Carpenter, 32, 24, 23, 4);
-            Building(MapIds.Library, 42, 24, 23, 5);
-            Building(MapIds.Saloon, 52, 24, 23, 6);
-            Building(MapIds.Clinic, 67, 24, 23, 4);
-            Building(MapIds.CommunityHall, 37, 31, 30, 7);
+            foreach (var shop in VillageShops.All) Building(shop.Map, shop.DoorX, shop.DoorY, shop.OutsideY, shop.InteriorDoorX);
             foreach (var home in NpcHomes.All) Building(home.Map, home.DoorX, home.DoorY, home.OutsideY, NpcHomes.InteriorDoorX);          // the villagers' cottages
             return e;
         }

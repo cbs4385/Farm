@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Gameplay;
 using UnityEngine;
 
@@ -52,17 +53,9 @@ namespace Farm.UI
             public Vector2 Position;        // design units
         }
 
-        // The village's buildings by the cell of their door.
+        // The village's buildings by the cell of their door (from the shared table).
         static readonly (string map, string icon, string business, int x, int y)[] VillageDoors =
-        {
-            (MapIds.GeneralStore, "ui_map_store", "general", 8, 24),
-            (MapIds.Blacksmith, "ui_map_smith", "blacksmith", 17, 24),
-            (MapIds.Carpenter, "ui_map_carpenter", "carpenter", 32, 24),
-            (MapIds.Library, "ui_map_library", "library", 42, 24),
-            (MapIds.Saloon, "ui_map_saloon", "saloon", 52, 24),
-            (MapIds.Clinic, "ui_map_clinic", "clinic", 67, 24),
-            (MapIds.CommunityHall, "ui_map_hall", null, 37, 31),
-        };
+            VillageShops.All.Select(v => (v.Map, v.MapIcon, v.Business, v.DoorX, v.DoorY)).ToArray();
 
         public static IReadOnlyList<(string map, string icon, string business, int x, int y)> VillageBuildingDoors => VillageDoors;
 

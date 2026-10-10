@@ -24,7 +24,7 @@ namespace Farm.Gameplay
                     MineTravel.GoToFloor(s, s.State.Mine.Floor - 1, fromBelow: true);
                     break;
                 case StairKind.Elevator:
-                    if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowElevator();
+                    UiAccess.Run(ui => ui.ShowElevator());
                     break;
             }
         }

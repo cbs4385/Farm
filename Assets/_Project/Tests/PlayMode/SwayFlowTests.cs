@@ -13,26 +13,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // Plants lean in the wind: growing crops lean through their tile matrix, trees through a child that turns about the base.
-    public class SwayFlowTests
+    public class SwayFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-sway-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         static IEnumerator Load(string map)
         {
@@ -85,7 +67,7 @@ namespace Farm.Tests
             yield return Load(MapIds.Village);
             var trees = UnityEngine.Object.FindObjectsByType<ObjectSway>(FindObjectsSortMode.None);
             Assert.GreaterOrEqual(trees.Length, 4, "the village trees sway");
-            var tree = trees[0];
+            var tree = trees.First(t => t.GetComponent<BoxCollider2D>() != null);          // the edge trees have no collider of their own (the band under them blocks)
             var collider = tree.GetComponent<BoxCollider2D>();
             var colliderAt = collider.bounds.center;
             Assert.IsFalse(tree.GetComponent<SpriteRenderer>().enabled, "the picture is on the swaying child");

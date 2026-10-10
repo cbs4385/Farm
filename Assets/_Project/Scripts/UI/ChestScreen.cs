@@ -45,14 +45,7 @@ namespace Farm.UI
 
         static RectTransform Grid(Transform parent, string name, int rows)
         {
-            var holder = UiKit.Rect(name, parent);
-            var layout = holder.gameObject.AddComponent<GridLayoutGroup>();
-            layout.cellSize = new Vector2(SlotSize, SlotSize);
-            layout.spacing = new Vector2(4f, 4f);
-            layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            layout.constraintCount = Columns;
-            UiKit.Size(holder.gameObject, -1f, rows * SlotSize + (rows - 1) * 4f);
-            return holder;
+            return SlotUi.Grid(parent, name, Columns, rows, SlotSize);
         }
 
         public void OpenChest(string objectId)
@@ -98,12 +91,7 @@ namespace Farm.UI
                 var label = button.GetComponentInChildren<TextMeshProUGUI>();
                 if (stack == null) { label.text = string.Empty; continue; }
 
-                var icon = UiKit.Panel(button.transform, "Icon", Color.white);
-                UiKit.Stretch(icon.rectTransform, 5f);
-                icon.preserveAspect = true;
-                icon.raycastTarget = false;
-                icon.sprite = Ui.Session.Db.TryGetItem(stack.ItemId, out var item) ? item.Icon : null;
-                SlotBadges.Quality(button.transform, stack.Quality);
+                SlotUi.Icon(button.transform, Ui.Session.Db, stack, 5f);
                 label.transform.SetAsLastSibling();
                 label.alignment = TextAlignmentOptions.BottomRight;
                 label.fontSize = 14f;

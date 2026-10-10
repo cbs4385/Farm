@@ -13,26 +13,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // A gift that does not fit the backpack waits in the mailbox instead of being lost; villagers' seats restore energy once a day.
-    public class ParcelsAndSeatsFlowTests
+    public class ParcelsAndSeatsFlowTests : PlayModeFixture
     {
-        string _root;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _root = Path.Combine(Path.GetTempPath(), "farm-parcel-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
-        }
 
         [UnityTest]
         public IEnumerator AGiftThatDoesNotFit_WaitsInTheMailbox_AndIsHandedOverWhenThereIsRoom()

@@ -28,6 +28,7 @@ namespace Farm.Gameplay
             return _sprites.TryGetValue("decor_" + set + "_" + kind, out var list) ? list : new Sprite[0];
         }
 
+        static GroundDecor() => TestResets.Add(ResetForTests);
         public static void ResetForTests() => _sprites = null;
 
         // Lays the decoration for a season over the map's grass; returns how many cells carry something.

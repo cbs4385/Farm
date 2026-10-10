@@ -49,8 +49,9 @@ namespace Farm.Core
                 var text = File.ReadAllText(path, Encoding.UTF8);
                 return isValid == null || isValid(text) ? text : null;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Warn($"Could not read {path}: {e.Message}");
                 return null;
             }
         }

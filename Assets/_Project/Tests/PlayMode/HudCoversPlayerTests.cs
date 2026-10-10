@@ -12,26 +12,8 @@ namespace Farm.Tests
 {
     // Playtest report (2026-10-04): "the player becomes hidden when moving to the upper right of the screen". The camera stops at the edge of
     // the map, so near a corner the player stands under the HUD (the clock panel is opaque, top right). The HUD panel must get out of the way.
-    public class HudCoversPlayerTests
+    public class HudCoversPlayerTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-hud-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         static Rect ScreenRect(RectTransform rt)
         {

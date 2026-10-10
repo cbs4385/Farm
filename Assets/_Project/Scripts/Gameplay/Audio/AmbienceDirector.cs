@@ -17,6 +17,7 @@ namespace Farm.Gameplay
         bool _village;
 
         public static AmbienceKind Last { get; private set; }
+        static AmbienceDirector() => TestResets.Add(ResetForTests);
         public static void ResetForTests() { Last = AmbienceKind.None; }
 
         public void Init(GameSession session, DayNightLighting lighting)

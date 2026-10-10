@@ -13,27 +13,9 @@ namespace Farm.Tests
 {
     // The farm's buildings are drawn from the saved game state: a moved building has its walls, roof and door at the new place and nothing is left
     // behind at the old one.
-    public class FarmBuildingsFlowTests
+    public class FarmBuildingsFlowTests : PlayModeFixture
     {
-        string _root;
         GameSession _s;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _root = Path.Combine(Path.GetTempPath(), "farm-buildings-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
-        }
 
         IEnumerator Start()
         {

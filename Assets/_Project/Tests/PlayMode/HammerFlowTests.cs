@@ -13,29 +13,11 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // The builder's mallet: lift a building, the bed or something set down, see where it may go, put it down or put it back.
-    public class HammerFlowTests
+    public class HammerFlowTests : PlayModeFixture
     {
-        string _root;
         GameSession _s;
         HammerMode _hammer;
         FarmMap _map;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _root = Path.Combine(Path.GetTempPath(), "farm-hammer-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
-        }
 
         IEnumerator Start(string map, string spawn = "default")
         {

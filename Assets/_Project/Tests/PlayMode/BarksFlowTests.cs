@@ -11,27 +11,14 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // T-125 in the real game: in the saloon at an open hour a villager near the player speaks a bubble, and the option turns it off.
-    public class BarksFlowTests
+    public class BarksFlowTests : PlayModeFixture
     {
-        string _dataRoot;
         GameSession _session;
 
         [SetUp]
-        public void SetUp()
+        public void SetUpMore()
         {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-barks-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
             BarkDirector.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
         IEnumerator Enter(bool barks)

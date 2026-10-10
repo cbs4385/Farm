@@ -25,6 +25,7 @@ namespace Farm.Gameplay
 
         public static bool Active { get; private set; }
         public static string LastPhotoFile { get; private set; }
+        static PhotoMode() => TestResets.Add(ResetForTests);
         public static void ResetForTests() { Active = false; LastPhotoFile = null; }
 
         public void Init(GameSession session, NpcManager npcs, PlayerController player)
@@ -59,12 +60,12 @@ namespace Farm.Gameplay
             if (Key_(Key.Digit0) || (pad != null && pad.buttonWest.wasPressedThisFrame)) ClearBubble();
         }
 
-        static bool AnyModal() => ServiceLocator.TryGet<IUiService>(out var ui) && ui.AnyModalOpen;
+        static bool AnyModal() => UiAccess.AnyModalOpen;
 
         void Enter()
         {
             _on = true; Active = true;
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetHudVisible(false);
+            UiAccess.Run(ui => ui.SetHudVisible(false));
             _session.Clock.Pause();
             if (_player != null) _player.enabled = false;
         }
@@ -73,14 +74,14 @@ namespace Farm.Gameplay
         {
             ClearBubble();
             _on = false; Active = false;
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetHudVisible(true);
+            UiAccess.Run(ui => ui.SetHudVisible(true));
             _session.Clock.Resume();
             if (_player != null) _player.enabled = true;
         }
 
         void OnDestroy()
         {
-            if (_on) { Active = false; if (_session != null) _session.Clock.Resume(); if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetHudVisible(true); }
+            if (_on) { Active = false; if (_session != null) _session.Clock.Resume(); UiAccess.Run(ui => ui.SetHudVisible(true)); }
         }
 
         // Villagers within reach of the player, nearest first.

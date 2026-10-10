@@ -1,3 +1,4 @@
+using Farm.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,6 +47,7 @@ namespace Farm.Gameplay
             return result;
         }
 
+        static AvatarLayers() => TestResets.Add(ResetForTests);
         public static void ResetForTests() => _grids = null;
     }
 

@@ -12,26 +12,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // T-030 in the real scenes: the weather effects follow the day's weather outdoors and stay out of buildings.
-    public class WeatherFlowTests
+    public class WeatherFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-weathertests-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         static IEnumerator Start(string weather, string map, Action<GameSession> ready)
         {

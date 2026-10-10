@@ -15,26 +15,13 @@ namespace Farm.Tests
 {
     // The farmer creator in the real game (playtest request, 2026-10-05): the chosen look reaches the player in the world, the creator's controls
     // change the right things, and a new game started from the new-game screen keeps what was chosen.
-    public class AvatarFlowTests
+    public class AvatarFlowTests : PlayModeFixture
     {
-        string _dataRoot;
 
         [SetUp]
-        public void SetUp()
+        public void SetUpMore()
         {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-avatar-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
             AvatarSprites.ClearCache();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
         static Button ButtonIn(GameObject root, string name)

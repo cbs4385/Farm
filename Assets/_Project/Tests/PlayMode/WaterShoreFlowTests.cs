@@ -12,26 +12,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // The forest pond and the beach sea are built from the shore tiles: still water for fishing, drawn as one body of water.
-    public class WaterShoreFlowTests
+    public class WaterShoreFlowTests : PlayModeFixture
     {
-        string _root;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _root = Path.Combine(Path.GetTempPath(), "farm-water-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
-        }
 
         static IEnumerator Load(string map)
         {

@@ -1,3 +1,4 @@
+using Farm.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Farm.Gameplay
 
         public static void Remove(ICellOccupant occupant) => All.Remove(occupant);
 
+        static CellOccupants() => TestResets.Add(ResetForTests);
         public static void ResetForTests() => All.Clear();
 
         // Is another occupant on the cell?

@@ -12,26 +12,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // In the real game: walking onto the farm's road exit shows no door; walking onto the farmhouse door does.
-    public class DoorSwingFlowTests
+    public class DoorSwingFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-doorswing-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator EnterFarm()
         {

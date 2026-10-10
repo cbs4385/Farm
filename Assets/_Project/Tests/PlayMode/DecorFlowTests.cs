@@ -13,30 +13,12 @@ namespace Farm.Tests
 {
     // Furniture in the real game (playtest request, 2026-10-04): set a rug and a bookshelf down in the farmhouse, pick one up with the interact
     // key, and never block a doorway.
-    public class DecorFlowTests
+    public class DecorFlowTests : PlayModeFixture
     {
-        string _dataRoot;
         GameSession _session;
         PlayerActions _actions;
         PlayerController _player;
         FarmMap _map;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-decor-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator Enter(string map)
         {

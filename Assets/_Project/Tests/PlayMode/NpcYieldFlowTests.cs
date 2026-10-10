@@ -12,27 +12,9 @@ namespace Farm.Tests
 {
     // Playtest 2026-10-07: walking villagers pushed the player, and walked through whatever stood in their way. In the real game, with the real
     // physics: the player stands still in a villager's path; the villager stops short, never pushes, finds a way round and gets where it was going.
-    public class NpcYieldFlowTests
+    public class NpcYieldFlowTests : PlayModeFixture
     {
-        string _dataRoot;
         GameSession _session;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-npcyield-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator EnterFarm()
         {

@@ -16,6 +16,7 @@ namespace Farm.Gameplay
 
         static Dictionary<string, Sprite[]> _sprites;
 
+        static SeasonalTrees() => TestResets.Add(ResetForTests);
         public static void ResetForTests() => _sprites = null;
 
         public static string SetFor(Season season) => season == Season.Fall ? "fall" : season == Season.Winter ? "winter" : "spring";

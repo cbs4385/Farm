@@ -126,8 +126,9 @@ namespace Farm.Gameplay
                 summary.Day = root.Value<int?>(nameof(GameState.Day)) ?? 1;
                 summary.Gold = root.Value<int?>(nameof(GameState.Gold)) ?? 0;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Warn($"Save slot unreadable ({e.Message}); shown as empty.");
                 summary.Exists = false;
             }
             return summary;
@@ -142,7 +143,7 @@ namespace Farm.Gameplay
         static bool IsParsable(string text)
         {
             try { JObject.Parse(text); return true; }
-            catch (Exception) { return false; }
+            catch (Exception e) { Log.Warn($"A save file is not valid JSON: {e.Message}"); return false; }
         }
     }
 }

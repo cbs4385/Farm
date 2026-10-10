@@ -65,7 +65,7 @@ namespace Farm.Gameplay
             _camera.Snap();
 
             _bus.Subscribe<PassOutTimeReached>(OnPassOut);
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetHudVisible(true);
+            UiAccess.Run(ui => ui.SetHudVisible(true));
             ServiceLocator.Get<InputService>().EnableGameplay();
             if (_session.PendingIntro && _map.MapId == MapIds.Farm && ServiceLocator.TryGet<IUiService>(out var introUi))
             {

@@ -13,26 +13,8 @@ namespace Farm.Tests
 {
     // Playtest comment (2026-10-06): on the first talk Ione says she has put something on the desk for the player, but the library desk could
     // not be used. The desk now hands over the book she set aside (once).
-    public class LibraryDeskFlowTests
+    public class LibraryDeskFlowTests : PlayModeFixture
     {
-        string _root;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _root = Path.Combine(Path.GetTempPath(), "farm-desk-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
-        }
 
         [UnityTest]
         public IEnumerator TheLibraryDesk_CanBeUsed_AndHandsOverTheBookOnce()

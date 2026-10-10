@@ -11,26 +11,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // In the real game: a villager whose schedule puts them in bed is drawn lying down and cannot be talked to; once they walk they stand again.
-    public class NpcSleepFlowTests
+    public class NpcSleepFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-npcsleep-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         [UnityTest]
         public IEnumerator ASleepingVillager_LiesDown_AndIsNotTalkedTo_ThenStandsWhenWalking()

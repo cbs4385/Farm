@@ -1,3 +1,4 @@
+using Farm.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,6 +52,7 @@ namespace Farm.Gameplay
 
         static readonly Dictionary<string, Sprite[]> Cache = new Dictionary<string, Sprite[]>();
 
+        static CatSprites() => TestResets.Add(ClearCache);
         public static void ClearCache() => Cache.Clear();
 
         // The two walking frames for a facing ("down", "up", "left", "right").

@@ -67,24 +67,34 @@ namespace Farm.Gameplay
 
         // ---- compiling -------------------------------------------------------------------------------------------
 
-        public static FScriptResult Compile(string source, string name = "fscript")
+        public static FScriptResult Compile(string source, string name = "fscript") => new Compiler(source, name).Run();
+
+        // One compile: the parser's place in the script (the block it is inside) lives in fields, so each line is handled by a method of its own.
+        sealed class Compiler
         {
-            var result = new FScriptResult();
-            DialogueGraph graph = null;
-            DialogueSet set = null;
-            TopicDefinition topic = null;
-            SocialProfile social = null;
-            SetAddition addTo = null;
-            ReactionDefinition reaction = null;
-            DialogueNode node = null;
-            DialogueChoice lastChoice = null;
-            var choiceIndex = 0;
-            var nodeKeys = new Dictionary<DialogueNode, string>();
-            var choiceKeys = new Dictionary<DialogueChoice, string>();
-            var starts = new Dictionary<DialogueGraph, string>();
-            var nodeText = new Dictionary<DialogueNode, string>();
-            var choiceText = new Dictionary<DialogueChoice, string>();
-            var lines = (source ?? string.Empty).Replace("\r\n", "\n").Split('\n');
+            readonly string name;
+            readonly string[] lines;
+            readonly FScriptResult result = new FScriptResult();
+            DialogueGraph graph;
+            DialogueSet set;
+            TopicDefinition topic;
+            SocialProfile social;
+            SetAddition addTo;
+            ReactionDefinition reaction;
+            DialogueNode node;
+            DialogueChoice lastChoice;
+            int choiceIndex;
+            readonly Dictionary<DialogueNode, string> nodeKeys = new Dictionary<DialogueNode, string>();
+            readonly Dictionary<DialogueChoice, string> choiceKeys = new Dictionary<DialogueChoice, string>();
+            readonly Dictionary<DialogueGraph, string> starts = new Dictionary<DialogueGraph, string>();
+            readonly Dictionary<DialogueNode, string> nodeText = new Dictionary<DialogueNode, string>();
+            readonly Dictionary<DialogueChoice, string> choiceText = new Dictionary<DialogueChoice, string>();
+
+            public Compiler(string source, string name)
+            {
+                this.name = name;
+                lines = (source ?? string.Empty).Replace("\r\n", "\n").Split('\n');
+            }
 
             void Err(int line, string message) => result.Errors.Add($"{name}:{line}: {message}");
 
@@ -95,19 +105,37 @@ namespace Farm.Gameplay
                 graph = null; node = null; lastChoice = null;
             }
 
-            for (var i = 0; i < lines.Length; i++)
+            public FScriptResult Run()
+            {
+                for (var i = 0; i < lines.Length; i++) ParseLine(i);
+                Close(lines.Length);
+                foreach (var kv in nodeKeys)
+                {
+                    if (!nodeText.TryGetValue(kv.Key, out var text)) continue;
+                    kv.Key.Text = kv.Value;
+                    AddText(result, kv.Value, text);
+                }
+                foreach (var kv in choiceKeys)
+                {
+                    kv.Key.Text = kv.Value;
+                    AddText(result, kv.Value, choiceText[kv.Key]);
+                }
+                return result;
+            }
+
+            void ParseLine(int i)
             {
                 var raw = lines[i];
                 var text = raw.Trim();
                 var lineNo = i + 1;
-                if (text.Length == 0 || text[0] == '#') continue;
+                if (text.Length == 0 || text[0] == '#') return;
                 var word = FirstWord(text, out var rest);
 
                 if (word == "dialogue")
                 {
                     Close(lineNo); set = null; topic = null; social = null; addTo = null; reaction = null;
                     var parts = rest.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length == 0) { Err(lineNo, "dialogue needs an id"); continue; }
+                    if (parts.Length == 0) { Err(lineNo, "dialogue needs an id"); return; }
                     graph = new DialogueGraph { Id = parts[0] };
                     choiceIndex = 0;
                     foreach (var attr in parts.Skip(1))
@@ -117,87 +145,87 @@ namespace Farm.Gameplay
                     }
                     if (result.Dialogues.Any(d => d.Id == graph.Id)) Err(lineNo, $"dialogue '{graph.Id}' is defined twice");
                     result.Dialogues.Add(graph);
-                    continue;
+                    return;
                 }
                 if (word == "topic")
                 {
                     Close(lineNo); set = null; social = null; addTo = null; reaction = null;
-                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "topic needs an id"); topic = null; continue; }
+                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "topic needs an id"); topic = null; return; }
                     topic = new TopicDefinition { Id = rest.Trim() };
                     if (result.Topics.Any(t => t.Id == topic.Id)) Err(lineNo, $"topic '{topic.Id}' is defined twice");
                     result.Topics.Add(topic);
-                    continue;
+                    return;
                 }
                 if (word == "social")
                 {
                     Close(lineNo); set = null; topic = null; addTo = null; reaction = null;
-                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "social needs a villager id"); social = null; continue; }
+                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "social needs a villager id"); social = null; return; }
                     social = new SocialProfile { Npc = rest.Trim() };
                     if (result.Socials.Any(p => p.Npc == social.Npc)) Err(lineNo, $"social profile '{social.Npc}' is defined twice");
                     result.Socials.Add(social);
-                    continue;
+                    return;
                 }
                 if (word == "say")
                 {
                     Close(lineNo); set = null; topic = null; social = null; addTo = null; reaction = null;
                     var colonAt = rest.IndexOf(':');
                     var head = colonAt > 0 ? rest.Substring(0, colonAt).Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries) : new string[0];
-                    if (head.Length != 2) { Err(lineNo, "a one-line dialogue looks like 'say <dialogue id> <speaker>: text'"); continue; }
+                    if (head.Length != 2) { Err(lineNo, "a one-line dialogue looks like 'say <dialogue id> <speaker>: text'"); return; }
                     AddOneLine(result, head[0], head[1], rest.Substring(colonAt + 1).TrimStart(), null, null, null, lineNo, Err);
-                    continue;
+                    return;
                 }
                 if (word == "addto")
                 {
                     Close(lineNo); set = null; topic = null; social = null; reaction = null;
-                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "addto needs the id of an existing dialogue set"); addTo = null; continue; }
+                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "addto needs the id of an existing dialogue set"); addTo = null; return; }
                     addTo = new SetAddition { Set = rest.Trim() };
                     result.SetAdditions.Add(addTo);
-                    continue;
+                    return;
                 }
                 if (word == "reaction")
                 {
                     Close(lineNo); set = null; topic = null; social = null; addTo = null;
-                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "reaction needs an id"); reaction = null; continue; }
+                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "reaction needs an id"); reaction = null; return; }
                     reaction = new ReactionDefinition { Id = rest.Trim() };
                     if (result.Reactions.Any(r => r.Id == reaction.Id)) Err(lineNo, $"reaction '{reaction.Id}' is defined twice");
                     result.Reactions.Add(reaction);
-                    continue;
+                    return;
                 }
                 if (word == "set")
                 {
                     Close(lineNo); topic = null; social = null; addTo = null; reaction = null;
-                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "set needs an id"); continue; }
+                    if (string.IsNullOrWhiteSpace(rest)) { Err(lineNo, "set needs an id"); return; }
                     set = new DialogueSet { Id = rest.Trim() };
                     if (result.Sets.Any(s => s.Id == set.Id)) Err(lineNo, $"set '{set.Id}' is defined twice");
                     result.Sets.Add(set);
-                    continue;
+                    return;
                 }
 
-                if (reaction != null) { ParseReactionLine(reaction, word, rest, lineNo, Err); continue; }
-                if (addTo != null) { ParseAddLine(addTo, text, lineNo, result, Err); continue; }
-                if (topic != null) { ParseTopicLine(topic, word, rest, lineNo, result, Err); continue; }
-                if (social != null) { ParseSocialLine(social, word, rest, lineNo, Err); continue; }
-                if (set != null) { ParseSetEntry(set, text, lineNo, Err); continue; }
-                if (graph == null) { Err(lineNo, "expected 'dialogue <id>' or 'set <id>'"); continue; }
+                if (reaction != null) { ParseReactionLine(reaction, word, rest, lineNo, Err); return; }
+                if (addTo != null) { ParseAddLine(addTo, text, lineNo, result, Err); return; }
+                if (topic != null) { ParseTopicLine(topic, word, rest, lineNo, result, Err); return; }
+                if (social != null) { ParseSocialLine(social, word, rest, lineNo, Err); return; }
+                if (set != null) { ParseSetEntry(set, text, lineNo, Err); return; }
+                if (graph == null) { Err(lineNo, "expected 'dialogue <id>' or 'set <id>'"); return; }
 
                 if (word == "+")
                 {
-                    if (node == null) { Err(lineNo, "an effect needs a node above it"); continue; }
+                    if (node == null) { Err(lineNo, "an effect needs a node above it"); return; }
                     node.Effects.Add(rest.Trim());
                 }
                 else if (word == "if")
                 {
-                    if (node == null) { Err(lineNo, "'if' needs a node above it"); continue; }
+                    if (node == null) { Err(lineNo, "'if' needs a node above it"); return; }
                     node.Condition = rest.Trim();
                 }
                 else if (word == "next")
                 {
-                    if (node == null) { Err(lineNo, "'next' needs a node above it"); continue; }
+                    if (node == null) { Err(lineNo, "'next' needs a node above it"); return; }
                     node.Next = rest.Trim();
                 }
                 else if (word == "expr" || word == "emote" || word == "sfx" || word == "voice" || word == "camera" || word == "tag")
                 {
-                    if (node == null) { Err(lineNo, $"'{word}' needs a node above it"); continue; }
+                    if (node == null) { Err(lineNo, $"'{word}' needs a node above it"); return; }
                     var value = rest.Trim();
                     switch (word)
                     {
@@ -211,7 +239,7 @@ namespace Farm.Gameplay
                 }
                 else if (word == "tone")
                 {
-                    if (lastChoice == null) { Err(lineNo, "'tone' needs a choice above it"); continue; }
+                    if (lastChoice == null) { Err(lineNo, "'tone' needs a choice above it"); return; }
                     lastChoice.Tone = rest.Trim();
                 }
                 else if (word == "key")
@@ -222,9 +250,9 @@ namespace Farm.Gameplay
                 }
                 else if (word == "?")
                 {
-                    if (node == null) { Err(lineNo, "a choice needs a node above it"); continue; }
+                    if (node == null) { Err(lineNo, "a choice needs a node above it"); return; }
                     var choice = ParseChoice(rest, lineNo, Err);
-                    if (choice == null) continue;
+                    if (choice == null) return;
                     node.Choices.Add(choice);
                     lastChoice = choice;
                     choiceKeys[choice] = KeyForChoice(graph.Id, choiceIndex++);
@@ -237,13 +265,13 @@ namespace Farm.Gameplay
                     if (space <= 0 || colon < space || Directives.Contains(word))
                     {
                         Err(lineNo, $"cannot understand '{Shorten(text)}'");
-                        continue;
+                        return;
                     }
                     var id = text.Substring(0, space);
                     var speaker = text.Substring(space + 1, colon - space - 1).Trim();
-                    if (speaker.Length == 0 || speaker.Contains(" ")) { Err(lineNo, $"'{Shorten(text)}': write '<id> <speaker>: text' (use - for narration)"); continue; }
+                    if (speaker.Length == 0 || speaker.Contains(" ")) { Err(lineNo, $"'{Shorten(text)}': write '<id> <speaker>: text' (use - for narration)"); return; }
                     var body = text.Substring(colon + 1).TrimStart();
-                    if (graph.Nodes.Any(n => n.Id == id)) { Err(lineNo, $"node '{id}' is defined twice in '{graph.Id}'"); continue; }
+                    if (graph.Nodes.Any(n => n.Id == id)) { Err(lineNo, $"node '{id}' is defined twice in '{graph.Id}'"); return; }
                     node = new DialogueNode { Id = id, Speaker = speaker == "-" ? null : speaker };
                     lastChoice = null;
                     if (body.Length > 0)
@@ -255,19 +283,6 @@ namespace Farm.Gameplay
                     graph.Nodes.Add(node);
                 }
             }
-            Close(lines.Length);
-            foreach (var kv in nodeKeys)
-            {
-                if (!nodeText.TryGetValue(kv.Key, out var text)) continue;
-                kv.Key.Text = kv.Value;
-                AddText(result, kv.Value, text);
-            }
-            foreach (var kv in choiceKeys)
-            {
-                kv.Key.Text = kv.Value;
-                AddText(result, kv.Value, choiceText[kv.Key]);
-            }
-            return result;
         }
 
         static void AddText(FScriptResult result, string key, string text)

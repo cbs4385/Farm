@@ -44,18 +44,11 @@ namespace Farm.Editor
             public bool FacesSouth;       // door on the south wall (north row of buildings) or the north wall
         }
 
-        static readonly Building[] Buildings =
+        // The shops and the hall come from the shared table (VillageShops); the cottages are added by VillageBuildings().
+        static readonly Building[] Buildings = VillageShops.All.Select(v => new Building
         {
-            new Building { MapId = MapIds.GeneralStore, Style = "general", Business = "general",    X0 = 5,  X1 = 12, Y0 = 24, Y1 = 29, DoorX = 8,  FacesSouth = true },
-            new Building { MapId = MapIds.Blacksmith, Style = "blacksmith",   Business = "blacksmith", X0 = 14, X1 = 21, Y0 = 24, Y1 = 29, DoorX = 17, FacesSouth = true },
-            new Building { MapId = MapIds.Carpenter, Style = "carpenter",    Business = "carpenter",  X0 = 29, X1 = 36, Y0 = 24, Y1 = 29, DoorX = 32, FacesSouth = true },
-            new Building { MapId = MapIds.Library, Style = "library",      Business = "library",    X0 = 39, X1 = 46, Y0 = 24, Y1 = 29, DoorX = 42, FacesSouth = true },
-            // The kit's buildings all show their doors on the south wall, so every building stands north of the road with its door on its south side: the saloon and the
-            // clinic in the east of the north row, the hall behind the carpenter and the library (a lane runs up between them).
-            new Building { MapId = MapIds.Saloon, Style = "saloon",       Business = "saloon",     X0 = 49, X1 = 56, Y0 = 24, Y1 = 29, DoorX = 52, FacesSouth = true },
-            new Building { MapId = MapIds.Clinic, Style = "clinic",       Business = "clinic",     X0 = 64, X1 = 71, Y0 = 24, Y1 = 29, DoorX = 67, FacesSouth = true },
-            new Building { MapId = MapIds.CommunityHall, Style = "hall", Business = null,        X0 = 33, X1 = 42, Y0 = 31, Y1 = 36, DoorX = 37, FacesSouth = true },
-        };
+            MapId = v.Map, Style = v.Style, Business = v.Business, X0 = v.X0, X1 = v.X1, Y0 = v.Y0, Y1 = v.Y1, DoorX = v.DoorX, FacesSouth = true,
+        }).ToArray();
 
         // The footprints of the old shops (for tests that keep the villagers' streets clear of them).
         public static List<RectInt> ShopFootprints() => Buildings.Select(b => new RectInt(b.X0, b.Y0, b.X1 - b.X0 + 1, b.Y1 - b.Y0 + 1)).ToList();
@@ -98,7 +91,7 @@ namespace Farm.Editor
 
             foreach (var home in NpcHomes.All) BuildHome(home);
 
-            BuildInterior(MapIds.GeneralStore, 12, 9, 5, new[]
+            BuildShopInterior(MapIds.GeneralStore, new[]
             {
                 new Prop("Counter", "obj_counter_wide", 3, 5, "general", w: 2), new Prop("Counter2", "obj_counter_wide", 5, 5, "general", w: 2),
                 new Prop("Shelf1", "obj_shelf", 2, 7), new Prop("Shelf2", "obj_shelf", 3, 7), new Prop("Shelf3", "obj_shelf", 4, 7),
@@ -108,19 +101,19 @@ namespace Farm.Editor
                 new Prop("Seat", "obj_chair", 1, 5, seatNpc: "tilda", seatKey: "window"),
                 new Prop("CatDoor", "obj_cat_door", 10, 5, curio: "catdoor"),
             });
-            BuildInterior(MapIds.Blacksmith, 10, 8, 4, new[]
+            BuildShopInterior(MapIds.Blacksmith, new[]
             {
                 new Prop("Counter1", "obj_counter_wide", 2, 4, w: 2), new Prop("Counter2", "obj_counter_wide", 4, 4, upgradesAt: "blacksmith", w: 2),
                 new Prop("Shelf1", "obj_shelf", 1, 6), new Prop("Shelf2", "obj_shelf", 2, 6), new Prop("Shelf3", "obj_shelf", 7, 6),
                 new Prop("Shelf4", "obj_shelf", 8, 6), new Prop("Anvil", "obj_table", 7, 2),
             });
-            BuildInterior(MapIds.Carpenter, 10, 8, 4, new[]
+            BuildShopInterior(MapIds.Carpenter, new[]
             {
                 new Prop("Counter1", "obj_counter_wide", 2, 4, "carpenter", w: 2), new Prop("Counter2", "obj_counter_wide", 4, 4, upgradesAt: "carpenter", w: 2),
                 new Prop("Shelf1", "obj_shelf", 1, 6), new Prop("Shelf2", "obj_shelf", 2, 6), new Prop("Bench", "obj_table", 7, 5),
                 new Prop("Bench2", "obj_table", 8, 5), new Prop("Planks", "obj_bin", 8, 2),
             });
-            BuildInterior(MapIds.Saloon, 14, 10, 6, new[]
+            BuildShopInterior(MapIds.Saloon, new[]
             {
                 new Prop("Bar1", "obj_counter_wide", 3, 7, w: 2), new Prop("Bar2", "obj_counter_wide", 5, 7, w: 2), new Prop("Bar3", "obj_counter_wide", 7, 7, w: 2),
                 new Prop("Table1", "obj_table", 2, 3), new Prop("Table2", "obj_table", 11, 3), new Prop("Table3", "obj_table", 11, 5),
@@ -128,18 +121,18 @@ namespace Farm.Editor
                 new Prop("Seat", "obj_chair", 12, 3, seatNpc: "wren", seatKey: "stool"),
                 new Prop("WindowLantern", "item_prop_lantern", 10, 8, curio: "lantern"),
             });
-            BuildInterior(MapIds.Clinic, 10, 8, 4, new[]
+            BuildShopInterior(MapIds.Clinic, new[]
             {
                 new Prop("Bed1", "obj_bed", 2, 6), new Prop("Bed2", "obj_bed", 4, 6), new Prop("Bed3", "obj_bed", 6, 6),
                 new Prop("Couch", "obj_couch", 8, 6, seatNpc: "elara", seatKey: "couch"),
                 new Prop("Desk1", "obj_counter_wide", 7, 3, upgradesAt: "clinic", w: 2), new Prop("Shelf", "obj_shelf", 1, 4),
             });
-            BuildInterior(MapIds.CommunityHall, 14, 10, 7, new[]
+            BuildShopInterior(MapIds.CommunityHall, new[]
             {
                 new Prop("Board", "obj_board", 7, 7), new Prop("Table1", "obj_table", 3, 4), new Prop("Table2", "obj_table", 10, 4),
                 new Prop("Shelf1", "obj_shelf", 2, 8), new Prop("Shelf2", "obj_shelf", 11, 8),
             });
-            BuildInterior(MapIds.Library, 12, 9, 5, new[]
+            BuildShopInterior(MapIds.Library, new[]
             {
                 new Prop("Shelf1", "obj_shelf", 2, 7), new Prop("Shelf2", "obj_shelf", 3, 7), new Prop("Shelf3", "obj_shelf", 4, 7),
                 new Prop("Shelf4", "obj_shelf", 7, 7), new Prop("Shelf5", "obj_shelf", 8, 7), new Prop("Shelf6", "obj_shelf", 9, 7),
@@ -490,6 +483,7 @@ namespace Farm.Editor
                 tag.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder + 1;
                 tag.AddComponent<BoxCollider2D>().isTrigger = true;
                 tag.GetComponent<BoxCollider2D>().size = Vector2.one;
+                tag.GetComponent<BoxCollider2D>().offset = Vector2.zero;
                 tag.AddComponent<BusinessStatusSign>().Configure(b.Business, Sprite("bld_tag_open"), Sprite("bld_tag_closed"));
             }
 
@@ -610,7 +604,7 @@ namespace Farm.Editor
                 for (var x = WoodLayout.EdgeThickness; x < ForestW - WoodLayout.EdgeThickness; x++)
                 {
                     if (x >= ForestPathX0 - 2 && x <= ForestPathX1 + 2) continue;
-                    if (x >= 2 && x <= 12 && y >= 5 && y <= 15) continue;             // the pond and its shore
+                    if (x >= 2 && x <= 16 && y >= 3 && y <= 15) continue;             // the pond, its shore and the way to it from the path
                     if (x >= 21 && x <= 36 && y >= 3 && y <= 7) continue;             // the way to the cave
                     if (!WoodLayout.ForestTreeAt(x, y)) continue;
                     AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y) + (Vector3)WoodLayout.Jitter(x, y), solid: true);
@@ -772,6 +766,12 @@ namespace Farm.Editor
         }
 
         // ---- interiors ----------------------------------------------------------------------------------------
+
+        static void BuildShopInterior(string mapId, Prop[] props)
+        {
+            var shop = VillageShops.For(mapId);
+            BuildInterior(mapId, shop.InteriorW, shop.InteriorH, shop.InteriorDoorX, props);
+        }
 
         static void BuildInterior(string mapId, int w, int h, int doorX, Prop[] props)
         {
@@ -940,7 +940,12 @@ namespace Farm.Editor
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = Sprite(spriteName);
             sr.sortingOrder = 4;
-            if (solid) go.AddComponent<BoxCollider2D>().size = size ?? Vector2.one;
+            if (solid)
+            {
+                var box = go.AddComponent<BoxCollider2D>();          // adding it fits the collider to the picture; the cell is what blocks, so it is put back on the cell
+                box.offset = Vector2.zero;
+                box.size = size ?? Vector2.one;
+            }
             if (spriteName == "obj_tree") sr.sortingOrder = TallSortingOrder;           // the crown covers a player who stands behind the tree (the player is at 10)
             if (spriteName == "obj_tree" || spriteName == "obj_bramble") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
             return go;

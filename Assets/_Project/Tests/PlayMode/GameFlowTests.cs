@@ -15,26 +15,8 @@ using UnityEngine.UI;
 namespace Farm.Tests
 {
     // End-to-end flows through the real scenes and services (Farm scene, UI, save files in a temp folder).
-    public class GameFlowTests
+    public class GameFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-playtests-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         static IEnumerator WaitFrames(int n)
         {

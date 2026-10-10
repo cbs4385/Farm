@@ -13,7 +13,7 @@ namespace Farm.Gameplay
             switch (def.Kind)
             {
                 case PlaceableKind.Chest:
-                    if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowChest(obj.Id);
+                    UiAccess.Run(ui => ui.ShowChest(obj.Id));
                     break;
 
                 case PlaceableKind.Machine:

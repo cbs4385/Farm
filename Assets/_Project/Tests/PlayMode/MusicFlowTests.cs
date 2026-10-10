@@ -13,27 +13,9 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // The music in the real game: the director follows the season, the time of day and the place, and asks for nothing it has no file for.
-    public class MusicFlowTests
+    public class MusicFlowTests : PlayModeFixture
     {
-        string _root;
         GameSession _s;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _root = Path.Combine(Path.GetTempPath(), "farm-music-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
-        }
 
         IEnumerator Enter(string map, Season season, int hour)
         {

@@ -1,3 +1,4 @@
+using Farm.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Farm.Gameplay
         static readonly Dictionary<Sprite, Sprite[]> Cache = new Dictionary<Sprite, Sprite[]>();
         static readonly Dictionary<Sprite, Sprite> OriginalOfFrame = new Dictionary<Sprite, Sprite>();
 
+        static StepFrames() => TestResets.Add(ClearCache);
         public static void ClearCache() { Cache.Clear(); OriginalOfFrame.Clear(); }
 
         // Pixels in texture order (row 0 is the bottom). Lifts the foot under one half of the picture by a pixel: that half's bottom rows move

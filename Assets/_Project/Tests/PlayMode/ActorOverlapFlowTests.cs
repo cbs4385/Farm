@@ -11,28 +11,20 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // Playtest report: villagers and animals could share a tile. With real scenes, nobody ends up sharing and whoever can move steps aside.
-    public class ActorOverlapFlowTests
+    public class ActorOverlapFlowTests : PlayModeFixture
     {
-        string _root;
         GameSession _s;
 
         [SetUp]
-        public void SetUp()
+        public void SetUpMore()
         {
-            _root = Path.Combine(Path.GetTempPath(), "farm-overlap-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
             CellOccupants.ResetForTests();
         }
 
         [TearDown]
-        public void TearDown()
+        public void TearDownMore()
         {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
             CellOccupants.ResetForTests();
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
         }
 
         IEnumerator Start(string map, int hour)

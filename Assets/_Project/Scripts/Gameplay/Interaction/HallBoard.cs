@@ -10,7 +10,7 @@ namespace Farm.Gameplay
 
         public void Interact(PlayerActions player)
         {
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowHall();
+            UiAccess.Run(ui => ui.ShowHall());
         }
     }
 }

@@ -12,26 +12,8 @@ using UnityEngine.TestTools;
 namespace Farm.Tests
 {
     // Playtest 2026-10-09: the player can sit on a chair, couch or bench, and rests there.
-    public class SitFlowTests
+    public class SitFlowTests : PlayModeFixture
     {
-        string _dataRoot;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-sit-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         [UnityTest]
         public IEnumerator The_player_sits_rests_and_stands_up()

@@ -42,7 +42,7 @@ namespace Farm.Gameplay
 
     // The running game: state + clock + backpack + per-map farm grids. A persistent service.
     // Scene objects read from and write to this; it is the only thing that touches GameState directly.
-    public sealed class GameSession : MonoBehaviour
+    public sealed partial class GameSession : MonoBehaviour
     {
         readonly Dictionary<string, FarmGrid> _grids = new Dictionary<string, FarmGrid>();
         readonly Dictionary<string, NodeGrid> _nodeGrids = new Dictionary<string, NodeGrid>();
@@ -98,42 +98,6 @@ namespace Farm.Gameplay
             return placed;
         }
 
-        public UpgradeCatalog UpgradeTable => _upgradeCatalog ?? (_upgradeCatalog = UpgradeCatalog.From(_db));
-
-        // Buys an upgrade at a counter (gold, materials, effect). Explains a refusal with a toast.
-        public bool BuyUpgrade(UpgradeDefinition def)
-        {
-            var result = Upgrades.Buy(UpgradeTable, def, State, Backpack, Clock.Now);
-            switch (result)
-            {
-                case UpgradeCheck.NoGold: Toast(L.Get("toast.not_enough_gold")); break;
-                case UpgradeCheck.NoMaterials: Toast(L.Get("toast.upgrade_materials")); break;
-                case UpgradeCheck.NotOffered: break;
-                default:
-                    if (def.Kind == UpgradeKind.Unlock && !string.IsNullOrEmpty(def.FlagId)) SetFlag(def.FlagId);
-                    _bus.Publish(new StatsChanged());
-                    Toast(L.Get(def.Kind == UpgradeKind.Tool ? "toast.upgrade_started" : "toast.upgrade_done"));
-                    break;
-            }
-            return result == UpgradeCheck.Ok;
-        }
-
-        // Takes back every finished tool the backpack has room for.
-        public int CollectUpgrades()
-        {
-            var collected = Upgrades.Collect(State, Backpack, Clock.Now);
-            foreach (var p in collected) Toast(L.Get("toast.upgrade_collected", ToolTitle(p.ToolItemId, p.Tier)));
-            if (collected.Count == 0 && Upgrades.Ready(State, Clock.Now).Count > 0) Toast(L.Get("toast.inventory_full"));
-            if (collected.Count > 0) _bus.Publish(new StatsChanged());
-            return collected.Count;
-        }
-
-        // "Copper Axe" for a tool item at a tier ("Axe" for basic).
-        public string ToolTitle(string toolItemId, int tier)
-        {
-            var name = _db.TryGetItem(toolItemId, out var item) ? L.Get(item.NameKey) : toolItemId;
-            return tier <= 0 ? name : L.Get("upgrade.tool", L.Get(ToolModel.TierKey(tier)), name);
-        }
 
         // Events waiting to play (the `event:` effect); the event director on the loaded map plays them in order. Not saved.
         public List<string> PendingEvents { get; } = new List<string>();
@@ -206,52 +170,6 @@ namespace Farm.Gameplay
         public static int CurrentHorrorLevel =>
             HorrorLevelOverride ?? (ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current.HorrorLevel : 2);
 
-        // ---- story flags and variables -------------------------------------------------------------------------
-
-        public bool HasFlag(string flag) => InGame && State.Flags.Contains(flag);
-
-        public void SetFlag(string flag, bool on = true)
-        {
-            var changed = on ? State.Flags.Add(flag) : State.Flags.Remove(flag);
-            if (changed) _bus.Publish(new FlagChanged(flag, on));
-        }
-
-        public int GetVar(string name) => InGame && State.Vars.TryGetValue(name, out var v) ? v : 0;
-
-        public void SetVar(string name, int value)
-        {
-            var old = GetVar(name);
-            if (old == value) return;
-            State.Vars[name] = value;
-            _bus.Publish(new VarChanged(name, old, value));
-        }
-
-        // Adds `delta` and clamps to [min, max]. Returns the new value.
-        public int AddVar(string name, int delta, int min = int.MinValue, int max = int.MaxValue)
-        {
-            var value = Mathf.Clamp(GetVar(name) + delta, min, max);
-            SetVar(name, value);
-            return value;
-        }
-
-        // ---- module-owned persistent data ----------------------------------------------------------------------
-
-        // Each module keeps its own serializable object in the save under its id. Returns a fresh T when none exists.
-        public T GetModuleData<T>(string moduleId) where T : class, new()
-        {
-            if (InGame && State.ModuleData.TryGetValue(moduleId, out var json))
-            {
-                try { return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json) ?? new T(); }
-                catch (System.Exception e) { Log.Error($"Module data '{moduleId}' unreadable: {e.Message}"); }
-            }
-            return new T();
-        }
-
-        public void SetModuleData<T>(string moduleId, T data) where T : class
-        {
-            if (!InGame) return;
-            State.ModuleData[moduleId] = Newtonsoft.Json.JsonConvert.SerializeObject(data);
-        }
 
         public void Init(EventBus bus, GameDatabase db, SaveService saves)
         {
@@ -301,7 +219,7 @@ namespace Farm.Gameplay
             if (!InGame || _sleeping) return;
             if (!FatigueModel.NeedsWarning(e.Now.MinuteOfDay, HasFlag(FatigueModel.WarnedFlag))) return;
             SetFlag(FatigueModel.WarnedFlag);
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowMessage("late_night.warning");
+            UiAccess.Run(ui => ui.ShowMessage("late_night.warning"));
         }
 
         // The game stops while its window is not in focus (the Steam overlay, alt-tab): the clock must not run away.
@@ -467,179 +385,7 @@ namespace Farm.Gameplay
             if (Clock != null && Settings != null) Clock.SecondsPerStep = Settings.SecondsPerStep;
         }
 
-        // ---- player stats --------------------------------------------------------------------------------------
 
-        public bool TrySpendEnergy(int amount)
-        {
-            if (amount > 0 && Settings != null && Settings.RelaxedEnergy) amount = Mathf.Max(1, amount / 2);
-            if (State.Energy < amount) return false;
-            State.Energy -= amount;
-            _bus.Publish(new StatsChanged());
-            return true;
-        }
-
-        public void SetEnergy(int value)
-        {
-            State.Energy = Mathf.Clamp(value, 0, State.MaxEnergy);
-            _bus.Publish(new StatsChanged());
-        }
-
-        // Tells the HUD to redraw (used by tools that change the clock or other state directly).
-        public void NotifyChanged() => _bus.Publish(new StatsChanged());
-
-        public void RestoreEnergy(int amount)
-        {
-            State.Energy = Mathf.Min(State.MaxEnergy, State.Energy + amount);
-            _bus.Publish(new StatsChanged());
-        }
-
-        public void AddGold(int amount)
-        {
-            State.Gold += amount;
-            _bus.Publish(new StatsChanged());
-        }
-
-        // Text from the string table with the player's and farm's names filled in ("[player]", "[farm]").
-        public string StoryText(string key, object[] args)
-        {
-            var text = L.Get(key, args);
-            if (!InGame) return text;
-            return StoryTokens.Apply(text, token =>
-            {
-                switch (token)
-                {
-                    case "player": return State.PlayerName;
-                    case "farm": return State.FarmName;
-                    case "season": return Clock.Now.Season.ToString().ToLowerInvariant();
-                    case "weekday": return StoryTokens.Weekdays[Clock.Now.DayOfWeek];
-                }
-                if (token.StartsWith("npc:", StringComparison.Ordinal) && Npcs?.Get(token.Substring(4)) is NpcDefinition npc)
-                    return StoryTokens.ShortName(L.Get(npc.NameKey));
-                return null;
-            });
-        }
-
-        // Starts a conversation (modal; the clock is paused while it is open). Returns false when there is no such
-        // dialogue or no UI to show it.
-        public bool BeginDialogue(string dialogueId, Action onFinished = null)
-        {
-            var graph = Story.Dialogue(dialogueId);
-            if (graph == null) { Log.Warn($"Unknown dialogue '{dialogueId}'."); return false; }
-            if (!ServiceLocator.TryGet<IUiService>(out var ui)) return false;
-            var runner = new DialogueRunner(graph, World, StoryText, effect => Effects.Run(this, effect));
-            ui.ShowDialogue(runner, onFinished);
-            return true;
-        }
-
-        // Starts a conversation from a graph built on the fly (the chat menu).
-        public bool BeginDialogueGraph(DialogueGraph graph, Action onFinished = null)
-        {
-            if (graph == null || !ServiceLocator.TryGet<IUiService>(out var ui)) return false;
-            ui.ShowDialogue(new DialogueRunner(graph, World, StoryText, effect => Effects.Run(this, effect)), onFinished);
-            return true;
-        }
-
-        // Teaches a recipe (a letter, a villager). Returns false when it is already known or does not exist.
-        public bool LearnRecipe(string recipeId)
-        {
-            var recipe = Recipes.Get(recipeId);
-            if (recipe == null || State.Recipes.Contains(recipeId)) return false;
-            State.Recipes.Add(recipeId);
-            if (_db.TryGetItem(recipe.OutputItemId, out var made)) Toast(L.Get("toast.recipe_learned", L.Get(made.NameKey)));
-            return true;
-        }
-
-        // Crafts or cooks a recipe at a station; counts it for quests.
-        public CraftResult Craft(RecipeDefinition recipe, string station)
-        {
-            var result = CraftingRules.TryCraft(recipe, station, State, Backpack, GetSkillLevel);
-            if (result == CraftResult.Ok) AddVar(QuestLog.Stats.Crafted, 1);
-            return result;
-        }
-
-        public bool KnowsRecipe(RecipeDefinition recipe) => CraftingRules.Knows(recipe, State, GetSkillLevel);
-
-        // Adds or removes gold (a story effect); never goes below zero.
-        public void ChangeGold(int delta)
-        {
-            State.Gold = System.Math.Max(0, State.Gold + delta);
-            _bus.Publish(new StatsChanged());
-        }
-
-        // Puts items in the backpack (a reward, a gift). What does not fit waits in the mailbox (Parcels), with a toast saying so.
-        public void GiveItem(string itemId, int count = 1, int quality = 0)
-        {
-            if (!InGame || count <= 0) return;
-            if (!_db.TryGetItem(itemId, out _)) { Log.Error($"give: unknown item '{itemId}'"); return; }
-            var left = Backpack.Add(itemId, count, quality);
-            if (left <= 0) return;
-            Parcels.Send(this, itemId, left);
-            Toast(L.Get("toast.parcel_waiting"));
-        }
-
-        public bool TrySpendGold(int amount)
-        {
-            if (State.Gold < amount) return false;
-            State.Gold -= amount;
-            _bus.Publish(new StatsChanged());
-            return true;
-        }
-
-        public int GetSkillXp(string skill) => InGame && State.SkillXp.TryGetValue(skill, out var xp) ? xp : 0;
-        public int GetSkillLevel(string skill) => SkillModel.LevelForXp(GetSkillXp(skill));
-
-        // Adds XP; announces each level gained (event and a toast).
-        public void AddSkillXp(string skill, int xp)
-        {
-            if (!InGame || xp <= 0 || string.IsNullOrEmpty(skill)) return;
-            var before = SkillModel.LevelForXp(GetSkillXp(skill));
-            State.SkillXp[skill] = GetSkillXp(skill) + xp;
-            var after = SkillModel.LevelForXp(State.SkillXp[skill]);
-            for (var level = before + 1; level <= after; level++)
-            {
-                _bus.Publish(new SkillLevelUp(skill, level));
-                Toast(L.Get("toast.skill_level", L.Get("skill." + skill), level));
-                if (level == 5 || level == 10) Toast(L.Get("toast.profession_ready", L.Get("skill." + skill)));
-            }
-            // Levels unlock recipes: say what can be made now.
-            foreach (var recipe in CraftingRules.NewlyUnlocked(Recipes, skill, before, after))
-                if (_db.TryGetItem(recipe.OutputItemId, out var made)) Toast(L.Get("toast.recipe_unlocked", L.Get(made.NameKey)));
-        }
-
-        // The upgrade tier of a tool item the player owns (0 = basic).
-        public int ToolTier(string itemId) => InGame && itemId != null && State.ToolTiers.TryGetValue(itemId, out var t) ? t : 0;
-
-        // Publishes an event on the game's bus (for systems that only hold the session).
-        public void Publish<T>(T evt) => _bus.Publish(evt);
-
-        public void Toast(string message) => _bus.Publish(new ToastRequested(message));
-
-        // ---- shipping ------------------------------------------------------------------------------------------
-
-        // Moves the whole stack in a backpack slot into the shipping bin. Returns false if it cannot be sold.
-        public bool ShipSlot(int slot) => ShipSlot(slot, int.MaxValue);
-
-        // The same, for some of the stack (the shipping window ships a lot of several stacks at once).
-        public bool ShipSlot(int slot, int count)
-        {
-            var stack = Backpack.Get(slot);
-            if (stack == null || count <= 0 || !_db.TryGetItem(stack.ItemId, out var item) || item.IsTool || item.SellPrice <= 0) return false;
-
-            var removed = Backpack.RemoveFromSlot(slot, System.Math.Min(count, stack.Count));
-            AddVar(QuestLog.Stats.Shipped, removed.Count);
-            foreach (var existing in State.ShippingBin)
-            {
-                if (existing.ItemId == removed.ItemId && existing.Quality == removed.Quality && existing.Mark == removed.Mark)
-                {
-                    existing.Count += removed.Count;
-                    _bus.Publish(new StatsChanged());
-                    return true;
-                }
-            }
-            State.ShippingBin.Add(removed);
-            _bus.Publish(new StatsChanged());
-            return true;
-        }
 
         // ---- day cycle -----------------------------------------------------------------------------------------
 

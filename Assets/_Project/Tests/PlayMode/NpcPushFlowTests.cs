@@ -13,27 +13,9 @@ namespace Farm.Tests
     // Playtest 2026-10-07 (second report): "the npc is still pushing the player aside after a moment of contact". The first fix held a villager back
     // from the player, but the first stretch of every route was exempt from the check (so a villager can stand up from a seat), and after the villager
     // had waited and found a way round, its first step could slide into the player and shove them. A villager must never move the player at all.
-    public class NpcPushFlowTests
+    public class NpcPushFlowTests : PlayModeFixture
     {
-        string _dataRoot;
         GameSession _session;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dataRoot = Path.Combine(Path.GetTempPath(), "farm-npcpush-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_dataRoot);
-            GameServices.DataRootOverride = _dataRoot;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
-        }
 
         IEnumerator EnterFarm()
         {

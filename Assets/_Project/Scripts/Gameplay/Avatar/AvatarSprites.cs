@@ -1,3 +1,4 @@
+using Farm.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,6 +45,7 @@ namespace Farm.Gameplay
             return sprite;
         }
 
+        static AvatarSprites() => TestResets.Add(ClearCache);
         public static void ClearCache() => Cache.Clear();
     }
 }

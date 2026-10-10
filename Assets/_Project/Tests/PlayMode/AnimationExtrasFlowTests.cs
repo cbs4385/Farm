@@ -13,26 +13,8 @@ using UnityEngine.TestTools;
 
 namespace Farm.Tests
 {
-    public class AnimationExtrasFlowTests
+    public class AnimationExtrasFlowTests : PlayModeFixture
     {
-        string _root;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _root = Path.Combine(Path.GetTempPath(), "farm-animextras-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(_root);
-            GameServices.DataRootOverride = _root;
-            Bootstrapper.ResetForTests();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Bootstrapper.ResetForTests();
-            GameServices.DataRootOverride = null;
-            if (Directory.Exists(_root)) Directory.Delete(_root, true);
-        }
 
         static IEnumerator Load(string map)
         {

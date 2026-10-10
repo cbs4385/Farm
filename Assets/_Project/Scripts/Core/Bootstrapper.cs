@@ -50,6 +50,7 @@ namespace Farm.Core
             var root = GameObject.Find("Services");
             if (root != null) DestroyImmediate(root);
             ServiceLocator.Clear();
+            TestResets.RunAll();
             _initialized = false;
         }
 

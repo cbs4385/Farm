@@ -125,7 +125,7 @@ namespace Farm.Gameplay
             var dMinute = _lastMinute < 0f ? 0f : minute - _lastMinute;
             if (dMinute < 0f || dMinute > 30f) { _lag.Clear(); dMinute = 0f; }          // a new day or a jump of the clock: everybody is on time
             _lastMinute = minute;
-            var modal = ServiceLocator.TryGet<IUiService>(out var uiService) && uiService.AnyModalOpen;
+            var modal = UiAccess.AnyModalOpen;
 
             foreach (var npc in _session.Npcs.All)
             {
