@@ -11,6 +11,25 @@
             {
               "text": "dlg.mythos.altar.c0",
               "condition": "horror:1 && quest:mythos_seal=active && has:mythos.relic_seal>=1 && has:mythos.relic_bell>=1 && has:mythos.relic_thread>=1 && !flag:mythos.sealed",
+              "next": "seal"
+            },
+            {
+              "text": "dlg.mythos.altar.c1",
+              "condition": "horror:1 && flag:mythos.initiated && var:cult.standing>=20 && !flag:ending.joined && !flag:mythos.sealed",
+              "next": "join"
+            },
+            {
+              "text": "dlg.mythos.altar.c2",
+              "next": ""
+            }
+          ]
+        },
+        {
+          "id": "seal",
+          "text": "dlg.mythos.altar.seal",
+          "choices": [
+            {
+              "text": "dlg.mythos.altar.seal.yes",
               "effects": [
                 "quest.done:mythos_seal",
                 "seal",
@@ -19,16 +38,25 @@
               "next": ""
             },
             {
-              "text": "dlg.mythos.altar.c1",
-              "condition": "horror:1 && flag:mythos.initiated && var:cult.standing>=20 && !flag:ending.joined && !flag:mythos.sealed",
+              "text": "dlg.mythos.altar.seal.no",
+              "next": "a"
+            }
+          ]
+        },
+        {
+          "id": "join",
+          "text": "dlg.mythos.altar.join",
+          "choices": [
+            {
+              "text": "dlg.mythos.altar.join.yes",
               "effects": [
                 "event:mythos_ending_join"
               ],
               "next": ""
             },
             {
-              "text": "dlg.mythos.altar.c2",
-              "next": ""
+              "text": "dlg.mythos.altar.join.no",
+              "next": "a"
             }
           ]
         }
@@ -88,7 +116,13 @@
             "lore:1",
             "flag:clue.tilda.2",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.mythos.tilda.clue2.1"
         }
       ]
     },
@@ -104,7 +138,13 @@
             "lore:1",
             "flag:clue.tilda.3",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "tilda",
+          "text": "dlg.mythos.tilda.clue3.1"
         }
       ]
     },
@@ -162,7 +202,13 @@
             "lore:1",
             "flag:clue.marcus.2",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "marcus",
+          "text": "dlg.mythos.marcus.clue2.1"
         }
       ]
     },
@@ -178,7 +224,13 @@
             "lore:1",
             "flag:clue.marcus.3",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "marcus",
+          "text": "dlg.mythos.marcus.clue3.1"
         }
       ]
     },
@@ -236,7 +288,13 @@
             "lore:1",
             "flag:clue.odalys.2",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.clue2.1"
         }
       ]
     },
@@ -252,7 +310,13 @@
             "lore:1",
             "flag:clue.odalys.3",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "odalys",
+          "text": "dlg.mythos.odalys.clue3.1"
         }
       ]
     },
@@ -310,7 +374,13 @@
             "lore:1",
             "flag:clue.dorian.2",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "dorian",
+          "text": "dlg.mythos.dorian.clue2.1"
         }
       ]
     },
@@ -326,7 +396,13 @@
             "lore:1",
             "flag:clue.dorian.3",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "dorian",
+          "text": "dlg.mythos.dorian.clue3.1"
         }
       ]
     },
@@ -384,7 +460,13 @@
             "lore:1",
             "flag:clue.wren.2",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.mythos.wren.clue2.1"
         }
       ]
     },
@@ -400,7 +482,13 @@
             "lore:1",
             "flag:clue.wren.3",
             "dread:2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "wren",
+          "text": "dlg.mythos.wren.clue3.1"
         }
       ]
     },
@@ -473,7 +561,13 @@
           "effects": [
             "lore:2",
             "flag:clue.hazel.2"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.clue2.1"
         }
       ]
     },
@@ -489,7 +583,19 @@
             "lore:2",
             "flag:clue.hazel.3",
             "quest.start:mythos_seal"
-          ]
+          ],
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.clue3.1",
+          "next": "n2"
+        },
+        {
+          "id": "n2",
+          "speaker": "hazel",
+          "text": "dlg.mythos.hazel.clue3.2"
         }
       ]
     },
@@ -540,6 +646,30 @@
           "id": "r2_0",
           "speaker": "hazel",
           "text": "dlg.mythos.hazel.sabotage.r2_0"
+        }
+      ]
+    },
+    {
+      "id": "mythos.ritual.choice",
+      "start": "a",
+      "nodes": [
+        {
+          "id": "a",
+          "text": "dlg.mythos.ritual.choice.0",
+          "choices": [
+            {
+              "text": "dlg.mythos.ritual.choice.c0",
+              "condition": "flag:mythos.interference",
+              "effects": [
+                "ritual:snatch"
+              ],
+              "next": ""
+            },
+            {
+              "text": "dlg.mythos.ritual.choice.c1",
+              "next": ""
+            }
+          ]
         }
       ]
     }
@@ -984,12 +1114,101 @@
       "condition": "horror:1 && hour>=20 && var:lore<3 && !flag:mythos.heard1",
       "steps": [
         {
+          "type": "letterbox",
+          "name": "on",
+          "seconds": 0.5
+        },
+        {
+          "type": "lighting",
+          "name": "dim",
+          "seconds": 0.8
+        },
+        {
+          "type": "place",
+          "actor": "marcus",
+          "x": 3,
+          "y": 5
+        },
+        {
+          "type": "place",
+          "actor": "dorian",
+          "x": 2,
+          "y": 6
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "left"
+        },
+        {
+          "type": "face",
+          "actor": "dorian",
+          "facing": "down"
+        },
+        {
+          "type": "camera",
+          "name": "focus",
+          "x": 2,
+          "y": 5,
+          "seconds": 1.0
+        },
+        {
           "type": "say",
           "text": "event.mythos_overheard.0"
         },
         {
           "type": "say",
+          "text": "event.mythos_overheard.m0",
+          "speaker": "marcus",
+          "condition": "horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard.d0",
+          "speaker": "dorian",
+          "condition": "horror:2",
+          "expression": "thinking"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard.m1",
+          "speaker": "marcus",
+          "condition": "horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard.mm0",
+          "speaker": "marcus",
+          "condition": "!horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard.mm1",
+          "speaker": "dorian",
+          "condition": "!horror:2"
+        },
+        {
+          "type": "sfx",
+          "name": "Clink"
+        },
+        {
+          "type": "say",
           "text": "event.mythos_overheard.1"
+        },
+        {
+          "type": "camera",
+          "name": "reset",
+          "seconds": 0.6
+        },
+        {
+          "type": "lighting",
+          "name": "reset",
+          "seconds": 0.6
+        },
+        {
+          "type": "letterbox",
+          "name": "off",
+          "seconds": 0.5
         },
         {
           "type": "effects",
@@ -1002,12 +1221,137 @@
       ]
     },
     {
+      "id": "mythos_overheard_marks",
+      "trigger": "map",
+      "map": "Saloon",
+      "priority": 4,
+      "condition": "horror:1 && hour>=20 && flag:mythos.heard1 && flag:woods.open && !flag:mythos.heard2",
+      "steps": [
+        {
+          "type": "letterbox",
+          "name": "on",
+          "seconds": 0.5
+        },
+        {
+          "type": "lighting",
+          "name": "dim",
+          "seconds": 0.8
+        },
+        {
+          "type": "place",
+          "actor": "odalys",
+          "x": 3,
+          "y": 5
+        },
+        {
+          "type": "place",
+          "actor": "tilda",
+          "x": 2,
+          "y": 6
+        },
+        {
+          "type": "face",
+          "actor": "odalys",
+          "facing": "left"
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "down"
+        },
+        {
+          "type": "camera",
+          "name": "focus",
+          "x": 2,
+          "y": 5,
+          "seconds": 1.0
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.0"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.o0",
+          "speaker": "odalys",
+          "condition": "horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.t0",
+          "speaker": "tilda",
+          "condition": "horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.o1",
+          "speaker": "odalys",
+          "condition": "horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.t1",
+          "speaker": "tilda",
+          "condition": "horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.o2",
+          "speaker": "odalys",
+          "condition": "horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.mo0",
+          "speaker": "odalys",
+          "condition": "!horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.mt0",
+          "speaker": "tilda",
+          "condition": "!horror:2"
+        },
+        {
+          "type": "say",
+          "text": "event.mythos_overheard_marks.1"
+        },
+        {
+          "type": "camera",
+          "name": "reset",
+          "seconds": 0.6
+        },
+        {
+          "type": "lighting",
+          "name": "reset",
+          "seconds": 0.6
+        },
+        {
+          "type": "letterbox",
+          "name": "off",
+          "seconds": 0.5
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "lore:1",
+            "flag:mythos.heard2",
+            "dread:3"
+          ]
+        }
+      ]
+    },
+    {
       "id": "mythos_ending_awakening",
       "trigger": "manual",
       "steps": [
         {
           "type": "fadeout",
-          "seconds": 1.2
+          "seconds": 1.0
+        },
+        {
+          "type": "sfx",
+          "name": "Thunder"
         },
         {
           "type": "say",
@@ -1020,6 +1364,10 @@
         {
           "type": "say",
           "text": "event.awakening.2"
+        },
+        {
+          "type": "say",
+          "text": "event.awakening.3"
         },
         {
           "type": "effects",
@@ -1038,6 +1386,10 @@
           "seconds": 1.0
         },
         {
+          "type": "sfx",
+          "name": "Bell"
+        },
+        {
           "type": "say",
           "text": "event.resist.0"
         },
@@ -1048,6 +1400,24 @@
         {
           "type": "say",
           "text": "event.resist.2"
+        },
+        {
+          "type": "say",
+          "text": "event.resist.3"
+        },
+        {
+          "type": "say",
+          "text": "event.resist.4"
+        },
+        {
+          "type": "say",
+          "text": "event.resist.5a",
+          "condition": "var:cult.standing<0"
+        },
+        {
+          "type": "say",
+          "text": "event.resist.5b",
+          "condition": "var:cult.standing>=0"
         },
         {
           "type": "fadein",
@@ -1071,6 +1441,10 @@
           "seconds": 1.0
         },
         {
+          "type": "sfx",
+          "name": "Lantern"
+        },
+        {
           "type": "say",
           "text": "event.join.0"
         },
@@ -1081,6 +1455,14 @@
         {
           "type": "say",
           "text": "event.join.2"
+        },
+        {
+          "type": "say",
+          "text": "event.join.3"
+        },
+        {
+          "type": "say",
+          "text": "event.join.4"
         },
         {
           "type": "fadein",
@@ -1110,9 +1492,466 @@
           "text": "event.ignore.1"
         },
         {
+          "type": "say",
+          "text": "event.ignore.2"
+        },
+        {
           "type": "effects",
           "effects": [
             "ending:ignored"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos_ritual_witness",
+      "trigger": "map",
+      "map": "Woods",
+      "priority": 6,
+      "once": false,
+      "recheck": true,
+      "condition": "horror:2 && flag:woods.open && ritual:opening && ritual:fresh",
+      "steps": [
+        {
+          "type": "fadeout",
+          "seconds": 0.8
+        },
+        {
+          "type": "place",
+          "actor": "player",
+          "x": 14,
+          "y": 14
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "right"
+        },
+        {
+          "type": "place",
+          "actor": "tilda",
+          "x": 17,
+          "y": 16
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "right"
+        },
+        {
+          "type": "place",
+          "actor": "marcus",
+          "x": 21,
+          "y": 16
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "left"
+        },
+        {
+          "type": "place",
+          "actor": "odalys",
+          "x": 19,
+          "y": 21
+        },
+        {
+          "type": "face",
+          "actor": "odalys",
+          "facing": "down"
+        },
+        {
+          "type": "place",
+          "actor": "dorian",
+          "x": 16,
+          "y": 19
+        },
+        {
+          "type": "face",
+          "actor": "dorian",
+          "facing": "right"
+        },
+        {
+          "type": "place",
+          "actor": "wren",
+          "x": 22,
+          "y": 19
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "left"
+        },
+        {
+          "type": "letterbox",
+          "name": "on",
+          "seconds": 0.1
+        },
+        {
+          "type": "lighting",
+          "name": "night",
+          "seconds": 0.1
+        },
+        {
+          "type": "camera",
+          "name": "focus",
+          "x": 19,
+          "y": 18,
+          "seconds": 0.1
+        },
+        {
+          "type": "fadein",
+          "seconds": 1.2
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_procession",
+          "text": "mythos.ritual.procession.caption"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.0"
+        },
+        {
+          "type": "sfx",
+          "name": "Bell"
+        },
+        {
+          "type": "wait",
+          "seconds": 0.8
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.1"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.o0",
+          "speaker": "odalys"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.c0"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.o1",
+          "speaker": "odalys"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.c1"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.o2",
+          "speaker": "odalys"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "ritual:begin"
+          ]
+        },
+        {
+          "type": "wait",
+          "seconds": 0.6
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.p0",
+          "condition": "ritual:count>=1"
+        },
+        {
+          "type": "sfx",
+          "name": "Lantern",
+          "condition": "ritual:count>=1"
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_dissolve",
+          "text": "mythos.ritual.dissolve.caption",
+          "condition": "ritual:count==1"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "mythos.ritual.choice",
+          "condition": "ritual:count==1"
+        },
+        {
+          "type": "branch",
+          "target": "snatched",
+          "condition": "ritual:count==1 && ritual:snatched"
+        },
+        {
+          "type": "advance",
+          "minutes": 20,
+          "condition": "ritual:count>=1"
+        },
+        {
+          "type": "wait",
+          "seconds": 0.5,
+          "condition": "ritual:count>=1"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.p1",
+          "condition": "ritual:count>=2"
+        },
+        {
+          "type": "sfx",
+          "name": "Lantern",
+          "condition": "ritual:count>=2"
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_dissolve",
+          "text": "mythos.ritual.dissolve.caption",
+          "condition": "ritual:count==2"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "mythos.ritual.choice",
+          "condition": "ritual:count==2"
+        },
+        {
+          "type": "branch",
+          "target": "snatched",
+          "condition": "ritual:count==2 && ritual:snatched"
+        },
+        {
+          "type": "advance",
+          "minutes": 20,
+          "condition": "ritual:count>=2"
+        },
+        {
+          "type": "wait",
+          "seconds": 0.5,
+          "condition": "ritual:count>=2"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.p2",
+          "condition": "ritual:count>=3"
+        },
+        {
+          "type": "sfx",
+          "name": "Lantern",
+          "condition": "ritual:count>=3"
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_dissolve",
+          "text": "mythos.ritual.dissolve.caption",
+          "condition": "ritual:count==3"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "mythos.ritual.choice",
+          "condition": "ritual:count==3"
+        },
+        {
+          "type": "branch",
+          "target": "snatched",
+          "condition": "ritual:count==3 && ritual:snatched"
+        },
+        {
+          "type": "advance",
+          "minutes": 20,
+          "condition": "ritual:count>=3"
+        },
+        {
+          "type": "wait",
+          "seconds": 0.5,
+          "condition": "ritual:count>=3"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.p3",
+          "condition": "ritual:count>=4"
+        },
+        {
+          "type": "sfx",
+          "name": "Lantern",
+          "condition": "ritual:count>=4"
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_dissolve",
+          "text": "mythos.ritual.dissolve.caption",
+          "condition": "ritual:count==4"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "mythos.ritual.choice",
+          "condition": "ritual:count==4"
+        },
+        {
+          "type": "branch",
+          "target": "snatched",
+          "condition": "ritual:count==4 && ritual:snatched"
+        },
+        {
+          "type": "advance",
+          "minutes": 20,
+          "condition": "ritual:count>=4"
+        },
+        {
+          "type": "wait",
+          "seconds": 0.5,
+          "condition": "ritual:count>=4"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.p4",
+          "condition": "ritual:count>=5"
+        },
+        {
+          "type": "sfx",
+          "name": "Lantern",
+          "condition": "ritual:count>=5"
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_dissolve",
+          "text": "mythos.ritual.dissolve.caption",
+          "condition": "ritual:count==5"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "mythos.ritual.choice",
+          "condition": "ritual:count==5"
+        },
+        {
+          "type": "branch",
+          "target": "snatched",
+          "condition": "ritual:count==5 && ritual:snatched"
+        },
+        {
+          "type": "advance",
+          "minutes": 20,
+          "condition": "ritual:count>=5"
+        },
+        {
+          "type": "wait",
+          "seconds": 0.5,
+          "condition": "ritual:count>=5"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.w0",
+          "condition": "ritual:succeeded"
+        },
+        {
+          "type": "sfx",
+          "name": "Gust",
+          "condition": "ritual:succeeded"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.w1",
+          "condition": "ritual:succeeded"
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_stir",
+          "text": "mythos.ritual.stir.caption",
+          "condition": "ritual:failed"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.x0",
+          "condition": "ritual:failed"
+        },
+        {
+          "type": "branch",
+          "target": "done"
+        },
+        {
+          "type": "label",
+          "label": "snatched"
+        },
+        {
+          "type": "camera",
+          "name": "focus",
+          "actor": "player",
+          "seconds": 0.6
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.s0"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.s1",
+          "speaker": "odalys",
+          "expression": "thinking"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.s2",
+          "speaker": "odalys"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.s3"
+        },
+        {
+          "type": "advance",
+          "minutes": 20
+        },
+        {
+          "type": "illustration",
+          "name": "Ritual/ritual_stir",
+          "text": "mythos.ritual.stir.caption"
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.f0"
+        },
+        {
+          "type": "label",
+          "label": "done"
+        },
+        {
+          "type": "fadeout",
+          "seconds": 1.0
+        },
+        {
+          "type": "place",
+          "actor": "player",
+          "x": 14,
+          "y": 14
+        },
+        {
+          "type": "camera",
+          "name": "reset",
+          "seconds": 0.1
+        },
+        {
+          "type": "lighting",
+          "name": "reset",
+          "seconds": 0.1
+        },
+        {
+          "type": "letterbox",
+          "name": "off",
+          "seconds": 0.1
+        },
+        {
+          "type": "fadein",
+          "seconds": 1.0
+        },
+        {
+          "type": "say",
+          "text": "event.ritual.e0"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "ritual:witness",
+            "lore:2",
+            "dread:4"
           ]
         }
       ]

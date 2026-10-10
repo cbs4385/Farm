@@ -163,6 +163,15 @@ namespace Farm.Gameplay
             yield return Wait(fade);
         }
 
+        // A full-screen picture (a texture under Resources, with a caption) shown until the player dismisses it; the scene waits.
+        public IEnumerator Illustration(string path, string captionKey)
+        {
+            if (!ServiceLocator.TryGet<IUiService>(out var ui) || ui == null) yield break;
+            var done = false;
+            ui.ShowIllustration(path, captionKey, () => done = true);
+            while (!done) yield return null;
+        }
+
         public void Spawn(string id, string itemId, int x, int y)
         {
             Despawn(id);

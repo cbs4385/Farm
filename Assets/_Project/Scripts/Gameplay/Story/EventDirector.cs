@@ -171,6 +171,7 @@ namespace Farm.Gameplay
                 case "music": _stage.Music(step.Name); break;
                 case "lighting": yield return _stage.LightingStep(step.Name, step.Seconds); break;
                 case "letterbox": yield return _stage.LetterboxStep(step.Name == "on", step.Seconds); break;
+                case "illustration": yield return _stage.Illustration(step.Name, step.Text); break;
                 case "spawn": _stage.Spawn(step.Id, step.Name, step.X, step.Y); break;
                 case "despawn": _stage.Despawn(step.Id); break;
                 case "waitFor": yield return WaitForBackground(step.Actor); break;

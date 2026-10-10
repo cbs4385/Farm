@@ -44,6 +44,7 @@ namespace Farm.Mythos
         public bool Sealed;                               // the true fix was found: Nharoth sleeps for good
         public int EndingShown;                           // 0 none, else an Ending number
         public int RitualsWitnessed;
+        public int WitnessedSeason = -1;                  // the season whose ritual the player watched (RitualScene), so that it begins once
     }
 
     public static class MythosIds2

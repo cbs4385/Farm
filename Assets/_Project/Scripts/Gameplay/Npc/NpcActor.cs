@@ -142,6 +142,33 @@ namespace Farm.Gameplay
         public Vector3Int Cell { get; private set; }
         public bool IsPlaced { get; private set; }
 
+        // Robes and the like (NpcOutfits): the picture of this villager in their present outfit, or their ordinary one.
+        string _outfit;
+        public string Outfit => _outfit;
+
+        Sprite PictureFor(Vector2Int facing) =>
+            (_definition != null ? NpcOutfits.SpriteFor(_outfit, _definition.Id, facing) : null) ?? _definition.SpriteFor(facing);
+
+        float _nextOutfitCheck;
+
+        // A scene may hold the villager off the schedule (NpcManager.Take), so the outfit is looked at here too, a few times a second.
+        void Update()
+        {
+            if (Time.time < _nextOutfitCheck) return;
+            _nextOutfitCheck = Time.time + 0.25f;
+            UpdateOutfit();
+        }
+
+        // Puts on (or takes off) what the game's outfit sources say. Cheap: called as the villager is placed.
+        void UpdateOutfit()
+        {
+            if (_definition == null || Sleeping || _pose != null) return;
+            var outfit = NpcOutfits.Current(_definition.Id);
+            if (outfit == _outfit) return;
+            _outfit = outfit;
+            SetFacing(_facing);
+        }
+
         void OnEnable() { CellOccupants.Add(this); Active.Add(this); }
         void OnDisable() { CellOccupants.Remove(this); Active.Remove(this); }
 
@@ -155,12 +182,13 @@ namespace Farm.Gameplay
             var bodyTransform = transform.Find(ActorBody.BodyName);
             _body = bodyTransform != null ? bodyTransform.GetComponent<BoxCollider2D>() : null;
             (TryGetComponent<WalkBob>(out var bob) ? bob : gameObject.AddComponent<WalkBob>()).Breathes = true;
-            _renderer.sprite = definition.SpriteFor(_facing);
+            _renderer.sprite = PictureFor(_facing);
         }
 
         public void Apply(NpcPlacement place, FarmMap map, WalkGrid grid)
         {
             IsWalking = place.Walking;
+            UpdateOutfit();
             if (!place.Walking)
             {
                 var cell = new Vector3Int(place.ToX, place.ToY, 0);
@@ -377,7 +405,7 @@ namespace Farm.Gameplay
         public void SetFacing(Vector2Int facing)
         {
             _facing = facing;
-            if (_pose == null && !Sleeping && _renderer != null && _definition != null) _renderer.sprite = _definition.SpriteFor(facing);
+            if (_pose == null && !Sleeping && _renderer != null && _definition != null) _renderer.sprite = PictureFor(facing);
         }
 
         // T-131: a full-body pose (wave, sit, shrug, point) replaces the idle sprite until ClearPose. False when this villager has no such pose.
@@ -394,7 +422,7 @@ namespace Farm.Gameplay
         public void ClearPose()
         {
             _pose = null;
-            if (_renderer != null && _definition != null) _renderer.sprite = _definition.SpriteFor(_facing);
+            if (_renderer != null && _definition != null) _renderer.sprite = PictureFor(_facing);
         }
 
         public string PoseShown => _pose != null ? _pose.name : null;

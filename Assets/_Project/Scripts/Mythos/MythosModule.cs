@@ -39,6 +39,7 @@ namespace Farm.Mythos
         public static void Install(GameSession session, GameHooks hooks, EventBus bus)
         {
             RegisterConditions();
+            RitualScene.Bind(session);
             MythosEffects.Register();
             foreach (var ending in new[] { "sealed", "joined", "ignored", "awakened" })
                 Achievements.Register(new AchievementDefinition("end_" + ending, "horror:1 && flag:ending." + ending));
@@ -52,6 +53,7 @@ namespace Farm.Mythos
             hooks.AddEventWeightModifier(new DreadEventWeights(session));
             hooks.AddFriendshipDecayModifier(new DreadFriendshipDecay(session));
             hooks.AddScheduleSource(new MythosScheduleSource());
+            hooks.AddOutfitSource(new MythosOutfitSource(session));
             hooks.AddJournalPage(new MythosJournalPage(session));
             hooks.MapLoaded += ctx => MythosMaps.OnMapLoaded(ctx);
             if (bus != null) bus.Subscribe<MinuteChanged>(e => OnMinute(session, e));
@@ -71,6 +73,7 @@ namespace Farm.Mythos
         {
             Conditions.Register("horror", (arg, w) => int.TryParse(arg, out var n) && GameSession.CurrentHorrorLevel >= n);
             Conditions.Register("keeper", (arg, w) => GameSession.CurrentHorrorLevel >= 1 && MythosCast.IsKeeper(arg));
+            Conditions.Register("ritual", (arg, w) => RitualScene.Condition(arg));          // ritual:opening, fresh, succeeded, failed, snatched, count>=N
         }
     }
 }

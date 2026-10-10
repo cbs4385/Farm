@@ -21,6 +21,17 @@ namespace Farm.Mythos
             // Making a Keeper unavailable (a way to disrupt a ritual). Not before the player may interfere.
             Effects.Register("sick", 1, 1, (s, a) => { if (MythosLevel.On(s) && s.HasFlag(MythosIds2.Interference) && MythosCast.IsKeeper(a[0])) s.SetFlag(MythosIds2.Sick(a[0])); });
             Effects.Register("away", 1, 1, (s, a) => { if (MythosLevel.On(s) && s.HasFlag(MythosIds2.Interference) && MythosCast.IsKeeper(a[0])) s.SetFlag(MythosIds2.Away(a[0])); });
+            // The watched ritual (RitualScene): begin (the clock to the first offering), snatch (take the offering from the stone), witness (this one has been watched).
+            Effects.Register("ritual", 1, 1, (s, a) =>
+            {
+                if (!MythosLevel.Full(s)) return;
+                switch (a[0])
+                {
+                    case RitualScene.BeginEffect: RitualScene.Begin(s); break;
+                    case RitualScene.SnatchEffect: RitualScene.Snatch(s); break;
+                    case RitualScene.WitnessEffect: RitualScene.MarkWitnessed(s); break;
+                }
+            });
             Effects.Register("seal", 0, 0, (s, a) => MythosEnding.Seal(s));
             Effects.Register("ending", 1, 1, (s, a) => MythosEnding.Finish(s, a[0]));
         }

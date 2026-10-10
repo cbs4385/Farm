@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.3 (2026-10-10, held for review)
+
+The ritual scenes, updated and polished (horror layer; at "off" none of it exists, and the quieter parts are what "mild" gets):
+- **The Keepers' clues** are rewritten, each Keeper in their own voice: Tilda's dutiful warmth, Marcus's craftsman's bluntness, Odalys's calm, Dorian's short fragments, Wren's dry wit and Hazel's urgency. Each has answers and replies of their own now (they all used to say the same two things), and every clue has a second beat.
+- **The whispers in the saloon** are directed scenes: the lights lower, the camera finds the corner booth, and Marcus and Dorian speak in turn (a quieter version at mild). A second whisper, about the marks, comes once the wood is open.
+- **Robes.** On a ritual night, from the evening until an hour after, the five Keepers wear hooded green robes with their own trim (violet for Odalys, a satchel strap for Dorian, a lantern for Wren). You can see them walk to the wood. New original art; full intensity only.
+- **The altar** stands in a ring of candles under a warm light with a ring of runes on the ground; offerings are shown as what they are, lifted from the stone in drifting golden light while they dissolve. A new, larger altar picture.
+- **A witnessed ritual.** On a ritual night at full intensity, from the first summer, if you are in the wood when it begins, you watch it from the trees: the procession, the call and answer ("What sleeps is not dead." "We keep."), each offering laid and taken into light, and at the last one a choice: step out and take it (the ritual fails and the Keepers' regard falls) or stay hidden (it holds). Either way the scene plays to the end and the world is left as it was. Three new illustrations.
+- **The altar's choices** (sealing the god, joining the Keepers) stop for a moment before the point of no return, and **the four endings** are rewritten with more to them (the sealed ending depends on how the village regards you).
+
 ## 0.4.2 (2026-10-10)
 
 The farmer and every villager are less flat and now really animate:

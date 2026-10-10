@@ -18,7 +18,7 @@ namespace Farm.Gameplay
         {
             "say", "dialogue", "move", "face", "wait", "advance", "fadeout", "fadein", "effects", "place",
             "emote", "expression", "anim", "camera", "sfx", "music", "lighting", "branch", "label", "parallel", "waitFor",
-            "spawn", "despawn", "letterbox",
+            "spawn", "despawn", "letterbox", "illustration",
         };
 
         // Steps that may run in the background (`async`) or as a child of `parallel`.
@@ -94,6 +94,9 @@ namespace Farm.Gameplay
                     break;
                 case "lighting": NeedWord(LightingPresets, "lighting preset"); break;
                 case "letterbox": NeedWord(Letterbox, "letterbox setting"); break;
+                case "illustration":
+                    if (string.IsNullOrEmpty(step.Name) || UnityEngine.Resources.Load<UnityEngine.Texture2D>(step.Name) == null) problems.Add($"{at}: the picture '{step.Name}' is not a texture under Resources");
+                    break;
                 case "spawn":
                     if (string.IsNullOrEmpty(step.Id)) problems.Add($"{at}: a prop needs an id");
                     else spawned.Add(step.Id);

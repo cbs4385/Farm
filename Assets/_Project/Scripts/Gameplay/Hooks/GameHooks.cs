@@ -102,6 +102,13 @@ namespace Farm.Gameplay
         IEnumerable<NpcScheduleEntry> EntriesFor(NpcDefinition npc);
     }
 
+    // What a villager wears right now, when it is not their ordinary clothes (robes on a ritual night). Null means the ordinary clothes. The first source with an
+    // answer wins.
+    public interface INpcOutfitSource
+    {
+        string OutfitFor(string npcId);
+    }
+
     // An extra page in the journal supplied by a module (a lore page). Hidden while `Visible` is false.
     public interface IJournalPage
     {
@@ -136,6 +143,7 @@ namespace Farm.Gameplay
         readonly List<ILuckModifier> _luck = new List<ILuckModifier>();
         readonly List<IJournalPage> _journalPages = new List<IJournalPage>();
         readonly List<INpcScheduleSource> _scheduleSources = new List<INpcScheduleSource>();
+        readonly List<INpcOutfitSource> _outfitSources = new List<INpcOutfitSource>();
         readonly List<IFriendshipDecayModifier> _decay = new List<IFriendshipDecayModifier>();
         readonly List<IEventWeightModifier> _eventWeights = new List<IEventWeightModifier>();
 
@@ -247,6 +255,22 @@ namespace Farm.Gameplay
         public void AddScheduleSource(INpcScheduleSource source)
         {
             if (source != null && !_scheduleSources.Contains(source)) _scheduleSources.Add(source);
+        }
+
+        public void AddOutfitSource(INpcOutfitSource source)
+        {
+            if (source != null && !_outfitSources.Contains(source)) _outfitSources.Add(source);
+        }
+
+        // The outfit a villager wears now (see NpcOutfits), or null for their ordinary clothes.
+        public string OutfitFor(string npcId)
+        {
+            foreach (var source in _outfitSources)
+            {
+                try { var outfit = source.OutfitFor(npcId); if (!string.IsNullOrEmpty(outfit)) return outfit; }
+                catch (Exception e) { Log.Error($"Outfit source {source.GetType().Name} failed: {e}"); }
+            }
+            return null;
         }
 
         public List<NpcScheduleEntry> ScheduleEntriesFor(NpcDefinition npc)

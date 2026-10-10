@@ -192,4 +192,32 @@ namespace Farm.Mythos
 
         static NpcStop Copy(NpcStop s) => new NpcStop { Minute = s.Minute, Map = s.Map, X = s.X, Y = s.Y, Facing = s.Facing };
     }
+
+    // The robes (2026-10-10): on a ritual night, from the time they leave their work until a little after the ritual ends, every Keeper who is free to go wears their robe,
+    // so that the walk to the clearing can be seen on the road. Full intensity only (at mild the layer shows no ritual imagery).
+    public sealed class MythosOutfitSource : INpcOutfitSource
+    {
+        public const string Robe = "robe";
+        public const int LeaveMinute = 1170;           // 19:30: they have closed their shops and gone home to dress
+        public const int AfterRitualMinutes = 60;
+
+        readonly GameSession _session;
+
+        public MythosOutfitSource(GameSession session) { _session = session; }
+
+        // Is this minute of a ritual day within the robed hours? (pure, so it can be tested)
+        public static bool RobedAt(int minuteOfDay, int participants) =>
+            minuteOfDay >= LeaveMinute && minuteOfDay <= RitualDirector.StartMinute + RitualModel.DurationMinutes(Math.Max(participants, 1)) + AfterRitualMinutes;
+
+        public string OutfitFor(string npcId)
+        {
+            var s = _session;
+            if (s == null || !s.InGame || !MythosLevel.Full(s) || !MythosCast.IsKeeper(npcId)) return null;
+            var now = s.Clock.Now;
+            if (!RitualDirector.IsRitualDay(now) || !MythosCast.Available(s, npcId)) return null;
+            var save = RitualDirector.Load(s);
+            if (save.Sealed) return null;
+            return RobedAt(now.MinuteOfDay, save.Plan.Count) ? Robe : null;
+        }
+    }
 }

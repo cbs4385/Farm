@@ -25,6 +25,7 @@ An event has an `id`, a `trigger` (`map`, `dawn` or `manual`), a `map`, a `condi
 | `music` | `name` | a music cue (`stop` ends it); published for the audio pass to play (T-061, T-133) |
 | `lighting` | `name`, `seconds`, `async` | a mood over the normal light: day, dawn, dusk, night, warm, dim, `reset` |
 | `letterbox` | `name` (`on` or `off`), `seconds` | cinematic bars |
+| `illustration` | `name` (a picture under Resources, for example `Ritual/ritual_dissolve`), `text` (the caption's string key) | a full-screen picture the player dismisses; the scene waits |
 | `spawn`, `despawn` | `id`, `name` (an item id), `x`, `y` | a prop (an item icon) on a cell, for example the gift being handed over |
 | `label` | `label` | a place to jump to |
 | `branch` | `target`, `condition` | jump to a label when the condition holds (always, if there is none); a jump backward needs a condition |
