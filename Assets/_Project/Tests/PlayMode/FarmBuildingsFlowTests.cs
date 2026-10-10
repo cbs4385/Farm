@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -64,8 +64,8 @@ namespace Farm.Tests
                 Assert.IsNotNull(door, type.Id + " has a door");
                 var cell = map.WorldToCell(door.transform.position);
                 Assert.AreEqual(FarmBuildings.DoorCell(type, at), (cell.x, cell.y));
-                Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(at.X, at.Y, 0)), "a wall at its corner");
-                Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(at.X, at.Y + type.H - 1, 0)), "a roof on top");
+                Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(cell.x - 1, at.Y, 0)), "a wall beside the door");
+                Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(cell.x - 1, at.Y + type.H - 1, 0)), "up to the roof");
                 Assert.IsNull(map.Walls.GetTile(cell), "no wall in the doorway");
                 var spawn = UnityEngine.Object.FindObjectsByType<SpawnPoint>().FirstOrDefault(sp => sp.Id == type.ReturnSpawn);
                 Assert.IsNotNull(spawn, type.Id + " has the spawn point where one comes out");
@@ -80,8 +80,8 @@ namespace Farm.Tests
             var view = UnityEngine.Object.FindAnyObjectByType<FarmBuildingsView>();
             var coop = FarmBuildings.Coop;
             var at = FarmBuildings.Find(_s.State, "coop");
-            var oldCorner = new Vector3Int(at.X, at.Y, 0);
             var oldDoor = FarmBuildings.DoorCell(coop, at);
+            var oldCorner = new Vector3Int(oldDoor.x - 1, at.Y, 0);                                // beside the door: a wall of the picture
             var groundUnderTheOldDoor = map.Ground.GetTile(new Vector3Int(oldDoor.x, oldDoor.y, 0));
             Assert.IsNotNull(groundUnderTheOldDoor);
 
@@ -92,7 +92,7 @@ namespace Farm.Tests
             Assert.IsNull(map.Walls.GetTile(oldCorner), "the old walls are gone");
             Assert.IsNull(map.Walls.GetTile(new Vector3Int(oldCorner.x, oldCorner.y + coop.H - 1, 0)), "and the old roof");
             Assert.AreNotEqual("tile_door", map.Ground.GetTile(new Vector3Int(oldDoor.x, oldDoor.y, 0))?.name, "the old doorway is ground again");
-            Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(50, 30, 0)), "walls at the new place");
+            Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(51, 30, 0)), "walls at the new place");
             Assert.AreEqual("tile_door", map.Ground.GetTile(new Vector3Int(52, 30, 0)).name);
             var door = DoorTo(MapIds.Coop);
             Assert.AreEqual(new Vector3Int(52, 30, 0), map.WorldToCell(door.transform.position), "the door warp moved with it");

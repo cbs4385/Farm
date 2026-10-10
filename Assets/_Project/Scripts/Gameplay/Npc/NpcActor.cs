@@ -74,6 +74,36 @@ namespace Farm.Gameplay
         public NpcDefinition Definition => _definition;
         public bool IsWalking { get; private set; }
         public Vector2Int Facing => _facing;
+
+        // A villager standing still beside a free seat sits on it (a chair, a couch, a bench), and gets up to walk.
+        SitSpot _seat;
+        public bool Sitting => _seat != null;
+
+        void TrySit(FarmMap map, Vector3Int cell)
+        {
+            if (_seat == null)
+            {
+                foreach (var spot in SitSpot.All)
+                {
+                    if (spot == null || (spot.Occupant != null && spot.Occupant != this) || !spot.Reaches(map, cell)) continue;
+                    _seat = spot;
+                    spot.Occupant = this;
+                    break;
+                }
+                if (_seat == null) return;
+                ShowPose("sit");
+            }
+            transform.position = _seat.SeatPosition;
+            SetFacing(_seat.Facing);
+        }
+
+        void LeaveSeat()
+        {
+            if (_seat == null) return;
+            if (_seat.Occupant == this) _seat.Occupant = null;
+            _seat = null;
+            ClearPose();
+        }
         public Vector3Int Cell { get; private set; }
         public bool IsPlaced { get; private set; }
 
@@ -115,10 +145,12 @@ namespace Farm.Gameplay
                     transform.position += bed + new Vector3(0f, NpcHomes.PillowLift, 0f) - _renderer.bounds.center;
                     (_icon ??= SleepIcon.Create(transform)).Show(bed);
                 }
+                if (asleep) LeaveSeat(); else TrySit(map, cell);
                 YieldBodyToPlayer();
                 return;
             }
 
+            LeaveSeat();
             SetSleeping(false);
             var key = (place.FromX, place.FromY, place.ToX, place.ToY);
             if (!key.Equals(_pathKey))

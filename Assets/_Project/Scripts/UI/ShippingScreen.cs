@@ -107,6 +107,7 @@ namespace Farm.UI
                 var button = UiKit.MakeButton(_grid, $"Slot{i}", () => { _selected = index; if (_lot.Get(index) == 0) _lot.Add(s, index, 1); Rebuild(); }, SlotSize, SlotSize);
                 button.GetComponentInChildren<TextMeshProUGUI>().text = string.Empty;
                 button.interactable = can;
+                button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => { if (!can) return; _selected = index; _lot.Add(s, index, 1); Rebuild(); };          // right-click: one more into the lot
                 if (_selected == i)
                 {
                     var mark = UiKit.Panel(button.transform, "Selected", new Color(UiKit.Accent.r, UiKit.Accent.g, UiKit.Accent.b, 0.6f));

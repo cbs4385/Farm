@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.3 (2026-10-09)
+
+- The buildings are no longer flat: every shop, every villager's cottage, the farmhouse, the chicken coop and the barn are pictures from the Cozy Village kit (roofs, windows, signs, chimneys that smoke), each with its door where the game's door is. They stand over a player who walks behind them. The greenhouse keeps its old look (the kit has none).
+- The saloon, the clinic and the Community Hall have moved to the north side of the road (the saloon and the clinic in the east, the hall behind the carpenter and the library, up the gap between them), and their doors face south like the others. Their routes, the map picture and the villagers' walking times were redone.
+
+- Quests: the screen follows one quest at a time. With one active quest it is followed by itself; with several, the Journal has a Track button on each (the Journal list scrolls). Only the followed quest's title and what is still to do show at the top right.
+- Hover labels: props (fountain, clock tower, lamps, benches, stalls, barrels...), every shop and every cottage ("<Name>'s home"), the farm's coop, barn and greenhouse, and the items in a chest now say what they are when the mouse rests on them.
+- The farm's hay, sacks, wheelbarrow and barrels can be moved with the builder's mallet.
+- Sitting: Interact on a chair, armchair, couch or bench sits you down, facing the way the seat does; you rest slowly while seated (about 24 energy an hour); moving, using a tool or Interact again stands you up. Villagers who stand still next to a free seat sit on it too.
+- The forest is no longer a lattice: thickets and clearings, no rows. The edges of the farm, the village, the forest and the beach are bands of trees two cells thick (rocks on the beach) instead of brick walls; the roads and lanes stay open.
+- The map tab shows the new building places, the three ponds and the village's fountain and clock tower.
+- Controllers that Windows shows only as a generic joystick (a DirectInput pad) now move and press buttons using a usual layout, and say what to do (XInput mode, or Steam Input for generic controllers) if the buttons do not fit. Unverified without such a pad.
+- Selling: the general store's keeper has "Sell something" in the conversation menu: a window with the backpack, Sell 1 and Sell all, paid on the spot at the shipping bin's prices.
+- Right-click is one item: in the backpack it lifts one item of a stack (click or right-click another slot to put it down), in the shipping bin it adds one to the lot, in the sell window it sells one, in a chest it moves one (before).
+
 ## 0.3.2 (2026-10-09)
 
 - The trees change with the season, each tree its own kind: round green ones and willows in spring and summer, orange and yellow ones in fall, bare ones and conifers in winter (some keep the old pine). Art from the Cozy Village kit.

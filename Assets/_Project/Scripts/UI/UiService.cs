@@ -444,6 +444,15 @@ namespace Farm.UI
 
         public ShippingScreen Shipping => _shipping;
 
+        SellScreen _sell;
+        public SellScreen Sell => _sell;
+
+        public void ShowSell(Action onClose = null)
+        {
+            _sell ??= new SellScreen(this);
+            _sell.OpenSell(onClose);
+        }
+
         public void ShowChest(string objectId)
         {
             _chest ??= new ChestScreen(this);

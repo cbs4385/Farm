@@ -104,9 +104,8 @@ namespace Farm.UI
             var stack = UiKit.VStack(content, "Journal", 6f, 10);
             UiKit.Stretch((RectTransform)stack.transform);
             UiKit.Label(stack.transform, L.Get("menu.tab.journal"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
-            var list = UiKit.VStack(stack.transform, "List", 3f);
-            UiKit.Size(list.gameObject, -1f, -1f, 1f, 1f);
-            _list = (RectTransform)list.transform;
+            var scroll = UiKit.Scroll(stack.transform, "List", out _list);              // many quests, letters and jobs do not fit: the panel scrolls (playtest 2026-10-09)
+            UiKit.Size(scroll.gameObject, -1f, -1f, 1f, 1f);
         }
 
         public override void Refresh(UiService ui)
@@ -114,11 +113,19 @@ namespace Farm.UI
             var s = ui.Session;
             UiKit.ClearChildren(_list);
             UiKit.Label(_list, L.Get("journal.quests"), 20f, TextAlignmentOptions.Left, UiKit.Accent);
+            var tracked = QuestTracker.TrackedId(s);
             var any = false;
             foreach (var q in QuestLog.Active(s))
             {
                 any = true;
-                UiKit.Label(_list, L.Get(q.TitleKey), 18f);
+                var row = UiKit.HStack(_list, "Quest_" + q.Id, 8f);
+                var title = UiKit.Label(row.transform, L.Get(q.TitleKey), 18f);
+                UiKit.Size(title.gameObject, -1f, -1f, 1f);
+                var id = q.Id;
+                var following = id == tracked;
+                var button = UiKit.MakeButton(row.transform, L.Get(following ? "journal.tracking" : "journal.track"), () => { QuestTracker.Track(s, id); Refresh(ui); }, 130f, 28f);
+                button.name = "Track_" + id;
+                button.interactable = !following;                                          // the one that is followed has nothing more to choose
                 foreach (var o in q.Objectives)
                     UiKit.Label(_list, (QuestLog.ObjectiveMet(s, q, o) ? "[x] " : "[ ] ") + L.Get(o.Text) + QuestLog.ProgressText(s, q, o), 15f, TextAlignmentOptions.Left, UiKit.DimText);
             }

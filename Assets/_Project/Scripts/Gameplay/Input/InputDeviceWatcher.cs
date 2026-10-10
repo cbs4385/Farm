@@ -17,6 +17,7 @@ namespace Farm.Gameplay
         {
             _buttons = InputSystem.onAnyButtonPress.Call(OnButton);
             InputSystem.onDeviceChange += OnDeviceChange;
+            foreach (var device in InputSystem.devices) NoticeGenericPad(device);
         }
 
         void OnDisable()
@@ -27,12 +28,14 @@ namespace Farm.Gameplay
 
         static void OnButton(InputControl control)
         {
-            if (control.device is Gamepad) ControlPrompts.SetKind(InputKind.Gamepad);
+            if (control.device is Gamepad || control.device is Joystick) ControlPrompts.SetKind(InputKind.Gamepad);
             else if (control.device is Keyboard || control.device is Mouse) ControlPrompts.SetKind(InputKind.KeyboardMouse);
         }
 
         void Update()
         {
+            var joy = Joystick.current;
+            if (joy != null && joy.stick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold) ControlPrompts.SetKind(InputKind.Gamepad);
             var pad = Gamepad.current;
             if (pad != null && (pad.leftStick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold || pad.rightStick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold))
                 ControlPrompts.SetKind(InputKind.Gamepad);
@@ -40,8 +43,20 @@ namespace Farm.Gameplay
             if (mouse != null && mouse.delta.ReadValue().sqrMagnitude > MouseThreshold * MouseThreshold) ControlPrompts.SetKind(InputKind.KeyboardMouse);
         }
 
+        // A controller that Windows shows only as a generic joystick (a DirectInput pad, an "EasySMX" in its default mode) has no standard layout: its buttons are
+        // guessed. Say once what to do if they do not fit (playtest 2026-10-09: a pad that did nothing).
+        static bool _noticed;
+
+        static void NoticeGenericPad(InputDevice device)
+        {
+            if (_noticed || !(device is Joystick) || device is Gamepad) return;
+            _noticed = true;
+            if (ServiceLocator.TryGet<GameSession>(out var session)) session.Toast(L.Get("toast.generic_pad"));
+        }
+
         static void OnDeviceChange(InputDevice device, InputDeviceChange change)
         {
+            if (change == InputDeviceChange.Added) NoticeGenericPad(device);
             if (!(device is Gamepad) || (change != InputDeviceChange.Removed && change != InputDeviceChange.Disconnected)) return;
             if (Gamepad.all.Count > 0) return;                                   // another pad is still there
             var wasPlaying = ControlPrompts.Kind == InputKind.Gamepad;

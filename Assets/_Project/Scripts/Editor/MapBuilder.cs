@@ -50,9 +50,11 @@ namespace Farm.Editor
             new Building { MapId = MapIds.Blacksmith, Style = "blacksmith",   Business = "blacksmith", X0 = 14, X1 = 21, Y0 = 24, Y1 = 29, DoorX = 17, FacesSouth = true },
             new Building { MapId = MapIds.Carpenter, Style = "carpenter",    Business = "carpenter",  X0 = 29, X1 = 36, Y0 = 24, Y1 = 29, DoorX = 32, FacesSouth = true },
             new Building { MapId = MapIds.Library, Style = "library",      Business = "library",    X0 = 39, X1 = 46, Y0 = 24, Y1 = 29, DoorX = 42, FacesSouth = true },
-            new Building { MapId = MapIds.Saloon, Style = "saloon",       Business = "saloon",     X0 = 6,  X1 = 15, Y0 = 6,  Y1 = 11, DoorX = 10, FacesSouth = false },
-            new Building { MapId = MapIds.Clinic, Style = "clinic",       Business = "clinic",     X0 = 31, X1 = 39, Y0 = 6,  Y1 = 11, DoorX = 35, FacesSouth = false },
-            new Building { MapId = MapIds.CommunityHall, Style = "hall", Business = null,        X0 = 41, X1 = 48, Y0 = 6,  Y1 = 11, DoorX = 44, FacesSouth = false },
+            // The kit's buildings all show their doors on the south wall, so every building stands north of the road with its door on its south side: the saloon and the
+            // clinic in the east of the north row, the hall behind the carpenter and the library (a lane runs up between them).
+            new Building { MapId = MapIds.Saloon, Style = "saloon",       Business = "saloon",     X0 = 49, X1 = 56, Y0 = 24, Y1 = 29, DoorX = 52, FacesSouth = true },
+            new Building { MapId = MapIds.Clinic, Style = "clinic",       Business = "clinic",     X0 = 64, X1 = 71, Y0 = 24, Y1 = 29, DoorX = 67, FacesSouth = true },
+            new Building { MapId = MapIds.CommunityHall, Style = "hall", Business = null,        X0 = 33, X1 = 42, Y0 = 31, Y1 = 36, DoorX = 37, FacesSouth = true },
         };
 
         // The footprints of the old shops (for tests that keep the villagers' streets clear of them).
@@ -190,13 +192,11 @@ namespace Farm.Editor
                     if (y >= FarmExitY0 + 1 && y <= FarmExitY1 - 1 && x >= DoorX) ground = "tile_path";
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(ground));
 
-                    var exit = x == FarmW - 1 && y >= FarmExitY0 && y <= FarmExitY1;
-                    var edge = (x == 0 || y == 0 || x == FarmW - 1 || y == FarmH - 1) && !exit;
-                    var house = x >= HouseX0 && x <= HouseX1 && y >= HouseY0 && y <= HouseY1 && !(x == DoorX && y == HouseY0);
-                    if (edge || house) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
+            PaintEdgeBand(rig, MapIds.Farm, FarmW, FarmH, (bx, by) => bx == FarmW - 1 && by >= FarmExitY0 && by <= FarmExitY1);
+            StandBuilding(rig, "farmhouse", "Farmhouse_Building", DoorX, HouseY0, HouseY0, HouseY1);                      // the kit's farm house over the old footprint
             rig.Ground.SetTile(new Vector3Int(DoorX, HouseY0, 0), GetTile("tile_floor_wood"));
-            rig.Map.gameObject.AddComponent<FarmBuildingsView>().Configure(rig.Map, GetTile("tile_wall"), GetTile("tile_roof"), GetTile("tile_door"));
+            rig.Map.gameObject.AddComponent<FarmBuildingsView>().Configure(rig.Map, GetTile("tile_wall"), GetTile("tile_roof"), GetTile("tile_door"), GetHiddenWall(), Sprite("prop_bld_coop"), Sprite("prop_bld_barn"));
 
             AddSpawn("default", Center(DoorX, HouseY0 - 3));
             AddSpawn("fromHouse", Center(DoorX, HouseY0 - 2));
@@ -216,14 +216,13 @@ namespace Farm.Editor
             binFixture.Size = new Vector2Int(2, 2);
 
             // By the farmhouse: hay and sacks against the wall and a wheelbarrow, where the farm's own work happens.
-            AddProp("Hay", "prop_hay", 13, 21);
-            AddProp("Sacks", "prop_sacks", 14, 21);
-            AddProp("Wheelbarrow", "prop_wheelbarrow", 3, 22);
-            AddProp("Barrels", "prop_barrels", 3, 23);
+            MakeMovable(AddProp("Hay", "prop_hay", 13, 21), "farm_hay");
+            MakeMovable(AddProp("Sacks", "prop_sacks", 14, 21), "farm_sacks");
+            MakeMovable(AddProp("Wheelbarrow", "prop_wheelbarrow", 3, 22), "farm_wheelbarrow");
+            MakeMovable(AddProp("Barrels", "prop_barrels", 3, 23), "farm_barrels");
 
             // A pond to the north-east of the fields (fishing, and something to look at): one oval of water with a shoreline, walled so that one stops at the shore.
-            bool FarmPond(int px, int py) { var dx = (px - 58f) / 6.2f; var dy = (py - 39f) / 4.2f; return dx * dx + dy * dy <= 1f; }
-            PaintPond(rig, FarmPond, 50, 66, 33, 45);
+            PaintPond(rig, MapLayout.FarmPond.Contains, 50, 66, 33, 45);
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Farm}.unity");
         }
@@ -279,6 +278,7 @@ namespace Farm.Editor
                 fixture.Id = "furn_" + p.Name.ToLowerInvariant();
                 fixture.Size = new Vector2Int(p.W, p.H);
                 fixture.Walkable = !p.Solid;
+                MakeSeat(piece, p.Sprite, p.Name);
             }
 
             // A double bed, two cells square, in the north-west corner (cells 1..2, 6..7). One wakes up on the cell east of it.
@@ -359,15 +359,9 @@ namespace Farm.Editor
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(ground));
                 }
 
-            // Edges are walls, apart from the three ways out: west to the farm, north to the forest, south to the beach.
-            for (var y = 0; y < VillageH; y++)
-                for (var x = 0; x < VillageW; x++)
-                {
-                    var edge = x == 0 || y == 0 || x == VillageW - 1 || y == VillageH - 1;
-                    var west = x == 0 && y >= RoadY0 && y <= RoadY1;
-                    var lane = (y == 0 || y == VillageH - 1) && x >= LaneX0 && x <= LaneX1;
-                    if (edge && !west && !lane) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
-                }
+            // Edges are woods, apart from the three ways out: west to the farm, north to the forest, south to the beach.
+            PaintEdgeBand(rig, MapIds.Village, VillageW, VillageH, (bx, by) =>
+                bx == 0 && by >= RoadY0 && by <= RoadY1 || (by == 0 || by == VillageH - 1) && bx >= LaneX0 && bx <= LaneX1);
 
             AddSpawn("default", Center(2, 17));
             AddSpawn("fromFarm", Center(2, 17));
@@ -399,6 +393,7 @@ namespace Farm.Editor
                 {
                     if (x < 50 && y < 36) continue;                                            // the original village
                     if (NpcHomes.InStreet(x, y)) continue;                                      // the villagers' street
+                    if (OnAnyBuilding(x, y)) continue;                                          // nor a shop
                     if (y >= RoadY0 - 1 && y <= RoadY1 + 1 || x >= LaneX0 - 1 && x <= LaneX1 + 1) continue;
                     var edgeBand = x >= VillageW - 6 || y >= VillageH - 6;
                     if ((x * 37 + y * 53) % (edgeBand ? 3 : 17) != 0) continue;
@@ -408,14 +403,14 @@ namespace Farm.Editor
             // The village square and the roadside (the Cozy Village kit): a clock tower and a fountain between the road and the shops, benches, flags, lamp posts along
             // both edges of the road, flower boxes and barrels at the shops' doors. All of it stands clear of the doors' lanes (x = a door's x), the cobbled lane and the
             // villagers' streets.
-            AddProp("ClockTower", "prop_clock_tower", 27, 21, 2);
-            AddProp("Fountain", "prop_fountain", 20, 21, 2);
+            AddProp("ClockTower", "prop_clock_tower", MapLayout.ClockTower.x, MapLayout.ClockTower.y, 2);
+            AddProp("Fountain", "prop_fountain", MapLayout.Fountain.x, MapLayout.Fountain.y, 2);
             AddProp("Flag_West", "prop_flag", 23, 20);
             AddProp("Flag_East", "prop_flag", 27, 19);
             foreach (var lampX in new[] { 3, 11, 20, 34, 40, 46 }) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, 19);
             foreach (var lampX in new[] { 4, 12, 20, 30, 38, 46 }) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, 15);
-            AddProp("Bench_1", "prop_bench", 14, 14, 2);
-            AddProp("Bench_2", "prop_bench", 40, 14, 2);
+            MakeSeat(AddProp("Bench_1", "prop_bench", 14, 14, 2), "prop_bench", "Bench_1");
+            MakeSeat(AddProp("Bench_2", "prop_bench", 40, 14, 2), "prop_bench", "Bench_2");
             foreach (var b in Buildings)
                 if (b.FacesSouth && !string.IsNullOrEmpty(b.Business))
                 {
@@ -428,10 +423,24 @@ namespace Farm.Editor
             AddProp("Wheelbarrow_Library", "prop_wheelbarrow", 48, 22);
 
             // A pond on the green between the saloon and the lane.
-            bool VillagePond(int px, int py) { var dx = (px - 19.5f) / 3.2f; var dy = (py - 8.5f) / 3.6f; return dx * dx + dy * dy <= 1f; }
-            PaintPond(rig, VillagePond, 15, 23, 4, 13);
+            PaintPond(rig, MapLayout.VillagePond.Contains, 15, 23, 4, 13);
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Village}.unity");
+        }
+
+        // The edge of an outdoor map (playtest 2026-10-09): hidden collision two cells thick with trees (or rocks on the beach) standing on it, the ways out left open.
+        static void PaintEdgeBand(Rig rig, string mapId, int w, int h, System.Func<int, int, bool> open, bool rocks = false)
+        {
+            var hidden = GetHiddenWall();
+            var group = new GameObject("EdgeBand").transform;
+            foreach (var c in WoodLayout.BandCells(w, h, open))
+            {
+                rig.Walls.SetTile(new Vector3Int(c.x, c.y, 0), hidden);
+                if (!WoodLayout.BandShowsTree(c.x, c.y)) continue;
+                var at = Center(c.x, c.y) + (Vector3)WoodLayout.Jitter(c.x, c.y);
+                var piece = AddObject($"Edge_{c.x}_{c.y}", rocks ? ((c.x + c.y) % 4 == 0 ? "obj_boulder" : "obj_rock") : "obj_tree", at, solid: false);
+                piece.transform.SetParent(group, true);
+            }
         }
 
         // Paints a pond: every cell of the shape in the box becomes the water tile for its neighbours (so the shore reads as a shore), and walled.
@@ -447,36 +456,38 @@ namespace Farm.Editor
                 }
         }
 
+        // Is the cell on (or one cell from) a shop or a cottage?
+        static bool OnAnyBuilding(int x, int y)
+        {
+            foreach (var b in VillageBuildings())
+                if (x >= b.X0 - 1 && x <= b.X1 + 1 && y >= b.Y0 - 1 && y <= b.Y1 + 1) return true;
+            return false;
+        }
+
         // The cells of the lane from a door to the road.
         static bool InConnector(Building b, int y) =>
             b.FacesSouth ? y > RoadY1 && y < b.Y0 : y < RoadY0 && y > b.Y1;
 
+        // Where the door is in each building's picture (pixels from its left edge), so that the picture can stand with its door on the door cell.
+        static readonly Dictionary<string, int> DoorPixels = new Dictionary<string, int>
+        {
+            { "general", 39 }, { "blacksmith", 33 }, { "carpenter", 48 }, { "library", 57 }, { "saloon", 45 }, { "clinic", 50 }, { "hall", 47 },
+            { "cottage1", 26 }, { "cottage2", 32 }, { "cottage3", 24 }, { "cottage4", 33 }, { "farmhouse", 48 },
+        };
+
+        // A building from the Cozy Village kit stands on its footprint: its picture (drawn over a player who stands behind it) with the door under the door cell, and
+        // collision on the cells the picture covers, with an opening at the door. The old flat wall art is no longer drawn.
         static void PlaceBuilding(Rig rig, Building b)
         {
             var doorY = b.FacesSouth ? b.Y0 : b.Y1;
-            var roofY = b.FacesSouth ? b.Y1 : b.Y0;
-            for (var y = b.Y0; y <= b.Y1; y++)
-                for (var x = b.X0; x <= b.X1; x++)
-                {
-                    if (x == b.DoorX && y == doorY) continue;
-                    rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile($"bld_{b.Style}_{(y == roofY ? "roof" : "wall")}"));
-                }
-            rig.Ground.SetTile(new Vector3Int(b.DoorX, doorY, 0), GetTile("tile_door"));
-
-            // What makes each building its own: windows, a sign with a picture of the trade over the door, and an ornament on the roof.
-            var inward = b.FacesSouth ? 1 : -1;
-            foreach (var wx in new[] { b.DoorX - 2, b.DoorX + 2 })
-                AddDecor($"{b.MapId}_Window_{wx}", $"bld_{b.Style}_window", Center(wx, doorY + 2 * inward));
-            AddDecor($"{b.MapId}_Sign", $"bld_{b.Style}_sign", Center(b.DoorX, doorY + inward));
-            var top = AddDecorObject($"{b.MapId}_RoofTop", $"bld_{b.Style}_roof_top", Center(b.X1 - 1, roofY));
-            var frame2 = AssetDatabase.LoadAssetAtPath<Sprite>($"{ArtDir}/bld_{b.Style}_roof_top2.png");
-            if (frame2 != null) top.AddComponent<FrameAnimator>().Configure(new[] { Sprite($"bld_{b.Style}_roof_top"), frame2 }, 0.7f, b.X0 * 0.23f);   // a flag or vane that moves
-            else if (b.Style == "blacksmith" || b.Style == "saloon" || b.Style.StartsWith("cottage")) top.AddComponent<RoofSmoke>();                                                   // a chimney that smokes
+            var centreX = StandBuilding(rig, b.Style, $"{b.MapId}_Building", b.DoorX, doorY, b.Y0, b.Y1);
+            if (b.Style == "blacksmith" || b.Style == "saloon") AddChimneySmoke(b, centreX, doorY);
 
             // A tag beside the door: green when the business is open, red when it is closed.
             if (!string.IsNullOrEmpty(b.Business))
             {
                 var tag = AddDecorObject($"{b.MapId}_OpenTag", "bld_tag_open", Center(b.DoorX + 1, doorY));
+                tag.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder + 1;
                 tag.AddComponent<BoxCollider2D>().isTrigger = true;
                 tag.GetComponent<BoxCollider2D>().size = Vector2.one;
                 tag.AddComponent<BusinessStatusSign>().Configure(b.Business, Sprite("bld_tag_open"), Sprite("bld_tag_closed"));
@@ -491,6 +502,74 @@ namespace Farm.Editor
             }
             AddSpawn("from" + b.MapId, Center(b.DoorX, outsideY));
             AddWarp(Center(b.DoorX, doorY), b.MapId, "default", Vector2.one, business: b.Business, condition: b.Condition, blockedKey: b.BlockedKey);
+        }
+
+        // Stands a building's picture (prop_bld_<style>) with its door on the cell (doorX, doorY): hidden collision on the rows y0..y1 under the picture except at the
+        // door, the door tile on the ground, the picture itself drawn over a player who stands behind it. Returns the picture's centre x, in cells.
+        static float StandBuilding(Rig rig, string style, string name, int doorX, int doorY, int y0, int y1)
+        {
+            var spriteName = "prop_bld_" + style;
+            var sprite = Sprite(spriteName);
+            var width = sprite != null ? sprite.rect.width : 96f;
+            var doorPx = DoorPixels.TryGetValue(style, out var px) ? px : (int)(width / 2f);
+            var left = doorX + 0.5f - doorPx / 16f;                                 // the picture's left edge, in cells
+            var right = left + width / 16f;
+            var firstCell = Mathf.FloorToInt(left + 0.5f);
+            var lastCell = Mathf.CeilToInt(right - 0.5f) - 1;
+
+            var hidden = GetHiddenWall();
+            for (var y = y0; y <= y1; y++)
+                for (var x = firstCell; x <= lastCell; x++)
+                {
+                    if (x == doorX && y == doorY) continue;
+                    rig.Walls.SetTile(new Vector3Int(x, y, 0), hidden);
+                }
+            rig.Ground.SetTile(new Vector3Int(doorX, doorY, 0), GetTile("tile_door"));
+
+            // The picture: its foot at the foot of the door row (the sprite's pivot is half a cell above its foot), centred so that the door falls on the door cell.
+            var centreX = left + width / 32f;
+            var picture = AddObject(name, spriteName, new Vector3(centreX, doorY + 0.5f, 0f), solid: false);
+            picture.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
+            if (sprite != null)
+            {
+                var home = style.StartsWith("cottage");
+                HoverNote.Add(picture, home ? "hover.home" : "hover.building." + style, home ? HomeOwnerNameKey(name) : null,
+                    new Vector2(sprite.rect.width / 16f, sprite.rect.height / 16f * 0.75f), new Vector2(0f, sprite.rect.height / 32f * 0.75f - 0.5f));
+            }
+            return centreX;
+        }
+
+        // The villager's name for a cottage's label: the map is "Home<Name>", the building object "<Map>_Building".
+        static string HomeOwnerNameKey(string objectName)
+        {
+            var map = objectName.EndsWith("_Building") ? objectName.Substring(0, objectName.Length - "_Building".Length) : objectName;
+            var home = NpcHomes.ForMap(map);
+            return home != null ? "npc." + home.Npc + ".name" : null;
+        }
+
+        // Which way each village building's door faces (true: the south wall, like every interior's door): a test keeps them all the same.
+        public static List<(string map, bool facesSouth)> BuildingFacings() => VillageBuildings().Select(b => (b.MapId, b.FacesSouth)).ToList();
+
+        // A chimney that smokes, near the top of the building's picture.
+        static void AddChimneySmoke(Building b, float centreX, int doorY)
+        {
+            var go = new GameObject($"{b.MapId}_Smoke");
+            go.transform.position = new Vector3(centreX + 1.2f, doorY + 5.2f, 0f);
+            go.AddComponent<RoofSmoke>();
+        }
+
+        // An empty tile with a one-cell collider: what stands under a building's picture.
+        static Tile GetHiddenWall()
+        {
+            var path = $"{TileDir}/tile_wall_hidden.asset";
+            var tile = AssetDatabase.LoadAssetAtPath<Tile>(path);
+            if (tile != null) return tile;
+            tile = ScriptableObject.CreateInstance<Tile>();
+            tile.name = "tile_wall_hidden";
+            tile.sprite = null;
+            tile.colliderType = Tile.ColliderType.Grid;
+            AssetDatabase.CreateAsset(tile, path);
+            return tile;
         }
 
         // A picture on a building's wall: drawn over the wall tiles, not solid.
@@ -517,10 +596,8 @@ namespace Farm.Editor
                 {
                     var path = x >= ForestPathX0 && x <= ForestPathX1;
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(path ? "tile_path" : "tile_forest"));
-                    var edge = x == 0 || y == 0 || x == ForestW - 1 || y == ForestH - 1;
-                    var gap = path && (y == 0 || y == ForestH - 1);
-                    if (edge && !gap) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
+            PaintEdgeBand(rig, MapIds.Forest, ForestW, ForestH, (bx, by) => bx >= ForestPathX0 && bx <= ForestPathX1 && (by == 0 || by == ForestH - 1));
 
             AddSpawn("default", Center(19, 2));
             AddSpawn("fromVillage", Center(19, 2));
@@ -528,15 +605,15 @@ namespace Farm.Editor
             AddSpawn("sleepwalk", Center(19, 10));
             AddWarp(Center(19, 0), MapIds.Village, "fromForest", new Vector2(3f, 1f));
 
-            // Trees on a loose lattice, leaving the path and the arrival area clear.
-            for (var y = 3; y < ForestH - 1; y++)
-                for (var x = 1; x < ForestW - 1; x++)
+            // Trees in thickets and clearings (WoodLayout), leaving the path, the pond and the way to the cave clear.
+            for (var y = 3; y < ForestH - WoodLayout.EdgeThickness; y++)
+                for (var x = WoodLayout.EdgeThickness; x < ForestW - WoodLayout.EdgeThickness; x++)
                 {
                     if (x >= ForestPathX0 - 2 && x <= ForestPathX1 + 2) continue;
-                    if (x >= 3 && x <= 11 && y >= 6 && y <= 14) continue;            // the pond and its shore
+                    if (x >= 2 && x <= 12 && y >= 5 && y <= 15) continue;             // the pond and its shore
                     if (x >= 21 && x <= 36 && y >= 3 && y <= 7) continue;             // the way to the cave
-                    if ((x * 7 + y * 13) % 9 != 0) continue;
-                    AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
+                    if (!WoodLayout.ForestTreeAt(x, y)) continue;
+                    AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y) + (Vector3)WoodLayout.Jitter(x, y), solid: true);
                 }
 
             // The cave: a path east from the main path to the mouth of the mine.
@@ -548,7 +625,7 @@ namespace Farm.Editor
 
             // A pond to fish in: one oval body of water with a shoreline (the tile for each cell depends on which neighbours are land),
             // walled so the player stops at the shore.
-            bool Pond(int px, int py) { var dx = (px - 6.5f) / 3.8f; var dy = (py - 10f) / 2.9f; return dx * dx + dy * dy <= 1f; }
+            bool Pond(int px, int py) => MapLayout.ForestPond.Contains(px, py);
             for (var y = 6; y <= 14; y++)
                 for (var x = 2; x <= 11; x++)
                 {
@@ -673,10 +750,9 @@ namespace Farm.Editor
                     var tileName = water ? WaterShore.TileNameAt(IsBeachWater, x, y) : sand ? "tile_sand" : "tile_grass";   // the sea runs on past the map's sides
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(tileName));
                     if (water) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile(tileName));
-                    var edge = x == 0 || y == BeachH - 1 || x == BeachW - 1;
-                    var gap = y == BeachH - 1 && x >= BeachExitX0 && x <= BeachExitX1;
-                    if (edge && !gap) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
+            // The sides and the top are rocks (the sea is below); the way out is at the top.
+            PaintEdgeBand(rig, MapIds.Beach, BeachW, BeachH, (bx, by) => by == BeachH - 1 && bx >= BeachExitX0 && bx <= BeachExitX1 || by == 0 || IsBeachWater(bx, by), rocks: true);
 
             AddSpawn("default", Center(17, BeachH - 3));
             AddSpawn("fromVillage", Center(17, BeachH - 3));
@@ -727,6 +803,7 @@ namespace Farm.Editor
                     seat.NpcId = p.SeatNpc;
                     seat.SeatKey = p.SeatKey;
                 }
+                MakeSeat(go, p.Sprite, p.Name);                                // after the villagers' own seats, so that their words come first
             }
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");
@@ -871,6 +948,14 @@ namespace Farm.Editor
 
         const int TallSortingOrder = 11;
 
+        // A chair, armchair, couch or bench can be sat on (by the player with Interact, and by a villager who stands still beside it).
+        static void MakeSeat(GameObject go, string spriteName, string name)
+        {
+            if (spriteName != "obj_chair" && spriteName != "obj_armchair" && spriteName != "obj_couch" && spriteName != "obj_bench" && spriteName != "prop_bench") return;
+            var sit = go.AddComponent<SitSpot>();
+            sit.Facing = name.Contains("West") ? Vector2Int.right : name.Contains("East") ? Vector2Int.left : Vector2Int.down;      // a chair beside a table faces the table
+        }
+
         // A prop from the Cozy Village kit (prop_<name>, its foot at the foot of the cell): stands on cell (x, y); a prop two cells wide stands on (x, y) and (x + 1, y).
         // Tall props are drawn over a player standing behind them.
         static GameObject AddProp(string name, string spriteName, int x, int y, int width = 1, bool solid = true)
@@ -878,7 +963,17 @@ namespace Farm.Editor
             var position = Center(x, y) + (width > 1 ? new Vector3((width - 1) * 0.5f, 0f, 0f) : Vector3.zero);
             var go = AddObject(name, spriteName, position, solid: solid, size: new Vector2(width, 1f));
             go.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
+            if (!solid) go.AddComponent<BoxCollider2D>().isTrigger = true;
+            HoverNote.Add(go, "hover.prop." + spriteName.Substring("prop_".Length));
             return go;
+        }
+
+        // A prop of the farm that is the player's own: the mallet can lift it and put it down elsewhere, like the shipping bin.
+        static void MakeMovable(GameObject prop, string id)
+        {
+            var fixture = prop.AddComponent<MovableFixture>();
+            fixture.Id = id;
+            fixture.Size = Vector2Int.one;
         }
 
         static Sprite Sprite(string name)

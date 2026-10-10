@@ -121,6 +121,20 @@ namespace Farm.UI
                 Box(_picture, "RowB" + i, 184f, 110f + i * 10f, 251f, 113f + i * 10f, new Color(0.40f, 0.27f, 0.16f));
             }
 
+            // The ponds of the farm, the village and the forest, and the village square's fountain and clock tower, where they really are.
+            foreach (var (region, pond) in WorldMapLayout.Ponds())
+            {
+                var rows = WorldMapLayout.PondRows(region, pond);
+                for (var i = 0; i < rows.Count; i++) Box(_picture, "Pond_" + region.Map + i, rows[i].xMin, rows[i].yMin, rows[i].xMax, rows[i].yMax, Water);
+            }
+            foreach (var (cell, key) in WorldMapLayout.Landmarks())
+            {
+                var at = village.At(cell.x + 0.5f, cell.y);
+                var isFountain = key.EndsWith("fountain");
+                Box(_picture, "Landmark_" + key, at.x - 7f, at.y - 5f, at.x + 7f, at.y + 5f, isFountain ? Water : new Color(0.55f, 0.50f, 0.45f));
+                Box(_picture, "LandmarkTop_" + key, at.x - 3f, at.y + 5f, at.x + 3f, at.y + (isFountain ? 7f : 11f), isFountain ? new Color(0.85f, 0.93f, 0.97f) : new Color(0.40f, 0.35f, 0.30f));
+            }
+
             // Trees in the forest and the woods; waves on the sea; rocks on the hill.
             var trees = new[] { (310f, 330f), (322f, 306f), (345f, 350f), (360f, 318f), (420f, 345f), (440f, 320f), (462f, 352f), (480f, 332f), (332f, 362f), (448f, 298f) };
             foreach (var (x, y) in trees) Picture(_picture, "Tree", "ui_map_forest", new Vector2(x, y), 20f);

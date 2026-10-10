@@ -24,6 +24,7 @@ namespace Farm.UI
         readonly Button _discard;
         int _hovered = -1;
         int _picked = -1;
+        bool _pickedOne;          // the pick is a single item of the stack (a right-click)
         int _builtCapacity;
         int _dragFrom = -1;
         Image _dragIcon;
@@ -178,6 +179,7 @@ namespace Farm.UI
                 }
 
                 button.gameObject.AddComponent<InventorySlotDrag>().Bind(this, index);
+                button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => RightClick(index);
 
                 var trigger = button.gameObject.AddComponent<EventTrigger>();
                 var enter = new EventTrigger.Entry { eventID = EventTriggerType.Select };
@@ -215,6 +217,7 @@ namespace Farm.UI
         {
             if (InventoryRules.Discard(Ui.Session, slot, out var removed) == DiscardResult.Ok) AudioService.PlayIfAvailable(Sfx.Rustle);
             _picked = -1;
+            _pickedOne = false;
             if (IsOpen) Rebuild();
         }
 
@@ -223,14 +226,35 @@ namespace Farm.UI
             var inv = Ui.Session.Backpack;
             if (_picked < 0)
             {
-                if (inv.Get(index) != null) _picked = index;
+                if (inv.Get(index) != null) { _picked = index; _pickedOne = false; }
             }
             else
             {
-                inv.Move(_picked, index);
+                if (_pickedOne && _picked != index) inv.MoveOne(_picked, index);
+                else if (!_pickedOne) inv.Move(_picked, index);
                 _picked = -1;
+                _pickedOne = false;
             }
             Rebuild();
+        }
+
+        // A right-click takes one item of the stack (and a second right-click, or a click, puts it down on another slot).
+        public void RightClick(int index)
+        {
+            var inv = Ui.Session.Backpack;
+            if (_picked < 0 && inv.Get(index) != null)
+            {
+                _picked = index;
+                _pickedOne = true;
+                Rebuild();
+            }
+            else if (_picked >= 0 && _pickedOne && _picked != index)
+            {
+                inv.MoveOne(_picked, index);
+                _picked = -1;
+                _pickedOne = false;
+                Rebuild();
+            }
         }
 
         void ShowTooltip(int index)

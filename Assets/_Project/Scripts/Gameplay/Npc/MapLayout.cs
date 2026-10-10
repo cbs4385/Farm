@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Farm.Gameplay
 {
     // The sizes of the two big outdoor maps and the cells of the doors between them, shared by the scene builder and the route table so that
@@ -16,5 +18,21 @@ namespace Farm.Gameplay
         public const int VillageLaneX = 25;
         public const int VillageForestExitY = VillageH - 1;
         public const int VillageForestArriveY = VillageH - 3;
+
+        // A pond: an oval of water. The scene builder paints it and the map in the menu draws it, from these numbers.
+        public readonly struct Pond
+        {
+            public readonly float X, Y, RadiusX, RadiusY;
+            public Pond(float x, float y, float rx, float ry) { X = x; Y = y; RadiusX = rx; RadiusY = ry; }
+            public bool Contains(int px, int py) { var dx = (px - X) / RadiusX; var dy = (py - Y) / RadiusY; return dx * dx + dy * dy <= 1f; }
+        }
+
+        public static readonly Pond FarmPond = new Pond(58f, 39f, 6.2f, 4.2f);
+        public static readonly Pond VillagePond = new Pond(19.5f, 8.5f, 3.2f, 3.6f);
+        public static readonly Pond ForestPond = new Pond(6.5f, 10f, 3.8f, 2.9f);
+
+        // The village's landmarks in the square (cells; each is two cells wide).
+        public static readonly Vector2Int ClockTower = new Vector2Int(27, 21);
+        public static readonly Vector2Int Fountain = new Vector2Int(20, 21);
     }
 }

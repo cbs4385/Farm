@@ -155,9 +155,10 @@ namespace Farm.Gameplay
     public static class InteractionMenu
     {
         public const string PromptKey = "menu.prompt", SocialPromptKey = "menu.social_prompt", SocialKey = "menu.social",
-            GoodbyeKey = "menu.goodbye", BackKey = "menu.back", MoreKey = "menu.more";
+            GoodbyeKey = "menu.goodbye", BackKey = "menu.back", MoreKey = "menu.more", SellKey = "menu.sell";
 
         public const string MoreVar = "chat.more";         // set by the "keep chatting" choice; read when the menu closes
+        public const string SellVar = "chat.sell";         // set by the "sell something" choice: the sell window opens when the menu closes
         public const string AgainVar = "chat.again";       // set when a topic or social reply has been said: the menu is offered again
 
         public static string SocialKeyFor(string action) => "social." + action;
@@ -247,6 +248,19 @@ namespace Farm.Gameplay
             return graph;
         }
 
+        // The shopkeeper of the general store buys things right there in the conversation, for gold at once.
+        public static DialogueGraph WithSell(DialogueGraph graph, NpcDefinition npc)
+        {
+            var menu = graph.Nodes.Find(n => n.Id == "menu");
+            if (menu == null || npc.Business != SellerBusiness || menu.Choices.Exists(c => c.Text == SellKey)) return graph;
+            var at = menu.Choices.FindIndex(c => c.Default);
+            var sell = new DialogueChoice { Text = SellKey, Effects = { "talk.sell" } };
+            if (at < 0) menu.Choices.Add(sell); else menu.Choices.Insert(at, sell);
+            return graph;
+        }
+
+        public const string SellerBusiness = "general";
+
         // What is offered when there are no topics or social actions left today: just "keep chatting" and Goodbye.
         public static DialogueGraph Minimal(string npc, Func<string, bool> hasKey)
         {
@@ -294,6 +308,7 @@ namespace Farm.Gameplay
                 InteractionState.Store(s, state);
             });
             Effects.Register("talk.more", 0, 0, (s, a) => s.SetVar(MoreVar, 1));
+            Effects.Register("talk.sell", 0, 0, (s, a) => s.SetVar(SellVar, 1));
             Effects.Register("talk.again", 0, 0, (s, a) => s.SetVar(AgainVar, 1));
             Effects.Register("social.done", 3, 3, (s, a) =>
             {
@@ -320,8 +335,15 @@ namespace Farm.Gameplay
             var graph = Build(session.Story, npc.Id, session.World, state, session.Clock.Now.TotalDays, L.Has) ?? Minimal(npc.Id, L.Has);
             session.SetVar(MoreVar, 0);
             session.SetVar(AgainVar, 0);
-            session.BeginDialogueGraph(WithMore(graph, npc.Id), () =>
+            session.SetVar(SellVar, 0);
+            session.BeginDialogueGraph(WithSell(WithMore(graph, npc.Id), npc), () =>
             {
+                if (session.GetVar(SellVar) != 0)
+                {
+                    session.SetVar(SellVar, 0);
+                    if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowSell(() => Offer(session, npc));          // then the menu again
+                    return;
+                }
                 if (session.GetVar(AgainVar) != 0) { session.SetVar(AgainVar, 0); Offer(session, npc); return; }          // the menu again
                 if (session.GetVar(MoreVar) == 0) return;
                 session.SetVar(MoreVar, 0);

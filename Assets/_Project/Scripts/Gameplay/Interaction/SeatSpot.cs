@@ -29,10 +29,11 @@ namespace Farm.Gameplay
             var today = s.Clock.Now.TotalDays;
             var friend = !string.IsNullOrEmpty(_npcId) && Conditions.Evaluate($"hearts:{_npcId}>={FriendHearts}", s.World);
             var line = L.Get("seat." + _seatKey + (friend ? ".friend" : ".plain"));
-            if (!CanRest(s.GetVar(DayVar(_seatKey)), today)) { s.Toast(line); return; }
+            if (!CanRest(s.GetVar(DayVar(_seatKey)), today)) { s.Toast(line); if (TryGetComponent<SitSpot>(out var again)) again.Interact(player); return; }
             s.SetVar(DayVar(_seatKey), today + 1);                  // stored +1 so that day 0 is not "never"
             s.RestoreEnergy(Rest);
             s.Toast(line + " " + L.Get("seat.rested", Rest));
+            if (TryGetComponent<SitSpot>(out var sit)) sit.Interact(player);              // and the player sits down for a while
         }
     }
 }

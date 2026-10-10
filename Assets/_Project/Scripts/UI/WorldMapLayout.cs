@@ -59,12 +59,44 @@ namespace Farm.UI
             (MapIds.Blacksmith, "ui_map_smith", "blacksmith", 17, 24),
             (MapIds.Carpenter, "ui_map_carpenter", "carpenter", 32, 24),
             (MapIds.Library, "ui_map_library", "library", 42, 24),
-            (MapIds.Saloon, "ui_map_saloon", "saloon", 10, 11),
-            (MapIds.Clinic, "ui_map_clinic", "clinic", 35, 11),
-            (MapIds.CommunityHall, "ui_map_hall", null, 44, 11),
+            (MapIds.Saloon, "ui_map_saloon", "saloon", 52, 24),
+            (MapIds.Clinic, "ui_map_clinic", "clinic", 67, 24),
+            (MapIds.CommunityHall, "ui_map_hall", null, 37, 31),
         };
 
         public static IReadOnlyList<(string map, string icon, string business, int x, int y)> VillageBuildingDoors => VillageDoors;
+
+        // The ponds, drawn on the map as the oval they are in the world: (region, pond).
+        public static IEnumerable<(Region region, MapLayout.Pond pond)> Ponds()
+        {
+            yield return (Farm, MapLayout.FarmPond);
+            yield return (Village, MapLayout.VillagePond);
+            yield return (Forest, MapLayout.ForestPond);
+        }
+
+        // The ponds' ovals as boxes on the picture (centre and size), one per row of cells, so the map can draw them with plain rectangles.
+        public static List<Rect> PondRows(Region region, MapLayout.Pond pond)
+        {
+            var rows = new List<Rect>();
+            for (var y = Mathf.FloorToInt(pond.Y - pond.RadiusY); y <= Mathf.CeilToInt(pond.Y + pond.RadiusY); y++)
+            {
+                int first = int.MaxValue, last = int.MinValue;
+                for (var x = Mathf.FloorToInt(pond.X - pond.RadiusX); x <= Mathf.CeilToInt(pond.X + pond.RadiusX); x++)
+                    if (pond.Contains(x, y)) { first = Mathf.Min(first, x); last = Mathf.Max(last, x); }
+                if (first > last) continue;
+                var a = region.At(first - 0.5f, y - 0.5f);
+                var b = region.At(last + 0.5f, y + 0.5f);
+                rows.Add(Rect.MinMaxRect(a.x, a.y, b.x, b.y));
+            }
+            return rows;
+        }
+
+        // The landmarks of the village square: (cell of the left half, label key).
+        public static IEnumerable<(Vector2Int cell, string key)> Landmarks()
+        {
+            yield return (MapLayout.Fountain, "map.landmark.fountain");
+            yield return (MapLayout.ClockTower, "map.landmark.clock_tower");
+        }
 
         // Every spot on the map for a game: the doors in the village, the farmhouse and the farm's buildings where they stand, then the places
         // the pictures of the regions stand for (the forest, the woods when they are open, the beach, the mine).

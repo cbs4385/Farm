@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -81,7 +81,7 @@ namespace Farm.Tests
             ClearPatch(50, 25, 70, 40);
             var coop = FarmBuildings.Coop;
             var at = FarmBuildings.Find(_s.State, "coop");
-            var wall = new Vector3Int(at.X, at.Y + 1, 0);
+            var wall = new Vector3Int(at.X + 1, at.Y + 1, 0);                       // a cell the coop's picture covers
             Assert.IsNotNull(_map.Walls.GetTile(wall));
 
             _hammer.Use(wall);
@@ -109,7 +109,7 @@ namespace Farm.Tests
             var moved = FarmBuildings.Find(_s.State, "coop");
             Assert.AreEqual((58, 30), (moved.X, moved.Y));
             Assert.IsNull(_map.Walls.GetTile(wall));
-            Assert.IsNotNull(_map.Walls.GetTile(new Vector3Int(58, 30, 0)));
+            Assert.IsNotNull(_map.Walls.GetTile(new Vector3Int(59, 31, 0)), "its picture stands on the new place");
             Assert.AreEqual("tile_door", _map.Ground.GetTile(new Vector3Int(60, 30, 0)).name);
         }
 

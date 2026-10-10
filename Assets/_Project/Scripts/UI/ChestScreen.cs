@@ -73,6 +73,7 @@ namespace Farm.UI
 
         void Rebuild()
         {
+            Ui.HideHover();                                  // the slots are made again: the pointer is on new ones
             BuildGrid(_chestGrid, true);
             BuildGrid(_packGrid, false);
             if (_focusName != null && IsOpen && EventSystem.current != null)
@@ -109,6 +110,17 @@ namespace Farm.UI
                 label.text = stack.Count > 1 ? stack.Count.ToString() : string.Empty;
             }
         }
+
+        // The tooltip of the item in a slot, next to the pointer (or the slot, for a pad).
+        public void ShowTip(bool chestSide, int slot, Vector2 screenPosition)
+        {
+            if (_dragSlot >= 0) return;
+            var text = ItemTip.Text(Ui.Session, SideOf(chestSide).Get(slot));
+            if (text == null) { Ui.HideHover(); return; }
+            Ui.ShowHover(text, screenPosition);
+        }
+
+        public void HideTip() => Ui.HideHover();
 
         // How many of a stack a click moves: all of it, one with a right-click (or Ctrl), or half with Shift.
         public static int CountFor(int stackCount, PointerEventData.InputButton button, bool shift, bool control)

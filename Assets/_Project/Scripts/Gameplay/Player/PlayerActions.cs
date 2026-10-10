@@ -22,6 +22,13 @@ namespace Farm.Gameplay
         InputService _input;
 
         public GameSession Session { get; private set; }
+        public PlayerController Controller => _player;
+
+        // Sits the player on a seat (SitSpot): they rest there until they move.
+        public void Sit(SitSpot spot)
+        {
+            if (_player.Sit(spot)) Session.Toast(L.Get("toast.sit"));
+        }
 
         public void Configure(PlayerController player, FarmMap map, FarmMapView view, Transform cursor)
         {
@@ -105,9 +112,17 @@ namespace Farm.Gameplay
             if (_input.HotbarPrev.WasPressedThisFrame())
                 SelectHotbar((Session.State.SelectedHotbar + InputNames.HotbarSlots - 1) % InputNames.HotbarSlots);
 
-            if (_input.UseTool.WasPressedThisFrame() && !ClickLandedOnTheHud()) { if (MouseClicked && ClickUsesTheHand()) Interact(); else UseSelected(); }
-            if (_input.Interact.WasPressedThisFrame()) Interact();
-            if (_input.Rotate.WasPressedThisFrame()) TurnPlacement();
+            if (_player.Seated)
+            {
+                // Seated, the buttons for using things stand the player up (moving does too) and do nothing else.
+                if (_input.UseTool.WasPressedThisFrame() || _input.Interact.WasPressedThisFrame()) _player.StandUp();
+            }
+            else
+            {
+                if (_input.UseTool.WasPressedThisFrame() && !ClickLandedOnTheHud()) { if (MouseClicked && ClickUsesTheHand()) Interact(); else UseSelected(); }
+                if (_input.Interact.WasPressedThisFrame()) Interact();
+                if (_input.Rotate.WasPressedThisFrame()) TurnPlacement();
+            }
 
             if (_input.Inventory.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui)) ui.ToggleInventory();
             if (_input.Pause.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui2)) ui2.ShowPause();

@@ -16,10 +16,61 @@ namespace Farm.Gameplay
 
         Rigidbody2D _rb;
         Vector2 _move;
+        SitSpot _seat;
+        Vector3 _standFrom;
+        int _normalOrder;
+        float _restCarry;
+        int _restMinute;
         readonly Footsteps _steps = new Footsteps();
         Vector3 _lastPosition;
 
         public Vector2Int Facing { get; private set; } = Vector2Int.down;
+
+        public bool Seated => _seat != null;
+        public SitSpot Seat => _seat;
+
+        static int NowMinute() => ServiceLocator.TryGet<GameSession>(out var s) && s.InGame ? s.Clock.Now.TotalDays * 1440 + s.Clock.Now.MinuteOfDay : 0;
+
+        // Sits the player down on a seat: they stop where the seat is, facing the way it does, and rest until they move.
+        public bool Sit(SitSpot spot)
+        {
+            if (_seat != null || spot == null) return false;
+            _seat = spot;
+            spot.Occupant = this;
+            _standFrom = transform.position;
+            Stop();
+            Teleport(spot.SeatPosition);
+            foreach (var c in GetComponents<Collider2D>()) c.enabled = false;          // the seat is a solid thing: the player is on it, not against it
+            if (_rb != null) _rb.simulated = false;
+            Face(spot.Facing);
+            if (_renderer != null) { _normalOrder = _renderer.sortingOrder; _renderer.sortingOrder = 12; }          // over a bench, which is drawn over the player
+            _restMinute = NowMinute();
+            _restCarry = 0f;
+            return true;
+        }
+
+        // Stands up where the player was before sitting.
+        public void StandUp()
+        {
+            if (_seat == null) return;
+            _seat.Occupant = null;
+            _seat = null;
+            if (_rb != null) _rb.simulated = true;
+            foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
+            Teleport(_standFrom);
+            if (_renderer != null) _renderer.sortingOrder = _normalOrder;
+        }
+
+        // Each game minute spent sitting brings some energy back.
+        void Rest()
+        {
+            var now = NowMinute();
+            var minutes = now - _restMinute;
+            if (minutes <= 0) return;
+            _restMinute = now;
+            var gain = SeatRest.Gain(minutes, ref _restCarry);
+            if (gain > 0 && ServiceLocator.TryGet<GameSession>(out var session)) session.RestoreEnergy(gain);
+        }
 
         // Cell the player stands in (sampled slightly above the feet so edges do not flicker).
         public Vector3 CellSamplePoint => transform.position + Vector3.up * 0.25f;
@@ -63,6 +114,13 @@ namespace Farm.Gameplay
         void Update()
         {
             _move = Vector2.zero;
+            if (_seat != null)
+            {
+                Rest();
+                // Any push on the stick or the keys gets the player up (not while a menu is open: the keys are the menu's).
+                if (ServiceLocator.TryGet<InputService>(out var seatedInput) && !seatedInput.GameplayBlocked && seatedInput.Move.ReadValue<Vector2>().sqrMagnitude > 0.25f) StandUp();
+                return;
+            }
             if (ServiceLocator.TryGet<InputService>(out var input))
             {
                 var raw = input.Move.ReadValue<Vector2>();

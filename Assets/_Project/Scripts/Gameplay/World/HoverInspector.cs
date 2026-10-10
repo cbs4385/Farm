@@ -87,6 +87,8 @@ namespace Farm.Gameplay
                 if (interactable != null && interactable.HoverLabel != null) return interactable.HoverLabel;
                 var warp = hit.GetComponentInParent<Warp>();
                 if (warp != null && warp.HoverLabel != null) return warp.HoverLabel;
+                var note = hit.GetComponentInParent<HoverNote>();
+                if (note != null && note.HoverLabel != null) return note.HoverLabel;
             }
             return CropLabel(cell);
         }

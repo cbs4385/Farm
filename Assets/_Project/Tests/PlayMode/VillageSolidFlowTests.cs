@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -59,20 +59,20 @@ namespace Farm.Tests
             var ground = tilemaps.First(t => t.name == "Ground");
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
 
-            // For each kind of building: a wall cell on its street side (the cell below it is open ground) with wall on both sides and two more wall cells above.
+            // Every building: the wall cell just left of its door (the cell below it is open ground, the one above it is wall too).
             var styles = new Dictionary<string, Vector3Int>();
-            foreach (var cell in map.cellBounds.allPositionsWithin)
+            foreach (var warp in UnityEngine.Object.FindObjectsByType<Warp>(FindObjectsSortMode.None))
             {
-                var tile = map.GetTile(cell) as Tile;
-                if (tile == null || !tile.name.StartsWith("bld_") || !tile.name.EndsWith("_wall")) continue;
-                var style = tile.name.Substring(0, tile.name.Length - "_wall".Length);
-                var below = cell + Vector3Int.down;
-                if (map.GetTile(below) != null || ground.GetTile(below) == null) continue;
-                if (map.GetTile(cell + Vector3Int.up) == null || map.GetTile(cell + Vector3Int.up * 2) == null) continue;
-                if (map.GetTile(cell + Vector3Int.left) == null || map.GetTile(cell + Vector3Int.right) == null) continue;
-                if (!styles.ContainsKey(style)) styles[style] = cell;
+                if (!(warp.TargetMap == MapIds.GeneralStore || warp.TargetMap == MapIds.Blacksmith || warp.TargetMap == MapIds.Carpenter || warp.TargetMap == MapIds.Library
+                      || warp.TargetMap == MapIds.Saloon || warp.TargetMap == MapIds.Clinic || warp.TargetMap == MapIds.CommunityHall || MapIds.IsHome(warp.TargetMap))) continue;
+                var door = map.WorldToCell(warp.transform.position);
+                var wall = door + Vector3Int.left;
+                Assert.IsNotNull(map.GetTile(wall), warp.TargetMap + ": a wall beside the door");
+                Assert.IsNull(map.GetTile(wall + Vector3Int.down), warp.TargetMap + ": open ground below it");
+                Assert.IsNotNull(map.GetTile(wall + Vector3Int.up), warp.TargetMap + ": and wall above");
+                styles[warp.TargetMap] = wall;
             }
-            Assert.GreaterOrEqual(styles.Count, 8, "the seven shops and the cottages are all there: " + string.Join(", ", styles.Keys));
+            Assert.GreaterOrEqual(styles.Count, 19, "the seven shops and the twelve cottages are all there: " + string.Join(", ", styles.Keys));
 
             var through = new List<string>();
             foreach (var pair in styles)

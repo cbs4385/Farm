@@ -169,6 +169,21 @@ namespace Farm.Gameplay
             Changed?.Invoke();
         }
 
+        // Moves ONE item from a slot onto another that is empty or holds the same kind with room (a right-click in a window). False when it cannot.
+        public bool MoveOne(int from, int to)
+        {
+            if (from == to || from < 0 || to < 0 || from >= _slots.Length || to >= _slots.Length) return false;
+            var a = _slots[from];
+            if (a == null) return false;
+            var b = _slots[to];
+            if (b == null) _slots[to] = new ItemStack(a.ItemId, 1, a.Quality, a.Mark);
+            else if (SameKind(a, b) && b.Count < _maxStack(b.ItemId)) b.Count++;
+            else return false;
+            if (--a.Count <= 0) _slots[from] = null;
+            Changed?.Invoke();
+            return true;
+        }
+
         public bool SameKind(ItemStack a, ItemStack b) => a != null && b != null && a.ItemId == b.ItemId && a.Quality == b.Quality && a.Mark == b.Mark;
         public int MaxStackOf(string itemId) => _maxStack(itemId);
 

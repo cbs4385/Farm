@@ -60,8 +60,8 @@ namespace Farm.Tests
         IEnumerator Walk(float y, bool east, bool pushDown, List<float> stalls)
         {
             var player = Player;
-            var from = east ? 1.6f : 86.4f;
-            var to = east ? 86.4f : 1.6f;
+            var from = east ? 2.6f : 85.4f;
+            var to = east ? 85.4f : 2.6f;
             player.Teleport(new Vector3(from, y, 0f));
             yield return null;
             // The stick held toward the east or west and, with pushDown, into the wall as well (how a person hugs the edge).
@@ -86,7 +86,7 @@ namespace Farm.Tests
         {
             yield return StartFarm();
             var report = new List<string>();
-            foreach (var y in new[] { 1.05f, 1.5f })
+            foreach (var y in new[] { 2.05f, 2.5f })
                 foreach (var pushDown in new[] { false, true })
                     foreach (var east in new[] { true, false })
                     {

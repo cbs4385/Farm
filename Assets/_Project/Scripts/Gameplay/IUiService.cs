@@ -24,6 +24,7 @@ namespace Farm.Gameplay
         void ShowMenuTour() { }
         void StartTourAfterIntro() { }
         void ShowAvatarCreator(AvatarData look, System.Action<AvatarData> onDone) { }     // the farmer creator (also reachable for QA with -farmOpen avatar)
+        void ShowSell(Action onClose = null) => onClose?.Invoke();        // sell from the backpack for gold at once (the general store's keeper, in conversation)
         void ShowShipping() { }        // the shipping bin as a window: pick items and amounts, ship them as one lot
         void ShowLetter(LetterDefinition letter, Action onClosed);
         void ShowBoard();
