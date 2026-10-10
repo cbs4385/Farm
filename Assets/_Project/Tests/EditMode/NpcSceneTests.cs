@@ -135,7 +135,7 @@ namespace Farm.Tests
             Assert.AreEqual(MapLayout.VillageH, village.Ground.Max(c => c.y) + 1);
             Assert.GreaterOrEqual(farm.Ground.Count, 4 * 44 * 32 / 2, "at least about twice the old land");
             Assert.GreaterOrEqual(village.Ground.Count, 50 * 36 * 3 / 2 - 100, "about one and a half times the old land");
-            Assert.AreEqual(new Vector2Int(7, 20), farm.Warps.First(w => w.target == MapIds.FarmHouse).cell, "the farmhouse door did not move");
+            Assert.AreEqual(new Vector2Int(MapLayout.FarmHouseDoorX, 20), farm.Warps.First(w => w.target == MapIds.FarmHouse).cell, "the farmhouse door is where the flipped layout puts it");
             Assert.AreEqual(new Vector2Int(MapLayout.FarmExitX, MapLayout.FarmRoadY), farm.Warps.First(w => w.target == MapIds.Village).cell);
             Assert.AreEqual(new Vector2Int(MapLayout.VillageLaneX, MapLayout.VillageForestExitY), village.Warps.First(w => w.target == MapIds.Forest).cell);
         }

@@ -10,6 +10,7 @@ namespace Farm.Gameplay
         // The farm (was 44 x 32): about twice the land. The road to the village leaves at the middle of the east edge.
         public const int FarmW = 88, FarmH = 64;
         public const int FarmRoadY = 15;
+        public const int FarmHouseDoorX = 80;           // the farmhouse stands by the village end of the farm (flipped 2026-10-10: it was at x 7, a long walk from the road to the village)
         public const int FarmExitX = FarmW - 1;
         public const int FarmArriveX = FarmW - 3;        // where one appears on the farm coming from the village
 
@@ -27,7 +28,7 @@ namespace Farm.Gameplay
             public bool Contains(int px, int py) { var dx = (px - X) / RadiusX; var dy = (py - Y) / RadiusY; return dx * dx + dy * dy <= 1f; }
         }
 
-        public static readonly Pond FarmPond = new Pond(58f, 39f, 6.2f, 4.2f);
+        public static readonly Pond FarmPond = new Pond(29f, 39f, 6.2f, 4.2f);
         public static readonly Pond VillagePond = new Pond(19.5f, 8.5f, 3.2f, 3.6f);
         public static readonly Pond ForestPond = new Pond(6.5f, 10f, 3.8f, 2.9f);
 

@@ -13,7 +13,7 @@ namespace Farm.Gameplay
         [SerializeField] TileBase _roof;
         [SerializeField] TileBase _door;
         [SerializeField] TileBase _hiddenWall;                          // collision with nothing drawn: what stands under a building's picture
-        [SerializeField] Sprite _coopPicture, _barnPicture;             // the kit's chicken coop and barn (the greenhouse keeps the tiles)
+        [SerializeField] Sprite _coopPicture, _barnPicture, _greenhousePicture;             // the kit's chicken coop and barn, and the greenhouse drawn in their style
 
         // Where the door is in each picture (pixels from its left edge), so that the picture can stand with its door on the building's door cell.
         static int DoorPixelOf(string style, int fallback) => BuildingMasks.Get(style)?.DoorPx ?? fallback;
@@ -23,19 +23,20 @@ namespace Farm.Gameplay
         readonly List<Vector3Int> _doorCells = new List<Vector3Int>();
         readonly Dictionary<Vector3Int, TileBase> _groundBefore = new Dictionary<Vector3Int, TileBase>();
 
-        public void Configure(FarmMap map, TileBase wall, TileBase roof, TileBase door, TileBase hiddenWall = null, Sprite coopPicture = null, Sprite barnPicture = null)
+        public void Configure(FarmMap map, TileBase wall, TileBase roof, TileBase door, TileBase hiddenWall = null, Sprite coopPicture = null, Sprite barnPicture = null, Sprite greenhousePicture = null)
         {
             _map = map; _wall = wall; _roof = roof; _door = door;
-            _hiddenWall = hiddenWall; _coopPicture = coopPicture; _barnPicture = barnPicture;
+            _hiddenWall = hiddenWall; _coopPicture = coopPicture; _barnPicture = barnPicture; _greenhousePicture = greenhousePicture;
         }
 
-        // The picture for a kind of building, with where its door is, or null when it is drawn from tiles.
+        // The picture for a kind of building, with where its door is, or null when it is drawn from tiles (only when a picture is missing).
         Sprite PictureFor(FarmBuildingType type, out int doorPixel)
         {
             doorPixel = 0;
             if (_hiddenWall == null) return null;
             if (type.Id == "coop" && _coopPicture != null) { doorPixel = DoorPixelOf(type.Id, 22); return _coopPicture; }
             if (type.Id == "barn" && _barnPicture != null) { doorPixel = DoorPixelOf(type.Id, 48); return _barnPicture; }
+            if (type.Id == "greenhouse" && _greenhousePicture != null) { doorPixel = DoorPixelOf(type.Id, 72); return _greenhousePicture; }
             return null;
         }
 

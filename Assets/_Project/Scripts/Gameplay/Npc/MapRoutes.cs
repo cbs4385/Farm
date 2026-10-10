@@ -49,8 +49,8 @@ namespace Farm.Gameplay
             // Farm <-> village road, farm <-> farmhouse.
             Pair(new RouteEdge(MapIds.Farm, MapLayout.FarmExitX, MapLayout.FarmRoadY, MapIds.Village, 2, 17, "fromFarm"),
                  new RouteEdge(MapIds.Village, 0, 17, MapIds.Farm, MapLayout.FarmArriveX, MapLayout.FarmRoadY, "fromVillage"));
-            Pair(new RouteEdge(MapIds.Farm, 7, 20, MapIds.FarmHouse, 5, 2, "default"),
-                 new RouteEdge(MapIds.FarmHouse, 5, 0, MapIds.Farm, 7, 18, "fromHouse"));
+            Pair(new RouteEdge(MapIds.Farm, MapLayout.FarmHouseDoorX, 20, MapIds.FarmHouse, 5, 2, "default"),
+                 new RouteEdge(MapIds.FarmHouse, 5, 0, MapIds.Farm, MapLayout.FarmHouseDoorX, 18, "fromHouse"));
 
             // The greenhouse, coop and barn doors are on buildings the player can move (FarmBuildingsView), so they are not fixed route edges.
 

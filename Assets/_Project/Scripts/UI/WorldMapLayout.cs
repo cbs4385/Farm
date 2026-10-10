@@ -39,7 +39,7 @@ namespace Farm.UI
         public static readonly Region[] Regions = { Farm, Village, Forest, Woods, Beach, MineHill };
 
         // The cells of the doors (the same as MapBuilder puts them; MapLayoutTests compares them with the built scenes).
-        public const int FarmHouseDoorX = 7, FarmHouseDoorY = 20;
+        public const int FarmHouseDoorX = MapLayout.FarmHouseDoorX, FarmHouseDoorY = 20;
 
         // A building or place with a picture and a label on the map.
         public sealed class Spot

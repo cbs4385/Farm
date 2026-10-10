@@ -134,7 +134,7 @@ namespace Farm.Tests
         [Test]
         public void OldVersion_IsMigrated()
         {
-            var svc = new SaveService(_root, new ISaveMigration[] { new RenameGoldMigration() });
+            var svc = new SaveService(_root, new ISaveMigration[] { new RenameGoldMigration(), new FarmMirrorMigration() });
             var json = JObject.FromObject(MakeState());
             json["SaveVersion"] = 0;
             json["Money"] = 777;

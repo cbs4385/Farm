@@ -30,25 +30,25 @@ namespace Farm.Gameplay
         public static readonly FarmBuildingType Greenhouse = new FarmBuildingType
         {
             Id = "greenhouse", W = 9, H = 5, DoorX = 4, InteriorMap = MapIds.Greenhouse, UnlockFlag = MapIds.GreenhouseFlag,
-            LockedKey = "greenhouse.locked", ReturnSpawn = "fromGreenhouse", DefaultX = 15, DefaultY = 20,
+            LockedKey = "greenhouse.locked", ReturnSpawn = "fromGreenhouse", DefaultX = 64, DefaultY = 20,
         };
 
         public static readonly FarmBuildingType Coop = new FarmBuildingType
         {
             Id = "coop", W = 5, H = 5, DoorX = 2, InteriorMap = MapIds.Coop, UnlockFlag = AnimalRules.BuildingFlag(MapIds.Coop),
-            LockedKey = "coop.locked", ReturnSpawn = "fromCoop", DefaultX = 26, DefaultY = 20,
+            LockedKey = "coop.locked", ReturnSpawn = "fromCoop", DefaultX = 57, DefaultY = 20,
         };
 
         public static readonly FarmBuildingType Barn = new FarmBuildingType
         {
             Id = "barn", W = 7, H = 5, DoorX = 3, InteriorMap = MapIds.Barn, UnlockFlag = AnimalRules.BuildingFlag(MapIds.Barn),
-            LockedKey = "barn.locked", ReturnSpawn = "fromBarn", DefaultX = 32, DefaultY = 20,
+            LockedKey = "barn.locked", ReturnSpawn = "fromBarn", DefaultX = 49, DefaultY = 20,
         };
 
         public static readonly IReadOnlyList<FarmBuildingType> Types = new[] { Greenhouse, Coop, Barn };
 
         // The farmhouse never moves (it holds the bed and is where one wakes up): its footprint is reserved.
-        public const int HouseX0 = 4, HouseX1 = 11, HouseY0 = 20, HouseY1 = 24;
+        public const int HouseX0 = 76, HouseX1 = 83, HouseY0 = 20, HouseY1 = 24;
 
         public static FarmBuildingType Type(string id) => Types.FirstOrDefault(t => t.Id == id);
 

@@ -11,13 +11,13 @@ namespace Farm.Tests
         static bool AllOpen(int x, int y) => true;
 
         [Test]
-        public void TheDefaults_PutTheDoorsWhereTheyAlwaysWere()
+        public void TheDefaults_PutTheDoorsWestOfTheFlippedHouse()
         {
             var d = FarmBuildings.Defaults();
             (int x, int y) Door(string id) => FarmBuildings.DoorCell(FarmBuildings.Type(id), d.First(b => b.TypeId == id));
-            Assert.AreEqual((19, 20), Door("greenhouse"));
-            Assert.AreEqual((28, 20), Door("coop"));
-            Assert.AreEqual((35, 20), Door("barn"));
+            Assert.AreEqual((68, 20), Door("greenhouse"));
+            Assert.AreEqual((59, 20), Door("coop"));
+            Assert.AreEqual((52, 20), Door("barn"));
         }
 
         [Test]
@@ -56,9 +56,9 @@ namespace Farm.Tests
             Assert.AreEqual(FarmBuildings.Placement.Ok, FarmBuildings.CanPlace(coop, 50, 30, 88, 64, others, AllOpen));
             Assert.AreEqual(FarmBuildings.Placement.OffMap, FarmBuildings.CanPlace(coop, 86, 30, 88, 64, others, AllOpen), "runs off the east edge");
             Assert.AreEqual(FarmBuildings.Placement.OffMap, FarmBuildings.CanPlace(coop, 50, 1, 88, 64, others, AllOpen), "no room in front of the door");
-            Assert.AreEqual(FarmBuildings.Placement.OnHouse, FarmBuildings.CanPlace(coop, 8, 24, 88, 64, others, AllOpen));
-            Assert.AreEqual(FarmBuildings.Placement.OnBuilding, FarmBuildings.CanPlace(coop, 33, 20, 88, 64, others, AllOpen), "on the barn");
-            Assert.AreEqual(FarmBuildings.Placement.OnBuilding, FarmBuildings.CanPlace(coop, 22, 20, 88, 64, others, AllOpen), "touching the greenhouse leaves no cell between");
+            Assert.AreEqual(FarmBuildings.Placement.OnHouse, FarmBuildings.CanPlace(coop, 78, 24, 88, 64, others, AllOpen));
+            Assert.AreEqual(FarmBuildings.Placement.OnBuilding, FarmBuildings.CanPlace(coop, 50, 20, 88, 64, others, AllOpen), "on the barn");
+            Assert.AreEqual(FarmBuildings.Placement.OnBuilding, FarmBuildings.CanPlace(coop, 59, 20, 88, 64, others, AllOpen), "touching the greenhouse leaves no cell between");
             Assert.AreEqual(FarmBuildings.Placement.Blocked, FarmBuildings.CanPlace(coop, 50, 30, 88, 64, others, (x, y) => !(x == 52 && y == 32)), "a tree in the middle");
             Assert.AreEqual(FarmBuildings.Placement.NoWayIn, FarmBuildings.CanPlace(coop, 50, 30, 88, 64, others, (x, y) => !(x == 52 && y == 28)), "a boulder at the door");
         }

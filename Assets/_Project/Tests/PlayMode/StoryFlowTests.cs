@@ -65,7 +65,7 @@ namespace Farm.Tests
             yield return Start(MapIds.Farm);
             _s.State.Mailbox.Add("uncle_letter");
             var seeds = _s.Backpack.Count("seed.parsnip");
-            Player.transform.position = new Vector3(10.5f, 18.5f, 0f);
+            Player.transform.position = new Vector3(77.5f, 18.5f, 0f);
             Player.Face(Vector2Int.up);
             for (var i = 0; i < 4; i++) yield return null;
             yield return Tap(Key.E);

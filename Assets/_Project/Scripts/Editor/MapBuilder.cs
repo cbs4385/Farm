@@ -23,7 +23,7 @@ namespace Farm.Editor
 
         // Farm: 44 x 32 cells. House block at x 4..11, y 20..24, door at (7, 20). The east edge opens onto the village.
         const int FarmW = MapLayout.FarmW, FarmH = MapLayout.FarmH;
-        const int HouseX0 = 4, HouseX1 = 11, HouseY0 = 20, HouseY1 = 24, DoorX = 7;
+        const int HouseX0 = FarmBuildings.HouseX0, HouseX1 = FarmBuildings.HouseX1, HouseY0 = FarmBuildings.HouseY0, HouseY1 = FarmBuildings.HouseY1, DoorX = MapLayout.FarmHouseDoorX;
         // The greenhouse, coop and barn are not baked into the scene: FarmBuildingsView draws them from the saved game state (the player can
         // move them), and their doors are locked until the carpenter has built them (FarmBuildings has the types and the default places).
         const int FarmExitY0 = MapLayout.FarmRoadY - 1, FarmExitY1 = MapLayout.FarmRoadY + 1;
@@ -189,33 +189,33 @@ namespace Farm.Editor
             PaintEdgeBand(rig, MapIds.Farm, FarmW, FarmH, (bx, by) => bx == FarmW - 1 && by >= FarmExitY0 && by <= FarmExitY1);
             StandBuilding(rig, "farmhouse", "Farmhouse_Building", DoorX, HouseY0, HouseY0, HouseY1);                      // the kit's farm house over the old footprint
             rig.Ground.SetTile(new Vector3Int(DoorX, HouseY0, 0), GetTile("tile_floor_wood"));
-            rig.Map.gameObject.AddComponent<FarmBuildingsView>().Configure(rig.Map, GetTile("tile_wall"), GetTile("tile_roof"), GetTile("tile_door"), GetHiddenWall(), Sprite("prop_bld_coop"), Sprite("prop_bld_barn"));
+            rig.Map.gameObject.AddComponent<FarmBuildingsView>().Configure(rig.Map, GetTile("tile_wall"), GetTile("tile_roof"), GetTile("tile_door"), GetHiddenWall(), Sprite("prop_bld_coop"), Sprite("prop_bld_barn"), Sprite("prop_bld_greenhouse"));
 
             AddSpawn("default", Center(DoorX, HouseY0 - 3));
             AddSpawn("fromHouse", Center(DoorX, HouseY0 - 2));
             AddSpawn("fromVillage", Center(MapLayout.FarmArriveX, MapLayout.FarmRoadY));
-            AddSpawn("sleepwalk", Center(10, 15));
+            AddSpawn("sleepwalk", Center(77, 15));
             AddWarp(Center(DoorX, HouseY0), MapIds.FarmHouse, "default");
             AddWarp(Center(MapLayout.FarmExitX, MapLayout.FarmRoadY), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
 
-            // A tall red box with a yellow flag (16 x 32): the old one was a small blue blob that was easy to miss. It stands on cell (10, 19) and reaches up a cell.
-            AddObject("Mailbox", "obj_mailbox_tall", Center(10, 19) + new Vector3(0f, 0.5f, 0f), solid: true, size: new Vector2(1f, 2f)).AddComponent<Mailbox>();
+            // A tall red box with a yellow flag (16 x 32): the old one was a small blue blob that was easy to miss. It stands on cell (77, 19) and reaches up a cell.
+            AddObject("Mailbox", "obj_mailbox_tall", Center(77, 19) + new Vector3(0f, 0.5f, 0f), solid: true, size: new Vector2(1f, 2f)).AddComponent<Mailbox>();
 
             // The shipping bin stays on the farm; the general store now lives in the village.
-            var bin = AddObject("ShippingBin", "obj_shipping_bin", Center(13, 17) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));      // a 2 x 2 bin on cells (13..14, 17..18)
+            var bin = AddObject("ShippingBin", "obj_shipping_bin", Center(73, 17) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));      // a 2 x 2 bin on cells (73..74, 17..18)
             bin.AddComponent<ShippingBin>();
             var binFixture = bin.AddComponent<MovableFixture>();      // the mallet can carry it next to the house or anywhere else on the farm
             binFixture.Id = "shipping_bin";
             binFixture.Size = new Vector2Int(2, 2);
 
             // By the farmhouse: hay and sacks against the wall and a wheelbarrow, where the farm's own work happens.
-            MakeMovable(AddProp("Hay", "prop_hay", 13, 21), "farm_hay");
-            MakeMovable(AddProp("Sacks", "prop_sacks", 14, 21), "farm_sacks");
-            MakeMovable(AddProp("Wheelbarrow", "prop_wheelbarrow", 3, 22), "farm_wheelbarrow");
-            MakeMovable(AddProp("Barrels", "prop_barrels", 3, 23), "farm_barrels");
+            MakeMovable(AddProp("Hay", "prop_hay", 74, 21), "farm_hay");
+            MakeMovable(AddProp("Sacks", "prop_sacks", 73, 21), "farm_sacks");
+            MakeMovable(AddProp("Wheelbarrow", "prop_wheelbarrow", 84, 22), "farm_wheelbarrow");
+            MakeMovable(AddProp("Barrels", "prop_barrels", 84, 23), "farm_barrels");
 
-            // A pond to the north-east of the fields (fishing, and something to look at): one oval of water with a shoreline, walled so that one stops at the shore.
-            PaintPond(rig, MapLayout.FarmPond.Contains, 50, 66, 33, 45);
+            // A pond to the north-west of the fields (fishing, and something to look at): one oval of water with a shoreline, walled so that one stops at the shore.
+            PaintPond(rig, MapLayout.FarmPond.Contains, 21, 37, 33, 45);
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Farm}.unity");
         }

@@ -212,7 +212,7 @@ namespace Farm.Tests
 
         static void PlaceSave(string root, string fixture)
         {
-            var saves = new SaveService(root);
+            var saves = new SaveService(root, new ISaveMigration[] { new FarmMirrorMigration() });
             AtomicFile.Write(saves.SlotPath(0), File.ReadAllText(SavesDir + fixture));
         }
 
@@ -223,7 +223,7 @@ namespace Farm.Tests
             var root = Path.Combine(Path.GetTempPath(), "farm-compat-" + System.Guid.NewGuid().ToString("N"));
             try
             {
-                var plain = new SaveService(root);
+                var plain = new SaveService(root, new ISaveMigration[] { new FarmMirrorMigration() });
                 PlaceSave(root, fixture);
                 Assert.IsTrue(plain.TryLoad(0, out var state, out var error), error);
                 Assert.AreEqual(name, state.PlayerName);
@@ -256,7 +256,7 @@ namespace Farm.Tests
             var root = Path.Combine(Path.GetTempPath(), "farm-compat-" + System.Guid.NewGuid().ToString("N"));
             try
             {
-                var saves = new SaveService(root);
+                var saves = new SaveService(root, new ISaveMigration[] { new FarmMirrorMigration() });
                 AtomicFile.Write(saves.SlotPath(0), "{\"SaveVersion\":99}");
                 Assert.IsFalse(saves.TryLoad(0, out _, out var error));
                 StringAssert.Contains("newer", error);

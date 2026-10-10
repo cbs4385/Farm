@@ -20,7 +20,7 @@ OUT = os.path.join(ROOT, 'Assets', '_Project', 'Resources', 'BuildingMasks.json'
 DOOR_PX = {
     'general': 39, 'blacksmith': 33, 'carpenter': 48, 'library': 57, 'saloon': 45, 'clinic': 50, 'hall': 47,
     'cottage1': 26, 'cottage2': 32, 'cottage3': 24, 'cottage4': 33, 'farmhouse': 48,
-    'coop': 22, 'barn': 48,
+    'coop': 22, 'barn': 48, 'greenhouse': 72,
 }
 CELL = 16
 SOLID_SHARE = 0.20       # a wall cell blocks when this much of it is picture

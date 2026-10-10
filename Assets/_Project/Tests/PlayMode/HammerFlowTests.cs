@@ -70,13 +70,13 @@ namespace Farm.Tests
             Assert.IsTrue(_hammer.Carrying);
             Assert.AreEqual("coop", _hammer.CarryingBuilding);
             Assert.IsNull(_map.Walls.GetTile(wall), "its walls are lifted away");
-            Assert.AreEqual(26, FarmBuildings.Find(_s.State, "coop").X, "the saved state still says where it stood");
+            Assert.AreEqual(FarmBuildings.Coop.DefaultX, FarmBuildings.Find(_s.State, "coop").X, "the saved state still says where it stood");
 
             // On the farmhouse: refused, still carrying.
-            _hammer.Use(new Vector3Int(8, 21, 0));
+            _hammer.Use(new Vector3Int(FarmBuildings.HouseX0 + 1, 21, 0));
             Assert.IsTrue(_hammer.Carrying);
             Assert.AreEqual("build.refused.onhouse", _hammer.LastRefusal);
-            Assert.AreEqual(26, FarmBuildings.Find(_s.State, "coop").X);
+            Assert.AreEqual(FarmBuildings.Coop.DefaultX, FarmBuildings.Find(_s.State, "coop").X);
 
             // Interact puts it back.
             Assert.IsTrue(_hammer.Cancel());

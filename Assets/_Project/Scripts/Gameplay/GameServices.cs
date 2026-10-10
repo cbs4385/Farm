@@ -66,7 +66,7 @@ namespace Farm.Gameplay
                 ServiceLocator.Register(input);
             }
 
-            var saves = new SaveService(DataRoot);
+            var saves = new SaveService(DataRoot, new ISaveMigration[] { new FarmMirrorMigration() });
             ServiceLocator.Register(saves);
 
             var session = root.AddComponent<GameSession>();

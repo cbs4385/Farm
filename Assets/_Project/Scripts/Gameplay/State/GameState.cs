@@ -30,7 +30,7 @@ namespace Farm.Gameplay
     [Serializable]
     public sealed class GameState
     {
-        public const int CurrentVersion = 1;
+        public const int CurrentVersion = 2;          // 2: the farm was mirrored (FarmMirrorMigration)
         public const int StartingBackpackSlots = 12;
         public const string HammerGivenFlag = "tutorial.hammer_given";      // saves from before the mallet existed get one, once
         public const int HotbarSlots = 12;
