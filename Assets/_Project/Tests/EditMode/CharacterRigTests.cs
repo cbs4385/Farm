@@ -189,5 +189,30 @@ namespace Farm.Tests
             Assert.GreaterOrEqual(CharacterRig.PadBottom, CharacterRig.CellPixels + 4);
             Assert.GreaterOrEqual(CharacterRig.PadX, CharacterRig.CellPixels);
         }
+
+        // Playtest 2026-10-10: watering looked like hitting the ground with the can. It is a pour now: the can tips over the tile and water falls onto it.
+        [Test]
+        public void Watering_pours_onto_the_tile_aimed_at_instead_of_swinging()
+        {
+            var g = Figure();
+            foreach (var facing in new[] { "down", "up", "left", "right" })
+                foreach (var target in new[] { new Vector2Int(0, -1), new Vector2Int(-1, -1), new Vector2Int(1, 0), new Vector2Int(0, 1) })
+                {
+                    var pour = CharacterRig.Strike(g, facing, ToolType.WateringCan, 2, target);
+                    var swing = CharacterRig.Strike(g, facing, ToolType.Hoe, 2, target);
+                    Assert.AreEqual("different", Same(pour, swing), $"{facing} {target}: not the swing of a tool");
+                    var (_, aimed, _) = CharacterRig.StrikeGeometry(g, facing, ToolType.Hoe, target);
+                    var water = 0;
+                    for (var dy = -2; dy <= 2; dy++)
+                        for (var dx = -3; dx <= 3; dx++)
+                        {
+                            var c = pour.Get(Mathf.RoundToInt(aimed.x) + dx, Mathf.RoundToInt(aimed.y) + dy);
+                            if (c.a > 0 && c.b > 180 && c.b > c.r + 40) water++;
+                        }
+                    Assert.GreaterOrEqual(water, 3, $"{facing} {target}: water lands on the tile");
+                    var early = CharacterRig.Strike(g, facing, ToolType.WateringCan, 0, target);
+                    Assert.AreEqual(0, Enumerable.Range(0, early.W * early.H).Count(i => early.P[i].a > 0 && early.P[i].b > 180 && early.P[i].b > early.P[i].r + 60 && early.P[i].g > 150), $"{facing} {target}: no water yet when the can is lifted");
+                }
+        }
     }
 }

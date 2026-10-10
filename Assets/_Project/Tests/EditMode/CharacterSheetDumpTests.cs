@@ -120,6 +120,26 @@ namespace Farm.Tests
                 File.WriteAllBytes(Path.Combine(dir, "targets.png"), sheet.EncodeToPNG());
                 Object.DestroyImmediate(sheet);
             }
+            // watering: the four frames at a tile in front, a diagonal one and one beside
+            {
+                var look = new AvatarData { Build = "masculine", Hair = "short", Shirt = "overalls", Pants = "trousers", Accessory = "cap", ShirtColor = "#c0453f" };
+                var rows = new[] { ("down", new Vector2Int(0, -1)), ("down", new Vector2Int(1, -1)), ("left", new Vector2Int(-1, 0)), ("up", new Vector2Int(0, 1)) };
+                var cellW = CharacterRig.OutWidth(16) * Scale; var cellH = CharacterRig.OutHeight(32) * Scale;
+                var sheet = new Texture2D(cellW * 4, cellH * rows.Length, TextureFormat.RGBA32, false);
+                var bg = new Color32[sheet.width * sheet.height];
+                for (var i = 0; i < bg.Length; i++) bg[i] = new Color32(94, 140, 80, 255);
+                sheet.SetPixels32(bg);
+                for (var row = 0; row < rows.Length; row++)
+                {
+                    var (f, t) = rows[row];
+                    var g = new PixelGrid(16, 32);
+                    System.Array.Copy(AvatarComposer.Compose(look, f), g.P, g.P.Length);
+                    for (var frame = 0; frame < 4; frame++) Blit(sheet, CharacterLook.Apply(CharacterRig.Strike(g, f, ToolType.WateringCan, frame, t)), frame * cellW, row * cellH);
+                }
+                sheet.Apply();
+                File.WriteAllBytes(Path.Combine(dir, "pour.png"), sheet.EncodeToPNG());
+                Object.DestroyImmediate(sheet);
+            }
             Assert.Pass("pictures are in Builds/anim");
         }
     }

@@ -109,15 +109,83 @@ namespace Farm.Gameplay
             frame = Mathf.Clamp(frame, 0, StrikeFrames - 1);
             target = new Vector2Int(Mathf.Clamp(target.x, -2, 2), Mathf.Clamp(target.y, -2, 2));
             if (target == Vector2Int.zero) target = FacingVector(facing);
-            var pose = StrikePose(frame, target);
+            var pour = tool == ToolType.WateringCan;
+            var pose = pour ? PourPose(frame, target) : StrikePose(frame, target);
             var body = Build(g, b, pose, facing);
-            DrawArmAndTool(body, g, b, facing, tool, frame, pose, target);
+            if (pour) DrawPour(body, g, b, facing, frame, pose, target);
+            else DrawArmAndTool(body, g, b, facing, tool, frame, pose, target);
             return body;
         }
 
         public static PixelGrid Strike(PixelGrid g, string facing, ToolType tool, int frame) => Strike(g, facing, tool, frame, FacingVector(facing));
 
         public static Vector2Int FacingVector(string facing) => facing == "up" ? Vector2Int.up : facing == "left" ? Vector2Int.left : facing == "right" ? Vector2Int.right : Vector2Int.down;
+
+        // Watering is not a swing: the can is held out over the tile and tipped, and water falls from its spout onto the tile (playtest 2026-10-10: it looked like
+        // hitting the ground with the can). The body only leans a little toward the tile.
+        static Pose PourPose(int frame, Vector2Int target)
+        {
+            var pose = new Pose { NoArms = true };
+            var amount = frame == 1 ? 0.5f : frame == 2 ? 1f : 0f;
+            pose.BodyDx = Mathf.RoundToInt(Mathf.Clamp(target.x, -1, 1) * amount);
+            pose.BodyDy = target.y < 0 ? Mathf.RoundToInt(amount) : 0;
+            return pose;
+        }
+
+        static readonly Color32 Water = new Color32(0x7c, 0xb8, 0xee, 255), WaterDark = new Color32(0x4f, 0x8c, 0xd0, 255);
+
+        // The arm holds the can out toward the tile with the spout above it; the can tips a little more each frame and the water falls from the spout to the middle of the tile.
+        static void DrawPour(PixelGrid o, PixelGrid g, Bands b, string facing, int frame, Pose pose, Vector2Int target)
+        {
+            var shoulder = ShoulderOf(b, facing, pose);
+            var tile = TargetPixel(g, b, target);
+            var spoutOver = tile + new Vector2(0f, frame == 0 ? -13f : -9f);          // where the spout is held
+            // the can is held side-on, spout toward the side the tile is on, and tipped more each frame (never pointing straight down: it would not look like a can)
+            var sideways = Mathf.Abs(tile.x - shoulder.x) < 2f ? (facing == "left" ? -1f : 1f) : Mathf.Sign(tile.x - shoulder.x);
+            var tip = new[] { 0f, 25f, 50f, 15f }[frame];
+            var angle = sideways > 0f ? tip : 180f - tip;
+            var rad = angle * Mathf.Deg2Rad;
+            var dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+            const int spout = 9;
+            var hand = spoutOver - dir * spout;
+            var reach = hand - shoulder;
+            if (reach.magnitude > 10f) hand = shoulder + reach.normalized * 10f;
+            if (frame == 3) hand = Vector2.Lerp(shoulder, hand, 0.6f);
+            var sleeve = SleeveColor(g, b);
+            var skin = SkinColor(g, b, sleeve);
+            var handI = new Vector2Int(Mathf.RoundToInt(hand.x), Mathf.RoundToInt(hand.y));
+            var steps = Mathf.Max(1, Mathf.RoundToInt(Vector2.Distance(shoulder, hand)));
+            for (var i = 0; i <= steps; i++)
+            {
+                var at = Vector2.Lerp(shoulder, hand, i / (float)steps);
+                var c = i >= steps - 1 && steps > 2 ? skin : sleeve;
+                o.Set(Mathf.RoundToInt(at.x), Mathf.RoundToInt(at.y), c);
+                o.Set(Mathf.RoundToInt(at.x) + 1, Mathf.RoundToInt(at.y), c);
+            }
+            foreach (var dot in ToolGlyphs.For(ToolType.WateringCan, angle)) o.Set(handI.x + dot.X, handI.y + dot.Y, dot.Color);
+            o.Set(handI.x, handI.y, skin);
+
+            // the water: drops fall from the end of the spout to the middle of the tile, and splash on it
+            if (frame == 1 || frame == 2)
+            {
+                var spoutTip = hand + dir * spout;
+                var fall = tile - spoutTip;
+                var drops = Mathf.Max(1, Mathf.RoundToInt(fall.magnitude / (frame == 2 ? 2f : 3f)));
+                for (var i = 1; i <= drops; i++)
+                {
+                    var at = spoutTip + fall * (i / (float)drops);
+                    o.Set(Mathf.RoundToInt(at.x), Mathf.RoundToInt(at.y), i % 2 == 0 ? Water : WaterDark);
+                }
+                if (frame == 2)
+                {
+                    var tx = Mathf.RoundToInt(tile.x);
+                    var ty = Mathf.RoundToInt(tile.y);
+                    for (var d = -2; d <= 2; d++) o.Set(tx + d, ty + 1, d == 0 ? Water : WaterDark);
+                    o.Set(tx - 1, ty, Water);
+                    o.Set(tx + 1, ty, Water);
+                }
+            }
+        }
 
         // How the body leans over a swing: back and up to wind up, then toward the target (a crouch for a tile below, a step for a tile to the side) on the strike.
         static Pose StrikePose(int frame, Vector2Int target)
