@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.2 (unreleased, held for a human review)
+## 0.4.2 (2026-10-10)
 
 The farmer and every villager are less flat and now really animate:
 - Every character has a dark outline, light on its top-left edge and shade on its far edge and feet, and a soft shadow on the ground under it.
