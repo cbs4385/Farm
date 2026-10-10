@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 (2026-10-09)
+
+- The trees change with the season, each tree its own kind: round green ones and willows in spring and summer, orange and yellow ones in fall, bare ones and conifers in winter (some keep the old pine). Art from the Cozy Village kit.
+- The village has a clock tower and a fountain between the road and the shops, benches, flags, lamp posts along the road, flower boxes and barrels at the shops' doors, and new market stalls; the farm has hay, sacks, a wheelbarrow and barrels by the house. Tall things (trees, the clock tower, lamps) now hide a player who stands behind them.
+- The builder's mallet instructions (the longest of any tool) no longer overflow: the Help tab rows and the box over the item bar are as tall as the words they hold.
+
 ## 0.3.1 (2026-10-09)
 
 - The world is less flat. Tufts and flowers are scattered over the grass in the colors of the season (green in spring and summer, orange in fall, pale blue in winter), pebbles, driftwood and dune grass lie on the beach, there is a pond on the farm and one in the village, the beach shore wanders instead of running straight, and the shops have planters beside their doors.

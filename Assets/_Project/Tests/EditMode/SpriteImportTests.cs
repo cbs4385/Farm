@@ -38,7 +38,7 @@ namespace Farm.Tests
                 // sprite.pivot is in pixels from the bottom-left corner of the sprite rect
                 Assert.AreEqual(sprite.rect.width / 2f, sprite.pivot.x, 0.01f, path);
                 // A tree is taller than its cell: its pivot is set so that the trunk stands at the foot of the cell (see TextureImportPostprocessor).
-                var expected = isCharacter ? 0f : name == "obj_tree.png" ? sprite.rect.height * 0.375f : name == "obj_sunpatch.png" ? 8f : sprite.rect.height / 2f;
+                var expected = isCharacter ? 0f : name == "obj_tree.png" ? sprite.rect.height * 0.375f : name == "obj_sunpatch.png" || name.StartsWith("prop_") ? 8f : sprite.rect.height / 2f;
                 Assert.AreEqual(expected, sprite.pivot.y, 0.01f, path);
             }
         }

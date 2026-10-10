@@ -215,6 +215,12 @@ namespace Farm.Editor
             binFixture.Id = "shipping_bin";
             binFixture.Size = new Vector2Int(2, 2);
 
+            // By the farmhouse: hay and sacks against the wall and a wheelbarrow, where the farm's own work happens.
+            AddProp("Hay", "prop_hay", 13, 21);
+            AddProp("Sacks", "prop_sacks", 14, 21);
+            AddProp("Wheelbarrow", "prop_wheelbarrow", 3, 22);
+            AddProp("Barrels", "prop_barrels", 3, 23);
+
             // A pond to the north-east of the fields (fishing, and something to look at): one oval of water with a shoreline, walled so that one stops at the shore.
             bool FarmPond(int px, int py) { var dx = (px - 58f) / 6.2f; var dy = (py - 39f) / 4.2f; return dx * dx + dy * dy <= 1f; }
             PaintPond(rig, FarmPond, 50, 66, 33, 45);
@@ -379,7 +385,7 @@ namespace Farm.Editor
             var merchant = new GameObject("MerchantStall");
             var visible = merchant.AddComponent<ConditionalObject>();
             visible.Condition = "merchant:today";
-            var stall = AddObject("Stall", "obj_stall", Center(30, 19), solid: true);
+            var stall = AddObject("Stall", "prop_stall", Center(30, 19), solid: true);
             stall.AddComponent<ShopCounter>().ShopId = "merchant";
             stall.transform.SetParent(merchant.transform, true);
 
@@ -398,6 +404,28 @@ namespace Farm.Editor
                     if ((x * 37 + y * 53) % (edgeBand ? 3 : 17) != 0) continue;
                     AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
                 }
+
+            // The village square and the roadside (the Cozy Village kit): a clock tower and a fountain between the road and the shops, benches, flags, lamp posts along
+            // both edges of the road, flower boxes and barrels at the shops' doors. All of it stands clear of the doors' lanes (x = a door's x), the cobbled lane and the
+            // villagers' streets.
+            AddProp("ClockTower", "prop_clock_tower", 27, 21, 2);
+            AddProp("Fountain", "prop_fountain", 20, 21, 2);
+            AddProp("Flag_West", "prop_flag", 23, 20);
+            AddProp("Flag_East", "prop_flag", 27, 19);
+            foreach (var lampX in new[] { 3, 11, 20, 34, 40, 46 }) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, 19);
+            foreach (var lampX in new[] { 4, 12, 20, 30, 38, 46 }) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, 15);
+            AddProp("Bench_1", "prop_bench", 14, 14, 2);
+            AddProp("Bench_2", "prop_bench", 40, 14, 2);
+            foreach (var b in Buildings)
+                if (b.FacesSouth && !string.IsNullOrEmpty(b.Business))
+                {
+                    AddProp($"{b.MapId}_FlowersWest", "prop_flowerbox_1", b.DoorX - 1, 20);
+                    AddProp($"{b.MapId}_FlowersEast", "prop_flowerbox_2", b.DoorX + 1, 20);
+                }
+            AddProp("Barrels_Store", "prop_barrels", 2, 22);
+            AddProp("BarrelStack_Smith", "prop_barrel_stack", 23, 22);
+            AddProp("Boxes_Library", "prop_boxes", 47, 23);
+            AddProp("Wheelbarrow_Library", "prop_wheelbarrow", 48, 22);
 
             // A pond on the green between the saloon and the lane.
             bool VillagePond(int px, int py) { var dx = (px - 19.5f) / 3.2f; var dy = (py - 8.5f) / 3.6f; return dx * dx + dy * dy <= 1f; }
@@ -656,7 +684,7 @@ namespace Farm.Editor
             AddWarp(Center(17, BeachH - 1), MapIds.Village, "fromBeach", new Vector2(3f, 1f));
 
             // The fish stall: a working counter whose hours (06:00-14:00, closed Thursday) are enforced.
-            var stall = AddObject("FishStall", "obj_stall", Center(10, 11), solid: true);
+            var stall = AddObject("FishStall", "prop_stall_blue", Center(10, 11), solid: true);
             stall.AddComponent<ShopCounter>().ShopId = "fish";
 
             // The good rock Felix keeps warm for the player.
@@ -836,7 +864,20 @@ namespace Farm.Editor
             sr.sprite = Sprite(spriteName);
             sr.sortingOrder = 4;
             if (solid) go.AddComponent<BoxCollider2D>().size = size ?? Vector2.one;
+            if (spriteName == "obj_tree") sr.sortingOrder = TallSortingOrder;           // the crown covers a player who stands behind the tree (the player is at 10)
             if (spriteName == "obj_tree" || spriteName == "obj_bramble") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
+            return go;
+        }
+
+        const int TallSortingOrder = 11;
+
+        // A prop from the Cozy Village kit (prop_<name>, its foot at the foot of the cell): stands on cell (x, y); a prop two cells wide stands on (x, y) and (x + 1, y).
+        // Tall props are drawn over a player standing behind them.
+        static GameObject AddProp(string name, string spriteName, int x, int y, int width = 1, bool solid = true)
+        {
+            var position = Center(x, y) + (width > 1 ? new Vector3((width - 1) * 0.5f, 0f, 0f) : Vector3.zero);
+            var go = AddObject(name, spriteName, position, solid: solid, size: new Vector2(width, 1f));
+            go.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
             return go;
         }
 

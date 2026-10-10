@@ -10,7 +10,7 @@ namespace Farm.Editor
         public const int PixelsPerUnit = 16;
 
         // Bump when import rules change so existing art is reimported.
-        public override uint GetVersion() => 8;
+        public override uint GetVersion() => 9;
 
         // Full-screen pictures (the ending illustrations) are loaded as plain textures, kept at their exact size and crisp.
         const string PictureRoot = "Assets/_Project/Resources/Endings/";
@@ -21,6 +21,7 @@ namespace Farm.Editor
 
         // The ground decoration (tufts and flowers laid over the grass at run time): crisp sprites like the rest of the art.
         const string DecorRoot = "Assets/_Project/Resources/Decor/";
+        const string TreesRoot = "Assets/_Project/Resources/Trees/";          // the seasonal trees SeasonalTrees swaps in
 
         void OnPreprocessTexture()
         {
@@ -48,7 +49,7 @@ namespace Farm.Editor
                 picture.alphaSource = TextureImporterAlphaSource.None;
                 return;
             }
-            if (!assetPath.StartsWith(ArtRoot) && !assetPath.StartsWith(DecorRoot)) return;
+            if (!assetPath.StartsWith(ArtRoot) && !assetPath.StartsWith(DecorRoot) && !assetPath.StartsWith(TreesRoot)) return;
 
             var importer = (TextureImporter)assetImporter;
             importer.textureType = TextureImporterType.Sprite;
@@ -70,6 +71,25 @@ namespace Farm.Editor
                 settings.spriteAlignment = (int)SpriteAlignment.Custom;
                 importer.SetTextureSettings(settings);
                 importer.spritePivot = new Vector2(0.5f, 0f);
+            }
+            else if (assetPath.StartsWith(TreesRoot))
+            {
+                // The same pivot as obj_tree.png (the trunk's foot at the foot of the cell), so that a seasonal tree can take a tree's place exactly.
+                var settings = new TextureImporterSettings();
+                importer.ReadTextureSettings(settings);
+                settings.spriteAlignment = (int)SpriteAlignment.Custom;
+                importer.SetTextureSettings(settings);
+                importer.spritePivot = new Vector2(0.5f, 0.375f);
+            }
+            else if (file.StartsWith("prop_"))
+            {
+                // Things that stand in the village and on the farm (a lamp post, a clock tower, a stall): the foot of the picture at the foot of the cell, however tall it is.
+                importer.GetSourceTextureWidthAndHeight(out var width, out var height);
+                var settings = new TextureImporterSettings();
+                importer.ReadTextureSettings(settings);
+                settings.spriteAlignment = (int)SpriteAlignment.Custom;
+                importer.SetTextureSettings(settings);
+                importer.spritePivot = new Vector2(0.5f, Mathf.Clamp01(8f / Mathf.Max(8, height)));
             }
             else if (file == "obj_tree.png" || file == "obj_sapling.png" || file == "obj_sunpatch.png")
             {

@@ -110,6 +110,27 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator TheVillage_HasItsClockTowerFountainLampsAndBenches_DrawnOverAPlayerBehindThem()
+        {
+            yield return Open(MapIds.Village);
+            Transform Named(string n) => Resources.FindObjectsOfTypeAll<Transform>().FirstOrDefault(t => t.name == n && t.gameObject.scene.IsValid());
+            foreach (var n in new[] { "ClockTower", "Fountain", "Bench_1", "Lamp_N11", "Lamp_S12", "Flag_West" }) Assert.IsNotNull(Named(n), n);
+            Assert.GreaterOrEqual(Named("ClockTower").GetComponent<SpriteRenderer>().sortingOrder, 11, "the tower hides a player who stands behind it (the player is at 10)");
+            Assert.GreaterOrEqual(Resources.FindObjectsOfTypeAll<Transform>().Count(t => t.name.StartsWith("Lamp_") && t.gameObject.scene.IsValid()), 10, "lamps along the road");
+        }
+
+        [UnityTest]
+        public IEnumerator TheTreesOfTheForest_AreOfTheSeasonsKinds()
+        {
+            yield return Open(MapIds.Forest, Season.Fall);
+            var names = Resources.FindObjectsOfTypeAll<SpriteRenderer>().Where(r => r.gameObject.scene.IsValid() && r.name.StartsWith("Tree_") && r.sprite != null).Select(r => r.sprite.name).ToList();
+            Assert.Greater(names.Count, 50, "a wood");
+            Assert.IsTrue(names.Any(n => n.StartsWith("tree_fall_")), "fall trees");
+            Assert.IsFalse(names.Any(n => n.StartsWith("tree_spring_") || n.StartsWith("tree_winter_")), "and no others");
+            Assert.IsTrue(names.Any(n => n == "obj_tree"), "some pines stay");
+        }
+
+        [UnityTest]
         public IEnumerator Indoors_ThereIsNoDecoration()
         {
             yield return Open(MapIds.FarmHouse);

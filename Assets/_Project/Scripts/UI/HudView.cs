@@ -387,6 +387,10 @@ namespace Farm.UI
                 {
                     s.AddVar(HelpShownKey + itemId, 1);
                     _help.text = text;
+                    // The box is as tall as its words need (the mallet's instructions are the longest of any tool): never a fixed height.
+                    var wide = _helpPanel.rectTransform.sizeDelta.x - 16f;
+                    var tall = _help.GetPreferredValues(text, wide, 0f).y + 16f;
+                    _helpPanel.rectTransform.sizeDelta = new Vector2(_helpPanel.rectTransform.sizeDelta.x, Mathf.Clamp(tall, 72f, 240f));
                     _helpTimer = HelpSeconds;
                 }
             }

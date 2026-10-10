@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using Farm.Core;
@@ -118,6 +118,8 @@ namespace Farm.Tests
             for (var i = 0; i < session.Backpack.Capacity; i++)
                 if (session.Backpack.Get(i)?.ItemId == Farm.Data.ItemIds.Hoe) session.State.SelectedHotbar = i;
             var grid = session.GetGrid(MapIds.Farm);
+            for (var dx = -1; dx <= 1; dx++)
+                for (var dy = -1; dy <= 1; dy++) session.GetNodes(MapIds.Farm).Remove(me.x + dx, me.y + dy);        // a weed that grew overnight on the patch would have to be cut first
             var tilled = 0;
             for (var dx = -1; dx <= 1; dx++)
                 for (var dy = -1; dy <= 1; dy++)

@@ -18,6 +18,19 @@ namespace Farm.UI
         public static readonly string[] Controls = { "help.control.move", "help.control.use", "help.control.interact", "help.control.bar", "help.control.inventory", "help.control.menu" };
 
         RectTransform _list;
+        const float TextWidth = 640f;               // a little under the width the text really has, so that the measured height is never too small
+
+        // How tall a text is at a font size when it wraps at a width (measured by a throwaway label: the real height, not a guess from the number of characters).
+        static float MeasureHeight(string text, float size, float width)
+        {
+            var go = new GameObject("Measure", typeof(RectTransform), typeof(TextMeshProUGUI));
+            var label = go.GetComponent<TextMeshProUGUI>();
+            label.fontSize = size * UiKit.TextScale;
+            label.textWrappingMode = TextWrappingModes.Normal;
+            var height = label.GetPreferredValues(text, width, 0f).y;
+            Object.Destroy(go);
+            return height;
+        }
 
         public override string Id => MenuTabs.Help;
 
@@ -39,10 +52,12 @@ namespace Farm.UI
             foreach (var tool in ToolOrder)
             {
                 var item = ui.Session.Db.AllItems.FirstOrDefault(i => i.IsTool && i.ToolType == tool);
+                var instructions = L.Get(HotbarTooltip.UseKey(tool));
+                var rowHeight = Mathf.Max(56f, 30f + MeasureHeight(instructions, 15f, TextWidth));          // as tall as the words need
                 var row = UiKit.HStack(_list, "Tool_" + tool, 10f);
-                UiKit.Size(row.gameObject, -1f, 56f);
+                UiKit.Size(row.gameObject, -1f, rowHeight);
                 var slot = UiKit.Rect("IconSlot", row.transform);                 // a fixed-size slot, so that every name starts at the same place whatever the icon is
-                UiKit.Size(slot.gameObject, 48f, 56f);
+                UiKit.Size(slot.gameObject, 48f, rowHeight);
                 var icon = UiKit.Panel(slot, "Icon", Color.white);
                 icon.rectTransform.anchorMin = icon.rectTransform.anchorMax = icon.rectTransform.pivot = new Vector2(0.5f, 0.5f);
                 icon.rectTransform.sizeDelta = new Vector2(40f, 40f);
@@ -50,9 +65,9 @@ namespace Farm.UI
                 icon.sprite = item != null ? item.Icon : null;
                 icon.enabled = icon.sprite != null;
                 var column = UiKit.VStack(row.transform, "Text", 0f);
-                UiKit.Size(column.gameObject, -1f, 56f, 1f);
+                UiKit.Size(column.gameObject, -1f, rowHeight, 1f);
                 UiKit.Label(column.transform, item != null ? L.Get(item.NameKey) : tool.ToString(), 18f, TextAlignmentOptions.Left, UiKit.Accent);
-                UiKit.Label(column.transform, L.Get(HotbarTooltip.UseKey(tool)), 15f, TextAlignmentOptions.TopLeft);
+                UiKit.Label(column.transform, instructions, 15f, TextAlignmentOptions.TopLeft);
             }
 
             Heading(L.Get("help.everyday"));
@@ -72,7 +87,7 @@ namespace Farm.UI
         {
             var label = UiKit.Label(_list, text, 16f, TextAlignmentOptions.TopLeft);
             label.textWrappingMode = TextWrappingModes.Normal;
-            UiKit.Size(label.gameObject, -1f, Mathf.Max(24f, 22f * Mathf.Ceil(text.Length / 95f)));
+            UiKit.Size(label.gameObject, -1f, Mathf.Max(24f, MeasureHeight(text, 16f, TextWidth + 50f) + 4f));
         }
     }
 }

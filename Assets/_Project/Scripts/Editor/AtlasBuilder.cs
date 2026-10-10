@@ -24,7 +24,7 @@ namespace Farm.Editor
             ("Characters", new[] { "player_", "npc_" }),
             ("Crops", new[] { "crop_" }),
             ("Items", new[] { "item_" }),
-            ("World", new[] { "obj_" }),
+            ("World", new[] { "obj_", "prop_" }),
             ("UI", new[] { "ui_", "hud_", "fx_" }),
         };
 

@@ -20,6 +20,9 @@ namespace Farm.Gameplay
             return (int)((h2 >> 8) % (uint)count);
         }
 
+        // A pick among `count` for a place: the same every time for the same map, seed and cell (-1 when there is nothing to pick from).
+        public static int Slot(int seed, string mapId, int x, int y, int count) => count <= 0 ? -1 : (int)((Hash(seed, mapId, x, y) >> 8) % (uint)count);
+
         static uint Hash(int seed, string mapId, int x, int y)
         {
             unchecked
