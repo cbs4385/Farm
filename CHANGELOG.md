@@ -2,6 +2,16 @@
 
 ## 0.4.3 (2026-10-10, held for review)
 
+More playtest fixes:
+- **Say what things are.** Everything in the farmhouse (and every cottage) now has a name when the mouse rests on it or a controller faces it: sofa, shelf, rug, clock, lamp and so on. They said nothing before.
+- **Controllers.** A line at the bottom left names the main buttons while a controller is in use (tool, use and harvest, backpack, and View for the menu and map).
+- **Saving.** The pause menu stays open and its Save button says "Saved. Your game is safe." (the little toast was easy to miss).
+- **Deleting a game.** Load Game has a Delete button for each saved game; it asks first.
+- **Mail.** A small envelope bobs over the mailbox while there is a letter or a parcel in it.
+- **Finding people.** A villager who is waiting on something you are carrying for a quest gets a gold "!" over their head, and the map says which place they are in.
+- **Clearer first steps.** The first quests say how: which tool to pick, to aim and press the tool button, how to know a crop is ready ("Ready to harvest" when you aim at it) and how to pick it.
+- **Better pictures.** The chest you set down is bigger and reads as a chest, the village benches are drawn properly (they were a black smudge), and the help-wanted board is a notice board with pinned notes.
+
 The farm is flipped (a playtest request: the house was a long walk from the village): the farmhouse, the mailbox, the shipping bin, the hay and the barrels now stand by the village end of the farm, the buildings you can move (greenhouse, coop, barn) start just west of it, and the pond is at the far end. Existing saves are flipped with it: tilled soil, crops, trees, rocks, chests and machines, the buildings and the bin all keep their meaning, just mirrored. The greenhouse has a proper picture now, drawn to match the barn and the coop (a glazed roof with a vent, glass walls with plants showing through, glass double doors), in place of the plain tile walls.
 
 Controllers: the label naming what is under the target tile follows any controller, including a generic one, and a mouse resting on a hotbar slot no longer shows its tool's label while a controller is in use (it could not be cleared). A bug report now says which controller the game sees and why no label was showing.

@@ -272,9 +272,14 @@ namespace Farm.UI
             {
                 var slot = i;
                 var summary = saves.Summarize(slot);
-                var b = UiKit.MakeButton(_slots, SaveSlots.Describe(summary),
-                    () => SaveSlots.LoadAndStart(Ui, slot, error => _status.text = L.Get("load.failed", error)), 460f, 34f);
+                var row = UiKit.HStack(_slots, "Slot" + slot, 6f);
+                var b = UiKit.MakeButton(row.transform, SaveSlots.Describe(summary),
+                    () => SaveSlots.LoadAndStart(Ui, slot, error => _status.text = L.Get("load.failed", error)), 372f, 34f);
                 b.interactable = summary.Exists;
+                // Playtest 2026-10-10: there was no way to remove a saved game. Deleting asks first.
+                var del = UiKit.MakeButton(row.transform, L.Get("load.delete"), () => Ui.ShowConfirm("confirm.delete_save", () => { ServiceLocator.Get<SaveService>().Delete(slot); Open(); }), 82f, 34f);
+                del.name = "Delete" + slot;
+                del.interactable = summary.Exists;
             }
             base.Open();
         }

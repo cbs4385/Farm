@@ -199,7 +199,7 @@ namespace Farm.Editor
             AddWarp(Center(MapLayout.FarmExitX, MapLayout.FarmRoadY), MapIds.Village, "fromFarm", new Vector2(1f, 3f));
 
             // A tall red box with a yellow flag (16 x 32): the old one was a small blue blob that was easy to miss. It stands on cell (77, 19) and reaches up a cell.
-            AddObject("Mailbox", "obj_mailbox_tall", Center(77, 19) + new Vector3(0f, 0.5f, 0f), solid: true, size: new Vector2(1f, 2f)).AddComponent<Mailbox>();
+            AddObject("Mailbox", "obj_mailbox_tall", Center(77, 19) + new Vector3(0f, 0.5f, 0f), solid: true, size: new Vector2(1f, 2f)).AddComponent<Mailbox>().gameObject.AddComponent<MailIndicator>().Configure(Sprite("fx_mail"));
 
             // The shipping bin stays on the farm; the general store now lives in the village.
             var bin = AddObject("ShippingBin", "obj_shipping_bin", Center(73, 17) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));      // a 2 x 2 bin on cells (73..74, 17..18)
@@ -943,12 +943,19 @@ namespace Farm.Editor
                 box.offset = Vector2.zero;
                 box.size = size ?? Vector2.one;
             }
+            if (spriteName.StartsWith("obj_") && PlainFurniture.Contains(spriteName.Substring(4))) HoverNote.Add(go, "hover.furn." + spriteName.Substring(4), null, solid ? (Vector2?)null : size ?? Vector2.one);          // what a thing is, for a mouse resting on it or a pad facing it
             if (spriteName == "obj_tree") sr.sortingOrder = TallSortingOrder;           // the crown covers a player who stands behind the tree (the player is at 10)
             if (spriteName == "obj_tree" || spriteName == "obj_bramble") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
             return go;
         }
 
         const int TallSortingOrder = 11;
+
+        // Furniture that is only to look at or sit on: it gets a name for the hover label (the bed, the kitchen, the counters and the board have their own).
+        static readonly HashSet<string> PlainFurniture = new HashSet<string>
+        {
+            "armchair", "bin", "bookshelf", "chair", "clock", "couch", "dining_table", "fireplace", "lamp", "painting", "plant", "rug_large", "shelf", "table", "vase", "wardrobe", "bench",
+        };
 
         // A chair, armchair, couch or bench can be sat on (by the player with Interact, and by a villager who stands still beside it).
         static void MakeSeat(GameObject go, string spriteName, string name)

@@ -254,6 +254,9 @@ namespace Farm.UI
                 .Where(npc => session.State.Npcs.TryGetValue(npc.Id, out var s) && s.Met && NpcLocator.MapOf(session, npc) == spot.Map)
                 .Select(npc => L.Get(npc.NameKey)).ToList();
             if (names.Count > 0) text += "\n" + L.Get("map.here_names", string.Join(", ", names));
+            var waiting = QuestTargets.Wanting(session).Where(id => session.Npcs.Get(id) is NpcDefinition npc && NpcLocator.MapOf(session, npc) == spot.Map)
+                .Select(id => L.Get(session.Npcs.Get(id).NameKey)).ToList();
+            if (waiting.Count > 0) text += "\n" + L.Get("map.wants_delivery", string.Join(", ", waiting));
             if (spot.Map == session.State.CurrentMap) text += "\n" + L.Get("map.you_are_here");
             return text;
         }

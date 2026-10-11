@@ -95,6 +95,47 @@ namespace Farm.Tests
             Assert.AreEqual("tile_door", _map.Ground.GetTile(new Vector3Int(60, 30, 0)).name);
         }
 
+        // The greenhouse is the widest and has the deepest footprint (9 x 5): it is lifted, refused on the house and on its neighbours, and put down like the others,
+        // its picture, its cells and its door moving with it.
+        [UnityTest]
+        public IEnumerator TheGreenhouse_IsLifted_RefusedOnTheHouseAndOnTheBarn_AndPutDownWithItsPictureAndDoorMoved()
+        {
+            yield return Start(MapIds.Farm);
+            ClearPatch(40, 25, 75, 45);
+            var type = FarmBuildings.Greenhouse;
+            var at = FarmBuildings.Find(_s.State, "greenhouse");
+            var oldDoor = FarmBuildings.DoorCell(type, at);
+            var mask = BuildingMasks.Get("greenhouse");
+            var wall = new Vector3Int(oldDoor.x + 2, oldDoor.y + 1, 0);                  // a cell its picture covers
+            Assert.IsTrue(mask.Blocks(2, 1));
+            Assert.IsNotNull(_map.Walls.GetTile(wall));
+
+            _hammer.Use(wall);
+            Assert.IsTrue(_hammer.Carrying);
+            Assert.AreEqual("greenhouse", _hammer.CarryingBuilding);
+            Assert.IsNull(_map.Walls.GetTile(wall), "its walls are lifted away");
+            Assert.IsNull(GameObject.Find("Picture_greenhouse"), "and its picture");
+
+            _hammer.Use(new Vector3Int(FarmBuildings.HouseX0 + 1, 21, 0));                // the door cell on the farmhouse
+            Assert.AreEqual("build.refused.onhouse", _hammer.LastRefusal);
+            var barn = FarmBuildings.Find(_s.State, "barn");
+            _hammer.Use(new Vector3Int(barn.X + FarmBuildings.Barn.DoorX + 2, barn.Y, 0));          // so that it would overlap the barn
+            Assert.AreEqual("build.refused.onbuilding", _hammer.LastRefusal);
+            Assert.IsTrue(_hammer.Carrying);
+
+            yield return null;
+            _hammer.Use(new Vector3Int(52, 33, 0));
+            Assert.IsFalse(_hammer.Carrying, "put down: " + _hammer.LastRefusal);
+            var moved = FarmBuildings.Find(_s.State, "greenhouse");
+            Assert.AreEqual((48, 33), (moved.X, moved.Y), "its door stands on the cell that was aimed at");
+            Assert.IsNotNull(GameObject.Find("Picture_greenhouse"), "the picture stands at the new place");
+            Assert.IsNull(_map.Walls.GetTile(wall), "nothing is left at the old place");
+            foreach (var c in mask.SolidCells())
+                Assert.IsNotNull(_map.Walls.GetTile(new Vector3Int(52 + c.x, 33 + c.y, 0)), $"the cell {c.x},{c.y} of the picture blocks at the new place");
+            Assert.AreEqual("tile_door", _map.Ground.GetTile(new Vector3Int(52, 33, 0)).name);
+            Assert.AreEqual(1, UnityEngine.Object.FindObjectsByType<Warp>().Count(w => w.TargetMap == MapIds.Greenhouse), "one greenhouse door");
+        }
+
         [UnityTest]
         public IEnumerator ABuilding_CannotBePutDown_OnATree_OnDugSoil_OrWithNoWayIn()
         {

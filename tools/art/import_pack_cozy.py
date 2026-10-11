@@ -27,7 +27,7 @@ TREES = {
 PROPS = [
     ("prop_clock_tower", "Village Square", "spr_clock_tower.png", "native"),
     ("prop_fountain", "Village Square", "spr_water_fountain*.png", "half"),
-    ("prop_bench", "Village Square", "spr_long_cozy_bench.png", "half"),
+    # prop_bench is drawn by build_world_props.py: the kit's round bench turned into a black blob when halved (2026-10-10)
     ("prop_flag", "Village Square", "spr_flag_1.png", "half"),
     ("prop_flowerbox_1", "Village Square", "spr_town_plant_1.png", "half"),
     ("prop_flowerbox_2", "Village Square", "spr_town_plant_2.png", "half"),

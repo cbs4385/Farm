@@ -182,6 +182,7 @@ namespace Farm.Gameplay
             var bodyTransform = transform.Find(ActorBody.BodyName);
             _body = bodyTransform != null ? bodyTransform.GetComponent<BoxCollider2D>() : null;
             (TryGetComponent<WalkBob>(out var bob) ? bob : gameObject.AddComponent<WalkBob>()).Breathes = true;
+            (TryGetComponent<QuestMarker>(out var marker) ? marker : gameObject.AddComponent<QuestMarker>()).Setup(definition.Id);
             _renderer.sprite = PictureFor(_facing);
         }
 

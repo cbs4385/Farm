@@ -68,12 +68,12 @@ namespace Farm.Tests
 
         // Playtest 2026-10-10: "the footprints of the coop and barn do not fit the pictured outlines and you cannot walk through what looks like empty space".
         [UnityTest]
-        public IEnumerator TheCoopAndTheBarn_BlockExactlyTheCellsTheirPicturesCover()
+        public IEnumerator TheCoopTheBarnAndTheGreenhouse_BlockExactlyTheCellsTheirPicturesCover()
         {
             yield return Open(MapIds.Farm);
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             var state = ServiceLocator.Get<GameSession>().State;
-            foreach (var type in new[] { FarmBuildings.Coop, FarmBuildings.Barn })
+            foreach (var type in new[] { FarmBuildings.Coop, FarmBuildings.Barn, FarmBuildings.Greenhouse })
             {
                 var mask = BuildingMasks.Get(type.Id);
                 Assert.IsNotNull(mask, type.Id + " has a mask");
@@ -98,6 +98,7 @@ namespace Farm.Tests
             AssertStands(map, "Farmhouse_Building", MapLayout.FarmHouseDoorX, 20);
             Assert.IsNotNull(Named("Picture_coop"), "the chicken coop");
             Assert.IsNotNull(Named("Picture_barn"), "the barn");
+            Assert.IsNotNull(Named("Picture_greenhouse"), "the greenhouse");
         }
     }
 }

@@ -250,7 +250,7 @@ namespace Farm.UI
             UiKit.Stretch((RectTransform)stack.transform);
             UiKit.Label(stack.transform, L.Get("pause.title"), 26f, TextAlignmentOptions.Center, UiKit.Accent);
             UiKit.MakeButton(stack.transform, L.Get("pause.resume"), Close, 240f, 38f);
-            UiKit.MakeButton(stack.transform, L.Get("pause.save"), Save, 240f, 38f);
+            _saveLabel = UiKit.MakeButton(stack.transform, L.Get("pause.save"), Save, 240f, 38f).GetComponentInChildren<TextMeshProUGUI>();
             UiKit.MakeButton(stack.transform, L.Get("pause.options"), () => Ui.Options.Open(), 240f, 38f);
             UiKit.MakeButton(stack.transform, L.Get("pause.tour"), () => Ui.ShowMenuTour(), 240f, 38f).name = "MenuTour";        // the tour can be seen again whenever it is forgotten
             UiKit.MakeButton(stack.transform, L.Get("pause.report_bug"), () => Ui.BugReporter.Open(), 240f, 38f).name = "ReportBug";
@@ -259,10 +259,20 @@ namespace Farm.UI
             root.SetActive(false);
         }
 
+        TextMeshProUGUI _saveLabel;
+
+        // Playtest 2026-10-10: "when you click save game, there is no pop up or anything". The menu stays open and the button itself says what happened.
         void Save()
         {
-            Ui.Session.Toast(Ui.Session.Save() ? L.Get("toast.saved") : L.Get("toast.not_saved"));
-            Close();
+            var saved = Ui.Session.Save();
+            Ui.Session.Toast(saved ? L.Get("toast.saved") : L.Get("toast.not_saved"));
+            if (_saveLabel != null) _saveLabel.text = saved ? L.Get("pause.saved") : L.Get("toast.not_saved");
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            if (_saveLabel != null) _saveLabel.text = L.Get("pause.save");
         }
 
         void ToMainMenu()

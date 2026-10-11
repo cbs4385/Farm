@@ -106,6 +106,7 @@ namespace Farm.UI
             BuildToast(canvas);
             BuildExtensions(canvas);
             BuildQuestTracker(canvas);
+            BuildPadHint(canvas);
             BuildSelectionHelp(canvas);
 
             ui.Bus.Subscribe<StatsChanged>(_ => _dirty = true);
@@ -334,6 +335,27 @@ namespace Farm.UI
             _tracker.rectTransform.pivot = new Vector2(1, 1);
         }
 
+        // For a player with a pad: what its main buttons do, small at the bottom left, so that the menu and the map are not a secret (playtest 2026-10-10).
+        TextMeshProUGUI _padHint;
+
+        void BuildPadHint(Transform canvas)
+        {
+            _padHint = UiKit.Label(canvas, "", 14f, TextAlignmentOptions.BottomLeft, new Color(1f, 1f, 1f, 0.8f));
+            _padHint.name = "PadHint";
+            _padHint.raycastTarget = false;
+            UiKit.Place(_padHint.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(520, 70), new Vector2(10, 8));
+            _padHint.textWrappingMode = TextWrappingModes.Normal;
+        }
+
+        void UpdatePadHint()
+        {
+            if (_padHint == null) return;
+            var s = _ui.Session;
+            var show = ControlPrompts.Kind == InputKind.Gamepad && s != null && s.InGame && !_ui.AnyModalOpen;
+            var text = show ? L.Get("hud.pad_hint") : string.Empty;
+            if (_padHint.text != text) _padHint.text = text;
+        }
+
         void UpdateQuestTracker(bool force)
         {
             if (_tracker == null) return;
@@ -454,6 +476,7 @@ namespace Farm.UI
             UpdateHotbarPointer();
             TickToast();
             UpdateQuestTracker(_dirty);
+            UpdatePadHint();
             UpdateSelectionHelp();
             if (!_dirty) return;
             _dirty = false;
