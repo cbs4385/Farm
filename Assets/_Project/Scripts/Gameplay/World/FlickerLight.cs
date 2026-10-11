@@ -21,6 +21,13 @@ namespace Farm.Gameplay
         public float Flicker { get => _flicker; set => _flicker = value; }
         public float CurrentIntensity => _light != null ? _light.intensity : 0f;
 
+        // Switched off (a torch that is not held) it gives no light and costs nothing.
+        public bool Lit
+        {
+            get => _light != null && _light.enabled;
+            set { if (_light != null) _light.enabled = value; }
+        }
+
         void Awake()
         {
             _phase = Mathf.Abs(transform.position.x * 3.7f + transform.position.y * 1.9f);

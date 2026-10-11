@@ -96,6 +96,37 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void MovingAKeyOntoAnotherActionsKey_SwapsTheTwo_SoNoKeyDoesTwoThings()
+        {
+            var input = new InputService(_asset);
+            var interact = BindingNames.IndexOf(input.Interact, BindingNames.Keyboard);
+            var rotate = BindingNames.IndexOf(input.Rotate, BindingNames.Keyboard);
+            var before = input.Interact.bindings[interact].effectivePath;        // E
+            var rotateKey = input.Rotate.bindings[rotate].effectivePath;         // R
+            input.Interact.ApplyBindingOverride(interact, rotateKey);            // the player gives Interact the turn key
+            var swapped = BindingNames.SwapIfClash(input.Interact, interact, before);
+            Assert.AreSame(input.Rotate, swapped);
+            Assert.AreEqual(rotateKey, input.Interact.bindings[interact].effectivePath);
+            Assert.AreEqual(before, input.Rotate.bindings[rotate].effectivePath, "Rotate got the key Interact gave up");
+
+            Assert.IsNull(BindingNames.SwapIfClash(input.Interact, interact, rotateKey), "a key that did not move clashes with nothing");
+            input.Interact.ApplyBindingOverride(interact, "<Keyboard>/v");
+            Assert.IsNull(BindingNames.SwapIfClash(input.Interact, interact, rotateKey), "a free key clashes with nothing");
+        }
+
+        [Test]
+        public void ThePadButtons_SwapToo()
+        {
+            var input = new InputService(_asset);
+            var use = BindingNames.IndexOf(input.UseTool, BindingNames.Gamepad);
+            var interact = BindingNames.IndexOf(input.Interact, BindingNames.Gamepad);
+            var before = input.UseTool.bindings[use].effectivePath;               // X
+            input.UseTool.ApplyBindingOverride(use, input.Interact.bindings[interact].effectivePath);        // onto A
+            Assert.AreSame(input.Interact, BindingNames.SwapIfClash(input.UseTool, use, before));
+            Assert.AreEqual("<Gamepad>/buttonWest", input.Interact.bindings[interact].effectivePath);
+        }
+
+        [Test]
         public void Rebinding_RoundTripsThroughOverridesJson()
         {
             var first = new InputService(_asset);

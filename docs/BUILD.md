@@ -95,3 +95,6 @@ Example (pixel-perfect check at 2x): `Farm.exe -screen-width 960 -screen-height 
 
 ## Test hooks (for tests only)
 `GameServices.DataRootOverride` redirects saves and settings to a temp folder; `Bootstrapper.ResetForTests()` rebuilds the persistent services; `GameModules.ClearForTests()` and `Conditions.ClearCustomForTests()` clear registries.
+
+## The release flow in one script
+Run `tools/ship.sh "what changed for a player"` after bumping `bundleVersion` and `CHANGELOG.md`: it regenerates the input asset, scenes, UI art, atlas and content, runs EditMode then PlayMode, commits only if both pass, and builds Windows, Linux and macOS (stopping at the first failure). `PUBLISH=1` adds the Steam upload (default branch, refused while `Steam/PUBLISH_HOLD` exists) and `git push origin main`. `SKIP_PLAYMODE=1` runs a fast EditMode-only check. Logs and results are in `Builds/`.

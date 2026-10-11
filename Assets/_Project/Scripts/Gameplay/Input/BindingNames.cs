@@ -54,6 +54,24 @@ namespace Farm.Gameplay
             }
         }
 
+        // After `action`'s binding `index` has been moved, any other binding of the same map that answers to the same control takes the path `action` gave up (the two swap),
+        // so that no key does two things. Returns the other action, or null when there was no clash.
+        public static InputAction SwapIfClash(InputAction action, int index, string previousEffectivePath)
+        {
+            var now = action.bindings[index].effectivePath;
+            if (string.IsNullOrEmpty(now) || string.IsNullOrEmpty(previousEffectivePath) || now == previousEffectivePath) return null;
+            foreach (var other in action.actionMap.actions)
+                for (var i = 0; i < other.bindings.Count; i++)
+                {
+                    if (ReferenceEquals(other, action) && i == index) continue;
+                    var b = other.bindings[i];
+                    if (b.isComposite || b.effectivePath != now) continue;
+                    other.ApplyBindingOverride(i, previousEffectivePath);
+                    return other;
+                }
+            return null;
+        }
+
         // The device-independent path of a pressed control ("<Gamepad>/rightTrigger"), or null when it is not on a pad.
         public static string PadPathOf(InputControl control)
         {

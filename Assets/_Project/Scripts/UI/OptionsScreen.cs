@@ -24,6 +24,7 @@ namespace Farm.UI
         InputActionRebindingExtensions.RebindingOperation _rebind;
         bool _rebinding;
         IDisposable _padWait;
+        public const string KeyPrefix = "Key_", PadPrefix = "Pad_";          // the names of the rebind buttons (the tests find them)
 
         public OptionsScreen(UiService ui) : base(ui)
         {
@@ -294,7 +295,7 @@ namespace Farm.UI
             var at = index;
             Button button = null;
             button = UiKit.MakeButton(row, BindingText(action, at), () => StartRebind(action, at, button), 220f, 30f);
-            button.name = "Key_" + action.name + "_" + at;
+            button.name = KeyPrefix + action.name + "_" + at;
         }
 
         static int KeyboardBindingIndex(InputAction action)
@@ -311,6 +312,7 @@ namespace Farm.UI
             if (_rebinding) return;
             _rebinding = true;
             action.Disable();
+            var before = action.bindings[index].effectivePath;
             UiKit.SetButtonText(button, L.Get("options.press_key"));
 
             _rebind = action.PerformInteractiveRebinding(index)
@@ -320,9 +322,11 @@ namespace Farm.UI
                 {
                     FinishRebind();
                     if (action.actionMap.enabled) action.Enable();
+                    var swapped = BindingNames.SwapIfClash(action, index, before);
                     _store.Current.BindingOverridesJson = Ui.Input.ExportOverrides();
                     UiKit.SetButtonText(button, BindingText(action, index));
                     ControlPrompts.NotifyChanged();
+                    if (swapped != null) { Ui.Session?.Toast(L.Get("options.swapped", L.Get("action." + action.name), L.Get("action." + swapped.name))); Build(); }
                 })
                 .OnCancel(op =>
                 {
@@ -350,7 +354,7 @@ namespace Farm.UI
             var row = Row(label);
             Button button = null;
             button = UiKit.MakeButton(row, PadText(action), () => StartPadRebind(action, button), 220f, 30f);
-            button.name = "Pad_" + action.actionMap.name + "_" + action.name;
+            button.name = PadPrefix + action.actionMap.name + "_" + action.name;
         }
 
         void StartPadRebind(InputAction action, Button button)
@@ -362,8 +366,13 @@ namespace Farm.UI
             {
                 if (!_rebinding) return;
                 // A key or the mouse cancels; a button on any pad becomes the action's.
+                var family = control.device is Gamepad ? BindingNames.Gamepad : BindingNames.Joystick;
+                var at = BindingNames.IndexOf(action, family);
+                var before = at >= 0 ? action.bindings[at].effectivePath : null;
                 if (BindingNames.RebindPad(action, control))
                 {
+                    var swapped = BindingNames.SwapIfClash(action, at, before);
+                    if (swapped != null) Ui.Session?.Toast(L.Get("options.swapped", L.Get("action." + action.name), L.Get("action." + swapped.name)));
                     _store.Current.BindingOverridesJson = Ui.Input.ExportOverrides();
                     ControlPrompts.NotifyChanged();
                 }

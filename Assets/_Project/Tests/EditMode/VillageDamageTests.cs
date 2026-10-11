@@ -50,8 +50,8 @@ namespace Farm.Tests
             for (var y = 0; y < 60; y++)
                 for (var x = 0; x < 60; x++)
                 {
-                    var r = VillageTrees.RockAt(x, y, allGrass);
-                    Assert.AreEqual(r, VillageTrees.RockAt(x, y, allGrass), "stable");
+                    var r = VillageGreen.RockAt(x, y, allGrass);
+                    Assert.AreEqual(r, VillageGreen.RockAt(x, y, allGrass), "stable");
                     if (r != null) rocks.Add(r);
                 }
             Assert.That(rocks.Count, Is.InRange(15, 60), "a scattering");
@@ -59,7 +59,17 @@ namespace Farm.Tests
             System.Func<int, int, bool> noPath = (x, y) => !(y == 30 && x >= 0);          // a road along row 30
             for (var y = 0; y < 60; y++)
                 for (var x = 0; x < 60; x++)
-                    if (VillageTrees.RockAt(x, y, noPath) != null) Assert.That(System.Math.Abs(y - 30), Is.GreaterThan(1), "no rock beside the road");
+                    if (VillageGreen.RockAt(x, y, noPath) != null) Assert.That(System.Math.Abs(y - 30), Is.GreaterThan(1), "no rock beside the road");
+        }
+
+        [Test]
+        public void ARocksFlag_RoundTrips_AndOtherFlagsAreNotRocks()
+        {
+            Assert.IsTrue(VillageGreen.TryParseRockFlag(VillageGreen.RockFlag(12, -3, NodeDefaults.Boulder), out var x, out var y, out var type));
+            Assert.AreEqual((12, -3, NodeDefaults.Boulder), (x, y, type));
+            Assert.IsFalse(VillageGreen.TryParseRockFlag("village.trees.seeded", out _, out _, out _));
+            Assert.IsFalse(VillageGreen.TryParseRockFlag("village.rock:1,2", out _, out _, out _));
+            Assert.IsFalse(VillageGreen.TryParseRockFlag("village.rock:a,2,rock", out _, out _, out _));
         }
 
         [Test]
@@ -75,9 +85,9 @@ namespace Farm.Tests
         [Test]
         public void TheGreenIsPutBack_TheDayAfter_NotTheSameDay()
         {
-            Assert.IsFalse(VillageTrees.ShouldRestore(0, 10), "no damage, nothing to do");
-            Assert.IsFalse(VillageTrees.ShouldRestore(11, 10), "damaged today (day 10 is stored as 11)");
-            Assert.IsTrue(VillageTrees.ShouldRestore(11, 11), "the next morning");
+            Assert.IsFalse(VillageGreen.ShouldRestore(0, 10), "no damage, nothing to do");
+            Assert.IsFalse(VillageGreen.ShouldRestore(11, 10), "damaged today (day 10 is stored as 11)");
+            Assert.IsTrue(VillageGreen.ShouldRestore(11, 11), "the next morning");
         }
 
         [Test]
@@ -93,14 +103,14 @@ namespace Farm.Tests
                 nodes.Add(5, 5, tree);                    // untouched
                 nodes.Add(6, 5, stump);                   // felled and left a stump
                 nodes.Add(8, 5, rock);                    // something else stands there now
-                s.SetVar(VillageTrees.DamagedVar, 3);
+                s.SetVar(VillageGreen.DamagedVar, 3);
                 var cells = new List<Vector3Int> { new Vector3Int(5, 5, 0), new Vector3Int(6, 5, 0), new Vector3Int(7, 5, 0), new Vector3Int(8, 5, 0) };
-                var restored = VillageTrees.Restore(s, cells, tree);
+                var restored = VillageGreen.Restore(s, cells, tree);
                 Assert.AreEqual(2, restored, "the stump and the cleared cell");
                 foreach (var x in new[] { 5, 6, 7 }) { Assert.IsTrue(nodes.TryGet(x, 5, out var n)); Assert.AreEqual(NodeDefaults.Tree, n.TypeId, "x " + x); }
                 nodes.TryGet(8, 5, out var other);
                 Assert.AreEqual(NodeDefaults.Rock, other.TypeId);
-                Assert.AreEqual(0, s.GetVar(VillageTrees.DamagedVar), "the damage is forgiven");
+                Assert.AreEqual(0, s.GetVar(VillageGreen.DamagedVar), "the damage is forgiven");
             }
         }
     }

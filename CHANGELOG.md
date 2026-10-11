@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.6 (2026-10-11)
+
+- **No key does two things.** If you give an action a key (or a controller button) that another action already uses, the two swap, and a notice says so.
+- **Clicking a villager** works from two cells away only across a counter, not through walls or from far off.
+- **The village's rocks are remembered in your save**, so the villagers always put back the same ones.
+- Behind the scenes: the torch and the candles share one light, the hover label does less work each frame, an unreadable save says why in the log, and the release steps are one script (`tools/ship.sh`).
+
 ## 0.4.5 (2026-10-11)
 
 - **Crafting has its own key: C.** It opens the menu on the crafting page. The tool's spare key (it used to be C) is now X, matching the controller's X button; clicking still works as before.

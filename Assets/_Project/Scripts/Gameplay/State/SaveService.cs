@@ -106,6 +106,7 @@ namespace Farm.Gameplay
             catch (Exception e)
             {
                 error = e.Message;
+                Log.Warn($"Save slot {slot} could not be read: {e.Message}");
                 return false;
             }
         }

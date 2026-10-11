@@ -13,6 +13,10 @@ namespace Farm.Gameplay
         GameSession _session;
         FarmMap _map;
         PlayerActions _actions;
+        SettingsStore _store;
+        IUiService _ui;
+        InputService _input;
+        Camera _camera;                                       // looked up once, not four times a frame
         string _label;
 
         public static string Current { get; private set; }
@@ -30,12 +34,16 @@ namespace Farm.Gameplay
             var mouse = Mouse.current;
             // With a pad the label follows the cell the player faces, as a mouse's does the pointer (playtest 2026-10-09: a controller player never saw what a thing was).
             var pad = ControlPrompts.Kind == InputKind.Gamepad;          // any pad, a generic joystick too: the label follows the target cell, not a mouse that nobody is using
-            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
-            var ui = ServiceLocator.TryGet<IUiService>(out var service) ? service : null;
-            var blocked = ServiceLocator.TryGet<InputService>(out var input) && input.GameplayBlocked;
+            if (_store == null) ServiceLocator.TryGet(out _store);
+            if (_ui == null) ServiceLocator.TryGet(out _ui);
+            if (_input == null) ServiceLocator.TryGet(out _input);
+            if (_camera == null) _camera = Camera.main;
+            var settings = _store != null ? _store.Current : null;
+            var ui = _ui;
+            var blocked = _input != null && _input.GameplayBlocked;
             if (_actions == null) _actions = FindAnyObjectByType<PlayerActions>();
             if ((mouse == null && !pad) || ui == null || _session == null || !_session.InGame || _map == null || blocked || ui.AnyModalOpen
-                || (!pad && ui.PointerOverUi) || (pad && _actions == null) || (settings != null && !settings.HoverLabels) || Camera.main == null)
+                || (!pad && ui.PointerOverUi) || (pad && _actions == null) || (settings != null && !settings.HoverLabels) || _camera == null)
             {
                 Why = ui == null || _session == null || !_session.InGame ? "not in a game" : blocked || ui.AnyModalOpen ? "a window is open" : !pad && ui.PointerOverUi ? "the mouse is over a window"
                     : settings != null && !settings.HoverLabels ? "hover labels are off" : "no pointer or target";
@@ -47,12 +55,12 @@ namespace Farm.Gameplay
             if (pad)
             {
                 world = _map.CellCenter(_actions.Target);
-                position = Camera.main.WorldToScreenPoint(world) + new Vector3(0f, 28f, 0f);
+                position = _camera.WorldToScreenPoint(world) + new Vector3(0f, 28f, 0f);
             }
             else
             {
                 position = mouse.position.ReadValue();
-                world = Camera.main.ScreenToWorldPoint(new Vector3(position.x, position.y, -Camera.main.transform.position.z));
+                world = _camera.ScreenToWorldPoint(new Vector3(position.x, position.y, -_camera.transform.position.z));
             }
             var label = LabelAt(world);
             if (label == null) { Why = pad ? "nothing at the target cell" : "nothing under the mouse"; Clear(ui); return; }

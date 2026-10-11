@@ -70,7 +70,7 @@ namespace Farm.Tests
             session.Publish(new VillageDamaged(felled.X, felled.Y, true));
             yield return null;
             Assert.GreaterOrEqual(VillageWatch.Muttered, 1, "the villager who saw it talks to herself");
-            Assert.AreEqual(session.Clock.Now.TotalDays + 1, session.GetVar(VillageTrees.DamagedVar), "and the damage is remembered");
+            Assert.AreEqual(session.Clock.Now.TotalDays + 1, session.GetVar(VillageGreen.DamagedVar), "and the damage is remembered");
 
             var waited = 0f;
             while (VillageWatch.Scolds == scolds && waited < 20f) { waited += Time.deltaTime; yield return null; }
@@ -92,7 +92,7 @@ namespace Farm.Tests
             var nodes = session.GetNodes(MapIds.Village);
             var tree = nodes.ToList().First(n => n.TypeId == NodeDefaults.Tree);
             nodes.Remove(tree.X, tree.Y);
-            session.SetVar(VillageTrees.DamagedVar, session.Clock.Now.TotalDays + 1);
+            session.SetVar(VillageGreen.DamagedVar, session.Clock.Now.TotalDays + 1);
 
             yield return LoadVillage(session);                                  // the same day: still gone
             Assert.IsFalse(session.GetNodes(MapIds.Village).TryGet(tree.X, tree.Y, out _), "not put back the same day");
@@ -101,7 +101,7 @@ namespace Farm.Tests
             yield return LoadVillage(session);
             Assert.IsTrue(session.GetNodes(MapIds.Village).TryGet(tree.X, tree.Y, out var back), "put back overnight");
             Assert.AreEqual(NodeDefaults.Tree, back.TypeId);
-            Assert.AreEqual(0, session.GetVar(VillageTrees.DamagedVar));
+            Assert.AreEqual(0, session.GetVar(VillageGreen.DamagedVar));
         }
 
         [UnityTest]
@@ -126,7 +126,7 @@ namespace Farm.Tests
             var grid = session.GetGrid(MapIds.Village);
             grid.Till(grass.x, grass.y);                                         // what the hoe does
             nodes.Remove(rocks[0].X, rocks[0].Y);                                // what the pickaxe does
-            session.SetVar(VillageTrees.DamagedVar, session.Clock.Now.TotalDays + 1);
+            session.SetVar(VillageGreen.DamagedVar, session.Clock.Now.TotalDays + 1);
 
             session.Clock.SetTime(session.Clock.Now.StartOfNextDay());
             yield return LoadVillage(session);

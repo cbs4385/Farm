@@ -273,11 +273,11 @@ namespace Farm.Tests
             yield return null;
             yield return null;
             var names = UnityEngine.Object.FindObjectsByType<Button>().Where(b => b.gameObject.activeInHierarchy).Select(b => b.name).ToList();
-            var keyActions = names.Where(n => n.StartsWith("Key_")).Select(n => n.Split('_')[1]).ToList();
+            var keyActions = names.Where(n => n.StartsWith(OptionsScreen.KeyPrefix)).Select(n => n.Split('_')[1]).ToList();
             foreach (var action in InputNames.Rebindable) CollectionAssert.Contains(keyActions, action, action);
             for (var i = 1; i <= InputNames.HotbarSlots; i++) CollectionAssert.Contains(keyActions, InputNames.HotbarPrefix + i);
-            Assert.AreEqual(4, names.Count(n => n.StartsWith("Key_Move_")), "the four walking keys");
-            Assert.GreaterOrEqual(names.Count(n => n.StartsWith("Pad_")), 13, "and a controller button for each action that has one");
+            Assert.AreEqual(4, names.Count(n => n.StartsWith(OptionsScreen.KeyPrefix + "Move_")), "the four walking keys");
+            Assert.GreaterOrEqual(names.Count(n => n.StartsWith(OptionsScreen.PadPrefix)), 13, "and a controller button for each action that has one");
         }
 
         [UnityTest]
@@ -316,6 +316,26 @@ namespace Farm.Tests
             Assert.AreEqual(InputKind.KeyboardMouse, ControlPrompts.Kind, "a key takes over again (and so does a moving mouse)");
             Assert.IsTrue(input.Ui[InputNames.Point].enabled);
             Assert.IsTrue(Cursor.visible);
+        }
+
+        // Playtest 2026-10-11: the "It is getting late" window had to be closed with A, while B closed the shop.
+        [UnityTest]
+        public IEnumerator TheLateNightWarning_ClosesWithB_AsWellAsWithA()
+        {
+            yield return StartFarm();
+            var ui = ServiceLocator.Get<UiService>();
+            ui.ShowMessage("late_night.warning");
+            yield return null;
+            yield return null;
+            Assert.IsTrue(ui.AnyModalOpen, "the warning is up");
+            yield return Tap(_pad.buttonEast);
+            Assert.IsFalse(ui.AnyModalOpen, "B closes it");
+
+            ui.ShowMessage("late_night.warning");
+            yield return null;
+            yield return null;
+            yield return Tap(_pad.buttonSouth);
+            Assert.IsFalse(ui.AnyModalOpen, "and so does A");
         }
 
         // ---- rebinding persists through the real Options screen -------------------------------------------------

@@ -31,6 +31,28 @@ A read-through by grep and spot reading of `Assets/_Project/Scripts` (about 360 
 19. **Untracked audio.** `audio/*.mp3` (12 files) have shown as untracked in git status in every session. Either commit them (with LFS if large), add them to `.gitignore`, or move them out of the working tree.
 20. **Localization is healthy.** 5931 keys, no duplicates, no literal keys missing from the table. The one `LocalizationTests` rule worth keeping in mind: keys built by concatenation (the new `action.Move*`, `village.mutter.*`) are only checked by tests that name them, so each new family needs its own test (the village keys have one).
 
+## What was done about it (0.4.6)
+
+| Item | Result |
+| --- | --- |
+| 1 Village rules | Partly. `VillageTrees` is now `VillageGreen` (it does trees, rocks, soil and the daily restore). The mutter and telling-off lines are still built in code: the story JSON has no way to give a line to "whoever saw it" (a dialogue node needs a fixed speaker, and the lint judges each speaker's voice), so moving them needs a small story feature first. Left open on purpose. |
+| 2 Rocks | Done. Each rock is remembered in the save as a flag (`village.rock:x,y,type`), chosen once; saves from 0.4.5 pick theirs at the next visit. |
+| 3 Hash | Done. `NpcInteractions.StableHash` replaces `GetHashCode()`. |
+| 4 Scene churn | Looked into, not changed. The whole-file diffs are Unity renumbering object ids and reordering objects each time the scenes are regenerated, which the generator cannot control. The real fix is a policy decision: treat `Assets/_Project/Scenes/*.unity` as generated (git-ignore them, have `tools/ship.sh` and a fresh checkout run `SceneSetup`). Needs the owner's say. |
+| 5 Ship script | Done: `tools/ship.sh` (see docs/BUILD.md). |
+| 6 PlayMode time | Not changed. A smoke subset needs `[Category]` attributes on the tests, and which tests are the smoke set is a judgement for the owner. `SKIP_PLAYMODE=1` gives a fast EditMode check meanwhile. |
+| 7 Key clashes | Done for keys and pad buttons: moving one onto another action's control swaps the two, with a notice. |
+| 8, 9, 10 Service locator, large classes, long methods | Not changed: these are refactors of code that works, spread over many files, and each is best done when a feature next needs that file. New code takes its collaborators in `Init`. |
+| 11 Light duplication | Done: `TorchLight` now drives a `FlickerLight`. |
+| 12 Magic strings | Partly: the Options button-name prefixes are constants used by the screen and the tests. |
+| 13 Per-frame work | Done for `HoverInspector` (services and camera looked up once). `CameraFollow` already cached its component (the review was wrong); the other hot spots are untouched. |
+| 14 Time sources | Done: a "Which clock" convention in docs/02-TechnicalDesign.md. |
+| 15 Click reach | Done: two cells away only across a counter, in a straight or diagonal line. |
+| 16 `ControlPrompts.Rebound` | Not changed (works with one input service; the tests that make several reset it). |
+| 17 Catch blocks | `SaveService` now logs. The review was wrong about `StoryContent`: its failures are already logged. |
+| 18 HUD overlays | Not changed. |
+| 19 Untracked audio | Not changed: committing, ignoring or moving 12 files is the owner's call. |
+
 ## What looks good
 
 - Assembly separation is respected: nothing depends on `Farm.Mythos`, and the horror layer is data and hooks.

@@ -62,7 +62,7 @@ namespace Farm.Gameplay
             if (_map.MapId == MapIds.Forest) ForestTrees.Seed(_session);
             if (_map.MapId == MapIds.Village)
             {
-                var restored = VillageTrees.Prepare(_session, _map);
+                var restored = VillageGreen.Prepare(_session, _map);
                 if (restored > 0) _session.Toast(L.Get("village.restored"));
             }
             _session.RunSpawns(_map.MapId, SpawnCandidates);

@@ -22,13 +22,16 @@ namespace Farm.Tests
         {
             var tilda = Villager(new Vector3(10.5f, 10.5f, 0f));            // stands on cell (10, 10); her head is in (10, 11)
             var list = new[] { tilda };
+            System.Func<Vector3Int, bool> counter = c => c == new Vector3Int(10, 9, 0);          // the counter stands between
             var player = new Vector3Int(10, 8, 0);                          // two cells in front of her, a counter between
-            Assert.AreSame(tilda, PlayerActions.PointedVillager(player, new Vector3Int(10, 10, 0), list, Cell), "her feet");
-            Assert.AreSame(tilda, PlayerActions.PointedVillager(player, new Vector3Int(10, 11, 0), list, Cell), "her head");
-            Assert.IsNull(PlayerActions.PointedVillager(player, new Vector3Int(10, 12, 0), list, Cell), "above her head is not her");
-            Assert.IsNull(PlayerActions.PointedVillager(player, new Vector3Int(11, 10, 0), list, Cell), "nor is the next cell");
-            Assert.IsNull(PlayerActions.PointedVillager(new Vector3Int(10, 5, 0), new Vector3Int(10, 10, 0), list, Cell), "too far from the player");
-            Assert.AreSame(tilda, PlayerActions.PointedVillager(new Vector3Int(9, 10, 0), new Vector3Int(10, 11, 0), list, Cell), "and from the side");
+            Assert.AreSame(tilda, PlayerActions.PointedVillager(player, new Vector3Int(10, 10, 0), list, Cell, counter), "her feet");
+            Assert.AreSame(tilda, PlayerActions.PointedVillager(player, new Vector3Int(10, 11, 0), list, Cell, counter), "her head");
+            Assert.IsNull(PlayerActions.PointedVillager(player, new Vector3Int(10, 12, 0), list, Cell, counter), "above her head is not her");
+            Assert.IsNull(PlayerActions.PointedVillager(player, new Vector3Int(11, 10, 0), list, Cell, counter), "nor is the next cell");
+            Assert.IsNull(PlayerActions.PointedVillager(new Vector3Int(10, 5, 0), new Vector3Int(10, 10, 0), list, Cell, counter), "too far from the player");
+            Assert.AreSame(tilda, PlayerActions.PointedVillager(new Vector3Int(9, 10, 0), new Vector3Int(10, 11, 0), list, Cell, counter), "and from the side");
+            Assert.IsNull(PlayerActions.PointedVillager(player, new Vector3Int(10, 10, 0), list, Cell, c => false), "two cells away with no counter between is not a click on her");
+            Assert.IsNull(PlayerActions.PointedVillager(new Vector3Int(8, 9, 0), new Vector3Int(10, 10, 0), list, Cell, c => true), "nor off the straight and diagonal lines");
             Object.DestroyImmediate(tilda.gameObject);
         }
 

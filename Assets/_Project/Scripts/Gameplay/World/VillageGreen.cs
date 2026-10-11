@@ -11,7 +11,7 @@ namespace Farm.Gameplay
     // upset if they see you doing it in the village"). The trees are pictures in the village scene ("Tree_x_y"); the first time the village is loaded they become resource
     // nodes, a few rocks are scattered on open grass, and on every load these are the village's original state: when the player has felled, broken or dug anything, the
     // villagers have put it back by the next day.
-    public static class VillageTrees
+    public static class VillageGreen
     {
         public const string SeededFlag = "village.trees.seeded";
         public const string RocksSeededFlag = "village.rocks.seeded";
@@ -32,6 +32,29 @@ namespace Farm.Gameplay
                 for (var dx = -1; dx <= 1; dx++)
                     if (!grassy(x + dx, y + dy)) return null;
             return WoodLayout.Random01(x, y, 92) < BoulderShare ? NodeDefaults.Boulder : NodeDefaults.Rock;
+        }
+
+        // The rocks are remembered in the save, one flag each ("village.rock:x,y,type"), so that "the way it was" never depends on what happens to be standing on the
+        // green when the village loads (a villager, a placed chest, a sapling).
+        public const string RockFlagPrefix = "village.rock:";
+        public static string RockFlag(int x, int y, string type) => $"{RockFlagPrefix}{x},{y},{type}";
+
+        public static bool TryParseRockFlag(string flag, out int x, out int y, out string type)
+        {
+            x = y = 0; type = null;
+            if (flag == null || !flag.StartsWith(RockFlagPrefix, StringComparison.Ordinal)) return false;
+            var parts = flag.Substring(RockFlagPrefix.Length).Split(',');
+            if (parts.Length != 3 || !int.TryParse(parts[0], out x) || !int.TryParse(parts[1], out y)) return false;
+            type = parts[2];
+            return type.Length > 0;
+        }
+
+        static List<(Vector3Int cell, string type)> StoredRocks(GameSession session)
+        {
+            var list = new List<(Vector3Int, string)>();
+            foreach (var flag in session.State.Flags)
+                if (TryParseRockFlag(flag, out var x, out var y, out var type)) list.Add((new Vector3Int(x, y, 0), type));
+            return list;
         }
 
         static List<(Vector3Int cell, string type)> Rocks(FarmMap map)
@@ -65,11 +88,17 @@ namespace Farm.Gameplay
                 UnityEngine.Object.Destroy(t.gameObject);                      // the node is drawn in its place
             }
             var nodes = session.GetNodes(MapIds.Village);
-            var rocks = Rocks(map);
+            var rocks = StoredRocks(session);
             var firstTrees = !session.HasFlag(SeededFlag);
             var firstRocks = !session.HasFlag(RocksSeededFlag);
             if (firstTrees) { session.SetFlag(SeededFlag); foreach (var c in cells) nodes.Add(c.x, c.y, tree); }
-            if (firstRocks) { session.SetFlag(RocksSeededFlag); AddRocks(session, rocks); }
+            if (firstRocks || rocks.Count == 0)                                  // a new game, or a save from before the rocks were remembered: choose them now
+            {
+                session.SetFlag(RocksSeededFlag);
+                rocks = Rocks(map);
+                foreach (var (cell, type) in rocks) session.SetFlag(RockFlag(cell.x, cell.y, type));
+                if (firstRocks) AddRocks(session, rocks);
+            }
             if (firstTrees || firstRocks) return 0;
 
             if (!ShouldRestore(session.GetVar(DamagedVar), session.Clock.Now.TotalDays)) return 0;

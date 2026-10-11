@@ -183,8 +183,9 @@ namespace Farm.Gameplay
         }
 
         // The villager whose picture the mouse is over: the picture is two cells tall (the head is in the cell above their feet), and a counter may stand between (playtest
-        // 2026-10-11: "I can only click on Tilda from the side and not the front"). Within two cells of the player.
-        public static NpcActor PointedVillager(Vector3Int playerCell, Vector3Int pointerCell, System.Collections.Generic.IEnumerable<NpcActor> actors, System.Func<Vector3, Vector3Int> toCell)
+        // 2026-10-11: "I can only click on Tilda from the side and not the front"). Next to the player, or two cells away across a counter.
+        public static NpcActor PointedVillager(Vector3Int playerCell, Vector3Int pointerCell, System.Collections.Generic.IEnumerable<NpcActor> actors, System.Func<Vector3, Vector3Int> toCell,
+            System.Func<Vector3Int, bool> isCounter)
         {
             NpcActor best = null;
             var bestDistance = int.MaxValue;
@@ -193,8 +194,16 @@ namespace Farm.Gameplay
                 if (actor == null) continue;
                 var feet = toCell(actor.transform.position);
                 if (pointerCell != feet && pointerCell != feet + Vector3Int.up) continue;
-                var d = Mathf.Max(Mathf.Abs(feet.x - playerCell.x), Mathf.Abs(feet.y - playerCell.y));
+                var dx = feet.x - playerCell.x;
+                var dy = feet.y - playerCell.y;
+                var d = Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dy));
                 if (d > 2 || d >= bestDistance) continue;
+                if (d == 2)                                                      // two cells away only across a counter, in a straight or diagonal line
+                {
+                    if (dx != 0 && dy != 0 && Mathf.Abs(dx) != Mathf.Abs(dy)) continue;
+                    var middle = new Vector3Int(playerCell.x + Mathf.Clamp(dx, -1, 1), playerCell.y + Mathf.Clamp(dy, -1, 1), 0);
+                    if (isCounter == null || !isCounter(middle)) continue;
+                }
                 best = actor; bestDistance = d;
             }
             return best;
@@ -202,7 +211,7 @@ namespace Farm.Gameplay
 
         NpcActor NpcUnderPointer() =>
             _mouseAim && NpcManager.Current != null
-                ? PointedVillager(_map.WorldToCell(_player.CellSamplePoint), _pointerCell, NpcManager.Current.Actors.Values, _map.WorldToCell)
+                ? PointedVillager(_map.WorldToCell(_player.CellSamplePoint), _pointerCell, NpcManager.Current.Actors.Values, _map.WorldToCell, c => InteractableAt(c, 0) is ShopCounter)
                 : null;
 
         NpcActor NpcAt(Vector3Int cell) => NpcManager.Current != null ? NpcManager.Current.ActorNear(cell) : null;

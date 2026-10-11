@@ -175,6 +175,7 @@ The horror layer (and any future optional content) plugs into the base game thro
 - Never edit `.meta` files by hand; never commit `Library/`, `Temp/`, `Logs/`, `UserSettings/`, `Builds/`, `BuildsDev/`. **Always commit `.meta` files with their assets.**
 - Prefer creating assets via editor scripts (see `Farm.Editor`) over hand-writing YAML scenes/prefabs; do not hand-edit `.unity`/`.prefab` YAML except for trivial, verified changes.
 - Comments only for non-obvious "why".
+- **Which clock.** The game stops by stopping its own `GameClock` (a menu, a conversation), never by `Time.timeScale`, so `Time.time` and `Time.deltaTime` keep running behind a window. Anything that must wait while a window is open (a villager walking to the player, a cooldown, a timer that the player could be cheated by) checks `UiAccess.AnyModalOpen` or uses `Time.unscaledDeltaTime` only for the window's own animation. Game-time rules (schedules, crop growth, machines) use `GameClock`/`GameDateTime`, never real time.
 
 ## 5. Testing strategy
 - **EditMode (NUnit, ~311 tests)**: clock/calendar/moon, inventory, farm growth, day cycle, save/migration/backup, settings, input bindings and rebinding, localization lint and hooks, content validation, sprite import rules, conditions language, hooks and modules, atmosphere, content packs, session flags/vars/module data.

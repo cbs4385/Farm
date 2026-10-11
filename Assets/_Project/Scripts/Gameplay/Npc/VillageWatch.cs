@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Farm.Gameplay
 {
     // On the village map: villagers who see the player damage the green mutter about it to themselves, and one of them comes over to tell the player off (once a day).
-    // The damage is remembered (VillageTrees.DamagedVar) and the villagers put the trees back overnight.
+    // The damage is remembered (VillageGreen.DamagedVar) and the villagers put the trees back overnight.
     public sealed class VillageWatch : MonoBehaviour
     {
         public const float WitnessRange = 11f;
@@ -45,8 +45,8 @@ namespace Farm.Gameplay
 
         // Pure: the line a villager mutters, so that two witnesses never say the same one.
         public static int MutterFor(string npcId, int today, int salt = 0, VillageDamage kind = VillageDamage.Tree) =>
-            (Mathf.Abs((npcId ?? "").GetHashCode()) + today * 7 + salt) % (kind == VillageDamage.Tree ? MutterLines : MinorMutterLines);
-        public static int ScoldFor(string npcId, int today) => (Mathf.Abs((npcId ?? "").GetHashCode()) + today) % ScoldLines;
+            (Mathf.Abs(NpcInteractions.StableHash(npcId ?? "")) + today * 7 + salt) % (kind == VillageDamage.Tree ? MutterLines : MinorMutterLines);
+        public static int ScoldFor(string npcId, int today) => (Mathf.Abs(NpcInteractions.StableHash(npcId ?? "")) + today) % ScoldLines;
 
         public static string KindPart(VillageDamage kind) => kind == VillageDamage.Rock ? "rock." : kind == VillageDamage.Soil ? "till." : "";
         public static string MutterKey(VillageDamage kind, int line) => "village.mutter." + KindPart(kind) + line;
@@ -64,7 +64,7 @@ namespace Farm.Gameplay
         void OnDamaged(VillageDamaged e)
         {
             var today = _session.Clock.Now.TotalDays;
-            if (e.Cleared) _session.SetVar(VillageTrees.DamagedVar, today + 1);
+            if (e.Cleared) _session.SetVar(VillageGreen.DamagedVar, today + 1);
             var witnesses = Witnesses();
             if (witnesses.Count == 0) return;
             if (Time.time >= _mutterReadyAt)
