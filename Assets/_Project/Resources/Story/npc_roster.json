@@ -651,12 +651,19 @@
         {
           "id": "r0_0",
           "speaker": "felix",
-          "text": "dlg.felix.first.r0_0"
+          "text": "dlg.felix.first.r0_0",
+          "next": "t0"
         },
         {
           "id": "r1_0",
           "speaker": "felix",
-          "text": "dlg.felix.first.r1_0"
+          "text": "dlg.felix.first.r1_0",
+          "next": "t0"
+        },
+        {
+          "id": "t0",
+          "speaker": "felix",
+          "text": "dlg.felix.tip.0"
         }
       ]
     },
@@ -690,6 +697,17 @@
           "id": "n0",
           "speaker": "felix",
           "text": "dlg.felix.chat3.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.chat4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.tip.1"
         }
       ]
     },
@@ -1448,12 +1466,19 @@
         {
           "id": "r0_0",
           "speaker": "dorian",
-          "text": "dlg.dorian.first.r0_0"
+          "text": "dlg.dorian.first.r0_0",
+          "next": "t0"
         },
         {
           "id": "r1_0",
           "speaker": "dorian",
-          "text": "dlg.dorian.first.r1_0"
+          "text": "dlg.dorian.first.r1_0",
+          "next": "t0"
+        },
+        {
+          "id": "t0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.tip.0"
         }
       ]
     },
@@ -1487,6 +1512,17 @@
           "id": "n0",
           "speaker": "dorian",
           "text": "dlg.dorian.chat3.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.chat4",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.tip.1"
         }
       ]
     },
@@ -3144,6 +3180,10 @@
           "dialogue": "felix.chat3"
         },
         {
+          "priority": 0,
+          "dialogue": "felix.chat4"
+        },
+        {
           "condition": "hearts:felix>=3",
           "priority": 0,
           "dialogue": "felix.friend1"
@@ -3525,6 +3565,10 @@
         {
           "priority": 0,
           "dialogue": "dorian.chat3"
+        },
+        {
+          "priority": 0,
+          "dialogue": "dorian.chat4"
         },
         {
           "condition": "hearts:dorian>=3",

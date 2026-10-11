@@ -82,6 +82,7 @@ namespace Farm.Gameplay
                 new ExtraItemRow(ItemIds.CopperOre, ItemCategory.Resource, 10, C(0.75f, 0.45f, 0.30f), buy: 40, soldIn: new[] { "merchant" }, saleCondition: "merchant:today && rotate:0"),
                 new ExtraItemRow(ItemIds.IronOre, ItemCategory.Resource, 25, C(0.55f, 0.58f, 0.65f), buy: 90, soldIn: new[] { "merchant" }, saleCondition: "merchant:today && rotate:1"),
                 new ExtraItemRow(ItemIds.GoldOre, ItemCategory.Resource, 50, C(0.90f, 0.75f, 0.25f), buy: 200, soldIn: new[] { "merchant" }, saleCondition: "merchant:today && rotate:2"),
+                new ExtraItemRow(ItemIds.Torch, ItemCategory.Resource, 5, C(0.95f, 0.55f, 0.15f)),
                 new ExtraItemRow("artisan.juice", ItemCategory.Artisan, 150, C(0.85f, 0.55f, 0.20f)),
                 new ExtraItemRow("artisan.wine", ItemCategory.Artisan, 300, C(0.55f, 0.15f, 0.35f)),
                 new ExtraItemRow("artisan.pickles", ItemCategory.Artisan, 100, C(0.45f, 0.65f, 0.30f)),
@@ -124,6 +125,7 @@ namespace Farm.Gameplay
                 RecipeDefinition.Create(id, Stations.Hand, output, count, needs, 0, skill, skillLevel);
 
             // Crafted by hand from the menu.
+            r.Add(Hand("torch", ItemIds.Torch, 2, 0, null, Need(ItemIds.Wood, 2)));
             r.Add(Hand("chest", ItemIds.Machine(Chest), 1, 0, null, Need(ItemIds.Wood, 25)));
             r.Add(Hand("furnace", ItemIds.Machine(Furnace), 1, 0, null, Need(ItemIds.Stone, 30), Need(ItemIds.Wood, 10)));
             r.Add(Hand("keg", ItemIds.Machine(Keg), 1, 0, null, Need(ItemIds.Wood, 30), Need(ItemIds.Stone, 10), Need(ItemIds.Fiber, 10)));

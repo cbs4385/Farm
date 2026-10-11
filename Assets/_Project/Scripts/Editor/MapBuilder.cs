@@ -612,7 +612,8 @@ namespace Farm.Editor
                 for (var y = 4; y <= 6; y++) rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_path"));
             AddSpawn("fromMine", Center(33, 5));
             AddWarp(Center(35, 5), MapIds.Mine, "default", new Vector2(1f, 3f));
-            AddObject("CaveMouth", "obj_boulder", Center(36, 5), solid: true);
+            // the mine mouth: a timber-framed opening in the rock, two cells wide and two tall (cells 36-37, rows 5-6)
+            AddObject("CaveMouth", "prop_mine_entrance", new Vector3(37f, 6f, 0f), solid: true, size: new Vector2(2f, 2f));
 
             // A pond to fish in: one oval body of water with a shoreline (the tile for each cell depends on which neighbours are land),
             // walled so the player stops at the shore.

@@ -21,8 +21,9 @@ namespace Farm.Tests
             Assert.AreEqual("toast.forage_last.shore", ForageRules.ReminderKey("toast.forage_last", "forage.seashell"));
             Assert.AreEqual("hover.forage.shore", ForageRules.ReminderKey("hover.forage", "forage.clam"));
             Assert.AreEqual("toast.forage_last", ForageRules.ReminderKey("toast.forage_last", "forage.dandelion"));
-            foreach (var key in new[] { "toast.forage_last.shore", "hover.forage.shore", "hover.forage_last.shore" })
-                StringAssert.Contains("for others", L.Get(key, "x"));
+            StringAssert.Contains("for others", L.Get("toast.forage_last.shore", "x"));
+            foreach (var key in new[] { "hover.forage", "hover.forage_last", "hover.forage.shore", "hover.forage_last.shore" })
+                Assert.AreEqual("x", L.Get(key, "x"), "the label only names the plant: the advice comes from Dorian and Felix (playtest 2026-10-11)");
         }
 
         [Test]

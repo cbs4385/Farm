@@ -28,6 +28,8 @@ namespace Farm.Gameplay
             _session = session;
             _map = map;
             Current = this;
+            var daylight = FindAnyObjectByType<DayNightLighting>();
+            if (daylight != null) daylight.SetCave();                    // dark and blue down here: the torch is what lights it
             var ms = session.State.Mine;
             if (ms.Floor <= 0) ms.Floor = 1;
             ms.Deepest = Mathf.Max(ms.Deepest, ms.Floor);
@@ -67,7 +69,7 @@ namespace Farm.Gameplay
 
             AddStairs(MineStairs.StairKind.Up, _floor.Spawn.x - 1, _floor.Spawn.y);
             if (_floor.Ladder.HasValue) AddStairs(MineStairs.StairKind.Down, _floor.Ladder.Value.x, _floor.Ladder.Value.y);
-            if (ms.Floor == 1 && ms.Deepest >= 5) AddStairs(MineStairs.StairKind.Elevator, _floor.Spawn.x, _floor.Spawn.y + 1);
+            if (ms.Deepest >= 5) AddStairs(MineStairs.StairKind.Elevator, _floor.Spawn.x, _floor.Spawn.y + 1);
 
             var manager = new GameObject("Enemies").AddComponent<EnemyManager>();
             manager.Init(map, session, this, _floor.Enemies);

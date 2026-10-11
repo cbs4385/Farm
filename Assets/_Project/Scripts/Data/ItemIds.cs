@@ -19,6 +19,7 @@ namespace Farm.Data
         public const string Sword = "tool.sword";
         public const string Hammer = "tool.hammer";         // the builder's mallet: lifts and sets down buildings, furniture and fixtures
         public const string Coal = "resource.coal";
+        public const string Torch = "resource.torch";       // while it is the picked item it lights a bubble round the player (TorchLight)
         public const string CopperOre = "resource.copperore";
         public const string IronOre = "resource.ironore";
         public const string GoldOre = "resource.goldore";

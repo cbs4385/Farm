@@ -37,6 +37,7 @@ namespace Farm.Gameplay
             _session.State.CurrentMap = _map.MapId;
             _player.ApplyAvatar(_session.State.Avatar);
             if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
+            if (_player.GetComponent<TorchLight>() == null) _player.gameObject.AddComponent<TorchLight>();
             if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
             var mine = FindAnyObjectByType<MineController>();
             if (mine != null) mine.Build(_session, _map);

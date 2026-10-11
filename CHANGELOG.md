@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.4 (2026-10-11)
+
+- **The mine is dark.** Down in the mine the light is a quarter as bright and tinted blue. You will want a torch.
+- **Torches.** Craft them by hand from wood (2 wood makes 2). While a torch is the picked item in your bar it lights a bubble of flickering orange, red and yellow about five tiles round you.
+
+- **A way out of the deep mine.** Once you have reached floor 5, the elevator now stands at the start of every floor, not only the first. Its list has your stops (floor 1 and every fifth floor you have reached) and a new "Leave the mine" button that takes you straight out to the forest.
+- **The mine entrance** is redrawn: a dark opening in the rock, held up by timber posts and a lintel with braces, a lantern hanging inside and rail sleepers running out, in place of the boulder it used to be.
+- **Advice from the people who know.** The reminder to leave some wild plants (and shells) behind is no longer in the label you see when you aim at one, which now just names the plant. Dorian tells you about it when you first meet them (and sometimes afterwards, in ordinary talk), and Felix does the same for shells and clams on the beach.
+- **The shop counter's label** said "buy and sell", but counters only sell to you (you sell by shipping). It now says so.
+
 ## 0.4.3 (2026-10-11)
 
 A first-days coach: a small card above the hotbar gives one tip at a time for what to do next (till, plant, water, wait and sleep, harvest, ship), moving on by itself as you do each thing, using the buttons of whatever you are playing with. After the first night's sleep the tips rest (a notice says so) and come back when a crop is ripe; the hotbar's label and the item help box stay out of the way while a tip is up. It disappears after your first shipment, can be skipped with its button, and can be switched off in Options ("Tips for the first days").

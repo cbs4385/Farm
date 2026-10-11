@@ -28,6 +28,15 @@ namespace Farm.Gameplay
 
         public bool IsIndoor => _indoor;
 
+        // The mine (owner, 2026-10-11): a quarter of the light, tinted blue.
+        public const float CaveBrightness = 0.25f;
+        public static readonly Color CaveTint = new Color(0.55f, 0.72f, 1f);
+        public static readonly Color Cave = Dim(CaveTint, CaveBrightness);
+        bool _cave;
+
+        public bool IsCave => _cave;
+        public void SetCave() => _cave = true;
+
         // A scene's mood (T-100): blends a colour over the normal lighting, and back.
         Color _overrideColor = Color.white;
         float _overrideWeight, _overrideGoal, _overrideSpeed;
@@ -76,7 +85,8 @@ namespace Farm.Gameplay
 
             if (_indoor)
             {
-                var indoor = _atmosphere != null ? _atmosphere.Stack.Apply(Indoor) : Indoor;
+                var room = _cave ? Cave : Indoor;
+                var indoor = _atmosphere != null && !_cave ? _atmosphere.Stack.Apply(room) : room;
                 _light.color = _overrideWeight > 0f ? Color.Lerp(indoor, _overrideColor, _overrideWeight) : indoor;
                 _light.intensity = 1f;
                 return;

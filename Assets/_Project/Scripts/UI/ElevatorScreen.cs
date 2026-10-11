@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Farm.UI
 {
-    // The mine's elevator: floor 1 and every fifth floor the player has reached.
+    // The mine's elevator, at the start of every floor once floor 5 has been reached: floor 1, every fifth floor reached, and the way out.
     public sealed class ElevatorScreen : UiScreen
     {
         readonly RectTransform _list;
@@ -32,6 +32,7 @@ namespace Farm.UI
                 var f = floor;
                 UiKit.MakeButton(_list, L.Get("mine.floor_button", floor), () => { Close(); MineTravel.GoToFloor(Ui.Session, f); }, 300f, 32f).name = "Floor" + floor;
             }
+            UiKit.MakeButton(_list, L.Get("mine.leave"), () => { Close(); MineTravel.GoToFloor(Ui.Session, 0); }, 300f, 32f).name = "Leave";
             Open();
         }
     }
