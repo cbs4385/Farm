@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.3 (2026-10-10, held for review)
+## 0.4.3 (2026-10-11)
 
 A first-days coach: a small card above the hotbar gives one tip at a time for what to do next (till, plant, water, wait and sleep, harvest, ship), moving on by itself as you do each thing, using the buttons of whatever you are playing with. After the first night's sleep the tips rest (a notice says so) and come back when a crop is ripe; the hotbar's label and the item help box stay out of the way while a tip is up. It disappears after your first shipment, can be skipped with its button, and can be switched off in Options ("Tips for the first days").
 
