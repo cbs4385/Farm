@@ -11,7 +11,6 @@ addto npc.bram.talk
 0 season:spring => bram.spring.4 cat=seasonal tag=funny :: A hoe with a bent handle came in, and a long story. I fixed the hoe.
 0 season:spring => bram.spring.5 cat=seasonal :: Spring means mud. Mud means rust. Rust means work.
 0 season:spring => bram.spring.6 cat=seasonal rarity=uncommon :: Hm. Juno talked through all of March. I learned the names of her seven favorite hammers.
-0 season:summer => bram.summer.1 cat=seasonal :: Forge in summer. Don't ask.
 0 season:summer => bram.summer.2 cat=seasonal :: Hm. Hot. I wear less. The anvil doesn't care.
 0 season:summer => bram.summer.3 cat=seasonal :: Summer work is hinges and hooks. Quick jobs.
 0 season:summer => bram.summer.4 cat=seasonal tag=funny :: I keep a bucket by the door. Juno calls it the swimming pool. I call it the bucket.
@@ -28,7 +27,7 @@ addto npc.bram.talk
 0 season:winter => bram.winter.3 cat=seasonal :: Hm. People come in to warm up. Some order a nail.
 0 season:winter => bram.winter.4 cat=seasonal tag=wholesome :: Snow on the roof. Fire in the belly. That's winter.
 0 season:winter => bram.winter.5 cat=seasonal :: Winter work is slow. Slow work is good work.
-0 season:winter => bram.winter.6 cat=seasonal rarity=uncommon :: Hm. I write letters in winter. Most I don't send.
+0 season:winter => bram.winter.6 cat=seasonal rarity=uncommon :: Hm. Winter. Good for iron. Slow for everything else.
 
 # ---- weekdays ----
 0 weekday:mon => bram.mon.1 cat=weekday :: Hm. Monday's my day off. I'm here anyway.
@@ -50,7 +49,6 @@ addto npc.bram.talk
 0 weather:sunny => bram.sunny.1 cat=weather :: Hm. Bright. Hot inside. Hotter outside.
 0 weather:sunny => bram.sunny.2 cat=weather :: Good weather. Bad for business. Everyone's outside.
 0 weather:sunny => bram.sunny.3 cat=weather :: Hm. Sun on the anvil. It shines. It means nothing.
-1 weather:rain => bram.rain.3 cat=weather :: Rain on the roof. Forge stays warm. I'm content.
 1 weather:rain => bram.rain.4 cat=weather tag=funny :: Hm. Rain. Everyone brings in tools to dry. I'm a laundry.
 1 weather:storm => bram.storm.1 cat=weather :: Storm. Quench barrel's overflowing. I'll allow it.
 1 weather:storm => bram.storm.2 cat=weather :: Hm. Thunder. The anvil rings back. They know each other.
@@ -90,14 +88,12 @@ addto npc.bram.talk
 0 hearts:bram>=3 && hearts:bram<6 => bram.fr.8 cat=tier tag=wholesome :: I moved the stool so you could sit by the fire. It was in the way anyway.
 
 # ---- close friends (6 to 8 hearts) ----
-0 hearts:bram>=6 && hearts:bram<9 => bram.cl.1 cat=tier :: Hm. I look forward to your visits. There. I said it.
 0 hearts:bram>=6 && hearts:bram<9 => bram.cl.2 cat=tier :: I used to work alone. This is better. Don't make me say it twice.
 0 hearts:bram>=6 && hearts:bram<9 => bram.cl.3 cat=tier tag=wholesome :: You talk to me like I'm a person. I try to do the same.
 0 hearts:bram>=6 && hearts:bram<9 => bram.cl.4 cat=tier :: ...Hm. Good company is rare iron.
 0 hearts:bram>=6 && hearts:bram<9 => bram.cl.5 cat=tier :: Juno's proud of you. So am I. She said it first.
 0 hearts:bram>=6 && hearts:bram<9 => bram.cl.6 cat=tier tag=funny :: I told Wren you're a decent sort. She told everyone. I'm not speaking to Wren.
 0 hearts:bram>=6 && hearts:bram<9 => bram.cl.7 cat=tier :: Hm. Come back tomorrow. I'll have something.
-0 hearts:bram>=6 && hearts:bram<9 => bram.cl.8 cat=tier :: Your tools are the best kept in the village. I'm not surprised.
 
 # ---- confidant (9 and 10 hearts) ----
 0 hearts:bram>=9 => bram.co.1 cat=tier tag=wholesome :: ...Hm. A good friend is a good tool. Hard to find. Harder to keep. You, I'm keeping.
@@ -138,7 +134,7 @@ addto npc.bram.talk
 0 ~ => bram.rare.1 cat=rare rarity=rare tag=funny :: Rocks are honest. Weather isn't. Wren isn't either.
 0 ~ => bram.rare.2 cat=rare rarity=rare tag=funny :: Hm. I don't talk much. Juno talks for both. She's done it so long I'm in debt.
 0 ~ => bram.rare.3 cat=rare rarity=rare tag=wholesome :: Hm. A good tool doesn't hurry. A good friend doesn't either.
-0 hearts:bram>=5 => bram.rare.4 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Hm. (He looks at the anvil. Then at you.) Longest conversation I've held. Don't spread it.
+0 hearts:bram>=5 => bram.rare.4 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Hm. (He looks at the anvil. Then at you.) Quiet conversation. Best kind. Don't spread it.
 
 # ---- gifts ----
 say npc.bram.gift.item.forage.truffle bram: ...Hm. A truffle. Where'd you find it? Never mind. Thank you.

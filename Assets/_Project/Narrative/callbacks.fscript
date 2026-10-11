@@ -1,0 +1,54 @@
+# Later references to choices the player made that nothing mentioned again (docs/narrative/GOALS.md, "Choices that come back").
+# Heart-event choices are talk lines at priority 1; storyline choices sit at priority 2 like the other storyline lines.
+# Choices whose scene already answers every option with an {if}/{else} (birthdays, partner evenings, pie, umbrella, scarecrows, band)
+# are covered and not repeated here.
+
+# ---------------------------------------------------------------- heart events
+addto npc.wren.talk
+1 flag:event.wren_heart4 => wren.cb.openmic cat=callback :: {if choice:wren.openmic.cheer}You cheered like a whole crowd at open mic. I've been chasing that sound every Thursday since.{else}{if choice:wren.openmic.heckle}My favorite heckler! Your bit stayed in the second verse. Piper says it gets the biggest laugh.{else}Still hiding behind menus? I had new ones printed. Bigger. For your convenience.{/if}{/if}
+1 flag:event.wren_heart6 => wren.cb.kitchen cat=callback :: {if choice:wren.kitchen.pepper}The pepper stew's on the menu now. It's called "Brave." People order it to prove things.{else}{if choice:wren.kitchen.cider}The cider stew sells out by eight. Between us, I named it after the face you made when you tasted it.{else}I kept the stew plain, like you said. People keep asking for the secret. There isn't one. That's the secret.{/if}{/if}
+
+addto npc.hazel.talk
+1 flag:event.hazel_heart4 => hazel.cb.swap cat=callback :: {if choice:hazel.swap.book}Your book: read twice. (As promised.) I used a notebook, never the margins. (It was close.){else}{if choice:hazel.swap.recipe}Your recipe card, followed exactly. (It was a disaster.) I've never enjoyed a disaster more.{else}Something short, for you. (Thirty pages.) You don't have to finish it. (You will.){/if}{/if}
+
+addto npc.bram.talk
+1 flag:event.bram_heart4 => bram.cb.repair cat=callback :: {if choice:bram.repair.hold}Hm. You held steady, that day. Most don't. Remember it.{else}{if choice:bram.repair.hammer}Your strike's still on that handle. Good mark. Hm.{else}Hm. You watched. Now you know. Next time, you swing.{/if}{/if}
+
+addto npc.juno.talk
+1 flag:event.juno_heart4 && choice:label.eat => juno.cb.label.eat cat=callback tag=funny :: I still can't believe you ate the label. The label drawer now says "Not Food". That one's for you!
+
+addto npc.piper.talk
+1 flag:event.piper_heart4 && choice:request.parsnip => piper.cb.request.parsnip cat=callback tag=funny :: The parsnip song has a second verse now, thanks to you! Nobody asked for it! Especially the parsnips!
+
+addto npc.tilda.talk
+0 flag:event.tilda_heart4 => tilda.cb.slate.promise cat=callback tag=wholesome :: {if choice:slate.thanks}Your thank-you is still on the slate, in my best chalk. Very hard to cash. I keep it anyway.{else}{if choice:slate.joke}Your joke is still on the slate. Customers read it and laugh. I charge them nothing.{else}Your promise is still on the slate, as small as I wrote it. I'm in no hurry. A debt means you'll be back.{/if}{/if}
+
+# ---------------------------------------------------------------- storylines: the anonymous notes (the writer remembers how you took it)
+addto npc.dorian.talk
+2 flag:event.story_notes_dorian => dorian.cb.notes cat=storyline :: {if choice:notes.dorian.smile}...You smiled. About the notes. That was enough.{else}{if choice:notes.dorian.thanks}...You said thank you. For the notes. I'll write more.{else}...Your note is in my drawer. The new one. I read it most mornings.{/if}{/if}
+
+addto npc.juno.talk
+2 flag:event.story_notes_juno => juno.cb.notes cat=storyline :: {if choice:notes.juno.smile}You just smiled about the notes. Didn't say a word. I nearly melted a clasp!{else}{if choice:notes.juno.thanks}You thanked me for the notes out loud! I've labeled today "Good".{else}You wrote me back! It's pinned over the anvil. Bram read it and said "Hm." Approvingly.{/if}{/if}
+
+addto npc.tilda.talk
+2 flag:event.story_notes_tilda => tilda.cb.notes cat=storyline :: {if choice:notes.tilda.smile}You smiled about the notes and said nothing. Very discreet. I've put you on the slate for discretion.{else}{if choice:notes.tilda.thanks}You thanked me for the notes. I'm not used to being caught being kind. I'll get used to it.{else}Your note lives under the till. I take it out when the shop is slow.{/if}{/if}
+
+# ---------------------------------------------------------------- storylines: the missing pumpkin (the culprit remembers)
+addto npc.dorian.talk
+2 flag:event.story_pumpkin_dorian => dorian.cb.pumpkin cat=storyline :: {if choice:pumpkin.dorian.kind}...You let me off kindly. I owe Tilda a pie. I've started.{else}{if choice:pumpkin.dorian.apology}...I apologized to Tilda. Out loud. Twice. It helped.{else}...You carried the pumpkin with me. You didn't ask why. Thank you.{/if}{/if}
+
+addto npc.marcus.talk
+2 flag:event.story_pumpkin_marcus => marcus.cb.pumpkin cat=storyline :: {if choice:pumpkin.marcus.kind}You let me off kindly. I'm building Tilda a pumpkin shelf. Measured twice.{else}{if choice:pumpkin.marcus.apology}I apologized to Tilda properly. She put it on the slate. Fair.{else}We carried it back together. Good lift. Straight back. I'd hire you.{/if}{/if}
+
+addto npc.felix.talk
+2 flag:event.story_pumpkin_felix => felix.cb.pumpkin cat=storyline tag=funny :: {if choice:pumpkin.felix.kind}You let me off kindly. I'm paying Tilda back in fish for a month. She doesn't eat fish.{else}{if choice:pumpkin.felix.apology}Said sorry to Tilda proper. She says the pumpkin grew a hand while I had it. Fair.{else}You helped carry it back. Bigger than any fish I've landed. Don't tell anyone.{/if}{/if}
+
+# ---------------------------------------------------------------- storylines: the mystery whistler (the whistler remembers)
+addto npc.bram.talk
+2 flag:event.story_whistler_bram => bram.cb.whistler cat=storyline :: {if choice:whistler.bram.hello}Hm. You said hello. Mid-whistle. Nobody's done that.{else}{if choice:whistler.bram.back}You whistled the wrong note back. ...We're a duet now. Hm.{else}Hm. You just listened. I finished the tune. First time.{/if}{/if}
+
+addto npc.marcus.talk
+2 flag:event.story_whistler_marcus => marcus.cb.whistler cat=storyline :: {if choice:whistler.marcus.hello}You called hello while I was whistling. Lost the tune. Found a friend. Fair trade.{else}{if choice:whistler.marcus.back}That wrong note you whistled back. I've been practicing it. On purpose.{else}You let me finish the tune. Nobody has. It goes on longer than you'd think.{/if}{/if}
+
+addto npc.felix.talk
+2 flag:event.story_whistler_felix => felix.cb.whistler cat=storyline :: {if choice:whistler.felix.hello}You called out hello mid-tune. Made me laugh. I whistle louder now.{else}{if choice:whistler.felix.back}You whistled my wrong note right back at me. The fish heard. They approve.{else}You just listened. A tune's better with a listener. Like a story.{/if}{/if}

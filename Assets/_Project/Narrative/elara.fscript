@@ -7,7 +7,7 @@ addto npc.elara.talk
 0 season:spring => elara.spring.1 cat=seasonal :: Spring! Sneezes, sprains and a lot of "I'm fine, really". I love the optimism.
 0 season:spring => elara.spring.2 cat=seasonal :: My birthday's in spring. I knit myself a hat to celebrate. It has a very small hat on it.
 0 season:spring => elara.spring.3 cat=seasonal tag=funny :: Everyone's allergic to something this month. Mostly work. I prescribe a nap and tea.
-0 season:summer => elara.summer.1 cat=seasonal :: Summer means sunburn and sand in the plasters. I keep a bucket of cold water for dramatic exits.
+0 season:summer => elara.summer.1 cat=seasonal :: Summer means sunburn and sand in the bandages. I keep a bucket of cold water for dramatic exits.
 0 season:summer => elara.summer.2 cat=seasonal :: The clinic's a cool corner. Half the village drops in to "check their pulse". It's the fan.
 0 season:summer => elara.summer.3 cat=seasonal :: Saturdays I'm at the beach. Sea air, sandwiches, a very long knitting row. Bliss.
 0 season:fall => elara.fall.1 cat=seasonal :: Fall: scrapes, sniffles and a lot of pumpkin related injuries. Don't ask. Do ask. I love stories.
@@ -28,7 +28,7 @@ addto npc.elara.talk
 
 # ---- weather ----
 0 weather:sunny => elara.sunny.1 cat=weather :: Sunny! Everybody outside means fewer sniffles. I miss the company, though.
-0 weather:sunny => elara.sunny.2 cat=weather :: Perfect weather for a walk. I'm prescribing one for you. Doctor's orders. Don't tell Dr. Penn I said so.
+0 weather:sunny => elara.sunny.2 cat=weather :: Perfect weather for a walk. I'm prescribing one for you. Don't tell Dr. Penn I said so.
 1 weather:rain => elara.rain.2 cat=weather :: Rain means sniffles. I'll be busy. I've put the kettle on for all of them.
 1 weather:rain => elara.rain.3 cat=weather tag=wholesome :: A rainy day: needles, tea and drip on the glass. It's like being tucked in.
 1 weather:storm => elara.storm.1 cat=weather :: Thunder! I tell nervous patients it's the sky clearing its throat. Works about half the time.
@@ -60,14 +60,14 @@ addto npc.elara.talk
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:elara>=6 && hearts:elara<9 => elara.cl.1 cat=tier :: If you ever feel low, come find me. I'll have tea and nothing to fix.
-0 hearts:elara>=6 && hearts:elara<9 => elara.cl.2 cat=tier tag=wholesome :: I keep a list of places I've never been. The beach is at the top. You're at the bottom, in pencil.
+0 hearts:elara>=6 && hearts:elara<9 => elara.cl.2 cat=tier tag=wholesome :: I keep a little notebook of daydreams. The beach is at the top. You're in it, in pencil.
 0 hearts:elara>=6 && hearts:elara<9 => elara.cl.3 cat=tier :: I tell the village to rest. I'm terrible at it. You're allowed to tell me.
 0 hearts:elara>=6 && hearts:elara<9 => elara.cl.4 cat=tier :: Dr. Penn says I'm "a bit much". I told her that's the diagnosis. She smiled.
 0 hearts:elara>=6 && hearts:elara<9 => elara.cl.5 cat=tier :: I knit something for everyone in Wetherell. Yours is the longest. It's also a surprise.
 
 # ---- confidant (9 and 10 hearts) ----
 0 hearts:elara>=9 => elara.co.1 cat=tier tag=wholesome :: I wanted to see the sea from a boat. Then I met you. Now I want a boat for two.
-0 hearts:elara>=9 => elara.co.2 cat=tier :: I used to be afraid of staying forever. Now I'd stay, if you're nearby.
+0 hearts:elara>=9 => elara.co.2 cat=tier :: I used to be afraid of staying forever. Now I think I could go, and come back. To you.
 0 hearts:elara>=9 => elara.co.3 cat=tier tag=funny :: If I wrote you a letter it'd be a very long scarf. With a postscript at the far end.
 0 hearts:elara>=9 => elara.co.4 cat=tier :: Thank you, [player]. Keep your socks on. And keep coming by.
 
@@ -93,7 +93,7 @@ addto npc.elara.talk
 0 hearts:elara>=5 => elara.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Close your eyes. (Two needles click.) Now open them. It's a tiny scarf for your favorite chicken.
 
 # ---- gifts ----
-say npc.elara.gift.item.forage.snowdrop elara: A snowdrop! The brave little flower. I'll press it in my notebook, next to the first one.
+say npc.elara.gift.item.forage.snowdrop elara: A snowdrop! The first flower of the year. I'll press it in my notebook, next to the first one.
 say npc.elara.gift.item.crop.cranberry elara: Cranberries! Tart and shiny. I'll make jam, and then I'll tell everyone it was my idea.
 say npc.elara.gift.item.artisan.jam elara: Jam! Sticky, sweet and perfect on toast. I'm sharing it. Possibly with myself.
 say npc.elara.gift.item.forage.seashell elara: A seashell! I'll hold it to my ear. It's saying "Take a vacation". I believe it.
@@ -102,4 +102,4 @@ say npc.elara.gift.item.artisan.juice elara: Juice! For a very long afternoon. I
 say npc.elara.gift.item.resource.bone elara: A bone! Eek. I'll put it in the anatomy drawer, next to the other, worse ones.
 say npc.elara.gift.item.resource.bat_wing elara: A bat wing! I'll knit it a hat. A very small, very dignified one.
 say npc.elara.gift.item.resource.slime elara: Slime! It's wobbling at me. I'll put it in a jar and call it "Brenda". Brenda stays.
-say npc.elara.gift.repeat elara: Another one! You're spoiling me. I'll knit you something back. It'll be a sock. It's always a sock.
+say npc.elara.gift.repeat elara: Another one! I'll knit you something back. It'll be a sock. It's always a sock.

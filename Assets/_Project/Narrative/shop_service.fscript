@@ -13,11 +13,11 @@ addto npc.bram.talk
 2 upgrade:waiting => bram.upgrade.wait.2 cat=reactive tag=wholesome :: Hm. Cooling. Don't rush iron.
 
 addto npc.tilda.talk
-2 merchant:here => tilda.merchant.1 cat=reactive tag=funny :: The traveling merchant's in town, dear. I'm watching his prices very politely.
-2 merchant:here => tilda.merchant.2 cat=reactive tag=funny :: A stranger with a cart, dear. He sells things I don't. I'm not jealous. Much.
-2 shipped:>=20 && shipped:<100 => tilda.shipped.1 cat=reactive tag=wholesome :: I hear you've been shipping things, dear. The valley notices a busy farm.
+2 merchant:here => tilda.merchant.1 cat=reactive tag=funny :: The traveling merchant's in town. I'm watching his prices very politely.
+2 merchant:here => tilda.merchant.2 cat=reactive tag=funny :: A stranger with a cart. He sells things I don't. I'm not jealous. Much.
+2 shipped:>=20 && shipped:<100 => tilda.shipped.1 cat=reactive tag=wholesome :: I hear you've been shipping things. The valley notices a busy farm.
 2 shipped:>=100 => tilda.shipped.2 cat=reactive tag=wholesome :: A hundred shipments, dear! The slate has a new column, and it only has your name.
 
 addto npc.wren.talk
-0 gold:>=5000 => wren.gold.rich cat=reactive tag=funny :: Heard you're doing well, my darling. Drinks are on you. Kidding. Mostly. Sit, anyway.
-0 gold:<50 => wren.gold.poor cat=reactive tag=wholesome :: You look skint, my darling. Have a pickle. It's free. It's also a meal.
+0 gold:>=5000 => wren.gold.rich cat=reactive tag=funny :: Heard you're doing well, friend. Drinks are on you. Kidding. Mostly. Sit, anyway.
+0 gold:<50 => wren.gold.poor cat=reactive tag=wholesome :: You look broke, friend. Have a pickle. It's free. It's also a meal.

@@ -20,19 +20,19 @@ n0 wren: One more pinch of something. Pepper, cider, or leave it plain?
 r0 wren: Brave it is! If I weep, blame the pepper, not me.
   emote sweat
 r1 wren: Cider. Sweet and a little sly. That's very you.
-r2 wren: Plain. Hm. You think it's already good? Nobody says that. I'm keeping you.
+r2 wren: Plain. Oh. You think it's already good? Nobody says that. I'm keeping you.
   expr happy
 
 
 dialogue wren.bag
-n0 wren: There's a bag under my bed. Packed since the day I arrived. I haven't opened it in years, and I haven't unpacked it either.
+n0 wren: There's a bag under my bar. Packed since the day I arrived. I haven't opened it in years, and I haven't unpacked it either.
   expr thinking
   next n1
-n1 wren: I came here to rest for a season. That was eight years ago. Tell me: should I go, stay, or just keep it under the bed?
+n1 wren: I came here to rest for a season. That was eight years ago. Tell me: should I go, stay, or just leave it under the bar?
   ? Go. See what's out there. => r0 | friend:wren,10 | flag:choice.wren.bag.go
   ? Stay. We'd all miss you. => r1 | friend:wren,10 | flag:choice.wren.bag.stay
   ? Just listen to her. => r2 | friend:wren,15 | flag:choice.wren.bag.listen
-r0 wren: Go. Hm. You say it so plainly. I might. Someday. With a very good map.
+r0 wren: Go. Just like that. You say it so plainly. I might. Someday. With a very good map.
 r1 wren: Stay. Oh. That's a nicer word than I expected.
 r2 wren: ...You didn't tell me what to do. That's the kindest thing anyone has done. Thank you.
   expr sad
@@ -85,7 +85,7 @@ r2 bram: Hm. Watching's a skill. Few have it.
 
 
 dialogue bram.long
-n0 bram: I worked alone a long time, and I decided I liked it, and I was wrong about that, and I'm saying so because you came in and sat down.
+n0 bram: I worked alone a long time, and I decided I liked it, and I was wrong about that, and I'm saying so because you came in and sat down. I wrote my old teacher thirty letters. Sent none.
   expr thinking
   ? Say nothing. Nod. => r0 | friend:bram,15 | flag:choice.bram.long.nod
   ? Tell him you're glad. => r1 | friend:bram,10 | flag:choice.bram.long.glad

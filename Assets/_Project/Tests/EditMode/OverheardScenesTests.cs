@@ -5,10 +5,11 @@ using NUnit.Framework;
 
 namespace Farm.Tests
 {
-    // T-122: villagers talk to each other. Six pairings, three overheard scenes each, unlocked in order as the player gets to know both.
+    // T-122: villagers talk to each other. Seventeen pairings, three or four overheard scenes each, unlocked in order as the player gets to know both.
     public class OverheardScenesTests
     {
-        static readonly string[] Pairs = { "juno_bram", "hazel_ione", "elara_odalys", "marcus_dorian", "wren_piper", "tilda_felix", "bram_marcus", "tilda_wren", "piper_juno", "dorian_hazel", "felix_elara", "odalys_ione" };
+        static readonly string[] Pairs = { "juno_bram", "hazel_ione", "elara_odalys", "marcus_dorian", "wren_piper", "tilda_felix", "bram_marcus", "tilda_wren", "piper_juno", "dorian_hazel", "felix_elara", "odalys_ione",
+            "wren_bram", "wren_hazel", "hazel_piper", "marcus_odalys", "tilda_juno" };
 
         StoryContent _story;
 
@@ -43,9 +44,9 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheVillage_HasFortyOverheardScenes_AsThePlanAsks()
+        public void TheVillage_HasFiftyFiveOverheardScenes()
         {
-            Assert.AreEqual(40, _story.Events.Count(e => e.Id.StartsWith("overheard_")));
+            Assert.AreEqual(55, _story.Events.Count(e => e.Id.StartsWith("overheard_")));
         }
 
         [Test]

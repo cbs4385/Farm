@@ -59,7 +59,7 @@ namespace Farm.Gameplay
 
             _player.gameObject.AddComponent<HammerMode>().Init(_player.GetComponent<PlayerActions>(), _map, _session);
             if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
-            if (_map.MapId == MapIds.Forest) ForestTrees.Seed(_session);
+            if (_map.MapId == MapIds.Forest) { ForestTrees.Seed(_session); ForestTrees.Regrow(_session, _session.Clock.Now.TotalDays); }
             if (_map.MapId == MapIds.Village)
             {
                 var restored = VillageGreen.Prepare(_session, _map);

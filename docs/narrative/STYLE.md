@@ -31,7 +31,7 @@ No line may need more than three text-box lines at the default font. Split inste
 - **Words to avoid:** real brands, real places other than the generic New England feel, modern slang that will date, internet jokes, pop-culture quotes, insults aimed at groups or bodies, medical advice presented as fact.
 - **Swearing:** none. Mild exclamations ("good grief", "for pity's sake") are fine.
 - **Numbers:** write numbers under ten as words in dialogue; keep exact numbers as digits when the precision is the joke ("eleven times" is a word; "41 years" can be digits if the gag is the number). Pick one per gag and keep it.
-- **Punctuation:** em dashes are allowed but sparingly; ellipses mark hesitation and are never used for a fade-out in more than one line in ten; one exclamation mark per line at most, and none for Hazel and Bram.
+- **Punctuation:** em dashes are allowed but sparingly; ellipses mark hesitation and are never used for a fade-out in more than one line in ten; exclamation marks are allowed where a villager's voice rule allows them (several in a line for the excitable: Juno, Elara, Tilda, Piper), and none for Hazel and Bram.
 - **Tokens:** `[player]`, `[farm]`. More tokens arrive with T-094 (`[season]`, `[pet]`, `[crop]`, `[neighbor:<npc>]`).
 
 ## 4. Humour rules

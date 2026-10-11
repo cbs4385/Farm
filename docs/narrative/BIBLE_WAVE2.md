@@ -10,11 +10,11 @@ Decisions this draft needs from you are collected in section 4.
 
 **Public face.** Warm, motherly, brisk. She sells you the right seed before you ask and tells you the weather before you notice it.
 
-**Real self.** Quietly afraid the village is shrinking and the shop will one day have no one to serve. She keeps the lamp on after closing for anyone who needs company and calls it "doing the books". She does not like being thanked; she likes being owed, because debts mean people will come back.
+**Real self.** Quietly afraid the village is shrinking and the shop will one day have no one to serve. After closing she walks to the saloon every evening (about seven until ten) for company, and she calls the quiet hours at the counter "doing the books". She does not like being thanked; she likes being owed, because debts mean people will come back.
 
 **Voice rules.**
 - Warm and practical. Shop language is her metaphor system: stock, slate, margin, closing time.
-- Sentences up to about 20 words; at most one exclamation mark a line; "dear" at most once in twenty lines.
+- Sentences up to about 20 words; exclamation marks are allowed where she is delighted (she is warm, not shy); "dear" at most once in twenty lines.
 - Gives advice as instructions ("Plant parsnips first. They pay for everything else.").
 - Never gossips cruelly: her gossip is always affectionate, about food, weather and who is courting whom.
 - Never says "I don't mind" about herself.
@@ -39,7 +39,7 @@ Decisions this draft needs from you are collected in section 4.
 **Arc.**
 - *Heart 2 (exists):* first deliveries and the slate introduced.
 - *Heart 4, "The slate":* the player sees the slate; choice of what to add under their own name (*a thank-you*, *a joke*, *a promise*).
-- *Heart 6, "After hours":* she is still in the shop with the lights half off; she admits she worries the village is shrinking; choices *reassure*, *offer a plan*, *joke gently*.
+- *Heart 6, "After hours":* in a quiet part of the working day she asks the player to turn the sign to Closed, because she does the books when it is quiet; she admits she worries the village is shrinking; choices *reassure*, *offer a plan*, *joke gently*. (The scene plays during opening hours: in the evening she is at the saloon.)
 - *Heart 8, "Inventory":* the player helps with the yearly stocktake and finds her mother's recipe card behind the shelf; she has never baked from it.
 - *Heart 10, "The sign":* she hangs a new shop sign with the farm's name under hers as a "supplier"; she hands over the original two-note bell.
 - *Friend day, "Stocktake Saturday":* a helping scene (she needs three of something to finish the window).
@@ -63,7 +63,7 @@ Decisions this draft needs from you are collected in section 4.
 
 **Voice rules.**
 - Fast, run-on, delighted. Often opens with "Okay, okay, okay" and breathes after a dash.
-- Exclamations allowed (one a line); exaggerations ("the most perfect hinge in recorded history").
+- Exclamations allowed, several in a line when she is excited; exaggerations ("the most perfect hinge in recorded history").
 - Craft vocabulary used loosely and lovingly: temper, quench, grain, burr.
 - Teases Bram affectionately; never criticizes his work.
 - Never says "whatever".

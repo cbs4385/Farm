@@ -17,7 +17,7 @@ How to use this document: every line a writer drafts must be explainable from th
 
 **Running village facts** (use consistently): the winter lanterns hang on the first of the month; the saloon's good stool is a point of pride; the library's returns box is sticky; nobody can agree who makes the best pie; the forge is the warmest building in winter; the Community Hall's roof has been "nearly fixed" for years.
 
-**Calendar anchors.** Seasons are 28 days; festivals once per season; each villager has a birthday (see entries). Shops follow `BusinessHoursRegistry` (general store closed Sunday, blacksmith Monday, carpenter Wednesday, fish shop Thursday afternoons, clinic and library Saturday, saloon Tuesday).
+**Calendar anchors.** Seasons are 28 days; festivals once per season; each villager has a birthday (see entries). Shops follow `BusinessHoursRegistry` (general store closed Sunday, blacksmith Monday, carpenter Wednesday, fish shop Thursdays, clinic and library Saturday, saloon Tuesday).
 
 ## 2. Entry template (used for every villager)
 
@@ -75,7 +75,7 @@ How to use this document: every line a writer drafts must be explainable from th
 - *Heart 4, "Open mic":* she volunteers the player to introduce Piper; comic panic; choice of *cheer*, *heckle kindly* or *hide behind the bar* sets a flag she mentions at heart 8.
 - *Heart 6, "Kitchen":* a kitchen disaster at the saloon; cook together; the choice of ingredient shapes the dish that appears on her menu.
 - *Heart 8, "The bag":* she shows the packed bag; the player can *encourage a trip*, *ask her to stay*, or *just listen*. All three are kind; she responds to each differently and remembers.
-- *Heart 10, "Opening night":* a seasonal menu built from the player's produce; a dish named after the farm; callbacks to every earlier choice.
+- *Heart 10, "Performance" (as shipped):* a one-song performance for one listener, the player; the song's second verse or chorus carries the choice made at the bag (go, stay or listen). A seasonal menu from the player's produce and a dish named after the farm remain ideas for a later pass.
 - *Friend day, "Gossip bingo":* an evening where villagers' rumours collide.
 
 **Year.** Spring: thaw, fresh menu; summer: windows open, the busiest season; fall: harvest night is her favorite; winter: the fire does the work.
@@ -111,8 +111,8 @@ How to use this document: every line a writer drafts must be explainable from th
 - *Ione:* mentor and favorite person; Ione trusts her with the keys.
 - *Wren:* the one person who asks for stories and lets her take notes.
 - *Elara:* friendly; tea and knitting patterns.
-- *Piper:* is perplexed by how loud Piper is, and secretly writes lyrics for them.
-- *Dorian:* shared silences; trades mushroom field guides for first editions.
+- *Piper:* is perplexed by how loud Piper is, and secretly writes lyrics for her.
+- *Dorian:* shared silences; trades pressed leaves and mushroom notes for first editions.
 - *Juno:* admires her craft; borrows books about metal.
 - *Bram, Tilda, Marcus, Felix, Dr. Penn:* polite from a distance.
 
@@ -123,7 +123,7 @@ How to use this document: every line a writer drafts must be explainable from th
 - *Heart 4, "The swap":* a silent book swap; the player picks a book to lend her; the choice becomes her first recommendation.
 - *Heart 6, "Hiding":* the village asks her to read at the festival; she hides in the stacks; the player can *coax*, *offer to go first* or *tell her she doesn't have to*.
 - *Heart 8, "Rehearsal":* she reads her poem to an audience of the player's farm animals; the choice of audience matters.
-- *Heart 10, "The reading":* a public reading at the winter festival; her poem book gets a dedication that references earlier choices.
+- *Heart 10, "The reading" (as shipped):* a private reading in the library for one listener, the player ("Just you. The shelves don't count"); what she changes in the poem depends on the rehearsal choice. At the winter festival her poem hangs on a lantern, and only after this event does anyone hear about it. A public reading remains a later possibility.
 - *Friend day, "Overdue":* a library mystery of one book overdue by forty-one years.
 
 **Year.** Spring: catalog week; summer: the quietest, coolest room in the village; fall: leaves as bookmarks; winter: reading season.
@@ -172,7 +172,7 @@ How to use this document: every line a writer drafts must be explainable from th
 - *Heart 4, "Repair":* the player brings a broken tool; the choice of *ask him to fix it*, *fix it together* or *give it up* decides what he teaches.
 - *Heart 6, "The long sentence":* during a quiet evening he talks about his teacher and the letters he never sent.
 - *Heart 8, "Juno's piece":* Juno submits her first original design; Bram cannot say he is proud; the player helps him find the words (three kind choices).
-- *Heart 10, "Your tool":* he forges a tool shaped to the player's wear patterns, and for the first time says the player's name and a full sentence of thanks.
+- *Heart 10, "Your gift" (as shipped):* he gives the player a gold bar he has been saving ("Gold. Soft. Not for work. For you."); what he says with it depends on the choice made at Juno's piece, and he says the player's name for the first time. A tool shaped to the player's wear patterns remains an idea for a later pass.
 - *Friend day, "The bench":* Marcus and Bram share a silent lunch; the player may join.
 
 **Year.** Spring: hinges and hoes; summer: the forge is a sauna; fall: scythes; winter: the warmest building in the village.

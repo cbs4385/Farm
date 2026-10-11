@@ -26,11 +26,45 @@ namespace Farm.Gameplay
                 }
         }
 
+        public const string LastGrowthVar = "forest.trees.day";          // the day (counted from 1) trees were last grown
+        public const int MostPerVisit = 3;                              // however long the player was away, at most this many days of growth are added
+
+        // Pure: the thicket cell that grows a tree on a given day, chosen from the empty ones, or -1 when there is none.
+        public static int GrowthChoice(int emptyCells, int day, int round)
+        {
+            if (emptyCells <= 0) return -1;
+            return (int)(WoodLayout.Random01(day, round, 57) * emptyCells) % emptyCells;
+        }
+
+        // The forest slowly grows its trees back: one a day, in a place where a thicket was (an empty cell, never on a planted sapling or a stump), for as many days as
+        // have passed since the last visit, up to MostPerVisit. Returns how many were grown.
+        public static int Regrow(GameSession session, int today)
+        {
+            var tree = session.Nodes.Get(NodeDefaults.Tree);
+            if (tree == null) return 0;
+            var last = session.GetVar(LastGrowthVar) - 1;
+            session.SetVar(LastGrowthVar, today + 1);
+            if (last < 0) return 0;                                       // the first visit: the trees were just seeded
+            var rounds = System.Math.Min(MostPerVisit, today - last);
+            var nodes = session.GetNodes(MapIds.Forest);
+            var grown = 0;
+            for (var r = 0; r < rounds; r++)
+            {
+                var empty = new List<(int x, int y)>();
+                foreach (var c in Cells()) if (!nodes.Has(c.x, c.y)) empty.Add(c);
+                var pick = GrowthChoice(empty.Count, today - r, r);
+                if (pick < 0) break;
+                if (nodes.Add(empty[pick].x, empty[pick].y, tree)) grown++;
+            }
+            return grown;
+        }
+
         // Puts the trees in, once for a game (the flag), so that felled ones are not replanted when the player comes back.
         public static int Seed(GameSession session)
         {
             if (session.HasFlag(SeededFlag)) return 0;
             session.SetFlag(SeededFlag);
+            session.SetVar(LastGrowthVar, session.Clock.Now.TotalDays + 1);
             var tree = session.Nodes.Get(NodeDefaults.Tree);
             if (tree == null) return 0;
             var nodes = session.GetNodes(MapIds.Forest);

@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.0 (2026-10-11, held for review)
+
+Villager goals, choices that come back, and villagers talking to each other (details in `docs/narrative/GOALS.md`).
+
+- **Schedules match the bible.** Piper spends the day on the beach and in the square and plays in the saloon from seven until it closes. On Wednesdays, Marcus's day off, he sits on the bench in the village square, and Bram has lunch beside him (not in the rain).
+- **Trees come back to the forest.** Acorns can now be planted on the forest floor as well as on your own land (they grow into trees in 5 days), and the forest slowly grows trees by itself: one a day, in the places where the thickets stood, up to three days' worth when you have been away.
+
+- **Every villager now has a goal that moves.** Each one's want (Wren's sea, Hazel's reading, Bram's letter, Tilda's full village, Juno's own piece, Piper's song, Marcus's roof, Odalys's rest, Felix's company, Dorian's friend, Elara's boat, Ione's readers) shows in their talk in three stages: a hint from two or three hearts, a reaction once the heart event that reveals it has been seen (worded by the choice made there), and a resolution after the last event of the arc or when the world moves (the hall restored, a quest done, another villager's event).
+- **Earlier choices are remembered.** Villagers now refer back to what you chose in heart events and storylines (Wren's open mic and kitchen, Hazel's swap, Bram's repair, Juno's label, Piper's request, Tilda's slate, the notes writer, the pumpkin culprit, the whistler).
+- **Fifteen new overheard conversations** in five new pairings: Wren and Bram, Wren and Hazel, Hazel and Piper, Marcus and Odalys, Tilda and Juno. Later scenes in a pairing depend on a heart event.
+- **New story details to approve:** Bram's old teacher answers after heart 10 ("Good work."); Felix owns a small boat and offers to row Elara past the point; Hazel and Ione plan a reading night; Wren walks to the point if you told her to go; Marcus keeps a repair bench outside the clinic.
+- **Corrections:** overheard scenes with swapped speakers; Wren's bag is under the bar; Bram's "Hm." removed from lines spoken by others; Tilda's "dear" used less; identical quest, birthday and partner-evening prompts replaced with ones in each villager's own voice.
+
+Held for review: do not publish until the owner has read the new lines.
+
 ## 0.4.6 (2026-10-11)
 
 - **No key does two things.** If you give an action a key (or a controller button) that another action already uses, the two swap, and a notice says so.

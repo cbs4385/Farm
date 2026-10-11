@@ -9,12 +9,12 @@ addto npc.ione.talk
 0 season:spring => ione.spring.3 cat=seasonal tag=funny :: Someone returned a book on bees with a bee still inside. It was very polite. It left.
 0 season:summer => ione.summer.1 cat=seasonal :: Summer. The library's the coolest room in Wetherell. People "browse" for a very long time.
 0 season:summer => ione.summer.2 cat=seasonal :: I keep the windows open. The pages turn on their own. It's the nicest kind of reader.
-0 season:summer => ione.summer.3 cat=seasonal :: On summer evenings I walk to the beach. The sea reads in a language I almost know.
+0 season:summer => ione.summer.3 cat=seasonal :: On summer evenings I take a walk. A librarian is allowed one secret destination.
 0 season:fall => ione.fall.1 cat=seasonal :: Fall. The shelves feel warmer. Everyone suddenly wants a long book and a short day.
 0 season:fall => ione.fall.2 cat=seasonal :: Leaves in the returns box. I don't remove them. They're also borrowing something.
 0 season:fall => ione.fall.3 cat=seasonal tag=wholesome :: Harvest week, people read by the window and say very little. It's my favorite sound.
 0 season:winter => ione.winter.1 cat=seasonal :: Winter. The stove, the lamp, a very long novel. My birthday's in winter. I read through it.
-0 season:winter => ione.winter.2 cat=seasonal :: The first snow's my favorite day. I stand at the window. The books wait politely.
+0 season:winter => ione.winter.2 cat=seasonal :: First snow: a good day for the window. The books wait politely.
 0 season:winter => ione.winter.3 cat=seasonal :: Snow on the sill. Frost on the glass. A reader asleep with a book on their face. Perfect.
 
 # ---- weekdays ----
@@ -42,7 +42,7 @@ addto npc.ione.talk
 0 hour<10 => ione.morning.1 cat=time :: Early. The library smells of paper, dust and possibility. In that order.
 0 hour<10 => ione.morning.2 cat=time :: Opening the shutters. The first light slides across a shelf. Every spine blinks.
 0 hour>=10 && hour<16 => ione.midday.1 cat=time :: Midday. Readers drift in, mostly to be quiet near the stove. A fair trade.
-0 hour>=10 && hour<16 => ione.midday.2 cat=time :: A busy hour, by library standards. Three people. One of them is the cat.
+0 hour>=10 && hour<16 => ione.midday.2 cat=time :: A busy hour, by library standards. Three people. One of them is asleep.
 0 hour>=16 && hour<20 => ione.evening.1 cat=time :: Nearly closing. I set a book aside for tomorrow's first reader. I always know who.
 0 hour>=16 && hour<20 => ione.evening.2 cat=time :: Evening. The light goes gold on the spines. I lower my voice, even when alone.
 0 hour>=20 => ione.late.1 cat=time :: Late. The lamp's low, the page is warm, and the world is somebody else's problem.
@@ -62,7 +62,7 @@ addto npc.ione.talk
 0 hearts:ione>=6 && hearts:ione<9 => ione.cl.1 cat=tier :: I once read about farms like [farm]. None was as good as the real one.
 0 hearts:ione>=6 && hearts:ione<9 => ione.cl.2 cat=tier tag=wholesome :: Visit whenever, with or without a question. The shelves appreciate the company.
 0 hearts:ione>=6 && hearts:ione<9 => ione.cl.3 cat=tier :: I worry sometimes there are more stories here than readers. You help the numbers.
-0 hearts:ione>=6 && hearts:ione<9 => ione.cl.4 cat=tier :: There's a shelf I haven't shown anyone. Books set aside for people who never came.
+0 hearts:ione>=6 && hearts:ione<9 => ione.cl.4 cat=tier :: There's a back shelf I don't dust when people are looking. Ask me again, later.
 0 hearts:ione>=6 && hearts:ione<9 => ione.cl.5 cat=tier :: The sea in winter is the one book I've never finished. I'd like to read it with you.
 
 # ---- confidant (9 and 10 hearts) ----
@@ -88,9 +88,9 @@ addto npc.ione.talk
 2 birthday.in:hazel<=2 && birthday.in:hazel>=0 => ione.bday.3 cat=reactive :: Hazel's birthday. I've set aside a very small, very exact book. She'll pretend she didn't need it.
 
 # ---- rarities ----
-0 ~ => ione.rare.1 cat=rare rarity=rare tag=funny :: Overdue is a state of mind. I've been overdue on sleep since the nineties.
+0 ~ => ione.rare.1 cat=rare rarity=rare tag=funny :: Overdue is a state of mind. I've been overdue on sleep since I took the job.
 0 ~ => ione.rare.2 cat=rare rarity=rare tag=wholesome :: The first book I ever shelved here was this one. I still read it, to be sure it's all right.
-0 hearts:ione>=5 => ione.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Come with me. (A small bell rings on the desk.) That's your shelf. I set the first book aside the day you arrived.
+0 hearts:ione>=5 => ione.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Come with me. (A small bell rings on the desk.) That's your chair by the window. I set the first book aside the day you arrived.
 
 # ---- gifts ----
 say npc.ione.gift.item.forage.pearl ione: A pearl. Small and round and very quiet. I'll keep it in the front of a favorite book.
@@ -99,7 +99,7 @@ say npc.ione.gift.item.forage.elderflower ione: Elderflower. My mother kept some
 say npc.ione.gift.item.forage.seashell ione: A seashell. I'll hold it to my ear. It says "Come visit." I'm writing back.
 say npc.ione.gift.item.crop.kale ione: Kale. A sensible leaf. I'll eat it at the desk, next to a very dull book.
 say npc.ione.gift.item.forage.blackberry ione: Blackberries. Dark and sweet. I'll try not to stain a page. I will stain a page.
-say npc.ione.gift.item.resource.stone ione: A stone. Hm. A paperweight in waiting. I'll find it a very important pile.
+say npc.ione.gift.item.resource.stone ione: A stone. A paperweight in waiting. I'll find it a very important pile.
 say npc.ione.gift.item.resource.wood ione: Wood. For the stove. Marcus will approve. The books will be warmer.
 say npc.ione.gift.item.resource.coal ione: Coal. It will get on everything. I'll keep it far from the poetry shelf.
 say npc.ione.gift.repeat ione: Another one. Thank you. I'll set it aside with the first. They'll be good company.

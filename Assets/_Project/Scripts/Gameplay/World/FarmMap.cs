@@ -103,6 +103,20 @@ namespace Farm.Gameplay
         // The village green may be dug (the villagers put it back overnight: VillageTrees), though nothing is farmed there.
         public bool IsTillable(Vector3Int cell) => (_allowFarming || MapId == MapIds.Village) && HasTillableGround(cell);
 
+        // Where an acorn may be planted: tillable ground on the farm, or the open floor of the forest (a felled thicket can be replanted).
+        public bool IsTreeGround(Vector3Int cell)
+        {
+            if (_allowFarming) return HasTillableGround(cell);
+            if (MapId != MapIds.Forest) return false;
+            var tile = _ground.GetTile(cell);
+            if (tile == null || tile.name != ForestFloorTile) return false;
+            foreach (var h in Physics2D.OverlapPointAll(CellCenter(cell)))
+                if (!h.isTrigger && !h.CompareTag("Player")) return false;
+            return true;
+        }
+
+        public const string ForestFloorTile = "tile_forest";
+
         // Grass or dirt with nothing solid standing on it, whether or not this map is for farming.
         public bool HasTillableGround(Vector3Int cell)
         {

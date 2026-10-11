@@ -71,6 +71,10 @@ namespace Farm.Gameplay
                     Day("day_off", "weekday:mon", 5, home,
                         Stop(10 * 60, MapIds.Forest, 19, 10, "up"), Stop(14 * 60, MapIds.Village, 30, 17, "left"),
                         Stop(18 * 60, MapIds.Saloon, 7, 4, "up"), NpcHomes.Stop(Nine, NpcIds.Bram)),
+                    // Wednesday: lunch on the bench in the square, beside Marcus (his day off), in silence.
+                    Day("wednesday_bench", "weekday:wed && !weather:rain", 3, home,
+                        NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Noon, MapIds.Village, NpcRoster.BenchX + 1, NpcRoster.BenchY, "up"),
+                        Stop(13 * 60, MapIds.Blacksmith, 6, 4), Stop(Half5, MapIds.Saloon, 7, 4, "up"), NpcHomes.Stop(Nine, NpcIds.Bram)),
                     Day("workday", null, 0, home,
                         NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Half5, MapIds.Saloon, 7, 4, "up"),
                         NpcHomes.Stop(Nine, NpcIds.Bram)),

@@ -21,7 +21,7 @@ addto npc.dorian.talk
 # ---- weekdays ----
 0 weekday:mon => dorian.mon.1 cat=weekday :: Monday. Marcus sharpens things. I listen from the porch. It sounds like thinking.
 0 weekday:tue => dorian.tue.1 cat=weekday :: Tuesday. Quiet forest. Quieter village. A good day for walking.
-0 weekday:wed => dorian.wed.1 cat=weekday :: Wednesday. Marcus is on a bench with Bram. I stay home. I like the silence.
+0 weekday:wed => dorian.wed.1 cat=weekday :: Wednesday. Marcus is on a bench with Bram. I go by quietly. Two silences. I don't interrupt.
 0 weekday:thu => dorian.thu.1 cat=weekday :: Thursday. Felix is off. The pond's busy. I avoid it.
 0 weekday:fri => dorian.fri.1 cat=weekday :: Friday. The village gets loud. I take the back path. It's longer. It's better.
 0 weekday:sat => dorian.sat.1 cat=weekday :: Saturday. Market. Noise. I leave a mushroom on a step and go.
@@ -46,7 +46,7 @@ addto npc.dorian.talk
 0 hour>=10 && hour<16 => dorian.midday.2 cat=time :: Busy forest. Everyone's pretending not to be.
 0 hour>=16 && hour<20 => dorian.evening.1 cat=time :: Evening. Gold light. I walk home slowly. The basket's heavy. Good.
 0 hour>=16 && hour<20 => dorian.evening.2 cat=time :: Dusk. Owls begin. They don't mind company.
-0 hour>=20 => dorian.late.1 cat=time :: Late. I sketch what I found. Nobody sees the drawings. Please don't ask.
+0 hour>=20 => dorian.late.1 cat=time :: Late. I sort what I found. Please don't ask.
 0 hour>=20 => dorian.late.2 cat=time :: Night. Moss glows a little, if you squint. I squint.
 0 map:Forest => dorian.here.1 cat=place :: Step softly. Under the roots. Everyone looks up.
 0 map:Carpenter => dorian.here.2 cat=place tag=funny :: The chair by the stove is mine. The cushion knows. Marcus pretends.
@@ -61,8 +61,8 @@ addto npc.dorian.talk
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.1 cat=tier :: I'm not a talker. But I'm glad you're nearby.
 0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.2 cat=tier tag=wholesome :: The forest likes you. That's rare. It likes very few.
-0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.3 cat=tier :: There's a spot I go. Quiet. I'll show you. Someday. Soon.
-0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.4 cat=tier :: I draw mushrooms. I haven't shown anyone. I might. Don't hurry me.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.3 cat=tier :: There's a second spot. Quieter than the first. I'll show you. Someday. Soon.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.4 cat=tier :: I notice small things. I keep them. I might show you one. Don't hurry me.
 0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.5 cat=tier tag=funny :: Marcus asked who the gifts were from. I said "the forest". He nodded. Twice.
 
 # ---- confidant (9 and 10 hearts) ----
@@ -90,7 +90,7 @@ addto npc.dorian.talk
 # ---- rarities ----
 0 ~ => dorian.rare.1 cat=rare rarity=rare tag=funny :: I once argued with a stump. I lost. It was a very good stump.
 0 ~ => dorian.rare.2 cat=rare rarity=rare tag=wholesome :: I kept the first mushroom I ever found. Dried. In my pocket. It's tiny. It's mine.
-0 hearts:dorian>=5 => dorian.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Look. (He opens a small notebook.) My drawings. You're the first. Please be kind.
+0 hearts:dorian>=5 => dorian.rare.3 cat=rare rarity=legendary tag=surprise emote=sparkle sfx=signature :: Look. (He points under a root.) A small brown cap. Most people walk past. Please don't tell.
 
 # ---- gifts ----
 say npc.dorian.gift.item.forage.mushroom dorian: A mushroom. Perfect gills. Where did you find it? ...Never mind. Thank you.
@@ -99,7 +99,7 @@ say npc.dorian.gift.item.forage.wildgarlic dorian: Wild garlic. Sharp. Green. Go
 say npc.dorian.gift.item.forage.hazelnut dorian: Hazelnuts. Small. Patient. I'll keep them for a squirrel. And me.
 say npc.dorian.gift.item.forage.blackberry dorian: Blackberries. Sweet and thorny. Like the forest. Thank you.
 say npc.dorian.gift.item.forage.raspberry dorian: Raspberries. Red and shy. I'll eat them slowly.
-say npc.dorian.gift.item.crop.tomato dorian: A tomato. Hm. Too round. Too loud. I'll find it a home. Far away.
+say npc.dorian.gift.item.crop.tomato dorian: A tomato. ...Too round. Too loud. I'll find it a home. Far away.
 say npc.dorian.gift.item.fish.pufferfish dorian: A pufferfish. It's looking at me. I'm looking at it. We've reached an understanding.
-say npc.dorian.gift.item.resource.slime dorian: Slime. Hm. I'll keep it outside. It looks homesick.
+say npc.dorian.gift.item.resource.slime dorian: Slime. ...I'll keep it outside. It looks homesick.
 say npc.dorian.gift.repeat dorian: Another one. Thank you. I'll leave you something. Not me. The forest.

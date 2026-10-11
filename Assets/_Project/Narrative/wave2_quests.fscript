@@ -43,7 +43,7 @@ n0 tilda: The window needs something that says "we're open". Five parsnips, nice
 n1 tilda: You grow the best parsnips in Wetherell. Would you lend me five? I'll put you on the slate for a pie.
   ? Happily. => r0 | quest.start:tilda_display
   ? Not right now. => r1
-r0 tilda: A dear. Five parsnips. I'll clear the sill.
+r0 tilda: A deal. Five parsnips. I'll clear the sill.
   expr happy
 r1 tilda: That's all right. The window will manage. It's patient.
 
@@ -56,7 +56,7 @@ n0 tilda: Look at those! The window looks like noon. I'll put it on the slate in
   expr happy
 
 dialogue tilda.cauli.ask
-n0 tilda: Cauliflower, dear. Three heads, firm and white. They're for the harvest basket in the window.
+n0 tilda: Cauliflower. Three heads, firm and white. They're for the harvest basket in the window.
   next n1
 n1 tilda: Everyone says it's a plain vegetable. I say it's a quiet one. Would you grow me three?
   ? I'll bring three. => r0 | quest.start:tilda_cauliflower
@@ -74,7 +74,7 @@ n0 tilda: Oh, those are beauties. White as fresh chalk. Thank you, [player]. I'l
   expr happy
 
 dialogue tilda.pie.ask
-n0 tilda: Pie week is coming. I'd like a pumpkin pie in the window, baked by someone who loves baking. Not me. You.
+n0 tilda: Pie week is coming. I'd like a pumpkin pie in the window, baked by a friend. My oven needs a rest.
   next n1
 n1 tilda: One pie. Warm, if you can. I'll put a sign beside it that says "Made by a friend".
   ? I'll bake one. => r0 | quest.start:tilda_pie_week
@@ -87,7 +87,7 @@ dialogue tilda.pie.remind
 n0 tilda: One pumpkin pie, for the window. Pie week is coming on, and the shelf is empty.
 
 dialogue tilda.pie.turnin
-n0 tilda: A pie! A real one! Warm, even. It goes in the window, and the whole street will stop. Thank you, dear.
+n0 tilda: A pie! A real one! Warm, even. It goes in the window, and the whole street will stop. Thank you.
   + quest.done:tilda_pie_week
   expr happy
   emote heart

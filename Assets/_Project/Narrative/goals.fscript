@@ -1,0 +1,118 @@
+# What each villager wants, and how it moves (docs/narrative/GOALS.md). Every villager's want from the bible gets talk lines in stages:
+#   hint    before the heart event that reveals it (priority 0: part of the normal pool, gated off once the event is seen)
+#   after   once the event is seen, shaped by the choice the player made there (priority 1: surfaces soon after)
+#   resolve after the last event of the arc, or once the world has moved (hall rooms, quests, another villager's event)
+# Ids are <villager>.goal.<stage><n>. Conditions only use existing state: hearts, flag:event.<id>, quest:, hall:, flag:hall.restored, heard:.
+# Where the words depend on a choice, one entry carries every option with {if choice:..}{else}..{/if}: the set stays small, every save hears it.
+# Keepers (Wren, Tilda, Marcus, Odalys, Dorian): nothing here touches nights, the wood or watching; mythos lines stay in Farm.Mythos.
+
+# ---------------------------------------------------------------- Wren: a full room, a story, and the sea from somewhere else
+addto npc.wren.talk
+0 hearts:wren>=2 && !flag:event.wren_heart8 => wren.goal.h1 cat=goal :: There's a map of the coast behind the bar. I've never unfolded it. Between us, I like knowing it's there.
+0 hearts:wren>=2 && !flag:event.wren_heart8 => wren.goal.h2 cat=goal :: Felix says the sea looks different from past the point. I told him I'd heard. I haven't.
+0 hearts:wren>=3 && !flag:event.wren_heart8 => wren.goal.h3 cat=goal :: Everyone at my bar came from somewhere. I'm the only one who never says where I'm going.
+1 flag:event.wren_heart8 && !flag:event.wren_heart10 => wren.goal.a1 cat=goal :: {if choice:wren.bag.go}I unfolded the map. Just one corner. The sea's on it. Of course it is.{else}{if choice:wren.bag.stay}I took one sweater out of the bag. I'm wearing it. That's all. Don't make a thing of it.{else}You didn't tell me what to do. So now I tell myself, out loud. The chairs are sick of it.{/if}{/if}
+1 flag:event.wren_heart8 && !flag:event.wren_heart10 => wren.goal.a2 cat=goal tag=funny :: {if choice:wren.bag.go}I asked Felix how long the coast road takes. He said "depends who's walking." Very helpful. I tipped him anyway.{else}{if choice:wren.bag.stay}Stay. You said it like it was easy. Between us, I've been trying the word on. It fits better than I thought.{else}I opened the bag yesterday. Looked inside. Closed it again. It counts as progress if you squint.{/if}{/if}
+1 flag:event.wren_heart10 => wren.goal.r1 cat=goal :: {if choice:wren.bag.go}Piper's minding the bar next Monday. I'm walking to the point to look at the sea. Then I'm coming back with a story.{else}{if choice:wren.bag.stay}I unpacked the bag. The map's framed behind the bar now. Ask me about it. I'll lie beautifully.{else}Half the bag's unpacked. The other half is for the day I want it. That's not running. That's packing for joy.{/if}{/if}
+1 flag:event.wren_heart10 && heard:wren.goal.r1 => wren.goal.r2 cat=goal tag=wholesome :: {if choice:wren.bag.go}I saw the sea from past the point. It looked exactly the same. I cried anyway. Between us.{else}{if choice:wren.bag.stay}"The one who stayed." I used to say it like a sentence. Now I say it like a title.{else}The bag gets lighter every month. I take something out whenever I'm happy. Mostly socks.{/if}{/if}
+
+# ---------------------------------------------------------------- Hazel: to be heard once, properly
+addto npc.hazel.talk
+0 hearts:hazel>=2 && !flag:event.hazel_heart6 => hazel.goal.h1 cat=goal :: Small things get written down. (By me.) Nobody reads them. That's the arrangement.
+0 hearts:hazel>=2 && !flag:event.hazel_heart6 => hazel.goal.h2 cat=goal tag=funny :: Ione asked me to read the notices at the meeting. (I developed a cough.) It was very convincing.
+0 hearts:hazel>=3 && !flag:event.hazel_heart6 => hazel.goal.h3 cat=goal :: Yesterday I said forty words out loud. (Thirty were "shh".)
+1 flag:event.hazel_heart6 && !flag:event.hazel_heart8 => hazel.goal.a1 cat=goal :: {if choice:hazel.hiding.ask}You asked what I hear in the quiet. (Nobody asks.) I've been listening harder since.{else}{if choice:hazel.hiding.wait}You sat in the stacks with me and said nothing. (Perfectly.) I wrote a line about it. Just one.{else}Hiding in a book. (Your joke.) I laughed later, alone, in the reference section. It echoed.{/if}{/if}
+1 flag:event.hazel_heart8 && !flag:event.hazel_heart10 => hazel.goal.b1 cat=goal :: {if choice:hazel.rehearsal.praise}"Lovely," you said. (I wrote it inside the cover.) I read it when the shelves get loud.{else}{if choice:hazel.rehearsal.critique}I've rewritten the middle six times. (You were right. Don't gloat.) It moves now.{else}Lamp and all, the poem stays. (You laughed in the right place.) That's rarer than you'd think.{/if}{/if}
+1 flag:event.hazel_heart8 && !flag:event.hazel_heart10 => hazel.goal.b4 cat=goal tag=funny :: The poetry shelf heard the poem again. (Tough critics.) One book fell off at the end. (Applause.)
+1 flag:event.hazel_heart10 => hazel.goal.r1 cat=goal :: One person. That's who I read to. (Next, maybe two.) I'm building up, like a library: one shelf at a time.
+1 flag:event.hazel_heart10 => hazel.goal.r2 cat=goal :: Ione wants a reading night at the library. (I said I'd think about it.) I've thought about nothing else.
+1 flag:event.hazel_heart10 && season:winter => hazel.goal.r3 cat=goal tag=wholesome :: If my poem is on a lantern this winter, please read it. (It might be.) Out loud. Quietly.
+
+# ---------------------------------------------------------------- Bram: Juno's first piece, and one word from his old teacher
+addto npc.bram.talk
+0 hearts:bram>=2 && !flag:event.bram_heart6 => bram.goal.h1 cat=goal :: {Hm. Slow week. Good iron doesn't hurry. Neither do I.|Juno's quicker than I was. Don't tell her. She'll slow down to prove me wrong.|Hm. Good iron tells you when it's ready. People too. Waiting on both.}
+1 flag:event.bram_heart6 && !flag:event.bram_heart10 => bram.goal.a1 cat=goal :: {if flag:event.bram_heart8}{if choice:bram.juno.praise}Later I told Juno it was wonderful. Your word. She cried on the anvil. Anvil's fine. Wrote my teacher about her. Two pages.{else}{if choice:bram.juno.tease}Later I teased her about the bend. Gently. She laughed. Made another. Straighter. Hm. Wrote my teacher about her.{else}Later I told Juno what I see. Me, starting out. She went quiet. Then hugged the bellows. Wrote my teacher.{/if}{/if}{else}{if choice:bram.long.nod}Hm. You nodded. Last week. Still thinking about it. Good nod.{else}{if choice:bram.long.glad}Glad. You said it. Put it in a letter. Didn't send it. Yet.{else}One word. Right size. Wrote my teacher one back. In the drawer. Hm.{/if}{/if}{/if}
+1 flag:event.bram_heart10 && heard:bram.goal.a1 => bram.goal.r1 cat=goal tag=surprise sfx=signature :: Letter came back. From my old teacher. Two words. "Good work." ...Hm.
+1 flag:event.bram_heart10 && flag:event.juno_heart10 => bram.goal.r2 cat=goal :: Juno talks about her own forge. Someday. Small one. I said, 'Next door.' Meant it. Mostly.
+
+# ---------------------------------------------------------------- Tilda: a village that stays full
+addto npc.tilda.talk
+0 hearts:tilda>=2 && !flag:event.tilda_heart6 => tilda.goal.h1 cat=goal :: Seed orders ran a little thin this season. I counted them three times. That's just good bookkeeping.
+0 hearts:tilda>=2 && !flag:event.tilda_heart6 => tilda.goal.h2 cat=goal :: Nobody sits down for tea anymore. I keep two cups out anyway. Habit and optimism look the same from here.
+0 hearts:tilda>=3 && !flag:event.tilda_heart6 => tilda.goal.h3 cat=goal :: Yours is the newest name on the slate in years. I gave it the good chalk.
+1 flag:event.tilda_heart6 && !flag:event.tilda_heart10 => tilda.goal.a1 cat=goal :: {if choice:hours.reassure}It isn't shrinking. Your handwriting says so. I check the slate to see if it still does.{else}{if choice:hours.plan}I made the plan, like you said. Item one: tea. Item two: more chairs. Item three: you.{else}I counted again. Gently. Same houses as yesterday, and every chimney going. The cat looked relieved.{/if}{/if}
+1 hall:>=1 && hearts:tilda>=3 => tilda.goal.w1 cat=goal :: Someone lit a lamp in the old hall last week. First time in years. I sold them the oil, and I'd do it again.
+1 flag:hall.restored && hearts:tilda>=4 => tilda.goal.w2 cat=goal tag=wholesome :: The whole hall's open, and the street's louder for it. I sold out of candles. Candles!
+1 flag:event.tilda_heart10 => tilda.goal.r1 cat=goal tag=wholesome :: The sign's up. My name, and your farm under it. Whatever the street does, that's in paint now.
+1 flag:event.tilda_heart10 && flag:hall.restored => tilda.goal.r2 cat=goal :: Somebody sat down for tea today. Didn't buy a thing. Best sale of the year.
+
+# ---------------------------------------------------------------- Juno: something original, without leaving Bram alone
+addto npc.juno.talk
+0 hearts:juno>=2 && !flag:event.juno_heart6 => juno.goal.h1 cat=goal :: Okay, okay, okay: everything I make is a copy of something Bram made. Good copies! But copies.
+0 hearts:juno>=2 && !flag:event.juno_heart6 => juno.goal.h2 cat=goal :: I sketched a hinge nobody's ever seen. Then I made Bram's hinge again. My hands are cowards.
+0 hearts:juno>=3 && !flag:event.juno_heart6 => juno.goal.h3 cat=goal :: If I ever make something new, someone should watch the door. I might walk out of it. ...Joke. Don't answer.
+1 flag:event.juno_heart6 && !flag:event.juno_heart8 => juno.goal.a1 cat=goal :: {if choice:strike.keep}The crooked horseshoe's on the shelf, labeled "Mine (Crooked)". I look at it every morning!{else}{if choice:strike.together}We fixed the bend together and now I can't stop making new things. Three this week! Two are terrible.{else}I made a second three-legged horseshoe. Now the imaginary horse has a matching pair!{/if}{/if}
+1 flag:event.juno_heart8 && !flag:event.juno_heart10 => juno.goal.b1 cat=goal :: {if choice:shoe.wait}He held it for ages and said nothing. Best nothing of my life. I labeled the memory "Nothing (Proud)".{else}{if choice:shoe.praise}You said wonderful, and Bram frowned at it like he agreed. I've been frowning at things all week. It's how we agree!{else}You handed me the hammer, so I gave it one more tap, for luck. It's better now. It's also the luckiest thing in the forge!{/if}{/if}
+1 flag:event.juno_heart10 => juno.goal.r1 cat=goal :: My mark's on four things now. Four! Bram keeps one by his tongs. He says it's for reference. It's not.
+1 flag:event.juno_heart10 && flag:event.bram_heart10 => juno.goal.r2 cat=goal tag=wholesome :: I asked Bram if he'd be lonely when I have my own forge. He said "Hm. Next door." That's a yes. It's a yes!
+
+# ---------------------------------------------------------------- Piper: a song the village sings without her
+addto npc.piper.talk
+0 hearts:piper>=2 && !flag:event.piper_heart6 => piper.goal.h1 cat=goal :: After a set I follow people out to hear if they're humming. They're always humming Wren's laugh.
+0 hearts:piper>=2 && !flag:event.piper_heart6 => piper.goal.h2 cat=goal :: Nobody's ever heard a gap after one of my songs. I'm quick. I call it stagecraft.
+0 hearts:piper>=3 && !flag:event.piper_heart6 => piper.goal.h3 cat=goal tag=funny :: Great songs get sung in the bath. Mine get sung in the bath to drown out the plumbing.
+1 flag:event.piper_heart6 && !flag:event.piper_heart8 => piper.goal.a1 cat=goal :: {if choice:fright.talk}You let me talk it out, and now the fear's sitting on the barrel. Smaller in daylight! Still ugly!{else}{if choice:fright.sit}Sitting in silence with you was the first quiet I didn't fill. I'm practicing. Two seconds a day!{else}Bucket drummer! I wrote you into the bridge. The bucket gets a solo. The bucket has never been happier!{/if}{/if}
+1 flag:event.piper_heart8 && !flag:event.piper_heart10 => piper.goal.b1 cat=goal :: {if choice:chorus.home}"Home" sits in the chorus like it was waiting there. I'm scared of how much I like it.{else}{if choice:chorus.road}"The road" rhymes with nothing! Toad. Abode. Commode. The road is winning!{else}A song about the saloon. Wren cried at the second line. She says it was the cider. It wasn't.{/if}{/if}
+1 flag:event.piper_heart10 => piper.goal.r1 cat=goal tag=funny :: I heard Bram humming it at the forge. Bram! Humming! I hid behind a barrel and wept.
+1 flag:event.piper_heart10 && heard:piper.goal.r1 => piper.goal.r2 cat=goal tag=wholesome :: Somebody sang our chorus at the fish stall this morning. I wasn't there. That's the whole point. That's the whole point!
+
+# ---------------------------------------------------------------- Marcus: the hall roof, and a building that outlives him
+addto npc.marcus.talk
+0 hearts:marcus>=2 && !quest:marcus_planks=done => marcus.goal.h1 cat=goal :: Twelve rafters in the hall roof. Ten are sound. I check the other two every month.
+0 hearts:marcus>=2 && !flag:event.marcus_heart8 => marcus.goal.h2 cat=goal :: My father built the bench in the square. Still level after forty years. I'd like one thing of mine to do that.
+0 hearts:marcus>=3 && !flag:event.marcus_heart8 => marcus.goal.h3 cat=goal :: Six winters I've called the hall roof nearly fixed. Nearly is honest. Fixed would be better.
+1 hearts:marcus>=4 && flag:event.marcus_heart5 && quest:marcus_planks=done && !flag:event.marcus_heart8 => marcus.goal.a1 cat=goal :: Your planks are drying under cover. Good grain. I measured them twice. Then I just looked at them a while.
+1 flag:event.marcus_heart8 => marcus.goal.b1 cat=goal :: {if choice:roof.measure}We measured it together. Three times. It holds on paper. Paper is where roofs start.{else}{if choice:roof.design}Your angle sheds rain better than mine. I'd never have tried it. I'm trying it. Slowly.{else}You held the ladder. I climbed higher than I have in years. The view is good. The roof is worse.{/if}{/if}
+1 flag:event.marcus_heart8 && flag:hall.restored => marcus.goal.r1 cat=goal tag=wholesome :: The hall roof is fixed. Not nearly. Fixed. I keep saying it. It doesn't wear out.
+
+# ---------------------------------------------------------------- Odalys: a village that rests, herself included
+addto npc.odalys.talk
+0 hearts:odalys>=2 && !flag:event.odalys_heart8 => odalys.goal.h1 cat=goal tag=funny :: I slept six hours last night. Elara threw a party. A very quiet one. She whispered "hooray."
+0 hearts:odalys>=2 && !flag:event.odalys_heart8 => odalys.goal.h2 cat=goal :: Everyone in Wetherell has my advice to rest. I follow it on Sundays. The other six days I am consulted.
+0 hearts:odalys>=3 && !flag:event.odalys_heart8 => odalys.goal.h3 cat=goal :: When someone is ill, I count the days until they're well. Then I start counting for the next one.
+1 flag:event.odalys_heart8 => odalys.goal.a1 cat=goal :: {if choice:office.insist}You insisted. I rested. Under protest. I filed the protest. Nobody has read it.{else}{if choice:office.soup}Soup on Sundays now. With company, when I can get it. It is the only prescription I follow.{else}Your prescription is pinned above my desk. "Come back anyway." I do. Every evening.{/if}{/if}
+1 flag:event.odalys_heart8 && hearts:odalys>=9 => odalys.goal.r1 cat=goal :: Elara ran the clinic alone for a morning. Nobody suffered. Several people laughed. I may take another morning.
+
+# ---------------------------------------------------------------- Felix: someone to share the dawn, and the sturgeon
+addto npc.felix.talk
+0 hearts:felix>=2 && !flag:event.felix_heart8 => felix.goal.h1 cat=goal :: Forty years of dawns, mostly alone. The fish don't talk. I do. They don't mind.
+0 hearts:felix>=2 && !flag:event.felix_heart8 => felix.goal.h2 cat=goal :: There's a sturgeon in that pond older than me. I say good mornin' every day. Rude not to.
+0 hearts:felix>=3 && !flag:event.felix_heart8 => felix.goal.h3 cat=goal :: Dawn's better with two. One holds the rod. One holds the coffee. Or the story.
+1 flag:event.felix_heart8 => felix.goal.a1 cat=goal tag=funny :: {if choice:big.net}You landed her clean. I've told it a dozen times. She's grown a hand each time. You'd be proud.{else}{if choice:big.release}We let her go. Best fish I never kept. I still see her ripple, some mornings.{else}Eleven inches, honest. I chalked it on the stall. Small letters. People still ask.{/if}{/if}
+1 flag:event.felix_heart8 && hearts:felix>=6 => felix.goal.r1 cat=goal tag=wholesome :: Mornin', partner. Sturgeon's still out there. We'll get her, or we'll get a good mornin'. Both count.
+1 flag:event.elara_heart8 && hearts:felix>=4 && hearts:elara>=4 => felix.goal.r2 cat=goal :: Elara wants to see the sea from a boat. I've a boat. Small one. Leaks politely. I offered.
+
+# ---------------------------------------------------------------- Dorian: a friend who doesn't need him to talk
+addto npc.dorian.talk
+0 hearts:dorian>=2 && !flag:event.dorian_heart8 => dorian.goal.h1 cat=goal :: Sometimes I just look. Small things. Mostly roots. Good.
+0 hearts:dorian>=2 && !flag:event.dorian_heart8 => dorian.goal.h2 cat=goal :: People ask how I am. Then they wait. The waiting is hard.
+0 hearts:dorian>=3 && !flag:event.dorian_heart8 => dorian.goal.h3 cat=goal :: You don't fill the silences. I noticed. Thank you.
+1 flag:event.dorian_heart8 => dorian.goal.a1 cat=goal :: {if choice:notebook.praise}You said they were good. I drew twenty more. Small ones.{else}{if choice:notebook.ask}You have my best one. The small brown one. Keep it dry.{else}Your mushroom with a face. It's in my notebook now. Page one.{/if}{/if}
+1 flag:event.dorian_heart8 && hearts:dorian>=8 && hearts:hazel>=4 => dorian.goal.r1 cat=goal tag=wholesome :: Hazel asked to see the notebook. I said yes. ...I said yes.
+
+# ---------------------------------------------------------------- Elara: the sea from a boat, before she's too useful to leave
+addto npc.elara.talk
+0 hearts:elara>=2 && !flag:event.elara_heart8 => elara.goal.h1 cat=goal :: I have a daydream habit. It's very long! It's mostly the sea, from different angles.
+0 hearts:elara>=2 && !flag:event.elara_heart8 => elara.goal.h2 cat=goal :: Dr. Penn says I'm indispensable. I say thank you! Then I worry about it all night.
+0 hearts:elara>=3 && !flag:event.elara_heart8 => elara.goal.h3 cat=goal :: My favorite place is the clinic. I'd just like a second favorite. Somewhere wet. Somewhere far.
+1 flag:event.elara_heart8 => elara.goal.a1 cat=goal :: {if choice:list.pick}A boat on the sea! I've circled it twice. I bought a sandwich tin. It's a start.{else}{if choice:list.add}Forty-two places now, thanks to you! I read the list before bed like a story.{else}You promised to visit, wherever I end up. I wrote it in ink! Ink is very serious.{/if}{/if}
+1 flag:event.elara_heart8 && hearts:elara>=6 && hearts:felix>=4 => elara.goal.r1 cat=goal tag=funny :: Felix says he'll row me past the point one morning. I'm knitting a life jacket! That's not how they work.
+
+# ---------------------------------------------------------------- Ione: more readers for the library
+addto npc.ione.talk
+0 hearts:ione>=2 && !flag:event.ione_heart8 => ione.goal.h1 cat=goal :: Nine people borrowed books last season. I counted twice, hoping for ten.
+0 hearts:ione>=2 && !flag:event.ione_heart8 => ione.goal.h2 cat=goal :: A library is a room that waits. I'd like it to wait a little less.
+0 hearts:ione>=3 && !flag:event.ione_heart8 => ione.goal.h3 cat=goal :: I set a book aside for each new reader. Some are still waiting. Books are patient. I'm learning.
+1 flag:event.ione_heart8 => ione.goal.a1 cat=goal :: {if choice:shelf.take}That book you took for someone came back with a thank-you note inside. I kept the note.{else}{if choice:shelf.read}You read aloud to that shelf. I've started doing it on Thursdays. Two people came. Two!{else}Someone found your note in a set-aside book. They came in to ask who wrote it. I said a friend.{/if}{/if}
+1 flag:event.ione_heart8 && hearts:ione>=8 && flag:event.hazel_heart10 => ione.goal.r1 cat=goal :: Hazel and I are planning a reading night. Chairs, tea, poems. I'm told the poems are hers. She denies it.
+0 season:winter && weather:snow && hearts:ione>=8 && flag:event.ione_heart8 => ione.goal.r2 cat=goal :: First snow, I walked to the beach. Nobody there but the sea. We got along.

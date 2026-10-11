@@ -6,7 +6,7 @@ Pronouns: the shipped data has none; this bible uses the pronouns of the art and
 
 ## 1. Marcus Dell (carpenter)
 
-**Role and place.** The village carpenter: barns, coops, greenhouses, shelves. Closed Wednesdays (he sits on a bench with Bram). Dorian lodges with him. Birthday Summer 9. Not romanceable.
+**Role and place.** The village carpenter: barns, coops, greenhouses, shelves. Closed Wednesdays (he sits on the bench in the village square; Bram has his lunch beside him, unless it rains). Dorian lodges with him. Birthday Summer 9. Not romanceable.
 **Public face.** Solid, patient, unhurried. Speaks like a man laying a floor.
 **Real self.** Carries his father's habit of measuring three times because he is afraid of building something that will not last. The Community Hall's roof has been "nearly fixed" for years, and he knows exactly how long.
 **Voice rules.** Measured, short declaratives (up to 16 words), craft proverbs (grain, joint, plumb), no exclamation marks. Never rushes anyone; never criticizes another's work.
@@ -77,7 +77,7 @@ Pronouns: the shipped data has none; this bible uses the pronouns of the art and
 **Role and place.** The clinic's nurse. Closed Saturdays (the beach). Birthday Spring 18. Romanceable.
 **Public face.** Bright, bubbly, quick with a joke and a bandage.
 **Real self.** Wants more than the clinic and keeps a list of places she has never been; knits when it is slow and hides the evidence from Dr. Penn.
-**Voice rules.** Warm, bouncy, up to 20 words, gentle medical puns, exclamations welcome (one a line at most). Never makes fun of illness or injury; her jokes are about waiting rooms, tea and naps.
+**Voice rules.** Warm, bouncy, up to 20 words, gentle medical puns, exclamations welcome, several in a line when she is delighted. Never makes fun of illness or injury; her jokes are about waiting rooms, tea and naps.
 **Humour type.** Gentle silly medical puns.
 **Signature bit: *The knitting*.** She knits increasingly absurd things (a sock for a chair, a hat for the clinic's plant) and gives them away. Catchphrase: **"Keep your socks on."** Sound: two needle clicks.
 **Wants / fears.** Wants: to see the sea from a boat. Fears: staying so useful she never leaves.

@@ -527,9 +527,9 @@ namespace Farm.Gameplay
             var grid = Session.GetGrid(_map.MapId);
             var sapling = Session.Nodes.Get(NodeDefaults.Sapling);
             if (sapling == null) return false;
-            if (!_map.AllowFarming) { Session.Toast(L.Get("toast.acorn_where")); return false; }
+            if (!_map.AllowFarming && _map.MapId != MapIds.Forest) { Session.Toast(L.Get("toast.acorn_where")); return false; }
             if (grid.IsTilled(cell.x, cell.y) || nodes.Has(cell.x, cell.y) || Session.GetObjects(_map.MapId).Has(cell.x, cell.y)
-                || cell == _map.WorldToCell(_player.CellSamplePoint) || !_map.IsTillable(cell))
+                || cell == _map.WorldToCell(_player.CellSamplePoint) || !_map.IsTreeGround(cell))
             {
                 Session.Toast(L.Get("toast.acorn_blocked"));
                 return false;

@@ -1,0 +1,357 @@
+{
+  "dialogues": [
+    {
+      "id": "wren.cb.openmic",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.cb.openmic.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.cb.kitchen",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.cb.kitchen.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.cb.swap",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.cb.swap.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.cb.repair",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.cb.repair.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.cb.label.eat",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.cb.label.eat.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.cb.request.parsnip",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.cb.request.parsnip.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.cb.slate.promise",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cb.slate.promise.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.cb.notes",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.cb.notes.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.cb.notes",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.cb.notes.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.cb.notes",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.cb.notes.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.cb.pumpkin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.cb.pumpkin.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.cb.pumpkin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.cb.pumpkin.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.cb.pumpkin",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.cb.pumpkin.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.cb.whistler",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.cb.whistler.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.cb.whistler",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.cb.whistler.0"
+        }
+      ]
+    },
+    {
+      "id": "felix.cb.whistler",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.cb.whistler.0"
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "flag:event.wren_heart4",
+          "priority": 1,
+          "dialogue": "wren.cb.openmic",
+          "category": "callback"
+        },
+        {
+          "condition": "flag:event.wren_heart6",
+          "priority": 1,
+          "dialogue": "wren.cb.kitchen",
+          "category": "callback"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "flag:event.hazel_heart4",
+          "priority": 1,
+          "dialogue": "hazel.cb.swap",
+          "category": "callback"
+        }
+      ]
+    },
+    {
+      "set": "npc.bram.talk",
+      "entries": [
+        {
+          "condition": "flag:event.bram_heart4",
+          "priority": 1,
+          "dialogue": "bram.cb.repair",
+          "category": "callback"
+        }
+      ]
+    },
+    {
+      "set": "npc.juno.talk",
+      "entries": [
+        {
+          "condition": "flag:event.juno_heart4 && choice:label.eat",
+          "priority": 1,
+          "dialogue": "juno.cb.label.eat",
+          "tag": "funny",
+          "category": "callback"
+        }
+      ]
+    },
+    {
+      "set": "npc.piper.talk",
+      "entries": [
+        {
+          "condition": "flag:event.piper_heart4 && choice:request.parsnip",
+          "priority": 1,
+          "dialogue": "piper.cb.request.parsnip",
+          "tag": "funny",
+          "category": "callback"
+        }
+      ]
+    },
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "flag:event.tilda_heart4",
+          "priority": 0,
+          "dialogue": "tilda.cb.slate.promise",
+          "tag": "wholesome",
+          "category": "callback"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_notes_dorian",
+          "priority": 2,
+          "dialogue": "dorian.cb.notes",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.juno.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_notes_juno",
+          "priority": 2,
+          "dialogue": "juno.cb.notes",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_notes_tilda",
+          "priority": 2,
+          "dialogue": "tilda.cb.notes",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_pumpkin_dorian",
+          "priority": 2,
+          "dialogue": "dorian.cb.pumpkin",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_pumpkin_marcus",
+          "priority": 2,
+          "dialogue": "marcus.cb.pumpkin",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.felix.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_pumpkin_felix",
+          "priority": 2,
+          "dialogue": "felix.cb.pumpkin",
+          "tag": "funny",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.bram.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_whistler_bram",
+          "priority": 2,
+          "dialogue": "bram.cb.whistler",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_whistler_marcus",
+          "priority": 2,
+          "dialogue": "marcus.cb.whistler",
+          "category": "storyline"
+        }
+      ]
+    },
+    {
+      "set": "npc.felix.talk",
+      "entries": [
+        {
+          "condition": "flag:event.story_whistler_felix",
+          "priority": 2,
+          "dialogue": "felix.cb.whistler",
+          "category": "storyline"
+        }
+      ]
+    }
+  ]
+}

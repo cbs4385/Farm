@@ -39,5 +39,44 @@ namespace Farm.Tests
                 Assert.IsFalse(nodes.TryGet(x, y, out _));
             }
         }
+
+        [Test]
+        public void TheForest_GrowsOneTreeADay_InAnEmptyThicketCell_AndNotOnTheFirstVisit()
+        {
+            using (var f = new TestSessionFixture())
+            {
+                var s = f.Session;
+                var tree = s.Nodes.Get(NodeDefaults.Tree);
+                var nodes = s.GetNodes(MapIds.Forest);
+                Assert.AreEqual(0, ForestTrees.Regrow(s, 10), "the first visit grows nothing");
+                ForestTrees.Seed(s);
+                var cells = ForestTrees.Cells().ToList();
+                foreach (var c in cells.Take(20)) nodes.Remove(c.x, c.y);              // twenty felled
+                s.SetVar(ForestTrees.LastGrowthVar, 10 + 1);
+                Assert.AreEqual(1, ForestTrees.Regrow(s, 11), "one day, one tree");
+                Assert.AreEqual(ForestTrees.MostPerVisit, ForestTrees.Regrow(s, 11 + 30), "a long absence adds at most three");
+                Assert.AreEqual(0, ForestTrees.Regrow(s, 11 + 30), "and none twice on the same day");
+                var grown = cells.Take(20).Count(c => nodes.Has(c.x, c.y));
+                Assert.AreEqual(4, grown, "all of them in thicket cells that were empty");
+                Assert.IsFalse(nodes.Nodes.Any(n => n.TypeId == NodeDefaults.Tree && !cells.Contains((n.X, n.Y))), "never anywhere else");
+            }
+        }
+
+        [Test]
+        public void ARegrownTree_NeverTakesTheCellOfASapling_OrAStump()
+        {
+            using (var f = new TestSessionFixture())
+            {
+                var s = f.Session;
+                var nodes = s.GetNodes(MapIds.Forest);
+                ForestTrees.Seed(s);
+                var cells = ForestTrees.Cells().ToList();
+                foreach (var c in cells) { nodes.Remove(c.x, c.y); nodes.Add(c.x, c.y, s.Nodes.Get(NodeDefaults.Stump)); }
+                s.SetVar(ForestTrees.LastGrowthVar, 1);
+                Assert.AreEqual(0, ForestTrees.Regrow(s, 5), "every cell is taken: nothing grows");
+                Assert.AreEqual(-1, ForestTrees.GrowthChoice(0, 5, 0));
+                Assert.That(ForestTrees.GrowthChoice(7, 5, 0), Is.InRange(0, 6));
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ n1 odalys: What's your professional opinion, [player]?
 r0 odalys: Insist? ...Fine. I'll rest. Under protest, with soup, and with a witness.
 r1 odalys: Soup, shared. That's the whole treatment. You've diagnosed me. Accurately.
   expr happy
-r2 odalys: A prescription? For me? Hm. "Come back anyway." I'll follow it to the letter.
+r2 odalys: A prescription? For me? Well. "Come back anyway." I'll follow it to the letter.
   expr happy
 
 dialogue felix.big
@@ -37,9 +37,9 @@ n1 felix: It's this big. Maybe bigger. What do we do?
   ? Measure it honestly. => r2 | friend:felix,10 | flag:choice.big.measure
 r0 felix: The net! Hold steady. ...There she is. A beauty. I'll never doubt your wrist again.
   expr happy
-r1 felix: Let it go? ...Aye. A good fish deserves a long life. And a good story. Both stay.
+r1 felix: Let it go? ...Fine. A good fish deserves a long life. And a good story. Both stay.
   expr happy
-r2 felix: Honestly. Hm. Eleven inches. ...It was this big a moment ago. I'm not saying it was your fault.
+r2 felix: Honestly. Well. Eleven inches. ...It was this big a moment ago. I'm not saying it was your fault.
   emote sweat
 
 dialogue dorian.notebook
@@ -90,14 +90,14 @@ addto npc.marcus.talk
 4 quest:marcus_planks=active => marcus.planks.remind
 5 quest:marcus_planks=active && has:resource.wood>=10 => marcus.planks.turnin
 dialogue marcus.planks.ask
-n0 marcus: Ten planks for the hall roof. Oak if you have it. I'd ask someone else, but you hold a ladder well.
+n0 marcus: Ten planks for the hall roof. Oak if you have it. I'd ask someone else, but you hold a plank well.
   next n1
 n1 marcus: Ten planks, then. I'll measure twice. You'll fetch once.
   ? Yes, I'll bring it. => r0 | quest.start:marcus_planks
   ? Not right now. => r1
-r0 marcus: Good. I'll be here.
+r0 marcus: Good. I'll have the tape out.
   expr happy
-r1 marcus: That's all right. Another time.
+r1 marcus: No hurry. The roof has waited this long.
 
 dialogue marcus.planks.remind
 n0 marcus: Ten planks of wood for the hall roof. I'll measure twice.
@@ -117,9 +117,9 @@ n0 odalys: Three bunches of elderflower for the clinic. Fresh. For a tonic. I'd 
 n1 odalys: Three. Fresh. I'll prescribe you a cup of tea in return.
   ? Yes, I'll bring it. => r0 | quest.start:odalys_elderflower
   ? Not right now. => r1
-r0 odalys: Good. I'll be here.
+r0 odalys: Good. I'll have the kettle ready.
   expr happy
-r1 odalys: That's all right. Another time.
+r1 odalys: Understood. Do not let it keep you up at night.
 
 dialogue odalys.elder.remind
 n0 odalys: Three elderflowers for the tonic. Fresh. I'll note them in the ledger.
@@ -139,9 +139,9 @@ n0 felix: Short on bait. Five, if you've them. The tide's turning, and so's my l
 n1 felix: Five bait. I'll catch something this big. Bigger, by tomorrow.
   ? Yes, I'll bring it. => r0 | quest.start:felix_bait
   ? Not right now. => r1
-r0 felix: Good. I'll be here.
+r0 felix: Good. The tide'll keep.
   expr happy
-r1 felix: That's all right. Another time.
+r1 felix: No matter. The fish aren't going anywhere. Mostly.
 
 dialogue felix.bait.remind
 n0 felix: Five bait for the dawn. The tide's waiting.
@@ -161,9 +161,9 @@ n0 dorian: A basket. Three mushrooms. It's for the forest. Don't ask. Please.
 n1 dorian: Three. Bring them. I'll say thank you later. Quietly.
   ? Yes, I'll bring it. => r0 | quest.start:dorian_basket
   ? Not right now. => r1
-r0 dorian: Good. I'll be here.
+r0 dorian: ...Good. Thank you.
   expr happy
-r1 dorian: That's all right. Another time.
+r1 dorian: ...Fine. The forest is patient.
 
 dialogue dorian.basket.remind
 n0 dorian: Three mushrooms. For the basket.
@@ -183,9 +183,9 @@ n0 elara: I'm out of wool! Two skeins, if you can. The scarf is at the length of
 n1 elara: Two wool! I'll knit you something. A sock, probably.
   ? Yes, I'll bring it. => r0 | quest.start:elara_wool
   ? Not right now. => r1
-r0 elara: Good. I'll be here.
+r0 elara: Yay! The scarf thanks you in advance!
   expr happy
-r1 elara: That's all right. Another time.
+r1 elara: That's okay! I'll knit the scarf a little patience.
 
 dialogue elara.wool.remind
 n0 elara: Two wool for the scarf. It's already the length of a dog.
@@ -205,9 +205,9 @@ n0 ione: A pearl. One. For the reading room. I keep one in my favorite book, and
 n1 ione: A pearl. Small, quiet, and round. I'll set a book aside for you.
   ? Yes, I'll bring it. => r0 | quest.start:ione_pearl
   ? Not right now. => r1
-r0 ione: Good. I'll be here.
+r0 ione: Thank you. I'll set a chair aside for when you're back.
   expr happy
-r1 ione: That's all right. Another time.
+r1 ione: Of course. Requests here never go overdue.
 
 dialogue ione.pearl.remind
 n0 ione: One pearl for the reading room. I'll set a book aside.
