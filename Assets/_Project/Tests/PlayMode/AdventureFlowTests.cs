@@ -75,7 +75,7 @@ namespace Farm.Tests
             Player.Face(Vector2Int.down);
             for (var i = 0; i < 4; i++) yield return null;
             var energy = _s.State.Energy;
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.IsTrue(Ui.AnyModalOpen, "the fishing screen opens");
             Assert.AreEqual(energy - PlayerActions.FishingEnergy, _s.State.Energy);
             yield return Tap(Key.Escape);
@@ -92,7 +92,7 @@ namespace Farm.Tests
             Player.Face(Vector2Int.up);
             for (var i = 0; i < 4; i++) yield return null;
             var energy = _s.State.Energy;
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.IsFalse(Ui.AnyModalOpen);
             Assert.AreEqual(energy, _s.State.Energy);
         }
@@ -107,7 +107,7 @@ namespace Farm.Tests
             Player.transform.position = new Vector3(5.5f, 3.5f, 0f);
             Player.Face(Vector2Int.right);
             for (var i = 0; i < 4; i++) yield return null;
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             var actor = UnityEngine.Object.FindAnyObjectByType<AnimalActor>();
             Assert.IsNotNull(actor);
 
@@ -156,7 +156,7 @@ namespace Farm.Tests
             Player.transform.position = new Vector3(5.5f, 3.5f, 0f);
             Player.Face(Vector2Int.right);
             for (var i = 0; i < 4; i++) yield return null;
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.AreEqual(1, _s.State.Animals.Count, "the chicken moved in");
             var actor = UnityEngine.Object.FindAnyObjectByType<AnimalActor>();
             StringAssert.StartsWith("animal_chicken_", actor.GetComponent<SpriteRenderer>().sprite.name, "it is drawn with the chicken's own art, not a square");

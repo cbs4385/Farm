@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.5 (2026-10-11)
+
+- **Crafting has its own key: C.** It opens the menu on the crafting page. The tool's spare key (it used to be C) is now X, matching the controller's X button; clicking still works as before.
+- **The trees in the forest can be chopped.** The trees of the forest thickets used to be scenery. Now you can fell them with the axe for wood and they leave a stump, as on the farm; a felled tree stays felled. The band of trees round the edge of the map is still scenery.
+- **The village green is not for chopping, breaking or digging.** The trees on the village map can be felled too (use your tools anywhere), but the villagers mind. Anyone who sees it mutters to themselves about it, and one of them walks over to tell you off for damaging public property (once a day). The same goes for breaking the rocks scattered on the green and for digging it with the hoe: the villagers comment on it, and by the next morning they have put the trees, the stones and the lawn back as they were.
+- **Crafted machines are bigger.** The furnace, keg, preserves jar and the scarecrow are drawn half as big again (they still take one cell), like the chest.
+- **Clicking a villager.** The mouse now picks a villager by their picture (their head counts, not only their feet) and from up to two cells away, so you can talk to someone behind a counter from the front, not only from the side.
+- **Machines say what they need.** Using a furnace, keg or jar with nothing in hand lists what it takes ("Copper Bar: 5 Copper Ore and 1 Coal..."); holding the wrong thing says it cannot use it, and holding the right thing without enough says exactly what you are short of.
+- **Chests with a controller.** After you move a whole stack the cursor stays on the same slot instead of jumping back to the top.
+- **No mouse pointer with a controller.** The pointer is hidden and ignored (nothing under it is hovered or clicked) while a controller is in use, and comes back when you move the mouse or press a key. A notice tells you which one the game is using when a game starts and whenever it changes.
+- **Every key is in Options.** The Controls section now lists all of them: tool, interact, turn, backpack, menu, journal, crafting, pause menu, previous and next item, the four walking keys, all twelve item slots, and the menu keys (confirm, back, previous and next tab).
+- **Rebind your controller.** A new "Controller buttons" section lets you move every controller button: click one, then press the button you want. It works with Xbox-style pads and with generic controllers the system sees as joysticks, and Esc or any key cancels. The on-screen hints follow what you choose ("press RT"). "Reset controller buttons" puts them back; "Reset key bindings" resets everything.
 ## 0.4.4 (2026-10-11)
 
 - **The mine is dark.** Down in the mine the light is a quarter as bright and tinted blue. You will want a torch.

@@ -100,9 +100,12 @@ namespace Farm.Gameplay
             return tile != null && WaterShore.IsWaterTile(tile.name);
         }
 
-        public bool IsTillable(Vector3Int cell)
+        // The village green may be dug (the villagers put it back overnight: VillageTrees), though nothing is farmed there.
+        public bool IsTillable(Vector3Int cell) => (_allowFarming || MapId == MapIds.Village) && HasTillableGround(cell);
+
+        // Grass or dirt with nothing solid standing on it, whether or not this map is for farming.
+        public bool HasTillableGround(Vector3Int cell)
         {
-            if (!_allowFarming) return false;
             var tile = _ground.GetTile(cell);
             if (tile == null) return false;
             _tillable ??= new HashSet<string>(_tillableTileNames);

@@ -90,6 +90,7 @@ namespace Farm.Tests
             Assert.Greater(nodes.Count, 5, "something is growing in the wood");
             foreach (var n in nodes.Nodes)
             {
+                if (n.TypeId == NodeDefaults.Tree) continue;                               // the thickets are trees to chop
                 Assert.IsTrue(_session.Nodes.Get(n.TypeId).Tool == ToolType.None, "only things to pick");
                 Assert.Greater(Mathf.Max(Mathf.Abs(n.X - 19), Mathf.Abs(n.Y - 2)), 2, $"clear of the arrival point: {n.X},{n.Y}");
             }

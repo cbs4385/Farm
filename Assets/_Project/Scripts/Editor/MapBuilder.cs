@@ -575,7 +575,7 @@ namespace Farm.Editor
 
         // ---- Forest -------------------------------------------------------------------------------------------
 
-        const int ForestW = 40, ForestH = 30, ForestPathX0 = 18, ForestPathX1 = 20;
+        const int ForestW = ForestTrees.Width, ForestH = ForestTrees.Height, ForestPathX0 = ForestTrees.PathX0, ForestPathX1 = ForestTrees.PathX1;
 
         static void BuildForest()
         {
@@ -596,16 +596,7 @@ namespace Farm.Editor
             AddSpawn("sleepwalk", Center(19, 10));
             AddWarp(Center(19, 0), MapIds.Village, "fromForest", new Vector2(3f, 1f));
 
-            // Trees in thickets and clearings (WoodLayout), leaving the path, the pond and the way to the cave clear.
-            for (var y = 3; y < ForestH - WoodLayout.EdgeThickness; y++)
-                for (var x = WoodLayout.EdgeThickness; x < ForestW - WoodLayout.EdgeThickness; x++)
-                {
-                    if (x >= ForestPathX0 - 2 && x <= ForestPathX1 + 2) continue;
-                    if (x >= 2 && x <= 16 && y >= 3 && y <= 15) continue;             // the pond, its shore and the way to it from the path
-                    if (x >= 21 && x <= 36 && y >= 3 && y <= 7) continue;             // the way to the cave
-                    if (!WoodLayout.ForestTreeAt(x, y)) continue;
-                    AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y) + (Vector3)WoodLayout.Jitter(x, y), solid: true);
-                }
+            // The trees of the thickets are resource nodes, put in when the forest is first visited (ForestTrees): they can be chopped.
 
             // The cave: a path east from the main path to the mouth of the mine.
             for (var x = ForestPathX1 + 1; x <= 34; x++)

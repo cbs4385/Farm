@@ -43,8 +43,56 @@ namespace Farm.Tests
                 var paths = action.bindings.Select(b => b.effectivePath).ToList();
                 Assert.IsTrue(paths.Any(p => p.StartsWith("<Keyboard>") || p.StartsWith("<Mouse>")), $"{action.name}: no keyboard/mouse binding");
                 if (action.name.StartsWith(InputNames.HotbarPrefix) && action.name != InputNames.HotbarNext && action.name != InputNames.HotbarPrev) continue;
+                if (action.name == InputNames.Crafting) continue;                      // a pad reaches crafting through the menu
                 Assert.IsTrue(paths.Any(p => p.StartsWith("<Gamepad>")), $"{action.name}: no gamepad binding");
             }
+        }
+
+        [Test]
+        public void CraftingHasItsOwnKey_C_AndNoOtherKeyIsSharedByTwoGameplayButtons()
+        {
+            var gameplay = _asset.FindActionMap(InputNames.GameplayMap, true);
+            Assert.AreEqual("<Keyboard>/c", gameplay[InputNames.Crafting].bindings.Single().path);
+            Assert.IsFalse(gameplay[InputNames.UseTool].bindings.Any(b => b.path == "<Keyboard>/c"), "C was the tool key: the tool has X now, like the pad");
+            var keys = gameplay.actions.Where(a => a.name != InputNames.Move).SelectMany(a => a.bindings.Select(b => b.path)).Where(p => p.StartsWith("<Keyboard>")).ToList();
+            CollectionAssert.AreEquivalent(keys.Distinct().ToList(), keys, "a key does one thing");
+        }
+
+        [Test]
+        public void TheOptionsList_CoversEveryKeyboardAction_OfTheGameplayAndMenuMaps()
+        {
+            var gameplay = _asset.FindActionMap(InputNames.GameplayMap, true);
+            foreach (var action in gameplay.actions)
+            {
+                if (action.name == InputNames.Move || action.name.StartsWith(InputNames.HotbarPrefix) && action.name != InputNames.HotbarNext && action.name != InputNames.HotbarPrev) continue;
+                CollectionAssert.Contains(InputNames.Rebindable, action.name, action.name + " is missing from the key list");
+            }
+            Assert.AreEqual(InputNames.HotbarSlots, gameplay.actions.Count(a => a.name.StartsWith(InputNames.HotbarPrefix) && a.name != InputNames.HotbarNext && a.name != InputNames.HotbarPrev));
+            foreach (var name in InputNames.PadRebindable) Assert.GreaterOrEqual(BindingNames.IndexOf(gameplay[name], BindingNames.Gamepad), 0, name);
+            var ui = _asset.FindActionMap(InputNames.UiMap, true);
+            foreach (var name in InputNames.UiRebindable) Assert.IsNotNull(ui.FindAction(name), name);
+            foreach (var name in InputNames.UiPadRebindable) Assert.GreaterOrEqual(BindingNames.IndexOf(ui[name], BindingNames.Gamepad), 0, name);
+        }
+
+        [Test]
+        public void ARebound_PadButton_IsNamedInTheHints_AndAFreshOneKeepsItsCuratedText()
+        {
+            var input = new InputService(_asset);
+            Assert.AreEqual("press X", Farm.Core.ControlPrompts.Expand("[[UseTool]]", Farm.Core.InputKind.Gamepad), "untouched: the curated words");
+            var pad = BindingNames.IndexOf(input.UseTool, BindingNames.Gamepad);
+            input.UseTool.ApplyBindingOverride(pad, "<Gamepad>/rightTrigger");
+            Assert.AreEqual("press RT", Farm.Core.ControlPrompts.Expand("[[UseTool]]", Farm.Core.InputKind.Gamepad));
+            Assert.AreEqual("Press RT", Farm.Core.ControlPrompts.Expand("[[UseToolCap]]", Farm.Core.InputKind.Gamepad));
+            Assert.AreEqual("press RT again", Farm.Core.ControlPrompts.Expand("[[UseToolAgain]]", Farm.Core.InputKind.Gamepad));
+            Assert.AreEqual("click (or press X)", Farm.Core.ControlPrompts.Expand("[[UseTool]]", Farm.Core.InputKind.KeyboardMouse), "the keyboard is separate");
+            input.UseTool.ApplyBindingOverride(BindingNames.IndexOf(input.UseTool, BindingNames.Keyboard), "<Keyboard>/v");
+            Assert.AreEqual("click (or press V)", Farm.Core.ControlPrompts.Expand("[[UseTool]]", Farm.Core.InputKind.KeyboardMouse));
+            input.Interact.ApplyBindingOverride(BindingNames.IndexOf(input.Interact, BindingNames.Gamepad), "<Gamepad>/buttonNorth");
+            Assert.AreEqual("Y", Farm.Core.ControlPrompts.Expand("[[Interact]]", Farm.Core.InputKind.Gamepad));
+            input.ResetPadBindings();
+            Assert.AreEqual("press X", Farm.Core.ControlPrompts.Expand("[[UseTool]]", Farm.Core.InputKind.Gamepad), "reset: back to the curated words");
+            Assert.AreEqual("click (or press V)", Farm.Core.ControlPrompts.Expand("[[UseTool]]", Farm.Core.InputKind.KeyboardMouse), "and the keyboard key stays as it was set");
+            Farm.Core.ControlPrompts.ResetForTests();
         }
 
         [Test]

@@ -70,13 +70,13 @@ namespace Farm.Tests
 
             yield return Tap(_keyboard.digit1Key);          // hoe is hotbar slot 1
             Assert.AreEqual(0, session.State.SelectedHotbar);
-            yield return Tap(_keyboard.cKey);                // use tool
+            yield return Tap(_keyboard.xKey);                // use tool
             Assert.IsTrue(grid.IsTilled(21, 10), "hoe via keyboard should till the tile in front");
 
             yield return Tap(_keyboard.digit6Key);          // seeds are hotbar slot 6
             Assert.AreEqual(5, session.State.SelectedHotbar, "key 6 should select the seeds");
             Assert.AreEqual(seeds, session.Backpack.Get(5).ItemId);
-            yield return Tap(_keyboard.cKey);
+            yield return Tap(_keyboard.xKey);
             grid.TryGetTile(21, 10, out var tile);
             Assert.IsNotNull(tile.Crop, "seeds via keyboard should plant a crop on the tilled tile");
             Assert.AreEqual(before - 1, session.Backpack.Count(seeds));
@@ -106,13 +106,13 @@ namespace Farm.Tests
 
             // Seeds on bare grass: nothing is planted, and the player is told why.
             yield return Tap(_keyboard.digit6Key);
-            yield return Tap(_keyboard.cKey);
+            yield return Tap(_keyboard.xKey);
             CollectionAssert.Contains(toasts, L.Get("toast.plant_needs_soil"));
             Assert.IsFalse(grid.IsTilled(21, 10));
 
             // Hoe the tile, then plant with the Interact key (E).
             yield return Tap(_keyboard.digit1Key);
-            yield return Tap(_keyboard.cKey);
+            yield return Tap(_keyboard.xKey);
             Assert.IsTrue(grid.IsTilled(21, 10));
             yield return Tap(_keyboard.digit6Key);
             yield return Tap(_keyboard.eKey);
@@ -121,7 +121,7 @@ namespace Farm.Tests
 
             // A second seed on the same tile is refused with an explanation.
             toasts.Clear();
-            yield return Tap(_keyboard.cKey);
+            yield return Tap(_keyboard.xKey);
             CollectionAssert.Contains(toasts, L.Get("toast.already_planted"));
         }
 
@@ -146,21 +146,21 @@ namespace Farm.Tests
             yield return null;
 
             yield return Tap(_keyboard.digit1Key);   // hoe
-            yield return Tap(_keyboard.cKey);        // tills: spends energy
+            yield return Tap(_keyboard.xKey);        // tills: spends energy
             Assert.AreEqual(1, events.Count);
             Assert.AreEqual(PlayerActions.HoeEnergy, events[0].Cost);
             Assert.AreEqual("Hoe", events[0].Action);
 
-            yield return Tap(_keyboard.cKey);        // already tilled: refused, no energy spent
+            yield return Tap(_keyboard.xKey);        // already tilled: refused, no energy spent
             Assert.AreEqual(1, events.Count, "a refused action is not an energy action");
 
             yield return Tap(_keyboard.digit2Key);   // watering can
-            yield return Tap(_keyboard.cKey);
+            yield return Tap(_keyboard.xKey);
             Assert.AreEqual(2, events.Count);
             Assert.AreEqual("WateringCan", events[1].Action);
 
             yield return Tap(_keyboard.digit3Key);   // axe has no target: nothing happens
-            yield return Tap(_keyboard.cKey);
+            yield return Tap(_keyboard.xKey);
             Assert.AreEqual(2, events.Count);
         }
 

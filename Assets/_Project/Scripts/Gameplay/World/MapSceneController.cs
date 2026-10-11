@@ -35,6 +35,7 @@ namespace Farm.Gameplay
             L.SetLanguage(ServiceLocator.Get<SettingsStore>().Current.Language);
 
             _session.State.CurrentMap = _map.MapId;
+            InputDeviceWatcher.AnnounceAtStart(_session);
             _player.ApplyAvatar(_session.State.Avatar);
             if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
             if (_player.GetComponent<TorchLight>() == null) _player.gameObject.AddComponent<TorchLight>();
@@ -58,7 +59,14 @@ namespace Farm.Gameplay
 
             _player.gameObject.AddComponent<HammerMode>().Init(_player.GetComponent<PlayerActions>(), _map, _session);
             if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
+            if (_map.MapId == MapIds.Forest) ForestTrees.Seed(_session);
+            if (_map.MapId == MapIds.Village)
+            {
+                var restored = VillageTrees.Prepare(_session, _map);
+                if (restored > 0) _session.Toast(L.Get("village.restored"));
+            }
             _session.RunSpawns(_map.MapId, SpawnCandidates);
+            if (_map.MapId == MapIds.Forest || _map.MapId == MapIds.Village) _view.TreeSkin = (x, y) => SeasonalTrees.SpriteAt(_map.MapId, _session.State.WorldSeed, _session.Clock.Now.Season, x, y);
             _view.Bind(_session.GetGrid(_map.MapId), _session.Db, _session.GetNodes(_map.MapId), _session.Nodes);
 
             _camera.SetTarget(_player.transform);
@@ -91,6 +99,7 @@ namespace Farm.Gameplay
             var events = new GameObject("Events").AddComponent<EventDirector>();
             events.Init(_map, _session, npcs, _player);
             if (_map.MapId == MapIds.Village || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
+            if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(_session, npcs, _player, _map);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
             new GameObject("PhotoMode").AddComponent<PhotoMode>().Init(_session, npcs, _player);
             new GameObject("Hover").AddComponent<HoverInspector>().Init(_session, _map);

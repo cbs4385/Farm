@@ -217,7 +217,7 @@ namespace Farm.Tests
             _session.State.SelectedHotbar = slot;
             yield return StandBelow(7.5f, 4.5f, Vector2Int.up);
 
-            yield return Tap(Key.C);                                        // the use-tool key
+            yield return Tap(Key.X);                                        // the use-tool key
             for (var i = 0; i < 3; i++) yield return null;
             Assert.AreEqual(2, _session.Backpack.Count("crop.strawberry"), "one strawberry was given");
             Assert.AreEqual(80, _session.State.Npcs["tilda"].Points, "she loves strawberries");
@@ -225,7 +225,7 @@ namespace Farm.Tests
             yield return FinishConversation();
 
             // Only one gift a day.
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             for (var i = 0; i < 3; i++) yield return null;
             Assert.AreEqual(2, _session.Backpack.Count("crop.strawberry"));
             Assert.That(_toasts, Has.Some.Contains("gift"), "the player is told why");

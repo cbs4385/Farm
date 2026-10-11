@@ -64,6 +64,9 @@ namespace Farm.Gameplay
 
         public bool IsTilled(int x, int y) => _tiles.ContainsKey((x, y));
 
+        // Everything back to bare ground (the villagers undoing the player's digging on the village green).
+        public int Clear() { var n = _tiles.Count; _tiles.Clear(); return n; }
+
         // Caller checks that the ground is tillable. Returns false if already tilled.
         public bool Till(int x, int y)
         {

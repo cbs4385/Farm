@@ -152,6 +152,8 @@ namespace Farm.Gameplay
 
         // Publishes an event on the game's bus (for systems that only hold the session).
         public void Publish<T>(T evt) => _bus.Publish(evt);
+        public void Subscribe<T>(System.Action<T> handler) => _bus.Subscribe(handler);
+        public void Unsubscribe<T>(System.Action<T> handler) => _bus.Unsubscribe(handler);
 
         public void Toast(string message) => _bus.Publish(new ToastRequested(message));
 

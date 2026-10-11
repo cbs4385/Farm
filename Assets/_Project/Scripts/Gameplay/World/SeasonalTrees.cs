@@ -37,6 +37,14 @@ namespace Farm.Gameplay
             return pick < kinds ? pick : -1;
         }
 
+        // The picture of the tree at a cell in the season, or null for the original pine (used for the trees that are nodes).
+        public static Sprite SpriteAt(string mapId, int seed, Season season, int x, int y)
+        {
+            var kinds = Kinds(SetFor(season));
+            var kind = KindAt(seed, mapId, x, y, kinds.Length);
+            return kind < 0 ? null : kinds[kind];
+        }
+
         // Swaps the picture of every tree standing in the scene; returns how many were changed.
         public int Apply(string mapId, int seed, Season season)
         {

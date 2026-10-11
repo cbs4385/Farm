@@ -90,7 +90,7 @@ namespace Farm.Tests
             {
                 enemy.transform.position = target;                      // hold still for the test
                 Player.transform.position = target + new Vector3(-0.8f, 0f, 0f);
-                yield return Tap(Key.C);
+                yield return Tap(Key.X);
                 var wait = Time.realtimeSinceStartup;
                 while (Time.realtimeSinceStartup - wait < CombatModel.SwingCooldown + 0.05f) yield return null;
             }
@@ -114,7 +114,7 @@ namespace Farm.Tests
             Player.transform.position = new Vector3(node.X + free.Item1 + 0.5f, node.Y + free.Item2 + 0.5f, 0f);
             Player.Face(free.Item3);
             for (var i = 0; i < 4; i++) yield return null;
-            for (var i = 0; i < 12 && _s.GetNodes(MapIds.Mine).Has(node.X, node.Y); i++) yield return Tap(Key.C);
+            for (var i = 0; i < 12 && _s.GetNodes(MapIds.Mine).Has(node.X, node.Y); i++) yield return Tap(Key.X);
             Assert.IsFalse(_s.GetNodes(MapIds.Mine).Has(node.X, node.Y), "the node was broken");
         }
 

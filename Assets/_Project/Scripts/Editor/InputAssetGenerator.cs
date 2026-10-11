@@ -48,7 +48,7 @@ namespace Farm.Editor
             move.AddCompositeBinding("2DVector").With("Up", "<Gamepad>/dpad/up", Pad).With("Down", "<Gamepad>/dpad/down", Pad)
                 .With("Left", "<Gamepad>/dpad/left", Pad).With("Right", "<Gamepad>/dpad/right", Pad);
 
-            Button(map, InputNames.UseTool, ("<Mouse>/leftButton", Kbm), ("<Keyboard>/c", Kbm), ("<Gamepad>/buttonWest", Pad), ("<Joystick>/button3", Pad));
+            Button(map, InputNames.UseTool, ("<Mouse>/leftButton", Kbm), ("<Keyboard>/x", Kbm), ("<Gamepad>/buttonWest", Pad), ("<Joystick>/button3", Pad));
             Button(map, InputNames.Interact, ("<Keyboard>/e", Kbm), ("<Mouse>/rightButton", Kbm), ("<Gamepad>/buttonSouth", Pad), ("<Joystick>/button1", Pad));
             Button(map, InputNames.Rotate, ("<Keyboard>/r", Kbm), ("<Gamepad>/buttonEast", Pad), ("<Joystick>/button2", Pad));
             Button(map, InputNames.HotbarNext, ("<Mouse>/scroll/up", Kbm), ("<Keyboard>/period", Kbm), ("<Gamepad>/rightShoulder", Pad), ("<Joystick>/button6", Pad));
@@ -56,6 +56,7 @@ namespace Farm.Editor
             Button(map, InputNames.Inventory, ("<Keyboard>/tab", Kbm), ("<Keyboard>/i", Kbm), ("<Gamepad>/buttonNorth", Pad), ("<Joystick>/button4", Pad));
             Button(map, InputNames.Pause, ("<Keyboard>/escape", Kbm), ("<Gamepad>/start", Pad), ("<Joystick>/button8", Pad));
             Button(map, InputNames.Menu, ("<Keyboard>/m", Kbm), ("<Gamepad>/select", Pad), ("<Joystick>/button7", Pad));
+            Button(map, InputNames.Crafting, ("<Keyboard>/c", Kbm));
             Button(map, InputNames.Journal, ("<Keyboard>/j", Kbm), ("<Gamepad>/rightStickPress", Pad), ("<Joystick>/button10", Pad));
 
             var keys = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "minus", "equals" };

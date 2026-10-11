@@ -206,8 +206,116 @@ namespace Farm.Tests
                 var controls = action.controls.Select(c => c.device).Distinct().ToList();
                 Assert.IsTrue(controls.OfType<Keyboard>().Any() || controls.OfType<Mouse>().Any(), $"{action.name}: keyboard/mouse");
                 if (action.name.StartsWith(InputNames.HotbarPrefix) && action.name != InputNames.HotbarNext && action.name != InputNames.HotbarPrev) continue;
+                if (action.name == InputNames.Crafting) continue;                      // a pad reaches crafting through the menu
                 Assert.IsTrue(controls.OfType<Gamepad>().Any(), $"{action.name}: gamepad");
             }
+        }
+
+        // Playtest 2026-10-11: a tester's controller buttons were not the ones the game named. Every button can be moved from Options, on any pad.
+        [UnityTest]
+        public IEnumerator ABusyPadButton_CanBeMovedToTheRightTrigger_ThroughOptions_AndTheGameSaysSo()
+        {
+            yield return StartFarm();
+            var ui = ServiceLocator.Get<UiService>();
+            var input = ServiceLocator.Get<InputService>();
+            var settings = ServiceLocator.Get<SettingsStore>();
+            ui.ShowOptions();
+            yield return null;
+            yield return null;
+
+            var row = UnityEngine.Object.FindObjectsByType<RectTransform>().First(r => r.gameObject.activeInHierarchy && r.name == L.Get("options.pad_row", L.Get("action.UseTool")));
+            var button = row.GetComponentInChildren<Button>();
+            StringAssert.Contains("X", button.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+            button.onClick.Invoke();
+            yield return null;
+            yield return null;
+            StringAssert.Contains(L.Get("options.press_pad"), button.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+
+            Press(_pad.rightTrigger);
+            yield return null;
+            yield return null;
+            Release(_pad.rightTrigger);
+            yield return null;
+
+            var bound = input.UseTool.bindings.First(b => b.path.StartsWith("<Gamepad>"));
+            Assert.AreEqual("<Gamepad>/rightTrigger", bound.effectivePath);
+            Assert.AreEqual("RT", button.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+            StringAssert.Contains("rightTrigger", settings.Current.BindingOverridesJson, "it is saved with the settings");
+            Assert.AreEqual("press RT", ControlPrompts.Expand("[[UseTool]]", InputKind.Gamepad));
+        }
+
+        [UnityTest]
+        public IEnumerator TheKeyboard_CancelsAPadRebind_LeavingTheButtonAlone()
+        {
+            yield return StartFarm();
+            var ui = ServiceLocator.Get<UiService>();
+            var input = ServiceLocator.Get<InputService>();
+            ui.ShowOptions();
+            yield return null;
+            yield return null;
+            var row = UnityEngine.Object.FindObjectsByType<RectTransform>().First(r => r.gameObject.activeInHierarchy && r.name == L.Get("options.pad_row", L.Get("action.Rotate")));
+            row.GetComponentInChildren<Button>().onClick.Invoke();
+            yield return null;
+            Press(_keyboard.escapeKey);
+            yield return null;
+            yield return null;
+            Release(_keyboard.escapeKey);
+            yield return null;
+            Assert.AreEqual("<Gamepad>/buttonEast", input.Rotate.bindings.First(b => b.path.StartsWith("<Gamepad>")).effectivePath);
+        }
+
+        [UnityTest]
+        public IEnumerator TheOptionsScreen_ListsEveryKey()
+        {
+            yield return StartFarm();
+            var ui = ServiceLocator.Get<UiService>();
+            ui.ShowOptions();
+            yield return null;
+            yield return null;
+            var names = UnityEngine.Object.FindObjectsByType<Button>().Where(b => b.gameObject.activeInHierarchy).Select(b => b.name).ToList();
+            var keyActions = names.Where(n => n.StartsWith("Key_")).Select(n => n.Split('_')[1]).ToList();
+            foreach (var action in InputNames.Rebindable) CollectionAssert.Contains(keyActions, action, action);
+            for (var i = 1; i <= InputNames.HotbarSlots; i++) CollectionAssert.Contains(keyActions, InputNames.HotbarPrefix + i);
+            Assert.AreEqual(4, names.Count(n => n.StartsWith("Key_Move_")), "the four walking keys");
+            Assert.GreaterOrEqual(names.Count(n => n.StartsWith("Pad_")), 13, "and a controller button for each action that has one");
+        }
+
+        [UnityTest]
+        public IEnumerator TheCKey_OpensCrafting()
+        {
+            yield return StartFarm();
+            var ui = ServiceLocator.Get<UiService>();
+            Press(_keyboard.cKey);
+            yield return null;
+            yield return null;
+            Release(_keyboard.cKey);
+            yield return null;
+            Assert.IsTrue(ui.AnyModalOpen, "C opens the crafting page of the menu");
+        }
+
+        [UnityTest]
+        public IEnumerator WithAPad_TheMouseIsIgnored_AndItsPointerIsBack_WhenTheMouseMoves()
+        {
+            yield return StartFarm();
+            var input = ServiceLocator.Get<InputService>();
+            ControlPrompts.SetKind(InputKind.KeyboardMouse);
+            yield return null;
+            Assert.IsTrue(input.Ui[InputNames.Point].enabled, "mouse in use: the pointer works");
+            Assert.IsTrue(Cursor.visible);
+
+            ControlPrompts.SetKind(InputKind.Gamepad);
+            yield return null;
+            Assert.IsFalse(input.Ui[InputNames.Point].enabled, "pad in use: nothing under the mouse is hovered");
+            Assert.IsFalse(input.Ui[InputNames.Click].enabled);
+            Assert.IsFalse(Cursor.visible, "and the pointer is hidden");
+
+            Press(_keyboard.spaceKey);
+            yield return null;
+            yield return null;
+            Release(_keyboard.spaceKey);
+            Assert.AreEqual(InputKind.KeyboardMouse, ControlPrompts.Kind, "a key takes over again (and so does a moving mouse)");
+            Assert.IsTrue(input.Ui[InputNames.Point].enabled);
+            Assert.IsTrue(Cursor.visible);
         }
 
         // ---- rebinding persists through the real Options screen -------------------------------------------------

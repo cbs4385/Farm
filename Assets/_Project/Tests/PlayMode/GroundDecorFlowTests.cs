@@ -110,7 +110,8 @@ namespace Farm.Tests
         public IEnumerator TheTreesOfTheForest_AreOfTheSeasonsKinds()
         {
             yield return Open(MapIds.Forest, Season.Fall);
-            var names = Resources.FindObjectsOfTypeAll<SpriteRenderer>().Where(r => r.gameObject.scene.IsValid() && r.name.StartsWith("Tree_") && r.sprite != null).Select(r => r.sprite.name).ToList();
+            var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();                                  // the thickets are tree nodes, drawn on the nodes tilemap
+            var names = ForestTrees.Cells().Select(c => map.Nodes.GetSprite(new Vector3Int(c.x, c.y, 0))).Where(sp => sp != null).Select(sp => sp.name).ToList();
             Assert.Greater(names.Count, 50, "a wood");
             Assert.IsTrue(names.Any(n => n.StartsWith("tree_fall_")), "fall trees");
             Assert.IsFalse(names.Any(n => n.StartsWith("tree_spring_") || n.StartsWith("tree_winter_")), "and no others");

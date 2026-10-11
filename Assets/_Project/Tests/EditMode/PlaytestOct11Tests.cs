@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Core;
+using Farm.Data;
 using Farm.Gameplay;
 using NUnit.Framework;
 
@@ -43,5 +45,32 @@ namespace Farm.Tests
 
         [Test]
         public void TheShopCounterLabel_PromisesNoSelling() => StringAssert.DoesNotContain("buy and sell", L.Get("hover.shop"));
+
+        [Test]
+        public void AFurnace_SaysWhatItNeeds()
+        {
+            var recipes = new RecipeCatalog(CraftingDefaults.CreateRecipes());
+            var text = CraftingRules.WhatItTakes(Stations.Furnace, recipes, null);
+            StringAssert.Contains("5 " + ItemIds.CopperOre, text);
+            StringAssert.Contains("1 " + ItemIds.Coal, text);
+            var smelt = recipes.ForStation(Stations.Furnace).First();
+            StringAssert.Contains(L.Get("machine.and"), CraftingRules.NeedsText(smelt, null));
+        }
+
+        [Test]
+        public void TheMousePointer_IsHiddenForAPad_AndShownForTheMouse()
+        {
+            Assert.IsFalse(InputDeviceWatcher.CursorShownFor(InputKind.Gamepad));
+            Assert.IsTrue(InputDeviceWatcher.CursorShownFor(InputKind.KeyboardMouse));
+        }
+
+        [Test]
+        public void TheGame_SaysWhichControlsAreInUse()
+        {
+            Assert.AreEqual("input.using_kb", InputDeviceWatcher.AnnouncementKey(InputKind.KeyboardMouse));
+            Assert.AreEqual("input.using_pad", InputDeviceWatcher.AnnouncementKey(InputKind.Gamepad));
+            StringAssert.Contains("controller", L.Get("input.using_pad"));
+            StringAssert.Contains("mouse", L.Get("input.using_kb"));
+        }
     }
 }

@@ -133,7 +133,7 @@ namespace Farm.UI
             var source = SideOf(chestSide);
             var stack = source.Get(slot);
             if (stack == null) return;
-            if (count < stack.Count) _focusName = SlotName(chestSide, slot);             // part of it stays: keep the cursor on it
+            _focusName = SlotName(chestSide, slot);             // keep the cursor on that slot, whether part of the stack stays or all of it goes (playtest 2026-10-11)
             if (ChestTransfer.Move(source, slot, SideOf(!chestSide), intoChest: !chestSide, count: count) > 0)
                 Ui.Session.Toast(L.Get("toast.inventory_full"));
             Rebuild();

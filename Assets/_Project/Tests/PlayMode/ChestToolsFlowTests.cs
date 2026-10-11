@@ -123,7 +123,7 @@ namespace Farm.Tests
             // 1. Put the starter chest down, then move everything in the backpack into it.
             _session.State.SelectedHotbar = SlotOf(_session.Backpack, ItemIds.Machine("chest"));
             yield return Stand(ChestX - 1, ChestY, Vector2Int.right);
-            yield return Tap(_keyboard.cKey);
+            yield return Tap(_keyboard.xKey);
             Assert.IsNotNull(_session.GetObjects(MapIds.Farm).At(ChestX, ChestY), "the chest is placed");
             yield return OpenChest();
             for (var slot = 0; slot < _session.Backpack.Capacity; slot++)
@@ -174,13 +174,13 @@ namespace Farm.Tests
             if (tool == ItemIds.Hoe)
             {
                 yield return Stand(30, 3, Vector2Int.right);
-                yield return Tap(_keyboard.cKey);
+                yield return Tap(_keyboard.xKey);
                 Assert.IsTrue(grid.IsTilled(31, 3), "the hoe tills");
             }
             else if (tool == ItemIds.WateringCan)
             {
                 yield return Stand(30, 3, Vector2Int.right);
-                yield return Tap(_keyboard.cKey);
+                yield return Tap(_keyboard.xKey);
                 Assert.IsTrue(grid.TryGetTile(31, 3, out var tile) && tile.Watered, "the can waters");
             }
             else if (tool == ItemIds.Axe)
@@ -189,27 +189,27 @@ namespace Farm.Tests
                 yield return Stand(30, 4, Vector2Int.right);
                 _session.GetNodes(MapIds.Farm).TryGet(31, 4, out var tree);
                 var hp = tree.Hp;
-                yield return Tap(_keyboard.cKey);
+                yield return Tap(_keyboard.xKey);
                 Assert.Less(tree.Hp, hp, "the axe hurts the tree");
             }
             else if (tool == ItemIds.Pickaxe)
             {
                 _session.GetNodes(MapIds.Farm).Add(31, 5, _session.Nodes.Get("rock")); View.RefreshNode(new Vector3Int(31, 5, 0));
                 yield return Stand(30, 5, Vector2Int.right);
-                for (var i = 0; i < 2; i++) yield return Tap(_keyboard.cKey);
+                for (var i = 0; i < 2; i++) yield return Tap(_keyboard.xKey);
                 Assert.IsFalse(_session.GetNodes(MapIds.Farm).Has(31, 5), "the pickaxe breaks the rock");
             }
             else if (tool == ItemIds.Scythe)
             {
                 _session.GetNodes(MapIds.Farm).Add(31, 6, _session.Nodes.Get("weed")); View.RefreshNode(new Vector3Int(31, 6, 0));
                 yield return Stand(30, 6, Vector2Int.right);
-                yield return Tap(_keyboard.cKey);
+                yield return Tap(_keyboard.xKey);
                 Assert.IsFalse(_session.GetNodes(MapIds.Farm).Has(31, 6), "the scythe cuts the weed; toasts: " + string.Join(" | ", _toasts));
             }
             else if (tool == ItemIds.Sword)
             {
                 yield return Stand(30, 7, Vector2Int.right);
-                yield return Tap(_keyboard.cKey);
+                yield return Tap(_keyboard.xKey);
                 Assert.Less(_session.State.Energy, energy, "the sword swings");
             }
         }

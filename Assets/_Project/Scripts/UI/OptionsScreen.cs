@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using Farm.Core;
 using Farm.Gameplay;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.UI;
 
 namespace Farm.UI
@@ -21,6 +23,7 @@ namespace Farm.UI
         readonly ScrollRect _scroll;
         InputActionRebindingExtensions.RebindingOperation _rebind;
         bool _rebinding;
+        IDisposable _padWait;
 
         public OptionsScreen(UiService ui) : base(ui)
         {
@@ -217,11 +220,34 @@ namespace Farm.UI
             UiKit.Label(lang, L.Get("language.en"), 18f, TextAlignmentOptions.Left, UiKit.DimText);
 
             Section(L.Get("options.controls"));
-            foreach (var action in InputNames.Rebindable) RebindRow(action);
+            Section(L.Get("options.keys"));
+            foreach (var name in InputNames.Rebindable) KeyRow(L.Get("action." + name), Ui.Input.Gameplay[name], -1);
+            var move = Ui.Input.Move;
+            var composite = move.bindings.ToList().FindIndex(x => x.isComposite);
+            for (var i = 0; i < InputNames.MoveParts.Length && composite >= 0; i++) KeyRow(L.Get("action.Move" + InputNames.MoveParts[i]), move, composite + 1 + i);
+            for (var i = 0; i < InputNames.HotbarSlots; i++) KeyRow(L.Get("action.Hotbar", i + 1), Ui.Input.Hotbar(i), -1);
+            foreach (var name in InputNames.UiRebindable) KeyRow(L.Get("action." + name), Ui.Input.Ui[name], -1);
+
+            Section(L.Get("options.pad_buttons"));
+            var hint = UiKit.Label(_content, L.Get("options.pad_hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
+            UiKit.Size(hint.gameObject, -1f, 40f);
+            foreach (var name in InputNames.PadRebindable) PadRow(L.Get("options.pad_row", L.Get("action." + name)), Ui.Input.Gameplay[name]);
+            foreach (var name in InputNames.UiPadRebindable) PadRow(L.Get("options.pad_row", L.Get("action." + name)), Ui.Input.Ui[name]);
+
+            var resetPad = UiKit.MakeButton(_content, L.Get("options.reset_pad"), () =>
+            {
+                Ui.Input.ResetPadBindings();
+                s.BindingOverridesJson = Ui.Input.ExportOverrides();
+                ControlPrompts.NotifyChanged();
+                Build();
+                Ui.FocusFirst(Root);
+            }, 260f, 30f);
+            resetPad.name = "ResetPadBindings";
             var reset = UiKit.MakeButton(_content, L.Get("options.reset_bindings"), () =>
             {
                 Ui.Input.ResetBindings();
                 s.BindingOverridesJson = string.Empty;
+                ControlPrompts.NotifyChanged();
                 Build();
                 Ui.FocusFirst(Root);
             }, 260f, 30f);
@@ -260,19 +286,21 @@ namespace Farm.UI
 
         // ---- rebinding -----------------------------------------------------------------------------------------
 
-        void RebindRow(string actionName)
+        // One keyboard key: the action's first keyboard binding, or the binding at `index` (a part of the walking keys).
+        void KeyRow(string label, InputAction action, int index)
         {
-            var row = Row(L.Get("action." + actionName));
-            var action = Ui.Input.Gameplay[actionName];
-            var index = KeyboardBindingIndex(action);
+            var row = Row(label);
+            if (index < 0) index = KeyboardBindingIndex(action);
+            var at = index;
             Button button = null;
-            button = UiKit.MakeButton(row, BindingText(action, index), () => StartRebind(action, index, button), 220f, 30f);
+            button = UiKit.MakeButton(row, BindingText(action, at), () => StartRebind(action, at, button), 220f, 30f);
+            button.name = "Key_" + action.name + "_" + at;
         }
 
         static int KeyboardBindingIndex(InputAction action)
         {
             for (var i = 0; i < action.bindings.Count; i++)
-                if (!action.bindings[i].isComposite && action.bindings[i].path.StartsWith("<Keyboard>")) return i;
+                if (!action.bindings[i].isComposite && !action.bindings[i].isPartOfComposite && action.bindings[i].path.StartsWith("<Keyboard>")) return i;
             return 0;
         }
 
@@ -291,21 +319,65 @@ namespace Farm.UI
                 .OnComplete(op =>
                 {
                     FinishRebind();
+                    if (action.actionMap.enabled) action.Enable();
                     _store.Current.BindingOverridesJson = Ui.Input.ExportOverrides();
                     UiKit.SetButtonText(button, BindingText(action, index));
+                    ControlPrompts.NotifyChanged();
                 })
                 .OnCancel(op =>
                 {
                     FinishRebind();
+                    if (action.actionMap.enabled) action.Enable();
                     UiKit.SetButtonText(button, BindingText(action, index));
                 });
             _rebind.Start();
+        }
+
+        // ---- the controller's buttons (any pad: an Xbox style one, or a generic one the system sees as a joystick) ----
+
+        static string PadText(InputAction action)
+        {
+            var pad = BindingNames.IndexOf(action, BindingNames.Gamepad);
+            var text = pad >= 0 ? BindingNames.Describe(action, pad) : L.Get("options.pad_none");
+            var joy = BindingNames.IndexOf(action, BindingNames.Joystick);
+            if (BindingNames.IsOverridden(action, joy)) text += " / " + BindingNames.Describe(action, joy);
+            return text;
+        }
+
+        void PadRow(string label, InputAction action)
+        {
+            if (BindingNames.IndexOf(action, BindingNames.Gamepad) < 0) return;
+            var row = Row(label);
+            Button button = null;
+            button = UiKit.MakeButton(row, PadText(action), () => StartPadRebind(action, button), 220f, 30f);
+            button.name = "Pad_" + action.actionMap.name + "_" + action.name;
+        }
+
+        void StartPadRebind(InputAction action, Button button)
+        {
+            if (_rebinding) return;
+            _rebinding = true;
+            UiKit.SetButtonText(button, L.Get("options.press_pad"));
+            _padWait = InputSystem.onAnyButtonPress.Call(control =>
+            {
+                if (!_rebinding) return;
+                // A key or the mouse cancels; a button on any pad becomes the action's.
+                if (BindingNames.RebindPad(action, control))
+                {
+                    _store.Current.BindingOverridesJson = Ui.Input.ExportOverrides();
+                    ControlPrompts.NotifyChanged();
+                }
+                FinishRebind();
+                UiKit.SetButtonText(button, PadText(action));
+            });
         }
 
         void FinishRebind()
         {
             _rebind?.Dispose();
             _rebind = null;
+            _padWait?.Dispose();
+            _padWait = null;
             // Defer so the Escape that cancelled the rebind does not also close this screen.
             Ui.StartCoroutine(ClearRebindFlag());
         }
@@ -321,6 +393,8 @@ namespace Farm.UI
             _rebind?.Cancel();
             _rebind?.Dispose();
             _rebind = null;
+            _padWait?.Dispose();
+            _padWait = null;
             _rebinding = false;
         }
     }

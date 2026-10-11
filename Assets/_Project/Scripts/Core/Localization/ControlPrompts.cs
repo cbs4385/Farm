@@ -16,7 +16,12 @@ namespace Farm.Core
         public static InputKind Kind { get; private set; } = InputKind.KeyboardMouse;
         public static event Action Changed;
 
-        static ControlPrompts() => TestResets.Add(() => Kind = InputKind.KeyboardMouse);          // a test that used a pad must not leave the next one with the mouse ignored
+        // Set by the input service: the text for a control the player has rebound (null for one still on its default, which has curated text in the language table).
+        public static Func<InputKind, string, string> Rebound;
+
+        public static void NotifyChanged() => Changed?.Invoke();
+
+        static ControlPrompts() => TestResets.Add(() => { Kind = InputKind.KeyboardMouse; Rebound = null; });          // a test that used a pad must not leave the next one with the mouse ignored
 
         public static void SetKind(InputKind kind)
         {
@@ -25,7 +30,7 @@ namespace Farm.Core
             Changed?.Invoke();
         }
 
-        public static void ResetForTests() { Kind = InputKind.KeyboardMouse; Changed = null; }
+        public static void ResetForTests() { Kind = InputKind.KeyboardMouse; Changed = null; Rebound = null; }
 
         public static string KeyFor(InputKind kind, string action) => (kind == InputKind.Gamepad ? "prompt.pad." : "prompt.kb.") + action;
 
@@ -46,7 +51,8 @@ namespace Farm.Core
                 result.Append(text, i, start - i);
                 var name = text.Substring(start + Open.Length, end - start - Open.Length);
                 var key = KeyFor(kind, name);
-                result.Append(L.Has(key) ? L.Get(key) : name);
+                var rebound = Rebound?.Invoke(kind, name);
+                result.Append(rebound ?? (L.Has(key) ? L.Get(key) : name));
                 i = end + Close.Length;
             }
             return result.ToString();

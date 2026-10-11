@@ -101,6 +101,27 @@ namespace Farm.Gameplay
             return LoadResult.Loaded;
         }
 
+        // "5 Copper Ore and 1 Coal": what a recipe takes, in words.
+        public static string NeedsText(RecipeDefinition recipe, GameDatabase db)
+        {
+            var parts = recipe.Ingredients.Select(i =>
+            {
+                var name = i.AnyOf != null && i.AnyOf.Length > 0 ? L.Get(i.ItemId)
+                    : db != null && db.TryGetItem(i.ItemId, out var item) ? L.Get(item.NameKey) : i.ItemId;
+                return $"{i.Count} {name}";
+            }).ToList();
+            return parts.Count <= 1 ? string.Join("", parts) : string.Join(", ", parts.Take(parts.Count - 1)) + " " + L.Get("machine.and") + " " + parts[parts.Count - 1];
+        }
+
+        // What a machine can make and what each thing needs, for a player who does not know ("Copper Bar: 5 Copper Ore and 1 Coal. Iron Bar: ...").
+        public static string WhatItTakes(string station, RecipeCatalog recipes, GameDatabase db, int most = 3)
+        {
+            var list = recipes.ForStation(station).ToList();
+            var shown = list.Take(most).Select(r =>
+                $"{(db != null && db.TryGetItem(r.OutputItemId, out var made) ? L.Get(made.NameKey) : r.OutputItemId)}: {NeedsText(r, db)}").ToList();
+            return string.Join(". ", shown) + (list.Count > most ? L.Get("machine.and_more") : "");
+        }
+
         // Takes the finished output. Returns false when it is not ready or the backpack has no room (nothing changes).
         public static bool TryCollect(PlacedObject machine, Inventory backpack, int nowMinute)
         {

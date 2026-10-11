@@ -77,7 +77,7 @@ namespace Farm.Tests
                 enemy.transform.position = at + Vector3.right * 1.0f;          // held still, one cell in front
                 Player.transform.position = at;
                 var health = enemy.Brain.Health;
-                yield return Tap(Key.C);
+                yield return Tap(Key.X);
                 sparks |= UnityEngine.Object.FindObjectsByType<ActionPuff>(FindObjectsSortMode.None).Length > 0;
                 if (enemy == null) { hits++; feedback = true; break; }         // it died: that is a hit too
                 if (enemy.Brain.Health < health) { hits++; feedback |= enemy.HealthBarShown; }

@@ -10,6 +10,11 @@ namespace Farm.Gameplay
     {
         public string HoverLabel => Definition != null ? Farm.Core.L.Get("item.machine." + Definition.Id + ".name") : null;
 
+        // Machines and scarecrows are drawn half as big again (playtest 2026-10-11: "the crafted items need to be bigger"): they stand on their cell and rise above it,
+        // as the chest does. Chests, sprinklers and furniture keep their size.
+        public const float MachineScale = 1.5f;
+        public static float ScaleFor(PlaceableKind kind) => kind == PlaceableKind.Machine || kind == PlaceableKind.Scarecrow ? MachineScale : 1f;
+
         SpriteRenderer _renderer;
 
         public PlacedObject Object { get; private set; }
@@ -26,8 +31,15 @@ namespace Farm.Gameplay
             _renderer.sprite = def.Sprite;
             _renderer.sortingOrder = 4;
 
+            var scale = ScaleFor(def.Kind);
+            if (scale != 1f)
+            {
+                transform.localScale = new Vector3(scale, scale, 1f);
+                transform.position = position + new Vector3(0f, (scale - 1f) * 0.5f, 0f);          // the foot of the picture stays on the cell
+            }
             var box = gameObject.AddComponent<BoxCollider2D>();
-            box.size = Vector2.one;
+            box.size = Vector2.one / scale;                                                          // one cell, however big the picture is
+            box.offset = new Vector2(0f, -(scale - 1f) * 0.5f / scale);
             // Sprinklers can be walked over; everything else blocks the way. Both can be found by a point query.
             box.isTrigger = def.Kind == PlaceableKind.Sprinkler || def.Walkable;
             if (def.Walkable) _renderer.sortingOrder = 1;       // a rug lies under everything that walks over it

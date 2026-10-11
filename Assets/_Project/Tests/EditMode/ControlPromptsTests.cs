@@ -52,7 +52,7 @@ namespace Farm.Tests
             StringAssert.Contains("press X", L.Get("tool.use.hoe"));
             StringAssert.DoesNotContain("click", L.Get("tool.use.hoe"));
             ControlPrompts.SetKind(InputKind.KeyboardMouse);
-            StringAssert.Contains("click (or press C)", L.Get("tool.use.hoe"));
+            StringAssert.Contains("click (or press X)", L.Get("tool.use.hoe"));
         }
 
         [Test]

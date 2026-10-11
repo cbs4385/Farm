@@ -82,10 +82,10 @@ namespace Farm.Tests
             var bob = player.GetComponent<WalkBob>();
             var session = ServiceLocator.Get<GameSession>();
             var recorder = player.gameObject.AddComponent<SpriteRecorder>();
-            Press(_keyboard.cKey);
+            Press(_keyboard.xKey);
             var end = Time.realtimeSinceStartup + 2f;
             while (Time.realtimeSinceStartup < end && recorder.Names.Count(n => n.Contains("_strike_")) < 3) yield return null;
-            Release(_keyboard.cKey);
+            Release(_keyboard.xKey);
             var frames = new HashSet<string>(recorder.Names.Where(n => n.Contains("_strike_")).Select(n => n.Substring(n.IndexOf("_strike_", System.StringComparison.Ordinal))));
             Assert.GreaterOrEqual(frames.Count, 2, "the swing shows more than one frame: " + string.Join(", ", frames));
             Assert.IsTrue(frames.All(f => f.StartsWith("_strike_")), "of the tool in hand");

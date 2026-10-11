@@ -1,3 +1,4 @@
+using System.Linq;
 using Farm.Core;
 using Farm.Data;
 
@@ -53,15 +54,19 @@ namespace Farm.Gameplay
                 session.Toast(L.Get("machine.busy", left >= 1440 ? L.Get("machine.days", (left + 1439) / 1440) : L.Get("machine.hours", (left + 59) / 60)));
                 return;
             }
-            if (string.IsNullOrEmpty(heldItemId)) { session.Toast(L.Get("machine.hint")); return; }
+            if (string.IsNullOrEmpty(heldItemId)) { session.Toast(L.Get("machine.hint") + " " + CraftingRules.WhatItTakes(def.Station, session.Recipes, session.Db)); return; }
 
             switch (CraftingRules.TryLoad(obj, def, heldItemId, session.Recipes, session.Backpack, now, out var started))
             {
                 case LoadResult.Loaded:
                     session.Toast(L.Get("machine.started", session.Db.TryGetItem(started.OutputItemId, out var item) ? L.Get(item.NameKey) : started.OutputItemId));
                     break;
-                case LoadResult.MissingIngredients: session.Toast(L.Get("machine.missing")); break;
-                default: session.Toast(L.Get("machine.hint")); break;
+                case LoadResult.MissingIngredients:
+                    var wanted = session.Recipes.ForStation(def.Station).FirstOrDefault(r => r.Ingredients.Any(i => i.Accepts(heldItemId)));
+                    session.Toast(wanted != null ? L.Get("machine.missing_for", session.Db.TryGetItem(wanted.OutputItemId, out var out1) ? L.Get(out1.NameKey) : wanted.OutputItemId, CraftingRules.NeedsText(wanted, session.Db))
+                        : L.Get("machine.missing"));
+                    break;
+                default: session.Toast(L.Get("machine.cannot_use", session.Db.TryGetItem(heldItemId, out var held) ? L.Get(held.NameKey) : heldItemId) + " " + CraftingRules.WhatItTakes(def.Station, session.Recipes, session.Db)); break;
             }
         }
 

@@ -132,7 +132,7 @@ namespace Farm.Tests
             _session.Backpack.Add("crop.parsnip", 9);
 
             yield return Face(20, 8, Vector2Int.right, "machine.chest");      // faces (21, 8): open grass
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             var placed = _session.GetObjects(MapIds.Farm).At(21, 8);
             Assert.IsNotNull(placed, "the chest is placed in front of the player");
             Assert.AreEqual(0, _session.Backpack.Count("machine.chest"));
@@ -153,10 +153,10 @@ namespace Farm.Tests
 
             // A full chest cannot be picked up; an empty one can, with the axe.
             yield return Face(20, 8, Vector2Int.right, ItemIds.Axe);
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.IsTrue(_session.GetObjects(MapIds.Farm).Has(21, 8), "it still holds parsnips");
             _session.GetObjects(MapIds.Farm).ChestOf(placed).Remove("crop.parsnip", 9);
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.IsFalse(_session.GetObjects(MapIds.Farm).Has(21, 8));
             Assert.AreEqual(1, _session.Backpack.Count("machine.chest"));
         }
@@ -170,7 +170,7 @@ namespace Farm.Tests
             _session.GetNodes(MapIds.Farm).Remove(21, 8);                      // the morning's clutter may have landed on the spot
             UnityEngine.Object.FindAnyObjectByType<FarmMapView>().RefreshAll();
             yield return Face(20, 8, Vector2Int.right, "machine.chest");
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             var placed = _session.GetObjects(MapIds.Farm).At(21, 8);
             Assert.IsNotNull(placed, "the chest is placed");
 
@@ -208,13 +208,13 @@ namespace Farm.Tests
             _session.Backpack.Add("machine.sprinkler1", 1);
             _session.GetGrid(MapIds.Farm).Till(21, 8);
             yield return Face(20, 8, Vector2Int.right, "machine.chest");
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.IsFalse(_session.GetObjects(MapIds.Farm).Has(21, 8), "not on tilled soil");
 
             yield return Face(20, 9, Vector2Int.right, "machine.chest");
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.IsTrue(_session.GetObjects(MapIds.Farm).Has(21, 9));
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.AreEqual(1, _session.Backpack.Count("machine.chest"), "the second chest was not put on top of the first");
         }
 
@@ -225,7 +225,7 @@ namespace Farm.Tests
             _session.Backpack.Add("machine.keg", 1);
             _session.Backpack.Add("crop.parsnip", 2);
             yield return Face(20, 8, Vector2Int.right, "machine.keg");
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             var keg = _session.GetObjects(MapIds.Farm).At(21, 8);
             Assert.IsNotNull(keg);
 
@@ -273,7 +273,7 @@ namespace Farm.Tests
             _session.SetEnergy(100);
             yield return Tap(Key.Escape);
             _session.State.SelectedHotbar = Enumerable.Range(0, _session.Backpack.Capacity).First(i => _session.Backpack.Get(i)?.ItemId == "food.salad");
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             Assert.AreEqual(140, _session.State.Energy);
             Assert.AreEqual(0, _session.Backpack.Count("food.salad"));
         }
@@ -310,10 +310,10 @@ namespace Farm.Tests
             _session.Backpack.Add("seed.pumpkin", 1);
             _session.State.SelectedHotbar = Enumerable.Range(0, _session.Backpack.Capacity).First(i => _session.Backpack.Get(i)?.ItemId == ItemIds.Hoe);
             yield return Face(7, 4, Vector2Int.up);
-            yield return Tap(Key.C);                                           // till (7, 5)
+            yield return Tap(Key.X);                                           // till (7, 5)
             Assert.IsTrue(_session.GetGrid(MapIds.Greenhouse).IsTilled(7, 5));
             yield return Face(7, 4, Vector2Int.up, "seed.pumpkin");
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             _session.GetGrid(MapIds.Greenhouse).TryGetTile(7, 5, out var tile);
             Assert.IsNotNull(tile.Crop, "pumpkins (a fall crop) grow in the winter greenhouse");
         }
@@ -327,7 +327,7 @@ namespace Farm.Tests
             _session.Backpack.Add("seed.tree_apple", 1);
             _session.GetGrid(MapIds.Farm).Till(21, 8);
             yield return Face(20, 8, Vector2Int.right, "seed.tree_apple");
-            yield return Tap(Key.C);
+            yield return Tap(Key.X);
             _session.GetGrid(MapIds.Farm).TryGetTile(21, 8, out var tile);
             Assert.IsNotNull(tile.Crop, "saplings are planted in winter");
 

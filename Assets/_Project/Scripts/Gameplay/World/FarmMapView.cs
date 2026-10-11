@@ -98,10 +98,28 @@ namespace Farm.Gameplay
                 return;
             }
             var def = _nodeCatalog.Get(node.TypeId);
+            var skin = def != null && def.Id == NodeDefaults.Tree ? TreeSkin?.Invoke(x, y) : null;
+            if (skin != null)
+            {
+                if (!_skinTiles.TryGetValue(skin, out var skinTile))
+                {
+                    skinTile = ScriptableObject.CreateInstance<Tile>();
+                    skinTile.sprite = skin;
+                    skinTile.name = skin.name;
+                    skinTile.colliderType = Tile.ColliderType.Grid;
+                    _skinTiles[skin] = skinTile;
+                }
+                _map.Nodes.SetTile(cell, skinTile);
+                return;
+            }
             _map.Nodes.SetTile(cell, def?.Sprite != null ? NodeTileFor(def) : null);
         }
 
         readonly Dictionary<string, Tile> _nodeTiles = new Dictionary<string, Tile>();
+        readonly Dictionary<Sprite, Tile> _skinTiles = new Dictionary<Sprite, Tile>();
+
+        // Another picture for a tree at a cell (the forest's trees follow the seasons); null keeps the node's own picture.
+        public System.Func<int, int, Sprite> TreeSkin;
 
         // Solid nodes block walking through their cell; weeds do not.
         Tile NodeTileFor(ResourceNodeDefinition def)

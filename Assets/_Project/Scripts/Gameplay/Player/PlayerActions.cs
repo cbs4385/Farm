@@ -79,7 +79,7 @@ namespace Farm.Gameplay
         {
             var mouse = UnityEngine.InputSystem.Mouse.current;
             var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
-            if (mouse == null || settings == null || !settings.MouseAim || _input.GameplayBlocked) { _mouseAim = false; return; }
+            if (mouse == null || settings == null || !settings.MouseAim || _input.GameplayBlocked || ControlPrompts.Kind == InputKind.Gamepad) { _mouseAim = false; return; }          // a pad in use: the mouse is ignored
             var position = mouse.position.ReadValue();
             var moved = (position - _lastMouse).sqrMagnitude > 1f;
             _lastMouse = position;
@@ -127,6 +127,7 @@ namespace Farm.Gameplay
             if (_input.Inventory.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui)) ui.ToggleInventory();
             if (_input.Pause.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui2)) ui2.ShowPause();
             if (_input.Menu.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui3)) ui3.ShowGameMenu();
+            if (_input.Crafting.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui5)) ui5.ShowGameMenu(MenuTabs.Crafting);
             if (_input.Journal.WasPressedThisFrame() && ServiceLocator.TryGet<IUiService>(out var ui4)) ui4.ShowGameMenu(MenuTabs.Journal);
         }
 
@@ -181,6 +182,29 @@ namespace Farm.Gameplay
             }
         }
 
+        // The villager whose picture the mouse is over: the picture is two cells tall (the head is in the cell above their feet), and a counter may stand between (playtest
+        // 2026-10-11: "I can only click on Tilda from the side and not the front"). Within two cells of the player.
+        public static NpcActor PointedVillager(Vector3Int playerCell, Vector3Int pointerCell, System.Collections.Generic.IEnumerable<NpcActor> actors, System.Func<Vector3, Vector3Int> toCell)
+        {
+            NpcActor best = null;
+            var bestDistance = int.MaxValue;
+            foreach (var actor in actors)
+            {
+                if (actor == null) continue;
+                var feet = toCell(actor.transform.position);
+                if (pointerCell != feet && pointerCell != feet + Vector3Int.up) continue;
+                var d = Mathf.Max(Mathf.Abs(feet.x - playerCell.x), Mathf.Abs(feet.y - playerCell.y));
+                if (d > 2 || d >= bestDistance) continue;
+                best = actor; bestDistance = d;
+            }
+            return best;
+        }
+
+        NpcActor NpcUnderPointer() =>
+            _mouseAim && NpcManager.Current != null
+                ? PointedVillager(_map.WorldToCell(_player.CellSamplePoint), _pointerCell, NpcManager.Current.Actors.Values, _map.WorldToCell)
+                : null;
+
         NpcActor NpcAt(Vector3Int cell) => NpcManager.Current != null ? NpcManager.Current.ActorNear(cell) : null;
 
         void UseTool(ToolType tool)
@@ -199,6 +223,7 @@ namespace Farm.Gameplay
                     if (!_map.IsTillable(cell)) { Session.Toast(L.Get("toast.cannot_till")); return; }
                     if (!SpendEnergy(cost)) return;
                     grid.Till(cell.x, cell.y);
+                    if (_map.MapId == MapIds.Village) Session.Publish(new VillageDamaged(cell.x, cell.y, true, VillageDamage.Soil));
                     Session.AddVar(QuestLog.Stats.Tilled, 1);
                     AudioService.PlayIfAvailable(Sfx.Hoe);
                     ActionPuff.Burst(_map.CellCenter(cell), new Color(0.45f, 0.30f, 0.16f), 3, Fx.DigDirt);
@@ -310,6 +335,8 @@ namespace Farm.Gameplay
             var result = nodes.Hit(cell.x, cell.y, tool, tier, Session.Nodes.Get, roll);
             ActionPuff.Burst(_map.CellCenter(cell), result.Outcome == NodeHit.Cleared ? new Color(0.7f, 0.62f, 0.45f) : new Color(0.75f, 0.75f, 0.75f), result.Outcome == NodeHit.Cleared ? 7 : 3,
                 tool == ToolType.Axe ? Fx.ChopChip : tool == ToolType.Pickaxe ? Fx.OreSpark : Fx.Dust);
+            if (_map.MapId == MapIds.Village && (result.Outcome == NodeHit.Cleared || result.Outcome == NodeHit.Damaged) && VillageDamaged.TryKindOf(node.TypeId, out var damage))
+                Session.Publish(new VillageDamaged(cell.x, cell.y, result.Outcome == NodeHit.Cleared, damage));
             if (result.Outcome == NodeHit.Cleared)
             {
                 if (!string.IsNullOrEmpty(result.DropItemId) && result.DropCount > 0)
@@ -550,7 +577,7 @@ namespace Farm.Gameplay
             if (GetComponent<HammerMode>() is HammerMode hammer && hammer.Carrying) return false;
 
             var cell = TargetCell;
-            if (NpcAt(cell) != null) return item == null || item.IsTool;
+            if (NpcAt(cell) != null || NpcUnderPointer() != null) return item == null || item.IsTool;
             if (AnimalManager.Current != null && AnimalManager.Current.ActorAt(cell) != null) return true;
             if (Session.GetGrid(_map.MapId).IsMature(cell.x, cell.y, CropLookup)) return true;
             if (Session.GetNodes(_map.MapId).TryGet(cell.x, cell.y, out var node) && Session.Nodes.Get(node.TypeId) is ResourceNodeDefinition def && def.Tool == ToolType.None) return true;
@@ -563,6 +590,8 @@ namespace Farm.Gameplay
             if (GetComponent<HammerMode>() is HammerMode hammer && hammer.Cancel()) return;          // the Interact button puts a lifted thing back
             var cell = TargetCell;
             var grid = Session.GetGrid(_map.MapId);
+
+            if (NpcUnderPointer() is NpcActor pointed) { pointed.Interact(this); return; }          // the mouse is on a villager
 
             if (grid.IsWithered(cell.x, cell.y)) { Session.Toast(L.Get("toast.crop_withered")); return; }
 

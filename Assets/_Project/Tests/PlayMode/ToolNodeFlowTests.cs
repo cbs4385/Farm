@@ -84,7 +84,7 @@ namespace Farm.Tests
             yield return null;
         }
 
-        IEnumerator Swing() => Tap(_keyboard.cKey);
+        IEnumerator Swing() => Tap(_keyboard.xKey);
 
         // Hotbar order in a new game: hoe, watering can, axe, pickaxe, scythe.
         IEnumerator UseAxe() { yield return Tap(_keyboard.digit3Key); }

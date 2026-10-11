@@ -64,9 +64,9 @@ namespace Farm.Tests
         [UnityTest]
         public IEnumerator ATree_LeansOnAChild_AndItsColliderStaysPut()
         {
-            yield return Load(MapIds.Village);
+            yield return Load(MapIds.Woods);                                     // the village and forest trees are nodes now: the woods still has trees standing in the scene
             var trees = UnityEngine.Object.FindObjectsByType<ObjectSway>(FindObjectsSortMode.None);
-            Assert.GreaterOrEqual(trees.Length, 4, "the village trees sway");
+            Assert.GreaterOrEqual(trees.Length, 4, "the trees of the woods sway");
             var tree = trees.First(t => t.GetComponent<BoxCollider2D>() != null);          // the edge trees have no collider of their own (the band under them blocks)
             var collider = tree.GetComponent<BoxCollider2D>();
             var colliderAt = collider.bounds.center;

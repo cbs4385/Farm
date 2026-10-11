@@ -97,7 +97,7 @@ namespace Farm.Tests
 
             // MapLoaded fired, and the atmosphere layer it pushed darkens the real scene light.
             Assert.AreEqual(MapIds.Farm, _module.LoadedMap);
-            var light = UnityEngine.Object.FindAnyObjectByType<Light2D>();
+            var light = UnityEngine.Object.FindObjectsByType<Light2D>(FindObjectsSortMode.None).First(l => l.lightType == Light2D.LightType.Global);
             Assert.Less(light.color.r, 0.05f, "atmosphere layer should tint the day/night light");
 
             // The HUD widget was built and refreshed by the UI layer.

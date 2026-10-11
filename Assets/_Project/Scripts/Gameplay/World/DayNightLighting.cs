@@ -86,7 +86,7 @@ namespace Farm.Gameplay
             if (_indoor)
             {
                 var room = _cave ? Cave : Indoor;
-                var indoor = _atmosphere != null && !_cave ? _atmosphere.Stack.Apply(room) : room;
+                var indoor = _atmosphere != null ? _atmosphere.Stack.Apply(room) : room;
                 _light.color = _overrideWeight > 0f ? Color.Lerp(indoor, _overrideColor, _overrideWeight) : indoor;
                 _light.intensity = 1f;
                 return;
