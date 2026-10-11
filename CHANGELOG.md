@@ -2,6 +2,8 @@
 
 ## 0.4.3 (2026-10-10, held for review)
 
+A first-days coach: a small card above the hotbar gives one tip at a time for what to do next (till, plant, water, wait and sleep, harvest, ship), moving on by itself as you do each thing, using the buttons of whatever you are playing with. It disappears after your first shipment, can be skipped with its button, and can be switched off in Options ("Tips for the first days").
+
 More playtest fixes:
 - **Say what things are.** Everything in the farmhouse (and every cottage) now has a name when the mouse rests on it or a controller faces it: sofa, shelf, rug, clock, lamp and so on. They said nothing before.
 - **Controllers.** A line at the bottom left names the main buttons while a controller is in use (tool, use and harvest, backpack, and View for the menu and map).

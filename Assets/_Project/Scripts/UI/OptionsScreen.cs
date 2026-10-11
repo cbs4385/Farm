@@ -195,6 +195,8 @@ namespace Farm.UI
             Section(L.Get("options.gameplay"));
             var hoverRow = Row(L.Get("options.hover_labels"));
             UiKit.MakeToggle(hoverRow, L.Get("ui.on"), s.HoverLabels, on => s.HoverLabels = on, 220f).name = "HoverLabels";
+            var tipsRow = Row(L.Get("options.tutorial_tips"));
+            UiKit.MakeToggle(tipsRow, L.Get("ui.on"), s.TutorialTips, on => s.TutorialTips = on, 220f).name = "TutorialTips";
             var trackerRow = Row(L.Get("options.quest_tracker"));
             UiKit.MakeToggle(trackerRow, L.Get("ui.on"), s.QuestTracker, on => s.QuestTracker = on, 220f).name = "QuestTracker";
             var aim = Row(L.Get("options.mouse_aim"));

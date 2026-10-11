@@ -107,6 +107,7 @@ namespace Farm.UI
             BuildExtensions(canvas);
             BuildQuestTracker(canvas);
             BuildPadHint(canvas);
+            BuildCoach(canvas);
             BuildSelectionHelp(canvas);
 
             ui.Bus.Subscribe<StatsChanged>(_ => _dirty = true);
@@ -335,6 +336,37 @@ namespace Farm.UI
             _tracker.rectTransform.pivot = new Vector2(1, 1);
         }
 
+        // The first-days coach: a card above the hotbar with one tip at a time (TutorialCoach) and a button to skip them.
+        Image _coachPanel;
+        TextMeshProUGUI _coach;
+
+        void BuildCoach(Transform canvas)
+        {
+            _coachPanel = UiKit.Panel(canvas, "TutorialCoach", new Color(0.09f, 0.07f, 0.06f, 0.88f));
+            _coachPanel.raycastTarget = false;          // only the Skip button takes the mouse: the card must not eat clicks aimed at the ground behind it
+            UiKit.Place(_coachPanel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(760, 64), new Vector2(0, 86));
+            _coach = UiKit.Label(_coachPanel.transform, "", 17f, TextAlignmentOptions.MidlineLeft);
+            _coach.name = "CoachText";
+            _coach.raycastTarget = false;
+            UiKit.Place(_coach.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(600, 60), new Vector2(12, 2));
+            _coach.textWrappingMode = TextWrappingModes.Normal;
+            var skip = UiKit.MakeButton(_coachPanel.transform, L.Get("tutorial.coach.skip"), () => { if (_ui.Session != null) TutorialCoach.Skip(_ui.Session); }, 120f, 34f);
+            skip.name = "CoachSkip";
+            UiKit.Place((RectTransform)skip.transform, new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(120, 34), new Vector2(-10, 0));
+            _coachPanel.gameObject.SetActive(false);
+        }
+
+        void UpdateCoach()
+        {
+            if (_coachPanel == null) return;
+            var s = _ui.Session;
+            var onFarm = s != null && s.InGame && (s.State.CurrentMap == MapIds.Farm || s.State.CurrentMap == MapIds.FarmHouse);
+            var text = onFarm && !_ui.AnyModalOpen ? TutorialCoach.Text(s) : string.Empty;
+            var show = text.Length > 0;
+            if (_coachPanel.gameObject.activeSelf != show) _coachPanel.gameObject.SetActive(show);
+            if (show && _coach.text != text) _coach.text = text;
+        }
+
         // For a player with a pad: what its main buttons do, small at the bottom left, so that the menu and the map are not a secret (playtest 2026-10-10).
         TextMeshProUGUI _padHint;
 
@@ -477,6 +509,7 @@ namespace Farm.UI
             TickToast();
             UpdateQuestTracker(_dirty);
             UpdatePadHint();
+            UpdateCoach();
             UpdateSelectionHelp();
             if (!_dirty) return;
             _dirty = false;
