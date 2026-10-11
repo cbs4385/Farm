@@ -46,6 +46,7 @@ namespace Farm.Tests
             _session = ServiceLocator.Get<GameSession>();
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
+            _session.SetFlag(TutorialCoach.SkipFlag);          // the tip card is on top of the hotbar's label otherwise (see the last test)
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
@@ -85,6 +86,23 @@ namespace Farm.Tests
             var empty = Enumerable.Range(0, InputNames.HotbarSlots).First(i => _session.Backpack.Get(i) == null);
             yield return PointAtSlot(empty);
             Assert.IsNull(ui.HoverText, "an empty slot has nothing to say");
+        }
+
+        // Playtest 2026-10-10: at the start of a new game the tip card and the hotbar's label were drawn on top of each other: no label while a tip is shown.
+        [UnityTest]
+        public IEnumerator WhileATipCardIsShown_TheHotbarLabelStaysAway_AndComesBackWhenTheTipsAreSkipped()
+        {
+            yield return Enter();
+            var ui = ServiceLocator.Get<UiService>();
+            _session.State.Flags.Remove(TutorialCoach.SkipFlag);          // as in a new game
+            for (var i = 0; i < 30; i++) yield return null;
+            yield return PointAtSlot(0);
+            Assert.IsNull(ui.HoverText, "a tip is up: the slot's label is not shown over it");
+
+            TutorialCoach.Skip(_session);
+            for (var i = 0; i < 30; i++) yield return null;
+            yield return PointAtSlot(0);
+            Assert.IsNotNull(ui.HoverText, "the tips are skipped: the label comes back");
         }
 
         // Playtest 2026-10-10: a player with a pad could not get rid of the scythe's label, because a mouse (a laptop's) was resting on its slot.

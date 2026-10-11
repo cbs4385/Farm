@@ -99,10 +99,34 @@ namespace Farm.Gameplay
             progress.EndedDay = s.Clock.Now.TotalDays;
             if (def.Repeatable) s.State.Quests.Remove(def.Id);
             s.Publish(new QuestCompleted(def.Id));
-            s.Toast(L.Get("quest.completed", L.Get(def.TitleKey)));
+            var reward = RewardSummary(s, def);
+            s.Toast(reward.Length > 0 ? L.Get("quest.completed_reward", L.Get(def.TitleKey), reward) : L.Get("quest.completed", L.Get(def.TitleKey)));
             AudioService.PlayIfAvailable(Sfx.QuestDone);
             Effects.RunAll(s, def.Rewards);
             return true;
+        }
+
+        // What a quest pays, in words, for the notice that it is done: "50 gold, 3 Quality Fertilizer" (playtest 2026-10-10: gold arrived with no word about it).
+        public static string RewardSummary(GameSession s, QuestDefinition def)
+        {
+            var parts = new System.Collections.Generic.List<string>();
+            var gold = 0;
+            foreach (var reward in def.Rewards)
+            {
+                var colon = reward.IndexOf(':');
+                if (colon <= 0) continue;
+                var args = reward.Substring(colon + 1).Split(',');
+                switch (reward.Substring(0, colon))
+                {
+                    case "gold": if (int.TryParse(args[0], out var g)) gold += g; break;
+                    case "give":
+                        if (s.Db.TryGetItem(args[0], out var item))
+                            parts.Add((args.Length > 1 && int.TryParse(args[1], out var n) && n > 1 ? n + " " : string.Empty) + L.Get(item.NameKey));
+                        break;
+                }
+            }
+            if (gold != 0) parts.Insert(0, L.Get("quest.reward_gold", gold));
+            return string.Join(", ", parts);
         }
 
         static bool _ticking;

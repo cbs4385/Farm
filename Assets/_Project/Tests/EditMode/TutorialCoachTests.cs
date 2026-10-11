@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using Farm.Core;
 using Farm.Data;
 using Farm.Gameplay;
@@ -35,6 +36,47 @@ namespace Farm.Tests
                 s.AddVar(QuestLog.Stats.Shipped, 1);
                 Assert.IsNull(TutorialCoach.StepOf(s), "done");
                 Assert.AreEqual(string.Empty, TutorialCoach.Text(s));
+            }
+        }
+
+        [Test]
+        public void AfterTheFirstNight_TheTipRests_WithANotice_AndComesBackWhenACropIsRipe_UnlessSkipped()
+        {
+            using (var f = Fixture())
+            {
+                var s = f.Session;
+                s.AddVar(QuestLog.Stats.Tilled, 3); s.AddVar(QuestLog.Stats.Planted, 3); s.AddVar(QuestLog.Stats.Watered, 3);
+                Assert.AreEqual("wait", TutorialCoach.StepOf(s));
+
+                TutorialCoach.OnNewDay(s);                                   // the player slept
+                Assert.IsNull(TutorialCoach.StepOf(s), "tip 4 is gone after sleeping");
+                Assert.IsTrue(f.Toasts.Exists(t => t.Contains("tips are resting")), "with a word that it will come back");
+                var notices = f.Toasts.Count;
+                TutorialCoach.OnNewDay(s);
+                Assert.AreEqual(notices, f.Toasts.Count, "said once");
+
+                var grid = s.GetGrid(MapIds.Farm);
+                grid.Till(5, 5);
+                grid.TryGetTile(5, 5, out var tile);
+                s.Db.TryGetCrop("parsnip", out var parsnip);
+                tile.Crop = new CropInstance { CropId = "parsnip", Stage = parsnip.MatureStage };
+                Assert.AreEqual("harvest", TutorialCoach.StepOf(s), "it is back when a crop is ripe");
+
+                TutorialCoach.Skip(s);
+                Assert.IsNull(TutorialCoach.StepOf(s), "unless the tips were skipped");
+            }
+        }
+
+        [Test]
+        public void ANewDay_BeforeTheCropsAreWatered_DoesNotRestTheTips()
+        {
+            using (var f = Fixture())
+            {
+                var s = f.Session;
+                s.AddVar(QuestLog.Stats.Tilled, 3);
+                TutorialCoach.OnNewDay(s);
+                Assert.AreEqual("plant", TutorialCoach.StepOf(s));
+                Assert.IsEmpty(f.Toasts.Where(t => t.Contains("resting")).ToList());
             }
         }
 

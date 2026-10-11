@@ -2,7 +2,9 @@
 
 ## 0.4.3 (2026-10-10, held for review)
 
-A first-days coach: a small card above the hotbar gives one tip at a time for what to do next (till, plant, water, wait and sleep, harvest, ship), moving on by itself as you do each thing, using the buttons of whatever you are playing with. It disappears after your first shipment, can be skipped with its button, and can be switched off in Options ("Tips for the first days").
+A first-days coach: a small card above the hotbar gives one tip at a time for what to do next (till, plant, water, wait and sleep, harvest, ship), moving on by itself as you do each thing, using the buttons of whatever you are playing with. After the first night's sleep the tips rest (a notice says so) and come back when a crop is ripe; the hotbar's label stays out of the way while a tip is up. It disappears after your first shipment, can be skipped with its button, and can be switched off in Options ("Tips for the first days").
+
+Gold now has a show: when you gain gold a rain of coins flies in and pours into the counter at the top right (the number pulses as they land); when you spend or lose gold, coins burst out of the counter and fall away. When a quest pays you, the notice now says what you got ("Quest complete: First Furrows. Reward: 50 gold"); the 50 gold for your first furrows used to arrive without a word.
 
 More playtest fixes:
 - **Say what things are.** Everything in the farmhouse (and every cottage) now has a name when the mouse rests on it or a controller faces it: sofa, shelf, rug, clock, lamp and so on. They said nothing before.

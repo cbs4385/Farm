@@ -9,6 +9,7 @@ namespace Farm.Gameplay
     public static class TutorialCoach
     {
         public const string SkipFlag = "tutorial.coach.skipped";
+        public const string RestingFlag = "tutorial.coach.resting";          // the player has slept on the crops: no tip until one is ripe
 
         public static string StepOf(GameSession s)
         {
@@ -19,7 +20,11 @@ namespace Farm.Gameplay
             if (s.GetVar(QuestLog.Stats.Tilled) < 3) return "till";
             if (s.GetVar(QuestLog.Stats.Planted) < 3) return "plant";
             if (s.GetVar(QuestLog.Stats.Watered) < 3) return "water";
-            if (s.GetVar(QuestLog.Stats.Harvested) < 1) return HasRipeCrop(s) ? "harvest" : "wait";
+            if (s.GetVar(QuestLog.Stats.Harvested) < 1)
+            {
+                if (HasRipeCrop(s)) return "harvest";
+                return s.HasFlag(RestingFlag) ? null : "wait";          // after the first night the tips rest until a crop is ripe
+            }
             return "ship";
         }
 
@@ -33,6 +38,14 @@ namespace Farm.Gameplay
         }
 
         public static void Skip(GameSession s) => s.SetFlag(SkipFlag);
+
+        // A new day has begun. If the tip was "go to sleep and wait", the player has done it: the tips rest, with a word to say so, and come back when a crop is ripe.
+        public static void OnNewDay(GameSession s)
+        {
+            if (StepOf(s) != "wait") return;
+            s.SetFlag(RestingFlag);
+            s.Toast(L.Get("tutorial.coach.resting"));
+        }
 
         static bool HasRipeCrop(GameSession s)
         {

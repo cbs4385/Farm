@@ -109,10 +109,11 @@ namespace Farm.UI
             BuildPadHint(canvas);
             BuildCoach(canvas);
             BuildSelectionHelp(canvas);
+            _coinRain = new CoinRain(canvas);                    // last, so that the coins fly over everything else
 
             ui.Bus.Subscribe<StatsChanged>(_ => _dirty = true);
             ui.Bus.Subscribe<MinuteChanged>(_ => _dirty = true);
-            ui.Bus.Subscribe<DayStarted>(_ => _dirty = true);
+            ui.Bus.Subscribe<DayStarted>(_ => { _dirty = true; TutorialCoach.OnNewDay(ui.Session); });
             ui.Bus.Subscribe<ToastRequested>(e => _toasts.Enqueue(e.Message));
             ui.Bus.Subscribe<FlagChanged>(_ => _dirty = true);
             ui.Bus.Subscribe<VarChanged>(_ => _dirty = true);
@@ -336,6 +337,29 @@ namespace Farm.UI
             _tracker.rectTransform.pivot = new Vector2(1, 1);
         }
 
+        // Gold gained or lost: a rain of coins into or out of the counter at the top right, and a little pulse of the number as coins land.
+        CoinRain _coinRain;
+        int _lastGold = -1, _coinsLanded;
+        float _goldPulse;
+
+        public CoinRain Coins => _coinRain;
+
+        void UpdateGoldRain()
+        {
+            if (_coinRain == null) return;
+            var s = _ui.Session;
+            if (s == null || !s.InGame) { _lastGold = -1; _coinRain.Clear(); return; }
+            var gold = s.State.Gold;
+            if (_lastGold >= 0 && gold != _lastGold && _goldIcon != null && _goldIcon.gameObject.activeInHierarchy)
+                _coinRain.Burst(gold > _lastGold, gold - _lastGold, _goldIcon.rectTransform);
+            _lastGold = gold;
+            var dt = Time.unscaledDeltaTime;
+            _coinRain.Tick(dt);
+            if (_coinRain.Arrived != _coinsLanded) { _coinsLanded = _coinRain.Arrived; _goldPulse = 0.18f; }
+            if (_goldPulse > 0f) _goldPulse -= dt;
+            if (_gold != null) _gold.rectTransform.localScale = Vector3.one * (1f + Mathf.Max(0f, _goldPulse) * 1.2f);
+        }
+
         // The first-days coach: a card above the hotbar with one tip at a time (TutorialCoach) and a button to skip them.
         Image _coachPanel;
         TextMeshProUGUI _coach;
@@ -511,6 +535,7 @@ namespace Farm.UI
             UpdatePadHint();
             UpdateCoach();
             UpdateSelectionHelp();
+            UpdateGoldRain();
             if (!_dirty) return;
             _dirty = false;
             var s = _ui.Session;
@@ -580,7 +605,7 @@ namespace Farm.UI
             var s = _ui.Session;
             var mouse = Mouse.current;
             var shown = -1;
-            if (mouse != null && s != null && s.InGame && !_ui.AnyModalOpen && ControlPrompts.Kind != InputKind.Gamepad)          // with a pad in hand, a mouse resting on a slot says nothing
+            if (mouse != null && s != null && s.InGame && !_ui.AnyModalOpen)
             {
                 var position = mouse.position.ReadValue();
                 for (var i = 0; i < _slots.Length && shown < 0; i++)
@@ -593,6 +618,8 @@ namespace Farm.UI
                 }
                 var stack = shown >= 0 && shown < s.Backpack.Capacity ? s.Backpack.Get(shown) : null;
                 var text = stack != null ? HotbarTooltip.Text(s, stack.ItemId) : null;
+                // no label over the tip card, and none from a mouse that rests on a slot while a pad is in hand; a click still selects
+                if ((_coachPanel != null && _coachPanel.gameObject.activeSelf) || ControlPrompts.Kind == InputKind.Gamepad) text = null;
                 if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }
             }
             if (_tooltipShown) { _ui.HideHover(); _tooltipShown = false; }
