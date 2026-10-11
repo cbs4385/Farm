@@ -461,7 +461,8 @@ namespace Farm.UI
                 _helpItem = itemId;
                 _helpTimer = 0f;
                 var text = itemId != null ? HotbarTooltip.Text(s, itemId) : null;
-                if (text != null && s.GetVar(HelpShownKey + itemId) < HelpTimes)           // only the first few times (playtest 2026-10-09: "the Hoe tip appears each time")
+                var coaching = _coachPanel != null && _coachPanel.gameObject.activeSelf;          // the tip card says it already: the two must not be drawn over each other
+                if (text != null && !coaching && s.GetVar(HelpShownKey + itemId) < HelpTimes)           // only the first few times (playtest 2026-10-09: "the Hoe tip appears each time")
                 {
                     s.AddVar(HelpShownKey + itemId, 1);
                     _help.text = text;
@@ -473,7 +474,7 @@ namespace Farm.UI
                 }
             }
             if (_helpTimer > 0f) _helpTimer -= Time.unscaledDeltaTime;
-            var show = _helpTimer > 0f && !_tooltipShown;
+            var show = _helpTimer > 0f && !_tooltipShown && !(_coachPanel != null && _coachPanel.gameObject.activeSelf);
             if (_helpPanel.gameObject.activeSelf != show) _helpPanel.gameObject.SetActive(show);
         }
 

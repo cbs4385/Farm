@@ -32,6 +32,7 @@ namespace Farm.Tests
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
+            session.SetFlag(TutorialCoach.SkipFlag);          // the tip card would hide this box (see the test that checks that)
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
@@ -56,6 +57,7 @@ namespace Farm.Tests
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
+            session.SetFlag(TutorialCoach.SkipFlag);          // the tip card would hide this box (see the test that checks that)
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
@@ -84,12 +86,37 @@ namespace Farm.Tests
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
+            session.SetFlag(TutorialCoach.SkipFlag);          // the tip card would hide this box (see the test that checks that)
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 40; i++) yield return null;
             var tracker = Resources.FindObjectsOfTypeAll<TextMeshProUGUI>().FirstOrDefault(t => t.name == "QuestTracker" && t.gameObject.scene.IsValid());
             Assert.IsNotNull(tracker, "the tracker is built");
             StringAssert.Contains("hoe", tracker.text);
+        }
+
+        // Owner, 2026-10-10: at the start of a new game the tip card and this box were drawn over each other. While a tip is up, this box stays away.
+        [UnityTest]
+        public IEnumerator WhileATipCardIsUp_TheItemHelpStaysAway_AndTheItemStillCountsAsNotShown()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var session = ServiceLocator.Get<GameSession>();
+            session.BeginNewGame("Tester", "Test Farm", 0);
+            session.SetFlag(FatigueModel.WarnedFlag);
+            var op = SceneManager.LoadSceneAsync(MapIds.Farm);
+            while (!op.isDone) yield return null;
+            for (var i = 0; i < 30; i++) yield return null;
+
+            session.State.SelectedHotbar = Enumerable.Range(0, session.Backpack.Capacity).First(i => session.Backpack.Get(i)?.ItemId == ItemIds.Hoe);
+            for (var i = 0; i < 10; i++) yield return null;
+            Assert.IsNull(Help(), "the tip card is up: no help box over it");
+            Assert.AreEqual(0, session.GetVar(Farm.UI.HudView.HelpShownKey + ItemIds.Hoe), "and it did not use up one of the hoe's showings");
+
+            TutorialCoach.Skip(session);
+            session.State.SelectedHotbar = Enumerable.Range(0, session.Backpack.Capacity).First(i => session.Backpack.Get(i)?.ItemId == ItemIds.WateringCan);
+            for (var i = 0; i < 10; i++) yield return null;
+            Assert.IsNotNull(Help(), "with the tips skipped the box shows again");
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Farm.Tests
             var session = ServiceLocator.Get<GameSession>();
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
+            session.SetFlag(TutorialCoach.SkipFlag);          // the tip card would hide this box (see the test that checks that)
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
