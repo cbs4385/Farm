@@ -37,7 +37,7 @@ namespace Farm.Tests
             Assert.IsNotNull(picture, pictureName + " is a picture in the scene");
             var renderer = picture.GetComponent<SpriteRenderer>();
             Assert.IsNotNull(renderer.sprite, pictureName + " has its art");
-            Assert.GreaterOrEqual(renderer.sortingOrder, 11, "drawn over a player who stands behind it");
+            Assert.GreaterOrEqual(picture.GetComponent<BuildingDepth>().BehindOrder, 11, "drawn over a player who stands behind it (and under one at its door: BuildingDepth)");
             Assert.IsNull(map.Walls.GetTile(new Vector3Int(doorX, doorY, 0)), pictureName + ": the door cell is open");
             Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(doorX - 1, doorY, 0)), pictureName + ": solid beside the door on the left");
             Assert.IsNotNull(map.Walls.GetTile(new Vector3Int(doorX + 1, doorY, 0)), pictureName + ": and on the right");

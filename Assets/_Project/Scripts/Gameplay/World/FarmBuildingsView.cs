@@ -6,7 +6,7 @@ namespace Farm.Gameplay
 {
     // Draws the farm's greenhouse, coop and barn from the saved game state and gives each its door: a warp to the building's map, with the
     // spawn point where one comes back out. Everything is rebuilt from the state, so a building can be moved and the farm redrawn.
-    public sealed class FarmBuildingsView : MonoBehaviour
+    public sealed class FarmBuildingsView : MonoBehaviour, IMapBound
     {
         [SerializeField] FarmMap _map;
         [SerializeField] TileBase _wall;
@@ -120,11 +120,27 @@ namespace Farm.Gameplay
             var renderer = go.AddComponent<SpriteRenderer>();
             renderer.sprite = picture;
             renderer.sortingOrder = 11;                                                           // over a player who stands behind it (the player is at 10)
-            HoverNote.Add(go, "hover.farm." + type.Id, null, new Vector2(width / 16f, picture.rect.height / 16f * 0.75f), new Vector2(0f, picture.rect.height / 32f * 0.75f - 0.5f));
+            var derelict = _session != null && DerelictLook.IsDerelict(type, _session.HasFlag(type.UnlockFlag));
+            if (derelict)
+            {
+                renderer.color = DerelictLook.Tint;
+                var boards = new GameObject("Boards_" + type.Id).AddComponent<SpriteRenderer>();
+                boards.transform.SetParent(go.transform, false);
+                boards.transform.position = new Vector3(door.x + 0.5f, door.y, 0f);
+                boards.sprite = DerelictLook.Boards();
+                boards.sortingOrder = renderer.sortingOrder + 1;
+            }
+            var depth = go.AddComponent<BuildingDepth>();
+            depth.Configure(door.y + 1f, 11);
+            if (_context != null) depth.Bind(_context);
+            HoverNote.Add(go, derelict ? "hover.farm." + type.Id + ".derelict" : "hover.farm." + type.Id, null, new Vector2(width / 16f, picture.rect.height / 16f * 0.75f), new Vector2(0f, picture.rect.height / 32f * 0.75f - 0.5f));
             _made.Add(go);
         }
 
         GameSession _session;
+        MapContext _context;
+
+        public void Bind(MapContext map) => _context = map;          // pictures made later (a building put somewhere else) are bound with it
 
         void MakeDoor(FarmBuildingType type, (int x, int y) door)
         {

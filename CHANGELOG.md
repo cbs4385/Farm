@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.2 (2026-10-12)
+
+Fixes from playtesting 0.5.0 and 0.5.1.
+
+- **The pond no longer covers the tree south of it.** The village pond (and the farm's) is drawn on the ground, so the crown of a tree standing just south of the water shows over it.
+- **Buildings no longer cover you at their doors.** A building's picture is drawn under you while you stand in front of it or in its doorway, and over you when you are behind it. This holds for the village shops and their signs and for the farm's barn, coop and greenhouse.
+- **The carpenter can be asked to build.** Talking to Marcus offers "I need something built or repaired", which opens the building services (coop, barn, greenhouse), as the "ask the carpenter" notices on the farm's doors direct.
+- **The farm's outbuildings look unfinished until they are built.** Until the carpenter has built them, the barn, coop and greenhouse are drawn weathered, with boards across the door, and say they need repairs when you point at them.
+- **The library no longer has a vegetable garden along its west side.** The garden was part of the library's picture; the ground there is open now.
+
 ## 0.5.1 (2026-10-12)
 
 **Story and world**

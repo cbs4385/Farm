@@ -155,9 +155,10 @@ namespace Farm.Gameplay
     public static class InteractionMenu
     {
         public const string PromptKey = "menu.prompt", SocialPromptKey = "menu.social_prompt", SocialKey = "menu.social",
-            GoodbyeKey = "menu.goodbye", BackKey = "menu.back", MoreKey = "menu.more", SellKey = "menu.sell";
+            GoodbyeKey = "menu.goodbye", BackKey = "menu.back", MoreKey = "menu.more", SellKey = "menu.sell", BuildKey = "menu.build";
 
         public const string MoreVar = "chat.more";         // set by the "keep chatting" choice; read when the menu closes
+        public const string BuildVar = "chat.build";       // set by the carpenter's "something built" choice: the building services open when the menu closes
         public const string SellVar = "chat.sell";         // set by the "sell something" choice: the sell window opens when the menu closes
         public const string AgainVar = "chat.again";       // set when a topic or social reply has been said: the menu is offered again
 
@@ -260,6 +261,18 @@ namespace Farm.Gameplay
         }
 
         public const string SellerBusiness = "general";
+        public const string BuilderBusiness = "carpenter";
+
+        // The carpenter builds and repairs what the farm needs (the coop, the barn, the greenhouse), and says so in the conversation, not only at the counter.
+        public static DialogueGraph WithBuilding(DialogueGraph graph, NpcDefinition npc)
+        {
+            var menu = graph.Nodes.Find(n => n.Id == "menu");
+            if (menu == null || npc.Business != BuilderBusiness || menu.Choices.Exists(c => c.Text == BuildKey)) return graph;
+            var at = menu.Choices.FindIndex(c => c.Default);
+            var build = new DialogueChoice { Text = BuildKey, Effects = { "talk.build" } };
+            if (at < 0) menu.Choices.Add(build); else menu.Choices.Insert(at, build);
+            return graph;
+        }
 
         // What is offered when there are no topics or social actions left today: just "keep chatting" and Goodbye.
         public static DialogueGraph Minimal(string npc, Func<string, bool> hasKey)
@@ -309,6 +322,7 @@ namespace Farm.Gameplay
             });
             Effects.Register("talk.more", 0, 0, (s, a) => s.SetVar(MoreVar, 1));
             Effects.Register("talk.sell", 0, 0, (s, a) => s.SetVar(SellVar, 1));
+            Effects.Register("talk.build", 0, 0, (s, a) => s.SetVar(BuildVar, 1));
             Effects.Register("talk.again", 0, 0, (s, a) => s.SetVar(AgainVar, 1));
             Effects.Register("social.done", 3, 3, (s, a) =>
             {
@@ -336,8 +350,15 @@ namespace Farm.Gameplay
             session.SetVar(MoreVar, 0);
             session.SetVar(AgainVar, 0);
             session.SetVar(SellVar, 0);
-            session.BeginDialogueGraph(WithSell(WithMore(graph, npc.Id), npc), () =>
+            session.SetVar(BuildVar, 0);
+            session.BeginDialogueGraph(WithBuilding(WithSell(WithMore(graph, npc.Id), npc), npc), () =>
             {
+                if (session.GetVar(BuildVar) != 0)
+                {
+                    session.SetVar(BuildVar, 0);
+                    session.Ui?.ShowUpgrades(BuilderBusiness);
+                    return;
+                }
                 if (session.GetVar(SellVar) != 0)
                 {
                     session.SetVar(SellVar, 0);

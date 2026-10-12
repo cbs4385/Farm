@@ -40,12 +40,20 @@ namespace Farm.Tests
                 if (_s.Backpack.Get(i)?.ItemId == ItemIds.Hammer) _s.State.SelectedHotbar = i;
         }
 
-        // The farm starts with trees, rocks and weeds scattered about: clear a patch so that the tests do not depend on chance.
-        void ClearPatch(int x0, int y0, int x1, int y1)
+        // The farm starts with trees, rocks and weeds scattered about at random: clear a patch so that the tests do not depend on chance. The cleared cells are redrawn
+        // (their colliders go with the tiles) and a couple of frames pass, or a tree that stood under the target would still block it.
+        IEnumerator ClearPatch(int x0, int y0, int x1, int y1)
         {
             var nodes = _s.GetNodes(MapIds.Farm);
+            var view = UnityEngine.Object.FindAnyObjectByType<FarmMapView>();
             for (var x = x0; x <= x1; x++)
-                for (var y = y0; y <= y1; y++) nodes.Remove(x, y);
+                for (var y = y0; y <= y1; y++)
+                {
+                    nodes.Remove(x, y);
+                    if (view != null) view.RefreshNode(new Vector3Int(x, y, 0));
+                }
+            yield return null;
+            yield return null;
         }
 
         [UnityTest]
@@ -60,7 +68,7 @@ namespace Farm.Tests
         public IEnumerator ABuilding_CanBeLifted_Refused_PutBack_AndPutDownElsewhere()
         {
             yield return Start(MapIds.Farm);
-            ClearPatch(50, 25, 70, 40);
+            yield return ClearPatch(50, 25, 70, 40);
             var coop = FarmBuildings.Coop;
             var at = FarmBuildings.Find(_s.State, "coop");
             var wall = new Vector3Int(at.X + 1, at.Y + 1, 0);                       // a cell the coop's picture covers
@@ -101,7 +109,7 @@ namespace Farm.Tests
         public IEnumerator TheGreenhouse_IsLifted_RefusedOnTheHouseAndOnTheBarn_AndPutDownWithItsPictureAndDoorMoved()
         {
             yield return Start(MapIds.Farm);
-            ClearPatch(40, 25, 75, 45);
+            yield return ClearPatch(40, 25, 75, 45);
             var type = FarmBuildings.Greenhouse;
             var at = FarmBuildings.Find(_s.State, "greenhouse");
             var oldDoor = FarmBuildings.DoorCell(type, at);
@@ -140,7 +148,7 @@ namespace Farm.Tests
         public IEnumerator ABuilding_CannotBePutDown_OnATree_OnDugSoil_OrWithNoWayIn()
         {
             yield return Start(MapIds.Farm);
-            ClearPatch(50, 25, 70, 40);
+            yield return ClearPatch(50, 25, 70, 40);
             var at = FarmBuildings.Find(_s.State, "barn");
             _hammer.Use(new Vector3Int(at.X, at.Y + 1, 0));
             Assert.IsTrue(_hammer.Carrying);
@@ -207,7 +215,15 @@ namespace Farm.Tests
         public IEnumerator TheShippingBin_CanBeMovedNextToTheHouse_AndStaysThere()
         {
             yield return Start(MapIds.Farm);
-            ClearPatch(6, 13, 12, 19);
+            // The farm's clutter is random: put a tree and a rock exactly where the bin is to go, so that clearing the patch has to really clear them (this used to fail by chance).
+            var view = UnityEngine.Object.FindAnyObjectByType<FarmMapView>();
+            foreach (var (x, y, id) in new[] { (9, 16, NodeDefaults.Tree), (10, 17, NodeDefaults.Rock) })
+            {
+                _s.GetNodes(MapIds.Farm).Add(x, y, _s.Nodes.Get(id));
+                view.RefreshNode(new Vector3Int(x, y, 0));
+            }
+            yield return null;
+            yield return ClearPatch(6, 13, 12, 19);
             var bin = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "shipping_bin");
             var home = bin.Cell(_map);
             _hammer.Use(home + new Vector3Int(1, 1, 0));                     // any of its four cells lifts it
@@ -253,7 +269,7 @@ namespace Farm.Tests
         public IEnumerator ABuilding_CannotBeTurned()
         {
             yield return Start(MapIds.Farm);
-            ClearPatch(50, 25, 70, 40);
+            yield return ClearPatch(50, 25, 70, 40);
             var at = FarmBuildings.Find(_s.State, "barn");
             _hammer.Use(new Vector3Int(at.X, at.Y + 1, 0));
             Assert.IsTrue(_hammer.Carrying);

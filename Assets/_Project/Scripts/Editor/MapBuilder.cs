@@ -439,13 +439,14 @@ namespace Farm.Editor
         // Paints a pond: every cell of the shape in the box becomes the water tile for its neighbours (so the shore reads as a shore), and walled.
         static void PaintPond(Rig rig, System.Func<int, int, bool> isWater, int x0, int x1, int y0, int y1)
         {
+            var blocker = GetHiddenWall();          // the water is drawn on the ground; a water tile on the wall layer was drawn over the crown of a tree standing south of the pond
             for (var y = y0; y <= y1; y++)
                 for (var x = x0; x <= x1; x++)
                 {
                     if (!isWater(x, y)) continue;
                     var water = GetTile(WaterShore.TileNameAt(isWater, x, y));
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), water);
-                    rig.Walls.SetTile(new Vector3Int(x, y, 0), water);
+                    rig.Walls.SetTile(new Vector3Int(x, y, 0), blocker);
                 }
         }
 
@@ -474,6 +475,7 @@ namespace Farm.Editor
             {
                 var tag = AddDecorObject($"{b.MapId}_OpenTag", "bld_tag_open", Center(b.DoorX + 1, doorY));
                 tag.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder + 1;
+                tag.AddComponent<BuildingDepth>().Configure(doorY + 1f, TallSortingOrder + 1, BuildingDepth.DefaultFront + 1);
                 tag.AddComponent<BoxCollider2D>().isTrigger = true;
                 tag.GetComponent<BoxCollider2D>().size = Vector2.one;
                 tag.GetComponent<BoxCollider2D>().offset = Vector2.zero;
@@ -521,6 +523,7 @@ namespace Farm.Editor
             var centreX = left + width / 32f;
             var picture = AddObject(name, spriteName, new Vector3(centreX, doorY + 0.5f, 0f), solid: false);
             picture.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
+            picture.AddComponent<BuildingDepth>().Configure(doorY + 1f, TallSortingOrder);          // over a player behind it, under one in front or in the doorway
             if (sprite != null)
             {
                 var home = style.StartsWith("cottage");
