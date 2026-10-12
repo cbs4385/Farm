@@ -132,7 +132,7 @@ namespace Farm.Tests
             Assert.Greater(Sway.StrengthFor(0.5f, true), Sway.StrengthFor(0.5f, false));
             Assert.LessOrEqual(Sway.StrengthFor(1f, true), 1.5f, "capped");
             Assert.AreEqual(Sway.StrengthFor(-0.4f, false), Sway.StrengthFor(0.4f, false), 0.001f, "either direction");
-            Assert.AreEqual(1f, Sway.Current(), 0.001f, "a breeze when no game is running");
+            Assert.AreEqual(1f, Sway.Current(null), 0.001f, "a breeze when no game is running");
         }
 
         [Test]

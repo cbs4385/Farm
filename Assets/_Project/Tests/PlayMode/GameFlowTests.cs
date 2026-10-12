@@ -203,13 +203,13 @@ namespace Farm.Tests
             yield return LoadScene(MapIds.Farm);
             session.GetGrid(MapIds.Farm).Till(30, 8);
 
-            MapTravel.GoTo(MapIds.FarmHouse, "default");
+            MapTravel.GoTo(session, MapIds.FarmHouse, "default");
             yield return WaitUntil(() => SceneManager.GetActiveScene().name == MapIds.FarmHouse, 10f, "farmhouse scene");
             var loader = ServiceLocator.Get<SceneLoader>();
             yield return WaitUntil(() => !loader.IsLoading, 10f, "fade-in to finish");
             Assert.AreEqual(MapIds.FarmHouse, session.State.CurrentMap);
 
-            MapTravel.GoTo(MapIds.Farm, "fromHouse");
+            MapTravel.GoTo(session, MapIds.Farm, "fromHouse");
             yield return WaitUntil(() => SceneManager.GetActiveScene().name == MapIds.Farm, 10f, "farm scene");
             yield return WaitUntil(() => !loader.IsLoading, 10f, "fade-in to finish");
             Assert.IsTrue(session.GetGrid(MapIds.Farm).IsTilled(30, 8));

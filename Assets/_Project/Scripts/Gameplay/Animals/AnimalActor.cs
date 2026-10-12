@@ -62,7 +62,7 @@ namespace Farm.Gameplay
             bob.StepsLegs = false;                      // its walking pictures are its own
             // The animal's own picture (the art made for its item); a coloured square only if there is none.
             _hasArt = AnimalSprites.Has(state.Type);
-            var icon = ServiceLocator.TryGet<GameSession>(out var session) && session.Db.TryGetItem(row.ItemId, out var item) ? item.Icon : null;
+            var icon = manager.Session != null && manager.Session.Db.TryGetItem(row.ItemId, out var item) ? item.Icon : null;
             _renderer.sprite = _hasArt ? AnimalSprites.Get(state.Type, "down0") : icon != null ? icon : RuntimeSprites.Square(row.Color, 16, character: true);
             _renderer.sortingOrder = 7;
             ActorBody.Add(gameObject);

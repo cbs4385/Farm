@@ -55,7 +55,7 @@ namespace Farm.Gameplay
                 AudioService.PlayIfAvailable(Sfx.Door);
                 DoorFlash.Show(TryGetComponent<Collider2D>(out var door) ? door.bounds.center : transform.position);
             }
-            MapTravel.GoTo(_targetMap, _targetSpawn);
+            MapTravel.GoTo(session, _targetMap, _targetSpawn);
         }
 
         // Is going from one map to the other a walk through a building's door? (pure)
@@ -74,9 +74,9 @@ namespace Farm.Gameplay
 
     public static class MapTravel
     {
-        public static void GoTo(string mapId, string spawnId)
+        public static void GoTo(GameSession session, string mapId, string spawnId)
         {
-            if (!ServiceLocator.TryGet<GameSession>(out var session) || !session.InGame) return;
+            if (session == null || !session.InGame) return;
             var loader = session.Game?.Scenes;
             if (loader == null || loader.IsLoading) return;
             if (!Application.CanStreamedLevelBeLoaded(mapId))

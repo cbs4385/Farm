@@ -6,7 +6,7 @@ namespace Farm.Gameplay
     // Shows or hides scene objects depending on a condition (see Conditions): hidden altars, symbols that appear
     // after a flag is set, a gate that only exists at night. Re-evaluated when flags, variables or the hour change.
     // If no targets are assigned, its direct children are the targets.
-    public sealed class ConditionalObject : MonoBehaviour
+    public sealed class ConditionalObject : MonoBehaviour, IMapBound
     {
         [SerializeField] string _condition;
         [SerializeField] bool _invert;
@@ -19,10 +19,10 @@ namespace Farm.Gameplay
         public string Condition { get => _condition; set => _condition = value; }
         public bool Invert { get => _invert; set => _invert = value; }
 
-        void Start()
+        public void Bind(MapContext map)
         {
-            _bus = ServiceLocator.Get<EventBus>();
-            _session = ServiceLocator.Get<GameSession>();
+            _bus = map.Bus;
+            _session = map.Session;
             _bus.Subscribe<FlagChanged>(OnChanged);
             _bus.Subscribe<VarChanged>(OnChanged);
             _bus.Subscribe<DayStarted>(OnChanged);

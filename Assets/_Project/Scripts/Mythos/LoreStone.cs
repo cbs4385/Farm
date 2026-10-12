@@ -5,13 +5,13 @@ using UnityEngine;
 namespace Farm.Mythos
 {
     // A carved stone in Harrow Wood: reading it gives a piece of lore (once) and a short, unsettling text.
-    public sealed class LoreStone : MonoBehaviour, IInteractable
+    public sealed class LoreStone : MonoBehaviour, IInteractable, Farm.Gameplay.IMapBound
     {
         public string Key;          // string key of the text (Key + ".mild" is the gentler version)
         public string FlagId;
         GameSession _session;
 
-        void Start() => _session = ServiceLocator.Get<GameSession>();
+        public void Bind(MapContext map) => _session = map.Session;
 
         void Update()
         {

@@ -5,7 +5,7 @@ namespace Farm.Gameplay
 {
     // Top-down movement with four-way facing. transform.position is the player's feet (sprite pivot at bottom).
     [RequireComponent(typeof(Rigidbody2D))]
-    public sealed class PlayerController : MonoBehaviour
+    public sealed class PlayerController : MonoBehaviour, IMapBound
     {
         [SerializeField] float _speed = 4.5f;
         [SerializeField] SpriteRenderer _renderer;
@@ -29,7 +29,16 @@ namespace Farm.Gameplay
         public bool Seated => _seat != null;
         public SitSpot Seat => _seat;
 
-        static int NowMinute() => ServiceLocator.TryGet<GameSession>(out var s) && s.InGame ? s.Clock.Now.TotalDays * 1440 + s.Clock.Now.MinuteOfDay : 0;
+        GameSession _session;
+        InputService _input;
+
+        public void Bind(MapContext map)
+        {
+            _session = map.Session;
+            _input = map.Input;
+        }
+
+        int NowMinute() => _session != null && _session.InGame ? _session.Clock.Now.TotalDays * 1440 + _session.Clock.Now.MinuteOfDay : 0;
 
         // Sits the player down on a seat: they stop where the seat is, facing the way it does, and rest until they move.
         public bool Sit(SitSpot spot)
@@ -69,7 +78,7 @@ namespace Farm.Gameplay
             if (minutes <= 0) return;
             _restMinute = now;
             var gain = SeatRest.Gain(minutes, ref _restCarry);
-            if (gain > 0 && ServiceLocator.TryGet<GameSession>(out var session)) session.RestoreEnergy(gain);
+            if (gain > 0 && _session != null) _session.RestoreEnergy(gain);
         }
 
         // Cell the player stands in (sampled slightly above the feet so edges do not flicker).
@@ -118,10 +127,11 @@ namespace Farm.Gameplay
             {
                 Rest();
                 // Any push on the stick or the keys gets the player up (not while a menu is open: the keys are the menu's).
-                if (ServiceLocator.TryGet<InputService>(out var seatedInput) && !seatedInput.GameplayBlocked && seatedInput.Move.ReadValue<Vector2>().sqrMagnitude > 0.25f) StandUp();
+                if (_input != null && !_input.GameplayBlocked && _input.Move.ReadValue<Vector2>().sqrMagnitude > 0.25f) StandUp();
                 return;
             }
-            if (ServiceLocator.TryGet<InputService>(out var input))
+            var input = _input;
+            if (input != null)
             {
                 var raw = input.Move.ReadValue<Vector2>();
                 _move = Vector2.ClampMagnitude(raw, 1f);

@@ -166,6 +166,8 @@ namespace Farm.Gameplay
         // The run's services (ADR 0006): set by GameServices once the context is built. Code that has the session reaches the settings, scene loader, audio and so on through it.
         public GameContext Game { get; set; }
 
+        public EventBus Bus => _bus;
+
         // The intensity setting (0 off, 1 mild, 2 full), read live. Tests can force a level with HorrorLevelOverride.
         public static int? HorrorLevelOverride;
         public static int HorrorLevelOf(SettingsData settings) => HorrorLevelOverride ?? settings?.HorrorLevel ?? 2;
@@ -433,8 +435,7 @@ namespace Farm.Gameplay
         {
             _sleeping = true;
             AudioService.PlayIfAvailable(Sfx.Sleep);
-            ServiceLocator.TryGet<InputService>(out var input);
-            input?.BlockGameplay();
+            Game?.Input?.BlockGameplay();
             Clock.Pause();
 
             var loader = Game.Scenes;
@@ -449,7 +450,7 @@ namespace Farm.Gameplay
             }
 
             Clock.Resume();
-            input?.UnblockGameplay();
+            Game?.Input?.UnblockGameplay();
             _sleeping = false;
             AudioService.PlayIfAvailable(Sfx.Rooster);
             // The screen is already black; this fades back in once loaded. Day-cycle hooks may have moved the player.

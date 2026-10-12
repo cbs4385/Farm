@@ -275,10 +275,10 @@ namespace Farm.Tests
 
             // Entering the farm again does not pile on more.
             var count = nodes.Count;
-            MapTravel.GoTo(MapIds.FarmHouse, "default");
+            MapTravel.GoTo(_session, MapIds.FarmHouse, "default");
             var start = Time.realtimeSinceStartup;
             while (SceneManager.GetActiveScene().name != MapIds.FarmHouse && Time.realtimeSinceStartup - start < 10f) yield return null;
-            MapTravel.GoTo(MapIds.Farm, "fromHouse");
+            MapTravel.GoTo(_session, MapIds.Farm, "fromHouse");
             start = Time.realtimeSinceStartup;
             while (SceneManager.GetActiveScene().name != MapIds.Farm && Time.realtimeSinceStartup - start < 10f) yield return null;
             for (var i = 0; i < 6; i++) yield return null;

@@ -7,6 +7,7 @@ namespace Farm.Gameplay
     public sealed class AnimalManager : MonoBehaviour
     {
         GameSession _session;
+        public GameSession Session => _session;
         readonly List<AnimalActor> _actors = new List<AnimalActor>();
 
         public static AnimalManager Current { get; private set; }

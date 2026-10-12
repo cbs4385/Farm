@@ -41,7 +41,7 @@ namespace Farm.Gameplay
             if (floor <= 0)
             {
                 s.State.Mine.Floor = 0;
-                MapTravel.GoTo(MapIds.Forest, "fromMine");
+                MapTravel.GoTo(s, MapIds.Forest, "fromMine");
                 return;
             }
             floor = Mathf.Min(floor, MineGenerator.Floors);
@@ -52,7 +52,7 @@ namespace Farm.Gameplay
                 if (floor % 5 == 0) s.Toast(Farm.Core.L.Get("mine.elevator_unlocked", floor));
             }
             s.Toast(Farm.Core.L.Get("mine.floor", floor));
-            MapTravel.GoTo(MapIds.Mine, fromBelow ? FromBelowSpawn : "default");
+            MapTravel.GoTo(s, MapIds.Mine, fromBelow ? FromBelowSpawn : "default");
         }
     }
 }

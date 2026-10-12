@@ -44,7 +44,7 @@ namespace Farm.Gameplay
         {
             if (!Carrying) return;
             if (_session == null || !_session.InGame || !HoldingTheMallet()) { Cancel(); return; }
-            if (ServiceLocator.TryGet<InputService>(out var input) && input.Rotate.WasPressedThisFrame()) Rotate();
+            if (_session?.Game?.Input is InputService input && input.Rotate.WasPressedThisFrame()) Rotate();
             ShowGhost(_actions.Target);
         }
 

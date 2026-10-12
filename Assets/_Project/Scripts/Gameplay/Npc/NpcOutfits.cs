@@ -27,7 +27,6 @@ namespace Farm.Gameplay
         public static bool Has(string outfit, string npcId) => SpriteFor(outfit, npcId, Vector2Int.down) != null;
 
         // What a villager wears now, from the game's outfit sources (null: their own clothes).
-        public static string Current(string npcId) =>
-            ServiceLocator.TryGet<GameSession>(out var session) && session.InGame ? session.Hooks.OutfitFor(npcId) : null;
+        public static string Current(GameSession session, string npcId) => session != null && session.InGame ? session.Hooks.OutfitFor(npcId) : null;
     }
 }

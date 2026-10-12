@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Farm.Gameplay
 {
     // A small envelope that bobs over the mailbox while it holds a letter or a parcel (playtest 2026-10-10: "how can you tell when you have mail, the box looks the same").
-    public sealed class MailIndicator : MonoBehaviour
+    public sealed class MailIndicator : MonoBehaviour, IMapBound
     {
         [SerializeField] Sprite _icon;
         [SerializeField] Vector3 _offset = new Vector3(0f, 1.6f, 0f);
@@ -29,8 +29,9 @@ namespace Farm.Gameplay
             _renderer.sprite = _icon;
             _renderer.sortingOrder = 12;
             _renderer.enabled = false;
-            ServiceLocator.TryGet(out _session);
         }
+
+        public void Bind(MapContext map) => _session = map.Session;
 
         void Update()
         {
@@ -39,7 +40,6 @@ namespace Farm.Gameplay
             if (_check <= 0f)
             {
                 _check = 0.4f;
-                if (_session == null) ServiceLocator.TryGet(out _session);
                 _renderer.enabled = HasMail(_session);
             }
             if (_renderer.enabled) _renderer.transform.localPosition = _offset + new Vector3(0f, Mathf.Sin(Time.time * 3f) * 0.08f, 0f);

@@ -155,6 +155,7 @@ namespace Farm.Tests
             var child = new GameObject("symbol");
             child.transform.SetParent(parent.transform);
             var conditional = parent.AddComponent<ConditionalObject>();
+            conditional.Bind(new MapContext { Game = GameContext.Current });
             conditional.Condition = "flag:mythos.cult_revealed && var:dread>=2";
             yield return null;
             Assert.IsFalse(child.activeSelf);

@@ -83,7 +83,7 @@ namespace Farm.Gameplay
             if (npc == null || cell == null) return null;
             var go = new GameObject("Npc_" + npcId, typeof(SpriteRenderer));
             actor = go.AddComponent<NpcActor>();
-            actor.Setup(npc);
+            actor.Setup(npc, _session);
             actor.SetCell(_map, cell.Value);
             _actors[npcId] = actor;
             return actor;

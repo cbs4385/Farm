@@ -5,7 +5,7 @@ namespace Farm.Gameplay
 {
     // The little tag by a business's door: green while it is open, red while it is closed (playtest: "there is no indication that a village
     // business is closed"). It follows the same hours as the door itself (BusinessHoursRegistry).
-    public sealed class BusinessStatusSign : MonoBehaviour, IInteractable
+    public sealed class BusinessStatusSign : MonoBehaviour, IInteractable, IMapBound
     {
         [SerializeField] string _businessId;
         [SerializeField] Sprite _open, _closed;
@@ -29,11 +29,13 @@ namespace Farm.Gameplay
 
         void Awake() => _renderer = GetComponent<SpriteRenderer>();
 
+        public void Bind(MapContext map) => _session = map.Session;
+
         void Update()
         {
             if (Time.unscaledTime < _next) return;
             _next = Time.unscaledTime + 0.5f;
-            if (_session == null && !ServiceLocator.TryGet(out _session)) return;
+            if (_session == null) return;
             if (!_session.InGame || string.IsNullOrEmpty(_businessId)) return;
             IsOpenNow = BusinessHoursRegistry.IsOpen(_businessId, _session.Clock.Now);
             if (_renderer != null) _renderer.sprite = IsOpenNow ? _open : _closed;

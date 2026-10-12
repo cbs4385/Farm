@@ -5,7 +5,7 @@ namespace Farm.Gameplay
 {
     // Draws the weather of the day in outdoor maps (rain, snow, wind, lightning), entirely from the
     // WeatherDefinition: a pool of pixel-sized sprites that wrap around the view. No weather ids appear here.
-    public sealed class WeatherEffects : MonoBehaviour
+    public sealed class WeatherEffects : MonoBehaviour, IMapBound
     {
         const int MaxParticles = 220;
         const float PixelsPerUnit = 16f;
@@ -76,11 +76,13 @@ namespace Farm.Gameplay
             if (_pixel != null) Destroy(_pixel);
         }
 
+        public void Bind(MapContext map) => _session = map.Session;
+
         void LateUpdate()
         {
             if (_camera == null) _camera = Camera.main;
             if (_camera == null) return;
-            if (_session == null && !Farm.Core.ServiceLocator.TryGet(out _session)) return;
+            if (_session == null) return;
             if (!_session.InGame) return;
 
             var def = _session.Weather.Get(_session.State.Weather);
@@ -156,7 +158,7 @@ namespace Farm.Gameplay
 
         void UpdateLightning(WeatherDefinition def, Vector2 center, Vector2 viewSize, float dt)
         {
-            var calm = Core.ServiceLocator.TryGet<Core.SettingsStore>(out var settings) && settings.Current.ReduceFlashes;
+            var calm = _session != null && _session.Settings != null && _session.Settings.ReduceFlashes;
             if (def.Lightning && !calm && Time.time >= _nextFlash)
             {
                 _flashLevel = 0.55f;

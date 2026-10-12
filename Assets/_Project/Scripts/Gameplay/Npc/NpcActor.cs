@@ -163,7 +163,7 @@ namespace Farm.Gameplay
         void UpdateOutfit()
         {
             if (_definition == null || Sleeping || _pose != null) return;
-            var outfit = NpcOutfits.Current(_definition.Id);
+            var outfit = NpcOutfits.Current(_session, _definition.Id);
             if (outfit == _outfit) return;
             _outfit = outfit;
             SetFacing(_facing);
@@ -172,9 +172,12 @@ namespace Farm.Gameplay
         void OnEnable() { CellOccupants.Add(this); Active.Add(this); }
         void OnDisable() { CellOccupants.Remove(this); Active.Remove(this); }
 
-        public void Setup(NpcDefinition definition)
+        GameSession _session;
+
+        public void Setup(NpcDefinition definition, GameSession session = null)
         {
             _definition = definition;
+            _session = session;
             name = "Npc_" + definition.Id;
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.sortingOrder = 9;
@@ -182,7 +185,7 @@ namespace Farm.Gameplay
             var bodyTransform = transform.Find(ActorBody.BodyName);
             _body = bodyTransform != null ? bodyTransform.GetComponent<BoxCollider2D>() : null;
             (TryGetComponent<WalkBob>(out var bob) ? bob : gameObject.AddComponent<WalkBob>()).Breathes = true;
-            (TryGetComponent<QuestMarker>(out var marker) ? marker : gameObject.AddComponent<QuestMarker>()).Setup(definition.Id);
+            (TryGetComponent<QuestMarker>(out var marker) ? marker : gameObject.AddComponent<QuestMarker>()).Setup(definition.Id, session);
             _renderer.sprite = PictureFor(_facing);
         }
 

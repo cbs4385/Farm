@@ -5,14 +5,14 @@ using UnityEngine;
 namespace Farm.Mythos
 {
     // Something left in the woods that can be picked up once: a relic for the true fix, or seeds. `FlagId` records it.
-    public sealed class RelicPickup : MonoBehaviour, IInteractable
+    public sealed class RelicPickup : MonoBehaviour, IInteractable, Farm.Gameplay.IMapBound
     {
         public string ItemId;
         public int Count = 1;
         public string FlagId;
         GameSession _session;
 
-        void Start() => _session = ServiceLocator.Get<GameSession>();
+        public void Bind(MapContext map) => _session = map.Session;
 
         void Update()
         {

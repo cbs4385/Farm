@@ -13,7 +13,7 @@ namespace Farm.UI
         {
             var ui = ServiceLocator.Get<UiService>();
             ui.SetHudVisible(false);
-            ServiceLocator.Get<GameSession>().EndGame();
+            ui.Game.Session.EndGame();
             _menu = new MainMenuScreen(ui);
             _menu.Open();
             var open = CommandLine.GetArg("-farmOpen");

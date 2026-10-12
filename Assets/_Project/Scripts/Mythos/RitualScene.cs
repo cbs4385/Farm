@@ -87,7 +87,7 @@ namespace Farm.Mythos
         public static bool Condition(string arg)
         {
             var s = _bound;
-            if (s == null && !ServiceLocator.TryGet(out s)) return false;
+            if (s == null) return false;
             if (!s.InGame) return false;
             switch (arg)
             {

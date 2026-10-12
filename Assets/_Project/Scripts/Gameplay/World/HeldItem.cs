@@ -6,7 +6,7 @@ namespace Farm.Gameplay
 {
     // The farmer's carry poses, drawn from the item's own icon (no extra art): whatever bulky thing is selected in the hotbar is held in front
     // of the body (behind it when facing away), and a fresh harvest, catch or find is held up over the head for a moment.
-    public sealed class HeldItem : MonoBehaviour
+    public sealed class HeldItem : MonoBehaviour, IMapBound
     {
         public const float HoistSeconds = 1.1f;
         public const float CarryScale = 0.6f;
@@ -63,6 +63,8 @@ namespace Farm.Gameplay
             return 1.7f + 0.45f * (1f - (1f - rise) * (1f - rise));
         }
 
+        public void Bind(MapContext map) => _session = map.Session;
+
         public static HeldItem For(GameObject player) => player.TryGetComponent<HeldItem>(out var held) ? held : player.AddComponent<HeldItem>();
 
         // Lifts the item's picture over the head for a moment.
@@ -118,8 +120,7 @@ namespace Farm.Gameplay
         Sprite CarriedSprite()
         {
             // Looked up each time: the session is replaced by a new game or a load, and may not have started one yet.
-            if (!ServiceLocator.TryGet(out GameSession session) || session.State == null || session.Backpack == null) { _shownId = null; _carried = null; return null; }
-            _session = session;
+            if (_session == null || _session.State == null || _session.Backpack == null) { _shownId = null; _carried = null; return null; }
             var stack = _session.Backpack.Get(_session.State.SelectedHotbar);
             if (stack == null) { _shownId = null; _carried = null; return null; }
             if (stack.ItemId != _shownId)

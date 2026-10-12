@@ -12,6 +12,15 @@ namespace Farm.Gameplay
     {
         const float StickThreshold = 0.5f, MouseThreshold = 3f;
         System.IDisposable _buttons;
+        static GameContext _game;                       // the run, for the static callbacks the input system calls
+
+        static InputDeviceWatcher() => TestResets.Add(() => _game = null);
+
+        public void Init(GameContext game)
+        {
+            _game = game;
+            ApplyKind();
+        }
 
         void OnEnable()
         {
@@ -53,7 +62,8 @@ namespace Farm.Gameplay
         // The menus' pointer: while it is off, nothing under the mouse is hovered or clicked.
         static void SetPointerActions(bool on)
         {
-            if (!ServiceLocator.TryGet<InputService>(out var input)) return;
+            var input = _game?.Input;
+            if (input == null) return;
             foreach (var name in new[] { InputNames.Point, InputNames.Click, InputNames.RightClick, InputNames.ScrollWheel })
             {
                 var action = input.Ui.FindAction(name);
@@ -66,7 +76,8 @@ namespace Farm.Gameplay
 
         static void Announce()
         {
-            if (!ServiceLocator.TryGet<GameSession>(out var session) || !session.InGame) return;
+            var session = _game?.Session;
+            if (session == null || !session.InGame) return;
             _lastToast = Time.unscaledTime;
             session.Toast(L.Get(AnnouncementKey(ControlPrompts.Kind)));
         }
@@ -114,7 +125,8 @@ namespace Farm.Gameplay
         // Said once, in a game (not while the game is still starting, when the texts are not there yet).
         static void SayPendingNotice()
         {
-            if (!_pendingNotice || !ServiceLocator.TryGet<GameSession>(out var session) || !session.InGame || !L.Has("toast.generic_pad")) return;
+            var session = _game?.Session;
+            if (!_pendingNotice || session == null || !session.InGame || !L.Has("toast.generic_pad")) return;
             _pendingNotice = false;
             _noticed = true;
             session.Toast(L.Get("toast.generic_pad"));
@@ -126,7 +138,8 @@ namespace Farm.Gameplay
             if (Gamepad.all.Count > 0) return;                                   // another pad is still there
             var wasPlaying = ControlPrompts.Kind == InputKind.Gamepad;
             ControlPrompts.SetKind(InputKind.KeyboardMouse);
-            if (wasPlaying && ServiceLocator.TryGet<GameSession>(out var session) && session.InGame && ServiceLocator.TryGet<IUiService>(out var ui) && !ui.AnyModalOpen)
+            var session = _game?.Session;
+            if (wasPlaying && session != null && session.InGame && _game.Ui is IUiService ui && !ui.AnyModalOpen)
                 ui.ShowPause();
         }
     }

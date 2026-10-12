@@ -1,4 +1,4 @@
-using Farm.Core;
+﻿using Farm.Core;
 using UnityEngine;
 
 namespace Farm.Gameplay
@@ -16,7 +16,11 @@ namespace Farm.Gameplay
 
         public bool Showing => _renderer != null && _renderer.enabled;
 
-        public void Setup(string npcId) => _npc = npcId;
+        public void Setup(string npcId, GameSession session = null)
+        {
+            _npc = npcId;
+            if (session != null) _session = session;
+        }
 
         // A bold exclamation mark in the project's dark outline and gold, 8 x 13 pixels, made once.
         static Sprite Mark()
@@ -52,7 +56,6 @@ namespace Farm.Gameplay
             _renderer.sprite = Mark();
             _renderer.sortingOrder = 13;
             _renderer.enabled = false;
-            ServiceLocator.TryGet(out _session);
         }
 
         void Update()
@@ -62,7 +65,6 @@ namespace Farm.Gameplay
             if (_check <= 0f)
             {
                 _check = 0.4f;
-                if (_session == null) ServiceLocator.TryGet(out _session);
                 _renderer.enabled = QuestTargets.Wants(_session, _npc);
             }
             if (_renderer.enabled) _renderer.transform.localPosition = new Vector3(0f, 1.55f + Mathf.Abs(Mathf.Sin(Time.time * 4f)) * 0.12f, 0f);

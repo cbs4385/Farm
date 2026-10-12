@@ -6,7 +6,7 @@ namespace Farm.Gameplay
 {
     // A torch in the picked slot of the item bar lights a bubble round the player (owner, 2026-10-11: five tiles, a glow that drifts between orange, red and yellow).
     // The light is a FlickerLight (the same one candles and lamps use) on a child of the player, switched on only while the torch is the picked item.
-    public sealed class TorchLight : MonoBehaviour
+    public sealed class TorchLight : MonoBehaviour, IMapBound
     {
         public const float Radius = 5f;
         public const float Intensity = 1.1f;
@@ -40,6 +40,8 @@ namespace Farm.Gameplay
             return Color.Lerp(Color.Lerp(Orange, Red, a), Yellow, b * 0.7f);
         }
 
+        public void Bind(MapContext map) => _session = map.Session;
+
         public static bool Holding(GameSession s)
         {
             if (s == null || !s.InGame) return false;
@@ -50,7 +52,7 @@ namespace Farm.Gameplay
 
         void Update()
         {
-            if (_session == null && !ServiceLocator.TryGet(out _session)) return;
+            if (_session == null) return;
             var on = Holding(_session);
             if (_flame.Lit != on) _flame.Lit = on;
             if (on) _flame.Color = GlowAt(Time.time);

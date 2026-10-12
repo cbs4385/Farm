@@ -39,9 +39,12 @@ namespace Farm.Gameplay
             }
         }
 
-        void Start()
+        GameContext _game;
+
+        public void Init(GameContext game)
         {
-            if (ServiceLocator.TryGet<EventBus>(out var bus)) bus.Subscribe<MusicCue>(OnCue);
+            _game = game;
+            game.Bus?.Subscribe<MusicCue>(OnCue);
         }
 
         void OnDestroy()
@@ -65,7 +68,8 @@ namespace Farm.Gameplay
 
         string Choose()
         {
-            var inGame = ServiceLocator.TryGet<GameSession>(out var session) && session.InGame;
+            var session = _game?.Session;
+            var inGame = session != null && session.InGame;
             var now = inGame ? session.Clock.Now : default;
             var rain = inGame && session.Weather.Get(session.State.Weather).WateringCrops;
             var festival = inGame && session.Story != null && StoryCalendar.DaysUntilFestival(session.Story.Events, now) == 0;

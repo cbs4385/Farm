@@ -213,7 +213,7 @@ namespace Farm.UI
             {
                 s.DayLength = (s.DayLength + 1) % SettingsData.DayLengthCount;
                 UiKit.SetButtonText(dlButton, L.Get("options.day_length." + s.DayLength));
-                if (ServiceLocator.TryGet<GameSession>(out var session)) session.ApplySettings();
+                Ui.Game.Session?.ApplySettings();
             }, 220f, 30f);
             dlButton.name = "DayLength";
 

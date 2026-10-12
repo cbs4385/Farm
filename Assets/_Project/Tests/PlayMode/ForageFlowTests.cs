@@ -110,10 +110,10 @@ namespace Farm.Tests
         {
             yield return Start(MapIds.Forest, Season.Fall);
             var count = _session.GetNodes(MapIds.Forest).Count;
-            MapTravel.GoTo(MapIds.Village, "fromForest");
+            MapTravel.GoTo(_session, MapIds.Village, "fromForest");
             var start = Time.realtimeSinceStartup;
             while (SceneManager.GetActiveScene().name != MapIds.Village && Time.realtimeSinceStartup - start < 10f) yield return null;
-            MapTravel.GoTo(MapIds.Forest, "fromVillage");
+            MapTravel.GoTo(_session, MapIds.Forest, "fromVillage");
             start = Time.realtimeSinceStartup;
             while (SceneManager.GetActiveScene().name != MapIds.Forest && Time.realtimeSinceStartup - start < 10f) yield return null;
             for (var i = 0; i < 6; i++) yield return null;

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Farm.Gameplay
 {
     // Turns input into world actions: hotbar selection, tool use on the tile in front, harvesting, interacting.
-    public sealed class PlayerActions : MonoBehaviour
+    public sealed class PlayerActions : MonoBehaviour, IMapBound
     {
         public const int HoeEnergy = 2;
         public const int WateringEnergy = 2;
@@ -48,11 +48,11 @@ namespace Farm.Gameplay
             }
         }
 
-        void Start()
+        public void Bind(MapContext map)
         {
-            Session = ServiceLocator.Get<GameSession>();
-            _input = ServiceLocator.Get<InputService>();
-            HeldItem.For(gameObject);                // the carry poses
+            Session = map.Session;
+            _input = map.Input;
+            HeldItem.For(gameObject).Bind(map);                // the carry poses
         }
 
         // The cell the tool square is on: the one in front of the player, or, while the mouse is steering it, the one around the player
@@ -135,7 +135,7 @@ namespace Farm.Gameplay
         {
             _placeTurns = 0;
             Session.State.SelectedHotbar = Mathf.Clamp(slot, 0, InputNames.HotbarSlots - 1);
-            ServiceLocator.Get<EventBus>().Publish(new StatsChanged());
+            Session.Bus.Publish(new StatsChanged());
         }
 
         // ---- tools ---------------------------------------------------------------------------------------------
@@ -280,7 +280,7 @@ namespace Farm.Gameplay
 
             // Lets other systems react to the player finishing an action that cost energy (for example the late-night
             // stay-awake check, T-046).
-            if (cost > 0) ServiceLocator.Get<EventBus>().Publish(new EnergyActionCompleted(tool.ToString(), cost));
+            if (cost > 0) Session.Bus.Publish(new EnergyActionCompleted(tool.ToString(), cost));
         }
 
         // Picks forage on the cell, if there is any. Returns true if the interaction was used up (picked or refused).

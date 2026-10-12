@@ -113,9 +113,9 @@ namespace Farm.UI
 
         void Start()
         {
-            _bus = ServiceLocator.Get<EventBus>();
-            _session = ServiceLocator.Get<GameSession>();
-            _input = ServiceLocator.Get<InputService>();
+            _bus = Game.Bus;
+            _session = Game.Session;
+            _input = Game.Input;
 
             var settings = Game.Settings.Current;
             UiPalette.ColorblindSource = () => Game.Settings.Current.ColorblindPalette;

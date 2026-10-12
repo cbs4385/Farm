@@ -13,9 +13,9 @@ namespace Farm.Gameplay
         public static float StrengthFor(float windSlant, bool lightning) => Mathf.Clamp(0.8f + 1.2f * Mathf.Abs(windSlant) + (lightning ? 0.2f : 0f), 0.8f, 1.5f);
 
         // The wind in today's weather (a breeze when there is no game running).
-        public static float Current()
+        public static float Current(GameSession session)
         {
-            if (!Farm.Core.ServiceLocator.TryGet<GameSession>(out var session) || !session.InGame) return 1f;
+            if (session == null || !session.InGame) return 1f;
             var weather = session.Weather.Get(session.State.Weather);
             return weather == null ? 1f : StrengthFor(weather.WindSlant, weather.Lightning);
         }

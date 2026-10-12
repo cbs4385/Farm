@@ -26,8 +26,9 @@ namespace Farm.Gameplay
         void Start()
         {
             Bootstrapper.InitializeServices();   // no-op when the Bootstrap scene already ran
-            _bus = ServiceLocator.Get<EventBus>();
-            _session = ServiceLocator.Get<GameSession>();
+            var game = GameContext.Current;
+            _bus = game.Bus;
+            _session = game.Session;
             if (!_session.InGame)
             {
                 Log.Warn($"Scene '{_map.MapId}' started without a game; creating a throwaway dev game.");
@@ -38,6 +39,7 @@ namespace Farm.Gameplay
             L.SetLanguage(_session.Settings.Language);
 
             _session.State.CurrentMap = _map.MapId;
+            Context = new MapContext { Game = game, Map = _map, View = _view, Player = _player };
             InputDeviceWatcher.AnnounceAtStart(_session);
             _player.ApplyAvatar(_session.State.Avatar);
             if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
@@ -78,7 +80,7 @@ namespace Farm.Gameplay
 
             _bus.Subscribe<PassOutTimeReached>(OnPassOut);
             UiAccess.Run(ui => ui.SetHudVisible(true));
-            ServiceLocator.Get<InputService>().EnableGameplay();
+            game.Input.EnableGameplay();
             if (_session.PendingIntro && _map.MapId == MapIds.Farm && ServiceLocator.TryGet<IUiService>(out var introUi))
             {
                 _session.PendingIntro = false;
@@ -102,11 +104,11 @@ namespace Farm.Gameplay
             var events = new GameObject("Events").AddComponent<EventDirector>();
             events.Init(_map, _session, npcs, _player);
             if (_map.MapId == MapIds.Village || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
-            Context = new MapContext { Game = GameContext.Current, Map = _map, View = _view, Player = _player, Npcs = npcs };
+            Context.Npcs = npcs;
             if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(Context);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
             new GameObject("PhotoMode").AddComponent<PhotoMode>().Init(_session, npcs, _player);
-            new GameObject("Hover").AddComponent<HoverInspector>().Init(_session, _map);
+            new GameObject("Hover").AddComponent<HoverInspector>().Init(Context);
             new GameObject("Ambience").AddComponent<AmbienceDirector>().Init(_session, FindAnyObjectByType<DayNightLighting>());
 
             // Outdoor maps show the day's weather (rain, snow, wind...) drawn from its WeatherDefinition.
@@ -116,10 +118,19 @@ namespace Farm.Gameplay
 
             new GameObject("WaterSparkle").AddComponent<WaterSparkle>().Init(_map);      // glints on any open water (it removes itself if there is none)
 
+            BindAll();
+
             StartCoroutine(OpenRequestedScreen());
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             RunStartupCommands();
 #endif
+        }
+
+        // Hands the map's context to every component in the scene that asks for it (the ones in the scene file and the ones made above).
+        void BindAll()
+        {
+            foreach (var behaviour in FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                if (behaviour is IMapBound bound) bound.Bind(Context);
         }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD

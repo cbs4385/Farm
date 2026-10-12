@@ -24,9 +24,17 @@ namespace Farm.Gameplay
         static HoverInspector() => TestResets.Add(ResetForTests);
         public static void ResetForTests() { Current = null; }
 
+        GameContext _game;
+
         public void Init(GameSession session, FarmMap map)
         {
             _session = session; _map = map;
+        }
+
+        public void Init(MapContext map)
+        {
+            _game = map.Game;
+            Init(map.Session, map.Map);
         }
 
         void Update()
@@ -34,9 +42,9 @@ namespace Farm.Gameplay
             var mouse = Mouse.current;
             // With a pad the label follows the cell the player faces, as a mouse's does the pointer (playtest 2026-10-09: a controller player never saw what a thing was).
             var pad = ControlPrompts.Kind == InputKind.Gamepad;          // any pad, a generic joystick too: the label follows the target cell, not a mouse that nobody is using
-            if (_store == null) ServiceLocator.TryGet(out _store);
-            if (_ui == null) ServiceLocator.TryGet(out _ui);
-            if (_input == null) ServiceLocator.TryGet(out _input);
+            _store = _game?.Settings;
+            _ui = _game?.Ui;
+            _input = _game?.Input;
             if (_camera == null) _camera = Camera.main;
             var settings = _store != null ? _store.Current : null;
             var ui = _ui;
@@ -80,7 +88,7 @@ namespace Farm.Gameplay
         void OnDestroy()
         {
             Current = null;
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.HideHover();
+            _game?.Ui?.HideHover();
         }
 
         string LabelAt(Vector3 world)

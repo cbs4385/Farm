@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Farm.Gameplay
 {
     // On the player in every map: swinging a weapon, taking damage, and being knocked out. Health lives in GameState.
-    public sealed class PlayerCombat : MonoBehaviour
+    public sealed class PlayerCombat : MonoBehaviour, IMapBound
     {
         float _cooldown, _invulnerable;
         GameSession _session;
@@ -12,9 +12,9 @@ namespace Farm.Gameplay
 
         public bool Invulnerable => _invulnerable > 0f;
 
-        void Start()
+        public void Bind(MapContext map)
         {
-            _session = ServiceLocator.Get<GameSession>();
+            _session = map.Session;
             _player = GetComponent<PlayerController>();
         }
 
@@ -67,7 +67,7 @@ namespace Farm.Gameplay
             s.State.Health = CombatModel.KnockOutHealth(s.State.MaxHealth);
             s.State.Mine.Floor = 0;
             s.Toast(L.Get("combat.knocked_out", loss));
-            MapTravel.GoTo(MapIds.Clinic, "default");
+            MapTravel.GoTo(s, MapIds.Clinic, "default");
         }
 
         public static void Heal(GameSession s, int amount)

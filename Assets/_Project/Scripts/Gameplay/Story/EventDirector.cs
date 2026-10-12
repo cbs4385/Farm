@@ -38,7 +38,7 @@ namespace Farm.Gameplay
         public void Init(FarmMap map, GameSession session, NpcManager npcs, PlayerController player)
         {
             _map = map; _session = session; _npcs = npcs; _player = player;
-            _input = ServiceLocator.Get<InputService>();
+            _input = session.Game?.Input;
             _stage = new EventStage(map, session, npcs, player, () => _skip);
             Current = this;
         }

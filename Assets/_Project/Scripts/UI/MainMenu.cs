@@ -133,7 +133,7 @@ namespace Farm.UI
 
         public static void LoadAndStart(UiService ui, int slot, System.Action<string> onError)
         {
-            var session = ServiceLocator.Get<GameSession>();
+            var session = ui.Game.Session;
             if (!session.BeginLoad(slot, out var error)) { onError(error); return; }
             EnterGame(ui, session);
         }
@@ -237,7 +237,7 @@ namespace Farm.UI
 
         void Start(int slot)
         {
-            var session = ServiceLocator.Get<GameSession>();
+            var session = Ui.Game.Session;
             session.BeginNewGame(_name.text, _farm.text, slot, _avatar.Clone());
             session.PendingIntro = true;
             SaveSlots.EnterGame(Ui, session);

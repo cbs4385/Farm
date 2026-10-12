@@ -8,7 +8,7 @@ namespace Farm.Mythos
     // The altar in the clearing of Harrow Wood. On a ritual night at full intensity it stands in a ring of candles under a warm glow, and each offering is shown as what it is,
     // lifted from the stone in a drift of golden motes while it dissolves (2026-10-10); at mild intensity the offerings are plain pale lights and there are no candles. The player can
     // take an offering from it (disrupting the ritual) or, outside rituals, use it for the sealing and the initiation, through the altar's dialogue.
-    public sealed class AltarObject : MonoBehaviour, IInteractable
+    public sealed class AltarObject : MonoBehaviour, IInteractable, Farm.Gameplay.IMapBound
     {
         const int Candles = 8, Motes = 14;
 
@@ -23,7 +23,7 @@ namespace Farm.Mythos
         public bool CandlesLit { get; private set; }
         public bool OfferingShown => _offering != null && _offering.enabled;
 
-        void Start() => _session = ServiceLocator.Get<GameSession>();
+        public void Bind(MapContext map) => _session = map.Session;
 
         // Is the altar's night on (the candles burning)? The hours the Keepers are out in their robes, on a ritual night. (pure, so it can be tested)
         public static bool NightOn(bool full, bool ritualDay, int minuteOfDay, int participants) =>

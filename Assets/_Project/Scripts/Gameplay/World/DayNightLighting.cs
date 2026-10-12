@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 namespace Farm.Gameplay
 {
     // Drives a global 2D light from the in-game time. Indoor maps use a fixed warm colour.
-    public sealed class DayNightLighting : MonoBehaviour
+    public sealed class DayNightLighting : MonoBehaviour, IMapBound
     {
         [SerializeField] Light2D _light;
         [SerializeField] bool _indoor;
@@ -27,6 +27,12 @@ namespace Farm.Gameplay
         AtmosphereService _atmosphere;
 
         public bool IsIndoor => _indoor;
+
+        public void Bind(MapContext map)
+        {
+            _session = map.Session;
+            _atmosphere = map.Atmosphere;
+        }
 
         // The mine (owner, 2026-10-11): a quarter of the light, tinted blue.
         public const float CaveBrightness = 0.25f;
@@ -80,7 +86,6 @@ namespace Farm.Gameplay
         void Update()
         {
             if (_light == null) return;
-            if (_atmosphere == null) ServiceLocator.TryGet(out _atmosphere);
             _overrideWeight = Mathf.MoveTowards(_overrideWeight, _overrideGoal, _overrideSpeed * Time.deltaTime);
 
             if (_indoor)
@@ -91,7 +96,7 @@ namespace Farm.Gameplay
                 _light.intensity = 1f;
                 return;
             }
-            if (_session == null && !ServiceLocator.TryGet(out _session)) return;
+            if (_session == null) return;
             if (!_session.InGame) return;
 
             var c = ColorAt(_session.Clock.Now.MinuteOfDay);

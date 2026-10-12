@@ -83,8 +83,8 @@ namespace Farm.Gameplay
             var audio = root.AddComponent<AudioService>();
             ServiceLocator.Register(audio);
             audio.ApplySettings(settings.Current);
-            root.AddComponent<MusicDirector>();
-            root.AddComponent<InputDeviceWatcher>();
+            var music = root.AddComponent<MusicDirector>();
+            var watcher = root.AddComponent<InputDeviceWatcher>();
 
             DisplaySettings.ApplyAtStartup(settings.Current);
 
@@ -99,6 +99,8 @@ namespace Farm.Gameplay
             GameContext.SetCurrent(context);
             session.Game = context;
             ServiceLocator.Register(context);
+            music.Init(context);
+            watcher.Init(context);
             if (ServiceLocator.TryGet<IUiService>(out var uiAlready)) context.AttachUi(uiAlready);
             ServiceLocator.Register<INotifier>(context.Notify);
 
