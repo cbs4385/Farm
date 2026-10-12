@@ -50,6 +50,10 @@ namespace Farm.Gameplay
                     Day("sunday", "weekday:sun", 5, home,
                         Stop(10 * 60, MapIds.Beach, 14, 12, "up"), Stop(15 * 60, MapIds.Village, 25, 20, "down"),
                         Stop(Seven, MapIds.Saloon, 6, 4, "up"), NpcHomes.Stop(Ten, NpcIds.Tilda)),
+                    // The saloon is shut on Tuesdays: the evening is spent in the square.
+                    Day("tuesday", "weekday:tue", 3, home,
+                        NpcHomes.Depart(Eight40, NpcIds.Tilda, MapIds.GeneralStore, 7, 5), Stop(Half5, MapIds.Village, 25, 20, "down"),
+                        NpcHomes.Stop(Ten, NpcIds.Tilda)),
                     Day("workday", null, 0, home,
                         NpcHomes.Depart(Eight40, NpcIds.Tilda, MapIds.GeneralStore, 7, 5), Stop(Half5, MapIds.Village, 25, 20, "down"),
                         Stop(Seven, MapIds.Saloon, 6, 4, "up"), NpcHomes.Stop(Ten, NpcIds.Tilda)),
@@ -71,6 +75,10 @@ namespace Farm.Gameplay
                     Day("day_off", "weekday:mon", 5, home,
                         Stop(10 * 60, MapIds.Forest, 19, 10, "up"), Stop(14 * 60, MapIds.Village, 30, 17, "left"),
                         Stop(18 * 60, MapIds.Saloon, 7, 4, "up"), NpcHomes.Stop(Nine, NpcIds.Bram)),
+                    // Tuesday: the saloon is shut, so the evening is spent in the square, by Tilda.
+                    Day("tuesday", "weekday:tue", 3, home,
+                        NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Half5, MapIds.Village, 26, 20, "left"),
+                        NpcHomes.Stop(Nine, NpcIds.Bram)),
                     // Wednesday: lunch on the bench in the square, beside Marcus (his day off), in silence.
                     Day("wednesday_bench", "weekday:wed && !weather:rain", 3, home,
                         NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Noon, MapIds.Village, NpcRoster.BenchX + 1, NpcRoster.BenchY, "up"),

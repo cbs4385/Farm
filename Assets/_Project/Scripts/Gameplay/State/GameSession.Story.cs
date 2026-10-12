@@ -89,6 +89,14 @@ namespace Farm.Gameplay
             return true;
         }
 
+        // Starts a conversation whose speaker "*" is the given villager (the village's reactions are spoken by whoever saw the damage).
+        public bool BeginDialogueAs(string dialogueId, string npcId, Action onFinished = null)
+        {
+            var graph = Story.Dialogue(dialogueId);
+            if (graph == null) { Log.Warn($"Unknown dialogue '{dialogueId}'."); return false; }
+            return BeginDialogueGraph(graph.WithSpeaker(npcId), onFinished);
+        }
+
         // Starts a conversation from a graph built on the fly (the chat menu).
         public bool BeginDialogueGraph(DialogueGraph graph, Action onFinished = null)
         {

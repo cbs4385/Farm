@@ -12,6 +12,9 @@ namespace Farm.Gameplay
         [SerializeField] PlayerController _player;
         [SerializeField] CameraFollow _camera;
 
+        // This map's parts and the run's services, for the components made here (the replacement for the static `Current` singletons).
+        public MapContext Context { get; private set; }
+
         EventBus _bus;
         GameSession _session;
 
@@ -32,7 +35,7 @@ namespace Farm.Gameplay
                 var spawn = CommandLine.GetArg("-farmSpawn");   // QA aid: start at a named spawn point
                 if (!string.IsNullOrEmpty(spawn)) _session.State.SpawnPoint = spawn;
             }
-            L.SetLanguage(ServiceLocator.Get<SettingsStore>().Current.Language);
+            L.SetLanguage(_session.Settings.Language);
 
             _session.State.CurrentMap = _map.MapId;
             InputDeviceWatcher.AnnounceAtStart(_session);
@@ -63,7 +66,7 @@ namespace Farm.Gameplay
             if (_map.MapId == MapIds.Village)
             {
                 var restored = VillageGreen.Prepare(_session, _map);
-                if (restored > 0) _session.Toast(L.Get("village.restored"));
+                if (restored > 0) (GameContext.Current?.Notify ?? NullNotifier.Instance).Toast(L.Get("village.restored"));
             }
             _session.RunSpawns(_map.MapId, SpawnCandidates);
             if (_map.MapId == MapIds.Forest || _map.MapId == MapIds.Village) _view.TreeSkin = (x, y) => SeasonalTrees.SpriteAt(_map.MapId, _session.State.WorldSeed, _session.Clock.Now.Season, x, y);
@@ -99,7 +102,8 @@ namespace Farm.Gameplay
             var events = new GameObject("Events").AddComponent<EventDirector>();
             events.Init(_map, _session, npcs, _player);
             if (_map.MapId == MapIds.Village || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
-            if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(_session, npcs, _player, _map);
+            Context = new MapContext { Game = GameContext.Current, Map = _map, View = _view, Player = _player, Npcs = npcs };
+            if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(Context);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
             new GameObject("PhotoMode").AddComponent<PhotoMode>().Init(_session, npcs, _player);
             new GameObject("Hover").AddComponent<HoverInspector>().Init(_session, _map);
@@ -143,7 +147,7 @@ namespace Farm.Gameplay
         // The scene that is starting is still being loaded when these commands run, and the loader ignores a second request: wait for it.
         System.Collections.IEnumerator ReloadWhenIdle()
         {
-            var loader = ServiceLocator.Get<SceneLoader>();
+            var loader = _session.Game.Scenes;
             while (loader.IsLoading) yield return null;
             loader.Load(_session.State.CurrentMap, 0f);
         }
@@ -173,7 +177,7 @@ namespace Farm.Gameplay
                 case "stream":
                 {
                     // QA only: stream mode with a 30 second chat-vote timer, on a conversation at its choices.
-                    var settings = ServiceLocator.Get<SettingsStore>().Current;
+                    var settings = _session.Settings;
                     settings.StreamMode = true;
                     settings.ChoiceTimer = 30;
                     settings.DialogueSpeed = 3;

@@ -117,6 +117,40 @@ MonoBehaviour:
       X: 2
       Y: 5
       Facing: sleep
+  - Id: tuesday
+    Condition: weekday:tue
+    Priority: 3
+    Stops:
+    - Minute: 360
+      Map: HomeBram
+      X: 2
+      Y: 5
+      Facing: sleep
+    - Minute: 405
+      Map: HomeBram
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 515
+      Map: Blacksmith
+      X: 6
+      Y: 4
+      Facing: down
+    - Minute: 1050
+      Map: Village
+      X: 26
+      Y: 20
+      Facing: left
+    - Minute: 1260
+      Map: HomeBram
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 1322
+      Map: HomeBram
+      X: 2
+      Y: 5
+      Facing: sleep
   - Id: wednesday_bench
     Condition: weekday:wed && !weather:rain
     Priority: 3

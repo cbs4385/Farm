@@ -329,7 +329,7 @@ namespace Farm.Gameplay
         // After a chat, and after a story beat too (playtest 2026-10-06: the conversation ended after one line): offer the menu.
         public static void Offer(GameSession session, NpcDefinition npc)
         {
-            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            var settings = session.Settings;
             if (settings != null && !settings.ChatMenu) return;
             var state = InteractionState.Load(session);
             var graph = Build(session.Story, npc.Id, session.World, state, session.Clock.Now.TotalDays, L.Has) ?? Minimal(npc.Id, L.Has);

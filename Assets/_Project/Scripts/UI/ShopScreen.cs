@@ -280,7 +280,7 @@ namespace Farm.UI
             Close();
             Ui.SetHudVisible(false);
             Ui.Session.EndGame();
-            ServiceLocator.Get<SceneLoader>().Load(SceneNames.MainMenu);
+            Ui.Game.Scenes.Load(SceneNames.MainMenu);
         }
 
         void Quit()

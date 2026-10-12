@@ -75,12 +75,12 @@ namespace Farm.Gameplay
             if (_session == null || !_session.InGame) return;
             var indoor = _lighting != null && _lighting.IsIndoor;
             Last = Choose(indoor, _session.State.Weather, _session.Clock.Now.MinuteOfDay / 60, _session.Clock.Now.Season);
-            if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.SetAmbience(Last);
+            _session.Game?.Audio?.SetAmbience(Last);
         }
 
         void OnDestroy()
         {
-            if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.SetAmbience(AmbienceKind.None);
+            _session?.Game?.Audio?.SetAmbience(AmbienceKind.None);
         }
 
         // Rain and storms rain; wind and snow blow; a clear day has birds, a clear night (outside winter) has crickets.

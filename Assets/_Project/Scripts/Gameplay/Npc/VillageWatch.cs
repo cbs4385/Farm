@@ -11,12 +11,9 @@ namespace Farm.Gameplay
     public sealed class VillageWatch : MonoBehaviour
     {
         public const float WitnessRange = 11f;
-        public const int MutterLines = 5;          // for trees; rocks and soil have MinorMutterLines
-        public const int MinorMutterLines = 3;
-        public const int ScoldLines = 3;
-        public const string ScoldedVar = "village.scolded";          // the day (counted from 1) of the last telling-off
         const float MutterGap = 12f;
         const float WalkSpeed = 3.2f;
+        public const string ScoldedVar = "village.scold";           // the day (counted from 1) of the last telling-off
 
         GameSession _session;
         NpcManager _npcs;
@@ -31,9 +28,9 @@ namespace Farm.Gameplay
         public static string LastScolder { get; private set; }
         static VillageWatch() => TestResets.Add(() => { Muttered = 0; Scolds = 0; LastScolder = null; });
 
-        public void Init(GameSession session, NpcManager npcs, PlayerController player, FarmMap map)
+        public void Init(MapContext context)
         {
-            _session = session; _npcs = npcs; _player = player; _map = map;
+            _session = context.Session; _npcs = context.Npcs; _player = context.Player; _map = context.Map;
             _session.Subscribe<VillageDamaged>(OnDamaged);
         }
 
@@ -43,14 +40,26 @@ namespace Farm.Gameplay
             foreach (var b in _bubbles) if (b != null) Destroy(b);
         }
 
-        // Pure: the line a villager mutters, so that two witnesses never say the same one.
-        public static int MutterFor(string npcId, int today, int salt = 0, VillageDamage kind = VillageDamage.Tree) =>
-            (Mathf.Abs(NpcInteractions.StableHash(npcId ?? "")) + today * 7 + salt) % (kind == VillageDamage.Tree ? MutterLines : MinorMutterLines);
-        public static int ScoldFor(string npcId, int today) => (Mathf.Abs(NpcInteractions.StableHash(npcId ?? "")) + today) % ScoldLines;
+        // What they say is in the story files (Narrative/village_green.fscript): one set of mutters and one of telling-offs for each kind of damage, spoken by "*", the witness.
+        public static string KindId(VillageDamage kind) => kind == VillageDamage.Rock ? "rock" : kind == VillageDamage.Soil ? "till" : "tree";
+        public static string MutterSet(VillageDamage kind) => "village.mutter." + KindId(kind);
+        public static string ScoldSet(VillageDamage kind) => "village.scold." + KindId(kind);
 
-        public static string KindPart(VillageDamage kind) => kind == VillageDamage.Rock ? "rock." : kind == VillageDamage.Soil ? "till." : "";
-        public static string MutterKey(VillageDamage kind, int line) => "village.mutter." + KindPart(kind) + line;
-        public static string ScoldKey(VillageDamage kind, int variant, int part) => $"village.scold.{KindPart(kind)}{variant}.{part}";
+        // A seed that is the same for the same villager on the same day, so that two witnesses say different things and a repeat is not random.
+        public static int SeedFor(string npcId, int today, int salt = 0) => Mathf.Abs(NpcInteractions.StableHash(npcId ?? "")) + today * 7 + salt;
+
+        string PickLine(string setId, string npcId, int today, int salt)
+        {
+            var set = _session.Story?.Set(setId);
+            return set?.Pick(_session.World, SeedFor(npcId, today, salt));
+        }
+
+        string FirstText(string dialogueId)
+        {
+            var graph = _session.Story?.Dialogue(dialogueId);
+            var node = graph?.Node(graph.Start);
+            return node == null ? null : _session.StoryText(node.Text, node.Args.ToArray());
+        }
 
         List<NpcActor> Witnesses()
         {
@@ -73,7 +82,9 @@ namespace Farm.Gameplay
                 for (var i = 0; i < Mathf.Min(2, witnesses.Count); i++)
                 {
                     var w = witnesses[i];
-                    var bubble = SpeechBubbleFactory.Create(w.transform, L.Get(MutterKey(e.Kind, MutterFor(w.Definition.Id, today, i, e.Kind))));
+                    var text = FirstText(PickLine(MutterSet(e.Kind), w.Definition.Id, today, i));
+                    if (string.IsNullOrEmpty(text)) continue;
+                    var bubble = SpeechBubbleFactory.Create(w.transform, text, _session.Settings?.TextScale ?? 1f);
                     _bubbles.Add(bubble);
                     Destroy(bubble, Barks.ShowSeconds);
                     Muttered++;
@@ -115,8 +126,8 @@ namespace Farm.Gameplay
             }
             LastScolder = id;
             Scolds++;
-            var graph = ScoldGraph(id, ScoldFor(id, _session.Clock.Now.TotalDays), kind);
-            if (!_session.BeginDialogueGraph(graph, () => { _npcs.ReleaseAll(); _scolding = false; })) { _npcs.ReleaseAll(); _scolding = false; }
+            var line = PickLine(ScoldSet(kind), id, _session.Clock.Now.TotalDays, 0);
+            if (line == null || !_session.BeginDialogueAs(line, id, () => { _npcs.ReleaseAll(); _scolding = false; })) { _npcs.ReleaseAll(); _scolding = false; }
         }
 
         // A free cell next to the player, the nearest one to where the villager is.
@@ -132,21 +143,6 @@ namespace Farm.Gameplay
                 if (d < bestDistance) { bestDistance = d; best = c; }
             }
             return best;
-        }
-
-        // Two lines from the villager, then it is over (nothing to choose: they have said their piece).
-        public static DialogueGraph ScoldGraph(string npcId, int variant, VillageDamage kind = VillageDamage.Tree)
-        {
-            return new DialogueGraph
-            {
-                Id = "village.scold",
-                Start = "n0",
-                Nodes = new List<DialogueNode>
-                {
-                    new DialogueNode { Id = "n0", Speaker = npcId, Text = ScoldKey(kind, variant, 0), Emote = "exclaim", Next = "n1" },
-                    new DialogueNode { Id = "n1", Speaker = npcId, Text = ScoldKey(kind, variant, 1) },
-                },
-            };
         }
     }
 }

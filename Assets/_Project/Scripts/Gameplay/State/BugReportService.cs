@@ -68,7 +68,7 @@ namespace Farm.Gameplay
             var sb = new StringBuilder();
             sb.AppendLine($"{Application.productName} {Application.version} ({Application.platform}, {(Debug.isDebugBuild ? "development" : "release")} build)");
             sb.AppendLine("Language: " + L.Language);
-            var settings = GameSession.Settings;
+            var settings = session.Settings;
             if (settings != null) sb.AppendLine($"Settings: horror level {settings.HorrorLevel}, stream mode {settings.StreamMode}, relaxed energy {settings.RelaxedEnergy}");
             sb.AppendLine($"Input: hints for {ControlPrompts.Kind}; hover labels {(settings == null || settings.HoverLabels ? "on" : "off")}; hover: {HoverInspector.Why ?? "-"} ({HoverInspector.Current ?? "none"})");
             sb.AppendLine("Devices: " + string.Join("; ", UnityEngine.InputSystem.InputSystem.devices.Select(d => $"{d.displayName} [{d.layout}{(d is UnityEngine.InputSystem.Gamepad ? ", gamepad" : "")}]")));

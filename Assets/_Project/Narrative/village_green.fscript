@@ -1,0 +1,124 @@
+# The village green: what the villagers say when they see the player fell, break or dig what belongs to everyone (VillageWatch).
+# The speaker "*" is whoever saw it: the game puts that villager in the line (GameSession.BeginDialogueAs). Compiled to zz_fs_village_green.json.
+
+# ---- trees
+dialogue village.mutter.tree.0
+n0 *: Oh, not the trees. Who does that?
+
+dialogue village.mutter.tree.1
+n0 *: That tree was here before I was, and now it is a stump.
+
+dialogue village.mutter.tree.2
+n0 *: Somebody is chopping up the village green. Again.
+
+dialogue village.mutter.tree.3
+n0 *: Public property, that is. Public! Mutter, mutter.
+
+dialogue village.mutter.tree.4
+n0 *: We will have to do something about this. If we only had a council.
+
+dialogue village.scold.tree.0
+n0 *: [player]! Those trees belong to everyone in Wetherell. You cannot just chop them down.
+  emote exclaim
+  next n1
+n1 *: Take your axe to the woods. We will set the green right overnight, and I would thank you not to make us do it twice.
+
+dialogue village.scold.tree.1
+n0 *: [player], stop. The green is not yours to cut. It is not anybody's, which is the whole point.
+  emote exclaim
+  next n1
+n1 *: The wood is for chopping. The village is for sitting under. We will put it right, but please remember the difference.
+
+dialogue village.scold.tree.2
+n0 *: Is that a stump where a tree stood yesterday, [player]? Public property, damaged by you.
+  emote exclaim
+  next n1
+n1 *: Fell what you like in the forest. Not here. Somebody will be out with a shovel and a sapling before morning.
+
+set village.mutter.tree
+  0 ~ => village.mutter.tree.0
+  0 ~ => village.mutter.tree.1
+  0 ~ => village.mutter.tree.2
+  0 ~ => village.mutter.tree.3
+  0 ~ => village.mutter.tree.4
+
+set village.scold.tree
+  0 ~ => village.scold.tree.0
+  0 ~ => village.scold.tree.1
+  0 ~ => village.scold.tree.2
+
+# ---- rocks
+dialogue village.mutter.rock.0
+n0 *: Who is breaking up the village stones? They have sat there for years.
+
+dialogue village.mutter.rock.1
+n0 *: A pickaxe on the green. I never thought I would see the day.
+
+dialogue village.mutter.rock.2
+n0 *: Those rocks keep the lawn in its place. Mutter, mutter.
+
+dialogue village.scold.rock.0
+n0 *: [player]! Those rocks have been part of the village longer than any of us.
+  emote exclaim
+  next n1
+n1 *: Break rocks in the mine, where they are meant to be broken. We will put these back overnight.
+
+dialogue village.scold.rock.1
+n0 *: [player], please. That is a village stone, not a quarry.
+  emote exclaim
+  next n1
+n1 *: The mine is full of rock with your name on it. This is not. It will be back by morning, and so will I, if I must.
+
+dialogue village.scold.rock.2
+n0 *: Did you just break a rock on the green, [player]? In front of everyone?
+  emote exclaim
+  next n1
+n1 *: Public property is not for smashing. We will mend it, but think twice next time.
+
+set village.mutter.rock
+  0 ~ => village.mutter.rock.0
+  0 ~ => village.mutter.rock.1
+  0 ~ => village.mutter.rock.2
+
+set village.scold.rock
+  0 ~ => village.scold.rock.0
+  0 ~ => village.scold.rock.1
+  0 ~ => village.scold.rock.2
+
+# ---- digging
+dialogue village.mutter.till.0
+n0 *: Digging up the village green? It is for sitting on, not for planting.
+
+dialogue village.mutter.till.1
+n0 *: Look at that, bare earth in the middle of the green.
+
+dialogue village.mutter.till.2
+n0 *: I only mowed that on Tuesday. Mutter, mutter.
+
+dialogue village.scold.till.0
+n0 *: [player]! The green is not a field. You cannot dig it up.
+  emote exclaim
+  next n1
+n1 *: Your farm has fine soil for that. We will level this overnight, and I would thank you to leave it be.
+
+dialogue village.scold.till.1
+n0 *: [player], what are you doing with a hoe on the village green?
+  emote exclaim
+  next n1
+n1 *: Plant things on your farm. Here, the grass is for everyone. We will smooth it over tonight.
+
+dialogue village.scold.till.2
+n0 *: That is a dug up patch of public lawn, [player]. I saw you.
+  emote exclaim
+  next n1
+n1 *: Public property, if you please. It will be tidied before morning, and you will not do it again, will you?
+
+set village.mutter.till
+  0 ~ => village.mutter.till.0
+  0 ~ => village.mutter.till.1
+  0 ~ => village.mutter.till.2
+
+set village.scold.till
+  0 ~ => village.scold.till.0
+  0 ~ => village.scold.till.1
+  0 ~ => village.scold.till.2

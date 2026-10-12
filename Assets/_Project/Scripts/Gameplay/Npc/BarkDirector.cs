@@ -58,7 +58,7 @@ namespace Farm.Gameplay
 
         bool Enabled()
         {
-            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            var settings = _session?.Settings;
             if (settings != null && !settings.Barks) return false;
             if (_events != null && _events.IsPlaying) return false;
             return !(UiAccess.AnyModalOpen);
@@ -85,7 +85,7 @@ namespace Farm.Gameplay
         void Say(string npcId, NpcActor actor, string text)
         {
             _cooldowns.Mark(npcId, Time.time);
-            _bubble = SpeechBubbleFactory.Create(actor.transform, text);
+            _bubble = SpeechBubbleFactory.Create(actor.transform, text, _session?.Settings?.TextScale ?? 1f);
             _hideAt = Time.time + Barks.ShowSeconds;
             LastNpc = npcId; LastText = text; Spoken++;
         }

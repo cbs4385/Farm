@@ -79,6 +79,10 @@ namespace Farm.UI
         public Canvas ScreenCanvas => _screenCanvas;
         public InputService Input => _input;
         public GameSession Session => _session;
+
+        // The run's services, handed over by the GameContext (ADR 0006); the screens read the settings, saves, scene loader and audio from it.
+        public GameContext Game { get; private set; }
+        public void Attach(GameContext context) => Game = context;
         public EventBus Bus => _bus;
         public bool AnyModalOpen => _modals.Count > 0;
         public bool PointerOverUi => EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
@@ -102,6 +106,7 @@ namespace Farm.UI
             {
                 var ui = root.AddComponent<UiService>();
                 ServiceLocator.Register<IUiService>(ui);
+                GameContext.Current?.AttachUi(ui);
                 ServiceLocator.Register(ui);
             };
         }
@@ -112,7 +117,8 @@ namespace Farm.UI
             _session = ServiceLocator.Get<GameSession>();
             _input = ServiceLocator.Get<InputService>();
 
-            var settings = ServiceLocator.Get<SettingsStore>().Current;
+            var settings = Game.Settings.Current;
+            UiPalette.ColorblindSource = () => Game.Settings.Current.ColorblindPalette;
             L.SetLanguage(settings.Language);
 
             CreateEventSystem();

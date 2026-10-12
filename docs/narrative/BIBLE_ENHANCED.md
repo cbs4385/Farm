@@ -57,9 +57,9 @@ Pronouns: the shipped data has none; this bible uses the pronouns of the art and
 
 ## 4. Dorian Lake (forager)
 
-**Role and place.** Forages in the forest all day; lodges at the carpenter's. No shop. Birthday Winter 11. Romanceable.
+**Role and place.** Forages in the forest all day; lodges at the carpenter's. In the evening (about five until nine) he sits in the saloon, in the quiet corner by the wall with a basket and a tea: nobody expects him to talk, and the corner is his. No shop. Birthday Winter 11. Romanceable.
 **Public face.** Quiet, watchful, brief; politely elsewhere.
-**Real self.** Shy rather than cold: prefers trees to crowds, is embarrassed by how long a sentence takes him, and keeps a notebook of tiny mushroom drawings that nobody has seen.
+**Real self.** Shy rather than cold: prefers trees to crowds (the saloon corner is a crowd he can sit beside), is embarrassed by how long a sentence takes him, and keeps a notebook of tiny mushroom drawings that nobody has seen.
 **Voice rules.** Very short sentences (up to 12 words), observation over opinion, no exclamation marks, nature words (root, moss, spore). Never explains himself; never mocks.
 **Humour type.** Whispered forest literalism.
 **Signature bit: *The offering*.** A small gift (a mushroom, a pinecone, a perfect leaf) appears on the player's step, and he denies it ("Not me. The forest."). Catchphrase: **"Not me. The forest."** Sound: a twig snap.

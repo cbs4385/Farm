@@ -63,7 +63,8 @@ namespace Farm.Gameplay
 
         public static bool Start(GameSession s, string eventId)
         {
-            if (!CanStart(s, eventId) || !ServiceLocator.TryGet<SceneLoader>(out var loader) || loader.IsLoading) return false;
+            var loader = s.Game?.Scenes;
+            if (!CanStart(s, eventId) || loader == null || loader.IsLoading) return false;
             var ev = s.Story.Event(eventId);
             var player = Object.FindAnyObjectByType<PlayerController>();
             s.MemoryId = eventId;
@@ -86,7 +87,7 @@ namespace Farm.Gameplay
             s.State.CurrentMap = back;
             s.State.SpawnPoint = "default";
             s.MemoryRestorePosition = s.MemoryHasReturnPosition;
-            if (ServiceLocator.TryGet<SceneLoader>(out var loader)) loader.Load(back, ReturnFadeSeconds);
+            s.Game?.Scenes?.Load(back, ReturnFadeSeconds);
         }
     }
 }

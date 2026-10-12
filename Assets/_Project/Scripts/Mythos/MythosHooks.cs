@@ -31,7 +31,8 @@ namespace Farm.Mythos
         public static void ApplyAtmosphere(GameSession s)
         {
             MythosSoundscape.Apply(s);
-            if (!ServiceLocator.TryGet<AtmosphereService>(out var atmosphere)) return;
+            var atmosphere = s.Game?.Atmosphere;
+            if (atmosphere == null) return;
             var scale = MythosLevel.Scale(s);
             if (scale <= 0f) { atmosphere.Stack.Remove(MythosIds.Atmosphere.Dread); return; }
             var step = WakefulnessLadder.For(Wakefulness(s));

@@ -18,7 +18,8 @@ namespace Farm.Mythos
             var s = ctx.Session;
             NoteWoodsEntered(s, ctx.MapId);
             WakefulnessService.ApplyAtmosphere(s);
-            if (!ServiceLocator.TryGet<AtmosphereService>(out var atmosphere)) return;
+            var atmosphere = s.Game?.Atmosphere;
+            if (atmosphere == null) return;
             if (MythosLevel.On(s) && ctx.MapId == MapIds.Woods)
                 atmosphere.Stack.Set(MythosIds.Atmosphere.Woods, new Color(0.7f, 0.85f, 0.8f), 0.35f * MythosLevel.Scale(s), 3);
             else atmosphere.Stack.Remove(MythosIds.Atmosphere.Woods);

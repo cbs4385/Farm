@@ -118,7 +118,7 @@ namespace Farm.UI
             Root.SetActive(false);
         }
 
-        static SettingsData Settings => ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+        SettingsData Settings => Ui.Game.Settings.Current;
 
         public void OpenDialogue(DialogueRunner runner, Action onClosed)
         {
@@ -209,15 +209,16 @@ namespace Farm.UI
             var profile = VoiceProfiles.For(string.IsNullOrEmpty(line.Voice) ? line.Speaker : line.Voice);
             if (VoiceSynth.ShouldBlip(_blippedAt, _type.Visible, profile.CharsPerBlip))
             {
-                if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.PlayVoice(string.IsNullOrEmpty(line.Voice) ? line.Speaker : line.Voice, _type.Visible);
+                Ui.Game.Audio?.PlayVoice(string.IsNullOrEmpty(line.Voice) ? line.Speaker : line.Voice, _type.Visible);
             }
             _blippedAt = _type.Visible;
         }
 
         // A line can ask for a sound when it appears: "signature" is the speaker's own, otherwise a sound name.
-        static void PlayLineSound(DialogueLine line)
+        void PlayLineSound(DialogueLine line)
         {
-            if (string.IsNullOrEmpty(line.Sfx) || !ServiceLocator.TryGet<AudioService>(out var audio)) return;
+            var audio = Ui.Game.Audio;
+            if (string.IsNullOrEmpty(line.Sfx) || audio == null) return;
             var settings = Settings;
             if (line.Sfx == "signature")
             {

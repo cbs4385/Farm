@@ -12,6 +12,6 @@ namespace Farm.Gameplay
         public static string Offer(bool streamMode, string accountName) =>
             streamMode ? Fallback : NameFilter.FromAccountName(accountName, MaxLength, Fallback);
 
-        public static string ForThisUser() => Offer(GameSession.Settings != null && GameSession.Settings.StreamMode, System.Environment.UserName);
+        public static string ForThisUser(bool streamMode) => Offer(streamMode, System.Environment.UserName);
     }
 }

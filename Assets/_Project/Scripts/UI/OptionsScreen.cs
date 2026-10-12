@@ -28,7 +28,7 @@ namespace Farm.UI
 
         public OptionsScreen(UiService ui) : base(ui)
         {
-            _store = ServiceLocator.Get<SettingsStore>();
+            _store = ui.Game.Settings;
             var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "Options", new Vector2(620, 470), out var root);
             Root = root;
             // Fill the canvas height (with margins) so the Back button is always on screen, whatever the window size.
@@ -113,7 +113,7 @@ namespace Farm.UI
         {
             UiKit.ClearChildren(_content);
             var s = _store.Current;
-            var audio = ServiceLocator.TryGet<AudioService>(out var a) ? a : null;
+            var audio = Ui.Game.Audio;
 
             Section(L.Get("options.audio"));
             VolumeRow(L.Get("options.master"), s.MasterVolume, v => { s.MasterVolume = v; audio?.ApplySettings(s); });

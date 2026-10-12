@@ -14,7 +14,7 @@ namespace Farm.Gameplay
         public static string StepOf(GameSession s)
         {
             if (s == null || !s.InGame || s.HasFlag(SkipFlag)) return null;
-            var settings = GameSession.Settings;
+            var settings = s.Settings;
             if (settings != null && !settings.TutorialTips) return null;
             if (s.GetVar(QuestLog.Stats.Shipped) >= 1) return null;
             if (s.GetVar(QuestLog.Stats.Tilled) < 3) return "till";

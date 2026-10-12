@@ -112,7 +112,7 @@ namespace Farm.UI
     {
         public static int MostRecentSlot(UiService ui)
         {
-            var saves = ServiceLocator.Get<SaveService>();
+            var saves = ui.Game.Saves;
             var best = -1;
             var bestTime = System.DateTime.MinValue;
             for (var i = 0; i < SaveService.SlotCount; i++)
@@ -141,7 +141,7 @@ namespace Farm.UI
         public static void EnterGame(UiService ui, GameSession session)
         {
             ui.CloseAllModals();
-            ServiceLocator.Get<SceneLoader>().Load(session.State.CurrentMap);
+            ui.Game.Scenes.Load(session.State.CurrentMap);
         }
     }
 
@@ -191,7 +191,7 @@ namespace Farm.UI
 
         public override void Open()
         {
-            _name.text = DefaultFarmerName.ForThisUser();   // the signed-in user (not in stream mode)
+            _name.text = DefaultFarmerName.ForThisUser(Ui.Game.Settings.Current.StreamMode);   // the signed-in user (not in stream mode)
             _avatar = AvatarOptions.Random(System.Environment.TickCount + _opens++ * 7919);   // as if Surprise Me was pressed; Customize changes it
             Rebuild();
             base.Open();
@@ -210,7 +210,7 @@ namespace Farm.UI
             ShowAvatar();
             _status.text = string.Empty;
             UiKit.ClearChildren(_slots);
-            var saves = ServiceLocator.Get<SaveService>();
+            var saves = Ui.Game.Saves;
             for (var i = 0; i < SaveService.SlotCount; i++)
             {
                 var slot = i;
@@ -267,7 +267,7 @@ namespace Farm.UI
         {
             _status.text = string.Empty;
             UiKit.ClearChildren(_slots);
-            var saves = ServiceLocator.Get<SaveService>();
+            var saves = Ui.Game.Saves;
             for (var i = 0; i < SaveService.SlotCount; i++)
             {
                 var slot = i;
@@ -277,7 +277,7 @@ namespace Farm.UI
                     () => SaveSlots.LoadAndStart(Ui, slot, error => _status.text = L.Get("load.failed", error)), 372f, 34f);
                 b.interactable = summary.Exists;
                 // Playtest 2026-10-10: there was no way to remove a saved game. Deleting asks first.
-                var del = UiKit.MakeButton(row.transform, L.Get("load.delete"), () => Ui.ShowConfirm("confirm.delete_save", () => { ServiceLocator.Get<SaveService>().Delete(slot); Open(); }), 82f, 34f);
+                var del = UiKit.MakeButton(row.transform, L.Get("load.delete"), () => Ui.ShowConfirm("confirm.delete_save", () => { Ui.Game.Saves.Delete(slot); Open(); }), 82f, 34f);
                 del.name = "Delete" + slot;
                 del.interactable = summary.Exists;
             }

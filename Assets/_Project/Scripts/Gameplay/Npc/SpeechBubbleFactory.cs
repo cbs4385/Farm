@@ -43,9 +43,9 @@ namespace Farm.Gameplay
             return sb.ToString();
         }
 
-        public static GameObject Create(Transform actor, string text)
+        public static GameObject Create(Transform actor, string text, float textScale = 1f)
         {
-            var size = SizeFactor(ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current.TextScale : 1f);
+            var size = SizeFactor(textScale);
             var wrapped = Wrap(text);
             var rows = wrapped.Split('\n');
             var longest = 0;

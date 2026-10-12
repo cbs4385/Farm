@@ -88,6 +88,20 @@ namespace Farm.Gameplay
 
             DisplaySettings.ApplyAtStartup(settings.Current);
 
+            // The run's context (docs/adr/0006): everything above, in one object. Still registered in the locator while code is converted.
+            var context = new GameContext
+            {
+                Bus = bus, Settings = settings, Db = db, Saves = saves, Session = session, Audio = audio,
+                Atmosphere = root.GetComponent<AtmosphereService>(), Scenes = ServiceLocator.Get<SceneLoader>(),
+            };
+            ServiceLocator.TryGet<InputService>(out context.Input);
+            context.Notify = new Notifier(session, () => context.Ui);
+            GameContext.SetCurrent(context);
+            session.Game = context;
+            ServiceLocator.Register(context);
+            if (ServiceLocator.TryGet<IUiService>(out var uiAlready)) context.AttachUi(uiAlready);
+            ServiceLocator.Register<INotifier>(context.Notify);
+
             // Modules (optional layers in their own assemblies) hook in last, once every service exists.
             GameModules.InitializeAll(new ModuleContext
             {

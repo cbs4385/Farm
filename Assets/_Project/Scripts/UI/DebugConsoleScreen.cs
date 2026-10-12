@@ -84,7 +84,7 @@ namespace Farm.UI
             if (result.Ok && result.ReloadScene)
             {
                 Close();
-                ServiceLocator.Get<SceneLoader>().Load(Ui.Session.State.CurrentMap, 0.2f);
+                Ui.Game.Scenes.Load(Ui.Session.State.CurrentMap, 0.2f);
             }
             return result;
         }

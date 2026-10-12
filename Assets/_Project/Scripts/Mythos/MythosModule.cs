@@ -38,7 +38,7 @@ namespace Farm.Mythos
         // Registers everything. Safe to call with a fresh session in tests. Every piece checks the intensity itself.
         public static void Install(GameSession session, GameHooks hooks, EventBus bus)
         {
-            RegisterConditions();
+            RegisterConditions(() => session.Settings);
             RitualScene.Bind(session);
             MythosEffects.Register();
             foreach (var ending in new[] { "sealed", "joined", "ignored", "awakened" })
@@ -69,10 +69,10 @@ namespace Farm.Mythos
         }
 
         // `horror:<n>` (the intensity is at least n), `keeper:<npc>` (a Keeper, while the cult still keeps its watch).
-        public static void RegisterConditions()
+        public static void RegisterConditions(System.Func<SettingsData> settings = null)
         {
-            Conditions.Register("horror", (arg, w) => int.TryParse(arg, out var n) && GameSession.CurrentHorrorLevel >= n);
-            Conditions.Register("keeper", (arg, w) => GameSession.CurrentHorrorLevel >= 1 && MythosCast.IsKeeper(arg));
+            Conditions.Register("horror", (arg, w) => int.TryParse(arg, out var n) && GameSession.HorrorLevelOf(settings?.Invoke()) >= n);
+            Conditions.Register("keeper", (arg, w) => GameSession.HorrorLevelOf(settings?.Invoke()) >= 1 && MythosCast.IsKeeper(arg));
             Conditions.Register("ritual", (arg, w) => RitualScene.Condition(arg));          // ritual:opening, fresh, succeeded, failed, snatched, count>=N
         }
     }

@@ -86,10 +86,12 @@ namespace Farm.Gameplay
             s.Play();
         }
 
+        AudioService _audio;
+
         void Fade()
         {
             var step = Time.unscaledDeltaTime / FadeSeconds;
-            var volume = (ServiceLocator.TryGet<AudioService>(out var audio) ? audio.MusicVolume : 0.7f) * TrackGain;
+            var volume = ((_audio ??= GetComponent<AudioService>()) != null ? _audio.MusicVolume : 0.7f) * TrackGain;
             for (var i = 0; i < 2; i++)
             {
                 var on = i == _active && Playing != null;

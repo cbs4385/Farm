@@ -31,8 +31,13 @@ namespace Farm.Gameplay
         public float SfxVolume => _sfxVolume;
         public float MusicVolume => _musicVolume;
 
+        static AudioService _current;          // the one audio service, for the static fronts below (their 50 callers move to the context with the PlayerActions split, ADR 0006 phase 2)
+
+        void OnDestroy() { if (_current == this) _current = null; }
+
         void Awake()
         {
+            _current = this;
             _voices = new AudioSource[SfxVoices];
             for (var i = 0; i < SfxVoices; i++)
             {
@@ -134,12 +139,12 @@ namespace Farm.Gameplay
 
         public static void PlayIfAvailable(Sfx sfx)
         {
-            if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.Play(sfx);
+            _current?.Play(sfx);
         }
 
         public static void PlayIfAvailable(Sfx sfx, float volumeScale, float pitch = 1f)
         {
-            if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.PlayPitched(sfx, volumeScale, pitch);
+            _current?.PlayPitched(sfx, volumeScale, pitch);
         }
 
         // A quieter and/or higher or lower version of an effect (footsteps, hover ticks, animal calls).
@@ -238,7 +243,7 @@ namespace Farm.Gameplay
 
         public static void SetLayerIfAvailable(string id, Func<float[]> render, float volume)
         {
-            if (ServiceLocator.TryGet<AudioService>(out var audio)) audio.SetAmbienceLayer(id, render, volume);
+            _current?.SetAmbienceLayer(id, render, volume);
         }
 
         void UpdateLayers(float step)

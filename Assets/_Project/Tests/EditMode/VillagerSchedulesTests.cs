@@ -61,5 +61,36 @@ namespace Farm.Tests
             Assert.AreEqual(MapIds.Blacksmith, At("bram", 4, 12 * 60 + 30).Map, "on other days he stays at the forge");
             Assert.AreNotEqual(MapIds.Village, At("bram", 3, 12 * 60 + 30, WeatherIds.Rain).Map, "no bench in the rain");
         }
+
+        [Test]
+        public void OnTuesdayEvenings_TildaAndBram_SpendTheEveningInTheSquare_BecauseTheSaloonIsShut()
+        {
+            foreach (var who in new[] { "tilda", "bram" })
+            {
+                Assert.AreEqual(MapIds.Village, At(who, 2, 20 * 60).Map, who + " on Tuesday at eight");
+                Assert.AreEqual(MapIds.Saloon, At(who, 4, 20 * 60).Map, who + " on Thursday at eight, in the saloon");
+            }
+            var tilda = At("tilda", 2, 20 * 60);
+            var bram = At("bram", 2, 20 * 60);
+            Assert.AreEqual(1, Mathf.Abs(tilda.ToX - bram.ToX), "side by side");
+            Assert.AreEqual(tilda.ToY, bram.ToY);
+        }
+
+        [Test]
+        public void Dorian_ForagesAllDay_AndSitsInTheSaloonInTheEvening()
+        {
+            Assert.AreEqual(MapIds.Forest, At("dorian", 4, 13 * 60).Map);
+            Assert.AreEqual(MapIds.Saloon, At("dorian", 4, 19 * 60).Map, "the quiet corner of the saloon");
+            Assert.AreEqual(MapIds.Saloon, At("dorian", 2, 19 * 60).Map, "and on Tuesdays too (he has no day off)");
+        }
+
+        [Test]
+        public void OnSaturdays_DrOdalys_SpendsTheAfternoonAndEveningInTheSaloon_BecauseTheLibraryIsShut()
+        {
+            Assert.AreEqual(MapIds.Saloon, At("odalys", 6, 14 * 60).Map, "Saturday afternoon");
+            Assert.AreEqual(MapIds.Saloon, At("odalys", 6, 19 * 60).Map, "and evening");
+            Assert.AreEqual(MapIds.Clinic, At("odalys", 4, 12 * 60).Map, "the clinic on a weekday");
+            Assert.AreNotEqual(MapIds.Saloon, At("odalys", 6, 14 * 60, WeatherIds.Rain).Map, "at home when it rains");
+        }
     }
 }

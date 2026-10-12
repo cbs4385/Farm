@@ -12,34 +12,49 @@ namespace Farm.Tests
     public class VillageDamageTests
     {
         [Test]
-        public void EveryMutterAndScold_HasItsWords()
+        public void EveryKindOfDamage_HasMutteringsAndTellingsOff_InTheStoryFiles_SpokenByWhoeverSawIt()
         {
-            for (var i = 0; i < VillageWatch.MutterLines; i++) Assert.IsTrue(L.Has("village.mutter." + i), "mutter " + i);
-            for (var v = 0; v < VillageWatch.ScoldLines; v++)
-                foreach (var part in new[] { 0, 1 }) Assert.IsTrue(L.Has($"village.scold.{v}.{part}"), $"scold {v}.{part}");
-            Assert.IsTrue(L.Has("village.restored"));
-            foreach (var kind in new[] { VillageDamage.Rock, VillageDamage.Soil })
+            Conditions.ClearCustomForTests();
+            StoryConditions.Register();
+            var story = StoryContent.LoadFromResources();
+            foreach (var kind in new[] { VillageDamage.Tree, VillageDamage.Rock, VillageDamage.Soil })
             {
-                for (var i = 0; i < VillageWatch.MinorMutterLines; i++) Assert.IsTrue(L.Has(VillageWatch.MutterKey(kind, i)), kind + " mutter " + i);
-                for (var v = 0; v < VillageWatch.ScoldLines; v++)
-                    foreach (var part in new[] { 0, 1 }) Assert.IsTrue(L.Has(VillageWatch.ScoldKey(kind, v, part)), $"{kind} scold {v}.{part}");
+                var mutters = story.Set(VillageWatch.MutterSet(kind));
+                var scolds = story.Set(VillageWatch.ScoldSet(kind));
+                Assert.IsNotNull(mutters, kind + " mutters");
+                Assert.IsNotNull(scolds, kind + " telling-offs");
+                Assert.GreaterOrEqual(mutters.Entries.Count, 3, kind + " has a few things to mutter");
+                Assert.AreEqual(3, scolds.Entries.Count, kind + " has three telling-offs");
+                foreach (var e in mutters.Entries.Concat(scolds.Entries))
+                {
+                    var graph = story.Dialogue(e.Dialogue);
+                    Assert.IsNotNull(graph, e.Dialogue);
+                    foreach (var n in graph.Nodes)
+                    {
+                        Assert.AreEqual("*", n.Speaker, e.Dialogue + ": spoken by whoever saw it");
+                        Assert.IsTrue(L.Has(n.Text), n.Text);
+                    }
+                }
+                foreach (var e in scolds.Entries) Assert.AreEqual(2, story.Dialogue(e.Dialogue).Nodes.Count, "a telling-off is two lines");
             }
+            Assert.IsTrue(L.Has("village.restored"));
         }
 
         [Test]
-        public void TwoWitnesses_MutterDifferentThings_AndTheScoldIsTwoLinesLong()
+        public void ALineSpokenByWhoeverSawIt_IsSpokenByThatVillager()
         {
-            Assert.AreNotEqual(VillageWatch.MutterFor("tilda", 3, 0), VillageWatch.MutterFor("tilda", 3, 1));
-            for (var d = 0; d < 20; d++)
-            {
-                Assert.That(VillageWatch.MutterFor("bram", d), Is.InRange(0, VillageWatch.MutterLines - 1));
-                Assert.That(VillageWatch.ScoldFor("marcus", d), Is.InRange(0, VillageWatch.ScoldLines - 1));
-            }
-            var g = VillageWatch.ScoldGraph("tilda", 1);
-            Assert.AreEqual("n0", g.Start);
-            Assert.AreEqual("n1", g.Node("n0").Next);
-            Assert.AreEqual("village.scold.1.1", g.Node("n1").Text);
-            Assert.AreEqual("tilda", g.Node("n1").Speaker);
+            Conditions.ClearCustomForTests();
+            StoryConditions.Register();
+            var story = StoryContent.LoadFromResources();
+            var graph = story.Dialogue("village.scold.rock.1");
+            var spoken = graph.WithSpeaker("tilda");
+            Assert.AreEqual(graph.Nodes.Count, spoken.Nodes.Count);
+            Assert.IsTrue(spoken.Nodes.All(n => n.Speaker == "tilda"), "every line is Tilda's");
+            Assert.IsTrue(graph.Nodes.All(n => n.Speaker == "*"), "and the story's own graph is untouched");
+            Assert.AreEqual(graph.Start, spoken.Start);
+            Assert.AreEqual(graph.Nodes[0].Next, spoken.Nodes[0].Next);
+            Assert.AreEqual(VillageWatch.SeedFor("bram", 5), VillageWatch.SeedFor("bram", 5), "the same villager and day pick the same line");
+            Assert.AreNotEqual(VillageWatch.SeedFor("bram", 5, 0), VillageWatch.SeedFor("bram", 5, 1), "two witnesses say different things");
         }
 
         [Test]

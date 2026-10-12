@@ -83,7 +83,7 @@ namespace Farm.Mythos
                         ui2.ShowMessage("mythos.ending.awakened", () =>
                         {
                             s.Save();
-                            if (ServiceLocator.TryGet<SceneLoader>(out var loader)) { s.EndGame(); loader.Load(SceneNames.MainMenu); }
+                            if (s.Game?.Scenes is SceneLoader loader) { s.EndGame(); loader.Load(SceneNames.MainMenu); }
                         });
                 };
             if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowIllustration(IllustrationPath(ending), "mythos.ending." + ending + ".caption", after);

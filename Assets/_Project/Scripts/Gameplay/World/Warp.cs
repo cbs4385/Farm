@@ -77,7 +77,8 @@ namespace Farm.Gameplay
         public static void GoTo(string mapId, string spawnId)
         {
             if (!ServiceLocator.TryGet<GameSession>(out var session) || !session.InGame) return;
-            if (!ServiceLocator.TryGet<SceneLoader>(out var loader) || loader.IsLoading) return;
+            var loader = session.Game?.Scenes;
+            if (loader == null || loader.IsLoading) return;
             if (!Application.CanStreamedLevelBeLoaded(mapId))
             {
                 session.Toast(L.Get("travel.no_way"));

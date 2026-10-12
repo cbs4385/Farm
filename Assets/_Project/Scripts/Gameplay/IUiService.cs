@@ -5,6 +5,8 @@ namespace Farm.Gameplay
     // Implemented by the UI layer. Gameplay code talks to the UI only through this, so Gameplay never depends on UI.
     public interface IUiService
     {
+        // Gives the UI the run's services (settings, saves, scene loader, audio): called once by the GameContext when both exist (ADR 0006).
+        void Attach(GameContext context);
         void SetHudVisible(bool visible);
         void ToggleInventory();
         // The game menu (skills, social, calendar, map, journal, crafting), optionally on a given tab id.

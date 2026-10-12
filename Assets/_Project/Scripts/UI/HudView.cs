@@ -184,7 +184,7 @@ namespace Farm.UI
 
         void ApplyTransparency()
         {
-            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            var settings = _ui.Game.Settings.Current;
             var t = settings != null ? settings.HudTransparency : 0.2f;
             if (Mathf.Approximately(t, _transparency)) return;
             _transparency = t;
@@ -419,7 +419,7 @@ namespace Farm.UI
             if (!force && _trackerTimer > 0f) return;
             _trackerTimer = 0.5f;
             var s = _ui.Session;
-            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            var settings = _ui.Game.Settings.Current;
             var on = s != null && s.InGame && s.Story != null && (settings == null || settings.QuestTracker);
             var text = on ? QuestTracker.Text(s) : string.Empty;
             if (_tracker.text != text) _tracker.text = text;

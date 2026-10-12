@@ -92,7 +92,7 @@ namespace Farm.Gameplay
                         if (!string.IsNullOrEmpty(n.Next) && d.Node(n.Next) == null) Bad(at, $"next '{n.Next}' does not exist");
                         if (!string.IsNullOrEmpty(n.Text)) Key(at, n.Text);
                         if (!string.IsNullOrEmpty(n.Speaker) && n.Speaker != "*" && !npcIds.Contains(n.Speaker)) Bad(at, $"unknown speaker '{n.Speaker}'");
-                        if (n.Speaker == "*" && !d.Id.StartsWith("social.", StringComparison.Ordinal) && !d.Id.Contains(".topic.")) Bad(at, "the speaker '*' (the villager being talked to) is only for social and topic dialogues");
+                        if (n.Speaker == "*" && !d.Id.StartsWith("social.", StringComparison.Ordinal) && !d.Id.StartsWith("village.", StringComparison.Ordinal) && !d.Id.Contains(".topic.")) Bad(at, "the speaker '*' (the villager being talked to) is only for social and topic dialogues");
                         Condition(at, n.Condition);
                         Effs(at, n.Effects);
                         if (!DialogueVocabulary.Has(DialogueVocabulary.Expressions, n.Expression)) Bad(at, $"unknown expression '{n.Expression}'");

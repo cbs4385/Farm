@@ -60,7 +60,7 @@ namespace Farm.Gameplay
         // on the day off.
         static NpcDefinition Person(string id, Season season, int day, bool romanceable, string business,
             int workStart, int workEnd, string offDay, Post offSpot, Post evening, string[] loved, string[] liked, string[] disliked,
-            string[] dislikedCategories = null, string[] lovedCategories = null, NpcStop[] daytime = null)
+            string[] dislikedCategories = null, string[] lovedCategories = null, NpcStop[] daytime = null, Post? offEvening = null, int offStart = 600)
         {
             var post = PostOf(id);
             var homeMap = NpcHomes.MapOf(id);
@@ -70,8 +70,9 @@ namespace Farm.Gameplay
             if (offDay != null)
             {
                 entries.Add(Day("rainy_day_off", $"weekday:{offDay} && weather:rain", 10, home, Stop(1260, homeMap, hx, hy)));
-                entries.Add(Day("day_off", $"weekday:{offDay}", 5, home, Stop(600, offSpot.Map, offSpot.X, offSpot.Y, "up"),
-                    Stop(1080, evening.Map, evening.X, evening.Y), Stop(1260, homeMap, hx, hy)));
+                var offNight = offEvening ?? evening;
+                entries.Add(Day("day_off", $"weekday:{offDay}", 5, home, Stop(offStart, offSpot.Map, offSpot.X, offSpot.Y, "up"),
+                    Stop(1080, offNight.Map, offNight.X, offNight.Y), Stop(1260, homeMap, hx, hy)));
             }
             // Late workers (the saloon) go straight home when it closes; the others spend the evening out first.
             entries.Add(workEnd >= 1260
@@ -89,8 +90,9 @@ namespace Farm.Gameplay
             Person(Marcus, Season.Summer, 9, false, "carpenter", 520, 1050, "wed", new Post(MapIds.Village, BenchX, BenchY), new Post(MapIds.Saloon, 8, 4),
                 new[] { "resource.wood", "crop.pumpkin", "food.roasted_roots" }, new[] { "resource.stone", "forage.hazelnut", "resource.copperbar" }, new[] { "forage.dandelion", "crop.kale", "resource.slime" }),
             // The clinic's doctor. Closed Saturdays.
-            Person(Odalys, Season.Winter, 3, false, "clinic", 520, 1050, "sat", new Post(MapIds.Library, 5, 3), new Post(MapIds.Library, 8, 5),
-                new[] { "forage.elderflower", "crop.spinach", "food.salad" }, new[] { "crop.kale", "forage.snowdrop", "crop.cauliflower" }, new[] { "resource.slime", "resource.bone", "forage.clam" }),
+            Person(Odalys, Season.Winter, 3, false, "clinic", 520, 1050, "sat", new Post(MapIds.Saloon, 10, 4), new Post(MapIds.Library, 8, 5),
+                new[] { "forage.elderflower", "crop.spinach", "food.salad" }, new[] { "crop.kale", "forage.snowdrop", "crop.cauliflower" }, new[] { "resource.slime", "resource.bone", "forage.clam" },
+                offEvening: new Post(MapIds.Saloon, 10, 4), offStart: 12 * 60 + 30),
             // Keeps the saloon (12:00-02:00, closed Tuesdays).
             Person(Wren, Season.Fall, 17, true, "saloon", 700, 1560, "tue", new Post(MapIds.Beach, 20, 9), new Post(MapIds.Village, 30, 17),
                 new[] { "artisan.wine", "crop.hops", "artisan.pickles" }, new[] { "artisan.juice", "crop.tomato", "crop.pepper" }, new[] { "forage.clam", "food.bean_stew", "resource.slime" }),

@@ -125,7 +125,7 @@ namespace Farm.Tests
             using (var f = Fixture())
             {
                 var settings = new SettingsData { TutorialTips = false };
-                using (new SettingsOverride(settings)) Assert.IsNull(TutorialCoach.StepOf(f.Session));
+                using (new SettingsOverride(f.Session, settings)) Assert.IsNull(TutorialCoach.StepOf(f.Session));
                 Assert.IsTrue(new SettingsData().TutorialTips, "on by default");
             }
         }
@@ -134,17 +134,19 @@ namespace Farm.Tests
         sealed class SettingsOverride : System.IDisposable
         {
             readonly string _root = Path.Combine(Path.GetTempPath(), "farm-tips-" + System.Guid.NewGuid().ToString("N"));
-            public SettingsOverride(SettingsData data)
+            readonly GameSession _session;
+            public SettingsOverride(GameSession session, SettingsData data)
             {
+                _session = session;
                 Directory.CreateDirectory(_root);
                 var store = new SettingsStore(_root);
                 store.Load();
                 store.Current.TutorialTips = data.TutorialTips;
-                ServiceLocator.Register(store);
+                session.Game = new GameContext { Settings = store };
             }
             public void Dispose()
             {
-                ServiceLocator.Clear();
+                _session.Game = null;
                 if (Directory.Exists(_root)) Directory.Delete(_root, true);
             }
         }

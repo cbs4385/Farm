@@ -54,7 +54,7 @@ namespace Farm.Gameplay
             if (++_frames < WarmupFrames) return;
             if (_session.IsSleeping || _input.GameplayBlocked) return;
             if (ServiceLocator.TryGet<IUiService>(out var ui) && ui.AnyModalOpen) return;
-            var loader = ServiceLocator.TryGet<SceneLoader>(out var l) ? l : null;
+            var loader = _session.Game?.Scenes;
             if (loader != null && loader.IsLoading) return;
 
             var next = PopNext();
@@ -160,8 +160,8 @@ namespace Farm.Gameplay
                 case "face": Face(step.Actor, NpcSchedule.FacingVector(step.Facing)); break;
                 case "wait": yield return Wait(step.Seconds); break;
                 case "advance": if (!_replay) _session.Clock.AdvanceMinutes(step.Minutes); break;
-                case "fadeout": yield return ServiceLocator.Get<SceneLoader>().FadeTo(1f, Mathf.Max(0.05f, step.Seconds > 0 ? step.Seconds : 0.4f)); break;
-                case "fadein": yield return ServiceLocator.Get<SceneLoader>().FadeTo(0f, Mathf.Max(0.05f, step.Seconds > 0 ? step.Seconds : 0.4f)); break;
+                case "fadeout": yield return _session.Game.Scenes.FadeTo(1f, Mathf.Max(0.05f, step.Seconds > 0 ? step.Seconds : 0.4f)); break;
+                case "fadein": yield return _session.Game.Scenes.FadeTo(0f, Mathf.Max(0.05f, step.Seconds > 0 ? step.Seconds : 0.4f)); break;
                 case "effects": if (!_replay) Effects.RunAll(_session, step.Effects); break;
                 case "emote": yield return _stage.Emote(step.Actor, step.Name, step.Seconds); break;
                 case "expression": _expressions[step.Actor] = step.Name == "neutral" ? null : step.Name; break;

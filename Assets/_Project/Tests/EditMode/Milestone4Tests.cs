@@ -143,6 +143,7 @@ namespace Farm.Tests
                 using (var f = new TestSessionFixture())
                 {
                     var s = f.Session;
+                    s.Game = new GameContext { Settings = store };
                     s.SetEnergy(100);
                     s.TrySpendEnergy(10);
                     Assert.AreEqual(90, s.State.Energy);
@@ -183,6 +184,8 @@ namespace Farm.Tests
                 store.Current.DayLength = 0;
                 using (var f = new TestSessionFixture())
                 {
+                    f.Session.Game = new GameContext { Settings = store };
+                    f.Session.ApplySettings();
                     Assert.AreEqual(10f, f.Session.Clock.SecondsPerStep);
                     store.Current.DayLength = 2;
                     f.Session.ApplySettings();
@@ -199,6 +202,7 @@ namespace Farm.Tests
             ServiceLocator.Register(store);
             try
             {
+                UI.UiPalette.ColorblindSource = () => store.Current.ColorblindPalette;
                 var normal = new[] { UI.UiPalette.Energy, UI.UiPalette.Health, UI.UiPalette.Fatigue, UI.UiPalette.Low };
                 store.Current.ColorblindPalette = true;
                 var alt = new[] { UI.UiPalette.Energy, UI.UiPalette.Health, UI.UiPalette.Fatigue, UI.UiPalette.Low };

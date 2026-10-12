@@ -10,7 +10,7 @@ Decisions this draft needs from you are collected in section 4.
 
 **Public face.** Warm, motherly, brisk. She sells you the right seed before you ask and tells you the weather before you notice it.
 
-**Real self.** Quietly afraid the village is shrinking and the shop will one day have no one to serve. After closing she walks to the saloon every evening (about seven until ten) for company, and she calls the quiet hours at the counter "doing the books". She does not like being thanked; she likes being owed, because debts mean people will come back.
+**Real self.** Quietly afraid the village is shrinking and the shop will one day have no one to serve. After closing she walks to the saloon every evening (about seven until ten) for company (on Tuesdays, when the saloon is shut, she sits in the village square with Bram), and she calls the quiet hours at the counter "doing the books". She does not like being thanked; she likes being owed, because debts mean people will come back.
 
 **Voice rules.**
 - Warm and practical. Shop language is her metaphor system: stock, slate, margin, closing time.

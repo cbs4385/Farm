@@ -44,9 +44,9 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheVillage_HasFiftyFiveOverheardScenes()
+        public void TheVillage_HasFiftySixOverheardScenes()
         {
-            Assert.AreEqual(55, _story.Events.Count(e => e.Id.StartsWith("overheard_")));
+            Assert.AreEqual(56, _story.Events.Count(e => e.Id.StartsWith("overheard_")));
         }
 
         [Test]

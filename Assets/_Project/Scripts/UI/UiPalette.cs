@@ -7,8 +7,10 @@ namespace Farm.UI
     // common kinds of red-green colour blindness (the bars also differ in position and label).
     public static class UiPalette
     {
-        public static bool ColorblindOn =>
-            ServiceLocator.TryGet<SettingsStore>(out var s) && s.Current.ColorblindPalette;
+        // Set by the UI service when it starts (it knows the settings); until then the usual colours.
+        public static System.Func<bool> ColorblindSource;
+        static UiPalette() => Farm.Core.TestResets.Add(() => ColorblindSource = null);
+        public static bool ColorblindOn => ColorblindSource != null && ColorblindSource();
 
         public static Color Energy => ColorblindOn ? new Color(0.30f, 0.60f, 0.95f) : new Color(0.45f, 0.80f, 0.30f);
         public static Color Low => ColorblindOn ? new Color(0.95f, 0.60f, 0.10f) : UiKit.Danger;

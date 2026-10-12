@@ -50,6 +50,7 @@ There are 15 new scenes in five new pairings, three each, using the same templat
 | Hazel and Piper | the pencil fixing Piper's rhymes; the hidden verse | Piper's heart 8 |
 | Marcus and Odalys | his back; the clinic bench nobody sits on; "take your own advice" | none |
 | Tilda and Juno | paying the slate in clasps; the flour sack; a forge next door | Juno's heart 6 |
+| Tilda and Bram | the crust and the repair: neither says thank you, so the slate stays even (one scene) | none |
 
 ## 5. New canon to approve
 

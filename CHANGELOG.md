@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 (2026-10-11)
+
+- A new overheard conversation between Tilda and Bram, "The Even Slate": she leaves a crust on his bench for the repairs he never mentions, and neither says thank you.
+- On Tuesdays, when the saloon is shut, Tilda and Bram spend the evening in the village square instead of at the saloon.
+- On Saturdays, when the library is shut, Dr. Penn spends the afternoon and evening in the saloon. Dorian's evening line now agrees with his evenings in the saloon corner.
+- Behind the scenes: the village's reactions to chopping, breaking and digging (the mutters and telling-offs) now live in the story files (a line can be spoken by "whoever saw it"); the first step of retiring the service locator (a game context, a map context and one injected notifier), with a test that only lets its use fall.
 ## 0.5.0 (2026-10-11)
 
 Villager goals, remembered choices and villagers talking to each other (details in `docs/narrative/GOALS.md`).

@@ -46,6 +46,26 @@ namespace Farm.Gameplay
 
         Dictionary<string, DialogueNode> _byId;
 
+        // A copy in which the speaker "*" is the given villager (a line "spoken by whoever saw it": the village's reactions).
+        public DialogueGraph WithSpeaker(string npc)
+        {
+            var copy = new DialogueGraph { Id = Id, Start = Start };
+            foreach (var n in Nodes)
+            {
+                var c = new DialogueNode
+                {
+                    Id = n.Id, Condition = n.Condition, Speaker = n.Speaker == "*" ? npc : n.Speaker, Text = n.Text, Expression = n.Expression, Emote = n.Emote,
+                    Sfx = n.Sfx, Voice = n.Voice, Camera = n.Camera, Tag = n.Tag, Next = n.Next,
+                };
+                c.Args.AddRange(n.Args);
+                c.Effects.AddRange(n.Effects);
+                foreach (var ch in n.Choices)
+                    c.Choices.Add(new DialogueChoice { Text = ch.Text, Condition = ch.Condition, Tone = ch.Tone, Default = ch.Default, Next = ch.Next, Effects = new List<string>(ch.Effects) });
+                copy.Nodes.Add(c);
+            }
+            return copy;
+        }
+
         public DialogueNode Node(string id)
         {
             if (_byId == null)

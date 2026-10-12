@@ -163,12 +163,13 @@ namespace Farm.Gameplay
         public FatigueState Fatigue => new FatigueState(InGame ? State.FatigueCarried : 0f);
         public float FatigueRating => InGame ? Fatigue.LuckRating(Clock.Now.MinuteOfDay) : 0f;
 
-        public int HorrorLevel => CurrentHorrorLevel;
+        // The run's services (ADR 0006): set by GameServices once the context is built. Code that has the session reaches the settings, scene loader, audio and so on through it.
+        public GameContext Game { get; set; }
 
         // The intensity setting (0 off, 1 mild, 2 full), read live. Tests can force a level with HorrorLevelOverride.
         public static int? HorrorLevelOverride;
-        public static int CurrentHorrorLevel =>
-            HorrorLevelOverride ?? (ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current.HorrorLevel : 2);
+        public static int HorrorLevelOf(SettingsData settings) => HorrorLevelOverride ?? settings?.HorrorLevel ?? 2;
+        public int HorrorLevel => HorrorLevelOf(Settings);
 
 
         public void Init(EventBus bus, GameDatabase db, SaveService saves)
@@ -378,7 +379,7 @@ namespace Farm.Gameplay
         }
 
         // The player's quality-of-life settings (day length, energy cost) read live from the settings store.
-        public static SettingsData Settings => ServiceLocator.TryGet<SettingsStore>(out var s) ? s.Current : null;
+        public SettingsData Settings => Game?.Settings?.Current;
 
         public void ApplySettings()
         {
@@ -436,7 +437,7 @@ namespace Farm.Gameplay
             input?.BlockGameplay();
             Clock.Pause();
 
-            var loader = ServiceLocator.Get<SceneLoader>();
+            var loader = Game.Scenes;
             yield return loader.FadeTo(1f, 0.6f);
 
             var summary = EndDay(passedOut);

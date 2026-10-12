@@ -78,7 +78,7 @@ namespace Farm.Gameplay
         void UpdateAim()
         {
             var mouse = UnityEngine.InputSystem.Mouse.current;
-            var settings = ServiceLocator.TryGet<SettingsStore>(out var store) ? store.Current : null;
+            var settings = Session.Settings;
             if (mouse == null || settings == null || !settings.MouseAim || _input.GameplayBlocked || ControlPrompts.Kind == InputKind.Gamepad) { _mouseAim = false; return; }          // a pad in use: the mouse is ignored
             var position = mouse.position.ReadValue();
             var moved = (position - _lastMouse).sqrMagnitude > 1f;
