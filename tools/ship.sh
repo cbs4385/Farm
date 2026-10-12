@@ -46,6 +46,7 @@ step SCENES scenes.log -executeMethod Farm.Editor.SceneSetup.CreateScenesAndExit
 python tools/normalize_scenes.py || { echo 'SCENE NORMALISING FAILED'; exit 1; }          # same scene, same bytes (otherwise every ship rewrites every scene file)
 step UIART uiart.log -executeMethod Farm.Editor.UiArtBuilder.BuildAndExit
 step ATLAS atlas.log -executeMethod Farm.Editor.AtlasBuilder.BuildAndExit
+step FSCRIPT fscript.log -executeMethod Farm.Editor.FScriptCompiler.CompileAndExit          # villager lines: .fscript to story JSON and the string table (tests fail if the sources and the JSON disagree)
 step GEN gen.log -executeMethod Farm.Editor.ContentGenerator.GenerateAllAndExit
 cleanup
 

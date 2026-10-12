@@ -98,3 +98,6 @@ Example (pixel-perfect check at 2x): `Farm.exe -screen-width 960 -screen-height 
 
 ## The release flow in one script
 Run `tools/ship.sh "what changed for a player"` after bumping `bundleVersion` and `CHANGELOG.md`: it regenerates the input asset, scenes, UI art, atlas and content, runs EditMode then PlayMode, commits only if both pass, and builds Windows, Linux and macOS (stopping at the first failure). `PUBLISH=1` adds the Steam upload (default branch, refused while `Steam/PUBLISH_HOLD` exists) and `git push origin main`. `SKIP_PLAYMODE=1` runs a fast EditMode-only check. Logs and results are in `Builds/`.
+
+## Story sources
+Villager lines live in `Assets/_Project/Narrative/*.fscript` and compile to `Resources/Story/zz_fs_*.json` and the string table (`Farm > Compile Story`, or `-executeMethod Farm.Editor.FScriptCompiler.CompileAndExit`). Edit the `.fscript`, never the generated JSON: `FScriptSourcesInSyncTests` fails when a source and its generated file disagree, so a hand patch cannot be lost by the next compile. `tools/narrative_edit.py` makes checked edits to a line in both the source and the string table.
