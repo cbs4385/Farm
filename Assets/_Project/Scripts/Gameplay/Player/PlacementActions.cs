@@ -51,7 +51,7 @@ namespace Farm.Gameplay
             if (placed == null) return;
             if (def.Kind == PlaceableKind.Decor) placed.Turns = _turns;
             _c.Session.Backpack.Remove(item.Id, 1);
-            PlacedObjectsView.Current?.Spawn(placed);
+            _c.Here?.Placed?.Spawn(placed);
             AudioService.PlayIfAvailable(Sfx.Plant);
         }
 
@@ -61,7 +61,7 @@ namespace Farm.Gameplay
             var id = _c.Session.GetObjects(_c.Map.MapId).At(cell.x, cell.y).Id;
             switch (PlacedInteractions.PickUp(_c.Session, _c.Map.MapId, cell.x, cell.y))
             {
-                case PlacedInteractions.PickUpResult.Ok: PlacedObjectsView.Current?.Despawn(id); AudioService.PlayIfAvailable(Sfx.Harvest); break;
+                case PlacedInteractions.PickUpResult.Ok: _c.Here?.Placed?.Despawn(id); AudioService.PlayIfAvailable(Sfx.Harvest); break;
                 case PlacedInteractions.PickUpResult.NotEmpty: _c.Session.Toast(L.Get("placeable.not_empty")); break;
                 case PlacedInteractions.PickUpResult.NoRoom: _c.Session.Toast(L.Get("toast.inventory_full")); break;
             }
@@ -137,7 +137,7 @@ namespace Farm.Gameplay
             if (animal == null) return;
             _c.Session.Backpack.Remove(item.Id, 1);
             var cell = _c.Target;
-            AnimalManager.Current?.Spawn(animal, cell.x, cell.y);
+            _c.Here?.Animals?.Spawn(animal, cell.x, cell.y);
             _c.Session.Toast(L.Get("animal.welcome", name));
         }
 

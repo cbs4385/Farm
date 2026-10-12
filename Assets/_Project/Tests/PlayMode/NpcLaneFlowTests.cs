@@ -77,7 +77,7 @@ namespace Farm.Tests
             var end = Time.realtimeSinceStartup + 150f;
             while (!passed && Time.realtimeSinceStartup < end)
             {
-                if (actor == null) NpcManager.Current.Actors.TryGetValue("dorian", out actor);
+                if (actor == null) GameContext.Current.Map.Npcs.Actors.TryGetValue("dorian", out actor);
                 worst = Mathf.Max(worst, Vector3.Distance(player.transform.position, standing));
                 if (actor != null && actor.transform.position.y > standing.y + 1.5f && session.Clock.Now.MinuteOfDay >= minute) passed = true;
                 yield return null;

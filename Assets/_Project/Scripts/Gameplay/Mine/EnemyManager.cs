@@ -14,7 +14,6 @@ namespace Farm.Gameplay
         PlayerController _player;
         readonly List<EnemyActor> _enemies = new List<EnemyActor>();
 
-        public static EnemyManager Current { get; private set; }
         public IReadOnlyList<EnemyActor> Enemies => _enemies;
         public bool Active => _session != null && _session.InGame && !_session.Clock.IsPaused;
         public Vector2 PlayerPosition => _player != null ? (Vector2)_player.transform.position : Vector2.zero;
@@ -23,7 +22,6 @@ namespace Farm.Gameplay
         {
             _map = map; _session = session; _mine = mine;
             _player = FindAnyObjectByType<PlayerController>();
-            Current = this;
             var i = 0;
             foreach (var spawn in spawns)
             {
@@ -36,10 +34,6 @@ namespace Farm.Gameplay
             }
         }
 
-        void OnDestroy()
-        {
-            if (Current == this) Current = null;
-        }
 
         public bool Walkable(Vector2 world)
         {

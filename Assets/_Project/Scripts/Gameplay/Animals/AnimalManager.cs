@@ -10,7 +10,6 @@ namespace Farm.Gameplay
         public GameSession Session => _session;
         readonly List<AnimalActor> _actors = new List<AnimalActor>();
 
-        public static AnimalManager Current { get; private set; }
         public FarmMap Map { get; private set; }
         // The animals sleep at night (the picture changes and they stay put).
         public bool Night => _session != null && AnimalSprites.IsNight(_session.Clock.Now.MinuteOfDay / 60);
@@ -20,7 +19,6 @@ namespace Farm.Gameplay
         {
             Map = map;
             _session = session;
-            Current = this;
             var n = 0;
             foreach (var a in AnimalRules.In(session.State, map.MapId)) Spawn(a, 3 + (n++ % 4) * 2, 3 + n % 3);
         }
@@ -36,10 +34,6 @@ namespace Farm.Gameplay
             if (actor != null) actor.Call();
         }
 
-        void OnDestroy()
-        {
-            if (Current == this) Current = null;
-        }
 
         public AnimalActor Spawn(AnimalState state, int x, int y)
         {

@@ -31,7 +31,7 @@ namespace Farm.Tests
             UnityEngine.Object.FindAnyObjectByType<FarmMapView>().RefreshAll();
             yield return null;
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
-            var manager = NpcManager.Current;
+            var manager = GameContext.Current.Map.Npcs;
             var grid = manager.Grid();
 
             var legs = new[]

@@ -124,7 +124,7 @@ namespace Farm.Tests
 
             // In the long wait near the end every effect should be on show at the same time.
             yield return WaitUntil(() => _music.Contains("festival_theme"));
-            Assert.IsTrue(EventDirector.Current.IsPlaying);
+            Assert.IsTrue(GameContext.Current.Map.Events.IsPlaying);
             Assert.IsTrue(Ui.LetterboxOn, "letterbox on");
             Assert.IsTrue(Cam.IsFocused, "the camera is on Tilda");
             Assert.Greater(Light.OverrideWeight, 0.5f, "the lighting mood");

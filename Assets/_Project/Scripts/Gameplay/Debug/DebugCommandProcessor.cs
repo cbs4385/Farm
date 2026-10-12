@@ -268,7 +268,7 @@ namespace Farm.Gameplay
             var count = AnimalRules.In(_session.State, building).Count;
             var animal = AnimalRules.Add(_session.State, row.Value.Id, Guid.NewGuid().ToString("N").Substring(0, 8), $"{row.Value.Name} {count + 1}");
             if (animal == null) return DebugCommandResult.Fail("Could not add it.");
-            AnimalManager.Current?.Spawn(animal, 4 + count % 5 * 2, 4 + count / 5 * 2);
+            _session.Game?.Map?.Animals?.Spawn(animal, 4 + count % 5 * 2, 4 + count / 5 * 2);
             return DebugCommandResult.Success($"Added a {row.Value.Name} to the {building}.");
         }
 

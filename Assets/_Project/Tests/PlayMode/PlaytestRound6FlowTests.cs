@@ -144,7 +144,7 @@ namespace Farm.Tests
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
 
-            var mine = MineController.Current;
+            var mine = GameContext.Current.Map.Mine;
             Assert.IsNotNull(mine);
             Assert.IsTrue(mine.Floor.Ladder.HasValue, "floor 4 has a ladder down");
             var ladder = mine.Floor.Ladder.Value;

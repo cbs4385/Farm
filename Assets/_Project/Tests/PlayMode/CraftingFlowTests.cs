@@ -136,7 +136,7 @@ namespace Farm.Tests
             var placed = _session.GetObjects(MapIds.Farm).At(21, 8);
             Assert.IsNotNull(placed, "the chest is placed in front of the player");
             Assert.AreEqual(0, _session.Backpack.Count("machine.chest"));
-            Assert.IsNotNull(PlacedObjectsView.Current.At(new Vector3Int(21, 8, 0)), "and drawn");
+            Assert.IsNotNull(GameContext.Current.Map.Placed.At(new Vector3Int(21, 8, 0)), "and drawn");
 
             // Using it opens the chest screen; clicking a pack slot moves the stack in.
             yield return Face(20, 8, Vector2Int.right);

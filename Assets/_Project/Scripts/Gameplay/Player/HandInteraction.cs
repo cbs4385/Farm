@@ -17,11 +17,11 @@ namespace Farm.Gameplay
         }
 
         NpcActor NpcUnderPointer() =>
-            _c.Aim.MouseAiming && NpcManager.Current != null
-                ? PlayerActions.PointedVillager(_c.Map.WorldToCell(_c.Player.CellSamplePoint), _c.Aim.PointerCell, NpcManager.Current.Actors.Values, _c.Map.WorldToCell, c => InteractableAt(c, 0) is ShopCounter)
+            _c.Aim.MouseAiming && _c.Here?.Npcs != null
+                ? PlayerActions.PointedVillager(_c.Map.WorldToCell(_c.Player.CellSamplePoint), _c.Aim.PointerCell, _c.Here?.Npcs.Actors.Values, _c.Map.WorldToCell, c => InteractableAt(c, 0) is ShopCounter)
                 : null;
 
-        public NpcActor NpcAt(Vector3Int cell) => NpcManager.Current != null ? NpcManager.Current.ActorNear(cell) : null;
+        public NpcActor NpcAt(Vector3Int cell) => _c.Here?.Npcs != null ? _c.Here?.Npcs.ActorNear(cell) : null;
 
         // Picks forage on the cell, if there is any. Returns true if the interaction was used up (picked or refused).
         public bool TryForage(Vector3Int cell)
@@ -67,10 +67,10 @@ namespace Farm.Gameplay
 
             var cell = _c.Target;
             if (NpcAt(cell) != null || NpcUnderPointer() != null) return item == null || item.IsTool;
-            if (AnimalManager.Current != null && AnimalManager.Current.ActorAt(cell) != null) return true;
+            if (_c.Here?.Animals != null && _c.Here?.Animals.ActorAt(cell) != null) return true;
             if (_c.Session.GetGrid(_c.Map.MapId).IsMature(cell.x, cell.y, CropLookup)) return true;
             if (_c.Session.GetNodes(_c.Map.MapId).TryGet(cell.x, cell.y, out var node) && _c.Session.Nodes.Get(node.TypeId) is ResourceNodeDefinition def && def.Tool == ToolType.None) return true;
-            if (PlacedObjectsView.Current != null && PlacedObjectsView.Current.At(cell) != null) return tool != ToolType.Axe && tool != ToolType.Pickaxe;
+            if (_c.Here?.Placed != null && _c.Here?.Placed.At(cell) != null) return tool != ToolType.Axe && tool != ToolType.Pickaxe;
             return InteractableAt(cell, 0) != null;
         }
 
@@ -120,7 +120,7 @@ namespace Farm.Gameplay
             }
 
             // 1c2. A farm animal.
-            var animalHere = AnimalManager.Current != null ? AnimalManager.Current.ActorAt(cell) : null;
+            var animalHere = _c.Here?.Animals != null ? _c.Here?.Animals.ActorAt(cell) : null;
             if (animalHere != null)
             {
                 animalHere.Interact(_c.Actions);
@@ -128,7 +128,7 @@ namespace Farm.Gameplay
             }
 
             // 1d. A chest, machine, sprinkler or scarecrow the player placed.
-            var placedHere = PlacedObjectsView.Current != null ? PlacedObjectsView.Current.At(cell) : null;
+            var placedHere = _c.Here?.Placed != null ? _c.Here?.Placed.At(cell) : null;
             if (placedHere != null)
             {
                 placedHere.Interact(_c.Actions);

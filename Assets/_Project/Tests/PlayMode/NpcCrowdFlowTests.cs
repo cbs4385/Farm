@@ -46,7 +46,7 @@ namespace Farm.Tests
         {
             yield return EnterFarm();
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
-            var manager = NpcManager.Current;
+            var manager = GameContext.Current.Map.Npcs;
             var walker = manager.Take("wren", new Vector3Int(20, 10, 0));
             var standing = manager.Take("dorian", new Vector3Int(25, 10, 0));
             walker.SetCell(map, new Vector3Int(20, 10, 0));
@@ -75,7 +75,7 @@ namespace Farm.Tests
         {
             yield return EnterFarm();
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
-            var manager = NpcManager.Current;
+            var manager = GameContext.Current.Map.Npcs;
             var a = manager.Take("wren", new Vector3Int(20, 10, 0));
             var b = manager.Take("dorian", new Vector3Int(30, 10, 0));
             a.SetCell(map, new Vector3Int(20, 10, 0));

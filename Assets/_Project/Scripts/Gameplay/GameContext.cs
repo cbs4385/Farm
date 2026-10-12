@@ -18,6 +18,8 @@ namespace Farm.Gameplay
         public AtmosphereService Atmosphere;
         public SceneLoader Scenes;
         public INotifier Notify = NullNotifier.Instance;
+        public MapContext Map;         // the loaded map: set by MapSceneController when a map starts, null in the menu
+        public MusicDirector Music;
         public IUiService Ui;          // set when the UI service is created (it is made in its own assembly, a step later)
 
         public static GameContext Current { get; private set; }

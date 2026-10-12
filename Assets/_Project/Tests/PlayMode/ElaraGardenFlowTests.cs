@@ -125,7 +125,7 @@ namespace Farm.Tests
             var waited = 0f;
             while (!Seen && waited < 15f) { waited += Time.unscaledDeltaTime; yield return null; }
             Assert.IsTrue(Seen, "she is at the door when the player comes out");
-            for (var i = 0; i < 90 && EventDirector.Current != null && EventDirector.Current.IsPlaying; i++) { yield return Tap(_keyboard.enterKey); yield return new WaitForSeconds(0.2f); }   // let the scene end
+            for (var i = 0; i < 90 && GameContext.Current.Map.Events != null && GameContext.Current.Map.Events.IsPlaying; i++) { yield return Tap(_keyboard.enterKey); yield return new WaitForSeconds(0.2f); }   // let the scene end
         }
 
         [UnityTest]

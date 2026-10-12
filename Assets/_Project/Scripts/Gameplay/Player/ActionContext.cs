@@ -17,6 +17,7 @@ namespace Farm.Gameplay
         public PlayerAim Aim;
 
         public IUiService Ui => Session.Game?.Ui;
+        public MapContext Here => Session.Game?.Map;          // the loaded map's parts: villagers, animals, placed objects
         public Vector3Int Target => Aim.Target;
         public Vector3Int PlayerCell => Map.WorldToCell(Player.CellSamplePoint);
 

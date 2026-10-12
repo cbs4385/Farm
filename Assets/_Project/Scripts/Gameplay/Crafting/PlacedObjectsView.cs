@@ -12,7 +12,6 @@ namespace Farm.Gameplay
         readonly Dictionary<string, PlacedObjectActor> _actors = new Dictionary<string, PlacedObjectActor>();
         int _lastMinute = -1;
 
-        public static PlacedObjectsView Current { get; private set; }
 
         public IReadOnlyDictionary<string, PlacedObjectActor> Actors => _actors;
 
@@ -20,14 +19,9 @@ namespace Farm.Gameplay
         {
             _map = map;
             _session = session;
-            Current = this;
             foreach (var obj in session.GetObjects(map.MapId).All) Spawn(obj);
         }
 
-        void OnDestroy()
-        {
-            if (Current == this) Current = null;
-        }
 
         public PlacedObjectActor Spawn(PlacedObject obj)
         {

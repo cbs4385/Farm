@@ -99,6 +99,7 @@ namespace Farm.Gameplay
             GameContext.SetCurrent(context);
             session.Game = context;
             ServiceLocator.Register(context);
+            context.Music = music;
             music.Init(context);
             watcher.Init(context);
             if (ServiceLocator.TryGet<IUiService>(out var uiAlready)) context.AttachUi(uiAlready);

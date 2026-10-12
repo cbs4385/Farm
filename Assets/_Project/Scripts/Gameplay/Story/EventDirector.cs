@@ -32,7 +32,6 @@ namespace Farm.Gameplay
 
         sealed class Background { public string Actor; public bool Done; }
 
-        public static EventDirector Current { get; private set; }
         public bool IsPlaying { get; private set; }
 
         public void Init(FarmMap map, GameSession session, NpcManager npcs, PlayerController player)
@@ -40,13 +39,8 @@ namespace Farm.Gameplay
             _map = map; _session = session; _npcs = npcs; _player = player;
             _input = session.Game?.Input;
             _stage = new EventStage(map, session, npcs, player, () => _skip);
-            Current = this;
         }
 
-        void OnDestroy()
-        {
-            if (Current == this) Current = null;
-        }
 
         void Update()
         {

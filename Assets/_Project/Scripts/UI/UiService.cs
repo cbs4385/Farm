@@ -278,7 +278,7 @@ namespace Farm.UI
             var s = _session;
             if (s == null || !s.InGame || MenuTourScreen.Suppressed || _modals.Count > 0 || s.HasFlag(MenuTourScreen.DoneFlag)) { _tourWait = 0f; return; }
             if (s.Clock.Now.TotalDays > TourLastDay) { s.SetFlag(MenuTourScreen.DoneFlag); return; }
-            if (s.State.CurrentMap != MapIds.Farm || _input.GameplayBlocked || (EventDirector.Current != null && EventDirector.Current.IsPlaying)) { _tourWait = 0f; return; }
+            if (s.State.CurrentMap != MapIds.Farm || _input.GameplayBlocked || (_session.Game?.Map?.Events?.IsPlaying ?? false)) { _tourWait = 0f; return; }
             _tourWait += Time.unscaledDeltaTime;
             if (_tourWait >= TourDelaySeconds) ShowMenuTour();
         }

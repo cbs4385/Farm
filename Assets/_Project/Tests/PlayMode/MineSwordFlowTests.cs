@@ -60,11 +60,11 @@ namespace Farm.Tests
             for (var i = 0; i < 10; i++) yield return null;
 
             _s.State.SelectedHotbar = Enumerable.Range(0, _s.Backpack.Capacity).First(i => _s.Backpack.Get(i)?.ItemId == ItemIds.Sword);
-            var enemy = EnemyManager.Current.Enemies.First();
-            enemy.Setup(EnemyDefaults.Row(enemyId), 1, EnemyManager.Current);
-            foreach (var other in EnemyManager.Current.Enemies.Where(e => e != enemy)) other.gameObject.SetActive(false);
+            var enemy = GameContext.Current.Map.Enemies.Enemies.First();
+            enemy.Setup(EnemyDefaults.Row(enemyId), 1, GameContext.Current.Map.Enemies);
+            foreach (var other in GameContext.Current.Map.Enemies.Enemies.Where(e => e != enemy)) other.gameObject.SetActive(false);
 
-            var spawn = MineController.Current.Floor.Spawn;
+            var spawn = GameContext.Current.Map.Mine.Floor.Spawn;
             var at = new Vector3(spawn.x + 0.5f, spawn.y + 0.5f, 0f);
             Player.transform.position = at;
             Player.Face(Vector2Int.right);
@@ -107,10 +107,10 @@ namespace Farm.Tests
             var op = SceneManager.LoadSceneAsync(MapIds.Mine);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 10; i++) yield return null;
-            var enemy = EnemyManager.Current.Enemies.First();
-            enemy.Setup(EnemyDefaults.Row("slime"), 1, EnemyManager.Current);
-            foreach (var other in EnemyManager.Current.Enemies.Where(e => e != enemy)) other.gameObject.SetActive(false);
-            var spawn = MineController.Current.Floor.Spawn;
+            var enemy = GameContext.Current.Map.Enemies.Enemies.First();
+            enemy.Setup(EnemyDefaults.Row("slime"), 1, GameContext.Current.Map.Enemies);
+            foreach (var other in GameContext.Current.Map.Enemies.Enemies.Where(e => e != enemy)) other.gameObject.SetActive(false);
+            var spawn = GameContext.Current.Map.Mine.Floor.Spawn;
             var at = new Vector3(spawn.x + 0.5f, spawn.y + 0.5f, 0f);
             Player.transform.position = at;
             Player.Face(Vector2Int.right);

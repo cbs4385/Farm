@@ -33,7 +33,7 @@ namespace Farm.Gameplay
             if (_cooldown > 0f || _session == null || !_session.TrySpendEnergy(CombatModel.SwingEnergy)) return false;
             _cooldown = CombatModel.SwingCooldown;
             AudioService.PlayIfAvailable(Sfx.SwordSwing);
-            var enemies = EnemyManager.Current;
+            var enemies = _session.Game?.Map?.Enemies;
             if (enemies == null) return true;
             var damage = Mathf.RoundToInt(CombatModel.SwingDamage(weaponItemId, _session.GetSkillLevel(SkillIds.Combat)) * Professions.DamageMultiplier(_session.State));
             enemies.HitTarget(transform.position, targetCentre, damage);

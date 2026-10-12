@@ -280,7 +280,7 @@ namespace Farm.Tests
             var placed = _s.GetObjects(MapIds.FarmHouse).At(7, 2);
             Assert.IsNotNull(placed, "it was set down in front of the player");
             Assert.AreEqual(1, placed.Turns);
-            Assert.AreEqual(90f, PlacedObjectsView.Current.At(new Vector3Int(7, 2, 0)).transform.eulerAngles.z, 0.1f);
+            Assert.AreEqual(90f, GameContext.Current.Map.Placed.At(new Vector3Int(7, 2, 0)).transform.eulerAngles.z, 0.1f);
 
             // The mallet can turn it again and it keeps that turn.
             _hammer.Use(new Vector3Int(7, 2, 0));
@@ -297,17 +297,17 @@ namespace Farm.Tests
             yield return Start(MapIds.FarmHouse);
             var objects = _s.GetObjects(MapIds.FarmHouse);
             var chest = objects.Place(_s.Placeables.Get(CraftingDefaults.Chest), 5, 4, "c1");
-            PlacedObjectsView.Current.Spawn(chest);
+            GameContext.Current.Map.Placed.Spawn(chest);
             objects.ChestOf(chest).Add("resource.wood", 7);
 
             _hammer.Use(new Vector3Int(5, 4, 0));
             Assert.IsTrue(_hammer.Carrying);
-            Assert.IsNull(PlacedObjectsView.Current.At(new Vector3Int(5, 4, 0)), "lifted off the floor");
+            Assert.IsNull(GameContext.Current.Map.Placed.At(new Vector3Int(5, 4, 0)), "lifted off the floor");
             _hammer.Use(new Vector3Int(3, 3, 0));
             Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
             Assert.AreEqual((3, 3), (objects.ById("c1").X, objects.ById("c1").Y));
             Assert.AreEqual(7, objects.ChestOf(objects.ById("c1")).Count("resource.wood"));
-            Assert.IsNotNull(PlacedObjectsView.Current.At(new Vector3Int(3, 3, 0)));
+            Assert.IsNotNull(GameContext.Current.Map.Placed.At(new Vector3Int(3, 3, 0)));
         }
 
         [UnityTest]

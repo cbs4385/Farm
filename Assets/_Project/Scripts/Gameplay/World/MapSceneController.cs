@@ -40,13 +40,14 @@ namespace Farm.Gameplay
 
             _session.State.CurrentMap = _map.MapId;
             Context = new MapContext { Game = game, Map = _map, View = _view, Player = _player };
+            game.Map = Context;
             InputDeviceWatcher.AnnounceAtStart(_session);
             _player.ApplyAvatar(_session.State.Avatar);
             if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
             if (_player.GetComponent<TorchLight>() == null) _player.gameObject.AddComponent<TorchLight>();
             if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
             var mine = FindAnyObjectByType<MineController>();
-            if (mine != null) mine.Build(_session, _map);
+            if (mine != null) { Context.Mine = mine; mine.Build(_session, _map); }
             foreach (var fixture in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None)) fixture.Apply(_session, _map);         // the bed and the kitchen where the player put them
             if (FindAnyObjectByType<FarmBuildingsView>() is FarmBuildingsView buildings) buildings.Rebuild(_session);           // the farm's own buildings, before anyone is placed at their doors
             PlacePlayer(_session.State.SpawnPoint);
@@ -93,18 +94,24 @@ namespace Farm.Gameplay
                 MapId = _map.MapId, Session = _session, Map = _map, View = _view, Player = _player, Camera = _camera,
             });
 
-            if (_map.MapId == MapIds.Coop || _map.MapId == MapIds.Barn) new GameObject("Animals").AddComponent<AnimalManager>().Init(_map, _session);
+            if (_map.MapId == MapIds.Coop || _map.MapId == MapIds.Barn)
+            {
+                Context.Animals = new GameObject("Animals").AddComponent<AnimalManager>();
+                Context.Animals.Init(_map, _session);
+            }
 
             // Chests, machines, sprinklers and scarecrows the player has placed here.
-            new GameObject("PlacedObjects").AddComponent<PlacedObjectsView>().Init(_map, _session);
+            Context.Placed = new GameObject("PlacedObjects").AddComponent<PlacedObjectsView>();
+            Context.Placed.Init(_map, _session);
 
             // Villagers whose schedule puts them on this map (they walk in and out as the clock runs).
             var npcs = new GameObject("Npcs").AddComponent<NpcManager>();
             npcs.Init(_map, _session);
+            Context.Npcs = npcs;
             var events = new GameObject("Events").AddComponent<EventDirector>();
             events.Init(_map, _session, npcs, _player);
+            Context.Events = events;
             if (_map.MapId == MapIds.Village || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
-            Context.Npcs = npcs;
             if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(Context);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
             new GameObject("PhotoMode").AddComponent<PhotoMode>().Init(_session, npcs, _player);
@@ -339,6 +346,7 @@ namespace Farm.Gameplay
 
         void OnDestroy()
         {
+            if (Context != null && Context.Game != null && Context.Game.Map == Context) Context.Game.Map = null;
             _bus?.Unsubscribe<PassOutTimeReached>(OnPassOut);
         }
 

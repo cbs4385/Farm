@@ -81,7 +81,7 @@ namespace Farm.Tests
             while (Time.realtimeSinceStartup < end)
             {
                 if (player == null) Assert.Fail($"the player was destroyed (map change?) after {frames} frames: {who} walking to {door} from minute {minute}; now minute {session.Clock.Now.MinuteOfDay} on {session.State.CurrentMap}; {trail}");
-                if (actor == null) NpcManager.Current.Actors.TryGetValue(who, out actor);
+                if (actor == null) GameContext.Current.Map.Npcs.Actors.TryGetValue(who, out actor);
                 if (actor != null && frames++ % 60 == 0) trail += $"[{actor.transform.position.x:0.0},{actor.transform.position.y:0.0} w={actor.Waiting}] ";
                 if (actor != null && actor.Waiting && (actor.transform.position - player.transform.position).sqrMagnitude < 4f) break;
                 yield return null;

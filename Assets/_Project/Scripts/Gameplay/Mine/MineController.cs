@@ -14,20 +14,14 @@ namespace Farm.Gameplay
         GameSession _session;
         FarmMap _map;
 
-        public static MineController Current { get; private set; }
         public MineFloor Floor => _floor;
         public bool IsWall(int x, int y) => _floor == null || _floor.IsWall(x, y);
 
-        void OnDestroy()
-        {
-            if (Current == this) Current = null;
-        }
 
         public void Build(GameSession session, FarmMap map)
         {
             _session = session;
             _map = map;
-            Current = this;
             var daylight = FindAnyObjectByType<DayNightLighting>();
             if (daylight != null) daylight.SetCave();                    // dark and blue down here: the torch is what lights it
             var ms = session.State.Mine;
@@ -73,6 +67,7 @@ namespace Farm.Gameplay
 
             var manager = new GameObject("Enemies").AddComponent<EnemyManager>();
             manager.Init(map, session, this, _floor.Enemies);
+            if (session.Game?.Map != null) session.Game.Map.Enemies = manager;
         }
 
         // The open cell next to the ladder down (the arrival cell when climbing up from the floor below); the usual arrival cell on the last floor, which has no ladder.

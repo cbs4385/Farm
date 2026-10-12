@@ -34,23 +34,23 @@ namespace Farm.Tests
         static IEnumerator WaitForMusic(string cue)
         {
             var end = Time.realtimeSinceStartup + 4f;
-            while (Time.realtimeSinceStartup < end && !(MusicDirector.Current != null && MusicDirector.Current.Playing == cue)) yield return null;
+            while (Time.realtimeSinceStartup < end && !(GameContext.Current.Music != null && GameContext.Current.Music.Playing == cue)) yield return null;
         }
 
         [UnityTest]
         public IEnumerator OnTheFarmBySpringDay_TheSpringThemePlays_AndAtNightTheNightTheme()
         {
             yield return Enter(MapIds.Farm, Season.Spring, 12);
-            Assert.IsNotNull(MusicDirector.Current, "the game has a music director");
+            Assert.IsNotNull(GameContext.Current.Music, "the game has a music director");
             yield return WaitForMusic("farm_spring");
-            Assert.AreEqual("farm_spring", MusicDirector.Current.Playing);
-            var source = MusicDirector.Current.GetComponents<AudioSource>().First(a => a.clip != null);
+            Assert.AreEqual("farm_spring", GameContext.Current.Music.Playing);
+            var source = GameContext.Current.Music.GetComponents<AudioSource>().First(a => a.clip != null);
             Assert.AreEqual("farm_spring", source.clip.name);
             Assert.IsTrue(source.loop, "it loops");
 
             _s.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 22 * 60));
             yield return WaitForMusic("farm_night");
-            Assert.AreEqual("farm_night", MusicDirector.Current.Playing);
+            Assert.AreEqual("farm_night", GameContext.Current.Music.Playing);
         }
 
         [UnityTest]
@@ -62,7 +62,7 @@ namespace Farm.Tests
             var op = SceneManager.LoadSceneAsync(MapIds.Mine);
             while (!op.isDone) yield return null;
             yield return WaitForMusic("mine");
-            Assert.AreEqual("mine", MusicDirector.Current.Playing);
+            Assert.AreEqual("mine", GameContext.Current.Music.Playing);
         }
 
         [UnityTest]
@@ -70,14 +70,14 @@ namespace Farm.Tests
         {
             yield return Enter(MapIds.Village, Season.Summer, 12);
             yield return WaitForMusic("village");
-            Assert.AreEqual("village", MusicDirector.Current.Playing);
+            Assert.AreEqual("village", GameContext.Current.Music.Playing);
             foreach (var (map, cue) in new[] { (MapIds.Saloon, "saloon"), (MapIds.Library, "library"), (MapIds.GeneralStore, "indoors"), (MapIds.Forest, "forest"), (MapIds.Beach, "beach") })
             {
                 _s.State.CurrentMap = map;
                 var op = SceneManager.LoadSceneAsync(map);
                 while (!op.isDone) yield return null;
                 yield return WaitForMusic(cue);
-                Assert.AreEqual(cue, MusicDirector.Current.Playing, map);
+                Assert.AreEqual(cue, GameContext.Current.Music.Playing, map);
             }
         }
 
@@ -88,10 +88,10 @@ namespace Farm.Tests
             yield return WaitForMusic("farm_spring");
             _s.State.Weather = WeatherDefaults.Rain;
             yield return WaitForMusic("rain");
-            Assert.AreEqual("rain", MusicDirector.Current.Playing);
+            Assert.AreEqual("rain", GameContext.Current.Music.Playing);
             _s.State.Weather = WeatherDefaults.Sunny;
             yield return WaitForMusic("farm_spring");
-            Assert.AreEqual("farm_spring", MusicDirector.Current.Playing);
+            Assert.AreEqual("farm_spring", GameContext.Current.Music.Playing);
         }
 
         [UnityTest]
@@ -101,7 +101,7 @@ namespace Farm.Tests
             yield return WaitForMusic("farm_fall");
             _s.Publish(new MusicCue("ending_sealed"));          // no such file yet
             yield return new WaitForSeconds(1f);
-            Assert.AreEqual("farm_fall", MusicDirector.Current.Playing, "the usual music carries on");
+            Assert.AreEqual("farm_fall", GameContext.Current.Music.Playing, "the usual music carries on");
         }
     }
 }

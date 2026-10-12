@@ -78,7 +78,7 @@ namespace Farm.Tests
             _s.Backpack.Add("resource.stone", 10);
             Assert.IsTrue(QuestTargets.Wants(_s, "bram"), "ten stone in the pack: Bram is waiting");
 
-            var actor = NpcManager.Current.Take("bram", new Vector3Int(30, 20, 0));
+            var actor = GameContext.Current.Map.Npcs.Take("bram", new Vector3Int(30, 20, 0));
             yield return new WaitForSecondsRealtime(0.8f);
             var marker = actor.GetComponent<QuestMarker>();
             Assert.IsNotNull(marker);

@@ -19,7 +19,6 @@ namespace Farm.Gameplay
         public IReadOnlyDictionary<string, NpcActor> Actors => _actors;
 
         // The manager of the map that is loaded (there is one at a time). Used by the player to find who is on a cell.
-        public static NpcManager Current { get; private set; }
 
         public NpcActor ActorAt(Vector3Int cell)
         {
@@ -68,10 +67,6 @@ namespace Farm.Gameplay
         readonly Dictionary<string, float> _lag = new Dictionary<string, float>();
         float _lastMinute = -1f;
 
-        void OnDestroy()
-        {
-            if (Current == this) Current = null;
-        }
 
         // Cutscenes take over a villager: their schedule is ignored until ReleaseAll. Returns the actor (appearing on `cell` if
         // they are not on this map and a cell is given), or null.
@@ -95,7 +90,6 @@ namespace Farm.Gameplay
         {
             _map = map;
             _session = session;
-            Current = this;
             AnnounceBirthdays();
         }
 

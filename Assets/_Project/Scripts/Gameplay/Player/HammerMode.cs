@@ -115,9 +115,9 @@ namespace Farm.Gameplay
                 _kind = Kind.Placed;
                 _placed = placed;
                 _turns = placed.Turns;
-                var actor = PlacedObjectsView.Current != null ? PlacedObjectsView.Current.At(cell) : null;
+                var actor = _session.Game?.Map?.Placed != null ? _session.Game?.Map?.Placed.At(cell) : null;
                 _picture = actor != null ? actor.GetComponent<SpriteRenderer>().sprite : null;
-                if (actor != null) PlacedObjectsView.Current.Despawn(placed.Id);
+                if (actor != null) _session.Game?.Map?.Placed.Despawn(placed.Id);
                 Told(CanTurn() ? "build.lifted_turn" : "build.lifted");
                 return;
             }
@@ -149,7 +149,7 @@ namespace Farm.Gameplay
                 case Kind.Placed:
                     _session.GetObjects(_map.MapId).Move(_placed.Id, cell.x, cell.y);
                     _placed.Turns = _turns;
-                    PlacedObjectsView.Current?.Spawn(_placed);
+                    _session.Game?.Map?.Placed?.Spawn(_placed);
                     break;
             }
             AudioService.PlayIfAvailable(Sfx.Plant);
@@ -166,7 +166,7 @@ namespace Farm.Gameplay
             {
                 case Kind.Building: FindFirstObjectByType<FarmBuildingsView>()?.Rebuild(_session); break;
                 case Kind.Fixture: if (_fixture != null) _fixture.SetCarried(false); break;
-                case Kind.Placed: PlacedObjectsView.Current?.Spawn(_placed); break;
+                case Kind.Placed: _session.Game?.Map?.Placed?.Spawn(_placed); break;
             }
             Clear();
             return true;

@@ -97,10 +97,10 @@ namespace Farm.Gameplay
             // A villager or animal is two cells tall on screen: the head is the cell above the feet.
             foreach (var c in new[] { cell, cell + Vector3Int.down })
             {
-                if (NpcManager.Current != null && NpcManager.Current.ActorAt(c) is IInteractable villager && villager.HoverLabel != null) return villager.HoverLabel;
-                if (AnimalManager.Current != null && AnimalManager.Current.ActorAt(c) is IInteractable animal && animal.HoverLabel != null) return animal.HoverLabel;
+                if (_game?.Map?.Npcs != null && _game?.Map?.Npcs.ActorAt(c) is IInteractable villager && villager.HoverLabel != null) return villager.HoverLabel;
+                if (_game?.Map?.Animals != null && _game?.Map?.Animals.ActorAt(c) is IInteractable animal && animal.HoverLabel != null) return animal.HoverLabel;
             }
-            var placed = PlacedObjectsView.Current != null ? PlacedObjectsView.Current.At(cell) : null;
+            var placed = _game?.Map?.Placed != null ? _game?.Map?.Placed.At(cell) : null;
             if (placed != null && placed.HoverLabel != null) return placed.HoverLabel;
             foreach (var hit in Physics2D.OverlapPointAll(world))
             {

@@ -450,7 +450,7 @@ namespace Farm.Gameplay
             SetFacing(Mathf.Abs(toPlayer.x) > Mathf.Abs(toPlayer.y)
                 ? (toPlayer.x > 0 ? Vector2Int.right : Vector2Int.left)
                 : (toPlayer.y > 0 ? Vector2Int.up : Vector2Int.down));
-            if (NpcManager.Current != null) NpcManager.Current.Hold(_definition.Id);       // stand still for a while
+            _session?.Game?.Map?.Npcs?.Hold(_definition.Id);       // stand still for a while
             NpcInteractions.Talk(player.Session, _definition, reaction);
         }
     }

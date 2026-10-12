@@ -98,8 +98,8 @@ namespace Farm.Tests
             var session = ServiceLocator.Get<GameSession>();
             session.Clock.SetTime(new GameDateTime(1, Season.Spring, 1, 17 * 60));
             for (var i = 0; i < 60; i++) yield return null;
-            var actor = NpcManager.Current.Actors.Values.FirstOrDefault(a => !a.Sleeping);
-            Assert.IsNotNull(actor, $"somebody is out in the village ({NpcManager.Current.Actors.Count} actors, minute {session.Clock.Now.MinuteOfDay})");
+            var actor = GameContext.Current.Map.Npcs.Actors.Values.FirstOrDefault(a => !a.Sleeping);
+            Assert.IsNotNull(actor, $"somebody is out in the village ({GameContext.Current.Map.Npcs.Actors.Count} actors, minute {session.Clock.Now.MinuteOfDay})");
             yield return null;
             Assert.IsNotNull(actor.transform.Find("Shadow"), "a shadow under the villager");
             var recorder = actor.gameObject.AddComponent<SpriteRecorder>();

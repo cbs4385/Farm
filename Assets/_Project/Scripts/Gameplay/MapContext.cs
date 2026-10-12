@@ -10,6 +10,11 @@ namespace Farm.Gameplay
         public FarmMapView View;
         public PlayerController Player;
         public NpcManager Npcs;
+        public PlacedObjectsView Placed;
+        public AnimalManager Animals;       // only the coop and the barn
+        public EnemyManager Enemies;        // only the mine
+        public MineController Mine;
+        public EventDirector Events;
 
         public GameSession Session => Game?.Session;
         public EventBus Bus => Game?.Bus;

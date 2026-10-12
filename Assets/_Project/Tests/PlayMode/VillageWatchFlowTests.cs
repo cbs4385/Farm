@@ -59,7 +59,7 @@ namespace Farm.Tests
 
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
-            var npcs = NpcManager.Current;
+            var npcs = GameContext.Current.Map.Npcs;
             var home = map.WorldToCell(player.transform.position);
             var witness = npcs.Take("tilda", new Vector3Int(home.x + 3, home.y, 0));
             Assert.IsNotNull(witness);

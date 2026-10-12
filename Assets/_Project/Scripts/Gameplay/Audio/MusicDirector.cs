@@ -23,13 +23,11 @@ namespace Farm.Gameplay
         float _next;
         string _asked;                                          // a scene's own request (MusicCue), or null
 
-        public static MusicDirector Current { get; private set; }
         public string Wanted { get; private set; }              // the cue that should be playing now (null: silence)
         public string Playing { get; private set; }             // the cue on the active source
 
         void Awake()
         {
-            Current = this;
             for (var i = 0; i < 2; i++)
             {
                 _source[i] = gameObject.AddComponent<AudioSource>();
@@ -47,10 +45,6 @@ namespace Farm.Gameplay
             game.Bus?.Subscribe<MusicCue>(OnCue);
         }
 
-        void OnDestroy()
-        {
-            if (Current == this) Current = null;
-        }
 
         // A scene asks for a track by name; a name with no file (a track that has not been made yet) is ignored, so the usual music carries on.
         void OnCue(MusicCue cue) => _asked = cue.IsStop || Clip(cue.Name) == null ? null : cue.Name;

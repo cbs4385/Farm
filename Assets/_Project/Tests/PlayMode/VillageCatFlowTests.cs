@@ -34,7 +34,7 @@ namespace Farm.Tests
             Assert.AreEqual("Black cat", cat.HoverLabel);
             Assert.IsNotNull(cat.GetComponent<BoxCollider2D>(), "the player can reach it");
 
-            var npcs = NpcManager.Current;
+            var npcs = GameContext.Current.Map.Npcs;
             var grid = npcs.Grid();
             var start = cat.Cell;
             var moved = false;

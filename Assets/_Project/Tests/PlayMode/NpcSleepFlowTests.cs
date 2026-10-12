@@ -26,7 +26,7 @@ namespace Farm.Tests
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
-            var manager = NpcManager.Current;
+            var manager = GameContext.Current.Map.Npcs;
             var actor = manager.Take("wren", new Vector3Int(20, 10, 0));
             var grid = manager.Grid();
 

@@ -66,10 +66,10 @@ namespace Farm.Tests
         public IEnumerator TheMineScene_BuildsAFloor_WithAnArrivalLadderAndMonsters()
         {
             yield return StartMine(1);
-            var mine = MineController.Current;
+            var mine = GameContext.Current.Map.Mine;
             Assert.IsNotNull(mine);
             Assert.AreEqual(1, mine.Floor.Floor);
-            Assert.AreEqual(mine.Floor.Enemies.Count, EnemyManager.Current.Enemies.Count);
+            Assert.AreEqual(mine.Floor.Enemies.Count, GameContext.Current.Map.Enemies.Enemies.Count);
             Assert.IsTrue(UnityEngine.Object.FindObjectsByType<MineStairs>().Any(x => x.Kind == MineStairs.StairKind.Down));
             Assert.IsTrue(UnityEngine.Object.FindObjectsByType<MineStairs>().Any(x => x.Kind == MineStairs.StairKind.Up));
             var spawn = mine.Floor.Spawn;
@@ -80,7 +80,7 @@ namespace Farm.Tests
         public IEnumerator ASword_KillsAMonster_ForLootAndCombatXp()
         {
             yield return StartMine(1);
-            var enemy = EnemyManager.Current.Enemies.First();
+            var enemy = GameContext.Current.Map.Enemies.Enemies.First();
             var target = enemy.transform.position;
             Player.transform.position = target + new Vector3(-0.8f, 0f, 0f);
             Player.Face(Vector2Int.right);
@@ -103,7 +103,7 @@ namespace Farm.Tests
         public IEnumerator ThePickaxe_MinesOre_OnTheFloor()
         {
             yield return StartMine(1);
-            var floor = MineController.Current.Floor;
+            var floor = GameContext.Current.Map.Mine.Floor;
             var node = floor.Nodes.First(n => n.NodeId == MineGenerator.Copper || n.NodeId == MineGenerator.Coal || n.NodeId == NodeDefaults.Rock);
             _s.GetNodes(MapIds.Mine).TryGet(node.X, node.Y, out var inst);
             Assert.IsNotNull(inst, "the node stands on the floor");
@@ -122,11 +122,11 @@ namespace Farm.Tests
         public IEnumerator TheLadder_GoesDownAFloor_AndRemembersTheDeepest()
         {
             yield return StartMine(4);
-            var ladder = MineController.Current.Floor.Ladder.Value;
+            var ladder = GameContext.Current.Map.Mine.Floor.Ladder.Value;
             var down = UnityEngine.Object.FindObjectsByType<MineStairs>().First(x => x.Kind == MineStairs.StairKind.Down);
             down.Interact(Player.GetComponent<PlayerActions>());
             var start = Time.realtimeSinceStartup;
-            while (MineController.Current == null || MineController.Current.Floor.Floor != 5 || Time.realtimeSinceStartup - start < 0.5f)
+            while (GameContext.Current.Map.Mine == null || GameContext.Current.Map.Mine.Floor.Floor != 5 || Time.realtimeSinceStartup - start < 0.5f)
             {
                 if (Time.realtimeSinceStartup - start > 10f) break;
                 yield return null;

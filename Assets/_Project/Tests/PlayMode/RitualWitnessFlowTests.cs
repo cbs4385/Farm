@@ -102,7 +102,7 @@ namespace Farm.Tests
             {
                 if (Ui.AnyModalOpen)
                 {
-                    worn ??= string.Join(",", MythosCast.Keepers.Select(k => NpcManager.Current.Actors.TryGetValue(k, out var a) ? a.Outfit : "absent"));
+                    worn ??= string.Join(",", MythosCast.Keepers.Select(k => GameContext.Current.Map.Npcs.Actors.TryGetValue(k, out var a) ? a.Outfit : "absent"));
                     if (!string.IsNullOrEmpty(captureTo)) CaptureWorld(Path.Combine(captureTo, $"ritual_{(snatch ? "snatch" : "hidden")}_{shots++:00}.png"));
                     yield return Tap(snatch ? Key.Digit1 : Key.Digit2);          // at the choice: step out (1) or stay hidden (2); nothing at an ordinary line
                     yield return Tap(Key.Enter);
@@ -158,9 +158,9 @@ namespace Farm.Tests
             GameSession.HorrorLevelOverride = 1;
             yield return OpenWoodsAtTheRitual();
             for (var i = 0; i < 120; i++) yield return null;
-            Assert.IsFalse(EventDirector.Current != null && EventDirector.Current.IsPlaying, "no scene at mild");
+            Assert.IsFalse(GameContext.Current.Map.Events != null && GameContext.Current.Map.Events.IsPlaying, "no scene at mild");
             foreach (var keeper in MythosCast.Keepers)
-                if (NpcManager.Current.Actors.TryGetValue(keeper, out var actor)) Assert.IsNull(actor.Outfit, keeper + " is not robed at mild");
+                if (GameContext.Current.Map.Npcs.Actors.TryGetValue(keeper, out var actor)) Assert.IsNull(actor.Outfit, keeper + " is not robed at mild");
             Assert.IsTrue(RitualScene.Fresh(_session));
         }
 
@@ -192,7 +192,7 @@ namespace Farm.Tests
             Assert.IsNotNull(light, "the clearing is lit by the candles");
             Assert.Greater(light.CurrentIntensity, 0.5f);
             foreach (var keeper in MythosCast.Keepers)
-                if (NpcManager.Current.Actors.TryGetValue(keeper, out var actor)) Assert.AreEqual("robe", actor.Outfit, keeper);
+                if (GameContext.Current.Map.Npcs.Actors.TryGetValue(keeper, out var actor)) Assert.AreEqual("robe", actor.Outfit, keeper);
 
             // the next morning the clearing is dark again
             _session.Clock.SetTime(new GameDateTime(1, Season.Summer, 5, 700));

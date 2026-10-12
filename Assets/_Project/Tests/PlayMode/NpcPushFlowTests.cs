@@ -38,7 +38,7 @@ namespace Farm.Tests
         {
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-            var manager = NpcManager.Current;
+            var manager = GameContext.Current.Map.Npcs;
             var actor = manager.Take("wren", new Vector3Int(20, 10, 0));
             actor.SetCell(map, new Vector3Int(20, 10, 0));
             player.Teleport(map.CellCenter(playerCell));

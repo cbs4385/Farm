@@ -50,7 +50,7 @@ namespace Farm.Tests
         {
             yield return Start(MapIds.Coop, 12);
             _s.SetFlag(AnimalRules.BuildingFlag(MapIds.Coop));
-            var manager = AnimalManager.Current;
+            var manager = GameContext.Current.Map.Animals;
             Assert.IsNotNull(manager);
             var a = manager.Spawn(AnimalRules.Add(_s.State, "chicken", "a1", "Ann"), 4, 4);
             var b = manager.Spawn(AnimalRules.Add(_s.State, "chicken", "a2", "Bea"), 4, 4);
@@ -75,7 +75,7 @@ namespace Farm.Tests
         {
             yield return Start(MapIds.Coop, 12);
             _s.SetFlag(AnimalRules.BuildingFlag(MapIds.Coop));
-            var animal = AnimalManager.Current.Spawn(AnimalRules.Add(_s.State, "chicken", "a1", "Ann"), 4, 4);
+            var animal = GameContext.Current.Map.Animals.Spawn(AnimalRules.Add(_s.State, "chicken", "a1", "Ann"), 4, 4);
             yield return null;
 
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();

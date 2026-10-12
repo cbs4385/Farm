@@ -38,7 +38,7 @@ namespace Farm.Tests
             yield return EnterFarm();
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-            var manager = NpcManager.Current;
+            var manager = GameContext.Current.Map.Npcs;
             var actor = manager.Take("wren", new Vector3Int(20, 10, 0));
             Assert.IsNotNull(actor);
             actor.SetCell(map, new Vector3Int(20, 10, 0));
@@ -75,21 +75,21 @@ namespace Farm.Tests
             yield return EnterFarm();
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-            var actor = NpcManager.Current.Take("wren", new Vector3Int(20, 10, 0));
+            var actor = GameContext.Current.Map.Npcs.Take("wren", new Vector3Int(20, 10, 0));
             var cell = new Vector3Int(25, 10, 0);
             player.Teleport(map.CellCenter(cell));
             player.Stop();
             yield return null;
             var standing = player.transform.position;
 
-            actor.Apply(NpcPlacement.Standing(MapIds.Farm, cell.x, cell.y, "down"), map, NpcManager.Current.Grid());     // the schedule puts it exactly there
-            for (var i = 0; i < 10; i++) { actor.Apply(NpcPlacement.Standing(MapIds.Farm, cell.x, cell.y, "down"), map, NpcManager.Current.Grid()); yield return null; }
+            actor.Apply(NpcPlacement.Standing(MapIds.Farm, cell.x, cell.y, "down"), map, GameContext.Current.Map.Npcs.Grid());     // the schedule puts it exactly there
+            for (var i = 0; i < 10; i++) { actor.Apply(NpcPlacement.Standing(MapIds.Farm, cell.x, cell.y, "down"), map, GameContext.Current.Map.Npcs.Grid()); yield return null; }
             Assert.Less(Vector3.Distance(player.transform.position, standing), 0.05f, "the player was not shoved out of the way");
             Assert.IsFalse(actor.transform.Find(ActorBody.BodyName).GetComponent<BoxCollider2D>().enabled, "it is not solid while it overlaps the player");
 
             player.Teleport(map.CellCenter(new Vector3Int(28, 10, 0)));
             yield return null;
-            actor.Apply(NpcPlacement.Standing(MapIds.Farm, cell.x, cell.y, "down"), map, NpcManager.Current.Grid());
+            actor.Apply(NpcPlacement.Standing(MapIds.Farm, cell.x, cell.y, "down"), map, GameContext.Current.Map.Npcs.Grid());
             Assert.IsTrue(actor.transform.Find(ActorBody.BodyName).GetComponent<BoxCollider2D>().enabled, "and solid again once the player is clear");
         }
     }
