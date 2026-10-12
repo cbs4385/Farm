@@ -110,6 +110,11 @@ namespace Farm.Gameplay
             // Something set down (a chest, a machine, furniture).
             var objects = _session.GetObjects(_map.MapId);
             var placed = objects.At(cell.x, cell.y);
+            if (placed != null && _session.Placeables.Get(placed.TypeId) is PlaceableDefinition taken && TakesToBackpack(taken.Kind))
+            {
+                TakeIntoBackpack(placed, taken);
+                return;
+            }
             if (placed != null)
             {
                 _kind = Kind.Placed;
@@ -122,6 +127,30 @@ namespace Farm.Gameplay
                 return;
             }
             _session.Toast(L.Get("build.nothing"));
+        }
+
+        // Furniture, decorations, sprinklers and scarecrows go into the backpack (owner, 2026-10-12: redecorating is easier when a piece can be set down anywhere, on another
+        // map too); chests and machines hold things and are carried as before.
+        public static bool TakesToBackpack(PlaceableKind kind) => kind == PlaceableKind.Decor || kind == PlaceableKind.Sprinkler || kind == PlaceableKind.Scarecrow;
+
+        void TakeIntoBackpack(PlacedObject placed, PlaceableDefinition def)
+        {
+            switch (PlacedInteractions.PickUp(_session, _map.MapId, placed.X, placed.Y))
+            {
+                case PlacedInteractions.PickUpResult.Ok:
+                    _session.Game?.Map?.Placed?.Despawn(placed.Id);
+                    AudioService.PlayIfAvailable(Sfx.Harvest);
+                    _session.Toast(L.Get("build.taken", _session.Db.TryGetItem(def.ItemId, out var item) ? L.Get(item.NameKey) : def.ItemId));
+                    _session.NotifyChanged();
+                    break;
+                case PlacedInteractions.PickUpResult.NoRoom:
+                    AudioService.PlayIfAvailable(Sfx.Error);
+                    _session.Toast(L.Get("build.pack_full"));
+                    break;
+                default:
+                    _session.Toast(L.Get("build.nothing"));
+                    break;
+            }
         }
 
         void PutDown(Vector3Int cell)

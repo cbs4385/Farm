@@ -128,7 +128,7 @@ namespace Farm.Gameplay
             if (stack == null || !Session.Db.TryGetItem(stack.ItemId, out var item)) return;
 
             // An item used on a villager is a gift.
-            if (item.Category != ItemCategory.Tool && _hand.NpcAt(_aim.Target) is NpcActor npc)
+            if (item.Category != ItemCategory.Tool && _hand.VillagerToGive() is NpcActor npc)
             {
                 var result = NpcInteractions.Gift(Session, npc.Definition, Session.State.SelectedHotbar);
                 NpcInteractions.ToastFor(Session, result);

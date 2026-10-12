@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.3 (2026-10-12)
+
+**Light**
+- **The world follows the day, between a tenth of the light and full.** It brightens through the dawn (06:00 to 09:00), is full from 09:00 to 17:00, dims through the dusk (17:00 to 21:30) and is dark through the night. This holds for every outdoor map.
+- **The village lamps burn from dusk to dawn.** Each street lamp glows while the daylight is low.
+- **The mine is dark: a tenth of the light, tinted blue.** You need your torch to see.
+
+**Tools and friends**
+- **The building mallet takes furniture, decorations, sprinklers and scarecrows into your backpack** when you swing it at them, so you can set them down anywhere, even on another map. If your backpack is full they stay where they are. Chests and machines are still carried, because they hold things. Buildings and the room's own fixtures are also carried as before.
+- **Gifts reach a villager behind a shop counter.** You could not give Tilda a present while she worked at her counter; now a gift goes to whoever is under the pointer, or behind the counter in front of you.
+
+**Fishing**
+- **Bait now matters in the game.** A baited hook says so while you wait, the bite comes sooner, the green zone is wider and the rarer fish are likelier. Bait is used up when you cast.
+
 ## 0.5.2 (2026-10-12)
 
 Fixes from playtesting 0.5.0 and 0.5.1.

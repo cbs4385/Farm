@@ -21,6 +21,19 @@ namespace Farm.Gameplay
                 ? PlayerActions.PointedVillager(_c.Map.WorldToCell(_c.Player.CellSamplePoint), _c.Aim.PointerCell, _c.Here?.Npcs.Actors.Values, _c.Map.WorldToCell, c => InteractableAt(c, 0) is ShopCounter)
                 : null;
 
+        // Who an item in hand is for: the villager under the mouse (across a counter too), the one in the cell in front, or the one behind the counter in front (playtest
+        // 2026-10-12: a gift for Tilda could not be given while she worked behind her counter).
+        public NpcActor VillagerToGive()
+        {
+            var pointed = NpcUnderPointer();
+            if (pointed != null) return pointed;
+            var cell = _c.Target;
+            var near = NpcAt(cell);
+            if (near != null) return near;
+            if (_c.Aim.MouseAiming || !(InteractableAt(cell, 0) is ShopCounter)) return null;
+            return NpcAt(cell + new Vector3Int(_c.Player.Facing.x, _c.Player.Facing.y, 0));
+        }
+
         public NpcActor NpcAt(Vector3Int cell) => _c.Here?.Npcs != null ? _c.Here?.Npcs.ActorNear(cell) : null;
 
         // Picks forage on the cell, if there is any. Returns true if the interaction was used up (picked or refused).

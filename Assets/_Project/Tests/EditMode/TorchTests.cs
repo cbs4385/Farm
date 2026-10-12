@@ -11,10 +11,10 @@ namespace Farm.Tests
     public class TorchTests
     {
         [Test]
-        public void TheMineIsAQuarterAsBright_AndBlue()
+        public void TheMineIsATenthAsBright_AndBlue()
         {
             var c = DayNightLighting.Cave;
-            Assert.AreEqual(0.25f, Mathf.Max(c.r, Mathf.Max(c.g, c.b)), 0.001f, "a quarter of the full light");
+            Assert.AreEqual(0.1f, Mathf.Max(c.r, Mathf.Max(c.g, c.b)), 0.001f, "a tenth of the full light (owner, 2026-10-12): the torch is needed");
             Assert.Greater(c.b, c.g);
             Assert.Greater(c.g, c.r, "tinted blue");
         }

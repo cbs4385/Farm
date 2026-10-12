@@ -37,9 +37,13 @@ namespace Farm.Gameplay
             return Math.Max(1f, baseDelay * (1f - 0.04f * (Math.Max(1, level) - 1)) * (bait ? 0.6f : 1f));
         }
 
-        // The width (0..1 of the bar) of the zone to hit; harder fish and lower levels give a narrower one.
-        public static float ZoneWidth(int level, float difficulty) =>
-            Math.Min(0.6f, Math.Max(0.12f, 0.34f + 0.02f * (Math.Max(1, level) - 1) - 0.25f * difficulty));
+        // What bait does (owner, 2026-10-12): the bite comes sooner (BiteDelay), the zone to hit is wider, and the rarer fish are likelier.
+        public const float BaitZoneBonus = 0.08f;
+        public const float BaitLuck = 0.6f;
+
+        // The width (0..1 of the bar) of the zone to hit; harder fish and lower levels give a narrower one, bait a wider one.
+        public static float ZoneWidth(int level, float difficulty, bool bait = false) =>
+            Math.Min(0.6f, Math.Max(0.12f, 0.34f + 0.02f * (Math.Max(1, level) - 1) - 0.25f * difficulty + (bait ? BaitZoneBonus : 0f)));
 
         public static bool Judge(float marker, float zoneCenter, float zoneWidth, out bool perfect)
         {
@@ -74,6 +78,7 @@ namespace Farm.Gameplay
         float _timer;
         float _dir = 1f;
 
+        public bool Baited { get; }
         public FishingState State { get; private set; } = FishingState.Waiting;
         public float Marker { get; private set; }
         public float ZoneCenter { get; }
@@ -88,12 +93,13 @@ namespace Farm.Gameplay
         public FishingSession(IReadOnlyList<FishRow> eligible, int level, float luck, bool bait, float fishRoll, float biteRoll, float zoneRoll, float qualityRoll,
             float biteSpeed = 1f)
         {
-            _fish = FishingModel.Pick(eligible, luck, fishRoll);
+            Baited = bait;
+            _fish = FishingModel.Pick(eligible, luck + (bait ? FishingModel.BaitLuck : 0f), fishRoll);
             _level = level;
             _luck = luck;
             _qualityRoll = qualityRoll;
             _timer = Math.Max(0.8f, FishingModel.BiteDelay(level, bait, biteRoll) / Math.Max(0.5f, biteSpeed)) + (_fish.HasValue ? 0f : 3f);
-            ZoneWidth = FishingModel.ZoneWidth(level, _fish?.Difficulty ?? 0f);
+            ZoneWidth = FishingModel.ZoneWidth(level, _fish?.Difficulty ?? 0f, bait);
             ZoneCenter = 0.2f + zoneRoll * 0.6f;
         }
 

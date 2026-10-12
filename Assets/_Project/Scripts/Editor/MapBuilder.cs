@@ -400,8 +400,8 @@ namespace Farm.Editor
             AddProp("Fountain", "prop_fountain", MapLayout.Fountain.x, MapLayout.Fountain.y, 2);
             AddProp("Flag_West", "prop_flag", 23, 20);
             AddProp("Flag_East", "prop_flag", 27, 19);
-            foreach (var lampX in new[] { 3, 11, 20, 34, 40, 46 }) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, 19);
-            foreach (var lampX in new[] { 4, 12, 20, 30, 38, 46 }) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, 15);
+            foreach (var lampX in new[] { 3, 11, 20, 34, 40, 46 }) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, 19).AddComponent<StreetLamp>();
+            foreach (var lampX in new[] { 4, 12, 20, 30, 38, 46 }) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, 15).AddComponent<StreetLamp>();
             MakeSeat(AddProp("Bench_1", "prop_bench", 14, 14, 2), "prop_bench", "Bench_1");
             MakeSeat(AddProp("Bench_2", "prop_bench", 40, 14, 2), "prop_bench", "Bench_2");
             foreach (var b in Buildings)

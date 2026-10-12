@@ -12,7 +12,8 @@ namespace Farm.Gameplay
 
         // The colours are tints (their strongest channel is 1): how bright the light is comes from Brightness() below, so night is half as bright as noon
         // whatever its colour (owner, 2026-10-09: "night at about 50% brightness and noon at 100%").
-        public const float NightBrightness = 0.5f;
+        public const float NightBrightness = 0.1f;
+        public const float SceneNightBrightness = 0.5f;          // the "night" mood of a story scene (the world is darker than that now, and a scene must stay readable)
         static readonly Color DawnTint = new Color(0.97f, 0.92f, 1f);
         static readonly Color DayTint = Color.white;
         static readonly Color DuskTint = new Color(1f, 0.88f, 0.78f);
@@ -20,7 +21,7 @@ namespace Farm.Gameplay
         static readonly Color Dawn = Dim(DawnTint, 0.62f);
         static readonly Color Day = Color.white;
         static readonly Color Dusk = Dim(DuskTint, 0.75f);
-        static readonly Color Night = Dim(NightTint, NightBrightness);
+        static readonly Color Night = Dim(NightTint, SceneNightBrightness);
         static readonly Color Indoor = new Color(1f, 0.95f, 0.85f);
 
         GameSession _session;
@@ -34,8 +35,8 @@ namespace Farm.Gameplay
             _atmosphere = map.Atmosphere;
         }
 
-        // The mine (owner, 2026-10-11): a quarter of the light, tinted blue.
-        public const float CaveBrightness = 0.25f;
+        // The mine (owner, 2026-10-11): tinted blue; (owner, 2026-10-12) a tenth of the light, so that the torch is what lets the player see.
+        public const float CaveBrightness = 0.1f;
         public static readonly Color CaveTint = new Color(0.55f, 0.72f, 1f);
         public static readonly Color Cave = Dim(CaveTint, CaveBrightness);
         bool _cave;
@@ -108,17 +109,23 @@ namespace Farm.Gameplay
             _light.intensity = 1f;
         }
 
-        // How bright the outdoor light is at a time of day, from NightBrightness (about 50%) to 1 at noon: it rises from 06:00 to noon, falls from noon until
-        // 22:00 and stays at the night level until the sky lightens again before 06:00 (the day runs on past midnight, so 24:00 is 24).
+        // How bright the outdoor light is at a time of day, from NightBrightness (a tenth, owner 2026-10-12) to 1: it rises through the dawn from 06:00 to 09:00, is full
+        // from 09:00 to 17:00, falls through the dusk from 17:00 to 21:30 and stays at the night level until the sky lightens again before 06:00 (the day runs on past
+        // midnight, so 24:00 is 24).
         public static float Brightness(int minuteOfDay)
         {
             var h = minuteOfDay / 60f;
             var sun = 0f;
-            if (h >= 6f && h < 12f) sun = Smooth((h - 6f) / 6f);
-            else if (h >= 12f && h < 22f) sun = Smooth(1f - (h - 12f) / 10f);
+            if (h >= 6f && h < 9f) sun = Smooth((h - 6f) / 3f);
+            else if (h >= 9f && h < 17f) sun = 1f;
+            else if (h >= 17f && h < 21.5f) sun = Smooth(1f - (h - 17f) / 4.5f);
             else if (h >= 28f) sun = Smooth((h - 28f) / 2f) * 0.5f;               // the sky lightens a little before 06:00 (30:00)
             return Mathf.Lerp(NightBrightness, 1f, sun);
         }
+
+        // The street lamps burn from dusk to dawn: while the daylight is less than about two thirds of its full strength. (pure)
+        public const float LampsOnBelow = 0.6f;
+        public static bool LampsOn(int minuteOfDay) => Brightness(minuteOfDay) < LampsOnBelow;
 
         static Color Dim(Color c, float f) => new Color(c.r * f, c.g * f, c.b * f, 1f);
 

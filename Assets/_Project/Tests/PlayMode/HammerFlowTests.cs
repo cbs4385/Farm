@@ -298,13 +298,48 @@ namespace Farm.Tests
             Assert.AreEqual(1, placed.Turns);
             Assert.AreEqual(90f, GameContext.Current.Map.Placed.At(new Vector3Int(7, 2, 0)).transform.eulerAngles.z, 0.1f);
 
-            // The mallet can turn it again and it keeps that turn.
+            // The mallet takes it into the backpack (owner, 2026-10-12), and it can be set down again, turned as before.
+            var before = _s.Backpack.Count(id);
             _hammer.Use(new Vector3Int(7, 2, 0));
+            Assert.IsFalse(_hammer.Carrying, "it is not carried: it is in the backpack");
+            Assert.IsNull(_s.GetObjects(MapIds.FarmHouse).At(7, 2));
+            Assert.IsNull(GameContext.Current.Map.Placed.At(new Vector3Int(7, 2, 0)));
+            Assert.AreEqual(before + 1, _s.Backpack.Count(id));
+        }
+
+        [UnityTest]
+        public IEnumerator AChest_IsStillCarried_WhileADecorationGoesIntoTheBackpack()
+        {
+            yield return Start(MapIds.FarmHouse);
+            var objects = _s.GetObjects(MapIds.FarmHouse);
+            var decor = objects.Place(_s.Placeables.Get(CraftingDefaults.Decor[0].id), 3, 3, "d1");
+            GameContext.Current.Map.Placed.Spawn(decor);
+            Assert.IsTrue(HammerMode.TakesToBackpack(_s.Placeables.Get(decor.TypeId).Kind));
+            var chest = objects.Place(_s.Placeables.Get(CraftingDefaults.Chest), 5, 4, "c2");
+            GameContext.Current.Map.Placed.Spawn(chest);
+            Assert.IsFalse(HammerMode.TakesToBackpack(_s.Placeables.Get(chest.TypeId).Kind), "a chest holds things, so it is carried");
+            _hammer.Use(new Vector3Int(5, 4, 0));
             Assert.IsTrue(_hammer.Carrying);
-            Assert.IsTrue(_hammer.Rotate());
-            _hammer.Use(new Vector3Int(8, 2, 0));
-            Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
-            Assert.AreEqual(2, _s.GetObjects(MapIds.FarmHouse).At(8, 2).Turns);
+            _hammer.Cancel();
+        }
+
+        [UnityTest]
+        public IEnumerator WithAFullBackpack_ADecoration_StaysWhereItIs()
+        {
+            yield return Start(MapIds.FarmHouse);
+            var def = _s.Placeables.Get(CraftingDefaults.Decor[0].id);
+            var objects = _s.GetObjects(MapIds.FarmHouse);
+            var decor = objects.Place(def, 7, 2, "d2");
+            GameContext.Current.Map.Placed.Spawn(decor);
+            _s.Backpack.Remove(def.ItemId, _s.Backpack.Count(def.ItemId));
+            for (var i = 0; i < 500 && _s.Backpack.CanAdd(def.ItemId, 1); i++)
+                _s.Backpack.Add(ItemIds.Wood, 1, 0, "fill" + i);          // each mark is a stack of its own: one slot each
+            Assert.IsFalse(_s.Backpack.CanAdd(def.ItemId, 1), "the backpack is full");
+            _hammer.Use(new Vector3Int(7, 2, 0));
+            Assert.IsFalse(_hammer.Carrying);
+            Assert.IsNotNull(objects.At(7, 2), "it stays where it is");
+            Assert.IsNotNull(GameContext.Current.Map.Placed.At(new Vector3Int(7, 2, 0)));
+            Assert.AreEqual(0, _s.Backpack.Count(def.ItemId));
         }
 
         [UnityTest]
