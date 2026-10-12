@@ -92,7 +92,7 @@ namespace Farm.Gameplay
             if (_indoor)
             {
                 var room = _cave ? Cave : Indoor;
-                var indoor = _atmosphere != null ? _atmosphere.Stack.Apply(room) : room;
+                var indoor = AsLight(_atmosphere != null ? _atmosphere.Stack.Apply(room) : room);
                 _light.color = _overrideWeight > 0f ? Color.Lerp(indoor, _overrideColor, _overrideWeight) : indoor;
                 _light.intensity = 1f;
                 return;
@@ -104,6 +104,7 @@ namespace Farm.Gameplay
             c = _session.Weather.Get(_session.State.Weather).Apply(c);
             // Optional mood layers pushed by modules (fog, dread...) blend over the normal lighting.
             if (_atmosphere != null) c = _atmosphere.Stack.Apply(c);
+            c = AsLight(c);
             if (_overrideWeight > 0f) c = Color.Lerp(c, _overrideColor, _overrideWeight);
             _light.color = c;
             _light.intensity = 1f;
@@ -126,6 +127,18 @@ namespace Farm.Gameplay
         // The street lamps burn from dusk to dawn: while the daylight is less than about two thirds of its full strength. (pure)
         public const float LampsOnBelow = 0.6f;
         public static bool LampsOn(int minuteOfDay) => Brightness(minuteOfDay) < LampsOnBelow;
+
+        // The game works in linear light, where a light colour of 0.1 shows on screen as about a third of full brightness (owner, 2026-10-12: night was not dim). The brightness
+        // numbers of this class mean what the eye sees, so the light is given the colour raised to the screen's power: a tenth looks like a tenth. The tint is kept.
+        public const float ScreenPower = 2.2f;
+
+        public static Color AsLight(Color c)
+        {
+            var top = Mathf.Max(c.r, Mathf.Max(c.g, c.b));
+            if (top <= 0f) return new Color(0f, 0f, 0f, 1f);
+            var scale = Mathf.Pow(top, ScreenPower) / top;
+            return new Color(c.r * scale, c.g * scale, c.b * scale, 1f);
+        }
 
         static Color Dim(Color c, float f) => new Color(c.r * f, c.g * f, c.b * f, 1f);
 

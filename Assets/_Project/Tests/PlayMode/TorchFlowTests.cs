@@ -53,8 +53,10 @@ namespace Farm.Tests
             for (var i = 0; i < 20; i++) yield return null;
 
             var global = UnityEngine.Object.FindObjectsByType<Light2D>(FindObjectsSortMode.None).First(l => l.lightType == Light2D.LightType.Global);
-            Assert.AreEqual(DayNightLighting.Cave.r, global.color.r, 0.01f);
-            Assert.AreEqual(DayNightLighting.Cave.b, global.color.b, 0.01f, "dim and blue");
+            var cave = DayNightLighting.AsLight(DayNightLighting.Cave);          // a tenth as the eye sees it, given in linear terms
+            Assert.AreEqual(cave.r, global.color.r, 0.002f);
+            Assert.AreEqual(cave.b, global.color.b, 0.002f, "dim and blue");
+            Assert.Less(global.color.b, 0.01f, "dark enough that the torch is needed");
 
             var torch = UnityEngine.Object.FindAnyObjectByType<TorchLight>();
             Assert.IsNotNull(torch);
