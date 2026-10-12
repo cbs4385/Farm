@@ -403,11 +403,13 @@ namespace Farm.UI
             _padHint.textWrappingMode = TextWrappingModes.Normal;
         }
 
+        bool PadInUse => _ui.Game?.Input?.Hints.Kind == InputKind.Gamepad;
+
         void UpdatePadHint()
         {
             if (_padHint == null) return;
             var s = _ui.Session;
-            var show = ControlPrompts.Kind == InputKind.Gamepad && s != null && s.InGame && !_ui.AnyModalOpen;
+            var show = PadInUse && s != null && s.InGame && !_ui.AnyModalOpen;
             var text = show ? L.Get("hud.pad_hint") : string.Empty;
             if (_padHint.text != text) _padHint.text = text;
         }
@@ -620,7 +622,7 @@ namespace Farm.UI
                 var stack = shown >= 0 && shown < s.Backpack.Capacity ? s.Backpack.Get(shown) : null;
                 var text = stack != null ? HotbarTooltip.Text(s, stack.ItemId) : null;
                 // no label over the tip card, and none from a mouse that rests on a slot while a pad is in hand; a click still selects
-                if ((_coachPanel != null && _coachPanel.gameObject.activeSelf) || ControlPrompts.Kind == InputKind.Gamepad) text = null;
+                if ((_coachPanel != null && _coachPanel.gameObject.activeSelf) || PadInUse) text = null;
                 if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }
             }
             if (_tooltipShown) { _ui.HideHover(); _tooltipShown = false; }

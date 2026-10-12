@@ -164,9 +164,9 @@ namespace Farm.UI
 
         public void OnSubmit(UnityEngine.EventSystems.BaseEventData eventData)
         {
-            if (ControlPrompts.Kind != InputKind.Gamepad) return;
-            var field = GetComponent<TMP_InputField>();
             var ui = GetComponentInParent<UiService>();
+            if (ui == null || ui.Game?.Input?.Hints.Kind != InputKind.Gamepad) return;
+            var field = GetComponent<TMP_InputField>();
             if (field == null || ui == null) return;
             field.DeactivateInputField();
             if (_keyboard == null || _keyboard.Root == null) _keyboard = new OnScreenKeyboard(ui);

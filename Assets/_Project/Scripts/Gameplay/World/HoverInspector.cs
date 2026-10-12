@@ -41,10 +41,10 @@ namespace Farm.Gameplay
         {
             var mouse = Mouse.current;
             // With a pad the label follows the cell the player faces, as a mouse's does the pointer (playtest 2026-10-09: a controller player never saw what a thing was).
-            var pad = ControlPrompts.Kind == InputKind.Gamepad;          // any pad, a generic joystick too: the label follows the target cell, not a mouse that nobody is using
+            _input = _game?.Input;
+            var pad = _input != null && _input.Hints.Kind == InputKind.Gamepad;          // any pad, a generic joystick too: the label follows the target cell, not a mouse that nobody is using
             _store = _game?.Settings;
             _ui = _game?.Ui;
-            _input = _game?.Input;
             if (_camera == null) _camera = Camera.main;
             var settings = _store != null ? _store.Current : null;
             var ui = _ui;

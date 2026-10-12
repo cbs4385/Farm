@@ -39,7 +39,7 @@ namespace Farm.Gameplay
         {
             var mouse = UnityEngine.InputSystem.Mouse.current;
             var settings = _session.Settings;
-            if (mouse == null || settings == null || !settings.MouseAim || _input.GameplayBlocked || ControlPrompts.Kind == InputKind.Gamepad) { _mouseAim = false; return; }          // a pad in use: the mouse is ignored
+            if (mouse == null || settings == null || !settings.MouseAim || _input.GameplayBlocked || _input.Hints.Kind == InputKind.Gamepad) { _mouseAim = false; return; }          // a pad in use: the mouse is ignored
             var position = mouse.position.ReadValue();
             var moved = (position - _lastMouse).sqrMagnitude > 1f;
             _lastMouse = position;

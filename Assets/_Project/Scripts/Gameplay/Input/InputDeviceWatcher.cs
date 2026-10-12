@@ -12,6 +12,7 @@ namespace Farm.Gameplay
     {
         const float StickThreshold = 0.5f, MouseThreshold = 3f;
         System.IDisposable _buttons;
+        static InputHints Hints => _game?.Input?.Hints ?? ControlPrompts.Current;
         static GameContext _game;                       // the run, for the static callbacks the input system calls
 
         static InputDeviceWatcher() => TestResets.Add(() => _game = null);
@@ -55,8 +56,8 @@ namespace Farm.Gameplay
 
         static void ApplyKind()
         {
-            Cursor.visible = CursorShownFor(ControlPrompts.Kind);
-            SetPointerActions(CursorShownFor(ControlPrompts.Kind));
+            Cursor.visible = CursorShownFor(Hints.Kind);
+            SetPointerActions(CursorShownFor(Hints.Kind));
         }
 
         // The menus' pointer: while it is off, nothing under the mouse is hovered or clicked.
@@ -79,7 +80,7 @@ namespace Farm.Gameplay
             var session = _game?.Session;
             if (session == null || !session.InGame) return;
             _lastToast = Time.unscaledTime;
-            session.Toast(L.Get(AnnouncementKey(ControlPrompts.Kind)));
+            session.Toast(L.Get(AnnouncementKey(Hints.Kind)));
         }
 
         // Called when a map starts: once for each game that is begun or loaded, says what the game is being played with.
@@ -94,20 +95,20 @@ namespace Farm.Gameplay
         static void OnButton(InputControl control)
         {
             NoticeGenericPad(control);
-            if (control.device is Gamepad || control.device is Joystick) ControlPrompts.SetKind(InputKind.Gamepad);
-            else if (control.device is Keyboard || control.device is Mouse) ControlPrompts.SetKind(InputKind.KeyboardMouse);
+            if (control.device is Gamepad || control.device is Joystick) Hints.SetKind(InputKind.Gamepad);
+            else if (control.device is Keyboard || control.device is Mouse) Hints.SetKind(InputKind.KeyboardMouse);
         }
 
         void Update()
         {
             SayPendingNotice();
             var joy = Joystick.current;
-            if (joy != null && joy.stick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold) ControlPrompts.SetKind(InputKind.Gamepad);
+            if (joy != null && joy.stick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold) Hints.SetKind(InputKind.Gamepad);
             var pad = Gamepad.current;
             if (pad != null && (pad.leftStick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold || pad.rightStick.ReadValue().sqrMagnitude > StickThreshold * StickThreshold))
-                ControlPrompts.SetKind(InputKind.Gamepad);
+                Hints.SetKind(InputKind.Gamepad);
             var mouse = Mouse.current;
-            if (mouse != null && mouse.delta.ReadValue().sqrMagnitude > MouseThreshold * MouseThreshold) ControlPrompts.SetKind(InputKind.KeyboardMouse);
+            if (mouse != null && mouse.delta.ReadValue().sqrMagnitude > MouseThreshold * MouseThreshold) Hints.SetKind(InputKind.KeyboardMouse);
         }
 
         // A controller that Windows shows only as a generic joystick (a DirectInput pad, an "EasySMX" in its default mode) has no standard layout: its buttons are
@@ -136,8 +137,8 @@ namespace Farm.Gameplay
         {
             if (!(device is Gamepad) || (change != InputDeviceChange.Removed && change != InputDeviceChange.Disconnected)) return;
             if (Gamepad.all.Count > 0) return;                                   // another pad is still there
-            var wasPlaying = ControlPrompts.Kind == InputKind.Gamepad;
-            ControlPrompts.SetKind(InputKind.KeyboardMouse);
+            var wasPlaying = Hints.Kind == InputKind.Gamepad;
+            Hints.SetKind(InputKind.KeyboardMouse);
             var session = _game?.Session;
             if (wasPlaying && session != null && session.InGame && _game.Ui is IUiService ui && !ui.AnyModalOpen)
                 ui.ShowPause();

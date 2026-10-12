@@ -10,13 +10,16 @@ namespace Farm.Gameplay
     {
         readonly InputActionAsset _asset;
 
+        public InputHints Hints { get; } = new InputHints();
+
         public InputService(InputActionAsset sourceAsset)
         {
             _asset = Object.Instantiate(sourceAsset);
             Gameplay = _asset.FindActionMap(InputNames.GameplayMap, true);
             Ui = _asset.FindActionMap(InputNames.UiMap, true);
             Ui.Enable();   // UI navigation is always available
-            ControlPrompts.Rebound = ReboundPrompt;
+            Hints.Rebound = ReboundPrompt;
+            ControlPrompts.Use(Hints);
         }
 
         public InputActionAsset Asset => _asset;

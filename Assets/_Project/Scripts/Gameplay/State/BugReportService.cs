@@ -70,7 +70,7 @@ namespace Farm.Gameplay
             sb.AppendLine("Language: " + L.Language);
             var settings = session.Settings;
             if (settings != null) sb.AppendLine($"Settings: horror level {settings.HorrorLevel}, stream mode {settings.StreamMode}, relaxed energy {settings.RelaxedEnergy}");
-            sb.AppendLine($"Input: hints for {ControlPrompts.Kind}; hover labels {(settings == null || settings.HoverLabels ? "on" : "off")}; hover: {HoverInspector.Why ?? "-"} ({HoverInspector.Current ?? "none"})");
+            sb.AppendLine($"Input: hints for {session.Game?.Input?.Hints.Kind}; hover labels {(settings == null || settings.HoverLabels ? "on" : "off")}; hover: {HoverInspector.Why ?? "-"} ({HoverInspector.Current ?? "none"})");
             sb.AppendLine("Devices: " + string.Join("; ", UnityEngine.InputSystem.InputSystem.devices.Select(d => $"{d.displayName} [{d.layout}{(d is UnityEngine.InputSystem.Gamepad ? ", gamepad" : "")}]")));
             if (session == null || !session.InGame) { sb.AppendLine("In game: no (a menu)"); return sb.ToString(); }
             var s = session.State;

@@ -239,7 +239,7 @@ namespace Farm.UI
             {
                 Ui.Input.ResetPadBindings();
                 s.BindingOverridesJson = Ui.Input.ExportOverrides();
-                ControlPrompts.NotifyChanged();
+                Ui.Game.Input.Hints.NotifyChanged();
                 Build();
                 Ui.FocusFirst(Root);
             }, 260f, 30f);
@@ -248,7 +248,7 @@ namespace Farm.UI
             {
                 Ui.Input.ResetBindings();
                 s.BindingOverridesJson = string.Empty;
-                ControlPrompts.NotifyChanged();
+                Ui.Game.Input.Hints.NotifyChanged();
                 Build();
                 Ui.FocusFirst(Root);
             }, 260f, 30f);
@@ -325,7 +325,7 @@ namespace Farm.UI
                     var swapped = BindingNames.SwapIfClash(action, index, before);
                     _store.Current.BindingOverridesJson = Ui.Input.ExportOverrides();
                     UiKit.SetButtonText(button, BindingText(action, index));
-                    ControlPrompts.NotifyChanged();
+                    Ui.Game.Input.Hints.NotifyChanged();
                     if (swapped != null) { Ui.Session?.Toast(L.Get("options.swapped", L.Get("action." + action.name), L.Get("action." + swapped.name))); Build(); }
                 })
                 .OnCancel(op =>
@@ -374,7 +374,7 @@ namespace Farm.UI
                     var swapped = BindingNames.SwapIfClash(action, at, before);
                     if (swapped != null) Ui.Session?.Toast(L.Get("options.swapped", L.Get("action." + action.name), L.Get("action." + swapped.name)));
                     _store.Current.BindingOverridesJson = Ui.Input.ExportOverrides();
-                    ControlPrompts.NotifyChanged();
+                    Ui.Game.Input.Hints.NotifyChanged();
                 }
                 FinishRebind();
                 UiKit.SetButtonText(button, PadText(action));
