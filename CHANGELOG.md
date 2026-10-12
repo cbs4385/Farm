@@ -1,11 +1,19 @@
 # Changelog
 
-## 0.5.1 (2026-10-11)
+## 0.5.1 (2026-10-12)
 
+**Story and world**
 - A new overheard conversation between Tilda and Bram, "The Even Slate": she leaves a crust on his bench for the repairs he never mentions, and neither says thank you.
 - On Tuesdays, when the saloon is shut, Tilda and Bram spend the evening in the village square instead of at the saloon.
 - On Saturdays, when the library is shut, Dr. Penn spends the afternoon and evening in the saloon. Dorian's evening line now agrees with his evenings in the saloon corner.
-- Behind the scenes: the village's reactions to chopping, breaking and digging (the mutters and telling-offs) now live in the story files (a line can be spoken by "whoever saw it"); the first step of retiring the service locator (a game context, a map context and one injected notifier), with a test that only lets its use fall.
+- The village's mutters and telling-offs about chopping, breaking and digging are now written as story lines, spoken by whoever saw the damage.
+
+**Behind the scenes**
+- The service locator is gone. Settings, saves, audio, input, the event bus, the scene loader and the UI are held by one game context, and each loaded map has a map context holding its villagers, animals, placed objects, enemies, the mine and the event director. Scene components are handed what they need once the map is built; a test stops new global "current instance" objects from being added.
+- The player's action class (tools, planting, placing, fishing, using things by hand) is split into smaller classes.
+- Whether the game shows keyboard or controller hints is now held by the input service instead of global state.
+- No change to saves.
+
 ## 0.5.0 (2026-10-11)
 
 Villager goals, remembered choices and villagers talking to each other (details in `docs/narrative/GOALS.md`).
