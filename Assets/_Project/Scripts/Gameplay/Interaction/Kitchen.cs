@@ -11,7 +11,7 @@ namespace Farm.Gameplay
 
         public void Interact(PlayerActions player)
         {
-            UiAccess.Run(ui => ui.ShowCrafting(Stations.Kitchen));
+            player.Session.Ui?.ShowCrafting(Stations.Kitchen);
         }
     }
 }

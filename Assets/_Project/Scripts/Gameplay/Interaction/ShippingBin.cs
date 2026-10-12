@@ -13,7 +13,7 @@ namespace Farm.Gameplay
         public void Interact(PlayerActions player)
         {
             // Normally the bin opens as a window (pick items and amounts, ship them as one lot); without a UI the selected stack goes in.
-            if (ServiceLocator.TryGet<IUiService>(out var ui) && ui != null) { ui.ShowShipping(); return; }
+            if (player.Session.Ui is IUiService ui) { ui.ShowShipping(); return; }
             var session = player.Session;
             var slot = session.State.SelectedHotbar;
             var stack = session.Backpack.Get(slot);

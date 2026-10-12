@@ -14,7 +14,7 @@ namespace Farm.Gameplay
             switch (def.Kind)
             {
                 case PlaceableKind.Chest:
-                    UiAccess.Run(ui => ui.ShowChest(obj.Id));
+                    session.Ui?.ShowChest(obj.Id);
                     break;
 
                 case PlaceableKind.Machine:

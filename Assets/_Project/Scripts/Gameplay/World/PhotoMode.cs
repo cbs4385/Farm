@@ -60,12 +60,12 @@ namespace Farm.Gameplay
             if (Key_(Key.Digit0) || (pad != null && pad.buttonWest.wasPressedThisFrame)) ClearBubble();
         }
 
-        static bool AnyModal() => UiAccess.AnyModalOpen;
+        bool AnyModal() => _session?.Ui != null && _session.Ui.AnyModalOpen;
 
         void Enter()
         {
             _on = true; Active = true;
-            UiAccess.Run(ui => ui.SetHudVisible(false));
+            _session.Ui?.SetHudVisible(false);
             _session.Clock.Pause();
             if (_player != null) _player.enabled = false;
         }
@@ -74,14 +74,14 @@ namespace Farm.Gameplay
         {
             ClearBubble();
             _on = false; Active = false;
-            UiAccess.Run(ui => ui.SetHudVisible(true));
+            _session.Ui?.SetHudVisible(true);
             _session.Clock.Resume();
             if (_player != null) _player.enabled = true;
         }
 
         void OnDestroy()
         {
-            if (_on) { Active = false; if (_session != null) _session.Clock.Resume(); UiAccess.Run(ui => ui.SetHudVisible(true)); }
+            if (_on) { Active = false; if (_session != null) _session.Clock.Resume(); _session?.Ui?.SetHudVisible(true); }
         }
 
         // Villagers within reach of the player, nearest first.

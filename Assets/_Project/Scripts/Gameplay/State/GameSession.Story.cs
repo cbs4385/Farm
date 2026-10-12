@@ -83,7 +83,8 @@ namespace Farm.Gameplay
         {
             var graph = Story.Dialogue(dialogueId);
             if (graph == null) { Log.Warn($"Unknown dialogue '{dialogueId}'."); return false; }
-            if (!ServiceLocator.TryGet<IUiService>(out var ui)) return false;
+            var ui = Ui;
+            if (ui == null) return false;
             var runner = new DialogueRunner(graph, World, StoryText, effect => Effects.Run(this, effect));
             ui.ShowDialogue(runner, onFinished);
             return true;
@@ -100,7 +101,8 @@ namespace Farm.Gameplay
         // Starts a conversation from a graph built on the fly (the chat menu).
         public bool BeginDialogueGraph(DialogueGraph graph, Action onFinished = null)
         {
-            if (graph == null || !ServiceLocator.TryGet<IUiService>(out var ui)) return false;
+            var ui = Ui;
+            if (graph == null || ui == null) return false;
             ui.ShowDialogue(new DialogueRunner(graph, World, StoryText, effect => Effects.Run(this, effect)), onFinished);
             return true;
         }

@@ -11,7 +11,7 @@ namespace Farm.UI
 
         void Start()
         {
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = (UiService)GameContext.Current.Ui;
             ui.SetHudVisible(false);
             ui.Game.Session.EndGame();
             _menu = new MainMenuScreen(ui);

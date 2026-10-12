@@ -53,7 +53,7 @@ namespace Farm.Gameplay
             if (_session == null || !_session.InGame || IsPlaying) return;
             if (++_frames < WarmupFrames) return;
             if (_session.IsSleeping || _input.GameplayBlocked) return;
-            if (ServiceLocator.TryGet<IUiService>(out var ui) && ui.AnyModalOpen) return;
+            if (_session.Ui != null && _session.Ui.AnyModalOpen) return;
             var loader = _session.Game?.Scenes;
             if (loader != null && loader.IsLoading) return;
 
@@ -256,7 +256,8 @@ namespace Farm.Gameplay
 
         IEnumerator ShowDialogue(DialogueRunner runner)
         {
-            if (!ServiceLocator.TryGet<IUiService>(out var ui)) yield break;
+            var ui = _session.Ui;
+            if (ui == null) yield break;
             var done = false;
             ui.ShowDialogue(runner, () => done = true);
             while (!done) yield return null;

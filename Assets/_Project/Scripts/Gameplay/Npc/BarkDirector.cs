@@ -61,7 +61,7 @@ namespace Farm.Gameplay
             var settings = _session?.Settings;
             if (settings != null && !settings.Barks) return false;
             if (_events != null && _events.IsPlaying) return false;
-            return !(UiAccess.AnyModalOpen);
+            return !(_session != null && _session.Ui != null && _session.Ui.AnyModalOpen);
         }
 
         void TrySpeak()

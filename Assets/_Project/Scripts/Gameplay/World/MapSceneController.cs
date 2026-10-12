@@ -79,9 +79,9 @@ namespace Farm.Gameplay
             _camera.Snap();
 
             _bus.Subscribe<PassOutTimeReached>(OnPassOut);
-            UiAccess.Run(ui => ui.SetHudVisible(true));
+            _session.Ui?.SetHudVisible(true);
             game.Input.EnableGameplay();
-            if (_session.PendingIntro && _map.MapId == MapIds.Farm && ServiceLocator.TryGet<IUiService>(out var introUi))
+            if (_session.PendingIntro && _map.MapId == MapIds.Farm && _session.Ui is IUiService introUi)
             {
                 _session.PendingIntro = false;
                 OpeningStory.Show(introUi, _session);
@@ -168,7 +168,8 @@ namespace Farm.Gameplay
         System.Collections.IEnumerator OpenRequestedScreen()
         {
             var which = CommandLine.GetArg("-farmOpen");
-            if (string.IsNullOrEmpty(which) || !ServiceLocator.TryGet<IUiService>(out var ui)) yield break;
+            var ui = _session.Ui;
+            if (string.IsNullOrEmpty(which) || ui == null) yield break;
             for (var i = 0; i < 5; i++) yield return null;   // let the UI service finish its own startup
             switch (which)
             {

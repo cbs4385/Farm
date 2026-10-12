@@ -20,7 +20,7 @@ namespace Farm.Gameplay
                 player.Session.Toast(BusinessHoursRegistry.ClosedMessage(_shopId));
                 return;
             }
-            UiAccess.Run(ui => ui.ShowShop(_shopId));
+            player.Session.Ui?.ShowShop(_shopId);
         }
     }
 }

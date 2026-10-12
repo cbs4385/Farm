@@ -159,14 +159,15 @@ namespace Farm.Gameplay
         {
             _letterbox = on;
             var fade = seconds > 0f ? seconds : 0.5f;
-            UiAccess.Run(ui => ui.SetLetterbox(on, fade));
+            _session.Ui?.SetLetterbox(on, fade);
             yield return Wait(fade);
         }
 
         // A full-screen picture (a texture under Resources, with a caption) shown until the player dismisses it; the scene waits.
         public IEnumerator Illustration(string path, string captionKey)
         {
-            if (!ServiceLocator.TryGet<IUiService>(out var ui) || ui == null) yield break;
+            var ui = _session.Ui;
+            if (ui == null) yield break;
             var done = false;
             ui.ShowIllustration(path, captionKey, () => done = true);
             while (!done) yield return null;
@@ -206,7 +207,7 @@ namespace Farm.Gameplay
         {
             Camera?.ReleaseFocus(0f);
             Lighting?.ClearOverride(0f);
-            if (_letterbox && ServiceLocator.TryGet<IUiService>(out var ui)) ui.SetLetterbox(false, 0f);
+            if (_letterbox) _session.Ui?.SetLetterbox(false, 0f);
             _letterbox = false;
             foreach (var go in _props.Values) if (go != null) UnityEngine.Object.Destroy(go);
             _props.Clear();

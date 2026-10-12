@@ -32,7 +32,7 @@ namespace Farm.Mythos
                 s.AddVar(MythosIds.Vars.Lore, 1);
                 s.SetFlag(MythosIds.Flags.CultKnown);
             }
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowMessage(MythosLevel.Full(s) ? Key : Key + ".mild");
+            s.Ui?.ShowMessage(MythosLevel.Full(s) ? Key : Key + ".mild");
         }
     }
 }

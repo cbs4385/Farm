@@ -79,14 +79,14 @@ namespace Farm.Mythos
             if (ending == Awakened)
                 after = () =>
                 {
-                    if (ServiceLocator.TryGet<IUiService>(out var ui2))
+                    if (s.Ui is IUiService ui2)
                         ui2.ShowMessage("mythos.ending.awakened", () =>
                         {
                             s.Save();
                             if (s.Game?.Scenes is SceneLoader loader) { s.EndGame(); loader.Load(SceneNames.MainMenu); }
                         });
                 };
-            if (ServiceLocator.TryGet<IUiService>(out var ui)) ui.ShowIllustration(IllustrationPath(ending), "mythos.ending." + ending + ".caption", after);
+            if (s.Ui is IUiService ui) ui.ShowIllustration(IllustrationPath(ending), "mythos.ending." + ending + ".caption", after);
             else after?.Invoke();
         }
     }

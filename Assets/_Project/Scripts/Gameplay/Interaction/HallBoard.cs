@@ -10,7 +10,7 @@ namespace Farm.Gameplay
 
         public void Interact(PlayerActions player)
         {
-            UiAccess.Run(ui => ui.ShowHall());
+            player.Session.Ui?.ShowHall();
         }
     }
 }

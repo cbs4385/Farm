@@ -341,7 +341,7 @@ namespace Farm.Gameplay
                 if (session.GetVar(SellVar) != 0)
                 {
                     session.SetVar(SellVar, 0);
-                    UiAccess.Run(ui => ui.ShowSell(() => Offer(session, npc)));          // then the menu again
+                    session.Ui?.ShowSell(() => Offer(session, npc));          // then the menu again
                     return;
                 }
                 if (session.GetVar(AgainVar) != 0) { session.SetVar(AgainVar, 0); Offer(session, npc); return; }          // the menu again

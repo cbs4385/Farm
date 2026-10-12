@@ -168,6 +168,9 @@ namespace Farm.Gameplay
 
         public EventBus Bus => _bus;
 
+        // The UI, or null when there is none (a test, a bare scene): callers do nothing then.
+        public IUiService Ui => Game?.Ui;
+
         // The intensity setting (0 off, 1 mild, 2 full), read live. Tests can force a level with HorrorLevelOverride.
         public static int? HorrorLevelOverride;
         public static int HorrorLevelOf(SettingsData settings) => HorrorLevelOverride ?? settings?.HorrorLevel ?? 2;
@@ -222,7 +225,7 @@ namespace Farm.Gameplay
             if (!InGame || _sleeping) return;
             if (!FatigueModel.NeedsWarning(e.Now.MinuteOfDay, HasFlag(FatigueModel.WarnedFlag))) return;
             SetFlag(FatigueModel.WarnedFlag);
-            UiAccess.Run(ui => ui.ShowMessage("late_night.warning"));
+            Ui?.ShowMessage("late_night.warning");
         }
 
         // The game stops while its window is not in focus (the Steam overlay, alt-tab): the clock must not run away.
@@ -442,7 +445,8 @@ namespace Farm.Gameplay
             yield return loader.FadeTo(1f, 0.6f);
 
             var summary = EndDay(passedOut);
-            if (summary != null && ServiceLocator.TryGet<IUiService>(out var ui))
+            var ui = Ui;
+            if (summary != null && ui != null)
             {
                 var done = false;
                 ui.ShowDaySummary(summary, () => done = true);

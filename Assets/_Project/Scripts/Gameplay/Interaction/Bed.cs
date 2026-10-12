@@ -10,7 +10,8 @@ namespace Farm.Gameplay
 
         public void Interact(PlayerActions player)
         {
-            if (!ServiceLocator.TryGet<IUiService>(out var ui)) { player.Session.StartSleep(false); return; }
+            var ui = player.Session.Ui;
+            if (ui == null) { player.Session.StartSleep(false); return; }
             ui.ShowConfirm("confirm.sleep", () => player.Session.StartSleep(false));
         }
     }

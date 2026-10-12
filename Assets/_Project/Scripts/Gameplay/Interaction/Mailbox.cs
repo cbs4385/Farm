@@ -25,7 +25,7 @@ namespace Farm.Gameplay
                 if (handed.Count == 0) s.Toast(L.Get(Parcels.Count(s) > 0 ? "mailbox.parcel_full" : "mailbox.empty"));
                 return;
             }
-            UiAccess.Run(ui => ui.ShowLetter(letter, () => { Mail.Finish(s, letter); }));
+            s.Ui?.ShowLetter(letter, () => { Mail.Finish(s, letter); });
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Farm.Tests
             while (VillageWatch.Scolds == scolds && waited < 20f) { waited += Time.deltaTime; yield return null; }
             Assert.AreEqual(scolds + 1, VillageWatch.Scolds, "someone comes to tell the player off");
             Assert.AreEqual("tilda", VillageWatch.LastScolder);
-            Assert.IsTrue(UiAccess.AnyModalOpen, "in a conversation");
+            Assert.IsTrue(ServiceLocator.Get<IUiService>().AnyModalOpen, "in a conversation");
         }
 
         [UnityTest]

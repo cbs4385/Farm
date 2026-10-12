@@ -126,7 +126,7 @@ namespace Farm.UI
 
         void Replay(string eventId)
         {
-            var ui = (UiService)ServiceLocator.Get<IUiService>();
+            var ui = _ui;
             if (!Memories.CanStart(ui.Session, eventId)) return;
             ui.CloseAllModals();
             Memories.Start(ui.Session, eventId);

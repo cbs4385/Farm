@@ -166,7 +166,8 @@ namespace Farm.UI
         {
             if (ControlPrompts.Kind != InputKind.Gamepad) return;
             var field = GetComponent<TMP_InputField>();
-            if (field == null || !ServiceLocator.TryGet<UiService>(out var ui)) return;
+            var ui = GetComponentInParent<UiService>();
+            if (field == null || ui == null) return;
             field.DeactivateInputField();
             if (_keyboard == null || _keyboard.Root == null) _keyboard = new OnScreenKeyboard(ui);
             _keyboard.OpenFor(field);

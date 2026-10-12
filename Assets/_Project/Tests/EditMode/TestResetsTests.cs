@@ -18,13 +18,12 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void UiAccess_does_nothing_when_there_is_no_UI()
+        public void ASessionWithNoUi_HasNone_AndTheContextSaysSoWithoutFailing()
         {
-            ServiceLocator.Clear();
-            var ran = false;
-            Assert.IsFalse(UiAccess.Run(ui => ran = true));
-            Assert.IsFalse(ran);
-            Assert.IsFalse(UiAccess.AnyModalOpen);
+            var context = new GameContext();
+            Assert.IsNull(context.Ui);
+            Assert.IsNotNull(context.Notify, "toasts and messages are swallowed when there is no UI");
+            context.Notify.Toast("nobody is there");
         }
     }
 }

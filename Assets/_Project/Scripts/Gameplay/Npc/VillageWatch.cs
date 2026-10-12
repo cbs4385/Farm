@@ -103,7 +103,7 @@ namespace Farm.Gameplay
             _scolding = true;
             yield return new WaitForSeconds(2.5f);
             var waited = 0f;
-            while ((UiAccess.AnyModalOpen || (FindAnyObjectByType<EventDirector>()?.IsPlaying ?? false)) && waited < 30f) { waited += Time.deltaTime; yield return null; }
+            while (((_session.Ui?.AnyModalOpen ?? false) || (FindAnyObjectByType<EventDirector>()?.IsPlaying ?? false)) && waited < 30f) { waited += Time.deltaTime; yield return null; }
             if (who == null || _npcs == null) { _scolding = false; yield break; }
 
             var id = who.Definition.Id;
