@@ -26,7 +26,7 @@ Assets/
     Resources/      FarmInput.inputactions, GameDatabase.asset, Localization/en.json, Packs/ (optional ContentPacks)
     Scenes/         Bootstrap, MainMenu, PixelPerfectTest, and one scene per map id in `MapIds.All` (Farm, FarmHouse, Village, Forest, Beach, GeneralStore, Blacksmith, Carpenter, Saloon, Clinic, Library)
     Scripts/
-      Core/         Farm.Core      Bootstrapper, SceneLoader, ServiceLocator, EventBus, Log, CommandLine, ScreenshotCapture
+      Core/         Farm.Core      Bootstrapper, ServicesRoot, SceneLoader, EventBus, Log, CommandLine, ScreenshotCapture
         Time/       GameDateTime (calendar, MoonPhase), GameClock
         Save/       AtomicFile, SettingsData/SettingsStore
         Localization/ L (string tables, filters, extra tables)
@@ -59,7 +59,7 @@ Dependencies: `Core <- Data <- Gameplay <- UI`; `Platform` and `Mythos` depend o
 
 ### 3.1 Bootstrapping and services
 - The `Bootstrap` scene (build index 0) runs `Bootstrapper`, which creates the persistent `Services` root (`DontDestroyOnLoad`), registers core services, raises `Bootstrapper.ServicesCreated` so higher layers add theirs, then loads `MainMenu` (or `-farmScene <name>` for QA).
-- `ServiceLocator` holds: `EventBus`, `SceneLoader`, `SettingsStore`, `GameDatabase`, `InputService`, `SaveService`, `GameSession`, `AtmosphereService`, `AudioService`, `UiService` (also as `IUiService`). Registered by `GameServices` (Gameplay) and `UiService` (UI) via `[RuntimeInitializeOnLoadMethod]`.
+- There is no service locator (retired 2026-10-12, ADR 0006). `GameServices` (Gameplay) builds a `GameContext` holding `EventBus`, `SceneLoader`, `SettingsStore`, `GameDatabase`, `InputService` (and its `InputHints`), `SaveService`, `GameSession`, `AtmosphereService`, `AudioService`, `MusicDirector` and the UI (`IUiService`, attached by `UiService`); both layers hook the Bootstrapper's `ServicesCreated` event via `[RuntimeInitializeOnLoadMethod]`. `GameContext.Current` is the one static anchor, for scene entry points. Each loaded map has a `MapContext` (`GameContext.Map`): the map, view, player, villagers, animals, placed objects, enemies, mine and event director, set by `MapSceneController`. Scene components that need services implement `IMapBound` and are handed the `MapContext` once; code that makes one later calls `Bind` itself. New code takes what it needs in `Init`/`Bind`; a test (`SingletonRatchetTests`) blocks new `static Current` singletons.
 - **Modules initialize last** (`GameModules.InitializeAll`), once every service exists.
 - Scenes load in single mode; the persistent root carries state between them. Map scenes started directly in the Editor create a throwaway dev game (`BeginDevGame`).
 - Tests can redirect saves and settings with `GameServices.DataRootOverride` and reset services with `Bootstrapper.ResetForTests`.

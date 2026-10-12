@@ -45,7 +45,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             _session.SetFlag(FatigueModel.WarnedFlag);
@@ -53,7 +53,7 @@ namespace Farm.Tests
             _session.State.SetDate(_session.Clock.Now);
             _session.State.CurrentMap = map;
             _session.State.SpawnPoint = spawn;
-            ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
+            GameContext.Current.Bus.Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
             var op = SceneManager.LoadSceneAsync(map);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 8; i++) yield return null;
@@ -64,7 +64,7 @@ namespace Farm.Tests
         IEnumerator WaitForMap(string map)
         {
             var start = Time.realtimeSinceStartup;
-            while (!(SceneManager.GetActiveScene().name == map && !ServiceLocator.Get<SceneLoader>().IsLoading)
+            while (!(SceneManager.GetActiveScene().name == map && !GameContext.Current.Scenes.IsLoading)
                    && Time.realtimeSinceStartup - start < 10f) yield return null;
             for (var i = 0; i < 4; i++) yield return null;
         }
@@ -175,7 +175,7 @@ namespace Farm.Tests
         {
             yield return Start(MapIds.GeneralStore, "default", 2, 10);
             yield return UseCounter();
-            Assert.IsTrue(ServiceLocator.Get<IUiService>().AnyModalOpen, "the shop screen is open");
+            Assert.IsTrue(GameContext.Current.Ui.AnyModalOpen, "the shop screen is open");
         }
 
         [UnityTest]
@@ -183,7 +183,7 @@ namespace Farm.Tests
         {
             yield return Start(MapIds.GeneralStore, "default", 2, 18);
             yield return UseCounter();
-            Assert.IsFalse(ServiceLocator.Get<IUiService>().AnyModalOpen);
+            Assert.IsFalse(GameContext.Current.Ui.AnyModalOpen);
             Assert.IsTrue(_toasts.Any(t => t.StartsWith("The General Store is closed")));
         }
 

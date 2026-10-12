@@ -41,7 +41,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.Mine.Floor = 13;
@@ -51,7 +51,7 @@ namespace Farm.Tests
             for (var i = 0; i < 20; i++) yield return null;
 
             Assert.IsTrue(UnityEngine.Object.FindObjectsByType<MineStairs>(FindObjectsSortMode.None).Any(s => s.Kind == MineStairs.StairKind.Elevator), "an elevator on floor 13");
-            ServiceLocator.Get<IUiService>().ShowElevator();
+            GameContext.Current.Ui.ShowElevator();
             yield return null;
             var leave = Resources.FindObjectsOfTypeAll<Button>().First(b => b.name == "Leave" && b.gameObject.scene.IsValid());
             Assert.IsNotNull(Resources.FindObjectsOfTypeAll<Button>().FirstOrDefault(b => b.name == "Floor10" && b.gameObject.scene.IsValid()), "and it stops at floor 10");

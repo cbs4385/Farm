@@ -44,11 +44,11 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            ServiceLocator.Get<SettingsStore>().Current.HoverLabels = hover;
+            GameContext.Current.Settings.Current.HoverLabels = hover;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
@@ -75,7 +75,7 @@ namespace Farm.Tests
             Assert.IsNotNull(bin, "the farm has a shipping bin");
             yield return PointAtWorld(bin.transform.position);
             Assert.AreEqual(L.Get("hover.shipping_bin"), HoverInspector.Current);
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             Assert.AreEqual(L.Get("hover.shipping_bin"), ui.HoverText, "the label is on screen");
 
             // Somewhere with nothing on it.
@@ -90,7 +90,7 @@ namespace Farm.Tests
             var bin = UnityEngine.Object.FindAnyObjectByType<ShippingBin>();
             yield return PointAtWorld(bin.transform.position);
             Assert.IsNull(HoverInspector.Current);
-            Assert.IsNull(ServiceLocator.Get<UiService>().HoverText);
+            Assert.IsNull(((UiService)GameContext.Current.Ui).HoverText);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Farm.Tests
         string _root;
         Keyboard _keyboard;
         GameSession _session;
-        IUiService Ui => ServiceLocator.Get<IUiService>();
+        IUiService Ui => GameContext.Current.Ui;
 
         public override void Setup()
         {
@@ -72,7 +72,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.SetFlag(MapIds.WoodsOpenFlag);
@@ -92,7 +92,7 @@ namespace Farm.Tests
         IEnumerator Watch(bool snatch, Action<string> robes)
         {
             var finished = false;
-            ServiceLocator.Get<EventBus>().Subscribe<EventFinished>(e => { if (e.EventId == "mythos_ritual_witness") finished = true; });
+            GameContext.Current.Bus.Subscribe<EventFinished>(e => { if (e.EventId == "mythos_ritual_witness") finished = true; });
             string worn = null;
             var shots = 0;
             var captureTo = Environment.GetEnvironmentVariable("FARM_CAPTURE_DIR");          // for looking at the scene: set it and the frames are saved
@@ -170,7 +170,7 @@ namespace Farm.Tests
             // the scene is not wanted here: only what stands in the clearing
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.SetFlag(MapIds.WoodsOpenFlag);

@@ -50,7 +50,7 @@ namespace Farm.Tests
             var options = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).First(b => b.name == "ReportBug");
             options.onClick.Invoke();
             yield return null;
-            Assert.IsTrue(ServiceLocator.Get<UiService>().BugReporter.IsOpen, "the buttons over the picture still work");
+            Assert.IsTrue(((UiService)GameContext.Current.Ui).BugReporter.IsOpen, "the buttons over the picture still work");
         }
     }
 }

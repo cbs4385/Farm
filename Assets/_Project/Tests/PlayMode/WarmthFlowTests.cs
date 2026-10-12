@@ -49,7 +49,7 @@ namespace Farm.Tests
             Assert.IsTrue(NpcInteractions.Talk(_session, _session.Npcs.Get(npc)));
             var end = Time.realtimeSinceStartup + 20f;
             for (var i = 0; i < 6; i++) yield return null;
-            while (ServiceLocator.Get<IUiService>().AnyModalOpen && Time.realtimeSinceStartup < end) yield return Tap(Key.Enter);
+            while (GameContext.Current.Ui.AnyModalOpen && Time.realtimeSinceStartup < end) yield return Tap(Key.Enter);
             for (var i = 0; i < 4; i++) yield return null;
         }
 
@@ -58,11 +58,11 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            var settings = ServiceLocator.Get<SettingsStore>().Current;
+            var settings = GameContext.Current.Settings.Current;
             settings.DialogueSpeed = DialoguePacing.InstantSpeed;
             settings.ChatMenu = false;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
@@ -80,7 +80,7 @@ namespace Farm.Tests
 
             yield return Talk("wren");
             Assert.AreEqual(before + FriendshipModel.TalkPoints + WarmthModel.ReturnBonusPoints, state.Points, $"the talk and the return bonus (was {before}, now {state.Points})");
-            Assert.IsTrue(ServiceLocator.Get<GameSession>().Story.Dialogue(WarmthModel.DialogueId("wren")) != null);
+            Assert.IsTrue(GameContext.Current.Session.Story.Dialogue(WarmthModel.DialogueId("wren")) != null);
 
             var after = state.Points;
             yield return Talk("wren");                                         // the same day: no second greeting, no second bonus

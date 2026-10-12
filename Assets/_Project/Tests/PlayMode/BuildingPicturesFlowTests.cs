@@ -20,7 +20,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.CurrentMap = map;
@@ -72,7 +72,7 @@ namespace Farm.Tests
         {
             yield return Open(MapIds.Farm);
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
-            var state = ServiceLocator.Get<GameSession>().State;
+            var state = GameContext.Current.Session.State;
             foreach (var type in new[] { FarmBuildings.Coop, FarmBuildings.Barn, FarmBuildings.Greenhouse })
             {
                 var mask = BuildingMasks.Get(type.Id);

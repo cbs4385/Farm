@@ -21,7 +21,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
 
@@ -44,7 +44,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 12 * 60));

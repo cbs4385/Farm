@@ -48,9 +48,9 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
-            ServiceLocator.Get<SettingsStore>().Current.ChatMenu = false;      // these tests are about the base flow; ChatMenuTests covers the menu
+            GameContext.Current.Settings.Current.ChatMenu = false;      // these tests are about the base flow; ChatMenuTests covers the menu
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             _session.Clock.SetTime(new GameDateTime(1, Season.Spring, day, hour * 60 + minute));
@@ -58,14 +58,14 @@ namespace Farm.Tests
             _session.State.Weather = weather;
             _session.State.CurrentMap = map;
             _session.State.SpawnPoint = "default";
-            ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
+            GameContext.Current.Bus.Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
             var op = SceneManager.LoadSceneAsync(map);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 8; i++) yield return null;
         }
 
         static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
         static NpcActor Actor(string id) => UnityEngine.Object.FindObjectsByType<NpcActor>().FirstOrDefault(a => a.Definition.Id == id);
 
         IEnumerator Tap(Key key)

@@ -60,7 +60,7 @@ namespace Farm.Tests
             return args;
         }
 
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
 
         IEnumerator Tap(Key key)
         {
@@ -81,11 +81,11 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            ServiceLocator.Get<SettingsStore>().Current.DialogueSpeed = DialoguePacing.InstantSpeed;
+            GameContext.Current.Settings.Current.DialogueSpeed = DialoguePacing.InstantSpeed;
             var stage = _session.Story.Event("wren_heart2").Steps.First(s => s.Type == "move" && s.Actor == "player");
 
             var instances = new JArray(Library.Select(t => new JObject
@@ -105,7 +105,7 @@ namespace Farm.Tests
             {
                 var id = "test_" + template;
                 _session.State.EventsSeen.Add(id);
-                var loader = ServiceLocator.Get<SceneLoader>();
+                var loader = GameContext.Current.Scenes;
                 var settle = Time.realtimeSinceStartup + 10f;
                 while (loader.IsLoading && Time.realtimeSinceStartup < settle) yield return null;      // the fade back in from the last scene
                 Assert.IsTrue(Memories.Start(_session, id), template);

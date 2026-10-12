@@ -65,7 +65,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -85,7 +85,7 @@ namespace Farm.Tests
             yield return Tap(_pad.buttonSouth);
             Assert.AreEqual(InputKind.Gamepad, ControlPrompts.Kind, "A was pressed");
 
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             yield return Tap(_pad.selectButton);                         // View opens the game menu
             Assert.IsTrue(ui.AnyModalOpen, "the menu is open");
             var menu = ui.GameMenu.Root;
@@ -119,7 +119,7 @@ namespace Farm.Tests
             yield return null;
 
             yield return Tap(_pad.buttonSouth);                          // A on the field
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             var keys = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).Where(b => b.name.StartsWith("Key_")).ToList();
             Assert.Greater(keys.Count, 30, "the on-screen keyboard is up");
             Assert.AreEqual("Rin", name.text);
@@ -191,7 +191,7 @@ namespace Farm.Tests
             yield return StartFarm();
             yield return Tap(_pad.buttonSouth);
             Assert.AreEqual(InputKind.Gamepad, ControlPrompts.Kind);
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             Assert.IsFalse(ui.AnyModalOpen);
 
             InputSystem.RemoveDevice(_pad);
@@ -207,8 +207,8 @@ namespace Farm.Tests
         public IEnumerator TheEndOfDayPopUp_IsClosedWithA_AfterChoosingToSleepWithA()
         {
             yield return StartFarm();
-            var session = ServiceLocator.Get<GameSession>();
-            var ui = ServiceLocator.Get<UiService>();
+            var session = GameContext.Current.Session;
+            var ui = ((UiService)GameContext.Current.Ui);
             yield return Tap(_pad.buttonSouth);                          // the pad is the control in use
 
             ui.ShowConfirm("confirm.sleep", () => session.StartSleep(false));        // what the bed does
@@ -237,8 +237,8 @@ namespace Farm.Tests
         public IEnumerator TheEndOfDayPopUp_ContinuesWithA_EvenWithNothingFocused()
         {
             yield return StartFarm();
-            var session = ServiceLocator.Get<GameSession>();
-            var ui = ServiceLocator.Get<UiService>();
+            var session = GameContext.Current.Session;
+            var ui = ((UiService)GameContext.Current.Ui);
             yield return Tap(_pad.buttonSouth);
             session.StartSleep(false);
             bool SummaryUp() { var go = GameObject.Find("DaySummary"); return go != null && go.activeInHierarchy; }
@@ -259,7 +259,7 @@ namespace Farm.Tests
         public IEnumerator AScreenWithNothingFocused_GetsItsFocusBack_WhenThePadIsPushed()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             yield return Tap(_pad.buttonSouth);
             yield return Tap(_pad.startButton);                          // Menu: the pause screen
             Assert.IsTrue(ui.AnyModalOpen);

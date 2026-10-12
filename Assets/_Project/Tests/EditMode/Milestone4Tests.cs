@@ -137,7 +137,6 @@ namespace Farm.Tests
         public void RelaxedEnergy_HalvesTheCost_AndNeverMakesAnActionFree()
         {
             var store = new SettingsStore(Path.GetTempPath());
-            ServiceLocator.Register(store);
             try
             {
                 using (var f = new TestSessionFixture())
@@ -154,7 +153,7 @@ namespace Farm.Tests
                     Assert.AreEqual(84, s.State.Energy, "a cost of 1 stays 1");
                 }
             }
-            finally { ServiceLocator.Clear(); }
+            finally { UI.UiPalette.ColorblindSource = null; }
         }
 
         // A tester who plays from an exercise bike wanted a day of about 45 minutes (2026-10-08).
@@ -178,7 +177,6 @@ namespace Farm.Tests
         public void DayLength_ChangesTheClockSpeed()
         {
             var store = new SettingsStore(Path.GetTempPath());
-            ServiceLocator.Register(store);
             try
             {
                 store.Current.DayLength = 0;
@@ -192,14 +190,13 @@ namespace Farm.Tests
                     Assert.AreEqual(5f, f.Session.Clock.SecondsPerStep);
                 }
             }
-            finally { ServiceLocator.Clear(); }
+            finally { UI.UiPalette.ColorblindSource = null; }
         }
 
         [Test]
         public void TheColourBlindPalette_SeparatesTheBars()
         {
             var store = new SettingsStore(Path.GetTempPath());
-            ServiceLocator.Register(store);
             try
             {
                 UI.UiPalette.ColorblindSource = () => store.Current.ColorblindPalette;
@@ -209,7 +206,7 @@ namespace Farm.Tests
                 for (var i = 0; i < normal.Length; i++) Assert.AreNotEqual(normal[i], alt[i]);
                 Assert.AreEqual(alt.Length, alt.Distinct().Count());
             }
-            finally { ServiceLocator.Clear(); }
+            finally { UI.UiPalette.ColorblindSource = null; }
         }
 
         // ---- archived saves --------------------------------------------------------------------------------------------------

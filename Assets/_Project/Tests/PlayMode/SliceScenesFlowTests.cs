@@ -42,7 +42,7 @@ namespace Farm.Tests
             if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
 
         IEnumerator Tap(Key key)
         {
@@ -62,12 +62,12 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            ServiceLocator.Get<SettingsStore>().Current.DialogueSpeed = DialoguePacing.InstantSpeed;
-            ServiceLocator.Get<SettingsStore>().Current.ChatMenu = false;
+            GameContext.Current.Settings.Current.DialogueSpeed = DialoguePacing.InstantSpeed;
+            GameContext.Current.Settings.Current.ChatMenu = false;
         }
 
         // Plays one scene on its map. `choiceKey` is the number key pressed whenever a choice list is up (0 = none).
@@ -77,14 +77,14 @@ namespace Farm.Tests
             var op = SceneManager.LoadSceneAsync(map);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 12; i++) yield return null;
-            var loader = ServiceLocator.Get<SceneLoader>();
+            var loader = GameContext.Current.Scenes;
             var settle = Time.realtimeSinceStartup + 10f;
             while (loader.IsLoading && Time.realtimeSinceStartup < settle) yield return null;
 
             _session.State.EventsSeen.Remove(eventId);
             var before = NpcInteractions.StateOf(_session.State, npc).Points;
             var finished = false;
-            ServiceLocator.Get<EventBus>().Subscribe<EventFinished>(e => { if (e.EventId == eventId) finished = true; });
+            GameContext.Current.Bus.Subscribe<EventFinished>(e => { if (e.EventId == eventId) finished = true; });
             Assert.IsTrue(EventRunner.Trigger(_session, eventId), eventId);
 
             var end = Time.realtimeSinceStartup + 90f;

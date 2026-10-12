@@ -1,6 +1,6 @@
 # ADR 0006: Retire the service locator (plan)
 
-Status: **proposed** (2026-10-12), a plan for the owner to approve. Nothing in this document is built yet. It answers item 8 of `docs/CODE_REVIEW_2026-10-11.md` (service locator everywhere, twelve `Current` singletons).
+Status: **done** (2026-10-12; phases 0 to 5 built, see section 8). Written as a plan for the owner to approve; sections 1 to 7 are the plan as approved. It answers item 8 of `docs/CODE_REVIEW_2026-10-11.md` (service locator everywhere, twelve `Current` singletons).
 
 ## 1. What is there today (measured 2026-10-12)
 
@@ -83,3 +83,11 @@ Total: roughly **9 to 13 working days**, each phase shippable by itself, none bl
 
 - Approve the plan (or the order), and say whether to start with phase 0 now: it is small, changes no behavior, and makes every later phase safer.
 - Say whether `INotifier` (fire-and-forget toasts and messages) is acceptable as the one remaining narrow, injected "global-ish" service, or whether every caller must hold `IUiService`.
+
+## 8. What was built (2026-10-12)
+
+- Phases 0 to 5 as planned, one commit each (phase 2 with the `PlayerActions` split and `InputHints`). `ServiceLocator`, its tests, the ratchet test and `tools/servicelocator_baseline.py` are deleted.
+- Scene components that need services implement `IMapBound` (`Bind(MapContext)`), and `MapSceneController` binds every one in the scene once the map is built; components made in code are bound by their creator. This replaced the lazy `TryGet` in `Update` loops.
+- The twelve singletons: seven (`NpcManager`, `PlacedObjectsView`, `AnimalManager`, `EnemyManager`, `MineController`, `EventDirector`, `MusicDirector`) became fields of `MapContext`/`GameContext`. `HoverInspector.Current` is a diagnostic label, `NpcOutfits` and `Sway` take the session as an argument, and `PlatformServices` stays as the platform adapter.
+- What is still static on purpose: `GameContext.Current` (the entry anchor), the localization table, and `ControlPrompts.Current` (the current `InputHints`, so the language table can expand `[[Action]]`). `SingletonRatchetTests` fails if another `static Current` appears.
+- Not done: PlayMode fixtures still call `Bootstrapper.InitializeServices()` and share the one run, so they cannot run in parallel yet (no `TestContext` helper was built).

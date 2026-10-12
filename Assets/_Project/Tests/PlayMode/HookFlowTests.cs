@@ -48,7 +48,7 @@ namespace Farm.Tests
                 ctx.Hooks.MapLoaded += m =>
                 {
                     LoadedMap = m.MapId;
-                    ServiceLocator.Get<AtmosphereService>().Stack.Set("test.dark", new Color(0f, 0f, 0f), 1f);
+                    GameContext.Current.Atmosphere.Stack.Set("test.dark", new Color(0f, 0f, 0f), 1f);
                 };
             }
         }
@@ -92,7 +92,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             yield return LoadFarm(session);
 
             // MapLoaded fired, and the atmosphere layer it pushed darkens the real scene light.
@@ -120,7 +120,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             yield return LoadFarm(session);
 
             var warp = UnityEngine.Object.FindObjectsByType<Warp>().First(w => w.TargetMap == MapIds.FarmHouse);
@@ -131,7 +131,7 @@ namespace Farm.Tests
             Assert.IsFalse(warp.IsOpen(out _));
 
             var toasts = new System.Collections.Generic.List<string>();
-            ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(e => toasts.Add(e.Message));
+            GameContext.Current.Bus.Subscribe<ToastRequested>(e => toasts.Add(e.Message));
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             var enter = typeof(Warp).GetMethod("OnTriggerEnter2D", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             enter.Invoke(warp, new object[] { player.GetComponent<Collider2D>() });
@@ -148,7 +148,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             yield return LoadFarm(session);
 
             var parent = new GameObject("altar");

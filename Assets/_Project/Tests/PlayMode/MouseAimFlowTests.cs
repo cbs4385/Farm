@@ -46,11 +46,11 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            ServiceLocator.Get<SettingsStore>().Current.MouseAim = mouseAim;
+            GameContext.Current.Settings.Current.MouseAim = mouseAim;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
@@ -114,7 +114,7 @@ namespace Farm.Tests
             var me = PlayerCell;
             Assert.AreEqual(spot.Value, me);
 
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             for (var i = 0; i < session.Backpack.Capacity; i++)
                 if (session.Backpack.Get(i)?.ItemId == Farm.Data.ItemIds.Hoe) session.State.SelectedHotbar = i;
             var grid = session.GetGrid(MapIds.Farm);

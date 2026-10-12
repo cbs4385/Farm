@@ -7,9 +7,10 @@ namespace Farm.Core
     public sealed class Bootstrapper : MonoBehaviour
     {
         static bool _initialized;
+        static SceneLoader _loader;
 
         // Higher layers (Gameplay, Platform) register here to create their services on the persistent root.
-        public static event Action<GameObject> ServicesCreated;
+        public static event Action<ServicesRoot> ServicesCreated;
 
         void Start()
         {
@@ -26,18 +27,15 @@ namespace Farm.Core
         // Safe to call repeatedly (e.g. from tests).
         public static SceneLoader InitializeServices()
         {
-            if (_initialized && ServiceLocator.TryGet<SceneLoader>(out var existing) && existing != null)
-                return existing;
+            if (_initialized && _loader != null) return _loader;
 
             var root = new GameObject("Services");
             DontDestroyOnLoad(root);
 
-            ServiceLocator.Clear();
-            ServiceLocator.Register(new EventBus());
             var loader = root.AddComponent<SceneLoader>();
-            ServiceLocator.Register(loader);
+            _loader = loader;
 
-            ServicesCreated?.Invoke(root);
+            ServicesCreated?.Invoke(new ServicesRoot { Root = root, Bus = new EventBus(), Loader = loader });
 
             _initialized = true;
             Log.Info("Services initialized.");
@@ -49,9 +47,9 @@ namespace Farm.Core
         {
             var root = GameObject.Find("Services");
             if (root != null) DestroyImmediate(root);
-            ServiceLocator.Clear();
             TestResets.RunAll();
             _initialized = false;
+            _loader = null;
         }
 
         // Domain reload may be disabled in Enter Play Mode settings; reset statics defensively.
@@ -59,7 +57,7 @@ namespace Farm.Core
         static void ResetStatics()
         {
             _initialized = false;
-            ServiceLocator.Clear();
+            _loader = null;
         }
     }
 }

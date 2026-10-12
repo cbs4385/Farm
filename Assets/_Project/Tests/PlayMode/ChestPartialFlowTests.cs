@@ -57,7 +57,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -70,7 +70,7 @@ namespace Farm.Tests
             for (var slot = 0; slot < _session.Backpack.Capacity; slot++)
                 if (_session.Backpack.Get(slot) != null) _session.Backpack.RemoveFromSlot(slot, _session.Backpack.Get(slot).Count);
             _session.Backpack.Add(ItemIds.Stone, 8, preferredSlot: 5);
-            ServiceLocator.Get<UiService>().ShowChest(placed.Id);
+            ((UiService)GameContext.Current.Ui).ShowChest(placed.Id);
             yield return null;
             yield return null;
 
@@ -93,7 +93,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -105,7 +105,7 @@ namespace Farm.Tests
             var def = _session.Db.AllPlaceables.First(p => p.Id == "chest");
             var placed = objects.Place(def, ChestX, ChestY, "testchest");
             var chest = objects.ChestOf(placed);
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             for (var slot = 0; slot < _session.Backpack.Capacity; slot++)
                 if (_session.Backpack.Get(slot) != null) _session.Backpack.RemoveFromSlot(slot, _session.Backpack.Get(slot).Count);
             _session.Backpack.Add(ItemIds.Stone, 8, preferredSlot: 5);

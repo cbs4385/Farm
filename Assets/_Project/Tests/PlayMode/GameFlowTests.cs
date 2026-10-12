@@ -55,7 +55,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 1);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
@@ -114,7 +114,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
@@ -151,12 +151,12 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 2);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
 
             session.StartSleep(false);
             yield return WaitUntil(() => ui.AnyModalOpen, 10f, "day summary screen");
@@ -176,7 +176,7 @@ namespace Farm.Tests
             Assert.IsTrue(hits[0].gameObject.transform.IsChildOf(cont.transform),
                 $"Continue must be clickable; the topmost hit was '{hits[0].gameObject.name}'");
             var summaryCanvas = cont.GetComponentInParent<Canvas>().rootCanvas;
-            var fade = ServiceLocator.Get<SceneLoader>().GetComponentInChildren<Canvas>();
+            var fade = GameContext.Current.Scenes.GetComponentInChildren<Canvas>();
             Assert.Greater(summaryCanvas.sortingOrder, fade.sortingOrder, "summary UI must draw above the black fade");
 
             cont.onClick.Invoke();
@@ -196,7 +196,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
@@ -204,7 +204,7 @@ namespace Farm.Tests
 
             MapTravel.GoTo(session, MapIds.FarmHouse, "default");
             yield return WaitUntil(() => SceneManager.GetActiveScene().name == MapIds.FarmHouse, 10f, "farmhouse scene");
-            var loader = ServiceLocator.Get<SceneLoader>();
+            var loader = GameContext.Current.Scenes;
             yield return WaitUntil(() => !loader.IsLoading, 10f, "fade-in to finish");
             Assert.AreEqual(MapIds.FarmHouse, session.State.CurrentMap);
 
@@ -219,12 +219,12 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
 
             session.State.Energy = 100;
             session.SetFlag(FatigueModel.WarnedFlag);
@@ -256,13 +256,13 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);
             yield return WaitFrames(2);
 
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
             ui.ShowOptions();
             yield return WaitFrames(4);
             Canvas.ForceUpdateCanvases();
@@ -302,7 +302,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             yield return LoadScene(MapIds.Farm);

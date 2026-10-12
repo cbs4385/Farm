@@ -26,7 +26,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -46,7 +46,7 @@ namespace Farm.Tests
             InteractionState.Store(_session, inter);
             _session.State.Quests["wren_stew"] = new QuestProgress { Status = "active" };
 
-            var ui = (UiService)ServiceLocator.Get<IUiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowGameMenu(MenuTabs.Social);
             yield return null;
             var page = ui.GameMenu.Current;
@@ -66,7 +66,7 @@ namespace Farm.Tests
         public IEnumerator EveryVillagerRow_CanBeScrolledIntoView()
         {
             yield return Start();
-            var ui = (UiService)ServiceLocator.Get<IUiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowGameMenu(MenuTabs.Social);
             yield return null;
             yield return null;
@@ -103,7 +103,7 @@ namespace Farm.Tests
         public IEnumerator AnUnmetVillager_StaysAMystery_EvenWhenSelected()
         {
             yield return Start();
-            var ui = (UiService)ServiceLocator.Get<IUiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowGameMenu(MenuTabs.Social);
             yield return null;
             var page = ui.GameMenu.Current;
@@ -125,7 +125,7 @@ namespace Farm.Tests
             _session.SetFlag("storyline.pie_feud");
             _session.SetFlag("storydone.pie_feud");
 
-            var ui = (UiService)ServiceLocator.Get<IUiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowGameMenu(MenuTabs.Gossip);
             yield return null;
             var text = AllText(ui.GameMenu.Current);

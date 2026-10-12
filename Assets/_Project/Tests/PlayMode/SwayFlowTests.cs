@@ -20,7 +20,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             var op = SceneManager.LoadSceneAsync(map);
@@ -32,7 +32,7 @@ namespace Farm.Tests
         public IEnumerator AGrowingCrop_LeansWithTheWind_AndASeedDoesNot()
         {
             yield return Load(MapIds.Farm);
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             var view = UnityEngine.Object.FindAnyObjectByType<FarmMapView>();
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             var grid = session.GetGrid(MapIds.Farm);

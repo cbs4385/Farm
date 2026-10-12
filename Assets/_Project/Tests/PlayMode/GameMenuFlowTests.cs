@@ -49,7 +49,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -60,7 +60,7 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
         }
 
-        static UiService Ui => ServiceLocator.Get<UiService>();
+        static UiService Ui => ((UiService)GameContext.Current.Ui);
 
         IEnumerator Tap(Key key)
         {

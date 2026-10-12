@@ -43,7 +43,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _s = ServiceLocator.Get<GameSession>();
+            _s = GameContext.Current.Session;
             _s.BeginNewGame("Tester", "Test Farm", 0);
             _s.SetFlag(FatigueModel.WarnedFlag);
             _s.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -57,7 +57,7 @@ namespace Farm.Tests
 
         IEnumerator Tap(Key k) { Press(_kb[k]); yield return null; Release(_kb[k]); yield return null; }
         static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-        static UiService Ui => ServiceLocator.Get<UiService>();
+        static UiService Ui => ((UiService)GameContext.Current.Ui);
 
         [UnityTest]
         public IEnumerator TheMailbox_HoldsALetter_ReadingItGivesItsGiftAndKeepsIt()

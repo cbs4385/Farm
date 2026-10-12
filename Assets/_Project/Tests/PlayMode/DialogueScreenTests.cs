@@ -51,7 +51,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -63,7 +63,7 @@ namespace Farm.Tests
                 { "dlg.test.markup.c1", "Be playful" },
             });
             Assert.IsTrue(_session.Story.AddJson(TestStory, "test"));
-            var settings = ServiceLocator.Get<SettingsStore>().Current;
+            var settings = GameContext.Current.Settings.Current;
             settings.DialogueSpeed = speed;
             settings.AutoAdvance = auto;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
@@ -71,7 +71,7 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
         }
 
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
 
         IEnumerator Tap(Key key)
         {
@@ -164,7 +164,7 @@ namespace Farm.Tests
             for (var i = 0; i < 3; i++) yield return null;
 
             _session.BeginDialogue("test.markup");
-            ServiceLocator.Get<SettingsStore>().Current.DialogueSpeed = 0;   // slow
+            GameContext.Current.Settings.Current.DialogueSpeed = 0;   // slow
             _session.BeginDialogue("test.markup");
             for (var i = 0; i < 3; i++) yield return null;
             yield return Tap(Key.Enter);                                    // slow: this only finishes the typing

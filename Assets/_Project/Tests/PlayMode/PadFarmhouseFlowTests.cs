@@ -43,7 +43,7 @@ namespace Farm.Tests
         }
 
         static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-        static UiService Ui => ServiceLocator.Get<UiService>();
+        static UiService Ui => ((UiService)GameContext.Current.Ui);
         static GameObject Selected => EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
 
         IEnumerator Tap(ButtonControl button)
@@ -67,7 +67,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.CurrentMap = MapIds.FarmHouse;

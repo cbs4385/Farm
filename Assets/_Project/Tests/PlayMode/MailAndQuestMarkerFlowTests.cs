@@ -39,7 +39,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _s = ServiceLocator.Get<GameSession>();
+            _s = GameContext.Current.Session;
             _s.BeginNewGame("Tester", "Test Farm", 0);
             _s.SetFlag(FatigueModel.WarnedFlag);
             _s.State.CurrentMap = map;

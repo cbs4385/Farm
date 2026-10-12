@@ -24,7 +24,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.SetFlag(TutorialCoach.SkipFlag);          // the tip card would hide this box (see the test that checks that)
@@ -37,7 +37,7 @@ namespace Farm.Tests
         public IEnumerator EveryToolsInstructions_FitTheirRowInTheHelpTab()
         {
             yield return Start();
-            ServiceLocator.Get<UiService>().ShowGameMenu(MenuTabs.Help);
+            ((UiService)GameContext.Current.Ui).ShowGameMenu(MenuTabs.Help);
             for (var i = 0; i < 6; i++) yield return null;
 
             var rows = Resources.FindObjectsOfTypeAll<RectTransform>().Where(r => r.name.StartsWith("Tool_") && r.gameObject.activeInHierarchy).ToList();
@@ -56,7 +56,7 @@ namespace Farm.Tests
         public IEnumerator TheMalletsHelpBox_IsAsTallAsItsWords()
         {
             yield return Start();
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             var hammer = Enumerable.Range(0, session.Backpack.Capacity).First(i => session.Backpack.Get(i)?.ItemId == ItemIds.Hammer);
             session.State.SelectedHotbar = hammer;
             for (var i = 0; i < 6; i++) yield return null;

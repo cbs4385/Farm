@@ -20,7 +20,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -122,7 +122,7 @@ namespace Farm.Tests
         public IEnumerator TheFarmer_CarriesWhatIsSelected_HoistsAFind_AndFishesWithARod()
         {
             yield return Load(MapIds.Farm);
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             var held = HeldItem.For(player.gameObject);
             yield return null;

@@ -46,18 +46,18 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            ServiceLocator.Get<SettingsStore>().Current.DialogueSpeed = DialoguePacing.InstantSpeed;
-            ServiceLocator.Get<EventBus>().Subscribe<EventFinished>(_ => _eventFinished++);
+            GameContext.Current.Settings.Current.DialogueSpeed = DialoguePacing.InstantSpeed;
+            GameContext.Current.Bus.Subscribe<EventFinished>(_ => _eventFinished++);
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 12; i++) yield return null;
         }
 
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
         static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
 
         IEnumerator Tap(Key key)

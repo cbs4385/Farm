@@ -50,20 +50,20 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            ServiceLocator.Get<SettingsStore>().Current.DialogueSpeed = DialoguePacing.InstantSpeed;
+            GameContext.Current.Settings.Current.DialogueSpeed = DialoguePacing.InstantSpeed;
             session.Clock.SetTime(new GameDateTime(1, Season.Spring, 5, 12 * 60));
             var op = SceneManager.LoadSceneAsync(MapIds.Village);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 15; i++) yield return null;
 
             var finished = false;
-            ServiceLocator.Get<EventBus>().Subscribe<EventFinished>(e => { if (e.EventId == "story_umbrella") finished = true; });
+            GameContext.Current.Bus.Subscribe<EventFinished>(e => { if (e.EventId == "story_umbrella") finished = true; });
             Assert.IsTrue(EventRunner.Trigger(session, "story_umbrella"));
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
             string posed = null;
             var end = Time.realtimeSinceStartup + 60f;
             while (!finished && Time.realtimeSinceStartup < end)

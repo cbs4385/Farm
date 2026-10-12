@@ -81,12 +81,12 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             Assert.IsTrue(_session.Story.AddJson(Scenes, "test"));
-            var bus = ServiceLocator.Get<EventBus>();
+            var bus = GameContext.Current.Bus;
             bus.Subscribe<MusicCue>(c => _music.Add(c.Name));
             bus.Subscribe<EventFinished>(e => { _finished = true; _finishedSkipped = e.Skipped; });
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
@@ -94,7 +94,7 @@ namespace Farm.Tests
             for (var i = 0; i < 20; i++) yield return null;
         }
 
-        static UiService Ui => (UiService)ServiceLocator.Get<IUiService>();
+        static UiService Ui => ((UiService)GameContext.Current.Ui);
         static CameraFollow Cam => UnityEngine.Object.FindAnyObjectByType<CameraFollow>();
         static DayNightLighting Light => UnityEngine.Object.FindAnyObjectByType<DayNightLighting>();
         static bool PropExists => GameObject.Find("Prop_gift") != null;

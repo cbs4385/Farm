@@ -54,7 +54,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -78,7 +78,7 @@ namespace Farm.Tests
             while (!Seen && waited < 15f) { waited += Time.unscaledDeltaTime; yield return null; }
             Assert.IsTrue(Seen, "Elara's visit played");
 
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
             for (var i = 0; i < 90 && !_session.State.Quests.ContainsKey("elara_garden"); i++)     // read on and accept: the first choice is the default one
             {
                 yield return Tap(_keyboard.enterKey);
@@ -110,7 +110,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.Clock.SetTime(new GameDateTime(1, Season.Spring, 2, 9 * 60));
@@ -133,7 +133,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;

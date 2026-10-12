@@ -23,7 +23,7 @@ namespace Farm.Tests
             {
                 Bootstrapper.InitializeServices();
                 yield return null;
-                var s = ServiceLocator.Get<SettingsStore>().Current;
+                var s = GameContext.Current.Settings.Current;
                 Assert.AreEqual(0.01f, s.MasterVolume, 1e-6f);
                 Assert.AreEqual(0.01f, s.MusicVolume, 1e-6f);
                 Assert.AreEqual(0.01f, s.SfxVolume, 1e-6f);

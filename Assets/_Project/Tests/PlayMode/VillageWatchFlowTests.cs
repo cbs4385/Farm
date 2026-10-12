@@ -47,7 +47,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             yield return LoadVillage(session);
@@ -76,7 +76,7 @@ namespace Farm.Tests
             while (VillageWatch.Scolds == scolds && waited < 20f) { waited += Time.deltaTime; yield return null; }
             Assert.AreEqual(scolds + 1, VillageWatch.Scolds, "someone comes to tell the player off");
             Assert.AreEqual("tilda", VillageWatch.LastScolder);
-            Assert.IsTrue(ServiceLocator.Get<IUiService>().AnyModalOpen, "in a conversation");
+            Assert.IsTrue(GameContext.Current.Ui.AnyModalOpen, "in a conversation");
         }
 
         [UnityTest]
@@ -84,7 +84,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             yield return LoadVillage(session);
@@ -109,7 +109,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             yield return LoadVillage(session);

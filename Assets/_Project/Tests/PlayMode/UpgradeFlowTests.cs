@@ -48,7 +48,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.Clock.SetTime(new GameDateTime(1, Season.Spring, day, 10 * 60));
@@ -56,14 +56,14 @@ namespace Farm.Tests
             _session.State.Gold = 50000;
             _session.State.CurrentMap = map;
             _session.State.SpawnPoint = "default";
-            ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
+            GameContext.Current.Bus.Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
             var op = SceneManager.LoadSceneAsync(map);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 8; i++) yield return null;
         }
 
         static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
 
         IEnumerator UseCounterAt(float x, float y)
         {

@@ -44,6 +44,7 @@ namespace Farm.Gameplay
         // `hide` names a building that is being carried: it is left out until it is put down (the saved state still holds it).
         public void Rebuild(GameSession session, string hide = null)
         {
+            _session = session;
             if (_map == null || session == null) return;
             FarmBuildings.EnsureDefaults(session.State);
             Build(hide == null ? session.State.FarmBuildings : session.State.FarmBuildings.FindAll(b => b.TypeId != hide));
@@ -123,6 +124,8 @@ namespace Farm.Gameplay
             _made.Add(go);
         }
 
+        GameSession _session;
+
         void MakeDoor(FarmBuildingType type, (int x, int y) door)
         {
             var go = new GameObject("Door_" + type.Id);
@@ -132,6 +135,7 @@ namespace Farm.Gameplay
             col.isTrigger = true;
             col.size = Vector2.one;
             var warp = go.AddComponent<Warp>();
+            warp.Bind(_session);
             warp.TargetMap = type.InteriorMap;
             warp.TargetSpawn = "default";
             warp.Condition = "flag:" + type.UnlockFlag;

@@ -102,12 +102,10 @@ namespace Farm.UI
         {
             if (_hooked) return;
             _hooked = true;
-            Bootstrapper.ServicesCreated += root =>
+            Bootstrapper.ServicesCreated += services =>
             {
-                var ui = root.AddComponent<UiService>();
-                ServiceLocator.Register<IUiService>(ui);
+                var ui = services.Root.AddComponent<UiService>();
                 GameContext.Current?.AttachUi(ui);
-                ServiceLocator.Register(ui);
             };
         }
 

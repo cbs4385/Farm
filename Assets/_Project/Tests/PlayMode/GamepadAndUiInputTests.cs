@@ -58,7 +58,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
@@ -153,7 +153,7 @@ namespace Farm.Tests
         public IEnumerator NorthButtonOpensTheBackpack_EastClosesIt()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             yield return Tap(_pad.buttonNorth);
             Assert.IsTrue(ui.AnyModalOpen, "Y opens the backpack");
             yield return Tap(_pad.buttonEast);
@@ -165,8 +165,8 @@ namespace Farm.Tests
         {
             GameSession s = null;
             yield return StartFarm(session => s = session);
-            var ui = ServiceLocator.Get<UiService>();
-            var input = ServiceLocator.Get<InputService>();
+            var ui = ((UiService)GameContext.Current.Ui);
+            var input = GameContext.Current.Input;
 
             yield return Tap(_pad.startButton);
             Assert.IsTrue(ui.AnyModalOpen, "Start opens the pause menu");
@@ -200,7 +200,7 @@ namespace Farm.Tests
         {
             // Not a hardware test: asserts the keyboard AND gamepad each have a working binding for every action.
             yield return StartFarm();
-            var input = ServiceLocator.Get<InputService>();
+            var input = GameContext.Current.Input;
             foreach (var action in input.Gameplay.actions)
             {
                 var controls = action.controls.Select(c => c.device).Distinct().ToList();
@@ -216,9 +216,9 @@ namespace Farm.Tests
         public IEnumerator ABusyPadButton_CanBeMovedToTheRightTrigger_ThroughOptions_AndTheGameSaysSo()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
-            var input = ServiceLocator.Get<InputService>();
-            var settings = ServiceLocator.Get<SettingsStore>();
+            var ui = ((UiService)GameContext.Current.Ui);
+            var input = GameContext.Current.Input;
+            var settings = GameContext.Current.Settings;
             ui.ShowOptions();
             yield return null;
             yield return null;
@@ -248,8 +248,8 @@ namespace Farm.Tests
         public IEnumerator TheKeyboard_CancelsAPadRebind_LeavingTheButtonAlone()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
-            var input = ServiceLocator.Get<InputService>();
+            var ui = ((UiService)GameContext.Current.Ui);
+            var input = GameContext.Current.Input;
             ui.ShowOptions();
             yield return null;
             yield return null;
@@ -268,7 +268,7 @@ namespace Farm.Tests
         public IEnumerator TheOptionsScreen_ListsEveryKey()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowOptions();
             yield return null;
             yield return null;
@@ -284,7 +284,7 @@ namespace Farm.Tests
         public IEnumerator TheCKey_OpensCrafting()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             Press(_keyboard.cKey);
             yield return null;
             yield return null;
@@ -297,7 +297,7 @@ namespace Farm.Tests
         public IEnumerator WithAPad_TheMouseIsIgnored_AndItsPointerIsBack_WhenTheMouseMoves()
         {
             yield return StartFarm();
-            var input = ServiceLocator.Get<InputService>();
+            var input = GameContext.Current.Input;
             ControlPrompts.SetKind(InputKind.KeyboardMouse);
             yield return null;
             Assert.IsTrue(input.Ui[InputNames.Point].enabled, "mouse in use: the pointer works");
@@ -323,7 +323,7 @@ namespace Farm.Tests
         public IEnumerator TheLateNightWarning_ClosesWithB_AsWellAsWithA()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowMessage("late_night.warning");
             yield return null;
             yield return null;
@@ -344,8 +344,8 @@ namespace Farm.Tests
         public IEnumerator RebindingAKey_ThroughOptions_PersistsAcrossARestart()
         {
             yield return StartFarm();
-            var ui = ServiceLocator.Get<UiService>();
-            var input = ServiceLocator.Get<InputService>();
+            var ui = ((UiService)GameContext.Current.Ui);
+            var input = GameContext.Current.Input;
             Assert.AreEqual("<Keyboard>/e", input.Interact.bindings.First(b => b.path.StartsWith("<Keyboard>")).effectivePath);
 
             ui.ShowOptions();
@@ -385,7 +385,7 @@ namespace Farm.Tests
             Bootstrapper.ResetForTests();
             Bootstrapper.InitializeServices();
             yield return null;
-            var restarted = ServiceLocator.Get<InputService>();
+            var restarted = GameContext.Current.Input;
             Assert.AreEqual("<Keyboard>/g", restarted.Interact.bindings.First(b => b.path.StartsWith("<Keyboard>")).effectivePath,
                 "the rebinding survived a restart");
         }
@@ -397,7 +397,7 @@ namespace Farm.Tests
         {
             GameSession s = null;
             yield return StartFarm(session => s = session);
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ToggleInventory();
             yield return null;
             yield return null;
@@ -429,7 +429,7 @@ namespace Farm.Tests
         {
             GameSession s = null;
             yield return StartFarm(session => s = session);
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ToggleInventory();
             yield return null;
             yield return null;
@@ -451,7 +451,7 @@ namespace Farm.Tests
         {
             GameSession s = null;
             yield return StartFarm(session => s = session);
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             ui.ToggleInventory();
             yield return null;
             yield return null;

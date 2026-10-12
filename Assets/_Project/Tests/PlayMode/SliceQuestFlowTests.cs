@@ -37,7 +37,7 @@ namespace Farm.Tests
             if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
 
         IEnumerator Tap(Key key)
         {
@@ -63,11 +63,11 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            var settings = ServiceLocator.Get<SettingsStore>().Current;
+            var settings = GameContext.Current.Settings.Current;
             settings.DialogueSpeed = DialoguePacing.InstantSpeed;
             settings.ChatMenu = false;
             _session.SetFlag("met.wren");

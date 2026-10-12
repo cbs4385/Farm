@@ -41,14 +41,14 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
 
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
             ui.ShowPause();
             yield return null;
             var label = Resources.FindObjectsOfTypeAll<TextMeshProUGUI>().First(t => t.text == L.Get("pause.save") && t.gameObject.scene.IsValid());
@@ -57,7 +57,7 @@ namespace Farm.Tests
 
             Assert.AreEqual(L.Get("pause.saved"), label.text, "the button says it is saved");
             Assert.IsTrue(ui.AnyModalOpen, "the menu stays open");
-            Assert.IsTrue(ServiceLocator.Get<SaveService>().Exists(0), "and the file is on the disk");
+            Assert.IsTrue(GameContext.Current.Saves.Exists(0), "and the file is on the disk");
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -41,7 +41,7 @@ namespace Farm.Tests
         {
             yield return Enter(MapIds.Farm, WeatherIds.Sunny, 9);
             Assert.AreEqual(AmbienceKind.Birds, AmbienceDirector.Last);
-            var audio = ServiceLocator.Get<AudioService>();
+            var audio = GameContext.Current.Audio;
             var end = Time.realtimeSinceStartup + 10f;
             while (audio.AmbiencePlaying != AmbienceKind.Birds && Time.realtimeSinceStartup < end) yield return null;
             Assert.AreEqual(AmbienceKind.Birds, audio.AmbiencePlaying);
@@ -52,7 +52,7 @@ namespace Farm.Tests
         {
             yield return Enter(MapIds.Farm, WeatherIds.Rain, 12);
             Assert.AreEqual(AmbienceKind.Rain, AmbienceDirector.Last);
-            Assert.AreEqual(AmbienceKind.Rain, ServiceLocator.Get<AudioService>().AmbienceWanted);
+            Assert.AreEqual(AmbienceKind.Rain, GameContext.Current.Audio.AmbienceWanted);
         }
 
         [UnityTest]

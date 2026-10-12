@@ -40,7 +40,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var s = ServiceLocator.Get<GameSession>();
+            var s = GameContext.Current.Session;
             s.BeginNewGame("Tester", "Test Farm", 0);
             s.SetFlag(FatigueModel.WarnedFlag);
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);

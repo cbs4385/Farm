@@ -42,7 +42,8 @@ A read-through by grep and spot reading of `Assets/_Project/Scripts` (about 360 
 | 5 Ship script | Done: `tools/ship.sh` (see docs/BUILD.md). |
 | 6 PlayMode time | Not changed. A smoke subset needs `[Category]` attributes on the tests, and which tests are the smoke set is a judgement for the owner. `SKIP_PLAYMODE=1` gives a fast EditMode check meanwhile. |
 | 7 Key clashes | Done for keys and pad buttons: moving one onto another action's control swaps the two, with a notice. |
-| 8, 9, 10 Service locator, large classes, long methods | Not changed: these are refactors of code that works, spread over many files, and each is best done when a feature next needs that file. New code takes its collaborators in `Init`. |
+| 8 Service locator | Done 2026-10-12 (ADR 0006, phases 0 to 5): `ServiceLocator` and the map singletons are gone; services come through `GameContext` and `MapContext`. |
+| 9, 10 Large classes, long methods | `PlayerActions` was split (2026-10-12) into aim, item, placement, fishing and hand-interaction classes. The rest is not changed: each is best done when a feature next needs that file. |
 | 11 Light duplication | Done: `TorchLight` now drives a `FlickerLight`. |
 | 12 Magic strings | Partly: the Options button-name prefixes are constants used by the screen and the tests. |
 | 13 Per-frame work | Done for `HoverInspector` (services and camera looked up once). `CameraFollow` already cached its component (the review was wrong); the other hot spots are untouched. |

@@ -49,7 +49,7 @@ namespace Farm.Tests
             Assert.IsTrue(NpcInteractions.Talk(_session, _session.Npcs.Get(npc)));
             var end = Time.realtimeSinceStartup + 20f;
             for (var i = 0; i < 6; i++) yield return null;
-            while (ServiceLocator.Get<IUiService>().AnyModalOpen && Time.realtimeSinceStartup < end) yield return Tap(Key.Enter);
+            while (GameContext.Current.Ui.AnyModalOpen && Time.realtimeSinceStartup < end) yield return Tap(Key.Enter);
             for (var i = 0; i < 4; i++) yield return null;
         }
 
@@ -58,11 +58,11 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Farmy McFarmface", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            var settings = ServiceLocator.Get<SettingsStore>().Current;
+            var settings = GameContext.Current.Settings.Current;
             settings.DialogueSpeed = DialoguePacing.InstantSpeed;
             settings.ChatMenu = false;
             _session.SetFlag("met.wren");

@@ -43,7 +43,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.SetFlag(TutorialCoach.SkipFlag);          // the tip card is on top of the hotbar's label otherwise (see the last test)
@@ -68,7 +68,7 @@ namespace Farm.Tests
         public IEnumerator OverAToolSlot_TheLabelNamesTheToolAndSaysHowToUseIt_AndOverAnEmptySlotNothingShows()
         {
             yield return Enter();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             var checkedTools = 0;
             for (var i = 0; i < InputNames.HotbarSlots; i++)
             {
@@ -93,7 +93,7 @@ namespace Farm.Tests
         public IEnumerator WhileATipCardIsShown_TheHotbarLabelStaysAway_AndComesBackWhenTheTipsAreSkipped()
         {
             yield return Enter();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             _session.State.Flags.Remove(TutorialCoach.SkipFlag);          // as in a new game
             for (var i = 0; i < 30; i++) yield return null;
             yield return PointAtSlot(0);
@@ -110,7 +110,7 @@ namespace Farm.Tests
         public IEnumerator WithAPadInHand_AMouseRestingOnASlotSaysNothing()
         {
             yield return Enter();
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             yield return PointAtSlot(0);
             Assert.IsNotNull(ui.HoverText, "the mouse's label is up first");
             ControlPrompts.SetKind(InputKind.Gamepad);

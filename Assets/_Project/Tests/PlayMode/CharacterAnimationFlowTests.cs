@@ -45,7 +45,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.CurrentMap = map;
@@ -80,7 +80,7 @@ namespace Farm.Tests
             var player = Object.FindAnyObjectByType<PlayerController>();
             var renderer = player.GetComponent<SpriteRenderer>();
             var bob = player.GetComponent<WalkBob>();
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             var recorder = player.gameObject.AddComponent<SpriteRecorder>();
             Press(_keyboard.xKey);
             var end = Time.realtimeSinceStartup + 2f;
@@ -95,7 +95,7 @@ namespace Farm.Tests
         public IEnumerator AVillager_CanSwingATool_AndStandsOnAShadow()
         {
             yield return Open(MapIds.Village);
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.Clock.SetTime(new GameDateTime(1, Season.Spring, 1, 17 * 60));
             for (var i = 0; i < 60; i++) yield return null;
             var actor = GameContext.Current.Map.Npcs.Actors.Values.FirstOrDefault(a => !a.Sleeping);

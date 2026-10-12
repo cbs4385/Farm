@@ -52,7 +52,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
@@ -87,7 +87,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             session.State.GetMap(MapIds.Farm).LastSpawnDay = session.Clock.Now.TotalDays;   // and so would random forage
@@ -96,7 +96,7 @@ namespace Farm.Tests
             for (var i = 0; i < 10; i++) yield return null;
 
             var toasts = new System.Collections.Generic.List<string>();
-            ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(e => toasts.Add(e.Message));
+            GameContext.Current.Bus.Subscribe<ToastRequested>(e => toasts.Add(e.Message));
 
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
@@ -130,7 +130,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
@@ -138,7 +138,7 @@ namespace Farm.Tests
             for (var i = 0; i < 10; i++) yield return null;
 
             var events = new System.Collections.Generic.List<EnergyActionCompleted>();
-            ServiceLocator.Get<EventBus>().Subscribe<EnergyActionCompleted>(events.Add);
+            GameContext.Current.Bus.Subscribe<EnergyActionCompleted>(events.Add);
 
             var player = UnityEngine.Object.FindAnyObjectByType<PlayerController>();
             player.transform.position = new Vector3(20.5f, 10.5f, 0f);
@@ -169,15 +169,15 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 10; i++) yield return null;
 
-            var ui = ServiceLocator.Get<UiService>();
-            var input = ServiceLocator.Get<InputService>();
+            var ui = ((UiService)GameContext.Current.Ui);
+            var input = GameContext.Current.Input;
             Assert.IsFalse(ui.AnyModalOpen);
 
             yield return Tap(_keyboard.f1Key);
@@ -208,7 +208,7 @@ namespace Farm.Tests
             var startDay = session.Clock.Now.Day;
             Assert.IsTrue(ui.DebugConsole.Submit("day 2").Ok);
             Assert.AreEqual(startDay + 2, session.Clock.Now.Day);
-            var loader = ServiceLocator.Get<SceneLoader>();
+            var loader = GameContext.Current.Scenes;
             var start = Time.realtimeSinceStartup;
             while ((SceneManager.GetActiveScene().name != MapIds.FarmHouse || loader.IsLoading) && Time.realtimeSinceStartup - start < 10f)
                 yield return null;
@@ -221,7 +221,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);

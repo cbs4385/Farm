@@ -42,7 +42,7 @@ namespace Farm.Tests
             if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
-        static UiService Ui => ServiceLocator.Get<UiService>();
+        static UiService Ui => ((UiService)GameContext.Current.Ui);
 
         IEnumerator Tap(UnityEngine.InputSystem.Controls.ButtonControl button)
         {
@@ -57,7 +57,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -70,7 +70,7 @@ namespace Farm.Tests
         public IEnumerator TheWalkthrough_PointsAtEachPartOfTheScreen_ThenTheControls_ThenEveryTab_AndComesOnlyOnce()
         {
             yield return NewGameOnTheFarm();
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             Assert.IsFalse(Ui.AnyModalOpen, "nothing at first");
 
             var waited = 0f;
@@ -146,7 +146,7 @@ namespace Farm.Tests
         public IEnumerator ThePauseMenu_CanPlayTheTourAgain_AfterItWasSeen()
         {
             yield return NewGameOnTheFarm();
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.SetFlag(MenuTourScreen.DoneFlag);                        // already seen
             Ui.ShowPause();
             yield return null;

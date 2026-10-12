@@ -4,8 +4,8 @@ using Farm.Data;
 
 namespace Farm.Gameplay
 {
-    // Everything that lives for the whole run, built once by the Bootstrapper's service step (GameServices.Create) and handed to whoever needs it, in place of each class asking
-    // the ServiceLocator (docs/adr/0006-retire-the-service-locator.md). `Current` and the locator registration exist only while code is being converted, and go in phase 5.
+    // Everything that lives for the whole run, built once by the Bootstrapper's service step (GameServices.Create) and handed to whoever needs it (docs/adr/0006-retire-the-service-locator.md). `Current` is the one static anchor: the scene entry points (MapSceneController, the main menu) take the
+    // context from it and pass it on; nothing else asks for it.
     public sealed class GameContext
     {
         public EventBus Bus;

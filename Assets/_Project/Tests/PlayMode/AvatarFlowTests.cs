@@ -50,7 +50,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             var look = AvatarOptions.Presets[5].look;           // hearth: curly hair, vest, glasses
             session.BeginNewGame("Tester", "Test Farm", 0, look);
             session.SetFlag(FatigueModel.WarnedFlag);
@@ -82,7 +82,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             var creator = new AvatarScreen(ui);
             AvatarData result = null;
             creator.OpenWith(AvatarOptions.Default(), look => result = look);
@@ -137,7 +137,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var newGame = new NewGameScreen(ServiceLocator.Get<UiService>(), null);
+            var newGame = new NewGameScreen(((UiService)GameContext.Current.Ui), null);
             var keys = new System.Collections.Generic.HashSet<string>();
             for (var i = 0; i < 6; i++)
             {
@@ -154,7 +154,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             var newGame = new NewGameScreen(ui, null);
             newGame.Open();
             yield return null;
@@ -176,7 +176,7 @@ namespace Farm.Tests
             var slots = newGame.Root.GetComponentsInChildren<Transform>(true).First(t => t.name == "Slots");
             slots.GetComponentInChildren<Button>().onClick.Invoke();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             Assert.IsTrue(session.InGame, "the game began");
             Assert.AreEqual(chosen, session.State.Avatar.Key, "with the farmer that was chosen");
             yield return WaitForPlayer();

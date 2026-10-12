@@ -41,7 +41,7 @@ namespace Farm.Tests
             if (Directory.Exists(_dataRoot)) Directory.Delete(_dataRoot, true);
         }
 
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
 
         IEnumerator Tap(Key key)
         {
@@ -55,11 +55,11 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
-            var settings = ServiceLocator.Get<SettingsStore>().Current;
+            var settings = GameContext.Current.Settings.Current;
             settings.DialogueSpeed = DialoguePacing.InstantSpeed;
             settings.ChatMenu = false;
         }
@@ -78,13 +78,13 @@ namespace Farm.Tests
             var op = SceneManager.LoadSceneAsync(MapIds.Village);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 12; i++) yield return null;
-            var loader = ServiceLocator.Get<SceneLoader>();
+            var loader = GameContext.Current.Scenes;
             var settle = Time.realtimeSinceStartup + 10f;
             while (loader.IsLoading && Time.realtimeSinceStartup < settle) yield return null;
 
             _session.State.EventsSeen.Remove(eventId);
             var finished = false;
-            ServiceLocator.Get<EventBus>().Subscribe<EventFinished>(e => { if (e.EventId == eventId) finished = true; });
+            GameContext.Current.Bus.Subscribe<EventFinished>(e => { if (e.EventId == eventId) finished = true; });
             Assert.IsTrue(EventRunner.Trigger(_session, eventId), eventId);
             var end = Time.realtimeSinceStartup + 90f;
             while (!finished && Time.realtimeSinceStartup < end)

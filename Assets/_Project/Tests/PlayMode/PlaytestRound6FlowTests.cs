@@ -45,7 +45,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.CurrentMap = map;
@@ -89,7 +89,7 @@ namespace Farm.Tests
             Assert.AreEqual(0f, rt.anchorMin.x); Assert.AreEqual(1f, rt.anchorMax.x); Assert.AreEqual(1f, rt.anchorMin.y);
             Assert.Less(rt.rect.height, 60f, "a bar, not a box");
             Assert.AreEqual(0.8f, bar.GetComponent<Image>().color.a, 0.01f, "20% see-through by default");
-            Assert.AreEqual(0.2f, ServiceLocator.Get<SettingsStore>().Current.HudTransparency, 0.001f);
+            Assert.AreEqual(0.2f, GameContext.Current.Settings.Current.HudTransparency, 0.001f);
             var texts = bar.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Where(t => t.gameObject.activeInHierarchy).Select(t => t.text).ToList();
             Assert.IsTrue(texts.Any(t => t.Contains("Spring")), "the date is on the bar");
             Assert.IsTrue(texts.Any(t => t.Contains("g")), "and the gold");
@@ -123,13 +123,13 @@ namespace Farm.Tests
             var cam = Camera.main;
             var screen = cam.WorldToScreenPoint(bin.transform.position);
             yield return MoveMouse(new Vector2(screen.x, screen.y));
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             Assert.IsFalse(ui.AnyModalOpen);
             Assert.AreEqual(L.Get("hover.shipping_bin"), HoverInspector.Current, "the mouse is over the bin");
             var energy = _session.State.Energy;
             yield return Tap(_mouse.leftButton);
             for (var i = 0; i < 6; i++) yield return null;
-            Assert.IsTrue(ui.AnyModalOpen, $"the shipping window opened from a click (energy {energy} -> {_session.State.Energy}, selected slot {_session.State.SelectedHotbar}, hover {HoverInspector.Current}, blocked {ServiceLocator.Get<InputService>().GameplayBlocked})");
+            Assert.IsTrue(ui.AnyModalOpen, $"the shipping window opened from a click (energy {energy} -> {_session.State.Energy}, selected slot {_session.State.SelectedHotbar}, hover {HoverInspector.Current}, blocked {GameContext.Current.Input.GameplayBlocked})");
         }
 
         [UnityTest]

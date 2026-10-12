@@ -51,7 +51,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -60,7 +60,7 @@ namespace Farm.Tests
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
 
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
             var minute = session.Clock.Now.MinuteOfDay;
             yield return Tap(Key.F8);
             Assert.IsTrue(PhotoMode.Active, "photo mode is on");

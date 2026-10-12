@@ -21,11 +21,11 @@ namespace Farm.Tests
 
         IEnumerator Start(string map, string spawn = "default")
         {
-            if (!ServiceLocator.TryGet<GameSession>(out _s) || !_s.InGame)
+            if ((_s = GameContext.Current?.Session) == null || !_s.InGame)
             {
                 Bootstrapper.InitializeServices();
                 yield return null;
-                _s = ServiceLocator.Get<GameSession>();
+                _s = GameContext.Current.Session;
                 _s.BeginNewGame("Tester", "Test Farm", 0);
                 _s.SetFlag(FatigueModel.WarnedFlag);
             }

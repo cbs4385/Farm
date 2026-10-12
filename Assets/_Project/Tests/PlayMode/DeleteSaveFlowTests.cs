@@ -43,13 +43,13 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
-            var saves = ServiceLocator.Get<SaveService>();
+            var session = GameContext.Current.Session;
+            var saves = GameContext.Current.Saves;
             session.BeginNewGame("One", "Farm One", 0); session.Save();
             session.BeginNewGame("Two", "Farm Two", 1); session.Save();
             Assert.IsTrue(saves.Exists(0) && saves.Exists(1));
 
-            var ui = ServiceLocator.Get<UiService>();
+            var ui = ((UiService)GameContext.Current.Ui);
             var load = new LoadGameScreen(ui, null);
             load.Open();
             yield return null;

@@ -38,7 +38,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var s = ServiceLocator.Get<GameSession>();
+            var s = GameContext.Current.Session;
             s.BeginNewGame("Tester", "Test Farm", 0);
             s.SetFlag(FatigueModel.WarnedFlag);
             s.SetFlag(TutorialCoach.SkipFlag);
@@ -46,7 +46,7 @@ namespace Farm.Tests
             while (!op.isDone) yield return null;
             for (var i = 0; i < 30; i++) yield return null;
 
-            var rain = ServiceLocator.Get<UiService>().Hud.Coins;
+            var rain = ((UiService)GameContext.Current.Ui).Hud.Coins;
             Assert.IsNotNull(rain);
             for (var i = 0; i < 10; i++) yield return null;
             Assert.AreEqual(0, rain.Active, "no coins while the gold is steady");

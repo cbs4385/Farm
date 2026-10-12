@@ -34,7 +34,7 @@ namespace Farm.Tests
 
         IEnumerator Load(string map)
         {
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             var op = SceneManager.LoadSceneAsync(map);
             while (!op.isDone) yield return null;
             for (var i = 0; i < 20; i++) yield return null;
@@ -45,7 +45,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
 

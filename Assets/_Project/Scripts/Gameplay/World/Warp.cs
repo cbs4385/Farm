@@ -5,7 +5,7 @@ namespace Farm.Gameplay
 {
     // Trigger volume that moves the player to another map scene.
     [RequireComponent(typeof(Collider2D))]
-    public sealed class Warp : MonoBehaviour
+    public sealed class Warp : MonoBehaviour, IMapBound
     {
         [SerializeField] string _targetMap;
         [SerializeField] string _targetSpawn = "default";
@@ -61,9 +61,14 @@ namespace Farm.Gameplay
         // Is going from one map to the other a walk through a building's door? (pure)
         public static bool ShowsDoor(string fromMap, string toMap) => MapIds.IsInterior(fromMap) || MapIds.IsInterior(toMap);
 
+        GameSession _session;
+
+        public void Bind(MapContext map) => _session = map.Session;
+        public void Bind(GameSession session) => _session = session;          // a door made after the map was set up (the farm's own buildings)
+
         public bool IsOpen(out GameSession session)
         {
-            ServiceLocator.TryGet(out session);
+            session = _session;
             if (!string.IsNullOrEmpty(_businessId) && session != null && session.InGame
                 && !BusinessHoursRegistry.IsOpen(_businessId, session.Clock.Now)) return false;
             if (string.IsNullOrWhiteSpace(_condition)) return true;

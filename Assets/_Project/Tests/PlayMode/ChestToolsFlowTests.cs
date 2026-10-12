@@ -50,7 +50,7 @@ namespace Farm.Tests
 
         static PlayerController Player => UnityEngine.Object.FindAnyObjectByType<PlayerController>();
         static FarmMapView View => UnityEngine.Object.FindAnyObjectByType<FarmMapView>();
-        static UiService Ui => ServiceLocator.Get<UiService>();
+        static UiService Ui => ((UiService)GameContext.Current.Ui);
 
         IEnumerator Tap(UnityEngine.InputSystem.Controls.ButtonControl button)
         {
@@ -102,10 +102,10 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
-            ServiceLocator.Get<EventBus>().Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
+            GameContext.Current.Bus.Subscribe<ToastRequested>(t => _toasts.Add(t.Message));
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;

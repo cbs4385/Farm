@@ -42,7 +42,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            var session = ServiceLocator.Get<GameSession>();
+            var session = GameContext.Current.Session;
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.Story = new StoryContent();      // no letters, quests or random events: these tests are about fatigue
             session.State.GetMap(MapIds.Farm).ClutterSeeded = true;   // random clutter would make tile positions unpredictable
@@ -66,7 +66,7 @@ namespace Farm.Tests
         {
             GameSession session = null;
             yield return StartFarm(s => session = s);
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
 
             SetClock(session, 21, 50);
             yield return null;
@@ -107,7 +107,7 @@ namespace Farm.Tests
             session.Clock.AdvanceMinutes(30);
             yield return null;
             yield return null;
-            Assert.IsFalse(ServiceLocator.Get<IUiService>().AnyModalOpen);
+            Assert.IsFalse(GameContext.Current.Ui.AnyModalOpen);
         }
 
         [UnityTest]
@@ -142,7 +142,7 @@ namespace Farm.Tests
             GameSession session = null;
             yield return StartFarm(s => session = s);
             session.SetFlag(FatigueModel.WarnedFlag);
-            var ui = ServiceLocator.Get<IUiService>();
+            var ui = GameContext.Current.Ui;
             session.State.Energy = 100;
             session.State.Gold = 1000;
 

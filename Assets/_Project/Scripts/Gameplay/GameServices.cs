@@ -30,9 +30,10 @@ namespace Farm.Gameplay
             Bootstrapper.ServicesCreated += Create;
         }
 
-        static void Create(GameObject root)
+        static void Create(ServicesRoot services)
         {
-            var bus = ServiceLocator.Get<EventBus>();
+            var root = services.Root;
+            var bus = services.Bus;
 
             var settings = new SettingsStore(DataRoot);
             settings.Load();
@@ -41,7 +42,6 @@ namespace Farm.Gameplay
                 var quiet = Mathf.Clamp01(AudioVolumeOverride.Value);
                 settings.Current.MasterVolume = settings.Current.MusicVolume = settings.Current.SfxVolume = settings.Current.AmbienceVolume = quiet;
             }
-            ServiceLocator.Register(settings);
 
             BusinessHoursRegistry.RegisterConditionAtom();   // `open:<shopId>` in conditions
             StoryConditions.Register();                       // hearts, has, quest, knows in conditions
@@ -54,56 +54,50 @@ namespace Farm.Gameplay
                 Log.Error("GameDatabase asset missing at Resources/GameDatabase. Run 'Farm/Setup/Generate Content'.");
                 db = GameDatabase.Create(new ItemDefinition[0], new CropDefinition[0]);
             }
-            ServiceLocator.Register(db);
 
+            InputService inputService = null;
             var inputAsset = Resources.Load<InputActionAsset>(InputNames.ResourcePath);
             if (inputAsset == null)
                 Log.Error("FarmInput asset missing at Resources/FarmInput. Run 'Farm/Setup/Generate Input Actions'.");
             else
             {
-                var input = new InputService(inputAsset);
-                input.ApplyOverrides(settings.Current.BindingOverridesJson);
-                ServiceLocator.Register(input);
+                inputService = new InputService(inputAsset);
+                inputService.ApplyOverrides(settings.Current.BindingOverridesJson);
             }
 
             var saves = new SaveService(DataRoot, new ISaveMigration[] { new FarmMirrorMigration() });
-            ServiceLocator.Register(saves);
 
             var session = root.AddComponent<GameSession>();
             session.Init(bus, db, saves);
             session.Story = StoryContent.LoadFromResources();
-            ServiceLocator.Register(session);
 
             // Optional content packs (extra items/crops) merge into the core database.
             foreach (var pack in Resources.LoadAll<ContentPack>(ContentPack.ResourceFolder))
                 db.Merge(pack);
 
-            ServiceLocator.Register(root.AddComponent<AtmosphereService>());
+            var atmosphere = root.AddComponent<AtmosphereService>();
 
             var audio = root.AddComponent<AudioService>();
-            ServiceLocator.Register(audio);
             audio.ApplySettings(settings.Current);
             var music = root.AddComponent<MusicDirector>();
             var watcher = root.AddComponent<InputDeviceWatcher>();
 
             DisplaySettings.ApplyAtStartup(settings.Current);
 
-            // The run's context (docs/adr/0006): everything above, in one object. Still registered in the locator while code is converted.
+            // The run's context (docs/adr/0006): everything above, in one object.
             var context = new GameContext
             {
                 Bus = bus, Settings = settings, Db = db, Saves = saves, Session = session, Audio = audio,
-                Atmosphere = root.GetComponent<AtmosphereService>(), Scenes = ServiceLocator.Get<SceneLoader>(),
+                Atmosphere = atmosphere, Scenes = services.Loader, Input = inputService,
             };
-            ServiceLocator.TryGet<InputService>(out context.Input);
             context.Notify = new Notifier(session, () => context.Ui);
             GameContext.SetCurrent(context);
             session.Game = context;
-            ServiceLocator.Register(context);
             context.Music = music;
             music.Init(context);
             watcher.Init(context);
-            if (ServiceLocator.TryGet<IUiService>(out var uiAlready)) context.AttachUi(uiAlready);
-            ServiceLocator.Register<INotifier>(context.Notify);
+            var uiAlready = root.GetComponent<IUiService>();          // the UI service may have been made first
+            if (uiAlready != null) context.AttachUi(uiAlready);
 
             // Modules (optional layers in their own assemblies) hook in last, once every service exists.
             GameModules.InitializeAll(new ModuleContext

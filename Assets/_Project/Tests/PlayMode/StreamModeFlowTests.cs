@@ -54,7 +54,7 @@ namespace Farm.Tests
         {
             Bootstrapper.InitializeServices();
             yield return null;
-            _session = ServiceLocator.Get<GameSession>();
+            _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
@@ -63,7 +63,7 @@ namespace Farm.Tests
                 { "dlg.test.vote.0", "Which way?" }, { "dlg.test.vote.c0", "Left" }, { "dlg.test.vote.c1", "Right" }, { "dlg.test.vote.c2", "Straight on" },
             });
             Assert.IsTrue(_session.Story.AddJson(TestStory, "test"));
-            _settings = ServiceLocator.Get<SettingsStore>().Current;
+            _settings = GameContext.Current.Settings.Current;
             _settings.DialogueSpeed = DialoguePacing.InstantSpeed;
             _settings.ChoiceTimer = timer;
             _settings.StreamMode = stream;
@@ -72,7 +72,7 @@ namespace Farm.Tests
             for (var i = 0; i < 12; i++) yield return null;
         }
 
-        static IUiService Ui => ServiceLocator.Get<IUiService>();
+        static IUiService Ui => GameContext.Current.Ui;
 
         IEnumerator Tap(Key key)
         {
