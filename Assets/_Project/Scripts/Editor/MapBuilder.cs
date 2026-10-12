@@ -524,6 +524,7 @@ namespace Farm.Editor
             var picture = AddObject(name, spriteName, new Vector3(centreX, doorY + 0.5f, 0f), solid: false);
             picture.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
             picture.AddComponent<BuildingDepth>().Configure(doorY + 1f, TallSortingOrder);          // over a player behind it, under one in front or in the doorway
+            picture.AddComponent<BuildingGlow>();          // its windows glow from dusk to dawn
             if (sprite != null)
             {
                 var home = style.StartsWith("cottage");

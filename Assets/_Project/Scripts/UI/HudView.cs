@@ -306,6 +306,47 @@ namespace Farm.UI
 
                 _slots[i] = new HotbarSlot { Background = bg, Icon = icon, Count = count, Quality = quality };
             }
+            BuildTorchBar();
+        }
+
+        // How much of the burning torch is left: a small bar over its slot of the item bar, like a health bar over a monster (owner, 2026-10-12).
+        RectTransform _torchBar;
+        RectTransform _torchFill;
+
+        void BuildTorchBar()
+        {
+            var back = UiKit.Panel(_slots[0].Background.transform, "TorchBar", new Color(0.08f, 0.05f, 0.03f, 0.95f));
+            back.raycastTarget = false;
+            _torchBar = back.rectTransform;
+            _torchBar.anchorMin = new Vector2(0f, 1f);
+            _torchBar.anchorMax = new Vector2(1f, 1f);
+            _torchBar.pivot = new Vector2(0.5f, 0f);
+            _torchBar.sizeDelta = new Vector2(-4f, 7f);
+            _torchBar.anchoredPosition = new Vector2(0f, 3f);
+            var fill = UiKit.Panel(back.transform, "Fill", TorchLight.Orange);
+            fill.raycastTarget = false;
+            _torchFill = fill.rectTransform;
+            _torchFill.anchorMin = new Vector2(0f, 0f);
+            _torchFill.anchorMax = new Vector2(1f, 1f);
+            _torchFill.offsetMin = new Vector2(1f, 1f);
+            _torchFill.offsetMax = new Vector2(-1f, -1f);
+            back.gameObject.SetActive(false);
+        }
+
+        // Over the slot that holds the torch (the first slot when it is not on the bar), while a torch is burning.
+        void UpdateTorchBar(GameSession s)
+        {
+            if (_torchBar == null) return;
+            var burning = TorchBurn.IsBurning(s);
+            if (_torchBar.gameObject.activeSelf != burning) _torchBar.gameObject.SetActive(burning);
+            if (!burning) return;
+            var at = 0;
+            for (var i = 0; i < _slots.Length && i < s.Backpack.Capacity; i++)
+                if (s.Backpack.Get(i)?.ItemId == ItemIds.Torch) { at = i; break; }
+            var parent = _slots[at].Background.transform;
+            if (_torchBar.parent != parent) _torchBar.SetParent(parent, false);
+            _torchFill.anchorMax = new Vector2(Mathf.Clamp01(TorchBurn.Fraction(s)), 1f);
+            _torchFill.offsetMax = new Vector2(0f, -1f);
         }
 
         static string KeyLabel(int i) => i < 9 ? (i + 1).ToString() : i == 9 ? "0" : i == 10 ? "-" : "=";
@@ -532,6 +573,7 @@ namespace Farm.UI
         {
             UpdateFade();
             ApplyTransparency();
+            UpdateTorchBar(_ui.Session);
             UpdateHotbarPointer();
             TickToast();
             UpdateQuestTracker(_dirty);

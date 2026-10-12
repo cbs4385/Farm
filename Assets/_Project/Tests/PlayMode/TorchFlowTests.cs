@@ -36,7 +36,7 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator InTheMine_TheLightIsDimAndBlue_AndTheTorchLightsOnlyWhilePicked()
+        public IEnumerator InTheMine_TheLightIsDimAndBlue_AndACarriedTorchLightsItself()
         {
             Bootstrapper.InitializeServices();
             yield return null;
@@ -60,16 +60,16 @@ namespace Farm.Tests
 
             var torch = UnityEngine.Object.FindAnyObjectByType<TorchLight>();
             Assert.IsNotNull(torch);
-            Assert.IsFalse(torch.IsLit, "nothing in hand");
-            session.State.SelectedHotbar = slot;
             for (var i = 0; i < 5; i++) yield return null;
-            Assert.IsTrue(torch.IsLit, "the torch is picked");
+            Assert.IsTrue(torch.IsLit, "it lights itself in the dark, whatever is picked (owner, 2026-10-12)");
+            Assert.AreEqual(TorchBurn.Minutes, TorchBurn.Left(session));
+            Assert.AreEqual(2, session.Backpack.Count(ItemIds.Torch), "one was used to light it");
             var light = torch.GetComponentInChildren<Light2D>();
             Assert.AreEqual(5f, light.pointLightOuterRadius, "five tiles");
             Assert.GreaterOrEqual(torch.CurrentColor.r, 0.9f, "a warm colour");
-            session.State.SelectedHotbar = other;
-            for (var i = 0; i < 5; i++) yield return null;
-            Assert.IsFalse(torch.IsLit, "and out again when something else is picked");
+            session.State.SelectedHotbar = slot;
+            for (var i = 0; i < 3; i++) yield return null;
+            Assert.IsTrue(torch.IsLit, "and it stays lit whichever item is picked, the sword too");
         }
     }
 }

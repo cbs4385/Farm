@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Farm.Gameplay
 {
-    // A torch in the picked slot of the item bar lights a bubble round the player (owner, 2026-10-11: five tiles, a glow that drifts between orange, red and yellow).
-    // The light is a FlickerLight (the same one candles and lamps use) on a child of the player, switched on only while the torch is the picked item.
+    // A torch lights a bubble round the player (owner, 2026-10-11: five tiles, a glow that drifts between orange, red and yellow). The light is a FlickerLight (the same one
+    // candles and lamps use) on a child of the player. Since 2026-10-12 it is TorchBurn that says when it burns: a carried torch lights itself in the dark and lasts an hour.
     public sealed class TorchLight : MonoBehaviour, IMapBound
     {
         public const float Radius = 5f;
@@ -40,20 +40,31 @@ namespace Farm.Gameplay
             return Color.Lerp(Color.Lerp(Orange, Red, a), Yellow, b * 0.7f);
         }
 
-        public void Bind(MapContext map) => _session = map.Session;
+        EventBus _bus;
+        bool _warnedNone;
 
-        public static bool Holding(GameSession s)
+        public void Bind(MapContext map)
         {
-            if (s == null || !s.InGame) return false;
-            var slot = s.State.SelectedHotbar;
-            if (slot < 0 || slot >= s.Backpack.Capacity) return false;
-            return s.Backpack.Get(slot)?.ItemId == ItemIds.Torch;
+            _session = map.Session;
+            _bus = map.Bus;
+            _bus?.Subscribe<MinuteChanged>(OnMinute);
+        }
+
+        void OnDestroy() => _bus?.Unsubscribe<MinuteChanged>(OnMinute);
+
+        // An hour of burning uses a torch up (see TorchBurn).
+        void OnMinute(MinuteChanged e)
+        {
+            if (TorchBurn.OnMinute(_session)) _session.Toast(L.Get("torch.burned_out"));
         }
 
         void Update()
         {
             if (_session == null) return;
-            var on = Holding(_session);
+            var on = TorchBurn.Refresh(_session, out var lightedOne, out var noneLeft);
+            if (lightedOne) _session.Toast(L.Get("torch.lit"));
+            if (noneLeft && !_warnedNone) { _warnedNone = true; _session.Toast(L.Get("torch.none")); }
+            if (!noneLeft) _warnedNone = false;
             if (_flame.Lit != on) _flame.Lit = on;
             if (on) _flame.Color = GlowAt(Time.time);
         }

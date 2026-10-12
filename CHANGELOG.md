@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.4 (2026-10-12)
+
+**Torches burn down**
+- **A torch lasts an hour of game time.** Carry torches in your backpack: one lights itself when it is dark where you are (in the mine, and outdoors from dusk to dawn), whatever item you have picked, so you can fight with the sword and still see. When the hour is up the next torch takes over.
+- **A bar over the torch's slot on the item bar shows how much of it is left.** A notice tells you when a torch is lit and when it burns out.
+- **A torch goes out by itself in daylight and indoors**, where buildings are lit inside. It is not used up while it is out.
+- **Torches no longer have to be picked.** The torch's description says how they work.
+
+**Glow**
+- **The village's buildings and your farmhouse glow warmly from dusk to dawn**, as if their windows were lit.
+
 ## 0.5.3 (2026-10-12)
 
 **Light**
