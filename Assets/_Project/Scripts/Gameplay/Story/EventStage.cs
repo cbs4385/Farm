@@ -177,6 +177,7 @@ namespace Farm.Gameplay
         {
             Despawn(id);
             var go = new GameObject("Prop_" + id, typeof(SpriteRenderer));
+            LitSprites.Apply(go);
             var renderer = go.GetComponent<SpriteRenderer>();
             if (_session.Db.TryGetItem(itemId, out var item)) renderer.sprite = item.Icon;
             renderer.sortingOrder = 150;

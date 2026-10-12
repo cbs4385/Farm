@@ -129,8 +129,8 @@ namespace Farm.Gameplay
         public static bool LampsOn(int minuteOfDay) => Brightness(minuteOfDay) < LampsOnBelow;
 
         // The game works in linear light, where a light colour of 0.1 shows on screen as about a third of full brightness (owner, 2026-10-12: night was not dim). The brightness
-        // numbers of this class mean what the eye sees, so the light is given the colour raised to the screen's power: a tenth looks like a tenth. The tint is kept.
-        public const float ScreenPower = 2.2f;
+        // numbers of this class mean what the eye sees, so the light is given the colour raised to a power (measured in the player): a tenth looks like a tenth. The tint is kept.
+        public const float ScreenPower = 1.7f;          // measured in the player, not the textbook 2.2: with 2.2 the night was 4% of noon, with 1.7 it is 10%
 
         public static Color AsLight(Color c)
         {

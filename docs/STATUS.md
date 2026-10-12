@@ -4,6 +4,10 @@ Last updated: 2026-10-05. Tags: `m0`, `m1`, `m2`, `m3`. Tests (last full runs, 2
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
+## Releases 0.5.1 to 0.5.3 (2026-10-12)
+0.5.1 was published (Steam build 25887683). 0.5.2 (pond over a tree, buildings over the player at doors, the carpenter's "built or repaired" choice, derelict outbuildings, the library garden) and 0.5.3 (a tenth-to-full light range with dawn and dusk, village lamps, a dark mine, everything the world makes follows the light, gifts across a counter, the mallet takes furniture into the backpack, bait in fishing) are built and tested by automation (EditMode and PlayMode).
+Seen by me in the Windows player (captures, 2026-10-12): the pond and the tree, the avatar at a shop door, the derelict outbuildings with boards, no library garden, night at 10.7% of noon on the farm, lamps lit at 23:00, a dark mine with the torch's glow, runtime pictures on the lit material (checked with the development console command `sprites`). NOT seen by a person: the carpenter's menu choice, the bait text and effects, the mallet taking a piece into the backpack, a gift across a counter, the lamps at dusk and dawn, the new light in play. A person has not played any of 0.5.2 or 0.5.3.
+
 ## Milestone 0 - Foundation (done)
 T-001 | done | claude/2026-10-01 | repo initialized, LFS attributes, gitignore
 T-002 | done | claude/2026-10-01 | `ProjectConfigurator`; Mono for dev, IL2CPP via build flag

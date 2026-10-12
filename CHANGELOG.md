@@ -6,6 +6,7 @@
 - **The world follows the day, between a tenth of the light and full.** It brightens through the dawn (06:00 to 09:00), is full from 09:00 to 17:00, dims through the dusk (17:00 to 21:30) and is dark through the night. This holds for every outdoor map.
 - **The village lamps burn from dusk to dawn.** Each street lamp glows while the daylight is low.
 - **The mine is dark: a tenth of the light, tinted blue.** You need your torch to see.
+- **Everything in the world follows the light.** Monsters, the mine's stairs, villagers, animals, the farm's buildings, the grass tufts and flowers, held items and shadows used to ignore it and glowed at night; now they dim with the rest.
 
 **Tools and friends**
 - **The building mallet takes furniture, decorations, sprinklers and scarecrows into your backpack** when you swing it at them, so you can set them down anywhere, even on another map. If your backpack is full they stay where they are. Chests and machines are still carried, because they hold things. Buildings and the room's own fixtures are also carried as before.

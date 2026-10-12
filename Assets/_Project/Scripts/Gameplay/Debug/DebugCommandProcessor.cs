@@ -63,6 +63,7 @@ namespace Farm.Gameplay
                 ["save"] = ("save", "save the game to the active slot", Save),
                 ["pseudoloc"] = ("pseudoloc [on|off]", "show every string pseudo-localised (accented, 35% longer, bracketed) to find layout problems", PseudoLocCommand),
                 ["state"] = ("state", "print the date, weather, gold, energy and map", PrintState),
+                ["sprites"] = ("sprites", "count the pictures in this map by material (is everything lit?)", PrintSprites),
             };
             // Narrative tools (T-137): hearts, mood, the talk pool and why, scenes, reactions, topics, social actions, coverage.
             foreach (var (name, usage, help, run) in NarrativeDebug.Commands(session)) _commands[name] = (usage, help, run);
@@ -290,6 +291,14 @@ namespace Farm.Gameplay
 
         DebugCommandResult Save(string[] a) =>
             _session.Save() ? DebugCommandResult.Success("Saved.") : DebugCommandResult.Fail("Not saved (a dev game has no slot).");
+
+        DebugCommandResult PrintSprites(string[] a)
+        {
+            var groups = UnityEngine.Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None)
+                .GroupBy(r => (r.sharedMaterial != null ? r.sharedMaterial.name + " / " + r.sharedMaterial.shader.name : "(none)"))
+                .Select(g => g.Key + " x" + g.Count() + " e.g. " + g.First().name);
+            return DebugCommandResult.Success(string.Join(" ;; ", groups));
+        }
 
         DebugCommandResult PrintState(string[] a)
         {

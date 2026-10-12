@@ -83,6 +83,7 @@ namespace Farm.Gameplay
         void AddStairs(MineStairs.StairKind kind, int x, int y)
         {
             var go = new GameObject("Stairs_" + kind, typeof(SpriteRenderer));
+            LitSprites.Apply(go);
             go.transform.position = _map.CellCenter(new Vector3Int(x, y, 0));
             var sr = go.GetComponent<SpriteRenderer>();
             sr.sortingOrder = 3;

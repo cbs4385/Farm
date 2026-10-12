@@ -45,6 +45,7 @@ namespace Farm.Gameplay
             go.transform.SetParent(map.Ground.transform.parent, false);
             Layer = go.AddComponent<Tilemap>();
             var renderer = go.AddComponent<TilemapRenderer>();
+            LitSprites.Apply(renderer);
             renderer.sortingOrder = 0;
             map.Ground.GetComponent<TilemapRenderer>().sortingOrder = -1;          // the ground under the decoration, both under the soil
 

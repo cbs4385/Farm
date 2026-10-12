@@ -118,6 +118,7 @@ namespace Farm.Gameplay
             go.transform.SetParent(transform, false);
             go.transform.position = new Vector3(left + width / 32f, door.y + 0.5f, 0f);          // the picture's pivot is half a cell above its foot
             var renderer = go.AddComponent<SpriteRenderer>();
+            LitSprites.Apply(renderer);
             renderer.sprite = picture;
             renderer.sortingOrder = 11;                                                           // over a player who stands behind it (the player is at 10)
             var derelict = _session != null && DerelictLook.IsDerelict(type, _session.HasFlag(type.UnlockFlag));
@@ -128,6 +129,7 @@ namespace Farm.Gameplay
                 boards.transform.SetParent(go.transform, false);
                 boards.transform.position = new Vector3(door.x + 0.5f, door.y, 0f);
                 boards.sprite = DerelictLook.Boards();
+                LitSprites.Apply(boards);
                 boards.sortingOrder = renderer.sortingOrder + 1;
             }
             var depth = go.AddComponent<BuildingDepth>();

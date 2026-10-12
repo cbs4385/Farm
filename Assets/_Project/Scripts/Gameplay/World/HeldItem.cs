@@ -83,6 +83,7 @@ namespace Farm.Gameplay
             var go = new GameObject("HeldItem");
             go.transform.SetParent(transform, false);
             _icon = go.AddComponent<SpriteRenderer>();
+            LitSprites.Apply(_icon);
             _icon.enabled = false;
         }
 

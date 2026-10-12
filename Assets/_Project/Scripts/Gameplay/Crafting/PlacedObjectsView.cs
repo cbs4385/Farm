@@ -32,6 +32,7 @@ namespace Farm.Gameplay
                 return null;
             }
             var go = new GameObject("placed", typeof(SpriteRenderer));
+            LitSprites.Apply(go);
             var actor = go.AddComponent<PlacedObjectActor>();
             actor.Setup(obj, def, _map.CellCenter(new Vector3Int(obj.X, obj.Y, 0)));
             actor.RefreshLook(ObjectGrid.Minute(_session.Clock.Now));

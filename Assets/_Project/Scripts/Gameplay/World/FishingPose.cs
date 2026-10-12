@@ -64,6 +64,7 @@ namespace Farm.Gameplay
             var go = new GameObject(name);
             go.transform.SetParent(transform, false);
             var sr = go.AddComponent<SpriteRenderer>();
+            LitSprites.Apply(sr);
             sr.sprite = EnemySprites.Pixel();
             sr.color = color;
             sr.sortingOrder = (_body != null ? _body.sortingOrder : 10) + 1;

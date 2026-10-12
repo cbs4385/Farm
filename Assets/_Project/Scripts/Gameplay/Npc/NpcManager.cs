@@ -77,6 +77,7 @@ namespace Farm.Gameplay
             var npc = _session.Npcs.Get(npcId);
             if (npc == null || cell == null) return null;
             var go = new GameObject("Npc_" + npcId, typeof(SpriteRenderer));
+            LitSprites.Apply(go);
             actor = go.AddComponent<NpcActor>();
             actor.Setup(npc, _session);
             actor.SetCell(_map, cell.Value);
@@ -140,6 +141,7 @@ namespace Farm.Gameplay
                 if (!_actors.TryGetValue(npc.Id, out var actor))
                 {
                     var go = new GameObject("Npc_" + npc.Id, typeof(SpriteRenderer));
+                    LitSprites.Apply(go);
                     actor = go.AddComponent<NpcActor>();
                     actor.Setup(npc);
                     _actors[npc.Id] = actor;

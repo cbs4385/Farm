@@ -31,7 +31,7 @@ namespace Farm.Tests
             Assert.AreEqual(Mathf.Pow(0.1f, DayNightLighting.ScreenPower), strongest, 0.0005f, "a tenth on the screen is far less in linear light");
             Assert.Greater(night.b, night.r, "the cool tint is kept");
             var dark = DayNightLighting.AsLight(DayNightLighting.Cave);
-            Assert.Less(Mathf.Max(dark.r, dark.g, dark.b), 0.01f, "the mine");
+            Assert.Less(Mathf.Max(dark.r, dark.g, dark.b), 0.03f, "the mine");
             Assert.AreEqual(new Color(0f, 0f, 0f, 1f), DayNightLighting.AsLight(Color.black));
         }
 

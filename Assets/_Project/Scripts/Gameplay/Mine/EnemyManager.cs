@@ -27,6 +27,7 @@ namespace Farm.Gameplay
             {
                 var row = EnemyDefaults.Row(spawn.EnemyId);
                 var go = new GameObject("enemy", typeof(SpriteRenderer));
+                LitSprites.Apply(go);
                 go.transform.position = _map.CellCenter(new Vector3Int(spawn.X, spawn.Y, 0));
                 var actor = go.AddComponent<EnemyActor>();
                 actor.Setup(row, session.State.WorldSeed + spawn.X * 31 + spawn.Y * 17 + i++, this);

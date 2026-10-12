@@ -38,6 +38,7 @@ namespace Farm.Gameplay
             child.transform.SetParent(owner.transform, false);
             child.transform.localPosition = new Vector3(0f, 0.04f, 0f);
             var renderer = child.AddComponent<SpriteRenderer>();
+            LitSprites.Apply(renderer);
             renderer.sprite = SpriteOf(WidthFor(follow.sprite.rect.width));
             renderer.sortingLayerID = follow.sortingLayerID;
             renderer.sortingOrder = follow.sortingOrder - 1;

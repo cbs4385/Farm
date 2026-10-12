@@ -38,6 +38,7 @@ namespace Farm.Gameplay
         public AnimalActor Spawn(AnimalState state, int x, int y)
         {
             var go = new GameObject("animal", typeof(SpriteRenderer));
+            LitSprites.Apply(go);
             var start = new Vector3Int(x, y, 0);
             if ((!Map.CanPlaceAt(start) || CellOccupants.IsTaken(start)) && CellOccupants.TryFindFree(start, c => Map.CanPlaceAt(c), null, out var free, 6)) start = free;
             go.transform.position = Map.CellCenter(start);

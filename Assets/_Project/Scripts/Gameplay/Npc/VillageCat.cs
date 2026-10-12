@@ -55,6 +55,7 @@ namespace Farm.Gameplay
             _map = map; _session = session; _npcs = npcs;
             _rng = new System.Random(seed);
             _renderer = GetComponent<SpriteRenderer>();
+            LitSprites.Apply(_renderer);
             _renderer.sortingOrder = 8;
             _renderer.enabled = false;
             name = "VillageCat";
