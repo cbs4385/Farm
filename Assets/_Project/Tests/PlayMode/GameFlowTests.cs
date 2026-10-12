@@ -132,8 +132,7 @@ namespace Farm.Tests
             grid.TryGetTile(21, 10, out var tile);
             tile.Crop.Stage = parsnip.MatureStage;
 
-            var interact = typeof(PlayerActions).GetMethod("Interact", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            interact.Invoke(actions, null);
+            actions.Interact();
             Assert.AreEqual(1, session.Backpack.Count("crop.parsnip"));
             Assert.IsNull(tile.Crop);
 
