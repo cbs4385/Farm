@@ -34,19 +34,25 @@ namespace Farm.Tests
                 Assert.IsTrue(lighted);
                 Assert.IsFalse(none);
                 Assert.AreEqual(TorchBurn.Minutes, TorchBurn.Left(s));
-                Assert.AreEqual(1, s.Backpack.Count(ItemIds.Torch), "one was used to light it");
+                Assert.AreEqual(2, s.Backpack.Count(ItemIds.Torch), "the burning torch stays in its slot");
                 Assert.IsTrue(TorchBurn.IsBurning(s));
                 Assert.AreEqual(1f, TorchBurn.Fraction(s), 0.001f);
 
                 for (var i = 0; i < TorchBurn.Minutes - 1; i++) Assert.IsFalse(TorchBurn.OnMinute(s), "still burning at minute " + i);
                 Assert.AreEqual(1, TorchBurn.Left(s));
+                Assert.AreEqual(2, s.Backpack.Count(ItemIds.Torch), "still there at minute 59");
                 Assert.IsTrue(TorchBurn.OnMinute(s), "the hour is up");
+                Assert.AreEqual(1, s.Backpack.Count(ItemIds.Torch), "and used up");
                 Assert.AreEqual(0, TorchBurn.Left(s));
                 Assert.IsFalse(TorchBurn.IsBurning(s));
 
                 Assert.IsTrue(TorchBurn.Refresh(s, out lighted, out none), "the second torch takes over");
                 Assert.IsTrue(lighted);
-                Assert.AreEqual(0, s.Backpack.Count(ItemIds.Torch));
+                Assert.AreEqual(1, s.Backpack.Count(ItemIds.Torch), "the second one is alight and still in its slot");
+                for (var i = 0; i < TorchBurn.Minutes; i++) TorchBurn.OnMinute(s);
+                Assert.AreEqual(0, s.Backpack.Count(ItemIds.Torch), "and gone when its hour is over");
+                Assert.IsFalse(TorchBurn.Refresh(s, out _, out none), "nothing left to light");
+                Assert.IsTrue(none);
             }
         }
 

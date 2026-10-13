@@ -50,7 +50,7 @@ namespace Farm.Gameplay
         public static AnimalRow? Find(string id) => Rows.Any(r => r.Id == id) ? Row(id) : (AnimalRow?)null;
 
         public static ExtraItemRow[] CreateItems() =>
-            Rows.Select(r => new ExtraItemRow(r.ItemId, ItemCategory.Animal, 0, r.Color, buy: r.Price, placeableId: r.Id, soldIn: new[] { "carpenter" }))
+            Rows.Select(r => new ExtraItemRow(r.ItemId, ItemCategory.Animal, 0, r.Color, buy: r.Price, placeableId: r.Id, soldIn: new[] { "general" }))          // sold at the general store (owner, 2026-10-13); the carpenter builds the coop and the barn
                 .Concat(Rows.Select(r => new ExtraItemRow(r.ProductItemId, ItemCategory.Artisan, r.ProductSell, Color.Lerp(r.Color, Color.white, 0.4f)))).ToArray();
     }
 

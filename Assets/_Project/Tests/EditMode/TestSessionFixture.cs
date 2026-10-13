@@ -46,6 +46,16 @@ namespace Farm.Tests
             if (Directory.Exists(_root)) Directory.Delete(_root, true);
         }
 
+        // A new game's backpack holds the tools, the seeds, a chest and a torch; a test that needs the room takes them all out first.
+        public void EmptyBackpack()
+        {
+            for (var i = 0; i < Session.Backpack.Capacity; i++)
+            {
+                var stack = Session.Backpack.Get(i);
+                if (stack != null) Session.Backpack.Remove(stack.ItemId, stack.Count);
+            }
+        }
+
         public static ItemDefinition Item(string id, ItemCategory category = ItemCategory.Crop, int sell = 10) =>
             ItemDefinition.Create(id, category, sellPrice: sell);
     }

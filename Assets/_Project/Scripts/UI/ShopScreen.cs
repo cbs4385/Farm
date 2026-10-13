@@ -27,9 +27,30 @@ namespace Farm.UI
             _title = UiKit.Label(stack.transform, "", 24f, TextAlignmentOptions.Left, UiKit.Accent);
             _gold = UiKit.Label(stack.transform, "", 18f, TextAlignmentOptions.Right);
 
-            var list = UiKit.VStack(stack.transform, "List", 4f);
-            UiKit.Size(list.gameObject, -1f, -1f, -1f, 1f);
-            _list = (RectTransform)list.transform;
+            // A scrolling list: the carpenter sells twelve pieces of furniture and six animals, and the animals, the dearest, are last (playtest 2026-10-13: "unable to buy animals").
+            var scroll = UiKit.Rect("Scroll", stack.transform);
+            UiKit.Size(scroll.gameObject, -1f, -1f, -1f, 1f);
+            var catcher = scroll.gameObject.AddComponent<Image>();
+            catcher.color = new Color(0f, 0f, 0f, 0f);
+            var scrollRect = scroll.gameObject.AddComponent<ScrollRect>();
+            scroll.gameObject.AddComponent<RectMask2D>();
+            scroll.gameObject.AddComponent<ScrollSelectionFollower>();
+            var list = UiKit.VStack(scroll, "List", 4f);
+            var fitter = list.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            var listRect = (RectTransform)list.transform;
+            listRect.anchorMin = new Vector2(0, 1);
+            listRect.anchorMax = new Vector2(1, 1);
+            listRect.pivot = new Vector2(0.5f, 1f);
+            listRect.offsetMin = listRect.offsetMax = Vector2.zero;
+            scrollRect.content = listRect;
+            scrollRect.viewport = scroll;
+            scrollRect.horizontal = false;
+            scrollRect.scrollSensitivity = 30f;
+            scrollRect.movementType = ScrollRect.MovementType.Clamped;
+            scrollRect.verticalScrollbar = UiKit.MakeScrollbar(scroll);
+            scrollRect.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+            _list = listRect;
 
             var close = UiKit.MakeButton(stack.transform, L.Get("ui.close"), Close, 160f, 34f);
             close.name = "Close";

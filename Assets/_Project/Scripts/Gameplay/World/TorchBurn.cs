@@ -5,7 +5,8 @@ namespace Farm.Gameplay
 {
     // Torches burn down (owner, 2026-10-12). A torch carried in the backpack lights itself when it is dark where the player is (in the mine, and outdoors from dusk to dawn),
     // burns for an hour of game time, and goes out by itself in daylight and indoors (where the building is lit already); a burning torch that is put out is not used up
-    // meanwhile. The minutes left of the torch that is alight are a story variable, so a save keeps them.
+    // meanwhile. The torch stays in its slot while it burns (owner, 2026-10-13) and is used up when its hour is over. The minutes left of the torch that is alight are a story
+    // variable, so a save keeps them.
     public static class TorchBurn
     {
         public const int Minutes = 60;
@@ -37,8 +38,7 @@ namespace Farm.Gameplay
             if (!Needed(s)) return false;
             if (Left(s) > 0) return true;
             if (!s.Backpack.Has(ItemIds.Torch)) { noneLeft = true; return false; }
-            s.Backpack.Remove(ItemIds.Torch, 1);
-            s.SetVar(LeftVar, Minutes);
+            s.SetVar(LeftVar, Minutes);          // the torch stays where it is, with the bar over its slot
             lightedOne = true;
             s.NotifyChanged();
             return true;
@@ -50,7 +50,10 @@ namespace Farm.Gameplay
             if (!IsBurning(s)) return false;
             var left = Left(s) - 1;
             s.SetVar(LeftVar, left);
-            return left <= 0;
+            if (left > 0) return false;
+            s.Backpack.Remove(ItemIds.Torch, 1);          // the hour is up: that torch is used up
+            s.NotifyChanged();
+            return true;
         }
     }
 }

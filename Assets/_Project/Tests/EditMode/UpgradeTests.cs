@@ -167,8 +167,7 @@ namespace Farm.Tests
         public void ThePackGrowsToTwentyFourThenThirtySix_KeepingItsContents()
         {
             var before = _pack.Count(ItemIds.Seed("parsnip"));
-            Assert.AreEqual(GameState.StartingBackpackSlots, _pack.Capacity);
-            Assert.AreEqual(13, _pack.Capacity, "a new game starts with thirteen slots");
+            Assert.AreEqual(12, _pack.Capacity);
             Assert.AreEqual(UpgradeCheck.Ok, Upgrades.Buy(_catalog, Def("backpack.24"), _state, _pack, _today));
             Assert.AreEqual(24, _pack.Capacity);
             Assert.AreEqual(UpgradeCheck.Ok, Upgrades.Buy(_catalog, Def("backpack.36"), _state, _pack, _today));

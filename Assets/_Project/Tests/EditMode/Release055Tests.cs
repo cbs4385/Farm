@@ -42,6 +42,16 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheAnimals_AreSoldAtTheGeneralStore_AndNotAtTheCarpenters()
+        {
+            foreach (var row in AnimalDefaults.CreateItems().Where(r => r.Category == ItemCategory.Animal))
+            {
+                CollectionAssert.Contains(row.SoldIn, "general");
+                CollectionAssert.DoesNotContain(row.SoldIn, "carpenter");
+            }
+        }
+
+        [Test]
         public void EveryProfessionHasAWordedEffect_SoThatTheChoiceCanBeSeen()
         {
             var path = Path.Combine(Application.dataPath, "_Project", "Resources", "Localization", "en.json");

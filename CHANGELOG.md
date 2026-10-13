@@ -3,10 +3,18 @@
 ## 0.5.5 (2026-10-13)
 
 **A gentler start**
-- **The backpack starts with thirteen slots** (it was twelve), so the starting torch does not crowd it.
 - **A new game opens at seven in the morning, with a torch in the backpack.** The torch lights itself in the early dark and burns for the first hour; more are made by hand from two wood. Every later day still starts at six.
 
+**The hall shows its restoration**
+- **Each room of the Community Hall now shows when it is restored.** The pantry fills with barrels and sacks, the crafts room gets rugs, the fish tank room a tank and a plant, the boiler a lit hearth, the bulletin room a painting and a lamp, the vault a clock and a vase.
+- **The village shows it too.** Restoring a room adds flower boxes, flags, a rain barrel, lamps that light at dusk, a bench, and smoke from the hall's chimney along the front of the hall.
+
+**Shops**
+- **The animals are sold at the general store** (they were at the carpenter's). The carpenter's shop is now furniture, and he still builds the coop, the barn and the greenhouse.
+- **Shop lists scroll.** A long list used to run off the bottom of the window, which hid the animals: a tester could not buy any. Keyboard and controller selection follow the list.
+
 **Fixes**
+- **A burning torch stays in its slot** with the bar over it, and is used up when its hour is over (it was used up as it lit).
 - **A building can no longer be put down on top of you.** The mallet refuses with a notice, and a saved game that already has the player inside a building moves them out to open ground.
 - **The farm's hay bale, sacks, wheelbarrow and barrels go into the backpack** when you swing the mallet at them, like furniture, and can be set down again anywhere. With a full backpack they stay where they are.
 - **Choosing a profession shows what each one does** ("Crops sell for 10% more", "Your sword does 15% more damage", and so on) instead of only its name.

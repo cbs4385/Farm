@@ -64,7 +64,7 @@ namespace Farm.Tests
             for (var i = 0; i < 5; i++) yield return null;
             Assert.IsTrue(torch.IsLit, "it lights itself in the dark, whatever is picked (owner, 2026-10-12)");
             Assert.AreEqual(TorchBurn.Minutes, TorchBurn.Left(session));
-            Assert.AreEqual(2, session.Backpack.Count(ItemIds.Torch), "one was used to light it");
+            Assert.AreEqual(3, session.Backpack.Count(ItemIds.Torch), "the torch stays in its slot while it burns");
             var light = torch.GetComponentInChildren<Light2D>();
             Assert.AreEqual(5f, light.pointLightOuterRadius, "five tiles");
             Assert.GreaterOrEqual(torch.CurrentColor.r, 0.9f, "a warm colour");

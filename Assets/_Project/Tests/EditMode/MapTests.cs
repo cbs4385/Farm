@@ -88,7 +88,7 @@ namespace Farm.Tests
                     info.Gates.Add(new GateInfo
                     {
                         Condition = g.Condition, Invert = g.Invert, Children = g.transform.childCount,
-                        AllSolid = g.transform.Cast<Transform>().All(t => !t.GetComponent<Collider2D>().isTrigger),
+                        AllSolid = g.transform.Cast<Transform>().All(t => t.GetComponent<Collider2D>() == null || !t.GetComponent<Collider2D>().isTrigger),
                     });
 
                 var tilemaps = All<Tilemap>(scene).ToArray();

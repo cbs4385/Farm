@@ -31,7 +31,7 @@ namespace Farm.Gameplay
     public sealed class GameState
     {
         public const int CurrentVersion = 2;          // 2: the farm was mirrored (FarmMirrorMigration)
-        public const int StartingBackpackSlots = 13;          // twelve on the item bar and one more (owner, 2026-10-13: the starting torch needed a place)
+        public const int StartingBackpackSlots = 12;
         public const int FirstDayStartMinute = 7 * 60;          // a new game opens at seven in the morning (owner, 2026-10-12); every later day starts at 06:00
         public const string HammerGivenFlag = "tutorial.hammer_given";      // saves from before the mallet existed get one, once
         public const int HotbarSlots = 12;

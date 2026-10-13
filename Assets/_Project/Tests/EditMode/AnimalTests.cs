@@ -30,7 +30,8 @@ namespace Farm.Tests
                 Assert.AreEqual(ItemCategory.Animal, item.Category);
                 Assert.AreEqual(r.Id, item.PlaceableId);
                 Assert.AreEqual(r.Price, item.BuyPrice);
-                Assert.IsTrue(item.SoldIn.Contains("carpenter"));
+                Assert.IsTrue(item.SoldIn.Contains("general"), "animals are sold at the general store");
+                Assert.IsFalse(item.SoldIn.Contains("carpenter"));
                 Assert.IsTrue(db.TryGetItem(r.ProductItemId, out var product), r.ProductItemId);
                 Assert.IsNotNull(product.Icon);
             }

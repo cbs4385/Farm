@@ -145,6 +145,75 @@ namespace Farm.Editor
             });
         }
 
+        // ---- the Community Hall's progress ---------------------------------------------------------------------------
+        // Restoring a room of the hall (its quest done: the flag `hall.<room>`) used to change nothing that could be seen (playtest 2026-10-13: "no change to the village or the
+        // community center after completing a quest"). Now each of the six rooms shows in the hall itself and in the village. Everything here is hidden until its flag is set.
+
+        static readonly string[] HallRoomIds = { "pantry", "crafts", "fishtank", "boiler", "bulletin", "vault" };
+
+        static GameObject WhenRestored(string prefix, string room)
+        {
+            var holder = new GameObject(prefix + "_" + room);
+            holder.AddComponent<ConditionalObject>().Condition = "flag:hall." + room;
+            return holder;
+        }
+
+        static GameObject RestoredHolder(string prefix, string room) => GameObject.Find(prefix + "_" + room) ?? WhenRestored(prefix, room);
+
+        static void AddHallRestorations()
+        {
+            GameObject Put(string room, string name, string sprite, int x, int y, bool solid = true, int w = 1, int h = 1)
+            {
+                var go = AddObject(name, sprite, Center(x, y) + new Vector3((w - 1) * 0.5f, (h - 1) * 0.5f, 0f), solid, size: new Vector2(w, h));
+                go.transform.SetParent(RestoredHolder("HallRestored", room).transform, true);
+                return go;
+            }
+            Put("pantry", "Barrels", "obj_barrels", 1, 6);
+            Put("pantry", "Sacks", "obj_sacks", 1, 5);
+            Put("crafts", "RugWest", "obj_rug", 6, 3, solid: false);
+            Put("crafts", "RugEast", "obj_rug", 8, 3, solid: false);
+            Put("fishtank", "Tank", "obj_jar", 12, 5);
+            Put("fishtank", "Plant", "obj_plant", 12, 6);
+            var hearth = Put("boiler", "Hearth", "obj_fireplace", 4, 7, w: 2, h: 2);
+            var glow = new GameObject("HearthGlow");
+            glow.transform.SetParent(hearth.transform.parent, true);
+            glow.transform.position = hearth.transform.position + new Vector3(0f, -0.3f, 0f);
+            var flame = glow.AddComponent<FlickerLight>();
+            flame.Radius = 5f;
+            flame.Intensity = 1f;
+            flame.Color = new Color(1f, 0.62f, 0.3f);
+            Put("bulletin", "Painting", "obj_painting", 9, 8);
+            Put("bulletin", "Lamp", "obj_lamp", 12, 2);
+            Put("vault", "Clock", "obj_clock", 10, 8);
+            Put("vault", "Vase", "obj_vase", 1, 2);
+        }
+
+        // In the village, along the open row in front of the hall (between it and the shops), clear of the lane to its door.
+        static void AddVillageRestorations()
+        {
+            var hall = Buildings.First(b => b.MapId == MapIds.CommunityHall);
+            var row = hall.Y0 - 1;
+            var dx = hall.DoorX;
+            GameObject Put(string room, string name, string sprite, int x, int width = 1, bool lamp = false)
+            {
+                var go = AddProp(name, sprite, x, row, width);
+                go.transform.SetParent(RestoredHolder("VillageRestored", room).transform, true);
+                if (lamp) go.AddComponent<StreetLamp>();
+                return go;
+            }
+            Put("pantry", "HallFlowersWest", "prop_flowerbox_1", dx - 3);
+            Put("pantry", "HallFlowersFar", "prop_flowerbox_2", dx - 4);
+            Put("crafts", "HallFlagWest", "prop_flag", dx - 6);
+            Put("crafts", "HallFlagEast", "prop_flag", dx + 6);
+            Put("fishtank", "HallRainBarrel", "prop_barrels", dx + 4);
+            Put("bulletin", "HallLampWest", "prop_lamp", dx - 5, lamp: true);
+            Put("bulletin", "HallLampEast", "prop_lamp", dx + 5, lamp: true);
+            Put("vault", "HallBench", "prop_bench", dx + 2, 2);
+            AddChimneySmoke(hall, (hall.X0 + hall.X1 + 1) / 2f, hall.Y0);            // the boiler is lit again: smoke from the hall's chimney
+            var smoke = GameObject.Find($"{hall.MapId}_Smoke");
+            if (smoke != null) smoke.transform.SetParent(RestoredHolder("VillageRestored", "boiler").transform, true);
+        }
+
         // ---- the villagers' homes ----------------------------------------------------------------------------------
 
         // What makes one room its own: two pieces of furniture, put in the two spare corners.
@@ -414,6 +483,7 @@ namespace Farm.Editor
             AddProp("BarrelStack_Smith", "prop_barrel_stack", 23, 22);
             AddProp("Boxes_Library", "prop_boxes", 47, 23);
             AddProp("Wheelbarrow_Library", "prop_wheelbarrow", 48, 22);
+            AddVillageRestorations();
 
             // A pond on the green between the saloon and the lane.
             PaintPond(rig, MapLayout.VillagePond.Contains, 15, 23, 4, 13);
@@ -798,6 +868,8 @@ namespace Farm.Editor
                 }
                 MakeSeat(go, p.Sprite, p.Name);                                // after the villagers' own seats, so that their words come first
             }
+
+            if (mapId == MapIds.CommunityHall) AddHallRestorations();
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");
         }
