@@ -277,8 +277,8 @@ namespace Farm.Editor
             binFixture.Id = "shipping_bin";
             binFixture.Size = new Vector2Int(2, 2);
 
-            // The tools of a new farmer hang on a rack at the west side of the house (ToolRack).
-            AddObject("ToolRack", "obj_shelf", Center(74, 23), solid: true).AddComponent<ToolRack>();
+            // The tools of a new farmer hang on a rack in front of the house, east of the door (ToolRack).
+            AddObject("ToolRack", "obj_tool_rack", Center(83, 19), solid: true).AddComponent<ToolRack>();
 
             // By the farmhouse: hay and sacks against the wall and a wheelbarrow, where the farm's own work happens.
             MakeMovable(AddProp("Hay", "prop_hay", 74, 21), "farm_hay", "hay");
@@ -966,6 +966,11 @@ namespace Farm.Editor
             var tm = go.AddComponent<Tilemap>();
             var tr = go.AddComponent<TilemapRenderer>();
             tr.sortingOrder = order;
+            if (name == "Nodes")
+            {
+                tr.mode = TilemapRenderer.Mode.Individual;                    // chunk mode drew a tree behind one in front of it (playtest 2026-10-13)
+                tr.sortOrder = TilemapRenderer.SortOrder.TopLeft;             // the rows higher up are drawn first, so the lower ones overlap them
+            }
             if (collider)
             {
                 // One merged outline instead of a square per tile: a player pushed into a wall while walking along it caught on the seams between

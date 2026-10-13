@@ -41,12 +41,20 @@ namespace Farm.Gameplay
             _light.targetSortingLayers = SortingLayer.layers.Select(l => l.id).ToArray();
         }
 
+        // The brightness factor at a time (pure): a steady light when the player has asked for fewer flashes (playtest 2026-10-13: the light in the mine hurt their eyes).
+        public static float Factor(float time, float phase, float flicker, bool calm)
+        {
+            if (calm) return 1f;
+            var t = time * 7f + phase;
+            var wobble = Mathf.Sin(t) * 0.5f + Mathf.Sin(t * 2.3f + 1.3f) * 0.3f + Mathf.Sin(t * 5.1f) * 0.2f;
+            return 1f + wobble * flicker;
+        }
+
         void Update()
         {
             if (_light == null) return;
-            var t = Time.time * 7f + _phase;
-            var wobble = Mathf.Sin(t) * 0.5f + Mathf.Sin(t * 2.3f + 1.3f) * 0.3f + Mathf.Sin(t * 5.1f) * 0.2f;
-            _light.intensity = _intensity * (1f + wobble * _flicker);
+            var settings = GameContext.Current?.Session?.Settings;
+            _light.intensity = _intensity * Factor(Time.time, _phase, _flicker, settings != null && settings.ReduceFlashes);
         }
     }
 }

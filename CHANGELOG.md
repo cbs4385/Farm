@@ -14,6 +14,12 @@ A larger update, from the playtesters' notes of the night before: how a game beg
 - **Jam and pickles can be eaten** (they restore energy) as well as sold and given.
 - **A tired farmer can still swing the sword.** A swing costs a little energy while there is any, and is never refused when there is none.
 
+**Fixes and improvements added to this version**
+- **The tool rack stands in front of the farmhouse, east of the door, with its own picture**, and the first tip tells you to take your tools from it (the tips used to say "pick the hoe" before you had one).
+- **Trees overlap in the right order.** A tree lower on the screen is drawn over the one behind it, so trunks and crowns no longer cross each other.
+- **Any Community Hall room can be followed from the board.** Each room has a Follow button; before, the quest the screen followed could only be changed in the Journal.
+- **"Reduce flashes" now also steadies the flickering lights** (torches, lamps, glowing windows, the hearth), and the torch's flicker is gentler for everyone. The option is now called "Reduce flashes and flicker".
+
 **Sprinklers**
 - **A sprinkler waters every tile next to it, the diagonals too** (it used to skip them). Sprinklers now cover 8, 24 and 48 tiles, and the soil is already wet when you wake.
 

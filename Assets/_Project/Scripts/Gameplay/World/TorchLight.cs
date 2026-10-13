@@ -28,7 +28,7 @@ namespace Farm.Gameplay
             _flame = go.AddComponent<FlickerLight>();
             _flame.Radius = Radius;
             _flame.Intensity = Intensity;
-            _flame.Flicker = 0.12f;
+            _flame.Flicker = 0.07f;
             _flame.Lit = false;
         }
 

@@ -41,10 +41,16 @@ namespace Farm.UI
                 var def = s.Story.Quest(room);
                 if (def == null) continue;
                 var done = HallRooms.IsRestored(s.State, room);
-                var header = UiKit.Label(_list, L.Get(def.TitleKey) + (done ? "  " + L.Get("hall.restored") : string.Empty), 19f, TextAlignmentOptions.Left, done ? UiKit.Accent : UiKit.TextColor);
-                UiKit.Size(header.gameObject, -1f, 28f);
+                var headRow = UiKit.HStack(_list, "Room", 8f, TextAnchor.MiddleLeft);
+                UiKit.Size(headRow.gameObject, -1f, 32f);
+                var header = UiKit.Label(headRow.transform, L.Get(def.TitleKey) + (done ? "  " + L.Get("hall.restored") : string.Empty), 19f, TextAlignmentOptions.Left, done ? UiKit.Accent : UiKit.TextColor);
+                UiKit.Size(header.gameObject, -1f, 28f, 1f);
                 if (done) continue;
                 var captured = room;
+                var following = QuestTracker.TrackedId(s) == room;          // the quest the screen follows: any room can be chosen here, not only in the Journal
+                var follow = UiKit.MakeButton(headRow.transform, L.Get(following ? "journal.tracking" : "journal.track"), () => { QuestTracker.Track(s, captured); Rebuild(); }, 150f, 28f);
+                follow.name = "Follow_" + room;
+                follow.interactable = !following;
                 foreach (var o in def.Objectives)
                 {
                     var objective = o;

@@ -198,6 +198,37 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void ARackedStart_TellsThePlayerToTakeTheToolsFirst_ThenTills()
+        {
+            L.SetTable(L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json")));
+            var s = _f.Session;
+            _f.EmptyBackpack();
+            Assert.AreEqual("till", TutorialCoach.StepOf(s), "with no rack the first tip is the hoe the first tip is the hoe");
+            s.State.Flags.Add(ToolRack.StockedFlag);
+            Assert.AreEqual("tools", TutorialCoach.StepOf(s));
+            StringAssert.Contains("rack", TutorialCoach.Text(s));
+            s.Backpack.Add(ItemIds.Hoe, 1);
+            Assert.AreEqual("till", TutorialCoach.StepOf(s), "with the hoe in hand the tips go on");
+        }
+
+        [Test]
+        public void TheLights_StayEvenWhenFlashesAreReduced()
+        {
+            Assert.AreEqual(1f, FlickerLight.Factor(3.7f, 1f, 0.12f, true), "steady");
+            var varies = Enumerable.Range(0, 40).Select(i => FlickerLight.Factor(i * 0.13f, 0.5f, 0.12f, false)).Distinct().Count();
+            Assert.Greater(varies, 10, "and alive when they are not");
+        }
+
+        [Test]
+        public void TheNodeLayer_DrawsTreesFromTheTopDown()
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/Farm.unity");
+            var nodes = UnityEngine.Object.FindObjectsByType<UnityEngine.Tilemaps.TilemapRenderer>(UnityEngine.FindObjectsSortMode.None).First(r => r.name == "Nodes");
+            Assert.AreEqual(UnityEngine.Tilemaps.TilemapRenderer.Mode.Individual, nodes.mode);
+            Assert.AreEqual(UnityEngine.Tilemaps.TilemapRenderer.SortOrder.TopLeft, nodes.sortOrder);
+        }
+
+        [Test]
         public void TheSwordSwing_IsNeverRefusedForWantOfEnergy()
         {
             Assert.AreEqual(1, CombatModel.SwingEnergy);
