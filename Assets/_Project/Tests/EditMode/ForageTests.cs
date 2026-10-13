@@ -210,11 +210,31 @@ namespace Farm.Tests
             Assert.AreEqual("forage.dandelion", pick.DropItemId);
             Assert.AreEqual(1, pick.DropCount);
             Assert.AreEqual(SkillIds.Foraging, pick.Skill);
-            Assert.IsFalse(grid.Has(1, 1));
+            Assert.IsTrue(grid.TryGet(1, 1, out var sprout) && sprout.TypeId == "dandelion_picked", "a sprout is left where it grew");
+            Assert.AreEqual(NodeHit.None, grid.Gather(1, 1, Nodes.Get, 0.3f).Outcome, "the sprout cannot be picked");
 
             Assert.AreEqual(NodeHit.None, grid.Gather(2, 2, Nodes.Get, 0f).Outcome, "a weed needs the scythe");
             Assert.IsTrue(grid.Has(2, 2));
             Assert.AreEqual(NodeHit.None, grid.Gather(9, 9, Nodes.Get, 0f).Outcome);
+        }
+
+        [Test]
+        public void APickedPlant_GrowsBack_AfterFourDays_ButAShellDoesNot()
+        {
+            var grid = new NodeGrid();
+            grid.Add(1, 1, Nodes.Get("dandelion"));
+            grid.Add(2, 2, Nodes.Get("seashell"));
+            grid.Gather(1, 1, Nodes.Get, 0f);
+            grid.Gather(2, 2, Nodes.Get, 0f);
+            Assert.IsFalse(grid.Has(2, 2), "a shell is a find, not a plant");
+            for (var day = 1; day < ForageDefaults.RegrowDays; day++)
+            {
+                grid.Grow(Nodes.Get);
+                Assert.AreEqual("dandelion_picked", grid.Nodes.Single().TypeId, "still a sprout on day " + day);
+            }
+            grid.Grow(Nodes.Get);
+            Assert.AreEqual("dandelion", grid.Nodes.Single().TypeId, "the plant is back");
+            Assert.AreEqual(NodeHit.Cleared, grid.Gather(1, 1, Nodes.Get, 0f).Outcome);
         }
 
         [Test]

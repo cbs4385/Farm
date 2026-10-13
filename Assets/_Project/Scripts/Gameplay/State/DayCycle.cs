@@ -115,6 +115,8 @@ namespace Farm.Gameplay
             {
                 kv.Value.RainsToday = rainsToday && kv.Key != MapIds.Greenhouse;
                 if (kv.Value.RainsToday) kv.Value.WaterAll();
+                // The sprinklers have watered by dawn, as the rain has: the soil looks wet in the morning (it used to dry again as the night's growth was counted).
+                if (state.Maps.TryGetValue(kv.Key, out var sprinkled)) Sprinklers.WaterAll(sprinkled.Objects, placeables, kv.Value);
             }
 
             // 5. Rest.

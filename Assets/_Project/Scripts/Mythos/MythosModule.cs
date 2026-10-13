@@ -55,6 +55,7 @@ namespace Farm.Mythos
             hooks.AddScheduleSource(new MythosScheduleSource());
             hooks.AddOutfitSource(new MythosOutfitSource(session));
             hooks.AddJournalPage(new MythosJournalPage(session));
+            hooks.AddBookshelfFilter(new MythosBookshelf(session));
             hooks.MapLoaded += ctx => MythosMaps.OnMapLoaded(ctx);
             if (bus != null) bus.Subscribe<MinuteChanged>(e => OnMinute(session, e));
             if (bus != null) bus.Subscribe<WakefulnessStepChanged>(e => MythosEnding.OnStep(session, e));

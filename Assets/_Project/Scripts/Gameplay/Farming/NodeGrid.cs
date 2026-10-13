@@ -112,7 +112,9 @@ namespace Farm.Gameplay
             if (def == null || def.Tool != ToolType.None) return new NodeHitResult(NodeHit.None);
             _nodes.Remove((x, y));
             var count = def.DropMin + (int)Math.Min(def.DropMax - def.DropMin, Math.Floor(dropRoll * (def.DropMax - def.DropMin + 1)));
-            return new NodeHitResult(NodeHit.Cleared, def.DropItemId, Math.Max(0, count), def.Skill, def.Xp);
+            var sprout = string.IsNullOrEmpty(def.LeavesNodeId) ? null : lookup(def.LeavesNodeId);
+            if (sprout != null) Add(x, y, sprout);          // a plant picked grows back
+            return new NodeHitResult(NodeHit.Cleared, def.DropItemId, Math.Max(0, count), def.Skill, def.Xp, sprout?.Id);
         }
 
         // One swing of `tool` (of the given tier) at a cell. `dropRoll` (0..1) picks the drop count in the node's range.

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Farm.Data;
 
@@ -6,15 +7,13 @@ namespace Farm.Gameplay
     // Sprinklers and scarecrows: what their range covers. Pure arithmetic over cells.
     public static class Sprinklers
     {
-        // Range 1 waters the four neighbours, 2 the eight around, 3 the 24 around (a 5x5 square).
+        // A square around the sprinkler (playtest 2026-10-13: "the sprinklers do not water all adjacent crops": the first one left the diagonals dry). Range 1 waters all
+        // eight tiles next to it, 2 the 24 around (5x5), 3 the 48 around (7x7).
+        public static int CountFor(int range) { var side = 2 * Math.Max(1, range) + 1; return side * side - 1; }
+
         public static IEnumerable<(int x, int y)> Covered(int x, int y, int range)
         {
-            if (range <= 1)
-            {
-                yield return (x + 1, y); yield return (x - 1, y); yield return (x, y + 1); yield return (x, y - 1);
-                yield break;
-            }
-            var reach = range == 2 ? 1 : 2;
+            var reach = Math.Max(1, range);
             for (var dy = -reach; dy <= reach; dy++)
                 for (var dx = -reach; dx <= reach; dx++)
                     if (dx != 0 || dy != 0) yield return (x + dx, y + dy);

@@ -147,3 +147,32 @@ MonoBehaviour:
       X: 2
       Y: 5
       Facing: sleep
+  - Id: wet_workday
+    Condition: weather:rain || weather:storm
+    Priority: 2
+    Stops:
+    - Minute: 360
+      Map: HomeFelix
+      X: 2
+      Y: 5
+      Facing: sleep
+    - Minute: 362
+      Map: HomeFelix
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 365
+      Map: Beach
+      X: 11
+      Y: 11
+      Facing: down
+    - Minute: 840
+      Map: HomeFelix
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 944
+      Map: HomeFelix
+      X: 2
+      Y: 5
+      Facing: sleep

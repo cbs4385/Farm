@@ -129,7 +129,7 @@ namespace Farm.Gameplay
             return map;
         }
 
-        public static GameState NewGame(string playerName, string farmName, Func<string, int> maxStack, int? worldSeed = null, AvatarData avatar = null)
+        public static GameState NewGame(string playerName, string farmName, Func<string, int> maxStack, int? worldSeed = null, AvatarData avatar = null, bool toolsOnRack = false)
         {
             var state = new GameState
             {
@@ -141,14 +141,21 @@ namespace Farm.Gameplay
             };
 
             var pack = new Inventory(StartingBackpackSlots, maxStack);
-            pack.Add(ItemIds.Hoe, 1);
-            pack.Add(ItemIds.WateringCan, 1);
-            pack.Add(ItemIds.Axe, 1);
-            pack.Add(ItemIds.Pickaxe, 1);
-            pack.Add(ItemIds.Scythe, 1);
+            if (!toolsOnRack)
+            {
+                pack.Add(ItemIds.Hoe, 1);
+                pack.Add(ItemIds.WateringCan, 1);
+                pack.Add(ItemIds.Axe, 1);
+                pack.Add(ItemIds.Pickaxe, 1);
+                pack.Add(ItemIds.Scythe, 1);
+            }
             pack.Add(ItemIds.Seed("parsnip"), 15);
-            pack.Add(ItemIds.Sword, 1);
-            pack.Add(ItemIds.Hammer, 1);
+            if (!toolsOnRack)
+            {
+                pack.Add(ItemIds.Sword, 1);
+                pack.Add(ItemIds.Hammer, 1);
+            }
+            else state.Flags.Add("rack.stocked");          // the tools hang on the rack beside the farmhouse (ToolRack)
             state.Flags.Add(HammerGivenFlag);
             pack.Add(ItemIds.Machine("chest"), 1);      // somewhere to put things: playtesters never found the recipe
             pack.Add(ItemIds.Torch, 1);                 // the day starts in the dark: it lights itself and lasts the first hour (more are made by hand from wood)

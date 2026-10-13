@@ -142,6 +142,7 @@ namespace Farm.Gameplay
                 case ItemCategory.Seed: _placement.Plant(item); break;
                 case ItemCategory.Resource when item.Id == ItemIds.Acorn: _placement.PlantAcorn(item); break;
                 case ItemCategory.Food: _items.Eat(item); break;
+                case ItemCategory.Artisan when item.EnergyRestore > 0: _items.Eat(item); break;          // jam and pickles can be eaten as well as sold
                 case ItemCategory.Machine: _placement.PlaceObject(item); break;
                 case ItemCategory.Furniture: _placement.PlaceObject(item); break;
                 case ItemCategory.Animal: _placement.PlaceAnimal(item); break;

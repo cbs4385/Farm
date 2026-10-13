@@ -15,6 +15,8 @@ namespace Farm.Gameplay
         void ShowConfirm(string messageKey, Action onYes, Action onNo = null);
         void ShowUpgrades(string shopId);
         void ShowMessage(string messageKey, Action onClose = null);
+        // A message that is already text (a list built at run time, such as the titles on a shelf).
+        void ShowText(string text, Action onClose = null) => onClose?.Invoke();
         // A full-screen picture (a Texture2D under Resources, for example "Endings/ending_sealed") with a caption; onClose runs when it is dismissed.
         void ShowIllustration(string resourcePath, string captionKey, Action onClose = null) => onClose?.Invoke();
         void ShowDialogue(DialogueRunner runner, Action onClosed = null);

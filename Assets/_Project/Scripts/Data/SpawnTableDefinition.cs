@@ -90,9 +90,17 @@ namespace Farm.Data
             new Row("pearl", Place.Shore, SeasonMask.All, 500, 1f, new Color(0.97f, 0.97f, 0.97f), rare: true),
         };
 
+        // Wild plants grow back where they were picked (playtest 2026-10-13: dandelions and the rest did not regrow like garlic and the crops that do). What is picked leaves
+        // a sprout, "<id>_picked", which turns into the plant again after RegrowDays. Shells, clams, pearls and truffles are finds, not plants.
+        public const int RegrowDays = 4;
+        public const string PickedSuffix = "_picked";
+        public static bool Regrows(Row r) => r.Where != Place.Shore && !r.Rare;
+
         // Forage as nodes the hand can pick (no tool): one pick, forage XP, never part of the starting clutter.
         public static ResourceNodeDefinition[] CreateNodes() => Rows.Select(r =>
-            ResourceNodeDefinition.Create(r.Id, ToolType.None, 1, 0, r.ItemId, 1, 1, "foraging", 7, null, false, 0f)).ToArray();
+                ResourceNodeDefinition.Create(r.Id, ToolType.None, 1, 0, r.ItemId, 1, 1, "foraging", 7, Regrows(r) ? r.Id + PickedSuffix : null, false, 0f))
+            .Concat(Rows.Where(Regrows).Select(r =>
+                ResourceNodeDefinition.Create(r.Id + PickedSuffix, ToolType.Hammer, 1, 99, null, 0, 0, null, 0, null, false, 0f).WithGrowth(r.Id, RegrowDays))).ToArray();
 
         static SpawnEntry Entry(string node, float weight, SeasonMask seasons, bool luck = false) =>
             new SpawnEntry { NodeId = node, Weight = weight, Seasons = seasons, LuckSensitive = luck };

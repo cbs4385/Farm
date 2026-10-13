@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.6.0 (2026-10-13)
+
+A larger update, from the playtesters' notes of the night before: how a game begins, how seeds and wild plants behave, and the library.
+
+**Farming**
+- **Every seed is sold in every season.** Planting one out of season gives a warning: it will not grow and is dead by the next morning.
+- **A seedling that has not grown yet can be pulled up with the scythe the same day, and the seed comes back**, so a wrong planting costs nothing.
+- **Bare tilled soil can be turned back into grass with the scythe.** (The hoe now tells you so when you swing it at tilled soil.)
+- **Wild plants grow back.** Dandelions, wild garlic, berries, elderflower, hazelnuts, mushrooms, snowdrops and winter roots leave a sprout when picked, and are back after four days. Shells, clams, pearls and truffles are finds, and do not.
+
+**Food and fighting**
+- **Jam and pickles can be eaten** (they restore energy) as well as sold and given.
+- **A tired farmer can still swing the sword.** A swing costs a little energy while there is any, and is never refused when there is none.
+
+**Sprinklers**
+- **A sprinkler waters every tile next to it, the diagonals too** (it used to skip them). Sprinklers now cover 8, 24 and 48 tiles, and the soil is already wet when you wake.
+
+**The farm and the village**
+- **The farm's hay, sacks, wheelbarrow and barrels are drawn half as big again**, like the other things you carry, and keep that size when you set them down again.
+- **New games begin with the tools on a rack at the west side of the farmhouse** and the seeds, chest and torch in the backpack. Interact with the rack to take the tools.
+- **In rain and storms villagers go home after work** instead of standing about in the village square.
+- **The library shelves list their books.** Look over a shelf to see some of its titles; which ones change from day to day. As the Elder God stirs, more of the titles turn strange, and then worse (at the horror setting you have chosen; with horror off the shelves stay ordinary).
+
 ## 0.5.5 (2026-10-13)
 
 **A gentler start**

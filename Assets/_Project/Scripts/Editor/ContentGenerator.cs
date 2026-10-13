@@ -75,7 +75,7 @@ namespace Farm.Editor
                 // Seeds are sold only while they can be planted (saplings any time).
                 Save(items, ItemDefinition.Create(ItemIds.Seed(row.Id), ItemCategory.Seed, buyPrice: row.SeedPrice,
                     cropId: row.Id, icon: Sprite($"item_seed_{row.Id}"), soldIn: new[] { "general" },
-                    saleCondition: row.IsTree ? null : CropDefaults.SeasonCondition(row.Seasons)));
+                    saleCondition: null));          // every seed is sold all year; planting out of season warns (2026-10-13)
                 Save(items, ItemDefinition.Create(ItemIds.Crop(row.Id), ItemCategory.Crop, sellPrice: row.SellPrice,
                     icon: Sprite($"item_crop_{row.Id}")));
             }
@@ -227,7 +227,7 @@ namespace Farm.Editor
         {
             var path = $"{NodeDir}/{fresh.Id}.asset";
             var existing = AssetDatabase.LoadAssetAtPath<ResourceNodeDefinition>(path);
-            var sprite = Sprite("obj_" + fresh.Id);
+            var sprite = Sprite(fresh.Id.EndsWith(ForageDefaults.PickedSuffix) ? "obj_weed" : "obj_" + fresh.Id);          // a picked plant shows as a sprout while it grows back
             if (existing != null)
             {
                 Object.DestroyImmediate(fresh);

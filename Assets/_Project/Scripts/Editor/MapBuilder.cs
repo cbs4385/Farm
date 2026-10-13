@@ -277,6 +277,9 @@ namespace Farm.Editor
             binFixture.Id = "shipping_bin";
             binFixture.Size = new Vector2Int(2, 2);
 
+            // The tools of a new farmer hang on a rack at the west side of the house (ToolRack).
+            AddObject("ToolRack", "obj_shelf", Center(74, 23), solid: true).AddComponent<ToolRack>();
+
             // By the farmhouse: hay and sacks against the wall and a wheelbarrow, where the farm's own work happens.
             MakeMovable(AddProp("Hay", "prop_hay", 74, 21), "farm_hay", "hay");
             MakeMovable(AddProp("Sacks", "prop_sacks", 73, 21), "farm_sacks", "sacks");
@@ -859,6 +862,7 @@ namespace Farm.Editor
                 if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
                 if (p.Name == "Board" && mapId == MapIds.CommunityHall) go.AddComponent<HallBoard>();
                 if (p.Name == "Desk" && mapId == MapIds.Library) go.AddComponent<LibraryDesk>();
+                if (mapId == MapIds.Library && p.Sprite == "obj_shelf") go.AddComponent<Bookshelf>().ShelfId = p.Name;
                 if (p.Curio != null) go.AddComponent<Curio>().Key = p.Curio;
                 if (p.SeatKey != null)
                 {
@@ -1052,6 +1056,14 @@ namespace Farm.Editor
             fixture.Id = id;
             fixture.ItemId = itemId;          // set: the mallet takes it into the backpack as that decoration
             fixture.Size = Vector2Int.one;
+            if (itemId != null)
+            {
+                fixture.Scale = PlacedObjectActor.MachineScale;          // drawn half as big again, like the other things the player carries (playtest 2026-10-13)
+                prop.transform.localScale = new Vector3(fixture.Scale, fixture.Scale, 1f);
+                prop.transform.position += new Vector3(0f, (fixture.Scale - 1f) * 0.5f, 0f);
+                var box = prop.GetComponent<BoxCollider2D>();
+                if (box != null) { box.size = Vector2.one / fixture.Scale; box.offset = new Vector2(0f, -(fixture.Scale - 1f) * 0.5f / fixture.Scale); }
+            }
         }
 
         static Sprite Sprite(string name)

@@ -21,6 +21,8 @@ namespace Farm.Tests
             foreach (var box in Object.FindObjectsByType<BoxCollider2D>(FindObjectsSortMode.None))
             {
                 if (box.isTrigger || box.GetComponent<SpriteRenderer>() == null || box.GetComponent<PlayerController>() != null) continue;      // the player's own box is set by hand
+                var scale = box.GetComponent<MovableFixture>() != null ? box.GetComponent<MovableFixture>().Scale : 1f;          // a prop drawn bigger stands on its cell and rises above it
+                if (scale > 1f) { if (Mathf.Abs(box.offset.y * scale + (scale - 1f) * 0.5f) > 0.02f || Mathf.Abs(box.offset.x) > 0.02f) off.Add($"{box.name} (scaled) offset {box.offset}"); continue; }
                 if (box.offset.sqrMagnitude > 0.0004f) off.Add($"{box.name} offset {box.offset}");
             }
             Assert.IsEmpty(off, string.Join("\n", off.Take(15)));

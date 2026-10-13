@@ -67,15 +67,13 @@ namespace Farm.Tests
             var db = Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
             var seeds = db.AllItems.Where(i => i.Category == ItemCategory.Seed).ToList();
             Assert.IsNotEmpty(seeds);
-            // Seeds are on sale only while they can be planted; saplings any time.
+            // Every seed is on sale in every season (planting out of season only warns).
             foreach (Season season in System.Enum.GetValues(typeof(Season)))
             {
                 var stock = ShopCatalog.For(db, "general", new World { Date = new GameDateTime(1, season, 5) }).Select(i => i.Id).ToList();
                 foreach (var seed in seeds)
                 {
-                    db.TryGetCrop(seed.CropId, out var crop);
-                    var expected = crop.IsTree || crop.Seasons.Includes(season);
-                    Assert.AreEqual(expected, stock.Contains(seed.Id), $"{seed.Id} in {season}");
+                    Assert.IsTrue(stock.Contains(seed.Id), $"{seed.Id} in {season}");
                 }
             }
         }

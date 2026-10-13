@@ -146,3 +146,32 @@ MonoBehaviour:
       X: 2
       Y: 5
       Facing: sleep
+  - Id: wet_workday
+    Condition: weather:rain || weather:storm
+    Priority: 2
+    Stops:
+    - Minute: 360
+      Map: HomeElara
+      X: 2
+      Y: 5
+      Facing: sleep
+    - Minute: 405
+      Map: HomeElara
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 505
+      Map: Clinic
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 1050
+      Map: HomeElara
+      X: 3
+      Y: 3
+      Facing: down
+    - Minute: 1109
+      Map: HomeElara
+      X: 2
+      Y: 5
+      Facing: sleep

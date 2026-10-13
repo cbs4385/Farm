@@ -18,6 +18,11 @@ namespace Farm.Gameplay
         [SerializeField] string _itemId;
         public string ItemId { get => _itemId; set => _itemId = value; }
 
+        // The picture is drawn this much bigger, standing on its cell and rising above it (the farm's props, like the crafted machines).
+        [SerializeField] float _scale = 1f;
+        public float Scale { get => _scale; set => _scale = Mathf.Max(1f, value); }
+        Vector3 Lift => transform.rotation * new Vector3(0f, (_scale - 1f) * 0.5f, 0f);
+
         string TakenFlag(FarmMap map) => $"fixture.taken.{map.MapId}.{_id}";
 
         // The save says it was taken into the backpack: it is gone from the scene.
@@ -77,7 +82,7 @@ namespace Farm.Gameplay
         public void Place(FarmMap map, Vector3Int cell)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 90f * Turns);
-            transform.position = CenterAt(map, cell);
+            transform.position = CenterAt(map, cell) + Lift;
             if (string.IsNullOrEmpty(_spawnId)) return;
             foreach (var sp in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None))
                 if (sp.Id == _spawnId) sp.transform.position = map.CellCenter(cell + new Vector3Int(_spawnOffset.x, _spawnOffset.y, 0));
@@ -101,7 +106,7 @@ namespace Farm.Gameplay
         public Vector3Int Cell(FarmMap map)
         {
             var size = CurrentSize;
-            return map.WorldToCell(transform.position - new Vector3((size.x - 1) * 0.5f, (size.y - 1) * 0.5f, 0f));
+            return map.WorldToCell(transform.position - Lift - new Vector3((size.x - 1) * 0.5f, (size.y - 1) * 0.5f, 0f));
         }
     }
 }

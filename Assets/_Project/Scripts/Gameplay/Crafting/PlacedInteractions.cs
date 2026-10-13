@@ -22,7 +22,7 @@ namespace Farm.Gameplay
                     break;
 
                 case PlaceableKind.Sprinkler:
-                    session.Toast(L.Get("placeable.sprinkler_info", def.Range == 1 ? 4 : def.Range == 2 ? 8 : 24));
+                    session.Toast(L.Get("placeable.sprinkler_info", Sprinklers.CountFor(def.Range)));
                     break;
 
                 case PlaceableKind.Scarecrow:

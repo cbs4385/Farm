@@ -488,6 +488,12 @@ namespace Farm.UI
             _message.OpenMessage(messageKey, onClose);
         }
 
+        public void ShowText(string text, Action onClose = null)
+        {
+            _message ??= new MessageDialog(this);
+            _message.OpenText(text, onClose);
+        }
+
         public void ShowIllustration(string resourcePath, string captionKey, Action onClose = null)
         {
             _illustration ??= new IllustrationScreen(this);

@@ -28,7 +28,7 @@ namespace Farm.Gameplay
             switch (tool)
             {
                 case ToolType.Hoe:
-                    if (grid.IsTilled(cell.x, cell.y)) return;
+                    if (grid.IsTilled(cell.x, cell.y)) { _c.Session.Toast(L.Get("toast.untill_hint")); return; }
                     if (_c.Session.GetNodes(_c.Map.MapId).Has(cell.x, cell.y)) { _c.Session.Toast(L.Get("toast.clear_first")); return; }
                     if (!_c.Map.IsTillable(cell)) { _c.Session.Toast(L.Get("toast.cannot_till")); return; }
                     if (!_c.SpendEnergy(cost)) return;
@@ -69,7 +69,9 @@ namespace Farm.Gameplay
                     // The axe and pickaxe take a placed chest, machine or sprinkler back (no energy needed).
                     if (tool != ToolType.Scythe && _placement.TryPickUp(cell)) return;
                     cost = Mathf.Max(1, Mathf.RoundToInt(ToolModel.EnergyCost(PlayerActions.EnergyCost(tool), tier) * Professions.EnergyMultiplier(_c.Session.State)));
+                    if (tool == ToolType.Scythe && TryUproot(cell)) break;
                     if (tool == ToolType.Scythe && TryClearWithered(cell, cost)) break;
+                    if (tool == ToolType.Scythe && TryUntill(cell, cost)) break;
                     if (!SwingAtNode(tool, tier, cost, cell)) return;
                     _c.View.RefreshNode(cell);
                     break;
@@ -82,6 +84,32 @@ namespace Farm.Gameplay
             // Lets other systems react to the player finishing an action that cost energy (for example the late-night
             // stay-awake check, T-046).
             if (cost > 0) _c.Session.Bus.Publish(new EnergyActionCompleted(tool.ToString(), cost));
+        }
+
+        // The scythe takes a crop that has not grown yet back out of the ground, and the seed returns to the backpack.
+        bool TryUproot(Vector3Int cell)
+        {
+            var grid = _c.Session.GetGrid(_c.Map.MapId);
+            if (!grid.TryGetTile(cell.x, cell.y, out var tile) || tile.Crop == null || tile.Crop.Withered || tile.Crop.Stage != 0 || tile.Crop.DaysInStage != 0) return false;
+            if (!_c.Session.Db.TryGetCrop(tile.Crop.CropId, out var crop) || !_c.Session.Backpack.CanAdd(crop.SeedItemId, 1)) { _c.Session.Toast(L.Get("toast.inventory_full")); return true; }
+            grid.TryUproot(cell.x, cell.y, out _);
+            _c.Session.Backpack.Add(crop.SeedItemId, 1);
+            _c.Session.Toast(L.Get("toast.uprooted"));
+            AudioService.PlayIfAvailable(Sfx.Harvest);
+            ActionPuff.Burst(_c.Map.CellCenter(cell), new Color(0.45f, 0.38f, 0.30f), 3, Fx.DigDirt);
+            return true;
+        }
+
+        // The scythe smooths bare tilled soil back to grass (playtest 2026-10-13: there was no way to take tilled soil away).
+        bool TryUntill(Vector3Int cell, int cost)
+        {
+            var grid = _c.Session.GetGrid(_c.Map.MapId);
+            if (!grid.IsTilled(cell.x, cell.y) || grid.TryGetTile(cell.x, cell.y, out var t) && t.Crop != null) return false;
+            if (!_c.SpendEnergy(cost)) return true;
+            grid.Untill(cell.x, cell.y);
+            AudioService.PlayIfAvailable(Sfx.Hoe);
+            ActionPuff.Burst(_c.Map.CellCenter(cell), new Color(0.30f, 0.50f, 0.22f), 3, Fx.DigDirt);
+            return true;
         }
 
         // The scythe clears a withered crop off the soil (blight, frost). Returns true when the swing was used on one.

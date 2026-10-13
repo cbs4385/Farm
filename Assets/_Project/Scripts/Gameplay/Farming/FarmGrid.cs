@@ -13,6 +13,7 @@ namespace Farm.Gameplay
         public int DaysInStage;
         public bool Regrowing;   // true after a harvest of a regrowing crop: the last stage then takes RegrowDays
         public bool Fruit;       // fruit trees: there is fruit to pick
+        public bool OutOfSeason; // it died because it was planted (or left) out of its season: not counted a second time when it is cleared away at the next night
         public bool Withered;    // blighted or otherwise dead: it stops growing and cannot be harvested; the scythe clears it
     }
 
@@ -86,7 +87,7 @@ namespace Farm.Gameplay
         public bool CanPlant(int x, int y, CropDefinition crop, Season season) =>
             _tiles.TryGetValue((x, y), out var tile) && tile.Crop == null && Plantable(crop, season);
 
-        // Trees can be planted any time; ordinary crops need their season (anything goes in a greenhouse).
+        // Whether the crop grows in this season (trees any time; anything goes in a greenhouse). Planting is allowed out of season, with a warning: it dies overnight.
         public bool Plantable(CropDefinition crop, Season season) => AllSeasons || crop.IsTree || crop.Seasons.Includes(season);
 
         // Works fertilizer into a tilled tile (replacing any earlier one). Returns false when the tile is not tilled.
@@ -101,8 +102,8 @@ namespace Farm.Gameplay
 
         public bool Plant(int x, int y, CropDefinition crop, Season season)
         {
-            if (!CanPlant(x, y, crop, season)) return false;
-            _tiles[(x, y)].Crop = new CropInstance { CropId = crop.Id };
+            if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop != null) return false;          // any season: the caller warns when it is the wrong one
+            tile.Crop = new CropInstance { CropId = crop.Id };
             return true;
         }
 
@@ -151,6 +152,25 @@ namespace Farm.Gameplay
             return true;
         }
 
+        // Bare tilled soil goes back to grass (a tile with a crop on it, living or dead, has to be cleared first).
+        public bool Untill(int x, int y)
+        {
+            if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop != null) return false;
+            _tiles.Remove((x, y));
+            return true;
+        }
+
+        // A crop that has not grown at all (planted today, or never watered since) comes up again as its seed, so a wrong planting costs nothing.
+        public bool TryUproot(int x, int y, out string cropId)
+        {
+            cropId = null;
+            if (!_tiles.TryGetValue((x, y), out var tile) || tile.Crop == null || tile.Crop.Withered || tile.Crop.Stage != 0 || tile.Crop.DaysInStage != 0) return false;
+            cropId = tile.Crop.CropId;
+            tile.Crop = null;
+            tile.Fertilizer = null;
+            return true;
+        }
+
         public bool IsWithered(int x, int y) => _tiles.TryGetValue((x, y), out var tile) && tile.Crop != null && tile.Crop.Withered;
 
         // Removes a crop (scythe on a dead/unwanted plant). Returns true if something was removed.
@@ -173,11 +193,19 @@ namespace Farm.Gameplay
                 if (crop != null)
                 {
                     var def = cropLookup(crop.CropId);
-                    if (def == null || !(AllSeasons || def.IsTree || def.Seasons.Includes(newSeason)))
+                    if (def == null)
                     {
                         tile.Crop = null;
                         tile.Fertilizer = null;
                         died++;
+                    }
+                    else if (!(AllSeasons || def.IsTree || def.Seasons.Includes(newSeason)))
+                    {
+                        // Out of its season a crop does not grow: it is dead by the morning (playtest 2026-10-13: seeds are sold all year, and the scythe clears the dead plant).
+                        // A plant that was already dead is gone by the next night.
+                        if (!crop.OutOfSeason) died++;
+                        if (crop.Withered) { tile.Crop = null; tile.Fertilizer = null; }
+                        else { crop.Withered = true; crop.OutOfSeason = true; }
                     }
                     else if (!crop.Withered && (def.IsTree || tile.Watered || rainedToday) && crop.Stage < def.MatureStage && CanGrow(def, world))
                     {

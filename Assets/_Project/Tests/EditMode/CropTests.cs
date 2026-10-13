@@ -118,7 +118,8 @@ namespace Farm.Tests
             var died = grid.AdvanceDay(Season.Fall, false, Lookup(db));
             Assert.AreEqual(1, died);
             Assert.IsTrue(grid.TryGetTile(1, 1, out var c) && c.Crop != null, "corn lives into fall");
-            Assert.IsFalse(grid.TryGetTile(2, 2, out var t) && t.Crop != null, "tomatoes do not");
+            Assert.IsTrue(grid.TryGetTile(2, 2, out var t) && t.Crop != null && t.Crop.Withered, "tomatoes are dead by morning");
+            Assert.IsFalse(c.Crop.Withered);
             Assert.AreEqual(1, grid.AdvanceDay(Season.Winter, false, Lookup(db)), "nothing here survives winter");
         }
 

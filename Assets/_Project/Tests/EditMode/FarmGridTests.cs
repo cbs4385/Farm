@@ -62,7 +62,8 @@ namespace Farm.Tests
             var grid = new FarmGrid();
             Assert.IsFalse(grid.Plant(0, 0, _parsnip, Season.Spring));
             grid.Till(0, 0);
-            Assert.IsFalse(grid.Plant(0, 0, _parsnip, Season.Summer));
+            Assert.IsFalse(grid.Plantable(_parsnip, Season.Summer), "out of season: the game warns, the crop will not grow");
+            Assert.IsTrue(grid.Plantable(_parsnip, Season.Spring));
             Assert.IsTrue(grid.Plant(0, 0, _parsnip, Season.Spring));
             Assert.IsFalse(grid.Plant(0, 0, _parsnip, Season.Spring));
         }
@@ -165,8 +166,27 @@ namespace Farm.Tests
             Assert.AreEqual(1, died);
             grid.TryGetTile(0, 0, out var a);
             grid.TryGetTile(1, 0, out var b);
-            Assert.IsNull(a.Crop);
+            Assert.IsTrue(a.Crop.Withered, "dead, and the scythe clears it");
+            Assert.IsFalse(b.Crop.Withered);
             Assert.IsNotNull(b.Crop);
+
+            Assert.IsFalse(grid.TryUproot(0, 0, out _), "a dead crop gives no seed back");
+        }
+
+        [Test]
+        public void ACropThatHasNotGrown_CanBePulledUp_ForItsSeed()
+        {
+            var grid = new FarmGrid();
+            grid.Till(0, 0);
+            grid.Plant(0, 0, _beans, Season.Spring);
+            Assert.IsTrue(grid.TryUproot(0, 0, out var id));
+            Assert.AreEqual(_beans.Id, id);
+            Assert.IsFalse(grid.TryGetTile(0, 0, out var t) && t.Crop != null);
+
+            grid.Plant(0, 0, _parsnip, Season.Spring);
+            grid.Water(0, 0);
+            grid.AdvanceDay(Season.Spring, false, Lookup);
+            Assert.IsFalse(grid.TryUproot(0, 0, out _), "once it has begun to grow it is a crop, not a seed");
         }
 
         [Test]

@@ -332,13 +332,15 @@ namespace Farm.Tests
         [Test]
         public void SprinklerRanges_CoverFourEightAndTwentyFourTiles()
         {
-            Assert.AreEqual(4, Sprinklers.Covered(10, 10, 1).Count());
-            Assert.AreEqual(8, Sprinklers.Covered(10, 10, 2).Count());
-            Assert.AreEqual(24, Sprinklers.Covered(10, 10, 3).Count());
-            Assert.IsFalse(Sprinklers.Covered(10, 10, 1).Contains((11, 11)), "no diagonals at range 1");
-            Assert.IsTrue(Sprinklers.Covered(10, 10, 2).Contains((11, 11)));
-            Assert.IsFalse(Sprinklers.Covered(10, 10, 2).Contains((12, 10)));
-            Assert.IsTrue(Sprinklers.Covered(10, 10, 3).Contains((12, 12)));
+            Assert.AreEqual(8, Sprinklers.Covered(10, 10, 1).Count());
+            Assert.AreEqual(24, Sprinklers.Covered(10, 10, 2).Count());
+            Assert.AreEqual(48, Sprinklers.Covered(10, 10, 3).Count());
+            Assert.IsTrue(Sprinklers.Covered(10, 10, 1).Contains((11, 11)), "every tile next to it, the diagonals too");
+            Assert.IsFalse(Sprinklers.Covered(10, 10, 1).Contains((12, 10)));
+            Assert.IsTrue(Sprinklers.Covered(10, 10, 2).Contains((12, 12)));
+            Assert.IsFalse(Sprinklers.Covered(10, 10, 2).Contains((13, 10)));
+            Assert.IsTrue(Sprinklers.Covered(10, 10, 3).Contains((13, 13)));
+            Assert.AreEqual(8, Sprinklers.CountFor(1)); Assert.AreEqual(24, Sprinklers.CountFor(2)); Assert.AreEqual(48, Sprinklers.CountFor(3));
         }
 
         [Test]

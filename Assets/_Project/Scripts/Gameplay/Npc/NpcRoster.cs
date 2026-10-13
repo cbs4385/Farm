@@ -79,6 +79,10 @@ namespace Farm.Gameplay
                 ? Day("workday", null, 0, DaytimeThenWork(home, daytime, NpcHomes.Depart(workStart, id, post.Map, post.X, post.Y), Stop(workEnd, homeMap, hx, hy)))
                 : Day("workday", null, 0, home, NpcHomes.Depart(workStart, id, post.Map, post.X, post.Y), Stop(workEnd, evening.Map, evening.X, evening.Y),
                     Stop(workEnd + 240 > 1380 ? 1380 : workEnd + 240, homeMap, hx, hy)));
+            // In rain and storms nobody lingers out in the village square after work (playtest 2026-10-13: "villagers congregating in the village square when the weather is
+            // bad does not read right"): they go straight home, as the late workers do.
+            if (workEnd < 1260)
+                entries.Add(Day("wet_workday", "weather:rain || weather:storm", 2, home, NpcHomes.Depart(workStart, id, post.Map, post.X, post.Y), Stop(workEnd, homeMap, hx, hy)));
             return NpcDefinition.Create(id, season, day, homeMap, hx, hy, romanceable, business)
                 .WithTastes(loved, liked, disliked, lovedCategories, dislikedCategories)
                 .WithSchedule(NpcHomes.WithSleep(id, entries));

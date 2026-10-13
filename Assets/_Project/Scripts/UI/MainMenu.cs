@@ -238,7 +238,7 @@ namespace Farm.UI
         void Start(int slot)
         {
             var session = Ui.Game.Session;
-            session.BeginNewGame(_name.text, _farm.text, slot, _avatar.Clone());
+            session.BeginNewGame(_name.text, _farm.text, slot, _avatar.Clone(), toolsOnRack: true);
             session.PendingIntro = true;
             SaveSlots.EnterGame(Ui, session);
         }

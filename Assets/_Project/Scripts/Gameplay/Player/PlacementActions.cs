@@ -94,8 +94,9 @@ namespace Farm.Gameplay
                 _c.Session.Toast(L.Get("toast.already_planted"));
                 return false;
             }
-            if (!grid.Plantable(crop, season)) { _c.Session.Toast(L.Get("toast.wrong_season")); return false; }
+            var inSeason = grid.Plantable(crop, season);
             if (!grid.Plant(cell.x, cell.y, crop, season)) return false;
+            if (!inSeason) _c.Session.Toast(L.Get("toast.wrong_season"));          // planted anyway: it will not grow and is dead by morning (the scythe takes it back as a seed today)
 
             _c.Session.Backpack.Remove(seed.Id, 1);
             _c.Session.AddVar(QuestLog.Stats.Planted, 1);

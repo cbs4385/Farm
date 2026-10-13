@@ -15,6 +15,9 @@ namespace Farm.Gameplay
         public const float MachineScale = 1.5f;
         public static float ScaleFor(PlaceableKind kind) => kind == PlaceableKind.Machine || kind == PlaceableKind.Scarecrow ? MachineScale : 1f;
 
+        // The farm's own props, when they have been put in the backpack and set down again, keep their bigger size.
+        public static float ScaleFor(PlaceableDefinition def) => def != null && System.Array.IndexOf(CraftingDefaults.FarmProps, def.Id) >= 0 ? MachineScale : ScaleFor(def.Kind);
+
         SpriteRenderer _renderer;
 
         public PlacedObject Object { get; private set; }
@@ -31,7 +34,7 @@ namespace Farm.Gameplay
             _renderer.sprite = def.Sprite;
             _renderer.sortingOrder = 4;
 
-            var scale = ScaleFor(def.Kind);
+            var scale = ScaleFor(def);
             if (scale != 1f)
             {
                 transform.localScale = new Vector3(scale, scale, 1f);

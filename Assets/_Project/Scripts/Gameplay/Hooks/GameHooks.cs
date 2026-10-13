@@ -102,6 +102,12 @@ namespace Farm.Gameplay
         IEnumerable<NpcScheduleEntry> EntriesFor(NpcDefinition npc);
     }
 
+    // Changes the titles listed on a library shelf (an optional layer swaps ordinary titles for stranger ones). Returns the list to show; the same seed gives the same answer.
+    public interface IBookshelfFilter
+    {
+        IList<string> Filter(IList<string> titles, int seed);
+    }
+
     // What a villager wears right now, when it is not their ordinary clothes (robes on a ritual night). Null means the ordinary clothes. The first source with an
     // answer wins.
     public interface INpcOutfitSource
@@ -146,6 +152,7 @@ namespace Farm.Gameplay
         readonly List<INpcOutfitSource> _outfitSources = new List<INpcOutfitSource>();
         readonly List<IFriendshipDecayModifier> _decay = new List<IFriendshipDecayModifier>();
         readonly List<IEventWeightModifier> _eventWeights = new List<IEventWeightModifier>();
+        readonly List<IBookshelfFilter> _bookshelfFilters = new List<IBookshelfFilter>();
 
         public IReadOnlyList<IDayCycleHook> DayCycleHooks => _dayCycle;
         public IReadOnlyList<ILuckModifier> LuckModifiers => _luck;
@@ -255,6 +262,21 @@ namespace Farm.Gameplay
         public void AddScheduleSource(INpcScheduleSource source)
         {
             if (source != null && !_scheduleSources.Contains(source)) _scheduleSources.Add(source);
+        }
+
+        public void AddBookshelfFilter(IBookshelfFilter filter)
+        {
+            if (filter != null && !_bookshelfFilters.Contains(filter)) _bookshelfFilters.Add(filter);
+        }
+
+        public IList<string> FilterBookshelf(IList<string> titles, int seed)
+        {
+            foreach (var filter in _bookshelfFilters)
+            {
+                try { var changed = filter.Filter(titles, seed); if (changed != null) titles = changed; }
+                catch (Exception e) { Log.Error($"Bookshelf filter {filter.GetType().Name} failed: {e}"); }
+            }
+            return titles;
         }
 
         public void AddOutfitSource(INpcOutfitSource source)

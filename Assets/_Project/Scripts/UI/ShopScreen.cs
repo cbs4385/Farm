@@ -172,9 +172,11 @@ namespace Farm.UI
             root.SetActive(false);
         }
 
-        public void OpenMessage(string messageKey, System.Action onClose)
+        public void OpenMessage(string messageKey, System.Action onClose) => OpenText(L.Get(messageKey), onClose);
+
+        public void OpenText(string text, System.Action onClose)
         {
-            _message.text = L.Get(messageKey);
+            _message.text = text;
             _onClose = onClose;
             Open();
         }
