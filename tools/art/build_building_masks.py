@@ -18,7 +18,7 @@ ART = os.path.join(ROOT, 'Assets', '_Project', 'Art', 'Placeholders')
 OUT = os.path.join(ROOT, 'Assets', '_Project', 'Resources', 'BuildingMasks.json')
 
 DOOR_PX = {
-    'general': 39, 'blacksmith': 33, 'carpenter': 48, 'library': 57, 'saloon': 45, 'clinic': 50, 'hall': 47,
+    'general': 40, 'blacksmith': 33, 'carpenter': 48, 'library': 57, 'saloon': 45, 'clinic': 41, 'hall': 40,          # clinic, general and hall: the Tiny Top-Down Village pictures (import_pack_town.py)
     'cottage1': 26, 'cottage2': 32, 'cottage3': 24, 'cottage4': 33, 'farmhouse': 48,
     'coop': 22, 'barn': 48, 'greenhouse': 72,
 }

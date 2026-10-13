@@ -336,6 +336,22 @@ namespace Farm.UI
             return frame.rectTransform;
         }
 
+        // The buttons of a modal stand in the same place at its foot whatever the text above them says, so that a player with a pad always finds them where they were
+        // (playtest 2026-10-13). Returns the row to put them in; the modal's "Stack" gives up the room.
+        public const float PinnedBottom = 14f, PinnedHeight = 40f;
+
+        public static Transform PinnedRow(RectTransform frame, float spacing, float width)
+        {
+            var row = HStack(frame, "Buttons", spacing, TextAnchor.MiddleCenter);
+            var rt = (RectTransform)row.transform;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0f);
+            rt.pivot = new Vector2(0.5f, 0f);
+            rt.anchoredPosition = new Vector2(0f, PinnedBottom);
+            rt.sizeDelta = new Vector2(width, PinnedHeight);
+            if (frame.Find("Stack") is RectTransform stack) stack.offsetMin = new Vector2(stack.offsetMin.x, PinnedBottom + PinnedHeight + 6f);
+            return row.transform;
+        }
+
         public static string Plural(int n, string singular, string plural) => n == 1 ? singular : plural;
     }
 }

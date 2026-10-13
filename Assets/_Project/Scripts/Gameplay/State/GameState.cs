@@ -155,7 +155,13 @@ namespace Farm.Gameplay
                 pack.Add(ItemIds.Sword, 1);
                 pack.Add(ItemIds.Hammer, 1);
             }
-            else state.Flags.Add("rack.stocked");          // the tools hang on the rack beside the farmhouse (ToolRack)
+            else
+            {
+                state.Flags.Add(ToolRack.StockedFlag);          // the tools hang on the rack in front of the farmhouse: a chest (ToolRack)
+                var rack = new Inventory(ToolRack.Slots, maxStack);
+                foreach (var tool in ToolRack.Tools) rack.Add(tool, 1);
+                state.GetMap(MapIds.Farm).Objects.Add(new PlacedObject { Id = ToolRack.ObjectId, TypeId = CraftingDefaults.ToolRackId, X = ToolRack.X, Y = ToolRack.Y, Items = rack.ToData() });
+            }
             state.Flags.Add(HammerGivenFlag);
             pack.Add(ItemIds.Machine("chest"), 1);      // somewhere to put things: playtesters never found the recipe
             pack.Add(ItemIds.Torch, 1);                 // the day starts in the dark: it lights itself and lasts the first hour (more are made by hand from wood)

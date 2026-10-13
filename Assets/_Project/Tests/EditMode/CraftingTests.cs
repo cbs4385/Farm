@@ -63,7 +63,7 @@ namespace Farm.Tests
                 var decor = p.Kind == PlaceableKind.Decor;       // furniture is bought at the carpenter's, not crafted
                 Assert.AreEqual(decor ? ItemCategory.Furniture : ItemCategory.Machine, item.Category, p.Id);
                 Assert.AreEqual(p.Id, item.PlaceableId);
-                if (!decor) Assert.IsTrue(db.AllRecipes.Any(r => r.OutputItemId == p.ItemId), $"{p.Id} can be crafted");
+                if (!decor && p.Id != CraftingDefaults.ToolRackId) Assert.IsTrue(db.AllRecipes.Any(r => r.OutputItemId == p.ItemId), $"{p.Id} can be crafted");          // the rack is given with a new game, not made
                 if (p.Kind == PlaceableKind.Machine) Assert.IsTrue(db.AllRecipes.Any(r => r.Station == p.Station), p.Id);
             }
         }

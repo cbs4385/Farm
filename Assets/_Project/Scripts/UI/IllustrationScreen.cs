@@ -32,7 +32,7 @@ namespace Farm.UI
 
             _caption = UiKit.Label(stack.transform, "", 19f, TextAlignmentOptions.Center);
             UiKit.Size(_caption.gameObject, -1f, 56f);
-            UiKit.MakeButton(stack.transform, L.Get("ui.continue"), Close, 200f, 36f).name = "Continue";
+            UiKit.MakeButton(UiKit.PinnedRow(frame, 8f, 220f), L.Get("ui.continue"), Close, 200f, 36f).name = "Continue";
             root.SetActive(false);
         }
 

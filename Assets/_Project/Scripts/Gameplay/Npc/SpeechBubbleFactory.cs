@@ -7,11 +7,12 @@ namespace Farm.Gameplay
     // Flat shapes and the built-in font, like the emote bubble; art replaces the panel when the UI frames exist.
     public static class SpeechBubbleFactory
     {
-        const int WrapColumns = 22;
+        const int WrapColumns = 18;          // fewer to a row now that the letters are twice the size
 
         // Playtest 2026-10-09: "I can read the text in the big box but absolutely not that smaller text in the white box". The bubble text is world-space, so it
         // was a fraction of the dialogue box's size on screen; it is now half as large again, and follows the player's Text size option.
-        public const float BaseSize = 1.5f;
+        // Twice that (playtest 2026-10-13: "way too small to read from a distance", on a sofa or an exercise bike).
+        public const float BaseSize = 3f;
         public const float BaseCharacterSize = 0.085f;
 
         public static float SizeFactor(float textScale) => BaseSize * Mathf.Clamp(textScale, 0.75f, 1.5f);

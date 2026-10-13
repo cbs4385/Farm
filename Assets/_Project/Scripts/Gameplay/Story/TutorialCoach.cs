@@ -18,7 +18,7 @@ namespace Farm.Gameplay
             var settings = s.Settings;
             if (settings != null && !settings.TutorialTips) return null;
             if (s.GetVar(QuestLog.Stats.Shipped) >= 1) return null;
-            if (ToolRack.Remaining(s).Count > 0 && !s.Backpack.Has(ItemIds.Hoe)) return "tools";          // a new farmer's tools hang on the rack by the farmhouse
+            if (s.HasFlag(ToolRack.StockedFlag) && !s.Backpack.Has(ItemIds.Hoe)) return "tools";          // a new farmer's tools hang on the rack by the farmhouse
             if (s.GetVar(QuestLog.Stats.Tilled) < 3) return "till";
             if (s.GetVar(QuestLog.Stats.Planted) < 3) return "plant";
             if (s.GetVar(QuestLog.Stats.Watered) < 3) return "water";

@@ -157,8 +157,12 @@ namespace Farm.Tests
             Assert.IsTrue(pack.Has(ItemIds.Torch));
             Assert.IsTrue(racked.Flags.Contains(ToolRack.StockedFlag));
 
-            _f.Session.State.Flags.Add(ToolRack.StockedFlag);
-            Assert.AreEqual(ToolRack.Tools.Length, ToolRack.Remaining(_f.Session).Count);
+            var chest = racked.GetMap(MapIds.Farm).Objects.Single(o => o.Id == ToolRack.ObjectId);
+            Assert.AreEqual(CraftingDefaults.ToolRackId, chest.TypeId, "the rack is a chest of its own kind");
+            var held = Inventory.FromData(chest.Items, id => 99);
+            foreach (var tool in ToolRack.Tools) Assert.IsTrue(held.Has(tool), tool + " is in the rack");
+            Assert.IsFalse(Inventory.FromData(plain.Backpack, id => 99).Has(ToolRack.ObjectId));
+            Assert.IsFalse(plain.GetMap(MapIds.Farm).Objects.Any(o => o.Id == ToolRack.ObjectId), "no rack when the tools are in the pack"); 
         }
 
         [Test]
@@ -281,6 +285,26 @@ namespace Farm.Tests
                 Assert.IsTrue(L.Has(key), key);
             }
             foreach (var key in new[] { "help.screen", "help.menu", "tour.start", "tour.offer", "tutorial.shop_hint" }) Assert.IsTrue(L.Has(key), key);
+        }
+
+        [Test]
+        public void TheFarmersThought_ComesOnce_WhenTheFirstSeedsAreInAndWatered()
+        {
+            var s = _f.Session;
+            Assert.IsFalse(PlayerThought.Wanted(s), "not before there is anything planted");
+            s.AddVar(QuestLog.Stats.Planted, 3);
+            Assert.IsFalse(PlayerThought.Wanted(s), "nor before it is watered");
+            s.AddVar(QuestLog.Stats.Watered, 3);
+            Assert.IsTrue(PlayerThought.Wanted(s));
+            s.SetFlag(PlayerThought.SeenFlag);
+            Assert.IsFalse(PlayerThought.Wanted(s), "only once");
+        }
+
+        [Test]
+        public void TheBubblesOverVillagers_AreTwiceAsBigAsTheyWere()
+        {
+            Assert.AreEqual(3f, SpeechBubbleFactory.BaseSize);
+            Assert.AreEqual(3f, SpeechBubbleFactory.SizeFactor(1f));
         }
 
         [Test]

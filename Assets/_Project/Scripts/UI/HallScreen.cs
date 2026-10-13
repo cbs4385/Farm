@@ -20,8 +20,9 @@ namespace Farm.UI
             UiKit.Label(stack.transform, L.Get("hall.title"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
             var list = UiKit.Scroll(stack.transform, "List", out _list);                 // six rooms with up to four things each do not fit the screen at once
             UiKit.Size(list.gameObject, -1f, -1f, 1f, 1f);
-            UiKit.MakeButton(stack.transform, L.Get("hall.donate_all"), () => { HallRooms.DonateAll(Ui.Session); Rebuild(); }, 280f, 34f).name = "DonateAll";
-            UiKit.MakeButton(stack.transform, L.Get("ui.close"), Close, 160f, 34f).name = "Close";
+            var bar = UiKit.PinnedRow(frame, 12f, 470f);          // the same place whatever the board says
+            UiKit.MakeButton(bar, L.Get("hall.donate_all"), () => { HallRooms.DonateAll(Ui.Session); Rebuild(); }, 280f, 34f).name = "DonateAll";
+            UiKit.MakeButton(bar, L.Get("ui.close"), Close, 160f, 34f).name = "Close";
             root.SetActive(false);
         }
 

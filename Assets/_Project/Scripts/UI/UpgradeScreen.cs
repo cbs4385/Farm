@@ -30,7 +30,7 @@ namespace Farm.UI
             UiKit.Size(list.gameObject, -1f, -1f, -1f, 1f);
             _list = (RectTransform)list.transform;
 
-            UiKit.MakeButton(stack.transform, L.Get("ui.close"), Close, 160f, 34f).name = "Close";
+            UiKit.MakeButton(UiKit.PinnedRow(frame, 8f, 180f), L.Get("ui.close"), Close, 160f, 34f).name = "Close";
             root.SetActive(false);
         }
 

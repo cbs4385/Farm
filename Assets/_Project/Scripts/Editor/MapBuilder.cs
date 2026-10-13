@@ -277,9 +277,6 @@ namespace Farm.Editor
             binFixture.Id = "shipping_bin";
             binFixture.Size = new Vector2Int(2, 2);
 
-            // The tools of a new farmer hang on a rack in front of the house, east of the door (ToolRack).
-            AddObject("ToolRack", "obj_tool_rack", Center(83, 19), solid: true).AddComponent<ToolRack>();
-
             // By the farmhouse: hay and sacks against the wall and a wheelbarrow, where the farm's own work happens.
             MakeMovable(AddProp("Hay", "prop_hay", 74, 21), "farm_hay", "hay");
             MakeMovable(AddProp("Sacks", "prop_sacks", 73, 21), "farm_sacks", "sacks");

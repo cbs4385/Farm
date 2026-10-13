@@ -30,6 +30,11 @@ A larger update, from the playtesters' notes of the night before: how a game beg
 - **Nothing is put in the water.** Trees, rocks and plants no longer appear in the farm's pond, and ones left there by an earlier version are cleared when the map loads.
 - **A click on a villager talks to them even with the fishing rod in your hand.**
 - **The boiler room says what it needs.** The hall board shows how many of each thing you carry, and says that ore and coal must be raw (bars do not count).
+- **The words in the bubbles over villagers' heads are twice the size.**
+- **The farmer thinks aloud what to do while the first crops grow:** once the seeds are in and watered, a bubble over their head says it is time to go and see what the village has to offer.
+- **Buttons of the small windows stay put:** the Yes/No, Close and Continue buttons of messages, questions, letters, the hall board, the elevator and upgrades are always in the same place at the foot of the window.
+- **The tool rack is a chest:** open it to take the tools you want and put back the ones you do not.
+- **The clinic, the general store and the Community Hall have new pictures** (a red cross, a sign that says GENERAL STORE, a town hall with a flag and a balcony), with their doors where the pictures show them.
 
 **Sprinklers**
 - **A sprinkler waters every tile next to it, the diagonals too** (it used to skip them). Sprinklers now cover 8, 24 and 48 tiles, and the soil is already wet when you wake.

@@ -115,6 +115,7 @@ namespace Farm.Gameplay
             Context.Events = events;
             if (_map.MapId == MapIds.Village || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
             if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(Context);
+            if (_map.MapId == MapIds.Farm) new GameObject("PlayerThought").AddComponent<PlayerThought>().Init(_session, _player.transform);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
             new GameObject("PhotoMode").AddComponent<PhotoMode>().Init(_session, npcs, _player);
             new GameObject("Hover").AddComponent<HoverInspector>().Init(Context);

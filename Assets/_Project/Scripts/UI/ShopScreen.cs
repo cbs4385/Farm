@@ -128,9 +128,9 @@ namespace Farm.UI
             UiKit.Stretch((RectTransform)stack.transform);
             _message = UiKit.Label(stack.transform, "", 20f, TextAlignmentOptions.Center);
 
-            var row = UiKit.HStack(stack.transform, "Buttons", 12f, TextAnchor.MiddleCenter);
-            UiKit.MakeButton(row.transform, L.Get("ui.yes"), () => Answer(true), 140f, 36f);
-            UiKit.MakeButton(row.transform, L.Get("ui.no"), () => Answer(false), 140f, 36f);
+            var row = UiKit.PinnedRow(frame, 12f, 300f);
+            UiKit.MakeButton(row, L.Get("ui.yes"), () => Answer(true), 140f, 36f).name = "Yes";
+            UiKit.MakeButton(row, L.Get("ui.no"), () => Answer(false), 140f, 36f).name = "No";
             root.SetActive(false);
         }
 
@@ -167,8 +167,8 @@ namespace Farm.UI
             var stack = UiKit.VStack(frame, "Stack", 14f, 18, TextAnchor.MiddleCenter);
             UiKit.Stretch((RectTransform)stack.transform);
             _message = UiKit.Label(stack.transform, "", 19f, TextAlignmentOptions.Center);
-            var row = UiKit.HStack(stack.transform, "Buttons", 12f, TextAnchor.MiddleCenter);
-            UiKit.MakeButton(row.transform, L.Get("ui.close"), Dismiss, 160f, 36f);
+            var row = UiKit.PinnedRow(frame, 12f, 180f);
+            UiKit.MakeButton(row, L.Get("ui.close"), Dismiss, 160f, 36f).name = "Close";
             root.SetActive(false);
         }
 
@@ -211,7 +211,7 @@ namespace Farm.UI
             UiKit.Size(list.gameObject, -1f, -1f, -1f, 1f);
             _list = (RectTransform)list.transform;
             _footer = UiKit.Label(stack.transform, "", 18f, TextAlignmentOptions.Center);
-            UiKit.MakeButton(stack.transform, L.Get("ui.continue"), Continue, 200f, 38f);
+            UiKit.MakeButton(UiKit.PinnedRow(frame, 8f, 220f), L.Get("ui.continue"), Continue, 200f, 38f).name = "Continue";
             root.SetActive(false);
         }
 

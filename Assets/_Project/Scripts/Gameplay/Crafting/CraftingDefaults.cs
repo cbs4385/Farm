@@ -30,10 +30,11 @@ namespace Farm.Gameplay
     // The base game's placeable objects, recipes and the items they use. Built-in defaults for tests and bare projects.
     public static class CraftingDefaults
     {
+        public const string ToolRackId = "toolrack";          // the rack by the farmhouse: a chest that holds the new farmer's tools (ToolRack)
         public const string Chest = "chest", Furnace = "furnace", Keg = "keg", Jar = "jar", Scarecrow = "scarecrow";
         public const string Sprinkler1 = "sprinkler1", Sprinkler2 = "sprinkler2", Sprinkler3 = "sprinkler3";
 
-        public static readonly string[] PlaceableIds = { Chest, Furnace, Keg, Jar, Scarecrow, Sprinkler1, Sprinkler2, Sprinkler3 };
+        public static readonly string[] PlaceableIds = { Chest, Furnace, Keg, Jar, Scarecrow, Sprinkler1, Sprinkler2, Sprinkler3, ToolRackId };
 
         static Color C(float r, float g, float b) => new Color(r, g, b);
 
@@ -52,6 +53,7 @@ namespace Farm.Gameplay
         public static PlaceableDefinition[] CreatePlaceables() => new[]
         {
             PlaceableDefinition.Create(Chest, PlaceableKind.Chest, capacity: 36),
+            PlaceableDefinition.Create(ToolRackId, PlaceableKind.Chest, capacity: ToolRack.Slots),
             PlaceableDefinition.Create(Furnace, PlaceableKind.Machine, Stations.Furnace),
             PlaceableDefinition.Create(Keg, PlaceableKind.Machine, Stations.Keg),
             PlaceableDefinition.Create(Jar, PlaceableKind.Machine, Stations.Jar),

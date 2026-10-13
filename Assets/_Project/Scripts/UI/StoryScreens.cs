@@ -23,7 +23,7 @@ namespace Farm.UI
             _head = UiKit.Label(stack.transform, "", 22f, TextAlignmentOptions.Left, UiKit.Accent);
             _body = UiKit.Label(stack.transform, "", 19f);
             UiKit.Size(_body.gameObject, -1f, -1f, 1f, 1f);
-            UiKit.MakeButton(stack.transform, L.Get("ui.close"), Close, 160f, 34f).name = "Close";
+            UiKit.MakeButton(UiKit.PinnedRow(frame, 8f, 180f), L.Get("ui.close"), Close, 160f, 34f).name = "Close";
             root.SetActive(false);
         }
 
