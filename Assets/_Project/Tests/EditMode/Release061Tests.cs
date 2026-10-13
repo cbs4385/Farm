@@ -129,6 +129,15 @@ namespace Farm.Tests
                 Assert.IsTrue(table.ContainsKey(key), key);
         }
 
+        [Test]
+        public void TheFarm_GrowsDandelionsInSpring_AndOnlyThen()
+        {
+            var farm = ForageDefaults.CreateTables().First(t => t.Id == "farm.clutter");
+            var dandelion = farm.Entries.First(e => e.NodeId == "dandelion");
+            Assert.IsTrue(dandelion.Seasons.HasFlag(SeasonMask.Spring));
+            Assert.IsFalse(dandelion.Seasons.HasFlag(SeasonMask.Summer) || dandelion.Seasons.HasFlag(SeasonMask.Fall) || dandelion.Seasons.HasFlag(SeasonMask.Winter));
+        }
+
         // ---- the options and the labels -----------------------------------------------------------------------------
 
         [Test]

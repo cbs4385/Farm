@@ -145,6 +145,20 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void AGameFromTheFixedRack_GetsARackChestWithTheToolsNotYetTaken()
+        {
+            var state = GameState.NewGame("A", "B", id => 99);
+            state.Flags.Add(ToolRack.StockedFlag);
+            state.Flags.Add("rack.taken." + ItemIds.Hoe);
+            Assert.IsTrue(ToolRack.MigrateOldRack(state, id => 99));
+            var held = Inventory.FromData(state.GetMap(MapIds.Farm).Objects.Single(o => o.Id == ToolRack.ObjectId).Items, id => 99);
+            Assert.IsFalse(held.Has(ItemIds.Hoe), "a tool already taken is not duplicated");
+            Assert.IsTrue(held.Has(ItemIds.Axe));
+            Assert.IsFalse(ToolRack.MigrateOldRack(state, id => 99), "only once");
+            Assert.AreEqual(1, state.GetMap(MapIds.Farm).Objects.Count(o => o.Id == ToolRack.ObjectId));
+        }
+
+        [Test]
         public void ANewGame_CanLeaveTheToolsOnTheRack()
         {
             var plain = GameState.NewGame("A", "B", id => 99);

@@ -16,6 +16,13 @@ From the playtesters' notes of the day after 0.6.0.
 - **A pad player is told what the item in hand does every time they change item**, as a mouse player is by resting the pointer on a slot.
 - **The flower boxes beside the shop doors can be walked through.**
 
+**Saves**
+- **A game begun in an early 0.6.0, when the tool rack was a fixed prop, gets a rack chest** holding the tools it had not taken yet (once, when the game loads).
+
+**Flowers**
+- **Dandelions come up on the farm in spring**, as they do in the village.
+- **The orange and red wild flowers of spring are purple now**, so that nothing but a dandelion looks like one.
+
 **Options**
 - **Every key and mouse button can be rebound.** A new list, "Other keys and mouse buttons", has a row for each of the rest (the second set of walking keys, Tab beside I, the mouse buttons, the keys of the menus). A mouse button can now be chosen when rebinding. The D-pad's four directions have rows in the controller list too (the sticks are analog and stay what they are).
 - **More room between the lines** of the Options screen.

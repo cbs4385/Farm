@@ -287,6 +287,7 @@ namespace Farm.Gameplay
             Clock = new GameClock(state.GetDate(), _bus);
             ApplySettings();
             Achievements.SyncToPlatform(this);
+            ToolRack.MigrateOldRack(state, _db.MaxStack);
             Backpack = Inventory.FromData(state.Backpack, _db.MaxStack);
             Backpack.Changed += OnBackpackChanged;
             _grids.Clear();
