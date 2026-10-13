@@ -72,6 +72,7 @@ namespace Farm.Gameplay
                 var restored = VillageGreen.Prepare(_session, _map);
                 if (restored > 0) (GameContext.Current?.Notify ?? NullNotifier.Instance).Toast(L.Get("village.restored"));
             }
+            ClearNodesInWater();
             _session.RunSpawns(_map.MapId, SpawnCandidates);
             if (_map.MapId == MapIds.Forest || _map.MapId == MapIds.Village) _view.TreeSkin = (x, y) => SeasonalTrees.SpriteAt(_map.MapId, _session.State.WorldSeed, _session.Clock.Now.Season, x, y);
             _view.Bind(_session.GetGrid(_map.MapId), _session.Db, _session.GetNodes(_map.MapId), _session.Nodes);
@@ -329,10 +330,18 @@ namespace Farm.Gameplay
             var cells = new System.Collections.Generic.List<(int x, int y)>();
             foreach (var cell in _map.CellsOn(table.GroundTiles))
             {
-                if (grid.IsTilled(cell.x, cell.y) || NearAny(keepClear, cell, 3)) continue;
+                if (grid.IsTilled(cell.x, cell.y) || _map.IsWater(cell) || NearAny(keepClear, cell, 3)) continue;          // never in the water
                 cells.Add((cell.x, cell.y));
             }
             return cells;
+        }
+
+        // Trees, rocks and plants that were put in water by an earlier version are taken out of a saved game's map (playtest 2026-10-13: things in the pond).
+        void ClearNodesInWater()
+        {
+            var nodes = _session.GetNodes(_map.MapId);
+            foreach (var node in nodes.ToList())
+                if (_map.IsWater(new Vector3Int(node.X, node.Y, 0))) nodes.Remove(node.X, node.Y);
         }
 
         System.Collections.Generic.List<Vector3Int> KeepClearCells()
@@ -360,7 +369,7 @@ namespace Farm.Gameplay
             _map.Ground.CompressBounds();
             foreach (var cell in _map.Ground.cellBounds.allPositionsWithin)
             {
-                if (!_map.IsOpenGround(cell) || grid.IsTilled(cell.x, cell.y)) continue;
+                if (!_map.IsOpenGround(cell) || _map.IsWater(cell) || grid.IsTilled(cell.x, cell.y)) continue;
                 if (!NearAny(keepClear, cell, 3)) yield return (cell.x, cell.y);
             }
         }

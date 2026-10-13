@@ -27,6 +27,9 @@ A larger update, from the playtesters' notes of the night before: how a game beg
 - **The yellow flowers in the grass are pink now**, so they are not mistaken for the dandelions that quests ask for.
 - **The tutorial is a tree in the Help tab.** Open the branches you want: tools, everyday things, the controls, the parts of the screen and each tab of the menu. The long walkthrough no longer starts by itself (a note points you to Help), and it can still be taken from the Help tab or the pause menu. Its Next and Back buttons stay in one place.
 - **The mine keeps its floors while you are in it.** Going back up the stairs finds the floor as you left it: the monsters you killed stay dead and the ore you broke stays gone. When you leave the mine, or are knocked out, or the day ends, the next trip starts every floor new.
+- **Nothing is put in the water.** Trees, rocks and plants no longer appear in the farm's pond, and ones left there by an earlier version are cleared when the map loads.
+- **A click on a villager talks to them even with the fishing rod in your hand.**
+- **The boiler room says what it needs.** The hall board shows how many of each thing you carry, and says that ore and coal must be raw (bars do not count).
 
 **Sprinklers**
 - **A sprinkler waters every tile next to it, the diagonals too** (it used to skip them). Sprinklers now cover 8, 24 and 48 tiles, and the soil is already wet when you wake.

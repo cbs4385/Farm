@@ -75,11 +75,13 @@ namespace Farm.Gameplay
             ItemDefinition item = null;
             if (stack != null) _c.Session.Db.TryGetItem(stack.ItemId, out item);
             var tool = item != null && item.IsTool ? item.ToolType : ToolType.None;
-            if (tool == ToolType.Hammer || tool == ToolType.Rod) return false;
+            if (tool == ToolType.Hammer) return false;
             if (_c.Body.GetComponent<HammerMode>() is HammerMode hammer && hammer.Carrying) return false;
 
             var cell = _c.Target;
-            if (NpcAt(cell) != null || NpcUnderPointer() != null) return item == null || item.IsTool;
+            var villager = NpcAt(cell) != null || NpcUnderPointer() != null;
+            if (tool == ToolType.Rod && !villager) return false;          // the rod casts, but a click on a villager talks to them (playtest 2026-10-13)
+            if (villager) return item == null || item.IsTool;
             if (_c.Here?.Animals != null && _c.Here?.Animals.ActorAt(cell) != null) return true;
             if (_c.Session.GetGrid(_c.Map.MapId).IsMature(cell.x, cell.y, CropLookup)) return true;
             if (_c.Session.GetNodes(_c.Map.MapId).TryGet(cell.x, cell.y, out var node) && _c.Session.Nodes.Get(node.TypeId) is ResourceNodeDefinition def && def.Tool == ToolType.None) return true;
