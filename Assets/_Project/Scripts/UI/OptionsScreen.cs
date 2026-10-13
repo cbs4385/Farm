@@ -24,7 +24,7 @@ namespace Farm.UI
         InputActionRebindingExtensions.RebindingOperation _rebind;
         bool _rebinding;
         IDisposable _padWait;
-        public const string KeyPrefix = "Key_", PadPrefix = "Pad_";          // the names of the rebind buttons (the tests find them)
+        public const string KeyPrefix = "Key_", PadPrefix = "Pad_", AltPrefix = "Alt_", DpadPrefix = "Dpad_";          // the names of the rebind buttons (the tests find them)
 
         public OptionsScreen(UiService ui) : base(ui)
         {
@@ -48,7 +48,7 @@ namespace Farm.UI
             catcher.color = new Color(0f, 0f, 0f, 0f);
             var rect = scroll.gameObject.AddComponent<ScrollRect>();
             scroll.gameObject.AddComponent<RectMask2D>();
-            var content = UiKit.VStack(scroll, "Content", 6f, 4);
+            var content = UiKit.VStack(scroll, "Content", 16f, 6);          // room between the lines (playtest 2026-10-13: the labels were too close together)
             var fitter = content.gameObject.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             var crt = (RectTransform)content.transform;
@@ -228,12 +228,14 @@ namespace Farm.UI
             for (var i = 0; i < InputNames.MoveParts.Length && composite >= 0; i++) KeyRow(L.Get("action.Move" + InputNames.MoveParts[i]), move, composite + 1 + i);
             for (var i = 0; i < InputNames.HotbarSlots; i++) KeyRow(L.Get("action.Hotbar", i + 1), Ui.Input.Hotbar(i), -1);
             foreach (var name in InputNames.UiRebindable) KeyRow(L.Get("action." + name), Ui.Input.Ui[name], -1);
+            AlternateRows();
 
             Section(L.Get("options.pad_buttons"));
             var hint = UiKit.Label(_content, L.Get("options.pad_hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
             UiKit.Size(hint.gameObject, -1f, 40f);
             foreach (var name in InputNames.PadRebindable) PadRow(L.Get("options.pad_row", L.Get("action." + name)), Ui.Input.Gameplay[name]);
             foreach (var name in InputNames.UiPadRebindable) PadRow(L.Get("options.pad_row", L.Get("action." + name)), Ui.Input.Ui[name]);
+            DpadRows();
 
             var resetPad = UiKit.MakeButton(_content, L.Get("options.reset_pad"), () =>
             {
@@ -260,15 +262,15 @@ namespace Farm.UI
         void Section(string title)
         {
             var label = UiKit.Label(_content, title, 20f, TextAlignmentOptions.Left, UiKit.Accent);
-            UiKit.Size(label.gameObject, -1f, 30f);
+            UiKit.Size(label.gameObject, -1f, 38f);
         }
 
         RectTransform Row(string label)
         {
             var row = UiKit.HStack(_content, label, 10f);
-            UiKit.Size(row.gameObject, -1f, 32f);
+            UiKit.Size(row.gameObject, -1f, 36f);
             var text = UiKit.Label(row.transform, label, 18f);
-            UiKit.Size(text.gameObject, 200f, 30f);
+            UiKit.Size(text.gameObject, 200f, 34f);
             return (RectTransform)row.transform;
         }
 
@@ -296,6 +298,79 @@ namespace Farm.UI
             Button button = null;
             button = UiKit.MakeButton(row, BindingText(action, at), () => StartRebind(action, at, button), 220f, 30f);
             button.name = KeyPrefix + action.name + "_" + at;
+            _shown.Add((action.actionMap.name, action.name, at));
+        }
+
+        // The keys and mouse buttons that have a row above are not listed again.
+        readonly System.Collections.Generic.HashSet<(string map, string action, int index)> _shown = new System.Collections.Generic.HashSet<(string, string, int)>();
+
+        // The pointer itself is not a button: it has no row.
+        static readonly System.Collections.Generic.HashSet<string> PointerOnly = new System.Collections.Generic.HashSet<string> { InputNames.Point, InputNames.Click, InputNames.RightClick, InputNames.ScrollWheel };
+
+        static string ActionLabel(InputAction action) => L.Has("action." + action.name) ? L.Get("action." + action.name) : action.name;
+
+        // Every other key and mouse button of the game (the second walking keys, Tab beside I, the mouse buttons, the keys of the menus...), one row each, so that nothing is fixed.
+        void AlternateRows()
+        {
+            Section(L.Get("options.alternates"));
+            foreach (var map in new[] { Ui.Input.Gameplay, Ui.Input.Ui })
+                foreach (var action in map.actions)
+                {
+                    if (PointerOnly.Contains(action.name)) continue;
+                    for (var i = 0; i < action.bindings.Count; i++)
+                    {
+                        var b = action.bindings[i];
+                        if (b.isComposite || b.path == null || !(b.path.StartsWith("<Keyboard>") || b.path.StartsWith("<Mouse>"))) continue;
+                        if (_shown.Contains((map.name, action.name, i))) continue;
+                        var label = b.isPartOfComposite ? L.Get("options.alt_part", ActionLabel(action), b.name) : L.Get("options.alt", ActionLabel(action));
+                        var row = Row(label);
+                        var at = i;
+                        var captured = action;
+                        Button button = null;
+                        button = UiKit.MakeButton(row, BindingText(action, at), () => StartRebind(captured, at, button), 220f, 30f);
+                        button.name = AltPrefix + action.actionMap.name + "_" + action.name + "_" + at;
+                    }
+                }
+        }
+
+        // The D-pad's four directions (walking and the menus) can be moved to other buttons; the sticks are analog and stay what they are.
+        void DpadRows()
+        {
+            foreach (var action in new[] { Ui.Input.Move, Ui.Input.Ui[InputNames.Navigate] })
+                for (var i = 0; i < action.bindings.Count; i++)
+                {
+                    var b = action.bindings[i];
+                    if (!b.isPartOfComposite || b.path == null || !b.path.StartsWith("<Gamepad>/dpad")) continue;
+                    var row = Row(L.Get("options.dpad_part", ActionLabel(action), b.name));
+                    var at = i;
+                    var captured = action;
+                    Button button = null;
+                    button = UiKit.MakeButton(row, BindingNames.Describe(action, at), () => StartDpadRebind(captured, at, button), 220f, 30f);
+                    button.name = DpadPrefix + action.actionMap.name + "_" + action.name + "_" + at;
+                }
+        }
+
+        void StartDpadRebind(InputAction action, int index, Button button)
+        {
+            if (_rebinding) return;
+            _rebinding = true;
+            UiKit.SetButtonText(button, L.Get("options.press_pad"));
+            _padWait = InputSystem.onAnyButtonPress.Call(control =>
+            {
+                if (!_rebinding) return;
+                var path = control.device is Gamepad ? BindingNames.PadPathOf(control) : null;          // a key or the mouse cancels
+                if (path != null)
+                {
+                    var before = action.bindings[index].effectivePath;
+                    action.ApplyBindingOverride(index, path);
+                    var swapped = BindingNames.SwapIfClash(action, index, before);
+                    if (swapped != null) Ui.Session?.Toast(L.Get("options.swapped", ActionLabel(action), ActionLabel(swapped)));
+                    _store.Current.BindingOverridesJson = Ui.Input.ExportOverrides();
+                    Ui.Game.Input.Hints.NotifyChanged();
+                }
+                FinishRebind();
+                UiKit.SetButtonText(button, BindingNames.Describe(action, index));
+            });
         }
 
         static int KeyboardBindingIndex(InputAction action)
@@ -317,6 +392,9 @@ namespace Farm.UI
 
             _rebind = action.PerformInteractiveRebinding(index)
                 .WithControlsHavingToMatchPath("<Keyboard>")
+                .WithControlsHavingToMatchPath("<Mouse>")          // a mouse button can be a key's partner or replace it
+                .WithControlsExcluding("<Mouse>/position")
+                .WithControlsExcluding("<Mouse>/delta")
                 .WithCancelingThrough("<Keyboard>/escape")
                 .OnComplete(op =>
                 {

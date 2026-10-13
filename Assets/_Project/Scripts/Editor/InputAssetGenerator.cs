@@ -56,7 +56,9 @@ namespace Farm.Editor
             Button(map, InputNames.Inventory, ("<Keyboard>/tab", Kbm), ("<Keyboard>/i", Kbm), ("<Gamepad>/buttonNorth", Pad), ("<Joystick>/button4", Pad));
             Button(map, InputNames.Pause, ("<Keyboard>/escape", Kbm), ("<Gamepad>/start", Pad), ("<Joystick>/button8", Pad));
             Button(map, InputNames.Menu, ("<Keyboard>/m", Kbm), ("<Gamepad>/select", Pad), ("<Joystick>/button7", Pad));
-            Button(map, InputNames.Crafting, ("<Keyboard>/c", Kbm));
+            Button(map, InputNames.Crafting, ("<Keyboard>/c", Kbm), ("<Gamepad>/leftTrigger", Pad));
+            Button(map, InputNames.RowNext, ("<Keyboard>/rightBracket", Kbm), ("<Gamepad>/rightTrigger", Pad));
+            Button(map, InputNames.RowPrev, ("<Keyboard>/leftBracket", Kbm));          // a pad has one row button: it goes round
             Button(map, InputNames.Journal, ("<Keyboard>/j", Kbm), ("<Gamepad>/rightStickPress", Pad), ("<Joystick>/button10", Pad));
 
             var keys = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "minus", "equals" };

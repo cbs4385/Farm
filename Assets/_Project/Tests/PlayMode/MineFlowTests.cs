@@ -47,6 +47,7 @@ namespace Farm.Tests
             _s.BeginNewGame("Tester", "Test Farm", 0);
             _s.Story = new StoryContent();
             _s.SetFlag(FatigueModel.WarnedFlag);
+            _s.SetFlag(Farm.UI.HudView.HealthBarFlag);          // the health bar's message has been read
             _s.State.WorldSeed = 4242;
             _s.State.CurrentMap = MapIds.Mine;
             _s.State.SpawnPoint = "default";

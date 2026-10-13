@@ -476,8 +476,8 @@ namespace Farm.Editor
             foreach (var b in Buildings)
                 if (b.FacesSouth && !string.IsNullOrEmpty(b.Business))
                 {
-                    AddProp($"{b.MapId}_FlowersWest", "prop_flowerbox_1", b.DoorX - 1, 20);
-                    AddProp($"{b.MapId}_FlowersEast", "prop_flowerbox_2", b.DoorX + 1, 20);
+                    AddProp($"{b.MapId}_FlowersWest", "prop_flowerbox_1", b.DoorX - 1, 20, solid: false);          // walked through: people kept catching on them (playtest 2026-10-13)
+                    AddProp($"{b.MapId}_FlowersEast", "prop_flowerbox_2", b.DoorX + 1, 20, solid: false);
                 }
             AddProp("Barrels_Store", "prop_barrels", 2, 22);
             AddProp("BarrelStack_Smith", "prop_barrel_stack", 23, 22);

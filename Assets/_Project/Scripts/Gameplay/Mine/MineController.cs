@@ -30,7 +30,9 @@ namespace Farm.Gameplay
             if (ms.Floor <= 0) ms.Floor = 1;
             ms.Deepest = Mathf.Max(ms.Deepest, ms.Floor);
             var day = session.Clock.Now.TotalDays;
-            _floor = MineGenerator.Generate(MineGenerator.FloorSeed(session.State.WorldSeed, day, ms.Floor), ms.Floor);
+            // Cozy (horror off) has no slimes: the bats are the only monsters there (playtest 2026-10-13).
+            var slimes = (session.Settings?.HorrorLevel ?? 2) > 0;
+            _floor = MineGenerator.Generate(MineGenerator.FloorSeed(session.State.WorldSeed, day, ms.Floor), ms.Floor, slimes);
 
             // Tiles: copy the wall and floor tiles the scene was built with.
             var wallTile = map.Walls.GetTile(new Vector3Int(0, 0, 0));
@@ -73,9 +75,9 @@ namespace Farm.Gameplay
             var arrival = BesideLadder();
             below.transform.position = map.CellCenter(new Vector3Int(arrival.x, arrival.y, 0));
 
-            AddStairs(MineStairs.StairKind.Up, _floor.Spawn.x - 1, _floor.Spawn.y);
+            AddStairs(MineStairs.StairKind.Up, _floor.Up.x, _floor.Up.y);
             if (_floor.Ladder.HasValue) AddStairs(MineStairs.StairKind.Down, _floor.Ladder.Value.x, _floor.Ladder.Value.y);
-            if (ms.Deepest >= 5) AddStairs(MineStairs.StairKind.Elevator, _floor.Spawn.x, _floor.Spawn.y + 1);
+            if (ms.Deepest >= 5) AddStairs(MineStairs.StairKind.Elevator, _floor.Elevator.x, _floor.Elevator.y);
 
             var manager = new GameObject("Enemies").AddComponent<EnemyManager>();
             manager.Init(map, session, this, _floor.Enemies, _memory.Dead);
@@ -115,7 +117,23 @@ namespace Farm.Gameplay
             sr.sprite = StairSprite(kind);
             go.AddComponent<BoxCollider2D>().size = Vector2.one;
             go.AddComponent<MineStairs>().Kind = kind;
+
+            // The marker that says what it is: a lantern post by the way out, a crystal cluster over the ladder down, a barrel at the lift (Caves and Mines Props).
+            var prop = Resources.Load<Sprite>(PropOf(kind));
+            if (prop == null) return;
+            var marker = new GameObject("Marker", typeof(SpriteRenderer));
+            LitSprites.Apply(marker);
+            marker.transform.SetParent(go.transform, false);
+            marker.transform.localPosition = new Vector3(0f, -0.5f, 0f);          // the foot of the picture at the foot of the cell
+            marker.transform.localScale = Vector3.one * PropScale;
+            var markerRenderer = marker.GetComponent<SpriteRenderer>();
+            markerRenderer.sprite = prop;
+            markerRenderer.sortingOrder = 4;
         }
+
+        public const float PropScale = 0.5f;          // the pictures are two cells wide: half that, so a cell holds one
+
+        public static string PropOf(MineStairs.StairKind kind) => kind == MineStairs.StairKind.Down ? "Mine/prop_mine_down" : kind == MineStairs.StairKind.Up ? "Mine/prop_mine_up" : "Mine/prop_mine_lift";
 
         static Sprite StairSprite(MineStairs.StairKind kind) =>
             RuntimeSprites.Square(kind == MineStairs.StairKind.Down ? new Color(0.95f, 0.8f, 0.3f)

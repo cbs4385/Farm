@@ -14,8 +14,8 @@ namespace Farm.UI
     {
         // The order the tools are listed in, and the strings for the everyday topics.
         public static readonly ToolType[] ToolOrder = { ToolType.Hoe, ToolType.WateringCan, ToolType.Axe, ToolType.Pickaxe, ToolType.Scythe, ToolType.Hammer, ToolType.Rod, ToolType.Sword };
-        public static readonly string[] Topics = { "help.eat", "help.chest", "help.quality", "help.trees", "help.forage", "help.tracker", "help.sleep", "help.shops", "help.cat" };
-        public static readonly string[] Controls = { "help.control.move", "help.control.use", "help.control.interact", "help.control.bar", "help.control.inventory", "help.control.menu" };
+        public static readonly string[] Topics = { "help.eat", "help.chest", "help.quality", "help.trees", "help.forage", "help.tracker", "help.sleep", "help.shops", "help.cat", "help.health", "help.rows" };
+        public static readonly string[] Controls = { "help.control.move", "help.control.use", "help.control.interact", "help.control.bar", "help.control.inventory", "help.control.crafting", "help.control.menu" };
 
         RectTransform _list;
         const float TextWidth = 640f;               // a little under the width the text really has, so that the measured height is never too small
@@ -63,6 +63,9 @@ namespace Farm.UI
 
         public static string TitleKeyOf(string key) => key + ".title";
 
+        // Where a tool is found (playtest 2026-10-13: "I want a fishing rod. I remember someone said where to get it, but not where").
+        public static string WhereKey(ToolType tool) => "tool.where." + tool.ToString().ToLowerInvariant();
+
         public override void Refresh(UiService ui)
         {
             UiKit.ClearChildren(_list);
@@ -71,7 +74,7 @@ namespace Farm.UI
             foreach (var tool in ToolOrder)
             {
                 var item = ui.Session.Db.AllItems.FirstOrDefault(i => i.IsTool && i.ToolType == tool);
-                tools.Add(new Entry("tool." + tool, item != null ? L.Get(item.NameKey) : tool.ToString(), L.Get(HotbarTooltip.UseKey(tool)), tool));
+                tools.Add(new Entry("tool." + tool, item != null ? L.Get(item.NameKey) : tool.ToString(), L.Get(HotbarTooltip.UseKey(tool)) + (L.Has(WhereKey(tool)) ? "\n" + L.Get(WhereKey(tool)) : string.Empty), tool));
             }
             Section("tools", L.Get("help.tools"), tools);
             Section("everyday", L.Get("help.everyday"), Topics.Select(k => new Entry(k, L.Get(TitleKeyOf(k)), L.Get(k))).ToList());

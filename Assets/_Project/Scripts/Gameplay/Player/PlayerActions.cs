@@ -80,11 +80,13 @@ namespace Farm.Gameplay
 
             if (_input.GameplayBlocked) return;
 
+            var capacity = Session.Backpack.Capacity;
             for (var i = 0; i < InputNames.HotbarSlots; i++)
-                if (_input.Hotbar(i).WasPressedThisFrame()) SelectHotbar(i);
-            if (_input.HotbarNext.WasPressedThisFrame()) SelectHotbar((Session.State.SelectedHotbar + 1) % InputNames.HotbarSlots);
-            if (_input.HotbarPrev.WasPressedThisFrame())
-                SelectHotbar((Session.State.SelectedHotbar + InputNames.HotbarSlots - 1) % InputNames.HotbarSlots);
+                if (_input.Hotbar(i).WasPressedThisFrame()) SelectHotbar(HotbarRows.Pick(Session.State.SelectedHotbar, i, capacity));
+            if (_input.HotbarNext.WasPressedThisFrame()) SelectHotbar(HotbarRows.Step(Session.State.SelectedHotbar, 1, capacity));
+            if (_input.HotbarPrev.WasPressedThisFrame()) SelectHotbar(HotbarRows.Step(Session.State.SelectedHotbar, -1, capacity));
+            if (_input.RowNext.WasPressedThisFrame()) SelectHotbar(HotbarRows.ChangeRow(Session.State.SelectedHotbar, 1, capacity));
+            if (_input.RowPrev.WasPressedThisFrame()) SelectHotbar(HotbarRows.ChangeRow(Session.State.SelectedHotbar, -1, capacity));
 
             if (_player.Seated)
             {
@@ -106,10 +108,10 @@ namespace Farm.Gameplay
             if (_input.Journal.WasPressedThisFrame()) ui.ShowGameMenu(MenuTabs.Journal);
         }
 
-        void SelectHotbar(int slot)
+        public void SelectHotbar(int slot)
         {
             _placement.ResetTurns();
-            Session.State.SelectedHotbar = Mathf.Clamp(slot, 0, InputNames.HotbarSlots - 1);
+            Session.State.SelectedHotbar = Mathf.Clamp(slot, 0, Mathf.Max(InputNames.HotbarSlots, Session.Backpack.Capacity) - 1);
             Session.Bus.Publish(new StatsChanged());
         }
 

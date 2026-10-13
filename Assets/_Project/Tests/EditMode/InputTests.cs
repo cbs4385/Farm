@@ -43,7 +43,7 @@ namespace Farm.Tests
                 var paths = action.bindings.Select(b => b.effectivePath).ToList();
                 Assert.IsTrue(paths.Any(p => p.StartsWith("<Keyboard>") || p.StartsWith("<Mouse>")), $"{action.name}: no keyboard/mouse binding");
                 if (action.name.StartsWith(InputNames.HotbarPrefix) && action.name != InputNames.HotbarNext && action.name != InputNames.HotbarPrev) continue;
-                if (action.name == InputNames.Crafting) continue;                      // a pad reaches crafting through the menu
+                if (action.name == InputNames.RowPrev) continue;                       // a pad has one row button: RT goes round
                 Assert.IsTrue(paths.Any(p => p.StartsWith("<Gamepad>")), $"{action.name}: no gamepad binding");
             }
         }
@@ -52,7 +52,7 @@ namespace Farm.Tests
         public void CraftingHasItsOwnKey_C_AndNoOtherKeyIsSharedByTwoGameplayButtons()
         {
             var gameplay = _asset.FindActionMap(InputNames.GameplayMap, true);
-            Assert.AreEqual("<Keyboard>/c", gameplay[InputNames.Crafting].bindings.Single().path);
+            Assert.AreEqual("<Keyboard>/c", gameplay[InputNames.Crafting].bindings.First().path);
             Assert.IsFalse(gameplay[InputNames.UseTool].bindings.Any(b => b.path == "<Keyboard>/c"), "C was the tool key: the tool has X now, like the pad");
             var keys = gameplay.actions.Where(a => a.name != InputNames.Move).SelectMany(a => a.bindings.Select(b => b.path)).Where(p => p.StartsWith("<Keyboard>")).ToList();
             CollectionAssert.AreEquivalent(keys.Distinct().ToList(), keys, "a key does one thing");

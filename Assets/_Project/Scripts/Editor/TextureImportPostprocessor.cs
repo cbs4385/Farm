@@ -10,7 +10,7 @@ namespace Farm.Editor
         public const int PixelsPerUnit = 16;
 
         // Bump when import rules change so existing art is reimported.
-        public override uint GetVersion() => 10;
+        public override uint GetVersion() => 11;
 
         // Full-screen pictures (the ending illustrations) are loaded as plain textures, kept at their exact size and crisp.
         const string PictureRoot = "Assets/_Project/Resources/Endings/";
@@ -22,6 +22,7 @@ namespace Farm.Editor
         // The ground decoration (tufts and flowers laid over the grass at run time): crisp sprites like the rest of the art.
         const string DecorRoot = "Assets/_Project/Resources/Decor/";
         const string OutfitsRoot = "Assets/_Project/Resources/Outfits/";       // villagers in other clothes (the Keepers' robes), swapped in by NpcOutfits
+        const string MineRoot = "Assets/_Project/Resources/Mine/";            // the props that mark the way up, the way down and the lift (Caves and Mines Props)
         const string TreesRoot = "Assets/_Project/Resources/Trees/";          // the seasonal trees SeasonalTrees swaps in
 
         void OnPreprocessTexture()
@@ -50,7 +51,7 @@ namespace Farm.Editor
                 picture.alphaSource = TextureImporterAlphaSource.None;
                 return;
             }
-            if (!assetPath.StartsWith(ArtRoot) && !assetPath.StartsWith(DecorRoot) && !assetPath.StartsWith(TreesRoot) && !assetPath.StartsWith(OutfitsRoot)) return;
+            if (!assetPath.StartsWith(ArtRoot) && !assetPath.StartsWith(DecorRoot) && !assetPath.StartsWith(TreesRoot) && !assetPath.StartsWith(OutfitsRoot) && !assetPath.StartsWith(MineRoot)) return;
 
             var importer = (TextureImporter)assetImporter;
             importer.textureType = TextureImporterType.Sprite;

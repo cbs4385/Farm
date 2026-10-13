@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.6.1 (2026-10-13)
+
+From the playtesters' notes of the day after 0.6.0.
+
+**The mine**
+- **The way up, the ladder down and the lift can always be walked to.** The stairs and the lift are solid, so every floor is now laid out around them, and one route from the arrival cell to the ladder is kept free of ore and rocks. No ore or monster is put beside the ladder.
+- **The ways up and down and the lift have pictures:** a lantern post marks the way up, a crystal cluster the ladder down and a barrel the lift (Caves and Mines Props, StationSupply).
+- **No slimes in cozy (horror off).** The bats are the only monsters there; the other settings keep the slimes.
+- **The red health bar is explained the first time it appears:** the game stops and says what it is. The Help tab has a page on it too.
+
+**Controls and the screen**
+- **A bigger backpack has rows on the item bar.** The bar shows the row of the selected slot, and two small buttons at its end (or `[` and `]`, or the right trigger of a pad, which goes round) move to the next and the previous row.
+- **Crafting has a button on a pad:** press the left trigger (the key is still C). Both can be changed in Options.
+- **A pad player is told what the item in hand does every time they change item**, as a mouse player is by resting the pointer on a slot.
+- **The flower boxes beside the shop doors can be walked through.**
+
+**Options**
+- **Every key and mouse button can be rebound.** A new list, "Other keys and mouse buttons", has a row for each of the rest (the second set of walking keys, Tab beside I, the mouse buttons, the keys of the menus). A mouse button can now be chosen when rebinding. The D-pad's four directions have rows in the controller list too (the sticks are analog and stay what they are).
+- **More room between the lines** of the Options screen.
+- **The label over things in the world follows the cell you face** whenever the mouse is not the one aiming, so a player who walks with the keys (or a controller turned into keys by Steam Input) sees labels too.
+
+**Help**
+- **Every tool in the Help tree says where it is found** (the fishing rod: the Fish Stall on the beach).
+- New Help pages: the health bar, the rows of the item bar, and the crafting key.
+
 ## 0.6.0 (2026-10-13)
 
 A larger update, from the playtesters' notes of the night before: how a game begins, how seeds and wild plants behave, and the library.

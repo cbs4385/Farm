@@ -37,6 +37,10 @@ namespace Farm.Gameplay
             Init(map.Session, map.Map);
         }
 
+        // The label follows the cell the player faces (not the pointer) with a pad, and with the keyboard too while the mouse is not the one aiming: a mouse that nobody
+        // moves sits still wherever it was (playtest 2026-10-13: a player who walked with the keys saw no labels at all).
+        public static bool FollowsTarget(bool pad, bool mouseAiming) => pad || !mouseAiming;
+
         void Update()
         {
             var mouse = Mouse.current;
@@ -50,17 +54,18 @@ namespace Farm.Gameplay
             var ui = _ui;
             var blocked = _input != null && _input.GameplayBlocked;
             if (_actions == null) _actions = FindAnyObjectByType<PlayerActions>();
+            var follow = _actions != null && FollowsTarget(pad, _actions.MouseAiming);
             if ((mouse == null && !pad) || ui == null || _session == null || !_session.InGame || _map == null || blocked || ui.AnyModalOpen
-                || (!pad && ui.PointerOverUi) || (pad && _actions == null) || (settings != null && !settings.HoverLabels) || _camera == null)
+                || (!follow && ui.PointerOverUi) || (follow && _actions == null) || (settings != null && !settings.HoverLabels) || _camera == null)
             {
-                Why = ui == null || _session == null || !_session.InGame ? "not in a game" : blocked || ui.AnyModalOpen ? "a window is open" : !pad && ui.PointerOverUi ? "the mouse is over a window"
+                Why = ui == null || _session == null || !_session.InGame ? "not in a game" : blocked || ui.AnyModalOpen ? "a window is open" : !follow && ui.PointerOverUi ? "the mouse is over a window"
                     : settings != null && !settings.HoverLabels ? "hover labels are off" : "no pointer or target";
                 Clear(ui);
                 return;
             }
             Vector2 position;
             Vector3 world;
-            if (pad)
+            if (follow)
             {
                 world = _map.CellCenter(_actions.Target);
                 position = _camera.WorldToScreenPoint(world) + new Vector3(0f, 28f, 0f);
@@ -71,7 +76,7 @@ namespace Farm.Gameplay
                 world = _camera.ScreenToWorldPoint(new Vector3(position.x, position.y, -_camera.transform.position.z));
             }
             var label = LabelAt(world);
-            if (label == null) { Why = pad ? "nothing at the target cell" : "nothing under the mouse"; Clear(ui); return; }
+            if (label == null) { Why = follow ? "nothing at the target cell" : "nothing under the mouse"; Clear(ui); return; }
             Why = "shown";
             _label = label;
             Current = label;

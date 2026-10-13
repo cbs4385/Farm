@@ -51,6 +51,7 @@ namespace Farm.Gameplay
         public bool[] Wall;
         public (int x, int y) Spawn;
         public (int x, int y)? Ladder;
+        public (int x, int y) Up, Elevator;           // the way up and the lift, beside the arrival cell; both are solid, so the floor is walked without them
         public List<MineNodeSpawn> Nodes = new List<MineNodeSpawn>();
         public List<MineEnemySpawn> Enemies = new List<MineEnemySpawn>();
         public bool IsBoss;
@@ -84,20 +85,26 @@ namespace Farm.Gameplay
 
         public static int FloorSeed(int worldSeed, int day, int floor) => unchecked(worldSeed * 31 + day * 7919 + floor * 104729);
 
-        public static MineFloor Generate(int seed, int floor)
+        // `slimes` false leaves the slimes out (the cozy setting: only the bats are left).
+        public static MineFloor Generate(int seed, int floor, bool slimes = true)
         {
             floor = Math.Max(1, Math.Min(Floors, floor));
             var rng = new DetRandom(seed * 31 + floor);
             var f = new MineFloor { Floor = floor, Width = Width, Height = Height, Wall = Enumerable.Repeat(true, Width * Height).ToArray(), IsBoss = floor == Floors };
             f.Spawn = (3, Height / 2);
+            f.Up = (f.Spawn.x - 1, f.Spawn.y);
+            f.Elevator = (f.Spawn.x, f.Spawn.y + 1);
 
             if (f.IsBoss) CarveArena(f); else CarveCaves(f, rng);
 
+            // The stairs up and the lift stand in cells that cannot be walked through, so every distance is measured around them: the ladder down, the ore and
+            // the monsters are all reachable from the arrival cell without passing them (playtest 2026-10-13: the ways in and out were not guaranteed reachable).
             var dist = Distances(f);
             if (!f.IsBoss) f.Ladder = Farthest(f, dist);
 
             PlaceNodes(f, rng, dist);
-            PlaceEnemies(f, rng, dist);
+            KeepPathClear(f, dist);
+            PlaceEnemies(f, rng, dist, slimes);
             return f;
         }
 
@@ -146,6 +153,7 @@ namespace Farm.Gameplay
         {
             var dist = Enumerable.Repeat(-1, f.Width * f.Height).ToArray();
             var q = new Queue<(int, int)>();
+            var blocked = new HashSet<(int, int)> { f.Up, f.Elevator };
             dist[f.Spawn.y * f.Width + f.Spawn.x] = 0;
             q.Enqueue(f.Spawn);
             var dx = new[] { 1, -1, 0, 0 }; var dy = new[] { 0, 0, 1, -1 };
@@ -155,7 +163,7 @@ namespace Farm.Gameplay
                 for (var d = 0; d < 4; d++)
                 {
                     int nx = x + dx[d], ny = y + dy[d];
-                    if (f.IsWall(nx, ny) || dist[ny * f.Width + nx] >= 0) continue;
+                    if (f.IsWall(nx, ny) || dist[ny * f.Width + nx] >= 0 || blocked.Contains((nx, ny))) continue;
                     dist[ny * f.Width + nx] = dist[y * f.Width + x] + 1;
                     q.Enqueue((nx, ny));
                 }
@@ -189,21 +197,45 @@ namespace Farm.Gameplay
             var cells = new List<(int x, int y)>();
             for (var y = 1; y < f.Height - 1; y++)
                 for (var x = 1; x < f.Width - 1; x++)
-                    if (dist[y * f.Width + x] > 3 && (x, y) != f.Ladder) cells.Add((x, y));
+                    if (dist[y * f.Width + x] > 3 && !NextToLadder(f, x, y)) cells.Add((x, y));
             foreach (var c in cells)
                 if (rng.Unit() < 0.12f) f.Nodes.Add(new MineNodeSpawn(c.x, c.y, OreFor(f.Floor, rng)));
         }
 
-        static void PlaceEnemies(MineFloor f, DetRandom rng, int[] dist)
+        // One walkable route from the arrival cell to the ladder is kept free of ore and rocks (a boulder in a one-cell tunnel would shut the way down for anyone
+        // who cannot break it yet). The route is the shortest one, followed back from the ladder.
+        static void KeepPathClear(MineFloor f, int[] dist)
+        {
+            if (!f.Ladder.HasValue) return;
+            var (x, y) = f.Ladder.Value;
+            var dx = new[] { 1, -1, 0, 0 }; var dy = new[] { 0, 0, 1, -1 };
+            while (dist[y * f.Width + x] > 0)
+            {
+                f.Nodes.RemoveAll(n => n.X == x && n.Y == y);
+                var here = dist[y * f.Width + x];
+                for (var d = 0; d < 4; d++)
+                {
+                    int nx = x + dx[d], ny = y + dy[d];
+                    if (nx < 0 || ny < 0 || nx >= f.Width || ny >= f.Height || dist[ny * f.Width + nx] != here - 1) continue;
+                    x = nx; y = ny;
+                    break;
+                }
+            }
+        }
+
+        // The ladder and the cells around it stay clear: ore there could shut the way to it, and a monster there would wait for whoever arrives.
+        static bool NextToLadder(MineFloor f, int x, int y) => f.Ladder.HasValue && Math.Abs(f.Ladder.Value.x - x) + Math.Abs(f.Ladder.Value.y - y) <= 1;
+
+        static void PlaceEnemies(MineFloor f, DetRandom rng, int[] dist, bool slimes)
         {
             if (f.IsBoss) { f.Enemies.Add(new MineEnemySpawn(f.Width / 2 + 4, f.Height / 2, EnemyDefaults.Boss)); return; }
-            var kinds = EnemyDefaults.Rows.Where(r => !r.Boss && r.MinFloor <= f.Floor && r.MaxFloor >= f.Floor && r.Weight > 0).ToList();
+            var kinds = EnemyDefaults.Rows.Where(r => !r.Boss && r.MinFloor <= f.Floor && r.MaxFloor >= f.Floor && r.Weight > 0 && (slimes || r.Id != "slime")).ToList();
             if (kinds.Count == 0) return;
             var count = Math.Min(10, 3 + f.Floor / 6);
             var cells = new List<(int x, int y)>();
             for (var y = 1; y < f.Height - 1; y++)
                 for (var x = 1; x < f.Width - 1; x++)
-                    if (dist[y * f.Width + x] >= 8 && (x, y) != f.Ladder && !f.Nodes.Any(n => n.X == x && n.Y == y)) cells.Add((x, y));
+                    if (dist[y * f.Width + x] >= 8 && !NextToLadder(f, x, y) && !f.Nodes.Any(n => n.X == x && n.Y == y)) cells.Add((x, y));
             if (cells.Count == 0) return;
             var total = kinds.Sum(k => k.Weight);
             for (var i = 0; i < count; i++)

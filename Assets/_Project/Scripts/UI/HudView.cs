@@ -306,7 +306,58 @@ namespace Farm.UI
 
                 _slots[i] = new HotbarSlot { Background = bg, Icon = icon, Count = count, Quality = quality };
             }
+            BuildRowButtons(bar.transform);
             BuildTorchBar();
+        }
+
+        // A backpack of more than one row: two small buttons at the end of the bar move to the next and the previous row, with the row number between them.
+        RectTransform _rowButtons;
+        TextMeshProUGUI _rowLabel;
+
+        void BuildRowButtons(Transform bar)
+        {
+            var holder = UiKit.Panel(bar, "RowButtons", Color.clear);
+            holder.raycastTarget = false;
+            _rowButtons = holder.rectTransform;
+            UiKit.Place(_rowButtons, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(92f, 44f), new Vector2(52f, 0f));
+            var up = UiKit.MakeButton(_rowButtons, L.Get("hud.row_prev"), () => ChangeRow(-1), 28f, 28f);
+            up.name = "RowPrev";
+            UiKit.Place((RectTransform)up.transform, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(28f, 28f), new Vector2(14f, 0f));
+            _rowLabel = UiKit.Label(_rowButtons, "", 14f, TextAlignmentOptions.Center);
+            _rowLabel.name = "RowLabel";
+            _rowLabel.raycastTarget = false;
+            UiKit.Place(_rowLabel.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(32f, 24f), Vector2.zero);
+            var down = UiKit.MakeButton(_rowButtons, L.Get("hud.row_next"), () => ChangeRow(1), 28f, 28f);
+            down.name = "RowNext";
+            UiKit.Place((RectTransform)down.transform, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(28f, 28f), new Vector2(-14f, 0f));
+            _rowButtons.gameObject.SetActive(false);
+        }
+
+        // The red bar appears the first time the player goes down the mine or is hurt: the game stops and says what it is (playtest 2026-10-13: "was this explained in the 17 pages of notes?").
+        public const string HealthBarFlag = "tutorial.health_bar";
+
+        void ExplainHealthBar(GameSession s)
+        {
+            if (s.HasFlag(HealthBarFlag) || _ui.AnyModalOpen) return;
+            s.SetFlag(HealthBarFlag);
+            if (s.Settings != null && !s.Settings.TutorialTips) return;
+            _ui.ShowMessage("tutorial.health_bar");
+        }
+
+        void ChangeRow(int delta)
+        {
+            var s = _ui.Session;
+            if (s == null || !s.InGame) return;
+            s.State.SelectedHotbar = HotbarRows.ChangeRow(s.State.SelectedHotbar, delta, s.Backpack.Capacity);
+            _ui.Bus.Publish(new StatsChanged());
+        }
+
+        void UpdateRowButtons(GameSession s, int first)
+        {
+            if (_rowButtons == null) return;
+            var rows = HotbarRows.Rows(s.Backpack.Capacity);
+            _rowButtons.gameObject.SetActive(rows > 1);
+            if (rows > 1) _rowLabel.text = L.Get("hud.row", first / HotbarRows.Width + 1, rows);
         }
 
         // How much of the burning torch is left: a small bar over its slot of the item bar, like a health bar over a monster (owner, 2026-10-12).
@@ -508,7 +559,7 @@ namespace Farm.UI
                 _helpTimer = 0f;
                 var text = itemId != null ? HotbarTooltip.Text(s, itemId) : null;
                 var coaching = _coachPanel != null && _coachPanel.gameObject.activeSelf;          // the tip card says it already: the two must not be drawn over each other
-                if (text != null && !coaching && s.GetVar(HelpShownKey + itemId) < HelpTimes)           // only the first few times (playtest 2026-10-09: "the Hoe tip appears each time")
+                if (text != null && !coaching && (PadInUse || s.GetVar(HelpShownKey + itemId) < HelpTimes))           // a pad has no pointer to rest on a slot, so its player is told every time the item changes; the others only the first few times (playtest 2026-10-09: "the Hoe tip appears each time")
                 {
                     s.AddVar(HelpShownKey + itemId, 1);
                     _help.text = text;
@@ -619,6 +670,7 @@ namespace Farm.UI
                 _healthFill.rectTransform.anchorMax = new Vector2(Mathf.Clamp01((float)s.State.Health / Mathf.Max(1, s.State.MaxHealth)), 1f);
                 _healthLabel.text = L.Get("hud.health", s.State.Health, s.State.MaxHealth);
                 Show(_healthIcon, "hud_health_icon");
+                ExplainHealthBar(s);
             }
 
             var tired = s.FatigueRating;
@@ -630,11 +682,13 @@ namespace Farm.UI
                 _fatigueLabel.text = L.Get("hud.fatigue", Mathf.RoundToInt(tired * 100f));
             }
 
+            var first = HotbarRows.RowOf(s.State.SelectedHotbar) * HotbarRows.Width;          // the bar shows the row of the backpack that holds the selected slot
+            UpdateRowButtons(s, first);
             for (var i = 0; i < _slots.Length; i++)
             {
                 var slot = _slots[i];
-                var stack = i < s.Backpack.Capacity ? s.Backpack.Get(i) : null;
-                slot.Background.color = i == s.State.SelectedHotbar ? UiKit.Accent : UiKit.PanelLight;
+                var stack = first + i < s.Backpack.Capacity ? s.Backpack.Get(first + i) : null;
+                slot.Background.color = first + i == s.State.SelectedHotbar ? UiKit.Accent : UiKit.PanelLight;
 
                 Sprite icon = null;
                 if (stack != null && s.Db.TryGetItem(stack.ItemId, out var item)) icon = item.Icon;
@@ -659,6 +713,7 @@ namespace Farm.UI
                 for (var i = 0; i < _slots.Length && shown < 0; i++)
                     if (_slots[i] != null && _slots[i].Background.gameObject.activeInHierarchy
                         && RectTransformUtility.RectangleContainsScreenPoint(_slots[i].Background.rectTransform, position, null)) shown = i;
+                if (shown >= 0) shown += HotbarRows.RowOf(s.State.SelectedHotbar) * HotbarRows.Width;
                 if (shown >= 0 && mouse.leftButton.wasPressedThisFrame && s.State.SelectedHotbar != shown)
                 {
                     s.State.SelectedHotbar = shown;
