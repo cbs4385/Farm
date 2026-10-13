@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Farm.Core;
 using Farm.Data;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Farm.Gameplay
     public sealed class MineController : MonoBehaviour
     {
         MineFloor _floor;
+        MineFloorMemory _memory;
         GameSession _session;
         FarmMap _map;
 
@@ -41,15 +43,25 @@ namespace Farm.Gameplay
                     map.Walls.SetTile(cell, _floor.IsWall(x, y) ? wallTile : null);
                 }
 
-            // Ore and rocks: kept as they were if the player already visited this floor today, fresh otherwise.
+            // Ore and rocks: as the player left them when they have been on this floor during this trip, fresh otherwise.
             var nodes = session.GetNodes(MapIds.Mine);
-            if (ms.GenDay != day || ms.GenFloor != ms.Floor)
+            nodes.Clear();
+            _memory = ms.MemoryOf(ms.Floor);
+            if (_memory == null)
             {
-                nodes.Clear();
+                _memory = new MineFloorMemory { Floor = ms.Floor };
+                ms.Memory.Add(_memory);
                 foreach (var spawn in _floor.Nodes)
                     if (session.Nodes.Get(spawn.NodeId) is ResourceNodeDefinition def) nodes.Add(spawn.X, spawn.Y, def);
-                ms.GenDay = day;
-                ms.GenFloor = ms.Floor;
+            }
+            else
+            {
+                foreach (var left in _memory.Nodes)
+                    if (session.Nodes.Get(left.TypeId) is ResourceNodeDefinition def && nodes.Add(left.X, left.Y, def) && nodes.TryGet(left.X, left.Y, out var restored))
+                    {
+                        restored.Hp = left.Hp;
+                        restored.Age = left.Age;
+                    }
             }
 
             // The arrival cell, and the stairs.
@@ -66,8 +78,21 @@ namespace Farm.Gameplay
             if (ms.Deepest >= 5) AddStairs(MineStairs.StairKind.Elevator, _floor.Spawn.x, _floor.Spawn.y + 1);
 
             var manager = new GameObject("Enemies").AddComponent<EnemyManager>();
-            manager.Init(map, session, this, _floor.Enemies);
+            manager.Init(map, session, this, _floor.Enemies, _memory.Dead);
             if (session.Game?.Map != null) session.Game.Map.Enemies = manager;
+        }
+
+        // A monster of this floor was killed: it stays dead for the rest of the trip.
+        public void RecordDead(int spawnIndex)
+        {
+            if (_memory != null && !_memory.Dead.Contains(spawnIndex)) _memory.Dead.Add(spawnIndex);
+        }
+
+        // The ore and rocks that are left are kept when the floor is left (by stairs, elevator, the forest or the end of the game), as long as the trip goes on.
+        void OnDestroy()
+        {
+            if (_session == null || _memory == null || !_session.InGame || _session.State.Mine.Floor != _memory.Floor) return;
+            _memory.Nodes = _session.GetNodes(MapIds.Mine).ToList();
         }
 
         // The open cell next to the ladder down (the arrival cell when climbing up from the floor below); the usual arrival cell on the last floor, which has no ladder.

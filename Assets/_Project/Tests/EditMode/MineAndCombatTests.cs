@@ -259,6 +259,32 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void ATripUnderground_KeepsItsFloorsAsTheyWereLeft_UntilTheMineIsLeft()
+        {
+            var ms = new MineState();
+            Assert.IsNull(ms.MemoryOf(3));
+            var memory = new MineFloorMemory { Floor = 3 };
+            memory.Dead.Add(4); memory.Dead.Add(7);
+            memory.Nodes.Add(new NodeInstance { X = 5, Y = 6, TypeId = "rock", Hp = 1 });
+            ms.Memory.Add(memory);
+            var back = Newtonsoft.Json.JsonConvert.DeserializeObject<MineState>(Newtonsoft.Json.JsonConvert.SerializeObject(ms));
+            CollectionAssert.AreEqual(new[] { 4, 7 }, back.MemoryOf(3).Dead, "the monsters killed stay dead, and the save keeps them");
+            Assert.AreEqual("rock", back.MemoryOf(3).Nodes.Single().TypeId);
+            Assert.AreEqual(1, back.MemoryOf(3).Nodes.Single().Hp);
+            back.ForgetTrip();
+            Assert.IsNull(back.MemoryOf(3), "leaving the mine ends the trip: the floors come back new");
+        }
+
+        [Test]
+        public void KnockOutAndTheEndOfTheDay_EndTheTrip()
+        {
+            var src = System.IO.File.ReadAllText("Assets/_Project/Scripts/Gameplay/Combat/PlayerCombat.cs");
+            StringAssert.Contains("Mine.ForgetTrip()", src);
+            StringAssert.Contains("Mine.ForgetTrip()", System.IO.File.ReadAllText("Assets/_Project/Scripts/Gameplay/State/DayCycle.cs"));
+            StringAssert.Contains("ForgetTrip()", System.IO.File.ReadAllText("Assets/_Project/Scripts/Gameplay/Mine/MineStairs.cs"));
+        }
+
+        [Test]
         public void MineStateAndFloorSurviveASaveRoundTrip()
         {
             var state = new GameState();

@@ -43,7 +43,7 @@ namespace Farm.Gameplay
             game.Map = Context;
             InputDeviceWatcher.AnnounceAtStart(_session);
             _player.ApplyAvatar(_session.State.Avatar);
-            if (_map.MapId != MapIds.Mine) _session.State.Mine.Floor = 0;
+            if (_map.MapId != MapIds.Mine) { _session.State.Mine.Floor = 0; _session.State.Mine.ForgetTrip(); }
             if (_player.GetComponent<TorchLight>() == null) _player.gameObject.AddComponent<TorchLight>();
             if (_player.GetComponent<PlayerCombat>() == null) _player.gameObject.AddComponent<PlayerCombat>();
             var mine = FindAnyObjectByType<MineController>();
@@ -125,6 +125,8 @@ namespace Farm.Gameplay
                 new GameObject("WeatherEffects").AddComponent<WeatherEffects>();
 
             new GameObject("WaterSparkle").AddComponent<WaterSparkle>().Init(_map);      // glints on any open water (it removes itself if there is none)
+
+            ShopHint.ShowIfWanted(_session, _map.MapId, FindObjectsByType<ShopCounter>(FindObjectsSortMode.None).Length > 0);
 
             BindAll();
 

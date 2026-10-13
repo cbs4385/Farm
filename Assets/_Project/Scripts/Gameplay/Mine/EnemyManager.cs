@@ -18,19 +18,22 @@ namespace Farm.Gameplay
         public bool Active => _session != null && _session.InGame && !_session.Clock.IsPaused;
         public Vector2 PlayerPosition => _player != null ? (Vector2)_player.transform.position : Vector2.zero;
 
-        public void Init(FarmMap map, GameSession session, MineController mine, IEnumerable<MineEnemySpawn> spawns)
+        public void Init(FarmMap map, GameSession session, MineController mine, IEnumerable<MineEnemySpawn> spawns, ICollection<int> dead = null)
         {
             _map = map; _session = session; _mine = mine;
             _player = FindAnyObjectByType<PlayerController>();
             var i = 0;
             foreach (var spawn in spawns)
             {
+                var index = i++;
+                if (dead != null && dead.Contains(index)) continue;          // killed earlier in this trip: it stays dead
                 var row = EnemyDefaults.Row(spawn.EnemyId);
                 var go = new GameObject("enemy", typeof(SpriteRenderer));
                 LitSprites.Apply(go);
                 go.transform.position = _map.CellCenter(new Vector3Int(spawn.X, spawn.Y, 0));
                 var actor = go.AddComponent<EnemyActor>();
-                actor.Setup(row, session.State.WorldSeed + spawn.X * 31 + spawn.Y * 17 + i++, this);
+                actor.Setup(row, session.State.WorldSeed + spawn.X * 31 + spawn.Y * 17 + index, this);
+                actor.SpawnIndex = index;
                 _enemies.Add(actor);
             }
         }
@@ -97,6 +100,7 @@ namespace Farm.Gameplay
                 _session.SetFlag("mine.boss_defeated");
                 _session.Toast(L.Get("mine.boss_down"));
             }
+            _mine?.RecordDead(enemy.SpawnIndex);
             _enemies.Remove(enemy);
             Destroy(enemy.gameObject);
         }

@@ -15,6 +15,21 @@ namespace Farm.Gameplay
         public int GenFloor = -1;
         public int BossesDefeated;
         public int Kills;
+
+        // The floors of this trip underground, as the player left them (playtest 2026-10-13: "coming out of the mine you have to fight your way back out"). A floor is
+        // generated once per trip: going up the stairs finds it as it was, with the monsters that were killed still dead and the ore that was broken still gone. The
+        // trip ends when the player leaves the mine (or is knocked out, or the day ends): the next trip generates every floor afresh.
+        public List<MineFloorMemory> Memory = new List<MineFloorMemory>();
+        public MineFloorMemory MemoryOf(int floor) => Memory.Find(m => m.Floor == floor);
+        public void ForgetTrip() => Memory.Clear();
+    }
+
+    [Serializable]
+    public sealed class MineFloorMemory
+    {
+        public int Floor;
+        public List<NodeInstance> Nodes = new List<NodeInstance>();        // the ore and rocks that are left
+        public List<int> Dead = new List<int>();                           // indices of the monsters that were killed (their place in the generated floor's list)
     }
 
     public readonly struct MineNodeSpawn

@@ -20,6 +20,7 @@ namespace Farm.Gameplay
         Transform _barFill;
 
         public EnemyBrain Brain => _brain;
+        public int SpawnIndex { get; set; }          // its place in the generated floor's list of monsters
         public bool IsDead => _brain.Mode == EnemyMode.Dead;
         public bool HealthBarShown => _bar != null && _bar.gameObject.activeSelf;
 

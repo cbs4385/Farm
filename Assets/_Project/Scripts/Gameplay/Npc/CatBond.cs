@@ -8,6 +8,12 @@ namespace Farm.Gameplay
         public const string BondVar = "cat.bond", PetDayVar = "cat.pet_day", PetsTodayVar = "cat.pets_today", AdoptedFlag = "cat.adopted";
         public const int Max = 30, PerDay = 2, AdoptAt = 20, LeaveAt = 10;
 
+        // Food counts as petting (owner, 2026-10-13): a tin of cat food as two pets and a fish as four, at most four pets' worth a day.
+        public const string FoodItemId = "pet.cat_food";
+        public const string FedVar = "cat.fed_today";
+        public const int TinPets = 2, FishPets = 4, FoodPerDay = 4;
+
+        public enum FeedResult { Fed, Full, Adopted }
         public enum PetResult { Counted, DayLimit, Adopted }
         public enum DayResult { Nothing, Faded, Left }
 
@@ -33,6 +39,30 @@ namespace Farm.Gameplay
             }
             return PetResult.Counted;
         }
+
+        // The cat is fed food worth `pets` pettings on day `today`. Returns Full (and takes nothing) when it has had its share for the day or the bond is at its top.
+        public static FeedResult Feed(GameState s, int today, int pets)
+        {
+            if (!s.Vars.TryGetValue(PetDayVar, out var day) || day != today)
+            {
+                s.Vars[PetDayVar] = today;           // it was seen today: the bond does not fade
+                s.Vars[PetsTodayVar] = 0;
+                s.Vars[FedVar] = 0;
+            }
+            var fed = s.Vars.TryGetValue(FedVar, out var f) ? f : 0;
+            if (fed >= FoodPerDay || Bond(s) >= Max) return FeedResult.Full;
+            s.Vars[FedVar] = fed + pets;
+            s.Vars[BondVar] = System.Math.Min(Max, Bond(s) + pets);
+            if (!Adopted(s) && Bond(s) >= AdoptAt)
+            {
+                s.Flags.Add(AdoptedFlag);
+                return FeedResult.Adopted;
+            }
+            return FeedResult.Fed;
+        }
+
+        // How many pettings an item is worth to the cat (0: it is not food for it).
+        public static int PetsFor(string itemId, bool isFish) => itemId == FoodItemId ? TinPets : isFish ? FishPets : 0;
 
         // A new day begins (`today` is the new day): a day without a pet costs 1, and an adopted cat whose bond has worn down to 10 leaves.
         public static DayResult NewDay(GameState s, int today)

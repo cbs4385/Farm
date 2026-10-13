@@ -229,6 +229,61 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void FeedingTheCat_CountsAsPettings_FishFourAndATinTwo_WithAShareForTheDay()
+        {
+            Assert.AreEqual(2, CatBond.PetsFor(CatBond.FoodItemId, false));
+            Assert.AreEqual(4, CatBond.PetsFor("fish.carp", true));
+            Assert.AreEqual(0, CatBond.PetsFor("crop.parsnip", false));
+
+            var st = GameState.NewGame("a", "b", id => 99);
+            Assert.AreEqual(CatBond.FeedResult.Fed, CatBond.Feed(st, 5, CatBond.TinPets));
+            Assert.AreEqual(2, CatBond.Bond(st), "a tin is two pettings");
+            Assert.AreEqual(CatBond.FeedResult.Fed, CatBond.Feed(st, 5, CatBond.FishPets));
+            Assert.AreEqual(6, CatBond.Bond(st), "and a fish is four");
+            Assert.AreEqual(CatBond.FeedResult.Full, CatBond.Feed(st, 5, CatBond.TinPets), "enough for one day");
+            Assert.AreEqual(6, CatBond.Bond(st));
+            Assert.AreEqual(CatBond.FeedResult.Fed, CatBond.Feed(st, 6, CatBond.TinPets), "a new day");
+            Assert.AreEqual(CatBond.DayResult.Nothing, CatBond.NewDay(st, 7), "fed yesterday: the bond does not fade");
+
+            st.Vars[CatBond.BondVar] = 18;
+            Assert.AreEqual(CatBond.FeedResult.Adopted, CatBond.Feed(st, 9, CatBond.FishPets));
+            Assert.IsTrue(CatBond.Adopted(st));
+        }
+
+        [Test]
+        public void CatFood_IsSoldAtTheGeneralStore()
+        {
+            var db = UnityEngine.Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
+            Assert.IsTrue(db.TryGetItem(CatBond.FoodItemId, out var tin));
+            CollectionAssert.Contains(tin.SoldIn, "general");
+            Assert.Greater(tin.BuyPrice, 0);
+        }
+
+        [Test]
+        public void TheShopHint_ShowsOnce_InAnInteriorWithACounter_AndNotWhenTipsAreOff()
+        {
+            var s = _f.Session;
+            Assert.IsFalse(ShopHint.Wanted(s, MapIds.Farm, true), "not outdoors");
+            Assert.IsFalse(ShopHint.Wanted(s, MapIds.Library, false), "no counter");
+            Assert.IsTrue(ShopHint.Wanted(s, MapIds.Library, true));
+            ShopHint.ShowIfWanted(s, MapIds.Library, true);
+            Assert.IsTrue(s.HasFlag(ShopHint.Flag));
+            Assert.IsFalse(ShopHint.Wanted(s, MapIds.Library, true), "only once");
+        }
+
+        [Test]
+        public void TheHelpTree_HasATitleForEveryBranch()
+        {
+            L.SetTable(L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json")));
+            foreach (var key in Farm.UI.HelpPage.Topics.Concat(Farm.UI.HelpPage.Controls))
+            {
+                Assert.IsTrue(L.Has(Farm.UI.HelpPage.TitleKeyOf(key)), key + " has a title");
+                Assert.IsTrue(L.Has(key), key);
+            }
+            foreach (var key in new[] { "help.screen", "help.menu", "tour.start", "tour.offer", "tutorial.shop_hint" }) Assert.IsTrue(L.Has(key), key);
+        }
+
+        [Test]
         public void TheSwordSwing_IsNeverRefusedForWantOfEnergy()
         {
             Assert.AreEqual(1, CombatModel.SwingEnergy);

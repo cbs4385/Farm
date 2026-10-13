@@ -134,6 +134,7 @@ namespace Farm.Gameplay
             state.FatigueCarried = fatigue.Carried;
             state.Health = state.MaxHealth;
             state.Mine.Floor = 0;
+            state.Mine.ForgetTrip();
 
             foreach (var ready in state.PendingUpgrades)
                 if (ready.ReadyDay == clock.Now.TotalDays && itemLookup(ready.ToolItemId) is ItemDefinition tool)

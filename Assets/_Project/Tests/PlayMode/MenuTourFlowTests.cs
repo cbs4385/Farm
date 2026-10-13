@@ -73,11 +73,14 @@ namespace Farm.Tests
             var session = GameContext.Current.Session;
             Assert.IsFalse(Ui.AnyModalOpen, "nothing at first");
 
+            // It no longer starts by itself (playtest 2026-10-13: seventeen pages at once were too much): a note points at the Help tab, and the tour is begun on request.
             var waited = 0f;
-            while (Ui.MenuTour == null || !Ui.MenuTour.IsOpen) { waited += Time.unscaledDeltaTime; if (waited > 30f) break; yield return null; }
-            Assert.IsNotNull(Ui.MenuTour);
-            Assert.IsTrue(Ui.MenuTour.IsOpen, "the walkthrough starts by itself");
-            Assert.IsTrue(session.HasFlag(MenuTourScreen.DoneFlag), "and is remembered");
+            while (!session.HasFlag(MenuTourScreen.DoneFlag)) { waited += Time.unscaledDeltaTime; if (waited > 30f) break; yield return null; }
+            Assert.IsTrue(session.HasFlag(MenuTourScreen.DoneFlag), "the offer was made once");
+            Assert.IsTrue(Ui.MenuTour == null || !Ui.MenuTour.IsOpen, "and the walkthrough did not begin by itself");
+            Ui.ShowMenuTour();
+            yield return null;
+            Assert.IsTrue(Ui.MenuTour.IsOpen, "it begins when it is asked for");
 
             var seen = new List<string>();
             var screenHeight = (float)Screen.height;

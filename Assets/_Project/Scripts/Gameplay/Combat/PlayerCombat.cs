@@ -67,6 +67,7 @@ namespace Farm.Gameplay
             s.ChangeGold(-loss);
             s.State.Health = CombatModel.KnockOutHealth(s.State.MaxHealth);
             s.State.Mine.Floor = 0;
+            s.State.Mine.ForgetTrip();
             s.Toast(L.Get("combat.knocked_out", loss));
             MapTravel.GoTo(s, MapIds.Clinic, "default");
         }

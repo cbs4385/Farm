@@ -73,9 +73,13 @@ namespace Farm.UI
             }
             _highlight.gameObject.SetActive(false);
 
+            var nav = UiKit.Rect("TourNav", scrim.transform);            // the buttons stay where they are, whatever the caption says and wherever it stands (playtest 2026-10-13)
+            nav.anchorMin = nav.anchorMax = nav.pivot = new Vector2(1f, 0f);
+            nav.sizeDelta = new Vector2(480f, 36f);
+            nav.anchoredPosition = new Vector2(-20f, 14f);
             var box = UiKit.Panel(scrim.transform, "Box", UiKit.PanelLight);            // lighter than the menu behind it, so that it stands out and hides the menu's footer
             _box = box.rectTransform;
-            _box.sizeDelta = new Vector2(900f, 190f);                                        // before FitToCanvas, which keeps the size it finds when it is added
+            _box.sizeDelta = new Vector2(900f, 150f);                                        // before FitToCanvas, which keeps the size it finds when it is added
             box.gameObject.AddComponent<FitToCanvas>();
             var stack = UiKit.VStack(box.transform, "Stack", 6f, 12);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -90,8 +94,8 @@ namespace Farm.UI
             _body = UiKit.Label(stack.transform, "", 18f, TextAlignmentOptions.TopLeft);
             UiKit.Size(_body.gameObject, -1f, -1f, 1f, 1f);
 
-            var buttons = UiKit.HStack(stack.transform, "Buttons", 10f, TextAnchor.MiddleRight);
-            UiKit.Size(buttons.gameObject, -1f, 34f);
+            var buttons = UiKit.HStack(nav, "Buttons", 10f, TextAnchor.MiddleRight);
+            UiKit.Stretch((RectTransform)buttons.transform);
             UiKit.MakeButton(buttons.transform, L.Get("tour.skip"), Finish, 150f, 32f).name = "TourSkip";
             _back = UiKit.MakeButton(buttons.transform, L.Get("tour.back"), () => Go(_index - 1), 130f, 32f);
             _back.name = "TourBack";
@@ -154,7 +158,7 @@ namespace Farm.UI
             CaptionOnTop = onTop;
             var anchor = new Vector2(0.5f, onTop ? 1f : 0f);
             _box.anchorMin = _box.anchorMax = _box.pivot = anchor;
-            _box.anchoredPosition = new Vector2(0f, onTop ? -(20f + 34f) : 20f);               // below the status bar when on top
+            _box.anchoredPosition = new Vector2(0f, onTop ? -(20f + 34f) : 60f);               // below the status bar when on top
         }
 
         // A frame round a rectangle of the screen (pixels), or none.

@@ -192,6 +192,22 @@ namespace Farm.Gameplay
             return v.z > 0f && v.x > 0.02f && v.x < 0.98f && v.y > 0.02f && v.y < 0.98f;
         }
 
+        // A fish or a tin of cat food in the hand is fed to the cat, and counts as several pettings. Returns true when the hand held food (fed or not).
+        bool TryFeed(PlayerActions player)
+        {
+            var held = _session.Backpack.Get(_session.State.SelectedHotbar);
+            if (held == null || !_session.Db.TryGetItem(held.ItemId, out var item)) return false;
+            var pets = CatBond.PetsFor(item.Id, item.Category == Farm.Data.ItemCategory.Fish);
+            if (pets <= 0) return false;
+            var result = CatBond.Feed(_session.State, _session.Clock.Now.TotalDays, pets);
+            if (result == CatBond.FeedResult.Full) { _session.Toast(L.Get("cat.full")); return true; }
+            _session.Backpack.Remove(item.Id, 1);
+            AudioService.PlayIfAvailable(Sfx.Pickup);
+            _session.Toast(L.Get(result == CatBond.FeedResult.Adopted ? "cat.adopted" : item.Id == CatBond.FoodItemId ? "cat.fed.tin" : "cat.fed.fish"));
+            _session.NotifyChanged();
+            return true;
+        }
+
         public void Interact(PlayerActions player)
         {
             _route = null;
@@ -205,6 +221,7 @@ namespace Farm.Gameplay
             }
             ActionPuff.Hearts(transform.position + Vector3.up * 0.6f, _bob);
             AudioService.PlayIfAvailable(Sfx.Meow, 0.5f, Random.Range(0.95f, 1.1f));
+            if (TryFeed(player)) return;
             var result = CatBond.Pet(_session.State, _session.Clock.Now.TotalDays);
             var bond = CatBond.Bond(_session.State);
             var key = result == CatBond.PetResult.Adopted ? "cat.adopted"

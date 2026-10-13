@@ -122,6 +122,9 @@ namespace Farm.Gameplay
         // E, or a click on something used by hand.
         public void Interact() => _hand.Interact();
 
+        // Does a quest wait on this villager for something the player carries? Then a click talks to them instead of giving them what is in the hand.
+        public static bool TalksFirst(GameSession s, string npcId) => QuestTargets.Wants(s, npcId);
+
         public void UseSelected()
         {
             var stack = Session.Backpack.Get(Session.State.SelectedHotbar);
@@ -130,6 +133,8 @@ namespace Farm.Gameplay
             // An item used on a villager is a gift.
             if (item.Category != ItemCategory.Tool && _hand.VillagerToGive() is NpcActor npc)
             {
+                // A quest that waits on this villager comes before a gift (playtest 2026-10-13: the rock in hand was given away instead of handing in the quest).
+                if (TalksFirst(Session, npc.Definition.Id)) { npc.Interact(this); return; }
                 var result = NpcInteractions.Gift(Session, npc.Definition, Session.State.SelectedHotbar);
                 NpcInteractions.ToastFor(Session, result);
                 if (result == GiftResult.Given) ActionPuff.Hearts(npc.transform.position + Vector3.up * 1.2f, npc.GetComponent<WalkBob>());
@@ -142,6 +147,8 @@ namespace Farm.Gameplay
                 case ItemCategory.Seed: _placement.Plant(item); break;
                 case ItemCategory.Resource when item.Id == ItemIds.Acorn: _placement.PlantAcorn(item); break;
                 case ItemCategory.Food: _items.Eat(item); break;
+                case ItemCategory.Fish: _hand.Interact(); break;          // a fish held out to the village cat is its food
+                case ItemCategory.Misc when item.Id == CatBond.FoodItemId: _hand.Interact(); break;
                 case ItemCategory.Artisan when item.EnergyRestore > 0: _items.Eat(item); break;          // jam and pickles can be eaten as well as sold
                 case ItemCategory.Machine: _placement.PlaceObject(item); break;
                 case ItemCategory.Furniture: _placement.PlaceObject(item); break;

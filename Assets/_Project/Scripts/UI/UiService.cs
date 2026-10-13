@@ -251,7 +251,7 @@ namespace Farm.UI
         // After the opening story's last page: the walkthrough of the screen and the menu begins (not in automated tests, which must not be interrupted).
         public void StartTourAfterIntro()
         {
-            if (!MenuTourScreen.Suppressed) ShowMenuTour();
+            if (!MenuTourScreen.Suppressed) { _session?.SetFlag(MenuTourScreen.DoneFlag); _session?.Toast(L.Get("tour.offer")); }          // no forced walkthrough: the Help tab holds it all as a tree to open as needed
         }
 
         // The tour opens the menu while it is on top: put it back in front so that its buttons are the ones that answer.
@@ -278,7 +278,7 @@ namespace Farm.UI
             if (s.Clock.Now.TotalDays > TourLastDay) { s.SetFlag(MenuTourScreen.DoneFlag); return; }
             if (s.State.CurrentMap != MapIds.Farm || _input.GameplayBlocked || (_session.Game?.Map?.Events?.IsPlaying ?? false)) { _tourWait = 0f; return; }
             _tourWait += Time.unscaledDeltaTime;
-            if (_tourWait >= TourDelaySeconds) ShowMenuTour();
+            if (_tourWait >= TourDelaySeconds) { s.SetFlag(MenuTourScreen.DoneFlag); s.Toast(L.Get("tour.offer")); }
         }
 
         // ---- modal stack ---------------------------------------------------------------------------------------

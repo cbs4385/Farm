@@ -19,6 +19,14 @@ A larger update, from the playtesters' notes of the night before: how a game beg
 - **Trees overlap in the right order.** A tree lower on the screen is drawn over the one behind it, so trunks and crowns no longer cross each other.
 - **Any Community Hall room can be followed from the board.** Each room has a Follow button; before, the quest the screen followed could only be changed in the Journal.
 - **"Reduce flashes" now also steadies the flickering lights** (torches, lamps, glowing windows, the hearth), and the torch's flicker is gentler for everyone. The option is now called "Reduce flashes and flicker".
+- **Feed the village cat.** Hold a fish or a tin of cat food (new, 40 gold at the general store) out to the cat: a tin counts as two pettings and a fish as four, up to four pettings' worth of food a day.
+- **A hint the first time you walk into a shop:** click on the counter to buy and to sell.
+- **A quest that waits on a villager comes before a gift.** Clicking them with an item in your hand talks to them, so you hand in the quest and do not give away the rock you had selected.
+- **The opening letter says 600 gold**, which is what you have.
+- **The quest list at the top right is easier to read** over grass (bold, with a dark edge).
+- **The yellow flowers in the grass are pink now**, so they are not mistaken for the dandelions that quests ask for.
+- **The tutorial is a tree in the Help tab.** Open the branches you want: tools, everyday things, the controls, the parts of the screen and each tab of the menu. The long walkthrough no longer starts by itself (a note points you to Help), and it can still be taken from the Help tab or the pause menu. Its Next and Back buttons stay in one place.
+- **The mine keeps its floors while you are in it.** Going back up the stairs finds the floor as you left it: the monsters you killed stay dead and the ore you broke stays gone. When you leave the mine, or are knocked out, or the day ends, the next trip starts every floor new.
 
 **Sprinklers**
 - **A sprinkler waters every tile next to it, the diagonals too** (it used to skip them). Sprinklers now cover 8, 24 and 48 tiles, and the soil is already wet when you wake.

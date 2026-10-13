@@ -92,6 +92,7 @@ namespace Farm.Gameplay
                 new ExtraItemRow("artisan.wine", ItemCategory.Artisan, 300, C(0.55f, 0.15f, 0.35f)),
                 new ExtraItemRow("artisan.pickles", ItemCategory.Artisan, 100, C(0.45f, 0.65f, 0.30f), energy: 40),
                 new ExtraItemRow("artisan.jam", ItemCategory.Artisan, 160, C(0.70f, 0.20f, 0.30f), energy: 50),
+                new ExtraItemRow(CatBond.FoodItemId, ItemCategory.Misc, 10, C(0.72f, 0.55f, 0.32f), buy: 40, soldIn: new[] { "general" }),          // a tin for the village cat
                 new ExtraItemRow(ItemIds.FertilizerQuality, ItemCategory.Fertilizer, 20, C(0.45f, 0.35f, 0.20f), buy: 100, soldIn: new[] { "general" }),
                 new ExtraItemRow(ItemIds.FertilizerSpeed, ItemCategory.Fertilizer, 30, C(0.35f, 0.55f, 0.25f), buy: 120, soldIn: new[] { "general" }),
             };

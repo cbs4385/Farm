@@ -41,6 +41,7 @@ namespace Farm.Gameplay
             if (floor <= 0)
             {
                 s.State.Mine.Floor = 0;
+                s.State.Mine.ForgetTrip();          // the next trip underground finds every floor new
                 MapTravel.GoTo(s, MapIds.Forest, "fromMine");
                 return;
             }
