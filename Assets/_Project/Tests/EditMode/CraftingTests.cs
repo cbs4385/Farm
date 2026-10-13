@@ -132,6 +132,7 @@ namespace Farm.Tests
             using (var f = Fixture())
             {
                 var s = f.Session;
+                s.Backpack.Remove(ItemIds.Torch, s.Backpack.Count(ItemIds.Torch));          // a new game starts with a torch: leave the room for what the test adds
                 var cat = Catalog();
                 Assert.AreEqual(CraftResult.MissingIngredients, CraftingRules.TryCraft(cat.Get("chest"), Stations.Hand, s.State, s.Backpack, s.GetSkillLevel));
                 s.Backpack.Add(ItemIds.Wood, 60);

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.5 (2026-10-13)
+
+**A gentler start**
+- **The backpack starts with thirteen slots** (it was twelve), so the starting torch does not crowd it.
+- **A new game opens at seven in the morning, with a torch in the backpack.** The torch lights itself in the early dark and burns for the first hour; more are made by hand from two wood. Every later day still starts at six.
+
+**Fixes**
+- **A building can no longer be put down on top of you.** The mallet refuses with a notice, and a saved game that already has the player inside a building moves them out to open ground.
+- **The farm's hay bale, sacks, wheelbarrow and barrels go into the backpack** when you swing the mallet at them, like furniture, and can be set down again anywhere. With a full backpack they stay where they are.
+- **Choosing a profession shows what each one does** ("Crops sell for 10% more", "Your sword does 15% more damage", and so on) instead of only its name.
+- **Fishing without bait says what bait would do.**
+
 ## 0.5.4 (2026-10-12)
 
 **Torches burn down**

@@ -63,6 +63,7 @@ namespace Farm.Gameplay
                 _session.MemoryRestorePosition = false;
             }
 
+            RescueIfWalledIn();
             _player.gameObject.AddComponent<HammerMode>().Init(_player.GetComponent<PlayerActions>(), _map, _session);
             if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
             if (_map.MapId == MapIds.Forest) { ForestTrees.Seed(_session); ForestTrees.Regrow(_session, _session.Clock.Now.TotalDays); }
@@ -131,6 +132,24 @@ namespace Farm.Gameplay
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             RunStartupCommands();
 #endif
+        }
+
+        // A saved game can have the player inside a wall (a building was put down on them: playtest 2026-10-13): move them to the nearest open ground.
+        void RescueIfWalledIn()
+        {
+            var here = _map.WorldToCell(_player.transform.position);
+            if (_map.Walls == null || _map.Walls.GetTile(here) == null) return;
+            for (var radius = 1; radius <= 12; radius++)
+                for (var dy = -radius; dy <= radius; dy++)
+                    for (var dx = -radius; dx <= radius; dx++)
+                    {
+                        if (Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dy)) != radius) continue;
+                        var cell = here + new Vector3Int(dx, dy, 0);
+                        if (!_map.CanPlaceAt(cell, ignoreBodies: true)) continue;
+                        Log.Warn($"The player was inside a wall at {here}: moved to {cell}.");
+                        _player.Teleport(_map.CellCenter(cell));
+                        return;
+                    }
         }
 
         // Hands the map's context to every component in the scene that asks for it (the ones in the scene file and the ones made above).

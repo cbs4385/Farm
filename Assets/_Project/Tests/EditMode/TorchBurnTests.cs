@@ -28,6 +28,7 @@ namespace Farm.Tests
             {
                 var s = f.Session;
                 s.State.CurrentMap = MapIds.Mine;
+                s.Backpack.Remove(ItemIds.Torch, s.Backpack.Count(ItemIds.Torch));          // a new game starts with one
                 s.Backpack.Add(ItemIds.Torch, 2);
                 Assert.IsTrue(TorchBurn.Refresh(s, out var lighted, out var none));
                 Assert.IsTrue(lighted);
@@ -56,6 +57,7 @@ namespace Farm.Tests
             {
                 var s = f.Session;
                 s.State.CurrentMap = MapIds.Mine;
+                s.Backpack.Remove(ItemIds.Torch, s.Backpack.Count(ItemIds.Torch));
                 Assert.IsFalse(TorchBurn.Refresh(s, out var lighted, out var none));
                 Assert.IsFalse(lighted);
                 Assert.IsTrue(none);
@@ -69,6 +71,7 @@ namespace Farm.Tests
             {
                 var s = f.Session;
                 s.State.CurrentMap = MapIds.Mine;
+                s.Backpack.Remove(ItemIds.Torch, s.Backpack.Count(ItemIds.Torch));
                 s.Backpack.Add(ItemIds.Torch, 1);
                 TorchBurn.Refresh(s, out _, out _);
                 for (var i = 0; i < 10; i++) TorchBurn.OnMinute(s);

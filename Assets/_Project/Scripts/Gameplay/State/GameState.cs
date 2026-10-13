@@ -31,7 +31,8 @@ namespace Farm.Gameplay
     public sealed class GameState
     {
         public const int CurrentVersion = 2;          // 2: the farm was mirrored (FarmMirrorMigration)
-        public const int StartingBackpackSlots = 12;
+        public const int StartingBackpackSlots = 13;          // twelve on the item bar and one more (owner, 2026-10-13: the starting torch needed a place)
+        public const int FirstDayStartMinute = 7 * 60;          // a new game opens at seven in the morning (owner, 2026-10-12); every later day starts at 06:00
         public const string HammerGivenFlag = "tutorial.hammer_given";      // saves from before the mallet existed get one, once
         public const int HotbarSlots = 12;
 
@@ -132,6 +133,7 @@ namespace Farm.Gameplay
         {
             var state = new GameState
             {
+                MinuteOfDay = FirstDayStartMinute,
                 WorldSeed = worldSeed ?? Guid.NewGuid().GetHashCode(),
                 PlayerName = string.IsNullOrWhiteSpace(playerName) ? "Farmer" : playerName.Trim(),
                 FarmName = string.IsNullOrWhiteSpace(farmName) ? "Farm" : farmName.Trim(),
@@ -149,6 +151,7 @@ namespace Farm.Gameplay
             pack.Add(ItemIds.Hammer, 1);
             state.Flags.Add(HammerGivenFlag);
             pack.Add(ItemIds.Machine("chest"), 1);      // somewhere to put things: playtesters never found the recipe
+            pack.Add(ItemIds.Torch, 1);                 // the day starts in the dark: it lights itself and lasts the first hour (more are made by hand from wood)
             state.Backpack = pack.ToData();
             return state;
         }

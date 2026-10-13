@@ -13,6 +13,21 @@ namespace Farm.Gameplay
         [SerializeField] Vector2Int _size = Vector2Int.one;      // the cells it covers, from the cell it is saved at upwards and to the right (the double bed is 2 x 2)
 
         public string Id { get => _id; set => _id = value; }
+
+        // A prop that becomes an item when the mallet takes it (the farm's hay, sacks, wheelbarrow and barrels): the decoration id of the item, or empty.
+        [SerializeField] string _itemId;
+        public string ItemId { get => _itemId; set => _itemId = value; }
+
+        string TakenFlag(FarmMap map) => $"fixture.taken.{map.MapId}.{_id}";
+
+        // The save says it was taken into the backpack: it is gone from the scene.
+        public bool IsTaken(GameSession session, FarmMap map) => session.State.Flags.Contains(TakenFlag(map));
+
+        public void Take(GameSession session, FarmMap map)
+        {
+            session.State.Flags.Add(TakenFlag(map));
+            gameObject.SetActive(false);
+        }
         public string SpawnId { get => _spawnId; set => _spawnId = value; }
         [SerializeField] bool _walkable;      // a rug: one may walk over it, and it may lie under other furniture
         public bool Walkable { get => _walkable; set => _walkable = value; }
@@ -53,6 +68,7 @@ namespace Farm.Gameplay
         // Moves the fixture to the cell the save says (when it says anything).
         public void Apply(GameSession session, FarmMap map)
         {
+            if (!string.IsNullOrEmpty(_itemId) && IsTaken(session, map)) { gameObject.SetActive(false); return; }
             foreach (var f in session.State.Fixtures)
                 if (f.Map == map.MapId && f.Id == _id) { Turns = f.Turns; Place(map, new Vector3Int(f.X, f.Y, 0)); return; }
         }

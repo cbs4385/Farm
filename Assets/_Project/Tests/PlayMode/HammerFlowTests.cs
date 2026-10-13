@@ -343,6 +343,19 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator TheFarmsHayBale_GoesIntoTheBackpack_AndStaysGone()
+        {
+            yield return Start(MapIds.Farm);
+            var hay = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "farm_hay");
+            var before = _s.Backpack.Count(ItemIds.Machine("hay"));
+            _hammer.Use(hay.Cell(_map));
+            Assert.IsFalse(_hammer.Carrying, "it is taken into the backpack, not carried");
+            Assert.AreEqual(before + 1, _s.Backpack.Count(ItemIds.Machine("hay")));
+            Assert.IsFalse(hay.gameObject.activeSelf, "gone from the farm");
+            Assert.IsTrue(hay.IsTaken(_s, _map), "and remembered, so that it stays gone");
+        }
+
+        [UnityTest]
         public IEnumerator AChest_KeepsItsContents_WhenItIsMoved()
         {
             yield return Start(MapIds.FarmHouse);

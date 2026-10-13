@@ -209,10 +209,10 @@ namespace Farm.Editor
             binFixture.Size = new Vector2Int(2, 2);
 
             // By the farmhouse: hay and sacks against the wall and a wheelbarrow, where the farm's own work happens.
-            MakeMovable(AddProp("Hay", "prop_hay", 74, 21), "farm_hay");
-            MakeMovable(AddProp("Sacks", "prop_sacks", 73, 21), "farm_sacks");
-            MakeMovable(AddProp("Wheelbarrow", "prop_wheelbarrow", 84, 22), "farm_wheelbarrow");
-            MakeMovable(AddProp("Barrels", "prop_barrels", 84, 23), "farm_barrels");
+            MakeMovable(AddProp("Hay", "prop_hay", 74, 21), "farm_hay", "hay");
+            MakeMovable(AddProp("Sacks", "prop_sacks", 73, 21), "farm_sacks", "sacks");
+            MakeMovable(AddProp("Wheelbarrow", "prop_wheelbarrow", 84, 22), "farm_wheelbarrow", "wheelbarrow");
+            MakeMovable(AddProp("Barrels", "prop_barrels", 84, 23), "farm_barrels", "barrels");
 
             // A pond to the north-west of the fields (fishing, and something to look at): one oval of water with a shoreline, walled so that one stops at the shore.
             PaintPond(rig, MapLayout.FarmPond.Contains, 21, 37, 33, 45);
@@ -974,10 +974,11 @@ namespace Farm.Editor
         }
 
         // A prop of the farm that is the player's own: the mallet can lift it and put it down elsewhere, like the shipping bin.
-        static void MakeMovable(GameObject prop, string id)
+        static void MakeMovable(GameObject prop, string id, string itemId = null)
         {
             var fixture = prop.AddComponent<MovableFixture>();
             fixture.Id = id;
+            fixture.ItemId = itemId;          // set: the mallet takes it into the backpack as that decoration
             fixture.Size = Vector2Int.one;
         }
 

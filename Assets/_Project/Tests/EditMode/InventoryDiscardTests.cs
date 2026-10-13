@@ -20,6 +20,25 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void ANewGame_StartsWithATorch_ForTheDarkFirstHour()
+        {
+            var state = GameState.NewGame("T", "F", id => 999, 1);
+            var pack = Inventory.FromData(state.Backpack, id => 999);
+            Assert.AreEqual(1, pack.Count(ItemIds.Torch));
+            Assert.IsTrue(pack.CanAdd(ItemIds.Seed("potato"), 1), "and there is still room in the pack");
+            Assert.AreEqual(13, pack.Capacity, "thirteen slots to start with");
+        }
+
+        [Test]
+        public void ANewGame_OpensAtSevenInTheMorning_AndLaterDaysStartAtSix()
+        {
+            var state = GameState.NewGame("T", "F", id => 999, 1);
+            Assert.AreEqual(7 * 60, state.MinuteOfDay);
+            Assert.AreEqual(7 * 60, state.GetDate().MinuteOfDay);
+            Assert.AreEqual(6 * 60, Farm.Core.GameDateTime.DayStartMinute, "the day still starts at six");
+        }
+
+        [Test]
         public void ANewGame_StartsWithAChest_InThePack()
         {
             var state = GameState.NewGame("T", "F", id => 999, 1);

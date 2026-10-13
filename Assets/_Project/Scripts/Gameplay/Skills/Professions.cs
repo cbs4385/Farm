@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Farm.Core;
 using Farm.Data;
 
 namespace Farm.Gameplay
@@ -50,6 +51,13 @@ namespace Farm.Gameplay
             new ProfessionRow("champion", SkillIds.Combat, 10, ProfessionEffect.Damage, 0.25f),
             new ProfessionRow("defender", SkillIds.Combat, 10, ProfessionEffect.MaxHealth, 50f),
         };
+
+        // What choosing it does, in words (owner, 2026-10-13: "when leveling up there is no preview of what you get"). The percentage or the amount comes from the row.
+        public static string Describe(ProfessionRow row)
+        {
+            var amount = row.Effect == ProfessionEffect.MaxHealth ? (int)row.Value : (int)Math.Round(Math.Abs(row.Value) * 100f);
+            return L.Get("profession.effect." + row.Effect, amount);
+        }
 
         public static ProfessionRow? Find(string id) => Rows.Any(r => r.Id == id) ? Rows.First(r => r.Id == id) : (ProfessionRow?)null;
 

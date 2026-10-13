@@ -45,6 +45,10 @@ namespace Farm.Gameplay
             ("painting", 120), ("clock", 200), ("bench", 140), ("wardrobe", 260), ("vase", 40), ("armchair", 180),
         };
 
+        // Props of the farm that the mallet lifts into the backpack like furniture (owner, 2026-10-12: the hay bale, the wheelbarrow and the barrels). They are not sold: the scene's own
+        // hay, sacks, wheelbarrow and barrels become these, and can be set down again like any decoration. Appended, never renamed: placed objects are saved by id.
+        public static readonly string[] FarmProps = { "hay", "sacks", "wheelbarrow", "barrels" };
+
         public static PlaceableDefinition[] CreatePlaceables() => new[]
         {
             PlaceableDefinition.Create(Chest, PlaceableKind.Chest, capacity: 36),
@@ -55,7 +59,8 @@ namespace Farm.Gameplay
             PlaceableDefinition.Create(Sprinkler1, PlaceableKind.Sprinkler, farmingOnly: true, range: 1),
             PlaceableDefinition.Create(Sprinkler2, PlaceableKind.Sprinkler, farmingOnly: true, range: 2),
             PlaceableDefinition.Create(Sprinkler3, PlaceableKind.Sprinkler, farmingOnly: true, range: 3),
-        }.Concat(Decor.Select(d => PlaceableDefinition.Create(d.id, PlaceableKind.Decor, walkable: d.id == "rug"))).ToArray();
+        }.Concat(Decor.Select(d => PlaceableDefinition.Create(d.id, PlaceableKind.Decor, walkable: d.id == "rug")))
+         .Concat(FarmProps.Select(id => PlaceableDefinition.Create(id, PlaceableKind.Decor))).ToArray();
 
         // Dishes: id, ingredients, energy restored, sell price, skill that teaches it (null = known from the start).
         static readonly (string id, (string item, int count)[] needs, int energy, int sell, string skill, int level)[] Dishes =
@@ -94,6 +99,8 @@ namespace Farm.Gameplay
                 rows.Add(new ExtraItemRow(ItemIds.Machine(id), ItemCategory.Machine, 0, MachineColor(id), placeableId: id));
             foreach (var d in Decor)
                 rows.Add(new ExtraItemRow(ItemIds.Machine(d.id), ItemCategory.Furniture, d.price / 4, C(0.60f, 0.40f, 0.22f), buy: d.price, placeableId: d.id, soldIn: new[] { "carpenter" }));
+            foreach (var id in FarmProps)
+                rows.Add(new ExtraItemRow(ItemIds.Machine(id), ItemCategory.Furniture, 5, C(0.60f, 0.45f, 0.25f), placeableId: id));
             foreach (var d in Dishes)
                 rows.Add(new ExtraItemRow("food." + d.id, ItemCategory.Food, d.sell, C(0.85f, 0.60f, 0.35f), energy: d.energy));
             return rows.ToArray();

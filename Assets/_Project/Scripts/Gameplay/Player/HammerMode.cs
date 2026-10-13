@@ -96,6 +96,11 @@ namespace Farm.Gameplay
             MovableFixture lifted = null;
             foreach (var candidate in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None))
                 if (candidate.Covers(_map, cell) && (lifted == null || lifted.Walkable)) lifted = candidate;      // a piece standing on a rug is lifted before the rug
+            if (lifted != null && !string.IsNullOrEmpty(lifted.ItemId))
+            {
+                TakeFixtureIntoBackpack(lifted);
+                return;
+            }
             if (lifted != null)
             {
                 _kind = Kind.Fixture;
@@ -151,6 +156,23 @@ namespace Farm.Gameplay
                     _session.Toast(L.Get("build.nothing"));
                     break;
             }
+        }
+
+        // A prop of the farm (hay, sacks, wheelbarrow, barrels) goes into the backpack as a decoration; with a full backpack it stays where it is.
+        void TakeFixtureIntoBackpack(MovableFixture fixture)
+        {
+            var itemId = ItemIds.Machine(fixture.ItemId);
+            if (!_session.Backpack.CanAdd(itemId, 1))
+            {
+                AudioService.PlayIfAvailable(Sfx.Error);
+                _session.Toast(L.Get("build.pack_full"));
+                return;
+            }
+            _session.Backpack.Add(itemId, 1);
+            fixture.Take(_session, _map);
+            AudioService.PlayIfAvailable(Sfx.Harvest);
+            _session.Toast(L.Get("build.taken", _session.Db.TryGetItem(itemId, out var item) ? L.Get(item.NameKey) : itemId));
+            _session.NotifyChanged();
         }
 
         void PutDown(Vector3Int cell)
@@ -223,6 +245,7 @@ namespace Farm.Gameplay
                 case Kind.Building:
                 {
                     var type = FarmBuildings.Type(_buildingType);
+                    if (StandsInside(type, cell, _map.WorldToCell(_actions.transform.position))) return "build.refused.onplayer";
                     _map.Ground.CompressBounds();
                     var b = _map.Ground.cellBounds;
                     var result = FarmBuildings.CanPlace(type, cell.x - type.DoorX, cell.y, b.xMax, b.yMax, _session.State.FarmBuildings, (x, y) => OpenForBuilding(new Vector3Int(x, y, 0)));
@@ -242,6 +265,15 @@ namespace Farm.Gameplay
                 }
             }
             return "placeable.blocked";
+        }
+
+        // Would the player be inside the building if its door stood on `doorCell`? (pure) The door cell itself is open: one may stand there. A player inside would be walled in
+        // (playtest 2026-10-13: "place the barn on top of yourself and end up stuck").
+        public static bool StandsInside(FarmBuildingType type, Vector3Int doorCell, Vector3Int player)
+        {
+            var x0 = doorCell.x - type.DoorX;
+            if (player == doorCell) return false;
+            return player.x >= x0 && player.x < x0 + type.W && player.y >= doorCell.y && player.y < doorCell.y + type.H;
         }
 
         string WhyNotOnCell(Vector3Int cell, bool walkable, bool ignoreBodies = false)

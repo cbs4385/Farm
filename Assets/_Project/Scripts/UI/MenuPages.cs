@@ -77,7 +77,10 @@ namespace Farm.UI
                     foreach (var option in tier)
                     {
                         var id = option.Id;
-                        UiKit.MakeButton(row.transform, L.Get("profession." + id), () => { Professions.Choose(ui.Session, id); Refresh(ui); }, 150f, 28f).name = "Choose_" + id;
+                        var optionRow = UiKit.HStack(_offers, "Option_" + id, 8f);
+                        UiKit.Size(optionRow.gameObject, -1f, 30f);
+                        UiKit.MakeButton(optionRow.transform, L.Get("profession." + id), () => { Professions.Choose(ui.Session, id); Refresh(ui); }, 150f, 28f).name = "Choose_" + id;
+                        UiKit.Label(optionRow.transform, Professions.Describe(option), 14f, TextAlignmentOptions.Left, UiKit.DimText);
                     }
                 }
             }

@@ -47,6 +47,7 @@ namespace Farm.Tests
             using (var f = new TestSessionFixture(RealDb().AllItems, RealDb().AllCrops, NpcDefaults.CreateAll()))
             {
                 var s = f.Session;
+                s.Backpack.Remove(ItemIds.Torch, s.Backpack.Count(ItemIds.Torch));          // the bot has room for an offering (a new game starts with a torch)
                 s.State.WorldSeed = seed * 7919 + 11;                                // the same world every time for a given seed
                 s.Story = StoryContent.LoadFromResources();
                 foreach (var pack in Resources.LoadAll<ContentPack>(ContentPack.ResourceFolder)) s.Db.Merge(pack);

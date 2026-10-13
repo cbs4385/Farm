@@ -44,6 +44,7 @@ namespace Farm.Tests
             session.BeginNewGame("Tester", "Test Farm", 0);
             session.SetFlag(FatigueModel.WarnedFlag);
             session.State.Mine.Floor = 1;
+            session.Backpack.Remove(ItemIds.Torch, session.Backpack.Count(ItemIds.Torch));          // a new game starts with one
             session.Backpack.Add(ItemIds.Torch, 3);
             var slot = Enumerable.Range(0, session.Backpack.Capacity).First(i => session.Backpack.Get(i)?.ItemId == ItemIds.Torch);
             var other = Enumerable.Range(0, session.Backpack.Capacity).First(i => i != slot);

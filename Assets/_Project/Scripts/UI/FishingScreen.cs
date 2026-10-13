@@ -78,7 +78,7 @@ namespace Farm.UI
         {
             switch (_session.State)
             {
-                case FishingState.Waiting: _text.text = L.Get(_session.Baited ? "fishing.waiting_bait" : "fishing.waiting"); break;
+                case FishingState.Waiting: _text.text = L.Get(_session.Baited ? "fishing.waiting_bait" : "fishing.waiting_nobait"); break;
                 case FishingState.Bite: _text.text = L.Get("fishing.bite"); break;
                 case FishingState.Bar: _text.text = L.Get("fishing.reel"); break;
                 default: _text.text = string.Empty; break;
