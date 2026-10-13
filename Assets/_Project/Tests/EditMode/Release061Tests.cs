@@ -179,7 +179,7 @@ namespace Farm.Tests
         {
             var table = Table();
             Assert.IsTrue(table.ContainsKey("tutorial.health_bar"));
-            StringAssert.Contains("red bar", table["tutorial.health_bar"]);
+            StringAssert.Contains("heart", table["tutorial.health_bar"]);
             Assert.AreEqual("tutorial.health_bar", HudView.HealthBarFlag);
         }
     }
