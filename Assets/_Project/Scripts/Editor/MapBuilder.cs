@@ -322,7 +322,7 @@ namespace Farm.Editor
             for (var y = 0; y < FarmH; y++)
                 for (var x = 0; x < FarmW; x++)
                 {
-                    var ground = (x * 31 + y * 17) % 23 == 0 ? "tile_dirt" : "tile_grass";
+                    var ground = "tile_grass";           // the old lattice of dirt squares read as a pattern, not as a farm gone wild
                     // Path from the door south, then east along the road to the village.
                     if (x == DoorX && y < HouseY0 && y >= 14) ground = "tile_path";
                     if (y >= FarmExitY0 + 1 && y <= FarmExitY1 - 1 && x >= DoorX) ground = "tile_path";
@@ -984,7 +984,7 @@ namespace Farm.Editor
             var mapGo = new GameObject("Map");
             var map = mapGo.AddComponent<FarmMap>();
             map.Configure(mapId, ground, soil, crops, allowFarming, nodes, walls);
-            map.ClutterDensity = mapId == MapIds.Farm ? 0.07f : 0f;
+            map.ClutterDensity = mapId == MapIds.Farm ? 0.12f : 0f;
 
             var view = mapGo.AddComponent<FarmMapView>();
             view.Configure(map, Sprite("tile_tilled"), Sprite("tile_tilled_watered"));

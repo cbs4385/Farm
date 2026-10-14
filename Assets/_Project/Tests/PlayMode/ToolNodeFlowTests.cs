@@ -110,6 +110,25 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator TheScythe_PullsAGrowingCrop_ToMakeRoom()         // playtest 2026-10-14: only a crop that had not grown at all could be taken out
+        {
+            yield return StartFarm();
+            _session.Db.TryGetCrop("parsnip", out var parsnip);
+            var grid = _session.GetGrid(MapIds.Farm);
+            grid.Till(31, 6);
+            grid.Plant(31, 6, parsnip, _session.Clock.Now.Season);
+            grid.TryGetTile(31, 6, out var tile);
+            tile.Crop.Stage = 1;
+            tile.Crop.DaysInStage = 1;
+            yield return UseScythe();
+
+            yield return Swing();
+
+            Assert.IsFalse(grid.TryGetTile(31, 6, out var after) && after.Crop != null, "the crop is gone");
+            Assert.IsTrue(grid.IsTilled(31, 6), "the soil stays");
+        }
+
+        [UnityTest]
         public IEnumerator TheAxe_FellsATree_ThenClearsTheStump()
         {
             yield return StartFarm();
@@ -261,9 +280,9 @@ namespace Farm.Tests
             for (var i = 0; i < 8; i++) yield return null;
 
             var nodes = _session.GetNodes(MapIds.Farm);
-            Assert.That(nodes.Count, Is.InRange(80, 500), "trees, rocks and weeds (the farm is about twice as big as it was)");
+            Assert.That(nodes.Count, Is.InRange(300, 1800), "trees, rocks, weeds, bushes and logs (the farm starts derelict, reclaimed by the wood)");
             var kinds = nodes.Nodes.Select(n => n.TypeId).Distinct().ToList();
-            CollectionAssert.IsSupersetOf(kinds, new[] { "weed", "rock", "tree" });
+            CollectionAssert.IsSupersetOf(kinds, new[] { "weed", "rock", "tree", "bush", "log" });
 
             // Nothing within three cells of the farmhouse door, the bin (its transform is on cell 74,18: it covers 73..74, 17..18), or the spawn points.
             foreach (var n in nodes.Nodes)

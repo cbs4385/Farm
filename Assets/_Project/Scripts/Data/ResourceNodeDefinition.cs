@@ -82,6 +82,8 @@ namespace Farm.Data
         public const string Tree = "tree";
         public const string Stump = "stump";
         public const string Sunpatch = "sunpatch";    // a tall sunflower of the meadow (summer and fall); cut with the scythe
+        public const string Log = "log";              // a fallen trunk; only the farm's starting undergrowth places it
+        public const string Bush = "bush";            // overgrowth; cut with the scythe
         public const string Sapling = "sapling";      // planted from an acorn; grows into a tree
         public const int SaplingDays = 5;
 
@@ -95,6 +97,8 @@ namespace Farm.Data
             ResourceNodeDefinition.Create(Tree, ToolType.Axe, 6, 0, ItemIds.Wood, 8, 12, "foraging", 12, Stump, true, 12f),
             ResourceNodeDefinition.Create(Stump, ToolType.Axe, 3, 0, ItemIds.Wood, 3, 5, "foraging", 4, null, true, 5f),
             ResourceNodeDefinition.Create(Sunpatch, ToolType.Scythe, 1, 0, ItemIds.Fiber, 1, 2, "foraging", 1, null, false, 0f),
+            ResourceNodeDefinition.Create(Log, ToolType.Axe, 4, 0, ItemIds.Wood, 3, 5, "foraging", 5, null, true, 0f),
+            ResourceNodeDefinition.Create(Bush, ToolType.Scythe, 2, 0, ItemIds.Fiber, 2, 3, "foraging", 2, null, true, 0f),
             ResourceNodeDefinition.Create(Sapling, ToolType.Axe, 1, 0, ItemIds.Acorn, 1, 1, "foraging", 0, null, false, 0f).WithGrowth(Tree, SaplingDays),
         };
     }

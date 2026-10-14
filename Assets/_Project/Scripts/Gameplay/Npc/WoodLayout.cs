@@ -82,5 +82,53 @@ namespace Farm.Gameplay
 
         // Does this closed band cell show a tree (a checkerboard with a few more, so it never reads as a pattern)? The others are plain collision under the crowns.
         public static bool BandShowsTree(int x, int y, int seed = 3) => (x + y) % 2 == 0 || Random01(x, y, seed) < 0.18f;
+
+        // Playtest 2026-10-14: the farm began too large and bare. Choppable trees crowd in from the wood's edge (thick at the edge band, thinning over `FringeDepth`
+        // cells, in clumps rather than a line) and a few small groves stand further in; nothing lines up.
+        public const int FringeDepth = 12;
+
+        public static float FarmTreeChance(int x, int y, int w, int h, int seed = 21)
+        {
+            var d = Math.Min(Math.Min(x, w - 1 - x), Math.Min(y, h - 1 - y)) - EdgeThickness;
+            if (d < 0) return 0f;
+            var fringe = Mathf.Clamp01(1f - d / (float)FringeDepth);
+            var clump = Mathf.Lerp(0.35f, 1f, Noise(x, y, 6f, seed));
+            var chance = 0.55f * fringe * fringe * clump;
+            var c = CopseReach(x, y, seed);
+            if (c < 1f) chance = Math.Max(chance, 0.75f * (1f - c * c * 0.6f));
+            return Mathf.Clamp01(chance);
+        }
+
+        // The farm is derelict, reclaimed by nature (owner, 2026-10-14): copses of trees stand all over it. One copse per 12 x 12 block (most blocks), its centre
+        // jittered in the block, radius 2 to 3.5 cells. Returns the distance to the nearest copse's centre in units of its radius (under 1 is inside it).
+        public const int CopseBlock = 12;
+
+        public static float CopseReach(int x, int y, int seed = 21)
+        {
+            var best = float.MaxValue;
+            var bx = Mathf.FloorToInt(x / (float)CopseBlock);
+            var by = Mathf.FloorToInt(y / (float)CopseBlock);
+            for (var j = by - 1; j <= by + 1; j++)
+                for (var i = bx - 1; i <= bx + 1; i++)
+                {
+                    if (Random01(i, j, seed + 31) > 0.8f) continue;
+                    var cx = i * CopseBlock + 2f + Random01(i, j, seed + 32) * (CopseBlock - 4f);
+                    var cy = j * CopseBlock + 2f + Random01(i, j, seed + 33) * (CopseBlock - 4f);
+                    var r = 2f + Random01(i, j, seed + 34) * 1.5f;
+                    var d = Mathf.Sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy)) / r;
+                    if (d < best) best = d;
+                }
+            return best;
+        }
+
+        // Undergrowth: bushes ring the copses and sprinkle the open ground, fallen logs lie by the trees and alone. Returns "bush", "log" or null.
+        public static string DecorAt(int x, int y, int seed = 21)
+        {
+            var reach = CopseReach(x, y, seed);
+            var roll = Random01(x, y, seed + 51);
+            if (reach < 1f) return null;                      // the trees' own cells
+            if (reach < 1.8f) return roll < 0.32f ? "bush" : roll < 0.4f ? "log" : null;
+            return roll < 0.018f ? "bush" : roll < 0.03f ? "log" : null;
+        }
     }
 }

@@ -345,12 +345,15 @@ namespace Farm.Gameplay
         }
 
         // Scatters the starting clutter on a map the first time it is visited (the cells are chosen by the scene).
-        public void EnsureClutter(string mapId, IEnumerable<(int x, int y)> candidates, float density)
+        public void EnsureClutter(string mapId, IEnumerable<(int x, int y)> candidates, float density, Func<int, int, float> treeChanceAt = null, Func<int, int, string> decorAt = null)
         {
             var map = State.GetMap(mapId);
             if (map.ClutterSeeded) return;
             map.ClutterSeeded = true;
-            NodeSpawner.Generate(GetNodes(mapId), candidates, Nodes.All, State.WorldSeed, mapId, density);
+            var cells = candidates as IList<(int x, int y)> ?? new List<(int x, int y)>(candidates);
+            if (treeChanceAt != null) NodeSpawner.GenerateTrees(GetNodes(mapId), cells, Nodes.Get(NodeDefaults.Tree), State.WorldSeed, mapId, treeChanceAt);
+            if (decorAt != null) NodeSpawner.GenerateDecor(GetNodes(mapId), cells, Nodes.Get, decorAt);
+            NodeSpawner.Generate(GetNodes(mapId), cells, Nodes.All, State.WorldSeed, mapId, density);
         }
 
         // Is the day's weather one that waters crops here? (The greenhouse stays dry.)

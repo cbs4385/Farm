@@ -71,6 +71,7 @@ namespace Farm.Gameplay
                     cost = Mathf.Max(1, Mathf.RoundToInt(ToolModel.EnergyCost(PlayerActions.EnergyCost(tool), tier) * Professions.EnergyMultiplier(_c.Session.State)));
                     if (tool == ToolType.Scythe && TryUproot(cell)) break;
                     if (tool == ToolType.Scythe && TryClearWithered(cell, cost)) break;
+                    if (tool == ToolType.Scythe && TryPullCrop(cell, cost)) break;
                     if (tool == ToolType.Scythe && TryUntill(cell, cost)) break;
                     if (!SwingAtNode(tool, tier, cost, cell)) return;
                     _c.View.RefreshNode(cell);
@@ -95,6 +96,20 @@ namespace Farm.Gameplay
             grid.TryUproot(cell.x, cell.y, out _);
             _c.Session.Backpack.Add(crop.SeedItemId, 1);
             _c.Session.Toast(L.Get("toast.uprooted"));
+            AudioService.PlayIfAvailable(Sfx.Harvest);
+            ActionPuff.Burst(_c.Map.CellCenter(cell), new Color(0.45f, 0.38f, 0.30f), 3, Fx.DigDirt);
+            return true;
+        }
+
+        // The scythe pulls a crop that has begun to grow (or is ready) out of the soil, to make room for something else. No seed comes back.
+        bool TryPullCrop(Vector3Int cell, int cost)
+        {
+            var grid = _c.Session.GetGrid(_c.Map.MapId);
+            if (!grid.TryGetTile(cell.x, cell.y, out var tile) || tile.Crop == null) return false;
+            if (!_c.Session.Db.TryGetCrop(tile.Crop.CropId, out var def) || def.IsTree) return false;
+            if (!_c.SpendEnergy(cost)) return true;
+            grid.ClearCrop(cell.x, cell.y);
+            _c.Session.Toast(L.Get("toast.crop_pulled"));
             AudioService.PlayIfAvailable(Sfx.Harvest);
             ActionPuff.Burst(_c.Map.CellCenter(cell), new Color(0.45f, 0.38f, 0.30f), 3, Fx.DigDirt);
             return true;

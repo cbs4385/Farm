@@ -167,6 +167,36 @@ namespace Farm.Gameplay
             return placed;
         }
 
+        // Trees where `chanceAt(x, y)` (0..1) says so, the same way for the same seed. Returns how many were placed.
+        public static int GenerateTrees(NodeGrid grid, IEnumerable<(int x, int y)> candidates, ResourceNodeDefinition tree,
+            int seed, string mapKey, Func<int, int, float> chanceAt)
+        {
+            if (tree == null || chanceAt == null) return 0;
+            var salt = StableHash(mapKey) ^ 0x2c1b3c6d;
+            var placed = 0;
+            foreach (var (x, y) in candidates.OrderBy(c => c.y).ThenBy(c => c.x))
+            {
+                if (grid.Has(x, y)) continue;
+                if (WeatherRoller.Unit(x * 6007 + y * 70001 + salt, seed) >= chanceAt(x, y)) continue;
+                if (grid.Add(x, y, tree)) placed++;
+            }
+            return placed;
+        }
+
+        // Bushes and fallen logs where `decorAt(x, y)` names one ("bush" or "log"). Returns how many were placed.
+        public static int GenerateDecor(NodeGrid grid, IEnumerable<(int x, int y)> candidates, Func<string, ResourceNodeDefinition> find, Func<int, int, string> decorAt)
+        {
+            var placed = 0;
+            foreach (var (x, y) in candidates.OrderBy(c => c.y).ThenBy(c => c.x))
+            {
+                if (grid.Has(x, y)) continue;
+                var id = decorAt(x, y);
+                var def = id != null ? find(id) : null;
+                if (def != null && grid.Add(x, y, def)) placed++;
+            }
+            return placed;
+        }
+
         static int StableHash(string s)
         {
             unchecked

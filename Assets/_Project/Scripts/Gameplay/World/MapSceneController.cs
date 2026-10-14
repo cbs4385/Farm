@@ -65,7 +65,9 @@ namespace Farm.Gameplay
 
             RescueIfWalledIn();
             _player.gameObject.AddComponent<HammerMode>().Init(_player.GetComponent<PlayerActions>(), _map, _session);
-            if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity);
+            if (_map.ClutterDensity > 0f) _session.EnsureClutter(_map.MapId, ClutterCandidates(), _map.ClutterDensity,
+                _map.MapId == MapIds.Farm ? (x, y) => WoodLayout.FarmTreeChance(x, y, MapLayout.FarmW, MapLayout.FarmH) : (System.Func<int, int, float>)null,
+                _map.MapId == MapIds.Farm ? (x, y) => WoodLayout.DecorAt(x, y) : (System.Func<int, int, string>)null);
             if (_map.MapId == MapIds.Forest) { ForestTrees.Seed(_session); ForestTrees.Regrow(_session, _session.Clock.Now.TotalDays); }
             if (_map.MapId == MapIds.Village)
             {
