@@ -28,7 +28,7 @@ namespace Farm.UI
             catcher.color = new Color(0f, 0f, 0f, 0f);
             var rect = scroll.gameObject.AddComponent<ScrollRect>();
             scroll.gameObject.AddComponent<RectMask2D>();
-            scroll.gameObject.AddComponent<ScrollSelectionFollower>();
+            scroll.gameObject.AddComponent<ScrollFollowSelection>();
             var content = UiKit.VStack(scroll, "Content", 4f, 4);
             var fitter = content.gameObject.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -52,13 +52,14 @@ namespace Farm.UI
             var session = _ui.Session;
             UiKit.ClearChildren(_content);
             var recipes = session.Recipes.ForStation(_station).ToList();
+            var near = session.NearbyIngredients();
             // Known recipes first, then the ones a skill has yet to unlock.
             foreach (var recipe in recipes.Where(session.KnowsRecipe).Concat(recipes.Where(r => !session.KnowsRecipe(r))))
-                BuildRow(session, recipe);
+                BuildRow(session, recipe, near);
             if (recipes.Count == 0) UiKit.Label(_content, L.Get("crafting.nothing"), 18f, TextAlignmentOptions.Center, UiKit.DimText);
         }
 
-        void BuildRow(GameSession session, RecipeDefinition recipe)
+        void BuildRow(GameSession session, RecipeDefinition recipe, System.Collections.Generic.IReadOnlyList<IIngredientSource> near)
         {
             var known = session.KnowsRecipe(recipe);
             var output = session.Db.TryGetItem(recipe.OutputItemId, out var item) ? item : null;
@@ -76,20 +77,20 @@ namespace Farm.UI
                 TextAlignmentOptions.Left, known ? UiKit.TextColor : UiKit.DimText);
             UiKit.Size(title.gameObject, 250f, 40f);
 
-            var ingredients = known ? string.Join(", ", recipe.Ingredients.Select(i => IngredientText(session, i))) : string.Empty;
+            var ingredients = known ? string.Join(", ", recipe.Ingredients.Select(i => IngredientText(session, i, near))) : string.Empty;
             var needs = UiKit.Label(row.transform, ingredients, 15f, TextAlignmentOptions.Left, UiKit.DimText);
             UiKit.Size(needs.gameObject, -1f, 40f, 1f);
 
             if (!known) return;
-            var craftable = CraftingRules.HasIngredients(recipe, session.Backpack);
+            var craftable = CraftingRules.HasIngredients(recipe, session.Backpack, near);
             var button = UiKit.MakeButton(row.transform, L.Get("crafting.craft"), () => Craft(recipe), 90f, 34f);
             button.name = "Craft";
             button.interactable = craftable;
         }
 
-        static string IngredientText(GameSession session, RecipeIngredient i)
+        static string IngredientText(GameSession session, RecipeIngredient i, System.Collections.Generic.IReadOnlyList<IIngredientSource> near)
         {
-            var have = CraftingRules.Available(i, session.Backpack);
+            var have = CraftingRules.Available(i, session.Backpack, near);
             var name = i.AnyOf != null && i.AnyOf.Length > 0 ? L.Get(i.ItemId)
                 : session.Db.TryGetItem(i.ItemId, out var item) ? L.Get(item.NameKey) : i.ItemId;
             return $"{i.Count} {name} ({have})";

@@ -1,15 +1,15 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Farm.Core;
 
 namespace Farm.Gameplay
 {
-    // The quest the screen follows (playtest 2026-10-09): one quest at a time, chosen in the Journal. With only one active quest there is nothing to choose, so it is
-    // followed by itself; when the followed quest is finished (or none was chosen) the first active quest is followed. The choice is a flag, so it is saved with the game.
-    // Pure text, so it can be tested; the HUD only shows it.
+    // The quests the screen lists (playtest 2026-10-14): every active quest, unless the player switched its Track button off in the Journal. The choice is a flag, so it is
+    // saved with the game. Pure text, so it can be tested; the HUD only shows it.
     public static class QuestTracker
     {
-        public const string TrackedPrefix = "quest.tracked.";
+        public const string HiddenPrefix = "quest.hidden.";          // set when the player switched a quest's tracking off
 
         // "have/need" for an objective that counts something, else null.
         public static string Count(GameSession s, QuestDefinition def, QuestObjective o)
@@ -29,39 +29,43 @@ namespace Farm.Gameplay
             return System.Math.Min(s.Backpack.Count(rest.Substring(0, at)), need) + "/" + need;
         }
 
-        // The id of the quest being followed, or null when no quest is active.
-        public static string TrackedId(GameSession s)
+        // A quest is listed on screen unless the player turned it off (playtest 2026-10-14: Track is a switch, and any number of quests can be on). The flag is the
+        // "off" side so that every new quest appears by itself.
+        public static bool IsTracked(GameSession s, string questId) => !s.HasFlag(HiddenPrefix + questId);
+
+        // The active quests that are listed, in the order of the journal.
+        public static List<string> TrackedIds(GameSession s) => QuestLog.Active(s).Select(q => q.Id).Where(id => IsTracked(s, id)).ToList();
+
+        public static void SetTracked(GameSession s, string questId, bool tracked) => s.SetFlag(HiddenPrefix + questId, !tracked);
+
+        // The Track button: on becomes off and off becomes on. Returns whether the quest is listed now.
+        public static bool Toggle(GameSession s, string questId)
         {
-            var active = QuestLog.Active(s).Select(q => q.Id).ToList();
-            if (active.Count == 0) return null;
-            foreach (var flag in s.State.Flags)
-                if (flag.StartsWith(TrackedPrefix, System.StringComparison.Ordinal) && active.Contains(flag.Substring(TrackedPrefix.Length)))
-                    return flag.Substring(TrackedPrefix.Length);
-            return active[0];
+            var now = !IsTracked(s, questId);
+            SetTracked(s, questId, now);
+            return now;
         }
 
-        // Follows this quest from now on (and no other).
-        public static void Track(GameSession s, string questId)
-        {
-            foreach (var old in s.State.Flags.Where(f => f.StartsWith(TrackedPrefix, System.StringComparison.Ordinal)).ToList()) s.SetFlag(old, false);
-            s.SetFlag(TrackedPrefix + questId);
-        }
+        // Lists this quest on screen.
+        public static void Track(GameSession s, string questId) => SetTracked(s, questId, true);
 
-        // The followed quest: its title, then each objective still unmet with its count. Empty when no quest is active.
+        // Each listed quest: its title, then each objective still unmet with its count; quests are set apart by a blank line. Empty when none is listed.
         public static string Text(GameSession s)
         {
-            var id = TrackedId(s);
-            if (id == null) return string.Empty;
-            var q = QuestLog.Active(s).FirstOrDefault(x => x.Id == id);
-            if (q == null) return string.Empty;
-            var sb = new StringBuilder(L.Get(q.TitleKey));
-            foreach (var o in q.Objectives)
+            var sb = new StringBuilder();
+            foreach (var q in QuestLog.Active(s))
             {
-                if (QuestLog.ObjectiveMet(s, q, o)) continue;
-                sb.Append('\n').Append("  - ").Append(L.Get(o.Text));
-                var count = Count(s, q, o);
-                if (count != null) sb.Append(" (").Append(count).Append(')');
-                sb.Append(QuestLog.CarryingText(s, q, o));
+                if (!IsTracked(s, q.Id)) continue;
+                if (sb.Length > 0) sb.Append("\n\n");
+                sb.Append(L.Get(q.TitleKey));
+                foreach (var o in q.Objectives)
+                {
+                    if (QuestLog.ObjectiveMet(s, q, o)) continue;
+                    sb.Append('\n').Append("  - ").Append(L.Get(o.Text));
+                    var count = Count(s, q, o);
+                    if (count != null) sb.Append(" (").Append(count).Append(')');
+                    sb.Append(QuestLog.CarryingText(s, q, o));
+                }
             }
             return sb.ToString();
         }

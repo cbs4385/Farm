@@ -40,6 +40,9 @@ namespace Farm.UI
         // Escape / gamepad B while this screen is on top.
         public virtual void OnCancel() => Close();
         public virtual void Tick() { }
+
+        // Where the pad cursor starts when the screen opens or comes back to the front (null: its first control).
+        public virtual GameObject InitialFocus => null;
     }
 
     // Persistent UI root: EventSystem, HUD, modal stack, and the IUiService used by gameplay code.
@@ -241,6 +244,7 @@ namespace Farm.UI
             top.Tick();
             if (_input.Ui[InputNames.Cancel].WasPressedThisFrame() && Time.frameCount != top.OpenedFrame) top.OnCancel();
             RecoverFocus(top);
+            PadScroll.Tick(top.Root, Time.unscaledDeltaTime);
         }
 
         // ---- the menu tour ---------------------------------------------------------------------------------------
@@ -269,7 +273,7 @@ namespace Farm.UI
             _modals.Add(screen);
             screen.Root.transform.SetAsLastSibling();
             ConfineNavigation();
-            FocusFirst(screen.Root);
+            FocusScreen(screen);
         }
 
         public void ShowMenuTour()
@@ -304,7 +308,7 @@ namespace Farm.UI
             }
             _modals.Add(screen);
             ConfineNavigation();
-            FocusFirst(screen.Root);
+            FocusScreen(screen);
         }
 
         // Only the top screen can be navigated: the screens under it (the title menu under Options, the game menu under a confirm box ...) stay on screen, but a
@@ -344,7 +348,7 @@ namespace Farm.UI
             }
             else
             {
-                FocusFirst(_modals[_modals.Count - 1].Root);
+                FocusScreen(_modals[_modals.Count - 1]);
             }
         }
 
@@ -357,12 +361,19 @@ namespace Farm.UI
             var selected = system.currentSelectedGameObject;
             if (selected != null && selected.activeInHierarchy && selected.transform.IsChildOf(top.Root.transform)) return;
             var moved = _input.Ui[InputNames.Navigate].ReadValue<Vector2>().sqrMagnitude > 0.16f;
-            if (moved || _input.Ui[InputNames.Submit].WasPressedThisFrame()) FocusFirst(top.Root);
+            if (moved || _input.Ui[InputNames.Submit].WasPressedThisFrame()) FocusScreen(top);
         }
 
         public void CloseAllModals()
         {
             foreach (var m in _modals.ToArray()) m.Close();
+        }
+
+        public void FocusScreen(UiScreen screen)
+        {
+            var start = screen.InitialFocus;
+            if (start != null && start.activeInHierarchy && EventSystem.current != null) EventSystem.current.SetSelectedGameObject(start);
+            else FocusFirst(screen.Root);
         }
 
         public void FocusFirst(GameObject root)

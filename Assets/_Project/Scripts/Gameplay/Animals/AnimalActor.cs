@@ -21,7 +21,8 @@ namespace Farm.Gameplay
         int _idle;
         bool _moving;
         bool _hasArt;
-        SpriteRenderer _bubble;       // the product, floating over the animal while it is ready to collect
+        SpriteRenderer _bubble;
+        SpriteRenderer _bubbleQuality;      // the diamond on the product when it is better than ordinary       // the product, floating over the animal while it is ready to collect
 
         public AnimalState State => _state;
         public string Type => _state != null ? _state.Type : null;
@@ -79,12 +80,17 @@ namespace Farm.Gameplay
                 _bubble.sprite = product;
                 _bubble.sortingOrder = 9;
                 _bubble.enabled = false;
+                _bubbleQuality = QualityMarks.Attach(bubble.transform, new Vector3(-0.38f, 0.38f, 0f), 0.8f);
             }
         }
 
         void Update()
         {
-            if (_bubble != null) _bubble.enabled = _state.ProductReady;
+            if (_bubble != null)
+            {
+                _bubble.enabled = _state.ProductReady;
+                QualityMarks.Set(_bubbleQuality, _state.ProductReady ? AnimalRules.Quality(_state) : 0, _bubble.sortingOrder);
+            }
             _renderer.color = _state.ProductReady ? new Color(1f, 1f, 0.7f) : Color.white;
             var running = _manager.Running;
             if (running && _eatLeft > 0f) _eatLeft = Mathf.Max(0f, _eatLeft - Time.deltaTime);

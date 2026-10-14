@@ -113,7 +113,6 @@ namespace Farm.UI
             var s = ui.Session;
             UiKit.ClearChildren(_list);
             UiKit.Label(_list, L.Get("journal.quests"), 20f, TextAlignmentOptions.Left, UiKit.Accent);
-            var tracked = QuestTracker.TrackedId(s);
             var any = false;
             foreach (var q in QuestLog.Active(s))
             {
@@ -122,10 +121,9 @@ namespace Farm.UI
                 var title = UiKit.Label(row.transform, L.Get(q.TitleKey), 18f);
                 UiKit.Size(title.gameObject, -1f, -1f, 1f);
                 var id = q.Id;
-                var following = id == tracked;
-                var button = UiKit.MakeButton(row.transform, L.Get(following ? "journal.tracking" : "journal.track"), () => { QuestTracker.Track(s, id); Refresh(ui); }, 130f, 28f);
+                var following = QuestTracker.IsTracked(s, id);
+                var button = UiKit.MakeButton(row.transform, L.Get(following ? "journal.tracking" : "journal.track"), () => { QuestTracker.Toggle(s, id); Refresh(ui); }, 150f, 28f);
                 button.name = "Track_" + id;
-                button.interactable = !following;                                          // the one that is followed has nothing more to choose
                 foreach (var o in q.Objectives)
                     UiKit.Label(_list, (QuestLog.ObjectiveMet(s, q, o) ? "[x] " : "[ ] ") + L.Get(o.Text) + QuestLog.ProgressText(s, q, o) + QuestLog.CarryingText(s, q, o), 15f, TextAlignmentOptions.Left, UiKit.DimText);
             }

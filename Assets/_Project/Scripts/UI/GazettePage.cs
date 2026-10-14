@@ -17,9 +17,8 @@ namespace Farm.UI
         {
             var stack = UiKit.VStack(content, "Gazette", 6f, 10);
             UiKit.Stretch((RectTransform)stack.transform);
-            var body = UiKit.VStack(stack.transform, "Body", 6f);
-            UiKit.Size(body.gameObject, -1f, -1f, 1f, 1f);
-            _body = (RectTransform)body.transform;
+            var scroll = UiKit.Scroll(stack.transform, "Body", out _body);          // a long issue scrolls: a wheel or the pad's right stick brings the corners into view
+            UiKit.Size(scroll.gameObject, -1f, -1f, 1f, 1f);
         }
 
         public override void Refresh(UiService ui)

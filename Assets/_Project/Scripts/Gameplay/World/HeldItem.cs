@@ -15,6 +15,8 @@ namespace Farm.Gameplay
 
         SpriteRenderer _body;
         SpriteRenderer _icon;
+        SpriteRenderer _quality;
+        int _carriedQuality;
         WalkBob _bob;
         GameSession _session;
         PlayerController _controller;
@@ -85,6 +87,7 @@ namespace Farm.Gameplay
             _icon = go.AddComponent<SpriteRenderer>();
             LitSprites.Apply(_icon);
             _icon.enabled = false;
+            _quality = QualityMarks.Attach(go.transform, new Vector3(-0.35f, 0.35f, 0f), 0.8f);
         }
 
         void LateUpdate()
@@ -97,16 +100,19 @@ namespace Farm.Gameplay
             if (_hoistLeft > 0f && _hoisted != null)
             {
                 IsCarrying = false;
+                QualityMarks.Set(_quality, 0, 0);
                 Place(_hoisted, new Vector2(0f, HoistHeight(1f - _hoistLeft / HoistSeconds)), HoistScale, order + 1);
                 return;
             }
 
             _carried = CarriedSprite();
             IsCarrying = _carried != null;
-            if (!IsCarrying) { _icon.enabled = false; return; }
+            if (!IsCarrying) { _icon.enabled = false; QualityMarks.Set(_quality, 0, 0); return; }
             var offset = CarryOffset(facing);
             if (_bob != null && _bob.IsRaised) offset.y += PixelHeight;                 // it bobs with the body
-            Place(_carried, offset, CarryScale, BehindBody(facing) ? order - 1 : order + 1);
+            var carriedOrder = BehindBody(facing) ? order - 1 : order + 1;
+            Place(_carried, offset, CarryScale, carriedOrder);
+            QualityMarks.Set(_quality, _carriedQuality, carriedOrder);
         }
 
         void Place(Sprite sprite, Vector2 offset, float scale, int order)
@@ -123,7 +129,8 @@ namespace Farm.Gameplay
             // Looked up each time: the session is replaced by a new game or a load, and may not have started one yet.
             if (_session == null || _session.State == null || _session.Backpack == null) { _shownId = null; _carried = null; return null; }
             var stack = _session.Backpack.Get(_session.State.SelectedHotbar);
-            if (stack == null) { _shownId = null; _carried = null; return null; }
+            if (stack == null) { _shownId = null; _carried = null; _carriedQuality = 0; return null; }
+            _carriedQuality = stack.Quality;
             if (stack.ItemId != _shownId)
             {
                 _shownId = stack.ItemId;

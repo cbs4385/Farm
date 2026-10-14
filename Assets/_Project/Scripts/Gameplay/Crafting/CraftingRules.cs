@@ -38,6 +38,72 @@ namespace Farm.Gameplay
             }
         }
 
+        // ---- with what is near the player (backpack first, then `near` in order) -----------------------------------------------
+
+        static List<IIngredientSource> Sources(Inventory backpack, IReadOnlyList<IIngredientSource> near)
+        {
+            var all = new List<IIngredientSource> { new InventorySource(backpack) };
+            if (near != null) all.AddRange(near);
+            return all;
+        }
+
+        public static int Available(RecipeIngredient ingredient, Inventory backpack, IReadOnlyList<IIngredientSource> near)
+        {
+            var total = 0;
+            foreach (var source in Sources(backpack, near)) total += Held(ingredient, source);
+            return total;
+        }
+
+        static int Held(RecipeIngredient ingredient, IIngredientSource source) =>
+            ingredient.AnyOf != null && ingredient.AnyOf.Length > 0 ? ingredient.AnyOf.Sum(source.Count) : source.Count(ingredient.ItemId);
+
+        public static bool HasIngredients(RecipeDefinition recipe, Inventory backpack, IReadOnlyList<IIngredientSource> near) =>
+            recipe.Ingredients.All(i => Available(i, backpack, near) >= i.Count);
+
+        // Who gives what: the backpack's share first, then each place in turn. Nothing is removed. (pure)
+        public static List<(int source, string itemId, int count)> Plan(RecipeDefinition recipe, IReadOnlyList<IIngredientSource> sources)
+        {
+            var plan = new List<(int, string, int)>();
+            var used = new Dictionary<(int, string), int>();
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                var left = ingredient.Count;
+                var ids = ingredient.AnyOf != null && ingredient.AnyOf.Length > 0 ? ingredient.AnyOf : new[] { ingredient.ItemId };
+                for (var s = 0; s < sources.Count && left > 0; s++)
+                    foreach (var id in ids)
+                    {
+                        if (left <= 0) break;
+                        used.TryGetValue((s, id), out var already);
+                        var take = Math.Min(left, sources[s].Count(id) - already);
+                        if (take <= 0) continue;
+                        used[(s, id)] = already + take;
+                        plan.Add((s, id, take));
+                        left -= take;
+                    }
+            }
+            return plan;
+        }
+
+        public static CraftResult TryCraft(RecipeDefinition recipe, string station, GameState state, Inventory backpack, Func<string, int> skillLevel,
+            IReadOnlyList<IIngredientSource> near)
+        {
+            if (near == null || near.Count == 0) return TryCraft(recipe, station, state, backpack, skillLevel);
+            if (recipe.Station != station) return CraftResult.WrongStation;
+            if (!Knows(recipe, state, skillLevel)) return CraftResult.NotKnown;
+            if (!HasIngredients(recipe, backpack, near)) return CraftResult.MissingIngredients;
+
+            var sources = Sources(backpack, near);
+            var plan = Plan(recipe, sources);
+            var probe = Inventory.FromData(backpack.ToData(), id => 999);
+            foreach (var (source, id, count) in plan)
+                if (source == 0) probe.Remove(id, count);
+            if (!probe.CanAdd(recipe.OutputItemId, recipe.OutputCount)) return CraftResult.NoRoom;
+
+            foreach (var (source, id, count) in plan) sources[source].Remove(id, count);
+            backpack.Add(recipe.OutputItemId, recipe.OutputCount);
+            return CraftResult.Ok;
+        }
+
         // ---- knowing recipes ------------------------------------------------------------------------------------------
 
         // A recipe is known from the start (no skill requirement), once learned (a letter, a villager), or once the player's

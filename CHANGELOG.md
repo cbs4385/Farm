@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.6 (2026-10-14)
+
+From the playtesters' list of the same day (third list).
+
+- **Ripe crops twinkle.** A small star glints over every crop and fruit tree that is ready to harvest, so a field shows what to pick without pointing at each plant. (With "Reduce flashes" on, the star is steady.)
+- **The Track button is a switch.** Each quest in the Journal (and each hall room) has "Tracking: on/off"; every active quest is listed on screen unless you turn it off, and several can be on at once.
+- **Menus with a pad.** The shoulder buttons change the menu tab and the cursor goes to that tab; walking left and right along the tab row shows each page, and coming up from a page no longer jumps to another tab. The right stick scrolls the open list or page (the Gazette, Gossip, Collections pages now scroll too). The crafting list follows the cursor down to the recipes you can make.
+- **The mouse wheel in Options** no longer stops partway down: the list was pulled back to the control last clicked.
+- **Crafting uses what is near.** Ingredients come from the backpack first, then chests within five tiles (nearest first), then finished goods waiting in machines. The recipe list counts them too.
+- **Every counter gives everything its shop offers.** The shop window has a button for upgrades and services, and the upgrades window one back to the shop, from any counter (the blacksmith's, the clinic's, the saloon's bar and the rest).
+- **Quality marks on pictures.** The diamond shows on a stack being dragged in the backpack and chests, on the item carried in the arms, and on a product floating over an animal.
+
 ## 0.6.5 (2026-10-14)
 
 From the playtesters' list of the same day (second list).

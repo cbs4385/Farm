@@ -169,6 +169,7 @@ namespace Farm.UI
                 _dragIcon.rectTransform.sizeDelta = new Vector2(SlotSize - 8f, SlotSize - 8f);
             }
             _dragIcon.sprite = item.Icon;
+            SlotBadges.Replace(_dragIcon.transform, stack.Quality);
             _dragIcon.gameObject.SetActive(true);
             _dragIcon.transform.SetAsLastSibling();
             UpdateDrag(eventData);

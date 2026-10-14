@@ -21,6 +21,7 @@ namespace Farm.UI
         readonly SettingsStore _store;
         readonly RectTransform _content;
         readonly ScrollRect _scroll;
+        GameObject _followed;
         InputActionRebindingExtensions.RebindingOperation _rebind;
         bool _rebinding;
         IDisposable _padWait;
@@ -88,10 +89,13 @@ namespace Farm.UI
             Close();
         }
 
-        // Keep the gamepad/keyboard-selected row inside the scroll viewport.
+        // Keep the gamepad/keyboard-selected row inside the scroll viewport. Only when the selection moves: following it every frame pulled the list back
+        // whenever the mouse wheel scrolled the clicked row out of view (playtest 2026-10-14: "the wheel stops moving down at spots").
         public override void Tick()
         {
             var selected = UnityEngine.EventSystems.EventSystem.current?.currentSelectedGameObject;
+            if (selected == _followed) return;
+            _followed = selected;
             if (selected == null || !selected.transform.IsChildOf(_content)) return;
             var viewport = (RectTransform)_scroll.transform;
             var item = (RectTransform)selected.transform;

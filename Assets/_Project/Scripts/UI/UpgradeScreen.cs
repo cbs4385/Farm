@@ -15,6 +15,14 @@ namespace Farm.UI
         readonly TextMeshProUGUI _gold;
         readonly TextMeshProUGUI _title;
         string _shopId = "blacksmith";
+        readonly UnityEngine.UI.Button _shopButton;
+
+        void SeeShop()
+        {
+            var shop = _shopId;
+            Close();
+            Ui.ShowShop(shop);
+        }
 
         public UpgradeScreen(UiService ui) : base(ui)
         {
@@ -30,7 +38,10 @@ namespace Farm.UI
             UiKit.Size(list.gameObject, -1f, -1f, -1f, 1f);
             _list = (RectTransform)list.transform;
 
-            UiKit.MakeButton(UiKit.PinnedRow(frame, 8f, 180f), L.Get("ui.close"), Close, 160f, 34f).name = "Close";
+            var buttons = UiKit.PinnedRow(frame, 8f, 380f);
+            _shopButton = UiKit.MakeButton(buttons, L.Get("upgrade.shop"), SeeShop, 190f, 34f);
+            _shopButton.name = "SeeShop";
+            UiKit.MakeButton(buttons, L.Get("ui.close"), Close, 160f, 34f).name = "Close";
             root.SetActive(false);
         }
 
@@ -38,6 +49,7 @@ namespace Farm.UI
         {
             _shopId = shopId;
             _title.text = L.Get("services." + shopId + ".title");
+            _shopButton.gameObject.SetActive(CounterServices.HasShop(Ui.Session, shopId));
             Rebuild();
             Open();
         }

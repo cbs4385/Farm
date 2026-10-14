@@ -32,6 +32,7 @@ namespace Farm.Gameplay
             _nodeGrid = nodes;
             _nodeCatalog = nodeCatalog;
             if (!TryGetComponent<TileSway>(out _)) gameObject.AddComponent<TileSway>();
+            if (!TryGetComponent<RipeSparkle>(out _)) gameObject.AddComponent<RipeSparkle>();
             RefreshAll();
         }
 
@@ -72,6 +73,22 @@ namespace Farm.Gameplay
                     SetLean(_map.Nodes, new Vector3Int(n.X, n.Y, 0), Sway.LeanPixels(time, n.X, n.Y, strength));
                 }
         }
+
+        // The world positions where a twinkle goes: over each crop and fruit tree that is ready to pick.
+        public void CollectRipe(List<Vector3> spots)
+        {
+            spots.Clear();
+            if (_grid == null || _db == null || _map == null || _map.Crops == null) return;
+            foreach (var t in _grid.Tiles)
+            {
+                if (t.Crop == null || !_grid.IsMature(t.X, t.Y, CropOf)) continue;
+                var centre = _map.Crops.GetCellCenterWorld(new Vector3Int(t.X, t.Y, 0));
+                var offset = RipeSparkle.Offset(t.X, t.Y);
+                spots.Add(new Vector3(centre.x + offset.x, centre.y + offset.y, 0f));
+            }
+        }
+
+        CropDefinition CropOf(string id) => _db.TryGetCrop(id, out var def) ? def : null;
 
         void SetLean(Tilemap map, Vector3Int cell, int lean)
         {

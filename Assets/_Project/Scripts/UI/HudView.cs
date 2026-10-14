@@ -430,6 +430,9 @@ namespace Farm.UI
             _tracker.outlineWidth = 0.3f;                       // a dark edge round the letters, so that they read over grass (playtest 2026-10-13)
             _tracker.outlineColor = new Color32(24, 14, 8, 255);
             _tracker.raycastTarget = false;
+            _tracker.enableAutoSizing = true;                   // several quests shrink the letters rather than run off the box
+            _tracker.fontSizeMin = 10f;
+            _tracker.fontSizeMax = 15f;
             UiKit.Place(_tracker.rectTransform, new Vector2(1, 1), new Vector2(1, 1), new Vector2(340, 170), new Vector2(-10, -(BarHeight + 8f)));
             _tracker.rectTransform.pivot = new Vector2(1, 1);
         }

@@ -17,6 +17,7 @@ namespace Farm.UI
         readonly TextMeshProUGUI _title;
         string _shopId = "general";
         readonly Button _sellButton;
+        readonly Button _upgradesButton;
 
         public bool SellButtonShown => _sellButton != null && _sellButton.gameObject.activeSelf;
 
@@ -26,6 +27,15 @@ namespace Farm.UI
             var shop = _shopId;
             Close();
             Ui.ShowSell(() => Ui.ShowShop(shop));
+        }
+
+        public bool UpgradesButtonShown => _upgradesButton != null && _upgradesButton.gameObject.activeSelf;
+
+        void SeeUpgrades()
+        {
+            var shop = _shopId;
+            Close();
+            Ui.ShowUpgrades(shop);
         }
 
         public ShopScreen(UiService ui) : base(ui)
@@ -45,7 +55,7 @@ namespace Farm.UI
             catcher.color = new Color(0f, 0f, 0f, 0f);
             var scrollRect = scroll.gameObject.AddComponent<ScrollRect>();
             scroll.gameObject.AddComponent<RectMask2D>();
-            scroll.gameObject.AddComponent<ScrollSelectionFollower>();
+            scroll.gameObject.AddComponent<ScrollFollowSelection>();
             var list = UiKit.VStack(scroll, "List", 4f);
             var fitter = list.gameObject.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -69,6 +79,8 @@ namespace Farm.UI
             UiKit.Size(bar.gameObject, -1f, 34f);
             _sellButton = UiKit.MakeButton(bar.transform, L.Get("shop.sell"), SellToTheShop, 240f, 34f);
             _sellButton.name = "SellToShop";
+            _upgradesButton = UiKit.MakeButton(bar.transform, L.Get("shop.upgrades"), SeeUpgrades, 200f, 34f);          // every counter of a business gives all it offers
+            _upgradesButton.name = "SeeUpgrades";
             var close = UiKit.MakeButton(bar.transform, L.Get("ui.close"), Close, 160f, 34f);
             close.name = "Close";
             root.SetActive(false);
@@ -79,6 +91,7 @@ namespace Farm.UI
             _shopId = shopId;
             _title.text = L.Get("shop." + shopId + ".title");
             _sellButton.gameObject.SetActive(shopId == InteractionMenu.SellerBusiness);
+            _upgradesButton.gameObject.SetActive(CounterServices.HasUpgrades(Ui.Session, shopId));
             Rebuild();
             Open();
         }

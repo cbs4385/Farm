@@ -9,15 +9,7 @@ namespace Farm.UI
     public static class SlotBadges
     {
         static readonly Color Outline = new Color(0.14f, 0.09f, 0.06f, 0.95f);
-        static readonly Color[] Tints =
-        {
-            Color.clear,
-            new Color(0.82f, 0.86f, 0.92f),     // silver
-            new Color(0.97f, 0.78f, 0.22f),     // gold
-            new Color(0.78f, 0.45f, 0.95f),     // iridium
-        };
-
-        public static Color TintOf(int quality) => quality > 0 && quality < Tints.Length ? Tints[quality] : Color.clear;
+        public static Color TintOf(int quality) => Farm.Gameplay.QualityMarks.TintOf(quality);
 
         // A small diamond in the top left corner of the slot, tinted by quality. Nothing for ordinary quality.
         public static void Quality(Transform slot, int quality)
@@ -33,6 +25,14 @@ namespace Farm.UI
             front.rectTransform.offsetMin = new Vector2(2f, 2f);
             front.rectTransform.offsetMax = new Vector2(-2f, -2f);
             front.raycastTarget = false;
+        }
+
+        // The same for a picture that follows the mouse: the old diamond goes, the stack's own comes.
+        public static void Replace(Transform holder, int quality)
+        {
+            var old = holder.Find("Quality");
+            if (old != null) { old.name = "Old"; Object.Destroy(old.gameObject); }
+            Quality(holder, quality);
         }
 
         static void Place(RectTransform rect, float size)

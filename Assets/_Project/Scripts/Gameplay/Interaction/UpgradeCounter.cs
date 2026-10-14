@@ -14,14 +14,6 @@ namespace Farm.Gameplay
 
         public string ShopId { get => _shopId; set => _shopId = value; }
 
-        public void Interact(PlayerActions player)
-        {
-            if (!BusinessHoursRegistry.IsOpen(_shopId, player.Session.Clock.Now))
-            {
-                player.Session.Toast(BusinessHoursRegistry.ClosedMessage(_shopId));
-                return;
-            }
-            player.Session.Ui?.ShowUpgrades(_shopId);
-        }
+        public void Interact(PlayerActions player) => CounterServices.Use(player, _shopId, upgradesFirst: true);
     }
 }

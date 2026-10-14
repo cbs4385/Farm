@@ -949,12 +949,18 @@ namespace Farm.Editor
             AddSpawn("default", Center(doorX, 2));
             AddWarp(Center(doorX, 0), MapIds.Village, "from" + mapId);
 
+            var business = props.Select(q => q.ShopId ?? q.UpgradesAt).FirstOrDefault(id => id != null);
             foreach (var p in props)
             {
                 var rows = Mathf.Max(p.H, TallPictures.Contains(p.Sprite) ? 2 : 1);          // a tall picture covers its cell and the one above (the back wall or the next floor cell)
                 var go = AddObject(p.Name, p.Sprite, Center(p.X, p.Y) + new Vector3((p.W - 1) * 0.5f, (rows - 1) * 0.5f, 0f), solid: true, size: new Vector2(p.W, rows));
-                if (p.ShopId != null) go.AddComponent<ShopCounter>().ShopId = p.ShopId;
+                // Every counter of a business gives all that it offers (its shop and its upgrades): a counter without a business of its own takes the room's.
                 if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
+                else
+                {
+                    var counterBusiness = p.ShopId ?? (p.Sprite == "obj_counter_wide" ? business : null);
+                    if (counterBusiness != null) go.AddComponent<ShopCounter>().ShopId = counterBusiness;
+                }
                 if (p.Name == "Board" && mapId == MapIds.CommunityHall) go.AddComponent<HallBoard>();
                 if (p.Name == "Desk" && mapId == MapIds.Library) go.AddComponent<LibraryDesk>();
                 if (mapId == MapIds.Library && p.Sprite == "obj_bookshelf_tall") go.AddComponent<Bookshelf>().ShelfId = p.Name;

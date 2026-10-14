@@ -26,7 +26,8 @@ namespace Farm.UI
         {
             var stack = UiKit.VStack(content, "Collections", 4f, 8);
             UiKit.Stretch((RectTransform)stack.transform);
-            _body = (RectTransform)stack.transform;
+            var scroll = UiKit.Scroll(stack.transform, "Body", out _body);
+            UiKit.Size(scroll.gameObject, -1f, -1f, 1f, 1f);
         }
 
         public override void Refresh(UiService ui)

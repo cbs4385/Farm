@@ -93,9 +93,28 @@ namespace Farm.Gameplay
         // Crafts or cooks a recipe at a station; counts it for quests.
         public CraftResult Craft(RecipeDefinition recipe, string station)
         {
-            var result = CraftingRules.TryCraft(recipe, station, State, Backpack, GetSkillLevel);
+            var result = CraftingRules.TryCraft(recipe, station, State, Backpack, GetSkillLevel, NearbyIngredients());
             if (result == CraftResult.Ok) AddVar(QuestLog.Stats.Crafted, 1);
             return result;
+        }
+
+        // Chests and finished machine goods within five tiles of the player: crafting uses them after the backpack. Null when no map is loaded (the menu, tests).
+        public System.Collections.Generic.IReadOnlyList<IIngredientSource> NearbyIngredients()
+        {
+            var cell = PlayerCell();
+            return cell.HasValue ? NearbyStock.Gather(this, cell.Value.x, cell.Value.y) : null;
+        }
+
+        // Seam for tests: where the player stands.
+        public System.Func<(int x, int y)?> PlayerCellOverride;
+
+        (int x, int y)? PlayerCell()
+        {
+            if (PlayerCellOverride != null) return PlayerCellOverride();
+            var map = Game?.Map;
+            if (map == null || map.Player == null || map.Map == null) return null;
+            var cell = map.Map.WorldToCell(map.Player.CellSamplePoint);
+            return (cell.x, cell.y);
         }
 
         public bool KnowsRecipe(RecipeDefinition recipe) => CraftingRules.Knows(recipe, State, GetSkillLevel);

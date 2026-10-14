@@ -21,9 +21,8 @@ namespace Farm.UI
             UiKit.Label(stack.transform, L.Get("gossip.title"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
             var hint = UiKit.Label(stack.transform, L.Get("gossip.hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
             UiKit.Size(hint.gameObject, -1f, 22f);
-            var body = UiKit.VStack(stack.transform, "Body", 4f);
-            UiKit.Size(body.gameObject, -1f, -1f, 1f, 1f);
-            _body = (RectTransform)body.transform;
+            var scroll = UiKit.Scroll(stack.transform, "Body", out _body);          // thirty villagers and the latest lines do not fit
+            UiKit.Size(scroll.gameObject, -1f, -1f, 1f, 1f);
         }
 
         public override void Refresh(UiService ui)

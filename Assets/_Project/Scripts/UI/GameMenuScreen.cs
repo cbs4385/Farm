@@ -3,6 +3,7 @@ using Farm.Core;
 using Farm.Gameplay;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Farm.UI
@@ -36,6 +37,7 @@ namespace Farm.UI
         readonly List<Button> _tabs = new List<Button>();
         readonly TextMeshProUGUI _gold;
         int _current;
+        bool _cursorOnTabs;
 
         public MenuPage Current => _pages[_current];
         public IReadOnlyList<MenuPage> Pages => _pages;
@@ -112,12 +114,44 @@ namespace Farm.UI
             _pages[_current].Refresh(Ui);
         }
 
+        // The pad cursor rests on the tab being shown, so left and right walk the tab row from where the player is.
+        public override GameObject InitialFocus => _current >= 0 && _current < _tabs.Count ? _tabs[_current].gameObject : null;
+
         public override void Tick()
         {
             if (Time.frameCount == OpenedFrame) return;
             var input = Ui.Input.Ui;
-            if (input[InputNames.TabNext].WasPressedThisFrame()) Show((_current + 1) % _pages.Count);
-            else if (input[InputNames.TabPrev].WasPressedThisFrame()) Show((_current + _pages.Count - 1) % _pages.Count);
+            if (input[InputNames.TabNext].WasPressedThisFrame()) ShowFromButton((_current + 1) % _pages.Count);
+            else if (input[InputNames.TabPrev].WasPressedThisFrame()) ShowFromButton((_current + _pages.Count - 1) % _pages.Count);
+            else FollowTabCursor();
+        }
+
+        // The shoulder buttons change the page; the cursor goes to that tab so it is never left on a control of the page that was just hidden (playtest 2026-10-14, pad).
+        void ShowFromButton(int index)
+        {
+            Show(index);
+            FocusCurrentTab();
+        }
+
+        void FocusCurrentTab()
+        {
+            var target = InitialFocus;
+            if (target != null && EventSystem.current != null) EventSystem.current.SetSelectedGameObject(target);
+        }
+
+        // Walking the cursor along the tab row shows each page as it lands on its tab, as the shoulder buttons do. Coming up into the row from a page lands on
+        // whichever tab is above that control, so then the cursor goes to the tab already shown instead of switching pages.
+        void FollowTabCursor()
+        {
+            var selected = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+            var index = selected == null ? -1 : _tabs.FindIndex(t => t.gameObject == selected);
+            if (index < 0) { _cursorOnTabs = false; return; }
+            if (index != _current)
+            {
+                if (_cursorOnTabs) Show(index);
+                else FocusCurrentTab();
+            }
+            _cursorOnTabs = true;
         }
     }
 }

@@ -48,10 +48,9 @@ namespace Farm.UI
                 UiKit.Size(header.gameObject, -1f, 28f, 1f);
                 if (done) continue;
                 var captured = room;
-                var following = QuestTracker.TrackedId(s) == room;          // the quest the screen follows: any room can be chosen here, not only in the Journal
-                var follow = UiKit.MakeButton(headRow.transform, L.Get(following ? "journal.tracking" : "journal.track"), () => { QuestTracker.Track(s, captured); Rebuild(); }, 150f, 28f);
+                var following = QuestTracker.IsTracked(s, room);          // listed on screen or not: any room can be switched here, not only in the Journal
+                var follow = UiKit.MakeButton(headRow.transform, L.Get(following ? "journal.tracking" : "journal.track"), () => { QuestTracker.Toggle(s, captured); Rebuild(); }, 150f, 28f);
                 follow.name = "Follow_" + room;
-                follow.interactable = !following;
                 foreach (var o in def.Objectives)
                 {
                     var objective = o;
