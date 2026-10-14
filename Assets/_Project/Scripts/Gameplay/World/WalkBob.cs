@@ -42,6 +42,11 @@ namespace Farm.Gameplay
 
         public bool NoShadow;                                    // a villager in bed has none
 
+        // Dancing (the festivals): the character's four dance frames in time with the music, instead of standing or walking. Set by the festival code, cleared when it ends.
+        public const float DanceBeatSeconds = 0.22f;
+        public bool Dancing;
+        public int DancePhase { get; private set; }
+
         public bool IsRaised { get; private set; }
         public int StepPhase { get; private set; }               // 0 left foot, 1 passing, 2 right foot, 3 passing (while walking)
         public bool IsLunging => _lungeLeft > 0f;
@@ -139,7 +144,9 @@ namespace Farm.Gameplay
                     StepPhase = rigStep;
                     var breath = !_movingNow && Breathes && BreathUp(Time.time, _breathPhase);
                     IsRaised = _movingNow ? rigStep % 2 == 1 : breath;
+                    DancePhase = Dancing ? (int)(Time.time / DanceBeatSeconds) % CharacterRig.DancePhases : 0;
                     wantFrame = _strikeLeft > 0f ? CharacterFrames.Strike(original, _strikeTool, StrikeFrame, _strikeTarget)
+                        : Dancing && !_movingNow ? CharacterFrames.Dance(original, DancePhase)
                         : _movingNow ? CharacterFrames.Walk(original, rigStep) : CharacterFrames.Idle(original, breath);
                 }
                 else wantFrame = CharacterFrames.Looked(original);

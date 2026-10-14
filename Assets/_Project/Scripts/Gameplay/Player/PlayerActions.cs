@@ -82,11 +82,11 @@ namespace Farm.Gameplay
 
             var capacity = Session.Backpack.Capacity;
             for (var i = 0; i < InputNames.HotbarSlots; i++)
-                if (_input.Hotbar(i).WasPressedThisFrame()) SelectHotbar(HotbarRows.Pick(Session.State.SelectedHotbar, i, capacity));
-            if (_input.HotbarNext.WasPressedThisFrame()) SelectHotbar(HotbarRows.Step(Session.State.SelectedHotbar, 1, capacity));
-            if (_input.HotbarPrev.WasPressedThisFrame()) SelectHotbar(HotbarRows.Step(Session.State.SelectedHotbar, -1, capacity));
-            if (_input.RowNext.WasPressedThisFrame()) SelectHotbar(HotbarRows.ChangeRow(Session.State.SelectedHotbar, 1, capacity));
-            if (_input.RowPrev.WasPressedThisFrame()) SelectHotbar(HotbarRows.ChangeRow(Session.State.SelectedHotbar, -1, capacity));
+                if (_input.Hotbar(i).WasPressedThisFrame()) SelectHotbar(HotbarRows.Pick(Session.State.SelectedHotbar, i, capacity), "number key " + (i + 1));
+            if (_input.HotbarNext.WasPressedThisFrame()) SelectHotbar(HotbarRows.Step(Session.State.SelectedHotbar, 1, capacity), "next (" + PressedBy(_input.HotbarNext) + ")");
+            if (_input.HotbarPrev.WasPressedThisFrame()) SelectHotbar(HotbarRows.Step(Session.State.SelectedHotbar, -1, capacity), "previous (" + PressedBy(_input.HotbarPrev) + ")");
+            if (_input.RowNext.WasPressedThisFrame()) SelectHotbar(HotbarRows.ChangeRow(Session.State.SelectedHotbar, 1, capacity), "next row (" + PressedBy(_input.RowNext) + ")");
+            if (_input.RowPrev.WasPressedThisFrame()) SelectHotbar(HotbarRows.ChangeRow(Session.State.SelectedHotbar, -1, capacity), "previous row (" + PressedBy(_input.RowPrev) + ")");
 
             if (_player.Seated)
             {
@@ -108,10 +108,16 @@ namespace Farm.Gameplay
             if (_input.Journal.WasPressedThisFrame()) ui.ShowGameMenu(MenuTabs.Journal);
         }
 
-        public void SelectHotbar(int slot)
+        // The control that was pressed, for the log: "Mouse/scroll/up", "Keyboard/period"...
+        static string PressedBy(UnityEngine.InputSystem.InputAction action) =>
+            action.activeControl != null ? action.activeControl.path.TrimStart('/') : "?";
+
+        public void SelectHotbar(int slot, string source = "other")
         {
             _placement.ResetTurns();
+            var before = Session.State.SelectedHotbar;
             Session.State.SelectedHotbar = Mathf.Clamp(slot, 0, Mathf.Max(InputNames.HotbarSlots, Session.Backpack.Capacity) - 1);
+            HotbarRows.Note(before, Session.State.SelectedHotbar, source);
             Session.Bus.Publish(new StatsChanged());
         }
 

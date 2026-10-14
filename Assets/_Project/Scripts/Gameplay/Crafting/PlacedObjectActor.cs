@@ -16,7 +16,8 @@ namespace Farm.Gameplay
         public static float ScaleFor(PlaceableKind kind) => kind == PlaceableKind.Machine || kind == PlaceableKind.Scarecrow ? MachineScale : 1f;
 
         // The farm's own props, when they have been put in the backpack and set down again, keep their bigger size.
-        public static float ScaleFor(PlaceableDefinition def) => def != null && System.Array.IndexOf(CraftingDefaults.FarmProps, def.Id) >= 0 ? MachineScale : ScaleFor(def.Kind);
+        // Big furniture (the wardrobe, the bookshelf, the dining table, the armchair, the bench) is drawn as large as the machines, so that it is not smaller than the person beside it.
+        public static float ScaleFor(PlaceableDefinition def) => def != null && (System.Array.IndexOf(CraftingDefaults.FarmProps, def.Id) >= 0 || System.Array.IndexOf(CraftingDefaults.LargeDecor, def.Id) >= 0) ? MachineScale : ScaleFor(def.Kind);
 
         SpriteRenderer _renderer;
 

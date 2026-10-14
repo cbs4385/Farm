@@ -25,9 +25,9 @@ namespace Farm.Tests
         [SetUp] public void SetUp() { Conditions.ClearCustomForTests(); }
 
         [Test]
-        public void TheTable_HasTwentyFish_AllWithItemsAndPrices()
+        public void TheTable_HasTwentySevenFish_AllWithItemsAndPrices()
         {
-            Assert.AreEqual(20, FishDefaults.Rows.Length);
+            Assert.AreEqual(27, FishDefaults.Rows.Length);
             var db = Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
             foreach (var f in FishDefaults.Rows)
             {

@@ -16,13 +16,14 @@ namespace Farm.Gameplay
             public bool Ok;
             public string Error;
             public string FileName;                  // the zip, without its folder
+            public string ZipPath;                   // the whole path, shown to the player on their own screen so that they can find the file
             public string Folder;                    // for opening it; never shown
         }
 
         public static Outcome Send(GameSession session, string subject, string body, bool includeSave)
         {
             var result = BugReport.Send(Request(session, subject, body, includeSave));
-            return new Outcome { Ok = result.Ok, Error = result.Error, FileName = result.Ok ? Path.GetFileName(result.ZipPath) : null, Folder = result.Folder };
+            return new Outcome { Ok = result.Ok, Error = result.Error, FileName = result.Ok ? Path.GetFileName(result.ZipPath) : null, ZipPath = result.Ok ? result.ZipPath : null, Folder = result.Folder };
         }
 
         public static void OpenFolder(Outcome outcome)

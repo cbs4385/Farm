@@ -31,6 +31,9 @@ namespace Farm.Gameplay
         public static Sprite Walk(Sprite sprite, int phase) =>
             Frame(sprite, "walk" + (((phase % CharacterRig.WalkPhases) + CharacterRig.WalkPhases) % CharacterRig.WalkPhases), (g, facing) => facing != null ? CharacterRig.Walk(g, facing, phase) : null);
 
+        public static Sprite Dance(Sprite sprite, int phase) =>
+            Frame(sprite, "dance" + (((phase % CharacterRig.DancePhases) + CharacterRig.DancePhases) % CharacterRig.DancePhases), (g, facing) => facing != null ? CharacterRig.Dance(g, facing, phase) : null);
+
         // `target`: the tile aimed at, in cells from the feet (x right, y up); the tool lands on it. Without one, the tile in front.
         public static Sprite Strike(Sprite sprite, ToolType tool, int frame) => Strike(sprite, tool, frame, Vector2Int.zero);
 

@@ -8,6 +8,15 @@ namespace Farm.Gameplay
     {
         public const int Width = 12;
 
+        // Every change of the selected slot is written to the game's log with what asked for it, so that a bug report of "the item keeps changing by itself" says who did it
+        // (a number key, the scroll wheel, a pad button, a click on the bar, a row button). A change to the slot already selected is not written.
+        public static string Describe(int from, int to, string source) => $"[hotbar] slot {from} -> {to} by {source}";
+
+        public static void Note(int from, int to, string source)
+        {
+            if (from != to) Farm.Core.Log.Info(Describe(from, to, source));
+        }
+
         public static int Rows(int capacity) => Mathf.Max(1, (capacity + Width - 1) / Width);
         public static int RowOf(int slot) => Mathf.Max(0, slot) / Width;
         public static int ColumnOf(int slot) => Mathf.Max(0, slot) % Width;

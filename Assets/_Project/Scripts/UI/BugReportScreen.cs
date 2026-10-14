@@ -18,6 +18,8 @@ namespace Farm.UI
         readonly TextMeshProUGUI _status, _doneText;
         readonly GameObject _form, _done;
         BugReportService.Outcome _result;
+        bool _doneCopied;
+        public bool PathCopied => _doneCopied;
 
         public string LastFileName { get; private set; }
 
@@ -51,6 +53,7 @@ namespace Farm.UI
             _doneText = UiKit.Label(_done.transform, string.Empty, 17f, TextAlignmentOptions.Left);
             UiKit.Size(_doneText.gameObject, -1f, -1f, 1f, 1f);
             var doneRow = UiKit.HStack(_done.transform, "DoneButtons", 12f, TextAnchor.MiddleCenter);
+            UiKit.MakeButton(doneRow.transform, L.Get("bug.copy_path"), () => { GUIUtility.systemCopyBuffer = _result?.ZipPath ?? string.Empty; _doneCopied = true; }, 240f, 38f).name = "CopyPath";
             UiKit.MakeButton(doneRow.transform, L.Get("bug.open_folder"), () => BugReportService.OpenFolder(_result), 260f, 38f).name = "OpenFolder";
             UiKit.MakeButton(doneRow.transform, L.Get("ui.close"), Close, 160f, 38f).name = "Close";
             root.SetActive(false);
@@ -80,16 +83,13 @@ namespace Farm.UI
 
         public void Send()
         {
-            var problem = BugReport.Validate(_subject.text, _body.text);
-            if (problem != null) { _status.text = L.Get(problem); return; }
-
             var session = Ui.Session != null && Ui.Session.InGame ? Ui.Session : null;
             var result = BugReportService.Send(session, _subject.text, _body.text, session != null && _includeSave.isOn);
             if (!result.Ok) { _status.text = L.Get(result.Error ?? "bug.failed"); return; }
 
             _result = result;
             LastFileName = result.FileName;
-            _doneText.text = L.Get("bug.done", BugReport.Address, result.FileName);
+            _doneText.text = L.Get("bug.done", BugReport.Address, result.ZipPath);
             _form.SetActive(false);
             _done.SetActive(true);
         }

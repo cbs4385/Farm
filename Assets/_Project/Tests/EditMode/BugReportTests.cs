@@ -39,18 +39,22 @@ namespace Farm.Tests
             GameInfo = "Farm 0.0.1",
         };
 
-        [TestCase(null, "something happened")]
-        [TestCase("", "something happened")]
-        [TestCase("ab", "something happened")]
-        public void ASubjectIsRequired(string subject, string body) => Assert.AreEqual("bug.need_subject", BugReport.Validate(subject, body));
-
-        [TestCase("A subject", null)]
-        [TestCase("A subject", "   ")]
-        [TestCase("A subject", "no")]
-        public void ADescriptionIsRequired(string subject, string body) => Assert.AreEqual("bug.need_body", BugReport.Validate(subject, body));
+        // Playtest 2026-10-13: nothing has to be typed.
+        [TestCase(null, null)]
+        [TestCase("", "")]
+        [TestCase("   ", "  ")]
+        public void NothingHasToBeWritten_TheReportGetsAPlainSubjectAndNoDescription(string subject, string body)
+        {
+            Assert.AreEqual("Bug report", BugReport.SubjectOrDefault(subject));
+            Assert.AreEqual("(nothing written)", BugReport.BodyOrDefault(body));
+        }
 
         [Test]
-        public void AGoodReport_IsValid() => Assert.IsNull(BugReport.Validate("The cat", "It walked through a wall."));
+        public void WhatIsWritten_IsKeptAsWritten()
+        {
+            Assert.AreEqual("The cat", BugReport.SubjectOrDefault("  The cat "));
+            Assert.AreEqual("It walked through a wall.", BugReport.BodyOrDefault("It walked through a wall. "));
+        }
 
         [Test]
         public void TheMailIsAddressedToTheDevelopers_WithTheSubjectAndTheDescription()
@@ -122,12 +126,20 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void Create_RefusesAnEmptyReport_AndWritesNothing()
+        public void Create_MakesAReportFromNothing_WithTheLogsAndTheSystemDetails()
         {
             var result = BugReport.Create(Request(subject: "", body: ""));
-            Assert.IsFalse(result.Ok);
-            Assert.AreEqual("bug.need_subject", result.Error);
-            Assert.IsFalse(Directory.Exists(Path.Combine(_dir, "BugReports")));
+            Assert.IsTrue(result.Ok, result.Error);
+            Assert.IsTrue(File.Exists(result.ZipPath));
+            using (var zip = System.IO.Compression.ZipFile.OpenRead(result.ZipPath))
+            using (var reader = new StreamReader(zip.GetEntry("report.txt").Open()))
+            {
+                var text = reader.ReadToEnd();
+                StringAssert.Contains("Subject: Bug report", text);
+                StringAssert.Contains("(nothing written)", text);
+                StringAssert.Contains("Operating system: Test OS", text);
+            }
+            StringAssert.Contains(Uri.EscapeDataString("[Farm bug] Bug report"), result.MailtoUrl);
         }
 
         [Test]

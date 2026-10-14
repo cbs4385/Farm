@@ -115,7 +115,7 @@ namespace Farm.Editor
             });
             BuildShopInterior(MapIds.Saloon, new[]
             {
-                new Prop("Bar1", "obj_counter_wide", 3, 7, w: 2), new Prop("Bar2", "obj_counter_wide", 5, 7, w: 2), new Prop("Bar3", "obj_counter_wide", 7, 7, w: 2),
+                new Prop("Bar1", "obj_counter_wide", 3, 7, "saloon", w: 2), new Prop("Bar2", "obj_counter_wide", 5, 7, "saloon", w: 2), new Prop("Bar3", "obj_counter_wide", 7, 7, w: 2),
                 new Prop("Table1", "obj_table", 2, 3), new Prop("Table2", "obj_table", 11, 3), new Prop("Table3", "obj_table", 11, 5),
                 new Prop("Table4", "obj_table", 2, 5), new Prop("Shelf1", "obj_shelf", 4, 8), new Prop("Shelf2", "obj_shelf", 6, 8),
                 new Prop("Seat", "obj_chair", 12, 3, seatNpc: "wren", seatKey: "stool"),
@@ -123,25 +123,25 @@ namespace Farm.Editor
             });
             BuildShopInterior(MapIds.Clinic, new[]
             {
-                new Prop("Bed1", "obj_bed", 2, 6), new Prop("Bed2", "obj_bed", 4, 6), new Prop("Bed3", "obj_bed", 6, 6),
+                new Prop("Bed1", "obj_bed", 2, 5), new Prop("Bed2", "obj_bed", 4, 5), new Prop("Bed3", "obj_bed", 6, 5),
                 new Prop("Couch", "obj_couch", 8, 6, seatNpc: "elara", seatKey: "couch"),
                 new Prop("Desk1", "obj_counter_wide", 7, 3, upgradesAt: "clinic", w: 2), new Prop("Shelf", "obj_shelf", 1, 4),
             });
             BuildShopInterior(MapIds.CommunityHall, new[]
             {
                 new Prop("Board", "obj_board", 7, 7), new Prop("Table1", "obj_table", 3, 4), new Prop("Table2", "obj_table", 10, 4),
-                new Prop("Shelf1", "obj_shelf", 2, 8), new Prop("Shelf2", "obj_shelf", 11, 8),
+                new Prop("Shelf1", "obj_bookshelf_tall", 2, 8), new Prop("Shelf2", "obj_bookshelf_tall", 11, 8),
             });
             BuildShopInterior(MapIds.Library, new[]
             {
-                new Prop("Shelf1", "obj_shelf", 2, 7), new Prop("Shelf2", "obj_shelf", 3, 7), new Prop("Shelf3", "obj_shelf", 4, 7),
-                new Prop("Shelf4", "obj_shelf", 7, 7), new Prop("Shelf5", "obj_shelf", 8, 7), new Prop("Shelf6", "obj_shelf", 9, 7),
-                new Prop("Shelf7", "obj_shelf", 2, 4), new Prop("Shelf8", "obj_shelf", 3, 4), new Prop("Shelf9", "obj_shelf", 8, 4),
-                new Prop("Shelf10", "obj_shelf", 9, 4), new Prop("Desk", "obj_counter_wide", 5, 5, w: 2), new Prop("Reading", "obj_table", 10, 2),
+                new Prop("Shelf1", "obj_bookshelf_tall", 2, 7), new Prop("Shelf2", "obj_bookshelf_tall", 3, 7), new Prop("Shelf3", "obj_bookshelf_tall", 4, 7),
+                new Prop("Shelf4", "obj_bookshelf_tall", 7, 7), new Prop("Shelf5", "obj_bookshelf_tall", 8, 7), new Prop("Shelf6", "obj_bookshelf_tall", 9, 7),
+                new Prop("Shelf7", "obj_bookshelf_tall", 2, 3), new Prop("Shelf8", "obj_bookshelf_tall", 3, 3), new Prop("Shelf9", "obj_bookshelf_tall", 8, 3),
+                new Prop("Shelf10", "obj_bookshelf_tall", 9, 3), new Prop("Desk", "obj_counter_wide", 5, 5, w: 2), new Prop("Reading", "obj_table", 10, 2),
                 new Prop("Seat", "obj_chair", 1, 2, seatNpc: "ione", seatKey: "chair"),
                 new Prop("NookSeat", "obj_armchair", 10, 5, seatNpc: "hazel", seatKey: "nook"),
-                new Prop("BackShelf", "obj_shelf", 10, 7, curio: "backshelf"),
-                new Prop("HazelShelf", "obj_shelf", 1, 7, curio: "hazelshelf"),
+                new Prop("BackShelf", "obj_bookshelf_tall", 10, 7, curio: "backshelf"),
+                new Prop("HazelShelf", "obj_bookshelf_tall", 1, 7, curio: "hazelshelf"),
             });
         }
 
@@ -186,6 +186,80 @@ namespace Farm.Editor
             Put("bulletin", "Lamp", "obj_lamp", 12, 2);
             Put("vault", "Clock", "obj_clock", 10, 8);
             Put("vault", "Vase", "obj_vase", 1, 2);
+        }
+
+        // ---- the festival grounds ----------------------------------------------------------------------------------
+
+        // What stands in the village square, on the road and by the pond on each festival day (playtest 2026-10-13): a holder per festival whose condition is the day, so the
+        // props are there from dawn and gone the morning after. The villagers' cells are in Festivals.Gathering; every cell used here was checked against them and the
+        // doors' lanes. Each festival has its own station (FestivalStation) to use.
+        static void AddFestivalGrounds()
+        {
+            GameObject Holder(string id)
+            {
+                var holder = new GameObject("Festival_" + id);
+                holder.AddComponent<ConditionalObject>().Condition = Festivals.Get(id).Condition;
+                return holder;
+            }
+            GameObject Put(GameObject holder, string name, string sprite, int x, int y, int width = 1, bool solid = true, int order = TallSortingOrder)
+            {
+                var go = AddObject(name, sprite, Center(x, y) + (width > 1 ? new Vector3((width - 1) * 0.5f, 0f, 0f) : Vector3.zero), solid, new Vector2(width, 1f));
+                go.GetComponent<SpriteRenderer>().sortingOrder = order;
+                go.transform.SetParent(holder.transform, true);
+                return go;
+            }
+            FestivalStation Station(GameObject go, FestivalStationKind kind) { var s = go.AddComponent<FestivalStation>(); s.Kind = kind; return s; }
+            void Bunting(GameObject holder, string season, int y, params int[] xs) { foreach (var x in xs) Put(holder, $"Bunting_{season}_{x}_{y}", "prop_fest_bunting_" + season, x, y, 2, solid: false, order: 14); }
+
+            // Blossom Day: a dance floor on the road where it crosses the lane, the maypole in the middle, a band stand beside it and bunting along both edges of the road.
+            var spring = Holder("spring");
+            for (var x = 23; x <= 31; x++)
+                for (var y = 16; y <= 18; y++)
+                    Put(spring, $"DanceFloor_{x}_{y}", "obj_fest_floor", x, y, solid: false, order: 1);
+            Station(Put(spring, "Maypole", "prop_fest_maypole", FestivalGrounds.Maypole.x, FestivalGrounds.Maypole.y), FestivalStationKind.Maypole);
+            Put(spring, "BandStand", "prop_fest_bandstand", 33, 17, 2);
+            Bunting(spring, "spring", 19, 23, 25, 27, 29, 31);
+            Bunting(spring, "spring", 15, 23, 25, 27, 29);
+
+            // The Tidewatch: the scoreboard booth on the shore of the village pond, two boats on the water, a crate of the day's catch and blue bunting.
+            var summer = Holder("summer");
+            Station(Put(summer, "Scoreboard", "prop_fest_scoreboard", 22, 14, 2), FestivalStationKind.Scoreboard);
+            Put(summer, "Boat1", "prop_fest_boat", 17, 10, 2);
+            Put(summer, "Boat2", "prop_fest_boat", 21, 7, 2);
+            Put(summer, "Crate", "prop_fest_fishcrate", 20, 14);
+            Bunting(summer, "summer", 15, 15, 17, 19, 21);
+
+            // The Harvest Fair: stalls on both sides of the square, the judging table by the clock tower, a heap of pumpkins and orange bunting under the shops.
+            var fall = Holder("fall");
+            Put(fall, "StallWest1", "prop_fest_stall", 12, 22, 2);
+            Put(fall, "StallWest2", "prop_fest_stall", 14, 22, 2);
+            Put(fall, "StallEast", "prop_fest_stall", 34, 22, 2);
+            Station(Put(fall, "JudgingTable", "prop_fest_judging", 29, 22, 2), FestivalStationKind.JudgingTable);
+            Put(fall, "Pumpkins", "prop_fest_pumpkins", 36, 21);
+            Bunting(fall, "fall", 23, 12, 14, 29, 34);
+
+            // The Lantern Feast: the long table along the north edge of the road, lantern poles, and the rack where the player hangs a lantern.
+            var winter = Holder("winter");
+            foreach (var x in new[] { 21, 23, 25, 27 })
+                Station(Put(winter, $"FeastTable_{x}", "prop_fest_feasttable", x, 18, 2), FestivalStationKind.FeastTable);
+            foreach (var (x, y) in new[] { (22, 15), (25, 15), (28, 15), (33, 19) })
+            {
+                var pole = Put(winter, $"Lantern_{x}_{y}", "prop_fest_lantern_lit", x, y);
+                var glow = new GameObject("Glow");
+                glow.transform.SetParent(pole.transform, false);
+                glow.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+                var flame = glow.AddComponent<FlickerLight>();
+                flame.Radius = 4f; flame.Intensity = 0.9f; flame.Color = new Color(1f, 0.78f, 0.4f);
+            }
+            var rack = Put(winter, "LanternRack", "prop_fest_lanternrack", 36, 19);
+            var lit = new GameObject("Lit", typeof(SpriteRenderer));
+            lit.transform.SetParent(rack.transform, false);
+            lit.GetComponent<SpriteRenderer>().sprite = Sprite("prop_fest_lanternrack_lit");
+            lit.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder + 1;
+            lit.SetActive(false);
+            var rackStation = Station(rack, FestivalStationKind.LanternRack);
+            rackStation.Lit = lit;
+            Bunting(winter, "winter", 15, 21, 23, 25, 27);
         }
 
         // In the village, along the open row in front of the hall (between it and the shops), clear of the lane to its door.
@@ -300,13 +374,13 @@ namespace Farm.Editor
         }
 
         // The farmhouse is 12 x 9 (floor cells 1..10 by 1..7, the door at x 5 on the south wall). The north wall carries the bed, a lamp, a picture, the
-        // hearth, a clock and the wardrobe (the kitchen stands at 9, 7); the east wall a bookshelf; a dining corner and a sitting corner fill the rest.
+        // hearth, a clock and the wardrobe (the kitchen stands at 9..10, 6..7); the east wall a bookshelf; a dining corner and a sitting corner fill the rest.
         static readonly Furnishing[] HouseFurnishings =
         {
             new Furnishing("RugLarge", "obj_rug_large", 3, 3, 2, 2, solid: false),
             new Furnishing("Fireplace", "obj_fireplace", 5, 6, 2, 2),
             new Furnishing("Lamp", "obj_lamp", 3, 7), new Furnishing("Painting", "obj_painting", 4, 7), new Furnishing("Clock", "obj_clock", 7, 7),
-            new Furnishing("Bookshelf", "obj_bookshelf", 8, 7), new Furnishing("Wardrobe", "obj_wardrobe", 10, 7),
+            new Furnishing("Bookshelf", "obj_bookshelf", 8, 7), new Furnishing("Wardrobe", "obj_wardrobe", 10, 3),
             new Furnishing("BookshelfEast", "obj_bookshelf", 10, 5), new Furnishing("PlantEast", "obj_plant", 10, 2),
             new Furnishing("Couch", "obj_couch", 1, 4, 2, 1), new Furnishing("Armchair", "obj_armchair", 6, 4), new Furnishing("PlantWest", "obj_plant", 1, 1),
             new Furnishing("DiningTable", "obj_dining_table", 8, 3), new Furnishing("ChairWest", "obj_chair", 7, 3), new Furnishing("ChairEast", "obj_chair", 9, 3),
@@ -353,9 +427,11 @@ namespace Farm.Editor
             bedFixture.Size = new Vector2Int(2, 2);
 
             // The kitchen: cook with what is in the backpack.
-            var kitchen = AddObject("Kitchen", "obj_kitchen", Center(9, 7), solid: true);
+            var kitchen = AddObject("Kitchen", "obj_kitchen", Center(9, 6) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));          // a range two cells wide and two tall: it reads as a cooker
             kitchen.AddComponent<Kitchen>();
-            kitchen.AddComponent<MovableFixture>().Id = "kitchen";
+            var kitchenFixture = kitchen.AddComponent<MovableFixture>();
+            kitchenFixture.Id = "kitchen";
+            kitchenFixture.Size = new Vector2Int(2, 2);
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.FarmHouse}.unity");
         }
@@ -484,6 +560,7 @@ namespace Farm.Editor
             AddProp("Boxes_Library", "prop_boxes", 47, 23);
             AddProp("Wheelbarrow_Library", "prop_wheelbarrow", 48, 22);
             AddVillageRestorations();
+            AddFestivalGrounds();
 
             // A pond on the green between the saloon and the lane.
             PaintPond(rig, MapLayout.VillagePond.Contains, 15, 23, 4, 13);
@@ -836,6 +913,9 @@ namespace Farm.Editor
             BuildInterior(mapId, shop.InteriorW, shop.InteriorH, shop.InteriorDoorX, props);
         }
 
+        // Pictures that are one cell wide and two tall (16 x 32): the single bed and the shelves.
+        static readonly HashSet<string> TallPictures = new HashSet<string> { "obj_bed", "obj_shelf", "obj_bookshelf_tall" };
+
         static void BuildInterior(string mapId, int w, int h, int doorX, Prop[] props)
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -854,12 +934,13 @@ namespace Farm.Editor
 
             foreach (var p in props)
             {
-                var go = AddObject(p.Name, p.Sprite, Center(p.X, p.Y) + new Vector3((p.W - 1) * 0.5f, (p.H - 1) * 0.5f, 0f), solid: true, size: new Vector2(p.W, p.H));
+                var rows = Mathf.Max(p.H, TallPictures.Contains(p.Sprite) ? 2 : 1);          // a tall picture covers its cell and the one above (the back wall or the next floor cell)
+                var go = AddObject(p.Name, p.Sprite, Center(p.X, p.Y) + new Vector3((p.W - 1) * 0.5f, (rows - 1) * 0.5f, 0f), solid: true, size: new Vector2(p.W, rows));
                 if (p.ShopId != null) go.AddComponent<ShopCounter>().ShopId = p.ShopId;
                 if (p.UpgradesAt != null) go.AddComponent<UpgradeCounter>().ShopId = p.UpgradesAt;
                 if (p.Name == "Board" && mapId == MapIds.CommunityHall) go.AddComponent<HallBoard>();
                 if (p.Name == "Desk" && mapId == MapIds.Library) go.AddComponent<LibraryDesk>();
-                if (mapId == MapIds.Library && p.Sprite == "obj_shelf") go.AddComponent<Bookshelf>().ShelfId = p.Name;
+                if (mapId == MapIds.Library && p.Sprite == "obj_bookshelf_tall") go.AddComponent<Bookshelf>().ShelfId = p.Name;
                 if (p.Curio != null) go.AddComponent<Curio>().Key = p.Curio;
                 if (p.SeatKey != null)
                 {

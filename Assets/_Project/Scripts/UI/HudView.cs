@@ -348,7 +348,9 @@ namespace Farm.UI
         {
             var s = _ui.Session;
             if (s == null || !s.InGame) return;
+            var before = s.State.SelectedHotbar;
             s.State.SelectedHotbar = HotbarRows.ChangeRow(s.State.SelectedHotbar, delta, s.Backpack.Capacity);
+            HotbarRows.Note(before, s.State.SelectedHotbar, "row button on the bar");
             _ui.Bus.Publish(new StatsChanged());
         }
 
@@ -716,6 +718,7 @@ namespace Farm.UI
                 if (shown >= 0) shown += HotbarRows.RowOf(s.State.SelectedHotbar) * HotbarRows.Width;
                 if (shown >= 0 && mouse.leftButton.wasPressedThisFrame && s.State.SelectedHotbar != shown)
                 {
+                    HotbarRows.Note(s.State.SelectedHotbar, shown, "a click on the bar at " + mouse.position.ReadValue());
                     s.State.SelectedHotbar = shown;
                     _ui.Bus.Publish(new StatsChanged());
                 }

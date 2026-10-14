@@ -26,6 +26,31 @@ namespace Farm.Gameplay
 
         public Vector2Int Facing { get; private set; } = Vector2Int.down;
 
+        // Dancing at a festival: the farmer stays where they are and dances (WalkBob's dance frames) for a few seconds, turning to the four sides, until they have finished or
+        // the stick is pushed. `onDone` runs only when the dance was danced to the end.
+        float _danceLeft;
+        System.Action _danceDone;
+        public bool Dancing => _danceLeft > 0f;
+
+        public bool StartDance(float seconds, System.Action onDone = null)
+        {
+            if (_seat != null || Dancing || seconds <= 0f) return false;
+            Stop();
+            _danceLeft = seconds;
+            _danceDone = onDone;
+            if (TryGetComponent<WalkBob>(out var bob)) bob.Dancing = true;
+            return true;
+        }
+
+        void EndDance(bool completed)
+        {
+            _danceLeft = 0f;
+            if (TryGetComponent<WalkBob>(out var bob)) bob.Dancing = false;
+            var done = _danceDone;
+            _danceDone = null;
+            if (completed) done?.Invoke();
+        }
+
         public bool Seated => _seat != null;
         public SitSpot Seat => _seat;
 
@@ -123,6 +148,20 @@ namespace Farm.Gameplay
         void Update()
         {
             _move = Vector2.zero;
+            if (_danceLeft > 0f)
+            {
+                _danceLeft -= Time.deltaTime;
+                var stopped = _input != null && !_input.GameplayBlocked && _input.Move.ReadValue<Vector2>().sqrMagnitude > 0.25f;
+                if (stopped) EndDance(false);
+                else if (_danceLeft <= 0f) EndDance(true);
+                else
+                {
+                    var turn = (int)(Time.time / 1.1f) % 4;
+                    var side = turn == 0 || turn == 2 ? Vector2Int.down : turn == 1 ? Vector2Int.left : Vector2Int.right;
+                    if (side != Facing) Face(side);
+                    return;
+                }
+            }
             if (_seat != null)
             {
                 Rest();

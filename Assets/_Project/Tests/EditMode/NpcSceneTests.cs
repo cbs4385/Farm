@@ -24,10 +24,26 @@ namespace Farm.Tests
             public List<(Vector2Int cell, string target, string spawn)> Warps = new List<(Vector2Int, string, string)>();
             public Dictionary<string, Vector2Int> Spawns = new Dictionary<string, Vector2Int>();
             public WalkGrid Grid;
+            // What each festival's props block on its own day (they are not there on any other day), and the cells of each of its stations.
+            public Dictionary<string, HashSet<Vector2Int>> Festival = new Dictionary<string, HashSet<Vector2Int>>();
+            public List<(string holder, HashSet<Vector2Int> cells)> Stations = new List<(string, HashSet<Vector2Int>)>();
             public bool Walkable(int x, int y) => Ground.Contains(new Vector2Int(x, y)) && !Walls.Contains(new Vector2Int(x, y)) && !Blocked.Contains(new Vector2Int(x, y));
         }
 
         static readonly Dictionary<string, Snapshot> Maps = new Dictionary<string, Snapshot>();
+
+        static HashSet<Vector2Int> Covered(BoxCollider2D col)
+        {
+            var cells = new HashSet<Vector2Int>();
+            var b = col.bounds;
+            for (var x = Mathf.FloorToInt(b.min.x + 0.01f); x <= Mathf.FloorToInt(b.max.x - 0.01f); x++)
+                for (var y = Mathf.FloorToInt(b.min.y + 0.01f); y <= Mathf.FloorToInt(b.max.y - 0.01f); y++) cells.Add(new Vector2Int(x, y));
+            return cells;
+        }
+
+        // A festival's stop is free when nothing else is there on that festival's day (the props of the other festivals are away).
+        static bool FreeOn(Snapshot snap, string entryId, int x, int y) =>
+            snap.Walkable(x, y) && !(entryId.StartsWith("festival_") && snap.Festival.TryGetValue("Festival_" + entryId.Substring("festival_".Length), out var props) && props.Contains(new Vector2Int(x, y)));
 
         static Vector2Int Cell(Vector3 p) => new Vector2Int(Mathf.FloorToInt(p.x), Mathf.FloorToInt(p.y));
 
@@ -57,10 +73,12 @@ namespace Farm.Tests
                     if (!col.isTrigger && !col.CompareTag("Player") && col.GetComponentInParent<Tilemap>() == null)
                     {
                         // every cell the collider covers (a wide counter or a 2 x 2 bin covers several)
-                        var b = col.bounds;
-                        for (var x = Mathf.FloorToInt(b.min.x + 0.01f); x <= Mathf.FloorToInt(b.max.x - 0.01f); x++)
-                            for (var y = Mathf.FloorToInt(b.min.y + 0.01f); y <= Mathf.FloorToInt(b.max.y - 0.01f); y++)
-                                snap.Blocked.Add(new Vector2Int(x, y));
+                        var holder = col.GetComponentsInParent<Transform>(true).FirstOrDefault(t => t.name.StartsWith("Festival_"));
+                        HashSet<Vector2Int> into = snap.Blocked;
+                        if (holder != null && !snap.Festival.TryGetValue(holder.name, out into)) snap.Festival[holder.name] = into = new HashSet<Vector2Int>();
+                        var cells = Covered(col);
+                        into.UnionWith(cells);
+                        if (col.GetComponent<FestivalStation>() != null && holder != null) snap.Stations.Add((holder.name, new HashSet<Vector2Int>(cells)));
                     }
                 var min = new Vector2Int(snap.Ground.Min(c => c.x), snap.Ground.Min(c => c.y));
                 var max = new Vector2Int(snap.Ground.Max(c => c.x), snap.Ground.Max(c => c.y));
@@ -76,6 +94,9 @@ namespace Farm.Tests
         // The shipped villager assets (what the game runs), not the defaults they are generated from.
         static IEnumerable<Farm.Data.NpcDefinition> Npcs() =>
             NpcCatalog.From(Resources.Load<Farm.Data.GameDatabase>(Farm.Data.GameDatabase.ResourcePath)).All;
+
+        // A villager's own days and the festival days (FestivalSchedule), which are checked against the scenes as well.
+        static IEnumerable<Farm.Data.NpcScheduleEntry> Entries(Farm.Data.NpcDefinition npc) => npc.Schedule.Concat(new FestivalSchedule().EntriesFor(npc));
 
         static string Describe(Farm.Data.NpcDefinition npc) => string.Join(";", npc.Schedule.Select(e =>
             $"{e.Id}|{e.Condition ?? string.Empty}|{e.Priority}|" + string.Join(",", e.Stops.Select(s => $"{s.Minute}@{s.Map}:{s.X},{s.Y}:{s.Facing}"))));
@@ -146,12 +167,12 @@ namespace Farm.Tests
             foreach (var npc in Npcs())
             {
                 Assert.IsTrue(Maps[npc.HomeMap].Walkable(npc.HomeX, npc.HomeY), $"{npc.Id}'s home cell is blocked");
-                foreach (var entry in npc.Schedule)
+                foreach (var entry in Entries(npc))
                     foreach (var stop in entry.Stops)
                         if (stop.Facing == NpcSchedule.SleepFacing)       // a bed is furniture they lie on: the right cell, in their own room
                             Assert.AreEqual((NpcHomes.MapOf(npc.Id), NpcHomes.BedX, NpcHomes.BedY), (stop.Map, stop.X, stop.Y), $"{npc.Id}/{entry.Id}: sleeps in the bed");
                         else
-                        Assert.IsTrue(Maps[stop.Map].Walkable(stop.X, stop.Y), $"{npc.Id}/{entry.Id}: stop ({stop.X},{stop.Y}) on {stop.Map} is blocked or off the map");
+                        Assert.IsTrue(FreeOn(Maps[stop.Map], entry.Id, stop.X, stop.Y), $"{npc.Id}/{entry.Id}: stop ({stop.X},{stop.Y}) on {stop.Map} is blocked or off the map");
             }
         }
 
@@ -238,7 +259,7 @@ namespace Farm.Tests
         public void EveryWalkBetweenStops_HasAPathOnEachMap()
         {
             foreach (var npc in Npcs())
-                foreach (var entry in npc.Schedule)
+                foreach (var entry in Entries(npc))
                     for (var i = 1; i < entry.Stops.Count; i++)
                     {
                         var a = entry.Stops[i - 1]; var b = entry.Stops[i];
@@ -248,12 +269,46 @@ namespace Farm.Tests
                     }
         }
 
+        // On each festival day its props stand on the village road and in the square: every villager's cell is free, every door is still reachable and so is every
+        // station (a free cell beside it is reachable from the farm road).
+        [Test]
+        public void EachFestivalGround_LeavesTheGatheringCellsTheDoorsAndTheStationsReachable()
+        {
+            var village = Maps[MapIds.Village];
+            var min = new Vector2Int(village.Ground.Min(c => c.x), village.Ground.Min(c => c.y));
+            var max = new Vector2Int(village.Ground.Max(c => c.x), village.Ground.Max(c => c.y));
+            var start = MapRoutes.All.First(e => e.From == MapIds.Farm && e.To == MapIds.Village);
+            foreach (var row in Festivals.Rows)
+            {
+                var holder = "Festival_" + row.Id;
+                Assert.IsTrue(village.Festival.ContainsKey(holder), row.Id + " has props in the village scene");
+                var props = village.Festival[holder];
+                bool Free(int x, int y) => village.Walkable(x, y) && !props.Contains(new Vector2Int(x, y));
+                var grid = new WalkGrid(min.x, min.y, max.x - min.x + 1, max.y - min.y + 1, Free);
+                foreach (var cell in Festivals.Gathering[row.Id])
+                {
+                    Assert.IsTrue(Free(cell.x, cell.y), $"{row.Id}: the cell ({cell.x},{cell.y}) is blocked");
+                    Assert.IsNotNull(grid.FindPath(start.ArriveX, start.ArriveY, cell.x, cell.y), $"{row.Id}: no way to ({cell.x},{cell.y})");
+                }
+                foreach (var edge in MapRoutes.All.Where(e => e.From == MapIds.Village))
+                    Assert.IsNotNull(grid.FindPath(start.ArriveX, start.ArriveY, edge.ExitX, edge.ExitY), $"{row.Id}: the way to {edge.To} is cut off");
+                var stations = village.Stations.Where(s => s.holder == holder).ToList();
+                Assert.IsNotEmpty(stations, row.Id + " has something to use");
+                foreach (var station in stations)
+                {
+                    var beside = station.cells.SelectMany(c => new[] { c + Vector2Int.up, c + Vector2Int.down, c + Vector2Int.left, c + Vector2Int.right })
+                        .Where(c => !station.cells.Contains(c) && Free(c.x, c.y)).ToList();
+                    Assert.IsTrue(beside.Any(c => grid.FindPath(start.ArriveX, start.ArriveY, c.x, c.y) != null), $"{row.Id}: the station at {station.cells.First()} cannot be reached");
+                }
+            }
+        }
+
         [Test]
         public void ARealPathIsNotMuchLongerThanTheEstimate()
         {
             // The walk time uses straight-line (Manhattan) distance; A* around furniture may be a bit longer, never wildly.
             foreach (var npc in Npcs())
-                foreach (var entry in npc.Schedule)
+                foreach (var entry in Entries(npc))
                     for (var i = 1; i < entry.Stops.Count; i++)
                     {
                         var a = entry.Stops[i - 1]; var b = entry.Stops[i];

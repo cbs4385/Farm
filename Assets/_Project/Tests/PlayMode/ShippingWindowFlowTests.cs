@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using Farm.Core;
+using Farm.Data;
 using Farm.Gameplay;
 using Farm.UI;
 using NUnit.Framework;
@@ -130,6 +131,39 @@ namespace Farm.Tests
             Assert.IsFalse(_ui.AnyModalOpen);
             Assert.AreEqual(6, _session.Backpack.Count("crop.parsnip"));
             Assert.IsEmpty(_session.State.ShippingBin);
+        }
+
+        // Playtest 2026-10-13: "it looks like you cannot sell more than one type at once". Every stack in the lot has a contour of its own, not only the one being edited, and the
+        // total is big and bold.
+        [UnityTest]
+        public IEnumerator EveryStackInTheLot_HasAContour_AndTheTotalIsBold()
+        {
+            yield return Enter();
+            _session.Backpack.Add("crop.parsnip", 10);
+            _session.Backpack.Add("crop.potato", 5);
+            var parsnips = SlotOf("crop.parsnip");
+            var potatoes = SlotOf("crop.potato");
+            var kale = SlotOf(ItemIds.Seed("parsnip"));          // a stack that stays out of the lot
+            OpenTheBin();
+            yield return null;
+
+            Click("Slot" + parsnips);
+            yield return null;
+            Click("Slot" + potatoes);
+            yield return null;
+            var root = _ui.Shipping.Root.transform;
+            Transform SlotButton(int slot) => root.GetComponentsInChildren<Button>(true).FirstOrDefault(b => b.name == "Slot" + slot)?.transform;
+            bool Contour(int slot) { var s = SlotButton(slot); Assert.IsNotNull(s, "Slot" + slot); return s.Find("InLot") != null; }
+            Assert.IsTrue(Contour(parsnips), "the first kind keeps its contour when another is picked");
+            Assert.IsTrue(Contour(potatoes), "the kind being edited has one");
+            Assert.IsFalse(Contour(kale), "a stack that is not in the lot has none");
+            var outline = SlotButton(parsnips).Find("InLot");
+            Assert.AreEqual(4, outline.childCount, "four edges");
+
+            var total = root.GetComponentsInChildren<TMPro.TextMeshProUGUI>(true).First(x => x.text.StartsWith("In the lot"));
+            Assert.GreaterOrEqual(total.fontSize, 24f, "the total is big");
+            Assert.IsTrue((total.fontStyle & TMPro.FontStyles.Bold) != 0, "and bold");
+            Click("Close");
         }
     }
 }

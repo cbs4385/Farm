@@ -16,7 +16,8 @@ namespace Farm.Core
     {
         public const string Address = "gamestrubios@gmail.com";
         public const string SubjectPrefix = "[Farm bug] ";
-        public const int MinSubject = 3, MaxSubject = 120, MinBody = 5, MaxBody = 4000;
+        public const int MaxSubject = 120, MaxBody = 4000;
+        public const string DefaultSubject = "Bug report", DefaultBody = "(nothing written)";
         public const long MaxLogBytes = 1024 * 1024;           // the end of each log: that is where the trouble is
         public const int MaxUrlLength = 1900;                  // mail programs and the shell refuse much longer links
         public const int KeepReports = 10;
@@ -43,13 +44,10 @@ namespace Farm.Core
             public string ZipPath, Folder, MailtoUrl, Error;
         }
 
-        // null when the text can be sent, else the string key that says what is missing.
-        public static string Validate(string subject, string body)
-        {
-            if (string.IsNullOrWhiteSpace(subject) || subject.Trim().Length < MinSubject) return "bug.need_subject";
-            if (string.IsNullOrWhiteSpace(body) || body.Trim().Length < MinBody) return "bug.need_body";
-            return null;
-        }
+        // Nothing has to be written (playtest 2026-10-13: "I have to put some words in the title and description or it won't create a report"): an empty subject becomes
+        // "Bug report" and an empty description "(nothing written)". The logs, the save and the system details are what matter. (pure)
+        public static string SubjectOrDefault(string subject) => string.IsNullOrWhiteSpace(subject) ? DefaultSubject : subject.Trim();
+        public static string BodyOrDefault(string body) => string.IsNullOrWhiteSpace(body) ? DefaultBody : body.Trim();
 
         // Takes the account name and the home folder out of text that is sent to somebody else. (pure)
         public static string Redact(string text, string homeFolder, string accountName, string machineName = null)
@@ -94,8 +92,8 @@ namespace Farm.Core
             var result = new Result();
             try
             {
-                var problem = Validate(r.Subject, r.Body);
-                if (problem != null) { result.Error = problem; return result; }
+                r.Subject = SubjectOrDefault(r.Subject);
+                r.Body = BodyOrDefault(r.Body);
                 Directory.CreateDirectory(r.OutputDirectory);
                 var zipPath = Path.Combine(r.OutputDirectory, $"bug-{r.UtcNow:yyyyMMdd-HHmmss}.zip");
                 var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

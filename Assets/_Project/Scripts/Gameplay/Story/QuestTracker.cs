@@ -61,6 +61,7 @@ namespace Farm.Gameplay
                 sb.Append('\n').Append("  - ").Append(L.Get(o.Text));
                 var count = Count(s, q, o);
                 if (count != null) sb.Append(" (").Append(count).Append(')');
+                sb.Append(QuestLog.CarryingText(s, q, o));
             }
             return sb.ToString();
         }

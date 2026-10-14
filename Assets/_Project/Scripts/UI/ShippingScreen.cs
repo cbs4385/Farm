@@ -49,8 +49,9 @@ namespace Farm.UI
             Qty(row.transform, L.Get("shipping.all"), () => { if (_selected >= 0) _lot.All(Ui.Session, _selected); Rebuild(); });
             Qty(row.transform, L.Get("shipping.none"), () => { if (_selected >= 0) _lot.None(_selected); Rebuild(); });
 
-            _summary = UiKit.Label(stack.transform, "", 19f, TextAlignmentOptions.Left, UiKit.Accent);
-            UiKit.Size(_summary.gameObject, -1f, 28f);
+            _summary = UiKit.Label(stack.transform, "", 24f, TextAlignmentOptions.Left, UiKit.Accent);
+            _summary.fontStyle = FontStyles.Bold;
+            UiKit.Size(_summary.gameObject, -1f, 34f);
 
             var buttons = UiKit.HStack(stack.transform, "Buttons", 10f);
             UiKit.Size(buttons.gameObject, -1f, 34f);
@@ -101,12 +102,16 @@ namespace Farm.UI
                 button.GetComponentInChildren<TextMeshProUGUI>().text = string.Empty;
                 button.interactable = can;
                 button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => { if (!can) return; _selected = index; _lot.Add(s, index, 1); Rebuild(); };          // right-click: one more into the lot
+                var inLot = _lot.Get(i);
+                if (inLot > 0) SlotUi.Outline(button.transform, UiKit.Accent);          // every stack in the lot is outlined, so it is plain that several kinds go at once
                 if (_selected == i) SlotUi.Mark(button.transform);
                 if (SlotUi.Icon(button.transform, s.Db, stack, 7f, dim: !can) != null)
                 {
-                    var inLot = _lot.Get(i);
                     var text = inLot > 0 ? $"{inLot}/{stack.Count}" : stack.Count > 1 ? stack.Count.ToString() : string.Empty;
-                    if (text.Length > 0) SlotUi.Count(button.transform, text, 12f, inLot > 0 ? UiKit.Accent : UiKit.TextColor);
+                    if (text.Length > 0) {
+                        var badge = SlotUi.Count(button.transform, text, inLot > 0 ? 14f : 12f, inLot > 0 ? UiKit.Accent : UiKit.TextColor);
+                        if (inLot > 0) badge.fontStyle = FontStyles.Bold;
+                    }
                 }
             }
 

@@ -123,14 +123,14 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void PlantingOutOfSeason_IsAllowed_TheCropIsDeadByMorning_AndNewSeedComesBack()
+        public void AnOutOfSeasonCropInTheGrid_IsDeadByMorning_AndAnOldSaveCanStillPullItUp()          // the game no longer lets one be planted (Playtest1013Tests); a crop already in the ground from before still behaves
         {
             var db = UnityEngine.Resources.Load<GameDatabase>(GameDatabase.ResourcePath);
             db.TryGetCrop("tomato", out var tomato);              // summer only
             var grid = new FarmGrid();
             grid.Till(1, 1);
             Assert.IsFalse(grid.Plantable(tomato, Season.Winter));
-            Assert.IsTrue(grid.Plant(1, 1, tomato, Season.Winter), "it can be planted, with a warning");
+            Assert.IsTrue(grid.Plant(1, 1, tomato, Season.Winter), "the grid itself takes it: the player's hand refuses it first");
             Assert.IsTrue(grid.TryUproot(1, 1, out var id) && id == tomato.Id, "pulled up the same day it is a seed again");
 
             grid.Plant(1, 1, tomato, Season.Winter);

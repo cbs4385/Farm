@@ -57,6 +57,7 @@ namespace Farm.Gameplay
                 ["effect"] = ("effect <name:args>", "run a story effect, for example ending:sealed or give:prop.sock", Effect),
                 ["hold"] = ("hold <itemId>", "select an item on the hotbar (adding one if needed), to see it carried", Hold),
                 ["tp"] = ("tp <MapId> [spawn]", "go to a map (Farm, FarmHouse...)", Teleport),
+                ["at"] = ("at <x> <y>", "put the player on a cell of this map (to look at something far from the doors)", At),
                 ["animal"] = ("animal <chicken|duck|rabbit|cow|goat|sheep>", "add an animal to the coop or barn you are in (tp Coop or tp Barn first)", AddAnimal),
                 ["floor"] = ("floor <1-40>", "go to a mine floor", MineFloor),
                 ["sleep"] = ("sleep", "start the real sleep flow (fade, summary, wake in bed)", Sleep),
@@ -256,6 +257,15 @@ namespace Farm.Gameplay
             _session.State.CurrentMap = a[0];
             _session.State.SpawnPoint = a.Length == 2 ? a[1] : "default";
             return DebugCommandResult.Success($"Going to {a[0]} ({_session.State.SpawnPoint}).", reload: true);
+        }
+
+        DebugCommandResult At(string[] a)
+        {
+            if (a.Length != 2 || !int.TryParse(a[0], out var x) || !int.TryParse(a[1], out var y)) return DebugCommandResult.Fail("Usage: at <x> <y>");
+            var here = _session.Game?.Map;
+            if (here?.Player == null || here.Map == null) return DebugCommandResult.Fail("There is no map loaded.");
+            here.Player.Teleport(here.Map.CellCenter(new UnityEngine.Vector3Int(x, y, 0)));
+            return DebugCommandResult.Success($"At ({x}, {y}).");
         }
 
         DebugCommandResult AddAnimal(string[] a)

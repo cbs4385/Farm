@@ -46,6 +46,9 @@ namespace Farm.Gameplay
             ("painting", 120), ("clock", 200), ("bench", 140), ("wardrobe", 260), ("vase", 40), ("armchair", 180),
         };
 
+        // Furniture drawn at the machines' size (PlacedObjectActor.ScaleFor).
+        public static readonly string[] LargeDecor = { "wardrobe", "bookshelf", "dining_table", "armchair", "bench" };
+
         // Props of the farm that the mallet lifts into the backpack like furniture (owner, 2026-10-12: the hay bale, the wheelbarrow and the barrels). They are not sold: the scene's own
         // hay, sacks, wheelbarrow and barrels become these, and can be set down again like any decoration. Appended, never renamed: placed objects are saved by id.
         public static readonly string[] FarmProps = { "hay", "sacks", "wheelbarrow", "barrels" };
@@ -105,9 +108,13 @@ namespace Farm.Gameplay
             foreach (var id in FarmProps)
                 rows.Add(new ExtraItemRow(ItemIds.Machine(id), ItemCategory.Furniture, 5, C(0.60f, 0.45f, 0.25f), placeableId: id));
             foreach (var d in Dishes)
-                rows.Add(new ExtraItemRow("food." + d.id, ItemCategory.Food, d.sell, C(0.85f, 0.60f, 0.35f), energy: d.energy));
+                rows.Add(new ExtraItemRow("food." + d.id, ItemCategory.Food, d.sell, C(0.85f, 0.60f, 0.35f), buy: DishPrice(d.sell), energy: d.energy, soldIn: new[] { "saloon" }));          // the saloon sells its meals (playtest 2026-10-13)
+            rows.AddRange(GemDefaults.CreateItems());
             return rows.ToArray();
         }
+
+        // A meal at the bar costs half as much again as the same dish fetches when it is sold, in whole fives, so that cooking at home always pays.
+        public static int DishPrice(int sell) => (sell * 3 / 2 + 4) / 5 * 5;
 
         static Color MachineColor(string id)
         {
@@ -159,6 +166,13 @@ namespace Farm.Gameplay
             r.Add(RecipeDefinition.Create("keg_wine", Stations.Keg, "artisan.wine", 1, new[] { Any("recipe.any_fruit", Crops(CropKind.Fruit), 1) }, 4 * 1440));
             r.Add(RecipeDefinition.Create("jar_pickles", Stations.Jar, "artisan.pickles", 1, new[] { Any("recipe.any_vegetable", Crops(CropKind.Vegetable), 1) }, 1440));
             r.Add(RecipeDefinition.Create("jar_jam", Stations.Jar, "artisan.jam", 1, new[] { Any("recipe.any_fruit", Crops(CropKind.Fruit), 1) }, 1440));
+
+            // Jewelry by hand (a gem and a bar): pendants on iron, rings on gold; to give or to sell.
+            foreach (var g in GemDefaults.Gems)
+            {
+                r.Add(Hand("jewelry_" + g.Id + "_pendant", GemDefaults.PendantId(g), 1, 3, GemDefaults.Skill, Need(g.ItemId, 1), Need(ItemIds.IronBar, 1)));
+                r.Add(Hand("jewelry_" + g.Id + "_ring", GemDefaults.RingId(g), 1, 5, GemDefaults.Skill, Need(g.ItemId, 1), Need(ItemIds.GoldBar, 1)));
+            }
 
             // The kitchen.
             var forage = ForageDefaults.Rows.Select(row => row.ItemId);

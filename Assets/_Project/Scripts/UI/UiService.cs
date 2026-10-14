@@ -59,6 +59,7 @@ namespace Farm.UI
         HudView _hud;
         InventoryScreen _inventory;
         ShopScreen _shop;
+        public ShopScreen Shop => _shop;
         ConfirmDialog _confirm;
         MessageDialog _message;
         IllustrationScreen _illustration;

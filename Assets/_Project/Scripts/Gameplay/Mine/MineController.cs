@@ -119,7 +119,7 @@ namespace Farm.Gameplay
             go.AddComponent<MineStairs>().Kind = kind;
 
             // The marker that says what it is: a lantern post by the way out, a crystal cluster over the ladder down, a barrel at the lift (Caves and Mines Props).
-            var prop = Resources.Load<Sprite>(PropOf(kind));
+            var prop = Resources.Load<Sprite>(PropOf(kind, _floor.Floor));
             if (prop == null) return;
             var marker = new GameObject("Marker", typeof(SpriteRenderer));
             LitSprites.Apply(marker);
@@ -131,7 +131,10 @@ namespace Farm.Gameplay
             markerRenderer.sortingOrder = 4;
         }
 
-        public const float PropScale = 0.5f;          // the pictures are two cells wide: half that, so a cell holds one
+        public const float PropScale = 1f;          // the pictures are the mine entrance of the world map, two cells wide, at its own size
+
+        // The way up from the first floor leaves the mine: it is drawn as the entrance in daylight.
+        public static string PropOf(MineStairs.StairKind kind, int floor) => kind == MineStairs.StairKind.Up && floor <= 1 ? "Mine/prop_mine_exit" : PropOf(kind);
 
         public static string PropOf(MineStairs.StairKind kind) => kind == MineStairs.StairKind.Down ? "Mine/prop_mine_down" : kind == MineStairs.StairKind.Up ? "Mine/prop_mine_up" : "Mine/prop_mine_lift";
 

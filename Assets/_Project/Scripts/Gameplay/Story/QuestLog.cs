@@ -58,6 +58,10 @@ namespace Farm.Gameplay
         public static string ProgressText(GameSession s, QuestDefinition def, QuestObjective o) =>
             string.IsNullOrEmpty(o.GiveItem) ? string.Empty : "  (" + L.Get("hall.progress", System.Math.Min(Given(s, def, o), o.GiveCount), o.GiveCount) + ")";
 
+        // "  (you carry 4)" after an objective that is handed over and not yet met, so every place that lists the quest shows what the backpack still holds.
+        public static string CarryingText(GameSession s, QuestDefinition def, QuestObjective o) =>
+            string.IsNullOrEmpty(o.GiveItem) || ObjectiveMet(s, def, o) ? string.Empty : "  " + L.Get("hall.carrying", s.Backpack.Count(o.GiveItem));
+
         public static string GiveKey(string questId, string itemId) => "give." + questId + "." + itemId;
 
         // Gives as many of an objective's item as the backpack holds, up to what is still needed. Returns how many were handed over.

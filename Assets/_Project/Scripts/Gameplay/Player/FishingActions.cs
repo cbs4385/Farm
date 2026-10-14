@@ -45,6 +45,7 @@ namespace Farm.Gameplay
             if (_c.Session.Backpack.Add(fish.ItemId, 1, done.Quality) > 0) { _c.Session.Toast(L.Get("toast.inventory_full")); return; }
             _c.Hoist(fish.ItemId);
             _c.Session.AddVar("stat.fished", 1);
+            FestivalActivities.RecordCatch(_c.Session, _c.Map.MapId, fish.ItemId, done.Quality);          // the Tidewatch counts what is caught in the village pond
             _c.Session.AddSkillXp(SkillIds.Fishing, FishingModel.Xp(fish));
             _c.Session.Toast(L.Get(done.Perfect ? "fishing.perfect" : "fishing.caught", L.Get("item." + fish.ItemId + ".name")));
         }

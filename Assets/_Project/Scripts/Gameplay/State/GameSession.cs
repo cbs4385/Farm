@@ -182,6 +182,7 @@ namespace Farm.Gameplay
             _bus = bus;
             _db = db;
             _saves = saves;
+            Hooks.AddScheduleSource(new FestivalSchedule());
             Hooks.AddLuckModifier(new FatigueLuckModifier(() => Clock != null ? Clock.Now.MinuteOfDay : GameDateTime.DayStartMinute));
             Hooks.AddWorldObjectSource(new StoredItemsSource(this, WorldObjectKinds.CraftedItem));
             Hooks.AddWorldObjectSource(new StoredItemsSource(this, WorldObjectKinds.PlantProduct));

@@ -248,7 +248,7 @@ namespace Farm.Tests
             _hammer.Use(couch.Cell(_map));
             Assert.IsTrue(_hammer.Carrying);
             Assert.IsTrue(_hammer.Rotate(), "R turns what is carried");
-            var target = new Vector3Int(9, 5, 0);                               // a free spot: the turned couch stands two cells high
+            var target = new Vector3Int(7, 5, 0);                               // a free spot: the turned couch stands two cells high
             _hammer.Use(target);
             Assert.IsFalse(_hammer.Carrying, _hammer.LastRefusal);
             Assert.AreEqual(1, couch.Turns);
@@ -256,8 +256,8 @@ namespace Farm.Tests
             Assert.AreEqual(target, couch.Cell(_map));
             Assert.AreEqual(90f, couch.transform.eulerAngles.z, 0.1f, "its picture turned too");
             Physics2D.SyncTransforms();
-            Assert.IsNotNull(Physics2D.OverlapPoint(_map.CellCenter(new Vector3Int(9, 6, 0))), "and so did its collider: it now covers the cell above");
-            Assert.IsNull(Physics2D.OverlapPoint(_map.CellCenter(new Vector3Int(8, 5, 0))), "and no longer the cell beside");
+            Assert.IsNotNull(Physics2D.OverlapPoint(_map.CellCenter(new Vector3Int(7, 6, 0))), "and so did its collider: it now covers the cell above");
+            Assert.IsNull(Physics2D.OverlapPoint(_map.CellCenter(new Vector3Int(6, 5, 0))), "and no longer the cell beside");
 
             yield return Start(MapIds.FarmHouse);
             var again = UnityEngine.Object.FindObjectsByType<MovableFixture>().First(f => f.Id == "furn_couch");

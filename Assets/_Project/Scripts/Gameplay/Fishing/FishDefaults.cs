@@ -35,6 +35,7 @@ namespace Farm.Gameplay
     public static class FishDefaults
     {
         const SeasonMask Sp = SeasonMask.Spring, Su = SeasonMask.Summer, Fa = SeasonMask.Fall, Wi = SeasonMask.Winter, All = SeasonMask.All;
+        public const string Night = "hour>=20";          // the clock runs on past midnight (24, 25 ...), so this covers the whole night
         static Color C(float r, float g, float b) => new Color(r, g, b);
 
         public static readonly FishRow[] Rows =
@@ -48,8 +49,12 @@ namespace Farm.Gameplay
             new FishRow("sea_bass", "Sea Bass", FishSpots.Ocean, Sp | Fa, 5, 0.4f, 120, C(0.5f, 0.55f, 0.55f)),
             new FishRow("pufferfish", "Pufferfish", FishSpots.Ocean, Su, 3, 0.6f, 200, C(0.9f, 0.8f, 0.4f), "weather:sunny"),
             new FishRow("eel", "Eel", FishSpots.Ocean, All, 3, 0.55f, 180, C(0.3f, 0.35f, 0.3f), "weather:rain"),
-            new FishRow("octopus", "Octopus", FishSpots.Ocean, Su | Fa, 2, 0.6f, 250, C(0.7f, 0.3f, 0.5f), "hour>=20"),
-            new FishRow("squid", "Squid", FishSpots.Ocean, Wi, 3, 0.5f, 150, C(0.8f, 0.6f, 0.7f), "hour>=20"),
+            new FishRow("octopus", "Octopus", FishSpots.Ocean, Su | Fa, 2, 0.6f, 250, C(0.7f, 0.3f, 0.5f), Night),
+            new FishRow("squid", "Squid", FishSpots.Ocean, Wi, 3, 0.5f, 150, C(0.8f, 0.6f, 0.7f), Night),
+            // After dark (20:00 on; playtest 2026-10-13): a night fish for every season at the sea and at the ponds, and they bite more readily than the day fish
+            new FishRow("lanternfish", "Lanternfish", FishSpots.Ocean, All, 8, 0.45f, 160, C(0.3f, 0.7f, 0.65f), Night),
+            new FishRow("cuttlefish", "Cuttlefish", FishSpots.Ocean, Sp | Fa, 5, 0.5f, 170, C(0.55f, 0.35f, 0.65f), Night),
+            new FishRow("stingray", "Stingray", FishSpots.Ocean, Su | Fa, 3, 0.65f, 280, C(0.2f, 0.3f, 0.5f), Night),
             new FishRow("tuna", "Tuna", FishSpots.Ocean, Su, 2, 0.8f, 300, C(0.2f, 0.3f, 0.6f)),
             // The pond
             new FishRow("carp", "Carp", FishSpots.Pond, All, 10, 0.1f, 50, C(0.7f, 0.55f, 0.3f)),
@@ -60,6 +65,10 @@ namespace Farm.Gameplay
             new FishRow("pike", "Pike", FishSpots.Pond, Fa | Wi, 4, 0.55f, 150, C(0.3f, 0.5f, 0.35f)),
             new FishRow("glass_minnow", "Glass Minnow", FishSpots.Pond, Wi, 6, 0.15f, 40, C(0.8f, 0.9f, 0.95f)),
             new FishRow("sturgeon", "Sturgeon", FishSpots.Pond, Wi, 2, 0.8f, 300, C(0.35f, 0.4f, 0.45f)),
+            new FishRow("midnight_carp", "Midnight Carp", FishSpots.Pond, All, 8, 0.4f, 110, C(0.15f, 0.2f, 0.5f), Night),
+            new FishRow("ghost_perch", "Ghost Perch", FishSpots.Pond, Sp | Su, 5, 0.5f, 160, C(0.75f, 0.85f, 0.85f), Night),
+            new FishRow("black_bass", "Black Bass", FishSpots.Pond, Fa | Wi, 5, 0.55f, 170, C(0.15f, 0.12f, 0.3f), Night),
+            new FishRow("starfin", "Starfin", FishSpots.Pond, Sp | Su | Fa, 2, 0.75f, 350, C(0.9f, 0.8f, 0.2f), Night),
             new FishRow("moonfish", "Moonfish", FishSpots.Pond, All, 1, 0.7f, 400, C(0.9f, 0.9f, 1f), "moon:full && hour>=21"),
         };
 

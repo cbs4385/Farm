@@ -20,6 +20,16 @@ namespace Farm.Gameplay
             return days;
         }
 
+        // "Spring and Summer" for the toast that explains why a seed will not go in the ground now.
+        public static string SeasonsText(SeasonMask seasons)
+        {
+            var names = new System.Collections.Generic.List<string>();
+            foreach (var s in new[] { Season.Spring, Season.Summer, Season.Fall, Season.Winter })
+                if (seasons.Includes(s)) names.Add(L.Get("season." + s.ToString().ToLowerInvariant()));
+            if (names.Count == 0) return string.Empty;
+            return names.Count == 1 ? names[0] : string.Join(", ", names.GetRange(0, names.Count - 1)) + " " + L.Get("ui.and") + " " + names[names.Count - 1];
+        }
+
         public static string Label(FarmTile tile, GameDatabase db)
         {
             if (tile == null) return null;

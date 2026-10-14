@@ -35,6 +35,7 @@ namespace Farm.Gameplay
             if (npc.Loved.Contains(item.Id)) return GiftTaste.Loved;
             if (npc.Liked.Contains(item.Id)) return GiftTaste.Liked;
             if (npc.Disliked.Contains(item.Id)) return GiftTaste.Disliked;
+            if (GemDefaults.IsJewelry(item.Id)) return GiftTaste.Liked;          // a ring or a pendant is a present that is always welcome
             var category = item.Category.ToString();
             if (npc.LovedCategories.Contains(category)) return GiftTaste.Loved;
             if (npc.DislikedCategories.Contains(category)) return GiftTaste.Disliked;

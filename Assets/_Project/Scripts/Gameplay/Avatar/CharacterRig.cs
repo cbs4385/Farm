@@ -100,6 +100,39 @@ namespace Farm.Gameplay
             return Build(g, b, pose, facing);
         }
 
+        public const int DancePhases = 4;
+
+        // A dance of four phases (the festivals): the body bounces on the off beats and leans to the side of the raised arm, the arms pump up and down in turn, and the feet are
+        // lifted in turn; seen from the side the legs step and the head bobs. No extra art: it is the same picture moved a pixel or three.
+        public static PixelGrid Dance(PixelGrid g, string facing, int phase)
+        {
+            if (!TryBands(g, out var b)) return Plain(g);
+            phase = ((phase % DancePhases) + DancePhases) % DancePhases;
+            var pose = new Pose();
+            var off = phase == 1 || phase == 3;
+            pose.BodyDy = off ? -1 : 0;
+            pose.HeadDy = off ? 0 : 0;
+            var side = facing == "left" || facing == "right";
+            if (side)
+            {
+                var sign = phase == 0 ? 1 : phase == 2 ? -1 : 0;
+                pose.LegFrontDx = sign;
+                pose.LegBackDx = -sign;
+                pose.BodyDx = phase == 0 ? 1 : phase == 2 ? -1 : 0;
+                pose.HeadDx = phase == 1 ? 1 : phase == 3 ? -1 : 0;
+            }
+            else
+            {
+                pose.LegLiftLeft = phase == 0 ? 1 : 0;
+                pose.LegLiftRight = phase == 2 ? 1 : 0;
+                pose.ArmLeftDy = phase == 0 ? -3 : phase == 1 ? -2 : phase == 3 ? -1 : 0;
+                pose.ArmRightDy = phase == 2 ? -3 : phase == 3 ? -2 : phase == 1 ? -1 : 0;
+                pose.BodyDx = phase == 0 ? -1 : phase == 2 ? 1 : 0;
+                pose.HeadDx = phase == 0 ? -1 : phase == 2 ? 1 : 0;
+            }
+            return Build(g, b, pose, facing);
+        }
+
         // A swing of a tool in four frames: wind up, swing, strike, recover. The arm and the tool are drawn into the hand.
         // `target` is the tile the swing is aimed at, in cells from the character's feet (x to the right, y up: any of the eight around them, or two cells away): on
         // the strike frame the tool's working end lands on the middle of that tile (the body leans and the arm stretches to get it there).

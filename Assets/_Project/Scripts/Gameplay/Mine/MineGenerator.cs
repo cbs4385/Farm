@@ -199,7 +199,11 @@ namespace Farm.Gameplay
                 for (var x = 1; x < f.Width - 1; x++)
                     if (dist[y * f.Width + x] > 3 && !NextToLadder(f, x, y)) cells.Add((x, y));
             foreach (var c in cells)
-                if (rng.Unit() < 0.12f) f.Nodes.Add(new MineNodeSpawn(c.x, c.y, OreFor(f.Floor, rng)));
+            {
+                if (rng.Unit() >= 0.12f) continue;
+                var gem = f.Floor >= GemDefaults.FirstFloor && rng.Unit() < GemDefaults.ChanceOnFloor(f.Floor) ? GemDefaults.NodeFor(f.Floor, rng.Unit()) : null;          // deeper floors: some of the ore spots are gem clusters
+                f.Nodes.Add(new MineNodeSpawn(c.x, c.y, gem ?? OreFor(f.Floor, rng)));
+            }
         }
 
         // One walkable route from the arrival cell to the ladder is kept free of ore and rocks (a boulder in a one-cell tunnel would shut the way down for anyone
@@ -257,12 +261,12 @@ namespace Farm.Gameplay
         }
 
         // The ore nodes the mine uses (the content tools write them as assets; sprites obj_<id>). Never part of clutter.
-        public static ResourceNodeDefinition[] CreateNodes() => new[]
+        public static ResourceNodeDefinition[] CreateNodes() => GemDefaults.CreateNodes().Concat(new[]
         {
             ResourceNodeDefinition.Create(Copper, ToolType.Pickaxe, 3, 0, ItemIds.CopperOre, 1, 3, "mining", 6, null, true, 0f),
             ResourceNodeDefinition.Create(Iron, ToolType.Pickaxe, 4, 1, ItemIds.IronOre, 1, 3, "mining", 10, null, true, 0f),
             ResourceNodeDefinition.Create(Gold, ToolType.Pickaxe, 5, 2, ItemIds.GoldOre, 1, 2, "mining", 16, null, true, 0f),
             ResourceNodeDefinition.Create(Coal, ToolType.Pickaxe, 3, 0, ItemIds.Coal, 1, 2, "mining", 8, null, true, 0f),
-        };
+        }).ToArray();
     }
 }

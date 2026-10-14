@@ -65,8 +65,23 @@ namespace Farm.Tests
             Assert.IsTrue(screen.IsOpen);
             screen.Fill("", "", true);
             ButtonNamed("Send").onClick.Invoke();
-            Assert.IsNull(_opened, "an empty report is refused");
-            Assert.IsNotNull(UnityEngine.Object.FindObjectsByType<TextMeshProUGUI>().FirstOrDefault(t => t.gameObject.activeInHierarchy && t.text.Contains("subject")), "and says why");
+            Assert.IsNotNull(_opened, "an empty report is made all the same (nothing has to be written)");
+            StringAssert.StartsWith("bug-", screen.LastFileName);
+            StringAssert.Contains(Uri.EscapeDataString("[Farm bug] Bug report"), _opened);
+            var emptyZip = Path.Combine(BugReport.DefaultFolder(Application.persistentDataPath), screen.LastFileName);
+            try
+            {
+                Assert.IsTrue(File.Exists(emptyZip));
+                CollectionAssert.Contains(BugReport.Contents(emptyZip), "report.txt");
+                var copy = ButtonNamed("CopyPath");
+                Assert.IsNotNull(copy, "the done screen has a button that copies the path");
+                copy.onClick.Invoke();
+                StringAssert.EndsWith(screen.LastFileName, GUIUtility.systemCopyBuffer);
+                Assert.IsTrue(screen.PathCopied);
+            }
+            finally { if (File.Exists(emptyZip)) File.Delete(emptyZip); }
+            _opened = null;
+            screen.Open();
 
             screen.Fill("Test report from the tests", "A description of what went wrong, long enough to be accepted.", true);
             ButtonNamed("Send").onClick.Invoke();

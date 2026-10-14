@@ -58,7 +58,7 @@ namespace Farm.UI
                     var row = UiKit.HStack(_list, "Need", 8f, TextAnchor.MiddleLeft);
                     UiKit.Size(row.gameObject, -1f, 30f);
                     var met = QuestLog.ObjectiveMet(s, def, objective);
-                    var label = UiKit.Label(row.transform, (met ? "[x] " : "[ ] ") + L.Get(objective.Text) + QuestLog.ProgressText(s, def, objective) + (!met && !string.IsNullOrEmpty(objective.GiveItem) ? "  " + L.Get("hall.carrying", s.Backpack.Count(objective.GiveItem)) : string.Empty), 15f, TextAlignmentOptions.Left, met ? UiKit.Accent : UiKit.DimText);
+                    var label = UiKit.Label(row.transform, (met ? "[x] " : "[ ] ") + L.Get(objective.Text) + QuestLog.ProgressText(s, def, objective) + QuestLog.CarryingText(s, def, objective), 15f, TextAlignmentOptions.Left, met ? UiKit.Accent : UiKit.DimText);
                     UiKit.Size(label.gameObject, -1f, 28f, 1f);
                     if (string.IsNullOrEmpty(objective.GiveItem) || met) continue;
                     var has = s.Backpack.Count(objective.GiveItem);

@@ -114,6 +114,7 @@ namespace Farm.Gameplay
             events.Init(_map, _session, npcs, _player);
             Context.Events = events;
             if (_map.MapId == MapIds.Village || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
+            if (_map.MapId == MapIds.Village) new GameObject("FestivalGrounds").AddComponent<FestivalGrounds>().Init(Context);
             if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(Context);
             if (_map.MapId == MapIds.Farm) new GameObject("PlayerThought").AddComponent<PlayerThought>().Init(_session, _player.transform);
             new GameObject("Barks").AddComponent<BarkDirector>().Init(_session, npcs, _player, events);
@@ -388,6 +389,18 @@ namespace Farm.Gameplay
 
         void PlacePlayer(string spawnId)
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            // QA aid: a spawn named "cell:27,14" puts the player on that cell (to look at something far from the doors; `tp Village cell:27,14`, `-farmSpawn cell:27,14`).
+            if (spawnId != null && spawnId.StartsWith("cell:", System.StringComparison.Ordinal))
+            {
+                var parts = spawnId.Substring(5).Split(',');
+                if (parts.Length == 2 && int.TryParse(parts[0], out var cx) && int.TryParse(parts[1], out var cy))
+                {
+                    _player.transform.position = _map.CellCenter(new Vector3Int(cx, cy, 0));
+                    return;
+                }
+            }
+#endif
             SpawnPoint fallback = null;
             foreach (var sp in FindObjectsByType<SpawnPoint>())
             {

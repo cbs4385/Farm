@@ -106,6 +106,18 @@ namespace Farm.Gameplay
             if (!sleeping && _icon != null) _icon.Hide();
         }
 
+        // Dancing at a festival (FestivalGrounds sets it for the villagers on the dance floor; the dance with the player sets it too): the character's dance frames in time with the music.
+        public bool Dancing { get; private set; }
+
+        public void StartDancing() => SetDancing(true);
+        public void StopDancing() => SetDancing(false);
+
+        public void SetDancing(bool on)
+        {
+            Dancing = on;
+            if (TryGetComponent<WalkBob>(out var bob)) bob.Dancing = on;
+        }
+
         public NpcDefinition Definition => _definition;
         public bool IsWalking { get; private set; }
         public Vector2Int Facing => _facing;
@@ -204,7 +216,7 @@ namespace Farm.Gameplay
                 _villagerWait = 0f;
                 var asleep = place.Facing == NpcSchedule.SleepFacing;
                 SetSleeping(asleep);
-                SetFacing(asleep ? Vector2Int.down : NpcSchedule.FacingVector(place.Facing));
+                SetFacing(asleep ? Vector2Int.down : Dancing && _definition != null ? FestivalGrounds.DanceFacing(_definition.Id) : NpcSchedule.FacingVector(place.Facing));
                 // The picture is moved so that it lies on the pillow, at the top (north end) of the bed.
                 if (Sleeping && _renderer != null)
                 {
@@ -212,7 +224,7 @@ namespace Farm.Gameplay
                     transform.position += bed + new Vector3(0f, NpcHomes.PillowLift, 0f) - _renderer.bounds.center;
                     (_icon ??= SleepIcon.Create(transform)).Show(bed);
                 }
-                if (asleep) LeaveSeat(); else TrySit(map, cell);
+                if (asleep || Dancing) LeaveSeat(); else TrySit(map, cell);
                 TickWork(asleep);
                 YieldBodyToPlayer();
                 return;

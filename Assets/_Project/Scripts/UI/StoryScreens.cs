@@ -127,7 +127,7 @@ namespace Farm.UI
                 button.name = "Track_" + id;
                 button.interactable = !following;                                          // the one that is followed has nothing more to choose
                 foreach (var o in q.Objectives)
-                    UiKit.Label(_list, (QuestLog.ObjectiveMet(s, q, o) ? "[x] " : "[ ] ") + L.Get(o.Text) + QuestLog.ProgressText(s, q, o), 15f, TextAlignmentOptions.Left, UiKit.DimText);
+                    UiKit.Label(_list, (QuestLog.ObjectiveMet(s, q, o) ? "[x] " : "[ ] ") + L.Get(o.Text) + QuestLog.ProgressText(s, q, o) + QuestLog.CarryingText(s, q, o), 15f, TextAlignmentOptions.Left, UiKit.DimText);
             }
             if (!any) UiKit.Label(_list, L.Get("journal.none"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
             UiKit.Label(_list, L.Get("journal.done", QuestLog.Done(s).Count()), 15f, TextAlignmentOptions.Left, UiKit.DimText);

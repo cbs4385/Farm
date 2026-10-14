@@ -52,5 +52,29 @@ namespace Farm.UI
             UiKit.Stretch(mark.rectTransform);
             mark.raycastTarget = false;
         }
+
+        // A solid contour round a slot: used to show every stack that is in a lot at once, not only the one being edited (playtest 2026-10-13).
+        public static void Outline(Transform slot, Color color, float thickness = 3f, string name = "InLot")
+        {
+            var holder = new GameObject(name, typeof(RectTransform));
+            holder.transform.SetParent(slot, false);
+            UiKit.Stretch((RectTransform)holder.transform);
+            Edge(holder.transform, color, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, thickness));      // top
+            Edge(holder.transform, color, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(0f, thickness));      // bottom
+            Edge(holder.transform, color, new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(thickness, 0f));      // left
+            Edge(holder.transform, color, new Vector2(1f, 0f), new Vector2(1f, 1f), new Vector2(thickness, 0f));      // right
+        }
+
+        static void Edge(Transform parent, Color color, Vector2 anchorMin, Vector2 anchorMax, Vector2 size)
+        {
+            var bar = UiKit.Panel(parent, "Edge", color);
+            bar.raycastTarget = false;
+            var rt = bar.rectTransform;
+            rt.anchorMin = anchorMin;
+            rt.anchorMax = anchorMax;
+            rt.pivot = anchorMin == anchorMax ? anchorMin : new Vector2(anchorMin.x == anchorMax.x ? anchorMin.x : 0.5f, anchorMin.y == anchorMax.y ? anchorMin.y : 0.5f);
+            rt.sizeDelta = size;
+            rt.anchoredPosition = Vector2.zero;
+        }
     }
 }

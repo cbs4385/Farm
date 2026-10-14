@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.6.2 (2026-10-13)
+
+From the playtesters' list of the same day. The plan is in `docs/PLAYTEST_2026-10-13_PLAN.md`.
+
+**The festivals have things to do**
+- **Every festival has activities, props and a village that takes part.** From ten in the morning every villager is on the festival ground (and goes home at nine), and the props stand from dawn.
+  - **Blossom Day:** a dance floor on the road, a maypole with ribbons, a band stand and bunting. The villagers by the maypole dance (a new four-frame dance for the farmer and every villager). Use the maypole to dance with the villager nearest you: it takes eight seconds, restores energy and makes a friend (once a year). Push the stick to stop.
+  - **Tidewatch:** the scoreboard booth by the village pond, rowboats and a crate of fish. Enter at the board, fish in the village pond until five (a fish scores what it sells for, more for silver and gold), and come back for the results and a prize: 600 gold and a trophy for first, then 300, 150 and 50.
+  - **Harvest Fair:** stalls, pumpkins and the judging table by the clock tower. Hold a crop, a preserve or a dish and use the table; the judges decide at five (600 gold and a ribbon for the best).
+  - **Lantern Feast:** lantern poles, a long laid table and a lantern rack. Hang your lantern and make a wish; from five, sit down at the table to eat (full energy).
+- Each prize is once a year. The villagers cast lines at the Tidewatch and wave at the fair and the feast.
+
+**Farming and fishing**
+- **The weeds of the farm have purple flowers.** 0.6.1 recolored the ground flowers but not the weed that grows in clutter, which still had orange flowers and looked like a dandelion (and a picked dandelion, growing back, was drawn as that weed). Only a dandelion is orange now.
+- **A seed cannot be planted out of season** outside the greenhouse. The message names the crop and the seasons it grows in. The greenhouse is unchanged: any crop, any season.
+- **The special fish do come at night.** Seven new fish bite after eight in the evening, at least two for every season at the sea and at the ponds, and they are common: Lanternfish, Cuttlefish, Stingray, Midnight Carp, Ghost Perch, Black Bass and Starfin.
+
+**The mine and gems**
+- **Gem clusters in the deeper floors** (the crystal of the Caves and Mines pack, recoloured): amethyst from floor 16, topaz 20, aquamarine 24, emerald 28, ruby 32, diamond 36. Harder gems need a better pickaxe.
+- **Gems go into the Community Hall:** the boiler room asks for an amethyst, the vault for an emerald and a ruby.
+- **Jewelry:** a ring (gold bar and a gem) and a pendant (iron bar and a gem) of every gem, by hand in the crafting menu (mining levels 5 and 3). They sell for much more than the gem and are always a liked gift.
+- **The mine's markers are the entrance of the world map:** the way out is the entrance with a light blue inside, the stairs down are dark with an arrow down, the stairs up are lighter with an arrow up, and the lift is grey with both arrows.
+
+**Rooms and shops**
+- **Bigger furniture:** the clinic's beds are single beds two cells long, the stores' shelves are tall, the library and the hall have tall bookshelves, the big pieces of furniture you buy are drawn larger, and the farmhouse's stove is a range two cells wide and two tall.
+- **The saloon sells hot meals** (every dish, at the bar).
+
+**Bug reports, selling, and a hunt for a bug**
+- **A bug report needs no words.** The subject and the description can be left empty ("Bug report" and "(nothing written)" are used); the done screen shows the full path of the file, with a button that copies the path and one that opens the folder.
+- **The general store's counter has a "Sell your things to the shop" button**, so selling to Tilda is not hidden in her conversation menu (a tester could not find how the shop buys). The sell window opens over the counter and the counter comes back.
+- **The log now says who changes the selected item** (a number key, the scroll wheel, a pad button, a click on the bar, a row button), to find out why an item can change by itself while watering.
+
+**Screens**
+- **A quest that is handed over shows what you carry** in the Journal and in the tracker on the screen, as the hall board already did.
+- **The shipping window outlines every stack in the lot** and makes the total big and bold, so it is plain that several kinds can go at once.
+
 ## 0.6.1 (2026-10-13)
 
 From the playtesters' notes of the day after 0.6.0.

@@ -16,6 +16,17 @@ namespace Farm.UI
         readonly TextMeshProUGUI _gold;
         readonly TextMeshProUGUI _title;
         string _shopId = "general";
+        readonly Button _sellButton;
+
+        public bool SellButtonShown => _sellButton != null && _sellButton.gameObject.activeSelf;
+
+        // The sell window over the counter; the counter comes back when it is closed.
+        public void SellToTheShop()
+        {
+            var shop = _shopId;
+            Close();
+            Ui.ShowSell(() => Ui.ShowShop(shop));
+        }
 
         public ShopScreen(UiService ui) : base(ui)
         {
@@ -52,7 +63,13 @@ namespace Farm.UI
             scrollRect.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
             _list = listRect;
 
-            var close = UiKit.MakeButton(stack.transform, L.Get("ui.close"), Close, 160f, 34f);
+            // The general store also buys (sooziq, playtest 2026-10-13: "I don't see how Tilda buys items"): the way to sell was a choice in Tilda's conversation menu that
+            // nobody found, so the counter has the button too.
+            var bar = UiKit.HStack(stack.transform, "Bar", 10f, TextAnchor.MiddleCenter);
+            UiKit.Size(bar.gameObject, -1f, 34f);
+            _sellButton = UiKit.MakeButton(bar.transform, L.Get("shop.sell"), SellToTheShop, 240f, 34f);
+            _sellButton.name = "SellToShop";
+            var close = UiKit.MakeButton(bar.transform, L.Get("ui.close"), Close, 160f, 34f);
             close.name = "Close";
             root.SetActive(false);
         }
@@ -61,6 +78,7 @@ namespace Farm.UI
         {
             _shopId = shopId;
             _title.text = L.Get("shop." + shopId + ".title");
+            _sellButton.gameObject.SetActive(shopId == InteractionMenu.SellerBusiness);
             Rebuild();
             Open();
         }

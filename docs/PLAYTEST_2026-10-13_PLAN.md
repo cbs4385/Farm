@@ -1,0 +1,18 @@
+# Plan: playtester requests of 2026-10-13
+
+Source: the playtesters' list pasted by the owner on 2026-10-13. One item was changed by the owner afterwards: **out-of-season planting is refused outside the greenhouse** (a message names the right seasons); the greenhouse keeps its rule (every crop, any season). That replaces the earlier "confirm when planting out of season" request, because a refusal needs no confirmation. Status of each item is in `docs/STATUS.md` (release 0.6.2).
+
+| # | Request | Plan | Where |
+|---|---|---|---|
+| 1 | Hall quests do not show how many items you carry | One helper (`QuestLog.CarryingText`) used by the Hall board, the Journal and the HUD tracker | `QuestLog`, `QuestTracker`, `HallScreen`, `StoryScreens` |
+| 2+7 | No planting out of season; message names the seasons | `PlacementActions.Plant` refuses when `FarmGrid.Plantable` is false (a greenhouse grid is `AllSeasons`, so it still accepts everything); toast `toast.wrong_season` lists the crop's seasons (`CropInfo.SeasonsText`) | `PlacementActions`, `CropInfo`, `en.json` |
+| 3 | Festival activities (dancing ...), props and animations | `Festivals` (pure table, scoring, flags), a schedule source that gathers the villagers on the festival grounds, `FestivalGrounds` (runtime props + interactions on the village map), a dance animation in the character rig, four activities: Blossom Day dance, Tidewatch fishing contest, Harvest Fair show, Lantern Feast lanterns and feast. Props drawn by `tools/art/build_festival_props.py` | `Gameplay/Festival/*`, `CharacterRig`, `WalkBob` |
+| 4 | Hospital beds, store shelves, decor too small | New art at the right size: single bed 16 x 32, tall shelf 16 x 32, tall bookshelf 16 x 32, range cooker 32 x 32 (`tools/art/build_room_furniture.py`); interiors take the footprint from the picture; the big furniture pieces are drawn at the machines' scale | `MapBuilder`, `PlacedObjectActor`, `CraftingDefaults.LargeDecor` |
+| 5 | Special fish do not come at night | The night roster (after 20:00) now has fish for every season at the sea and the ponds, with high weights; seven new fish, pictures recoloured from the day fish (`tools/art/build_night_fish.py`) | `FishDefaults` |
+| 6 | Shipping: show that several kinds can go at once | Every stack in the lot gets a gold contour (`SlotUi.Outline`), a bold count, a bigger bold total | `ShippingScreen`, `SlotUi` |
+| 8 | Gem drops in the later mine floors | Six gems (amethyst floor 16, topaz 20, aquamarine 24, emerald 28, ruby 32, diamond 36) as cluster nodes from the Caves and Mines crystal, recoloured (`tools/art/build_gems.py`) | `GemDefaults`, `MineGenerator` |
+| 9 | Gems in later hall quests and crafting; jewellery for gifts and sale | Boiler room asks an amethyst, vault an emerald and a ruby; 12 jewellery recipes (pendant on iron, ring on gold, by hand, mining level 3 and 5); jewellery is always a liked gift | `hall_and_festivals.json`, `CraftingDefaults`, `NpcInteractions.TasteOf` |
+| 10 | Larger stove; food at the inn | Range cooker 32 x 32 (2 x 2 cells) in the farmhouse; the saloon bar sells every dish (price = 1.5 x sell) | `MapBuilder`, `CraftingDefaults.DishPrice` |
+| 11 | Mine marker sprites | The four markers are the world-map mine entrance recoloured: exit light blue, stairs down dark with an arrow down, stairs up lighter with an arrow up, lift neutral with both arrows (`tools/art/build_mine_markers.py`) | `MineController`, `Resources/Mine` |
+
+Verification: EditMode and PlayMode suites, Windows player capture of the village on each festival day, the mine and the clinic, then the ship flow in `docs/BUILD.md`. Nothing here has been played by a person.
