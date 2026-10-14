@@ -4,7 +4,7 @@ Last updated: 2026-10-05. Tags: `m0`, `m1`, `m2`, `m3`. Tests (last full runs, 2
 
 Format: `T-xxx | status (todo/in-progress/done/blocked) | agent/date | notes`. "Done (partial)" lists what was not verified.
 
-## Release 0.6.3 (2026-10-14, from the playtesters' list of that day)
+## Release 0.6.3 (2026-10-14, published to Steam default, BuildID 25934212, and pushed to GitHub; from the playtesters' list of that day)
 
 Built: season of each seed shown in the general store; the mine's lift two rows below the arrival (no overlap with the way up); farmhouse range art 25% smaller; no tool tip for a pad's player on each pickaxe/sword swap underground; adopted cat no longer created in the village (and its body, a child collider, is switched off); Harrow Wood trees from `WoodLayout` with lanes to the stones; the three relics moved from the wood to a chest on mine floor 30 (`MythosRelics`, `RelicChest`, cell from the world seed), with new icons (`tools/art/build_relic_icons.py`). Verified by automation only: 1671 EditMode (1 skipped) and 390 PlayMode tests pass; a development build was captured for the farmhouse, shop, Harrow Wood and mine floor 30. NOT verified by a person or in a capture: opening the chest on floor 30, the pad tool-tip change, the cat after adopting in a real game.
 
