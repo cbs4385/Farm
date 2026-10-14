@@ -25,7 +25,8 @@ namespace Farm.Gameplay
         public static int Left(GameSession s) => s == null ? 0 : s.GetVar(LeftVar);
 
         // Is a torch giving light right now?
-        public static bool IsBurning(GameSession s) => Needed(s) && Left(s) > 0;
+        // A torch left in a chest (or dropped from the backpack) gives no light and does not burn down; what is left of it waits.
+        public static bool IsBurning(GameSession s) => Needed(s) && Left(s) > 0 && s.Backpack.Has(ItemIds.Torch);
 
         // The fraction of the burning torch that is left, 0 to 1.
         public static float Fraction(GameSession s) => Left(s) / (float)Minutes;
@@ -36,8 +37,8 @@ namespace Farm.Gameplay
             lightedOne = false;
             noneLeft = false;
             if (!Needed(s)) return false;
-            if (Left(s) > 0) return true;
             if (!s.Backpack.Has(ItemIds.Torch)) { noneLeft = true; return false; }
+            if (Left(s) > 0) return true;
             s.SetVar(LeftVar, Minutes);          // the torch stays where it is, with the bar over its slot
             lightedOne = true;
             s.NotifyChanged();

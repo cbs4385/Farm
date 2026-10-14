@@ -48,6 +48,7 @@ namespace Farm.Gameplay
                 _c.Session.Toast(L.Get("toast.inventory_full"));
                 return true;
             }
+            if (!_c.SpendEnergy(PlayerActions.ForageEnergy)) return true;
 
             var day = _c.Session.Clock.Now.TotalDays;
             var wasLast = ForageRules.IsLastOfItsKind(nodes, node.TypeId);

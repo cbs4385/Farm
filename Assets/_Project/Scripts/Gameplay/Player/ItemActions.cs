@@ -69,6 +69,7 @@ namespace Farm.Gameplay
                     // The axe and pickaxe take a placed chest, machine or sprinkler back (no energy needed).
                     if (tool != ToolType.Scythe && _placement.TryPickUp(cell)) return;
                     cost = Mathf.Max(1, Mathf.RoundToInt(ToolModel.EnergyCost(PlayerActions.EnergyCost(tool), tier) * Professions.EnergyMultiplier(_c.Session.State)));
+                    if (tool == ToolType.Scythe && TryUprootSapling(cell)) break;
                     if (tool == ToolType.Scythe && TryUproot(cell)) break;
                     if (tool == ToolType.Scythe && TryClearWithered(cell, cost)) break;
                     if (tool == ToolType.Scythe && TryPullCrop(cell, cost)) break;
@@ -87,11 +88,28 @@ namespace Farm.Gameplay
             if (cost > 0) _c.Session.Bus.Publish(new EnergyActionCompleted(tool.ToString(), cost));
         }
 
-        // The scythe takes a crop that has not grown yet back out of the ground, and the seed returns to the backpack.
+        // The scythe lifts a sapling (a planted acorn) back out of the ground, and the acorn returns to the backpack (playtest 2026-10-14: a tree planted in the wrong place could not be moved).
+        bool TryUprootSapling(Vector3Int cell)
+        {
+            var nodes = _c.Session.GetNodes(_c.Map.MapId);
+            if (!nodes.TryGet(cell.x, cell.y, out var node) || node.TypeId != NodeDefaults.Sapling) return false;
+            if (!_c.Session.Backpack.CanAdd(ItemIds.Acorn, 1)) { _c.Session.Toast(L.Get("toast.inventory_full")); return true; }
+            nodes.Remove(cell.x, cell.y);
+            _c.Session.Backpack.Add(ItemIds.Acorn, 1);
+            _c.View.RefreshNode(cell);
+            _c.Session.Toast(L.Get("toast.uprooted"));
+            AudioService.PlayIfAvailable(Sfx.Harvest);
+            ActionPuff.Burst(_c.Map.CellCenter(cell), new Color(0.45f, 0.38f, 0.30f), 3, Fx.DigDirt);
+            return true;
+        }
+
+        // The scythe takes a crop that has not grown yet back out of the ground, and the seed returns to the backpack. A fruit tree that has not borne yet comes out the same way.
         bool TryUproot(Vector3Int cell)
         {
             var grid = _c.Session.GetGrid(_c.Map.MapId);
-            if (!grid.TryGetTile(cell.x, cell.y, out var tile) || tile.Crop == null || tile.Crop.Withered || tile.Crop.Stage != 0 || tile.Crop.DaysInStage != 0) return false;
+            if (!grid.TryGetTile(cell.x, cell.y, out var tile) || tile.Crop == null || tile.Crop.Withered) return false;
+            var young = tile.Crop.Stage == 0 && tile.Crop.DaysInStage == 0;
+            if (!young && !(_c.Session.Db.TryGetCrop(tile.Crop.CropId, out var treeDef) && treeDef.IsTree && tile.Crop.Stage < treeDef.MatureStage)) return false;
             if (!_c.Session.Db.TryGetCrop(tile.Crop.CropId, out var crop) || !_c.Session.Backpack.CanAdd(crop.SeedItemId, 1)) { _c.Session.Toast(L.Get("toast.inventory_full")); return true; }
             grid.TryUproot(cell.x, cell.y, out _);
             _c.Session.Backpack.Add(crop.SeedItemId, 1);

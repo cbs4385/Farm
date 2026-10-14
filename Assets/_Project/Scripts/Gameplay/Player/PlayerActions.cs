@@ -13,6 +13,7 @@ namespace Farm.Gameplay
         public const int AxeEnergy = 3;
         public const int PickaxeEnergy = 3;
         public const int ScytheEnergy = 2;
+        public const int ForageEnergy = 1;          // picking wild things by hand (playtest 2026-10-14: it cost nothing)
         public const int FishingEnergy = FishingActions.FishingEnergy;
 
         [SerializeField] PlayerController _player;

@@ -135,7 +135,7 @@ namespace Farm.Tests
             Assert.AreEqual(1, _session.Backpack.Count("forage.hazelnut"));
             Assert.IsFalse(_session.GetNodes(MapIds.Forest).Has(11, 12), "it is gone from the ground");
             Assert.AreEqual(7, _session.GetSkillXp(SkillIds.Foraging));
-            Assert.AreEqual(energy, _session.State.Energy, "picking things up is free");
+            Assert.AreEqual(energy - PlayerActions.ForageEnergy, _session.State.Energy, "picking things up costs a little energy (playtest 2026-10-14)");
         }
 
         [UnityTest]

@@ -96,6 +96,29 @@ namespace Farm.Tests
             }
         }
 
+        // Playtest 2026-10-14: a torch put in the chest at home kept burning until it ran out.
+        [Test]
+        public void ATorchLeftInAChest_GivesNoLight_AndDoesNotBurnDown()
+        {
+            using (var f = new TestSessionFixture())
+            {
+                var s = f.Session;
+                s.State.CurrentMap = MapIds.Mine;
+                s.Backpack.Remove(ItemIds.Torch, s.Backpack.Count(ItemIds.Torch));
+                s.Backpack.Add(ItemIds.Torch, 1);
+                TorchBurn.Refresh(s, out _, out _);
+                s.Backpack.Remove(ItemIds.Torch, 1);                         // into the chest
+                Assert.IsFalse(TorchBurn.IsBurning(s));
+                Assert.IsFalse(TorchBurn.Refresh(s, out _, out var none));
+                Assert.IsTrue(none);
+                for (var i = 0; i < 30; i++) TorchBurn.OnMinute(s);
+                Assert.AreEqual(TorchBurn.Minutes, TorchBurn.Left(s), "nothing is used up");
+
+                s.Backpack.Add(ItemIds.Torch, 1);                            // and back out again: the same torch carries on
+                Assert.IsTrue(TorchBurn.IsBurning(s));
+            }
+        }
+
         [Test]
         public void TheMinutesLeft_AreKeptInTheStoryVariables_SoASaveHasThem()
         {

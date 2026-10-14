@@ -14,7 +14,7 @@ namespace Farm.UI
             var text = name + (stack.Count > 1 ? "  x" + stack.Count : string.Empty);
             var description = L.Get(item.DescriptionKey);
             if (!string.IsNullOrEmpty(description)) text += "\n" + description;
-            if (item.SellPrice > 0) text += "\n" + L.Get("inventory.sell_value", item.SellPrice);
+            if (item.SellPrice > 0) text += "\n" + L.Get("inventory.sell_value", DayCycle.SellValue(item, stack.Quality, 1));
             return text;
         }
     }

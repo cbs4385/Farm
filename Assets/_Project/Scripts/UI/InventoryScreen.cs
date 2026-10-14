@@ -246,7 +246,7 @@ namespace Farm.UI
             _tooltipName.text = item.IsTool ? Ui.Session.ToolTitle(item.Id, Ui.Session.ToolTier(item.Id)) : SlotBadges.NameWithQuality(L.Get(item.NameKey), stack.Quality);
             var body = L.Get(item.DescriptionKey);
             if (item.Category == ItemCategory.Food) body += "\n" + L.Get("inventory.eat_hint", item.EnergyRestore);
-            if (item.SellPrice > 0) body += "\n" + L.Get("inventory.sell_value", item.SellPrice);
+            if (item.SellPrice > 0) body += "\n" + L.Get("inventory.sell_value", DayCycle.SellValue(item, stack.Quality, 1));
             if (stack.Quality > 0) body += "  " + L.Get("quality.note");
             _tooltipBody.text = body;
         }

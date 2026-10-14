@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.6.4 (2026-10-14)
+
+From the playtesters' list of the same day.
+
+- **The farm starts derelict, reclaimed by the wood.** Trees crowd in from the edge of the farm and stand in copses across it, with bushes (cut with the scythe) and fallen logs (cut with the axe) among them. The lattice of brown dirt squares is gone. New games only; a farm already started keeps its layout.
+- **The scythe pulls a growing crop out of the ground**, so a sprinkler can go in its place (fruit trees stay). The seed only comes back if the crop had not begun to grow.
+- **The scythe lifts a sapling or a young fruit tree** planted in the wrong place, and the acorn or seed comes back.
+- **A sprinkler shows what it waters**: a blue tint over the cells in range while one is in hand (at the square) or the square rests on a placed one.
+- **A torch put in a chest stops burning** and waits, with what is left of it, until it is back in the backpack.
+- **Things taken out of a chest fill the next free slot in order**; only the tool bar still returns to where it was.
+- **Picking wild plants costs 1 energy.**
+- **Tooltips show the price of the quality you hold** (a silver raspberry no longer reads as a plain one).
+- **A new picture for the tool rack** (and its item icon) in place of the blue and white box.
+
 ## 0.6.3 (2026-10-14)
 
 From the playtesters' list of the same day.

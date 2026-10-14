@@ -15,7 +15,7 @@ namespace Farm.Gameplay
             var home = stack.Home;
             var leftover = intoChest
                 ? target.Add(removed.ItemId, removed.Count, removed.Quality, removed.Mark, home: slot + 1)
-                : target.Add(removed.ItemId, removed.Count, removed.Quality, removed.Mark, preferredSlot: home - 1);
+                : target.Add(removed.ItemId, removed.Count, removed.Quality, removed.Mark, preferredSlot: home >= 1 && home <= GameState.HotbarSlots ? home - 1 : -1);   // only the tool bar is kept as it was; the rest fills in order (playtest 2026-10-14)
             if (leftover > 0) source.Add(removed.ItemId, leftover, removed.Quality, removed.Mark, preferredSlot: slot, home: home);   // no room: put the rest back
             return leftover;
         }

@@ -58,6 +58,22 @@ namespace Farm.Tests
             Assert.AreEqual(1, pack.Count("tool.can"));
         }
 
+        // Playtest 2026-10-14: things taken out of a chest did not go into the next free slot in order.
+        [Test]
+        public void AStackOutsideTheToolBar_ComesBackToTheFirstFreeSlot_NotItsOldOne()
+        {
+            var pack = new Inventory(36, MaxStack);
+            for (var i = 0; i < 14; i++) pack.Put(i, new ItemStack("tool.x" + i, 1));
+            pack.Add("seed.parsnip", 5, home: 0);
+            var seedSlot = 14;
+            Assert.AreEqual("seed.parsnip", pack.Get(seedSlot).ItemId);
+            var chest = new Inventory(36, MaxStack);
+            ChestTransfer.Move(pack, seedSlot, chest, true);
+            pack.Take(2);                                       // a hole opens earlier in the pack
+            ChestTransfer.Move(chest, 0, pack, false);
+            Assert.AreEqual("seed.parsnip", pack.Get(2).ItemId, "the first free slot, not slot 14");
+        }
+
         [Test]
         public void TheHome_IsSavedWithTheChest()
         {
