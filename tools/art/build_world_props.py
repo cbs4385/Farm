@@ -2,6 +2,7 @@
   obj_chest.png     24 x 24  the chest a player sets down: bigger than before (it was a 16 x 16 smudge), a wooden body, a rounded lid, iron bands and a lock.
   prop_bench.png    32 x 16  the village benches (two cells wide): the kit's round bench came out of the 2 x 2 reduction as a black blob, so this is a front view.
   fx_mail.png       16 x 16  a small envelope that bobs over the mailbox when there is something in it.
+  obj_toolrack.png  16 x 16  the rack in front of the farmhouse (also item_machine_toolrack.png): two posts and a rail with a hoe, an axe and a pickaxe hanging from it.
   obj_board.png     16 x 16  the help-wanted board: two posts, a plank board with pinned notes (the old one was a tilted brown slab).
 Run from the repository root: python tools/art/build_world_props.py"""
 import os
@@ -76,6 +77,32 @@ def chest():
     img.save(os.path.join(OUT, 'obj_chest.png'))
 
 
+def toolrack():
+    img, px = canvas(16, 16)
+    for x0 in (0, 13):                                                        # the two posts, three wide with an outline each side
+        rect(px, x0, 1, x0 + 2, 15, INK)
+        rect(px, x0 + 1, 1, x0 + 1, 14, WOOD)
+        px[x0 + 1, 15] = WOOD_D
+    rect(px, 3, 2, 12, 5, INK)                                                # the rail between them
+    rect(px, 3, 3, 12, 4, WOOD)
+    rect(px, 3, 3, 12, 3, WOOD_L)
+    rect(px, 3, 4, 12, 4, WOOD_D)
+    # a hoe: a handle with a bent blade
+    rect(px, 4, 5, 4, 12, WOOD_L)
+    rect(px, 3, 12, 5, 12, IRON_L); px[3, 13] = IRON_D; px[4, 13] = INK; px[5, 13] = INK; px[3, 11] = INK
+    # an axe: a handle with a steel head
+    rect(px, 8, 5, 8, 14, WOOD_L)
+    rect(px, 6, 8, 7, 11, IRON_L); rect(px, 6, 9, 6, 10, IRON_D); px[7, 8] = IRON; px[7, 11] = IRON_D
+    px[6, 7] = INK; px[7, 7] = INK; px[5, 9] = INK; px[5, 10] = INK; px[6, 12] = INK; px[7, 12] = INK
+    # a pickaxe: a handle with a curved double head
+    rect(px, 11, 5, 11, 13, WOOD_L)
+    rect(px, 9, 10, 12, 10, IRON_L); px[9, 11] = IRON_D; px[12, 11] = IRON_D
+    px[8, 10] = INK; px[8, 11] = INK; px[13, 10] = INK
+    px[3, 3] = IRON_L; px[12, 3] = IRON_L                                     # nails
+    img.save(os.path.join(OUT, 'obj_toolrack.png'))
+    img.save(os.path.join(OUT, 'item_machine_toolrack.png'))
+
+
 def bench():
     img, px = canvas(32, 16)
     # back rest slats
@@ -132,5 +159,5 @@ def mail():
 
 
 if __name__ == '__main__':
-    chest(); bench(); board(); mail()
-    print('wrote obj_chest, prop_bench, obj_board, fx_mail in', OUT)
+    chest(); toolrack(); bench(); board(); mail()
+    print('wrote obj_chest, obj_toolrack, prop_bench, obj_board, fx_mail in', OUT)
