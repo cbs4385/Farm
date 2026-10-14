@@ -18,6 +18,9 @@ namespace Farm.Core
         public bool VSync = true;
         public string Language = "en";
         public float TextScale = 1f;
+        public string FontName = "";        // an installed font for the game's text ("" = the game's own)
+        public string TitleColor = "";      // the colour of titles and headings as RRGGBB ("" = the game's gold)
+        public string BodyColor = "";       // the colour of ordinary text as RRGGBB ("" = the game's cream)
         public string BindingOverridesJson = "";
 
         // Content intensity for the planned horror layer: 0 = off (a plain farming game), 1 = mild, 2 = full.
@@ -70,6 +73,9 @@ namespace Farm.Core
             SfxVolume = Mathf.Clamp01(SfxVolume);
             AmbienceVolume = Mathf.Clamp01(AmbienceVolume);
             TextScale = Mathf.Clamp(TextScale, 0.75f, 1.5f);
+            TitleColor ??= string.Empty;
+            BodyColor ??= string.Empty;
+            FontName ??= string.Empty;
             HudTransparency = Mathf.Clamp(HudTransparency, 0f, 0.6f);
             ResolutionWidth = Mathf.Max(640, ResolutionWidth);
             ResolutionHeight = Mathf.Max(360, ResolutionHeight);

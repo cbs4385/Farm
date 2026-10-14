@@ -28,8 +28,9 @@ namespace Farm.Editor
         // move them), and their doors are locked until the carpenter has built them (FarmBuildings has the types and the default places).
         const int FarmExitY0 = MapLayout.FarmRoadY - 1, FarmExitY1 = MapLayout.FarmRoadY + 1;
 
-        // FarmHouse interior: 12 x 9 cells.
-        const int InW = 12, InH = 9;
+        // FarmHouse interior: 22 x 9 cells, three rooms (playtest 2026-10-14: "the house could use more rooms for the decorations"): the main room (x 1..10), the kitchen
+        // (x 12..20, y 1..3) east of it through the doorway at x 11, y 2, and the bedroom (x 12..20, y 5..7) north of the kitchen through the doorway at x 16, y 4.
+        const int InW = 22, InH = 9, KitchenWallX = 11, KitchenDoorY = 2, BedroomWallY = 4, BedroomDoorX = 16;
 
         // Village: 50 x 36. A main road (y 16..18) runs west-east to the farm; a lane (x 24..26) runs south to the
         // beach and north to the forest. Four buildings face the road from the north, two from the south.
@@ -373,18 +374,24 @@ namespace Farm.Editor
             public Furnishing(string name, string sprite, int x, int y, int w = 1, int h = 1, bool solid = true) { Name = name; Sprite = sprite; X = x; Y = y; W = w; H = h; Solid = solid; }
         }
 
-        // The farmhouse is 12 x 9 (floor cells 1..10 by 1..7, the door at x 5 on the south wall). The north wall carries the bed, a lamp, a picture, the
-        // hearth, a clock and the wardrobe (the kitchen stands at 9..10, 6..7); the east wall a bookshelf; a dining corner and a sitting corner fill the rest.
+        // The main room is the living and dining room: the hearth, the sofa and armchair, the dining table, bookshelves, a picture, a clock and plants. The kitchen has the range,
+        // a small table, sacks, barrels and a jar shelf; the bedroom the double bed, a wardrobe, a lamp, a picture and a rug. Nothing may close off a doorway, the bed or the range.
         static readonly Furnishing[] HouseFurnishings =
         {
+            // main room
             new Furnishing("RugLarge", "obj_rug_large", 3, 3, 2, 2, solid: false),
             new Furnishing("Fireplace", "obj_fireplace", 5, 6, 2, 2),
             new Furnishing("Lamp", "obj_lamp", 3, 7), new Furnishing("Painting", "obj_painting", 4, 7), new Furnishing("Clock", "obj_clock", 7, 7),
-            new Furnishing("Bookshelf", "obj_bookshelf", 8, 7), new Furnishing("Wardrobe", "obj_wardrobe", 10, 3),
-            new Furnishing("BookshelfEast", "obj_bookshelf", 10, 5), new Furnishing("PlantEast", "obj_plant", 10, 2),
+            new Furnishing("Bookshelf", "obj_bookshelf", 8, 7), new Furnishing("BookshelfEast", "obj_bookshelf", 10, 5),
             new Furnishing("Couch", "obj_couch", 1, 4, 2, 1), new Furnishing("Armchair", "obj_armchair", 6, 4), new Furnishing("PlantWest", "obj_plant", 1, 1),
             new Furnishing("DiningTable", "obj_dining_table", 8, 3), new Furnishing("ChairWest", "obj_chair", 7, 3), new Furnishing("ChairEast", "obj_chair", 9, 3),
-            new Furnishing("Vase", "obj_vase", 10, 1), new Furnishing("Bench", "obj_bench", 8, 1),
+            new Furnishing("Bench", "obj_bench", 8, 1), new Furnishing("PlantEast", "obj_plant", 10, 7), new Furnishing("PlantSouth", "obj_plant", 1, 7),
+            // kitchen
+            new Furnishing("KitchenTable", "obj_dining_table", 15, 1), new Furnishing("KitchenChairWest", "obj_chair", 14, 1), new Furnishing("KitchenChairEast", "obj_chair", 16, 1),
+            new Furnishing("Sacks", "obj_sacks", 12, 3), new Furnishing("Barrels", "obj_barrels", 13, 3), new Furnishing("JarShelf", "obj_jar", 20, 1), new Furnishing("PlantKitchen", "obj_plant", 18, 1),
+            // bedroom
+            new Furnishing("Wardrobe", "obj_wardrobe", 20, 5), new Furnishing("BedLamp", "obj_lamp", 14, 7), new Furnishing("BedPainting", "obj_painting", 16, 7),
+            new Furnishing("Vase", "obj_vase", 18, 7), new Furnishing("RugAnnex", "obj_rug_large", 17, 5, 2, 2, solid: false), new Furnishing("PlantBedroom", "obj_plant", 20, 7),
         };
 
         static void BuildFarmHouse()
@@ -396,13 +403,15 @@ namespace Farm.Editor
                 for (var x = 0; x < InW; x++)
                 {
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_floor_wood"));
-                    var edge = x == 0 || y == 0 || x == InW - 1 || y == InH - 1;
+                    var edge = x == 0 || y == 0 || x == InW - 1 || y == InH - 1 || (x == KitchenWallX && y != KitchenDoorY) || (y == BedroomWallY && x > KitchenWallX && x != BedroomDoorX);
                     var door = y == 0 && x == 5;
                     if (edge && !door) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
 
             AddSpawn("default", Center(5, 2));
-            AddSpawn("bed", Center(3, 6));
+            AddSpawn("bed", Center(14, 6));
+            rig.Ground.SetTile(new Vector3Int(KitchenWallX, KitchenDoorY, 0), GetTile("tile_door"));          // the doors between the rooms, drawn on the floor like the doors of the shops
+            rig.Ground.SetTile(new Vector3Int(BedroomDoorX, BedroomWallY, 0), GetTile("tile_door"));
             AddWarp(Center(5, 0), MapIds.Farm, "fromHouse");
 
             // Furnishings the farmhouse starts with (more can be bought at the carpenter's). Nothing here may close off the bed, the kitchen or the door.
@@ -417,8 +426,8 @@ namespace Farm.Editor
                 MakeSeat(piece, p.Sprite, p.Name);
             }
 
-            // A double bed, two cells square, in the north-west corner (cells 1..2, 6..7). One wakes up on the cell east of it.
-            var bed = AddObject("Bed", "obj_bed_double", Center(1, 6) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));
+            // A double bed, two cells square, in the bedroom's north-west corner (cells 12..13, 6..7). One wakes up on the cell east of it.
+            var bed = AddObject("Bed", "obj_bed_double", Center(12, 6) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));
             bed.AddComponent<Bed>();
             var bedFixture = bed.AddComponent<MovableFixture>();
             bedFixture.Id = "bed";
@@ -427,7 +436,7 @@ namespace Farm.Editor
             bedFixture.Size = new Vector2Int(2, 2);
 
             // The kitchen: cook with what is in the backpack.
-            var kitchen = AddObject("Kitchen", "obj_kitchen", Center(9, 6) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));          // a range two cells wide and two tall: it reads as a cooker
+            var kitchen = AddObject("Kitchen", "obj_kitchen", Center(19, 2) + new Vector3(0.5f, 0.5f, 0f), solid: true, size: new Vector2(2f, 2f));          // a range two cells wide and two tall: it reads as a cooker
             kitchen.AddComponent<Kitchen>();
             var kitchenFixture = kitchen.AddComponent<MovableFixture>();
             kitchenFixture.Id = "kitchen";
@@ -1117,7 +1126,7 @@ namespace Farm.Editor
         // Furniture that is only to look at or sit on: it gets a name for the hover label (the bed, the kitchen, the counters and the board have their own).
         static readonly HashSet<string> PlainFurniture = new HashSet<string>
         {
-            "armchair", "bin", "bookshelf", "chair", "clock", "couch", "dining_table", "fireplace", "lamp", "painting", "plant", "rug_large", "shelf", "table", "vase", "wardrobe", "bench",
+            "armchair", "barrels", "bin", "bookshelf", "chair", "clock", "couch", "dining_table", "fireplace", "jar", "lamp", "painting", "plant", "rug_large", "sacks", "shelf", "table", "vase", "wardrobe", "bench",
         };
 
         // A chair, armchair, couch or bench can be sat on (by the player with Interact, and by a villager who stands still beside it).

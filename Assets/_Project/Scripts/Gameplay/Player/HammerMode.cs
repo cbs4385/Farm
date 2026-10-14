@@ -302,6 +302,7 @@ namespace Farm.Gameplay
                 if (col == null) continue;
                 yield return _map.WorldToCell(col.bounds.center);
             }
+            foreach (var cell in _map.DoorTiles()) yield return cell;
         }
 
         // ---- the ghost ------------------------------------------------------------------------------------------------

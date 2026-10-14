@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.6.5 (2026-10-14)
+
+From the playtesters' list of the same day (second list).
+
+- **Books go back to the library.** Use the library desk with a borrowed book in the backpack and Ione takes it back, with a small gain in friendship (once for each book).
+- **Milk and eggs make food, and cheese.** A jar turns milk into cheese and goat milk into goat cheese (two days). New dishes: omelette, baked custard, cheesy potato and goat cheese salad; the omelette and the custard are known from the start.
+- **Farm animals can be named.** A new animal asks for a name when it is set down; use an animal a second time on the same day to rename it.
+- **Animals show when something is ready.** The product floats over the animal when it can be collected, and petting says how many nights remain until the next one (ducks and goats take two).
+- **The farmhouse has three rooms**: the main room (hearth, sofa, dining table, bookshelves), a kitchen to the east with the range, a small table, sacks, barrels and a jar, and a bedroom north of the kitchen with the double bed, wardrobe, lamp, picture and rug. Doors join the rooms and furniture cannot be put in a doorway. Games already begun keep any furniture they moved.
+- **A new game offers the name "Farmer"** instead of the computer account's name (type any name over it).
+- **Furniture is sold at the general store and by the traveling merchant** as well as the carpenter.
+- **Accessibility: font and text colours.** Options > Accessibility lets you pick any font installed on the computer (arrows to step through the list), and a colour for titles (gold by default) and for ordinary text (cream by default), each with red, green and blue sliders, a swatch and a "Return to default" button. Warnings (red text) keep their colour, as does dark text. Speech bubbles over villagers' heads keep the game's font for now.
+- **Restoring a hall room says so**: a notice points out that the hall (inside, and along its front in the village) has changed.
+- **Felled trees drop more acorns** (one most of the time, two a quarter of the time), so a planted wood more than replaces itself. The forest still grows a tree back each day.
+
 ## 0.6.4 (2026-10-14)
 
 From the playtesters' list of the same day.

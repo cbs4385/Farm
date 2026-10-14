@@ -143,6 +143,8 @@ namespace Farm.Gameplay
             var cell = _c.Target;
             _c.Here?.Animals?.Spawn(animal, cell.x, cell.y);
             _c.Session.Toast(L.Get("animal.welcome", name));
+            if (_c.Session.Ui is IUiService ui)             // the player may give it a name of their own
+                ui.ShowNamePrompt(L.Get("animal.name_title", name), name, newName => { animal.Name = newName; _c.Session.NotifyChanged(); });
         }
 
         // The cells every door (warp) of this map covers.
@@ -158,6 +160,7 @@ namespace Farm.Gameplay
                     for (var y = min.y; y <= max.y; y++)
                         yield return new Vector3Int(x, y, 0);
             }
+            foreach (var cell in _c.Map.DoorTiles()) yield return cell;
         }
     }
 }

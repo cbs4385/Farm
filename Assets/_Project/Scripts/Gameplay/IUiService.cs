@@ -30,6 +30,8 @@ namespace Farm.Gameplay
         void ShowAvatarCreator(AvatarData look, System.Action<AvatarData> onDone) { }     // the farmer creator (also reachable for QA with -farmOpen avatar)
         void ShowSell(Action onClose = null) => onClose?.Invoke();        // sell from the backpack for gold at once (the general store's keeper, in conversation)
         void ShowShipping() { }        // the shipping bin as a window: pick items and amounts, ship them as one lot
+        // Asks for a name (a farm animal's); onDone runs only with a new, allowed name.
+        void ShowNamePrompt(string title, string current, Action<string> onDone) { }
         void ShowLetter(LetterDefinition letter, Action onClosed);
         void ShowBoard();
         void ShowElevator();

@@ -163,6 +163,25 @@ namespace Farm.UI
             UiKit.MakeButton(notes, L.Get("options.show"), () => Ui.ShowMessage("content.notes"), 220f, 30f).name = "ContentNotes";
 
             Section(L.Get("options.access"));
+            // The font (any installed font) and the colour of ordinary text; both restyle every window at once.
+            var fontRow = Row(L.Get("options.font"));
+            var fonts = UiTextStyle.FontChoices();
+            var fontAt = Mathf.Max(0, System.Array.IndexOf(fonts, s.FontName));
+            Button fontName = null;
+            string FontLabel(int i) => i == 0 ? L.Get("options.font.default") : fonts[i];
+            void ChooseFont(int step)
+            {
+                fontAt = (fontAt + step + fonts.Length) % fonts.Length;
+                s.FontName = fonts[fontAt];
+                UiKit.SetButtonText(fontName, FontLabel(fontAt));
+                Ui.ApplyTextStyle(s);
+            }
+            UiKit.MakeButton(fontRow, L.Get("options.font.previous"), () => ChooseFont(-1), 40f, 30f).name = "FontPrevious";
+            fontName = UiKit.MakeButton(fontRow, FontLabel(fontAt), () => ChooseFont(0), 220f - 100f, 30f);
+            fontName.name = "FontName";
+            UiKit.MakeButton(fontRow, L.Get("options.font.next"), () => ChooseFont(1), 40f, 30f).name = "FontNext";
+            TextColorPicker("options.title_color", UiKit.Accent, () => s.TitleColor, v => s.TitleColor = v, s);
+            TextColorPicker("options.body_color", UiKit.DefaultTextColor, () => s.BodyColor, v => s.BodyColor = v, s);
             var cb = Row(L.Get("options.colorblind"));
             UiKit.MakeToggle(cb, L.Get("ui.on"), s.ColorblindPalette, on => s.ColorblindPalette = on, 220f);
             var calm = Row(L.Get("options.reduce_flashes"));
@@ -272,6 +291,45 @@ namespace Farm.UI
             var text = UiKit.Label(row.transform, label, 18f);
             UiKit.Size(text.gameObject, 200f, 34f);
             return (RectTransform)row.transform;
+        }
+
+        // A colour picker for one kind of text: a swatch and red, green and blue sliders, and a button that returns to the game's colour.
+        void TextColorPicker(string labelKey, Color fallback, Func<string> get, Action<string> set, SettingsData settings)
+        {
+            var start = UiTextStyle.Parse(get()) ?? fallback;
+            var head = Row(L.Get(labelKey));
+            var swatch = UiKit.Panel(head, "Swatch", start);
+            UiKit.Size(swatch.gameObject, 220f, 26f);
+            var sliders = new Slider[3];
+            var building = true;
+            void Changed()
+            {
+                if (building) return;
+                var c = new Color(sliders[0].value, sliders[1].value, sliders[2].value);
+                swatch.color = c;
+                set(UiTextStyle.ToHex(c));
+                Ui.ApplyTextStyle(settings);
+            }
+            var keys = new[] { "options.color.red", "options.color.green", "options.color.blue" };
+            var values = new[] { start.r, start.g, start.b };
+            for (var i = 0; i < 3; i++)
+            {
+                sliders[i] = UiKit.MakeSlider(Row(L.Get(keys[i])), values[i], _ => Changed());
+                sliders[i].name = labelKey + "." + i;
+            }
+            building = false;
+            var reset = Row(string.Empty);
+            UiKit.MakeButton(reset, L.Get("options.color.reset"), () =>
+            {
+                set(string.Empty);
+                building = true;
+                sliders[0].SetValueWithoutNotify(fallback.r);
+                sliders[1].SetValueWithoutNotify(fallback.g);
+                sliders[2].SetValueWithoutNotify(fallback.b);
+                building = false;
+                swatch.color = fallback;
+                Ui.ApplyTextStyle(settings);
+            }, 220f, 30f).name = labelKey + ".reset";
         }
 
         void VolumeRow(string label, float value, Action<float> onChanged)

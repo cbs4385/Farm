@@ -94,6 +94,17 @@ namespace Farm.Gameplay
             return true;
         }
 
+        // The doorway cells drawn on the floor of a room (the doors between the rooms of the farmhouse); furniture must leave them clear.
+        public IEnumerable<Vector3Int> DoorTiles()
+        {
+            if (!MapIds.IsInterior(MapId)) yield break;
+            foreach (var cell in _ground.cellBounds.allPositionsWithin)
+            {
+                var tile = _ground.GetTile(cell);
+                if (tile != null && tile.name == "tile_door") yield return cell;
+            }
+        }
+
         public bool IsWater(Vector3Int cell)
         {
             var tile = _ground.GetTile(cell);

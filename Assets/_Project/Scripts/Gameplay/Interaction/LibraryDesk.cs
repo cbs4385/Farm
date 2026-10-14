@@ -30,7 +30,33 @@ namespace Farm.Gameplay
             new Book("dullbook", "prop.dullbook", "flag:social.ione.tease.great"),
         };
 
+        public const int ReturnPoints = 15;       // a book handed back is worth a little with Ione, once for each book
+        public static string ReturnedFlag(Book book) => "library.returned." + book.Id;
+
         public string HoverLabel => L.Get("hover.library_desk");
+
+        // A borrowed book the player carries that has not been handed back yet, or null.
+        public static Book? NextToReturn(GameSession s)
+        {
+            foreach (var book in Books)
+                if (s.HasFlag(book.Flag) && !s.HasFlag(ReturnedFlag(book)) && s.Backpack.Has(book.ItemId)) return book;
+            return null;
+        }
+
+        // Takes the book back and thanks the player with friendship. False when there is none to return.
+        public static bool TryReturn(GameSession s)
+        {
+            var back = NextToReturn(s);
+            if (back == null) return false;
+            var book = back.Value;
+            s.Backpack.Remove(book.ItemId, 1);
+            s.SetFlag(ReturnedFlag(book));
+            NpcInteractions.AddPoints(s, NpcIds.Ione, ReturnPoints);
+            s.Toast(L.Get("library.desk.returned", L.Get("item." + book.ItemId + ".name")));
+            AudioService.PlayIfAvailable(Sfx.Pickup);
+            s.NotifyChanged();
+            return true;
+        }
 
         // The next book waiting for this player, or null. (pure apart from reading the game state)
         public static Book? NextWaiting(GameSession s)
@@ -47,6 +73,7 @@ namespace Farm.Gameplay
         {
             var s = player.Session;
             if (!BusinessHoursRegistry.IsOpen(BusinessId, s.Clock.Now)) { s.Toast(BusinessHoursRegistry.ClosedMessage(BusinessId)); return; }
+            if (TryReturn(s)) return;
             var next = NextWaiting(s);
             if (next == null) { s.Toast(L.Get("library.desk.empty")); return; }
             var book = next.Value;

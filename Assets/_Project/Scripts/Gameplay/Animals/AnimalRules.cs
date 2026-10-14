@@ -101,6 +101,14 @@ namespace Farm.Gameplay
         // Quality of a product follows how happy the animal is.
         public static int Quality(AnimalState a) => a.Happiness >= 90 ? 2 : a.Happiness >= 60 ? 1 : 0;
 
+        // Nights until the product is ready if it is fed every night (0 when ready now).
+        public static int NightsToProduct(AnimalState a)
+        {
+            var row = AnimalDefaults.Find(a.Type);
+            if (row == null || a.ProductReady) return 0;
+            return Math.Max(1, row.Value.IntervalDays - a.DaysSinceProduct);
+        }
+
         public static bool Collect(AnimalState a, Inventory backpack, out string itemId)
         {
             itemId = null;

@@ -207,10 +207,10 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheOfferedFarmerName_IsNeverTheAccountNameInStreamMode()
+        public void TheOfferedFarmerName_IsAlwaysFarmer_NeverTheAccountName()
         {
-            Assert.AreEqual("Farmer", DefaultFarmerName.Offer(true, "chris"));
-            Assert.AreEqual("Chris", DefaultFarmerName.Offer(false, "chris"));
+            Assert.AreEqual("Farmer", DefaultFarmerName.Fallback);
+            Assert.LessOrEqual(DefaultFarmerName.Fallback.Length, DefaultFarmerName.MaxLength);
         }
 
         [Test]

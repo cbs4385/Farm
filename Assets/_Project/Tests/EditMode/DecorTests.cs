@@ -26,6 +26,8 @@ namespace Farm.Tests
                 Assert.AreEqual(id, item.PlaceableId, id);
                 Assert.AreEqual(price, item.BuyPrice, id);
                 Assert.Contains("carpenter", item.SoldIn.ToList(), id + " is sold by the carpenter");
+                Assert.Contains("general", item.SoldIn.ToList(), id + " is sold at the general store");
+                Assert.Contains("merchant", item.SoldIn.ToList(), id + " is on the traveling merchant's table");
                 Assert.IsNotNull(item.Icon, id + " icon");
                 var def = db.AllPlaceables.FirstOrDefault(p => p.Id == id);
                 Assert.IsNotNull(def, id + " placeable");

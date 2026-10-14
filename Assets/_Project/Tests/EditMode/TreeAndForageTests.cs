@@ -60,13 +60,13 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void FelledTrees_DropAcorns_AboutHalfTheTime()
+        public void FelledTrees_DropMoreThanOneAcornOnAverage()
         {
             Assert.AreEqual(2, TreeRules.AcornsFor(0.05f));
             Assert.AreEqual(1, TreeRules.AcornsFor(0.3f));
             Assert.AreEqual(0, TreeRules.AcornsFor(0.9f));
             var average = Enumerable.Range(0, 1000).Average(i => TreeRules.AcornsFor(i / 1000f));
-            Assert.Greater(average, 0.6f);
+            Assert.Greater(average, 1.0f);
         }
 
         [Test]

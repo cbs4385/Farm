@@ -191,7 +191,7 @@ namespace Farm.UI
 
         public override void Open()
         {
-            _name.text = DefaultFarmerName.ForThisUser(Ui.Game.Settings.Current.StreamMode);   // the signed-in user (not in stream mode)
+            _name.text = DefaultFarmerName.Fallback;
             _avatar = AvatarOptions.Random(System.Environment.TickCount + _opens++ * 7919);   // as if Surprise Me was pressed; Customize changes it
             Rebuild();
             base.Open();

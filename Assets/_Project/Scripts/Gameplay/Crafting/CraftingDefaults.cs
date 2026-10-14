@@ -73,6 +73,10 @@ namespace Farm.Gameplay
             ("salad",          new[] { ("crop.kale", 1), ("crop.parsnip", 1) },        40, 90,  null, 0),
             ("mashed_potato",  new[] { ("crop.potato", 2) },                           55, 130, null, 0),
             ("roasted_roots",  new[] { ("crop.parsnip", 1), ("crop.potato", 1) },      60, 140, null, 0),
+            ("omelette",       new[] { ("product.egg", 2) },                           50, 110, null, 0),
+            ("custard",        new[] { ("product.milk", 1), ("product.egg", 1) },      65, 190, null, 0),
+            ("cheesy_potato",  new[] { ("artisan.cheese", 1), ("crop.potato", 1) },    90, 280, null, 0),
+            ("goat_cheese_salad", new[] { ("artisan.goat_cheese", 1), ("crop.kale", 1) }, 80, 520, null, 0),
             ("bean_stew",      new[] { ("crop.greenbean", 3) },                        70, 130, "farming", 2),
             ("forager_plate",  new[] { ("*forage", 3) },                               60, 120, "foraging", 2),
             ("berry_tart",     new[] { ("crop.strawberry", 3) },                       85, 220, "farming", 3),
@@ -96,6 +100,8 @@ namespace Farm.Gameplay
                 new ExtraItemRow("artisan.juice", ItemCategory.Artisan, 150, C(0.85f, 0.55f, 0.20f)),
                 new ExtraItemRow("artisan.wine", ItemCategory.Artisan, 300, C(0.55f, 0.15f, 0.35f)),
                 new ExtraItemRow("artisan.pickles", ItemCategory.Artisan, 100, C(0.45f, 0.65f, 0.30f), energy: 40),
+                new ExtraItemRow("artisan.cheese", ItemCategory.Artisan, 220, C(0.95f, 0.80f, 0.35f), energy: 60),
+                new ExtraItemRow("artisan.goat_cheese", ItemCategory.Artisan, 420, C(0.95f, 0.93f, 0.80f), energy: 70),
                 new ExtraItemRow("artisan.jam", ItemCategory.Artisan, 160, C(0.70f, 0.20f, 0.30f), energy: 50),
                 new ExtraItemRow(CatBond.FoodItemId, ItemCategory.Misc, 10, C(0.72f, 0.55f, 0.32f), buy: 40, soldIn: new[] { "general" }),          // a tin for the village cat
                 new ExtraItemRow(ItemIds.FertilizerQuality, ItemCategory.Fertilizer, 20, C(0.45f, 0.35f, 0.20f), buy: 100, soldIn: new[] { "general" }),
@@ -104,7 +110,7 @@ namespace Farm.Gameplay
             foreach (var id in PlaceableIds)
                 rows.Add(new ExtraItemRow(ItemIds.Machine(id), ItemCategory.Machine, 0, MachineColor(id), placeableId: id));
             foreach (var d in Decor)
-                rows.Add(new ExtraItemRow(ItemIds.Machine(d.id), ItemCategory.Furniture, d.price / 4, C(0.60f, 0.40f, 0.22f), buy: d.price, placeableId: d.id, soldIn: new[] { "carpenter" }));
+                rows.Add(new ExtraItemRow(ItemIds.Machine(d.id), ItemCategory.Furniture, d.price / 4, C(0.60f, 0.40f, 0.22f), buy: d.price, placeableId: d.id, soldIn: new[] { "carpenter", "general", "merchant" }));          // the general store and the traveling merchant stock the furniture too (owner, 2026-10-14)
             foreach (var id in FarmProps)
                 rows.Add(new ExtraItemRow(ItemIds.Machine(id), ItemCategory.Furniture, 5, C(0.60f, 0.45f, 0.25f), placeableId: id));
             foreach (var d in Dishes)
@@ -166,6 +172,10 @@ namespace Farm.Gameplay
             r.Add(RecipeDefinition.Create("keg_wine", Stations.Keg, "artisan.wine", 1, new[] { Any("recipe.any_fruit", Crops(CropKind.Fruit), 1) }, 4 * 1440));
             r.Add(RecipeDefinition.Create("jar_pickles", Stations.Jar, "artisan.pickles", 1, new[] { Any("recipe.any_vegetable", Crops(CropKind.Vegetable), 1) }, 1440));
             r.Add(RecipeDefinition.Create("jar_jam", Stations.Jar, "artisan.jam", 1, new[] { Any("recipe.any_fruit", Crops(CropKind.Fruit), 1) }, 1440));
+
+            // Milk becomes cheese in a jar (two days).
+            r.Add(RecipeDefinition.Create("jar_cheese", Stations.Jar, "artisan.cheese", 1, new[] { Need("product.milk", 1) }, 2 * 1440));
+            r.Add(RecipeDefinition.Create("jar_goat_cheese", Stations.Jar, "artisan.goat_cheese", 1, new[] { Need("product.goat_milk", 1) }, 2 * 1440));
 
             // Jewelry by hand (a gem and a bar): pendants on iron, rings on gold; to give or to sell.
             foreach (var g in GemDefaults.Gems)

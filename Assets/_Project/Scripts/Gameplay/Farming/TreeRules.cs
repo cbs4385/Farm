@@ -4,7 +4,7 @@ namespace Farm.Gameplay
     // harvestable trees, the player should be able to plant them").
     public static class TreeRules
     {
-        // How many acorns a felled tree drops for a roll in 0..1: one half of the time, two now and then.
-        public static int AcornsFor(float roll) => roll < 0.15f ? 2 : roll < 0.65f ? 1 : 0;
+        // How many acorns a felled tree drops for a roll in 0..1: usually one, two a quarter of the time, so a planted wood more than replaces itself (playtest 2026-10-14: the forest was thinning faster than acorns could refill it).
+        public static int AcornsFor(float roll) => roll < 0.25f ? 2 : roll < 0.85f ? 1 : 0;
     }
 }

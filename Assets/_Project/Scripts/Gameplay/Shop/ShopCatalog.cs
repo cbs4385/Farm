@@ -10,8 +10,11 @@ namespace Farm.Gameplay
     // seeds from a content pack unless that pack lists "general" for them.
     public static class ShopCatalog
     {
+        public const string MerchantShopId = "merchant";
+
         public static List<ItemDefinition> For(GameDatabase db, string shopId, IWorldQuery world)
         {
+            if (shopId == MerchantShopId && !(world != null && Conditions.TryEvaluate("merchant:today", world, out var up) && up)) return new List<ItemDefinition>();          // no stall, no stock
             return db.AllItems
                 .Where(i => i.BuyPrice > 0 && i.SoldIn.Contains(shopId))
                 .Where(i => string.IsNullOrWhiteSpace(i.SaleCondition) || (world != null && Conditions.TryEvaluate(i.SaleCondition, world, out var ok) && ok))

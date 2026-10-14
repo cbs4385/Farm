@@ -257,7 +257,7 @@ namespace Farm.Tests
             _session.Backpack.Add("crop.kale", 1);
             _session.Backpack.Add("crop.parsnip", 1);
             _session.Backpack.Add("crop.potato", 1);                          // not enough for the mash (needs two)
-            yield return Face(9, 6, Vector2Int.up);
+            yield return Face(19, 2, Vector2Int.up);          // the range stands in the kitchen room
             yield return Tap(Key.E);
             for (var i = 0; i < 3; i++) yield return null;
             Assert.IsTrue(Ui.AnyModalOpen, "the cooking list opens");

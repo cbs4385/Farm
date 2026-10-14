@@ -108,6 +108,7 @@ namespace Farm.Tests
             Player.Face(Vector2Int.right);
             for (var i = 0; i < 4; i++) yield return null;
             yield return Tap(Key.X);
+            Ui.NamePrompt.Close();                                           // it asked for a name; keep the default
             var actor = UnityEngine.Object.FindAnyObjectByType<AnimalActor>();
             Assert.IsNotNull(actor);
 
@@ -158,6 +159,10 @@ namespace Farm.Tests
             for (var i = 0; i < 4; i++) yield return null;
             yield return Tap(Key.X);
             Assert.AreEqual(1, _s.State.Animals.Count, "the chicken moved in");
+            Assert.IsTrue(Ui.NamePrompt.IsOpen, "it asks what to call the new animal");
+            Ui.NamePrompt.Submit("Biscuit");
+            Assert.AreEqual("Biscuit", _s.State.Animals[0].Name, "the player's name is kept");
+            Assert.IsFalse(Ui.NamePrompt.IsOpen);
             var actor = UnityEngine.Object.FindAnyObjectByType<AnimalActor>();
             StringAssert.StartsWith("animal_chicken_", actor.GetComponent<SpriteRenderer>().sprite.name, "it is drawn with the chicken's own art, not a square");
             Assert.AreEqual(0, _s.Backpack.Count("animal.chicken"));

@@ -14,7 +14,9 @@ namespace Farm.UI
 
         public static readonly Color PanelColor = new Color(0.16f, 0.11f, 0.08f, 1f);
         public static readonly Color PanelLight = new Color(0.30f, 0.21f, 0.14f, 1f);
-        public static readonly Color TextColor = new Color(0.97f, 0.92f, 0.80f, 1f);
+        public static readonly Color DefaultTextColor = new Color(0.97f, 0.92f, 0.80f, 1f);
+        public static readonly Color TextColor = DefaultTextColor;
+        public static TMP_FontAsset Font;                           // the player's choice of font; null is the game's own
         public static readonly Color DimText = new Color(0.75f, 0.68f, 0.55f, 1f);
         public static readonly Color Accent = new Color(0.95f, 0.75f, 0.30f, 1f);
         public static readonly Color Danger = new Color(0.85f, 0.30f, 0.25f, 1f);
@@ -85,6 +87,7 @@ namespace Farm.UI
             t.fontSize = size * TextScale;
             t.alignment = align;
             t.color = color ?? TextColor;
+            if (Font != null) t.font = Font;
             t.raycastTarget = false;
             t.textWrappingMode = TextWrappingModes.Normal;
             return t;

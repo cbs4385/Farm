@@ -25,6 +25,7 @@ namespace Farm.UI
             if (IsOpen) return;
             OpenedFrame = Time.frameCount;
             Root.SetActive(true);
+            UiTextStyle.Refresh(Root.transform);
             Root.transform.SetAsLastSibling();
             Ui.PushModal(this);
         }
@@ -124,6 +125,7 @@ namespace Farm.UI
             _hudCanvas = UiKit.CreateCanvas("HudCanvas", 10, transform);
             _screenCanvas = UiKit.CreateCanvas("ScreenCanvas", 100, transform);   // above the scene fade (SceneLoader.FadeSortingOrder)
             ApplyUiScale(settings.TextScale);
+            UiTextStyle.Apply(settings);
             _hud = new HudView(this, _hudCanvas.transform);
             SetHudVisible(_hudVisible);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -146,6 +148,10 @@ namespace Farm.UI
             foreach (var canvas in new[] { _hudCanvas, _screenCanvas })
                 if (canvas != null) UiKit.SetCanvasScale(canvas, scale);
         }
+
+        // The font and text colour options: restyles every label already built.
+        public void ApplyTextStyle(SettingsData settings) =>
+            UiTextStyle.Apply(settings, _hudCanvas != null ? _hudCanvas.transform : null, _screenCanvas != null ? _screenCanvas.transform : null);
 
         void CreateEventSystem()
         {
@@ -218,6 +224,7 @@ namespace Farm.UI
 
         void Update()
         {
+            UiTextStyle.Tick(_hudCanvas != null ? _hudCanvas.transform : null, _screenCanvas != null ? _screenCanvas.transform : null);
             if (_barTop != null && !Mathf.Approximately(_barHeight, _barGoal))
             {
                 _barHeight = Mathf.MoveTowards(_barHeight, _barGoal, _barSpeed * Time.unscaledDeltaTime);
@@ -515,6 +522,10 @@ namespace Farm.UI
 
         public void ShowOptions() => Options.Open();
         public void ShowBugReport() => BugReporter.Open();
+
+        NamePromptScreen _namePrompt;
+        public NamePromptScreen NamePrompt => _namePrompt ??= new NamePromptScreen(this);
+        public void ShowNamePrompt(string title, string current, Action<string> onDone) => NamePrompt.Ask(title, current, onDone);
 
         public void ShowPause()
         {

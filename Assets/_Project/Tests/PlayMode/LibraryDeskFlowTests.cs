@@ -42,7 +42,11 @@ namespace Farm.Tests
             Assert.IsTrue(session.HasFlag(LibraryDesk.TakenFlag));
 
             hit.Interact(player);
-            Assert.AreEqual(1, session.Backpack.Count(LibraryDesk.BookItemId), "only once");
+            Assert.AreEqual(0, session.Backpack.Count(LibraryDesk.BookItemId), "the desk takes the borrowed book back");
+            Assert.IsTrue(session.HasFlag(LibraryDesk.ReturnedFlag(LibraryDesk.Books[0])));
+
+            hit.Interact(player);
+            Assert.AreEqual(0, session.Backpack.Count(LibraryDesk.BookItemId), "a returned book is not handed out again");
         }
     }
 }

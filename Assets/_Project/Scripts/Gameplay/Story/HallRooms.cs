@@ -40,7 +40,7 @@ namespace Farm.Gameplay
             if (given > 0)
             {
                 s.Toast(L.Get("hall.given", given));
-                if (QuestLog.ObjectivesMet(s, def)) QuestLog.TryComplete(s, def);
+                if (QuestLog.ObjectivesMet(s, def) && QuestLog.TryComplete(s, def)) s.Toast(L.Get("hall.changed", RestoredCount(s.State), Rooms.Length));
             }
             return given;
         }

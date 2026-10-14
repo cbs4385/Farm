@@ -83,7 +83,7 @@ namespace Farm.Tests
 
             // The kitchen: stand below it, face it, press A.
             session.Backpack.Add(ItemIds.Crop("parsnip"), 3);
-            yield return Stand(9, 6, Vector2Int.up);
+            yield return Stand(19, 2, Vector2Int.up);
             yield return Tap(_pad.buttonSouth);
             Assert.IsTrue(Ui.AnyModalOpen, "A at the kitchen opens it");
             Assert.IsNotNull(Selected, "and the cursor is on something");
@@ -95,17 +95,17 @@ namespace Farm.Tests
             Assert.IsFalse(Ui.AnyModalOpen, "B closes it");
 
             // The label of what the player faces shows without a mouse (the hover labels follow the cell faced when a pad is in use).
-            yield return Stand(9, 6, Vector2Int.up);
+            yield return Stand(19, 2, Vector2Int.up);
             yield return Tap(_pad.buttonSouth);
             yield return Tap(_pad.buttonEast);
             Assert.IsFalse(Ui.AnyModalOpen);
-            yield return Stand(9, 6, Vector2Int.up);
+            yield return Stand(19, 2, Vector2Int.up);
             for (var i = 0; i < 6; i++) yield return null;
             Assert.IsNotNull(HoverInspector.Current, "a label names the kitchen the pad player faces");
             StringAssert.Contains("itchen", HoverInspector.Current);
 
             // The bed: stand east of it, face it, press A: the bed asks, and A / B answer.
-            yield return Stand(3, 6, Vector2Int.left);
+            yield return Stand(14, 6, Vector2Int.left);
             yield return Tap(_pad.buttonSouth);
             Assert.IsTrue(Ui.AnyModalOpen, "A at the bed asks about sleeping");
             Assert.IsNotNull(Selected, "with a button under the cursor");

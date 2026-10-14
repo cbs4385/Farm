@@ -147,10 +147,11 @@ namespace Farm.Tests
                 List<string> Stock(int day)
                 {
                     s.Clock.SetTime(new GameDateTime((day / 112) + 1, (Season)((day / 28) % 4), day % 28 + 1, 10 * 60));
-                    return ShopCatalog.For(s.Db, "merchant", s.World).Select(i => i.Id).ToList();
+                    return ShopCatalog.For(s.Db, "merchant", s.World).Where(i => i.Category != ItemCategory.Furniture).Select(i => i.Id).ToList();          // the furniture is always on the table; the ore rotates
                 }
                 CollectionAssert.IsEmpty(Stock(away), "no stall, no stock");
                 var stock = Stock(here);
+                Assert.IsNotEmpty(ShopCatalog.For(s.Db, "merchant", s.World).Where(i => i.Category == ItemCategory.Furniture), "furniture is on the table on a stall day");
                 CollectionAssert.Contains(stock, ItemIds.Coal);
                 Assert.AreEqual(2, stock.Count, "coal and one rotating ore");
                 var kinds = days.Select(d => string.Join(",", Stock(d))).Distinct().Count();

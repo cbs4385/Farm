@@ -21,6 +21,7 @@ namespace Farm.Gameplay
         int _idle;
         bool _moving;
         bool _hasArt;
+        SpriteRenderer _bubble;       // the product, floating over the animal while it is ready to collect
 
         public AnimalState State => _state;
         public string Type => _state != null ? _state.Type : null;
@@ -67,10 +68,23 @@ namespace Farm.Gameplay
             _renderer.sortingOrder = 7;
             ActorBody.Add(gameObject);
             _target = transform.position;
+            var product = manager.Session != null && manager.Session.Db.TryGetItem(row.ProductItemId, out var productItem) ? productItem.Icon : null;
+            if (product != null)
+            {
+                var bubble = new GameObject("ProductReady");
+                bubble.transform.SetParent(transform, false);
+                bubble.transform.localPosition = new Vector3(0f, 0.85f, 0f);
+                bubble.transform.localScale = Vector3.one * 0.6f;
+                _bubble = bubble.AddComponent<SpriteRenderer>();
+                _bubble.sprite = product;
+                _bubble.sortingOrder = 9;
+                _bubble.enabled = false;
+            }
         }
 
         void Update()
         {
+            if (_bubble != null) _bubble.enabled = _state.ProductReady;
             _renderer.color = _state.ProductReady ? new Color(1f, 1f, 0.7f) : Color.white;
             var running = _manager.Running;
             if (running && _eatLeft > 0f) _eatLeft = Mathf.Max(0f, _eatLeft - Time.deltaTime);
@@ -138,7 +152,14 @@ namespace Farm.Gameplay
             }
             if (_state.ProductReady) { s.Toast(L.Get("toast.inventory_full")); return; }
             var petted = AnimalRules.Pet(_state);
-            s.Toast(petted ? L.Get("animal.petted", _state.Name) : L.Get("animal.happy", _state.Name));
+            if (!petted && s.Ui is IUiService ui)           // already petted today: a second use offers to rename it
+            {
+                ui.ShowNamePrompt(L.Get("animal.rename_title", _state.Name), _state.Name, newName => { _state.Name = newName; s.Toast(L.Get("animal.renamed", newName)); s.NotifyChanged(); });
+                return;
+            }
+            var nights = AnimalRules.NightsToProduct(_state);
+            var wait = nights == 0 ? string.Empty : " " + (nights == 1 ? L.Get("animal.product_in_one", _state.Name) : L.Get("animal.product_in_many", _state.Name, nights));
+            s.Toast((petted ? L.Get("animal.petted", _state.Name) : L.Get("animal.happy", _state.Name)) + wait);
             if (petted) ActionPuff.Hearts(transform.position + Vector3.up * 0.7f, GetComponent<WalkBob>());
         }
     }
