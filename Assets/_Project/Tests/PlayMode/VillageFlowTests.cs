@@ -225,12 +225,11 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator TheWoods_HoldTheAltar_TheStonesAndTheThreeRelics()
+        public IEnumerator TheWoods_HoldTheAltarAndTheStones()
         {
             yield return Start(MapIds.Woods, "default", 1, 10);
             Assert.AreEqual(1, UnityEngine.Object.FindObjectsByType<Farm.Mythos.AltarObject>().Length);
             Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.LoreStone>().Length);
-            Assert.AreEqual(3, UnityEngine.Object.FindObjectsByType<Farm.Mythos.RelicPickup>().Length);
         }
     }
 }

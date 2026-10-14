@@ -561,7 +561,7 @@ namespace Farm.UI
                 _helpTimer = 0f;
                 var text = itemId != null ? HotbarTooltip.Text(s, itemId) : null;
                 var coaching = _coachPanel != null && _coachPanel.gameObject.activeSelf;          // the tip card says it already: the two must not be drawn over each other
-                if (text != null && !coaching && (PadInUse || s.GetVar(HelpShownKey + itemId) < HelpTimes))           // a pad has no pointer to rest on a slot, so its player is told every time the item changes; the others only the first few times (playtest 2026-10-09: "the Hoe tip appears each time")
+                if (text != null && !coaching && ((PadInUse && s.State.Mine.Floor == 0) || s.GetVar(HelpShownKey + itemId) < HelpTimes))           // a pad has no pointer to rest on a slot, so its player is told every time the item changes; the others only the first few times (playtest 2026-10-09: "the Hoe tip appears each time"); underground a pad's player swaps pickaxe and sword constantly, so there it is once too (playtest 2026-10-14)
                 {
                     s.AddVar(HelpShownKey + itemId, 1);
                     _help.text = text;

@@ -100,15 +100,23 @@ namespace Farm.UI
             foreach (var item in stock)
             {
                 var row = UiKit.HStack(_list, item.Id, 8f);
-                UiKit.Size(row.gameObject, -1f, 38f);
+                var nameText = L.Get(item.NameKey);
+                if (!string.IsNullOrEmpty(item.CropId) && session.Db.TryGetCrop(item.CropId, out var crop))       // which seasons a seed grows in, under its name, before it is bought (playtest 2026-10-14)
+                {
+                    var seasons = crop.IsTree ? crop.FruitSeasons : crop.Seasons;
+                    var now = seasons.Includes(session.Clock.Now.Season);
+                    var tint = ColorUtility.ToHtmlStringRGB(now ? UiKit.DimText : new Color(0.90f, 0.45f, 0.35f));
+                    nameText += $"\n<size=70%><color=#{tint}>{L.Get(crop.IsTree ? "shop.fruits_in" : "shop.grows_in", CropInfo.SeasonsText(seasons))}</color></size>";
+                }
+                UiKit.Size(row.gameObject, -1f, nameText.Contains('\n') ? 50f : 38f);
 
                 var icon = UiKit.Panel(row.transform, "Icon", Color.white);
                 icon.sprite = item.Icon;
                 icon.preserveAspect = true;
                 UiKit.Size(icon.gameObject, 32f, 32f);
 
-                var name = UiKit.Label(row.transform, L.Get(item.NameKey), 18f);
-                UiKit.Size(name.gameObject, -1f, 32f, 1f);
+                var name = UiKit.Label(row.transform, nameText, 18f);
+                UiKit.Size(name.gameObject, -1f, 46f, 1f);
                 var price = UiKit.Label(row.transform, L.Get("shop.price", item.BuyPrice), 18f, TextAlignmentOptions.Right, UiKit.Accent);
                 UiKit.Size(price.gameObject, 70f, 32f);
 

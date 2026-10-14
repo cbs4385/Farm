@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.3 (2026-10-14)
+
+From the playtesters' list of the same day.
+
+- **Seeds say when they grow.** The general store shows "Grows in Spring" (or the seasons it grows in) under every seed, in red when it is the wrong season now, so a seed is not bought that cannot be planted yet. Trees say when they bear fruit.
+- **The way up and the lift in the mine no longer overlap.** The lift now stands two rows below the arrival cell instead of beside the stairs.
+- **The farmhouse range is a quarter smaller**, to sit better beside the other furniture (it still takes two by two cells).
+- **Tool tips stop repeating in the mine.** With a controller, the tip for a tool no longer pops up each time the pickaxe and the sword are swapped underground.
+- **An adopted cat is gone from the village.** The cat that had moved in was hidden but its body stayed in the village, solid and named when the mouse was over it ("found invisible cat"). It is no longer created there once it lives at the farm.
+- **Harrow Wood has natural trees.** The wood uses the forest's thickets and clearings instead of straight slanting rows, and the carved stones stand in clearings with a way to them (a row of trees could wall an object in).
+- **The three sealing relics are in an old chest on the mine's 30th floor** (with new pictures: the ash seal, the hollow bell, the green thread), in a different place in every game, instead of lying in the wood. They are only there with the horror setting on, and the chest is gone once the three are taken.
+
 ## 0.6.2 (2026-10-13)
 
 From the playtesters' list of the same day. The plan is in `docs/PLAYTEST_2026-10-13_PLAN.md`.

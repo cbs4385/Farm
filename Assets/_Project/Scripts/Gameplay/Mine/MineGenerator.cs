@@ -51,7 +51,7 @@ namespace Farm.Gameplay
         public bool[] Wall;
         public (int x, int y) Spawn;
         public (int x, int y)? Ladder;
-        public (int x, int y) Up, Elevator;           // the way up and the lift, beside the arrival cell; both are solid, so the floor is walked without them
+        public (int x, int y) Up, Elevator;           // the way up beside the arrival cell and the lift two rows below it (their pictures are two cells wide and tall and must not overlap); both are solid, so the floor is walked without them
         public List<MineNodeSpawn> Nodes = new List<MineNodeSpawn>();
         public List<MineEnemySpawn> Enemies = new List<MineEnemySpawn>();
         public bool IsBoss;
@@ -93,7 +93,7 @@ namespace Farm.Gameplay
             var f = new MineFloor { Floor = floor, Width = Width, Height = Height, Wall = Enumerable.Repeat(true, Width * Height).ToArray(), IsBoss = floor == Floors };
             f.Spawn = (3, Height / 2);
             f.Up = (f.Spawn.x - 1, f.Spawn.y);
-            f.Elevator = (f.Spawn.x, f.Spawn.y + 1);
+            f.Elevator = (f.Spawn.x, f.Spawn.y - 2);       // the pictures are two cells wide and tall: two rows below the arrival, so the lift does not stand over the way up (playtest 2026-10-14)
 
             if (f.IsBoss) CarveArena(f); else CarveCaves(f, rng);
 
@@ -146,6 +146,7 @@ namespace Farm.Gameplay
             Open(f, f.Spawn.x - 1, f.Spawn.y);
             Open(f, f.Spawn.x, f.Spawn.y + 1);
             Open(f, f.Spawn.x, f.Spawn.y - 1);
+            Open(f, f.Elevator.x, f.Elevator.y);
         }
 
         // Steps from the spawn to every open cell (-1 = unreachable), four directions.

@@ -125,7 +125,17 @@ def bookshelf_tall():
     return img
 
 
-for name, img in [('obj_kitchen', kitchen()), ('obj_bed', bed()), ('obj_shelf', shelf()), ('obj_bookshelf_tall', bookshelf_tall())]:
+def shrunk(img, percent):
+    """The picture at `percent` of its size, standing on the bottom edge in the middle of the same canvas (the cells it covers do not change)."""
+    w, h = img.size
+    small = img.resize((w * percent // 100, h * percent // 100), Image.NEAREST)
+    out = Image.new('RGBA', img.size, (0, 0, 0, 0))
+    out.paste(small, ((w - small.width) // 2, h - small.height))
+    return out
+
+
+# playtest 2026-10-14: the range is "a bit large compared to the rest of the house furniture": drawn 25% smaller on the same two by two cells
+for name, img in [('obj_kitchen', shrunk(kitchen(), 75)), ('obj_bed', bed()), ('obj_shelf', shelf()), ('obj_bookshelf_tall', bookshelf_tall())]:
     path = os.path.join(OUT, name + '.png')
     img.save(path)
     print('wrote', path, img.size)

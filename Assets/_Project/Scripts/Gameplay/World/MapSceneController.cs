@@ -113,7 +113,7 @@ namespace Farm.Gameplay
             var events = new GameObject("Events").AddComponent<EventDirector>();
             events.Init(_map, _session, npcs, _player);
             Context.Events = events;
-            if (_map.MapId == MapIds.Village || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
+            if ((_map.MapId == MapIds.Village && !CatBond.Adopted(_session.State)) || (_map.MapId == MapIds.FarmHouse && CatBond.Adopted(_session.State))) new GameObject("VillageCat").AddComponent<VillageCat>().Init(_map, _session, npcs, _session.State.WorldSeed);
             if (_map.MapId == MapIds.Village) new GameObject("FestivalGrounds").AddComponent<FestivalGrounds>().Init(Context);
             if (_map.MapId == MapIds.Village) new GameObject("VillageWatch").AddComponent<VillageWatch>().Init(Context);
             if (_map.MapId == MapIds.Farm) new GameObject("PlayerThought").AddComponent<PlayerThought>().Init(_session, _player.transform);

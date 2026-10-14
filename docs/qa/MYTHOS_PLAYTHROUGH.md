@@ -21,7 +21,7 @@ Spring and early summer:
 - [ ] Dread is invisible (no meter). Notice only through the world: a line in the day summary now and then ("You dreamed of tall trees and woke uneasy"), a colder tint, the odd eerie random event.
 - [ ] The first **summer day 1**: the day summary says the brambles have withered and the way into Harrow Wood is open; the quest "The Path Opens" appears and ends when you first stand in the wood.
 - [ ] A **warning letter** or overheard conversation in the saloon after 20:00 points at something without explaining it.
-- [ ] **Harrow Wood**: the way in, the track, the clearing, the altar, three lore stones and three relics. Read the stones. The wood looks watchful, not gory; there is no explicit imagery. A heartbeat plays when dread is high (half volume).
+- [ ] **Harrow Wood**: the way in, the track, the clearing, the altar, three lore stones. Read the stones. The wood looks watchful, not gory; there is no explicit imagery. A heartbeat plays when dread is high (half volume).
 - [ ] **Ritual night** (the last new-moon night of each season, day 4, from 22:00): Keepers are away from their usual places; the altar shows plain lights, not offerings dissolving. Hiding in the wood to watch is allowed.
 - [ ] **Sound**: from about 25% wakefulness a low drone sits under the weather (half volume); it never masks dialogue or the effects you act on. Tones appear from 50%.
 - [ ] **Text distortion does not happen** at Mild (no scrambled words in dialogue, even at high dread).
@@ -38,7 +38,7 @@ Do the Mild list again, then:
 
 ## 4. Story paths (Full, with dev commands to save time)
 - [ ] **Clues and Hazel**: talk to Tilda, Marcus, Odalys, Dorian and Wren over a few days (each has three clue lines that appear as lore grows); Hazel's three clues need lore 1, 2 and 5 on different days; her third starts the sealing quest.
-- [ ] **Seal (resist)**: find the three relics in the wood (`var lore 5` first), then use the altar outside a ritual: the sealing scene plays, the **sealed illustration** appears with its caption, wakefulness drops to nothing, the layer stays quiet afterwards and you can keep playing.
+- [ ] **Seal (resist)**: find the three relics in the old chest on mine floor 30 (use `-farmCommands` or the console to get there) (`var lore 5` first), then use the altar outside a ritual: the sealing scene plays, the **sealed illustration** appears with its caption, wakefulness drops to nothing, the layer stays quiet afterwards and you can keep playing.
 - [ ] **Join**: with the cult's regard high (`var cult.standing 20`, `flag mythos.initiated`) the altar offers the joining: the **joined illustration** appears, play continues.
 - [ ] **Ignore**: play into year 3 without touching any of it: the quiet ending shows the **ignored illustration** at a dawn, play continues.
 - [ ] **Awakening**: `var mythos.wakefulness 1000` (or a saboteur game): the burning scene plays, the **awakened illustration** appears, then the goodbye message and the main menu. The save is kept.

@@ -66,6 +66,7 @@ namespace Farm.Gameplay
             box.isTrigger = true;
             box.size = new Vector2(0.8f, 0.8f);
             ActorBody.Add(gameObject);
+            SetBodiesEnabled(false);                              // hidden until the first running frame decides the cat is here
         }
 
         // Where the cat sits at first: a walkable cell near the middle of the village.
@@ -92,6 +93,7 @@ namespace Farm.Gameplay
             if (_session == null || !_session.InGame || _session.Clock.IsPaused) return;
             var grid = _npcs != null ? _npcs.Grid() : null;
             if (grid == null) return;
+            if (!AtHome && CatBond.Adopted(_session.State)) { Destroy(gameObject); return; }          // adopted while in the village: it goes home with the player, and nothing of it is left behind
             if (!_placed) Place(grid);
             if (!_placed) return;
 
@@ -117,12 +119,13 @@ namespace Farm.Gameplay
         }
 
         // A cat that is not there (night, or gone to live at the farm) must not block its cell.
+        // The solid body is a child object (ActorBody), so the children count too: a hidden cat was still hoverable and blocked the way.
         bool _bodiesOn = true;
         void SetBodiesEnabled(bool on)
         {
             if (on == _bodiesOn) return;
             _bodiesOn = on;
-            foreach (var c in GetComponents<Collider2D>()) c.enabled = on;
+            foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = on;
         }
 
         // After a pet the cat bounces on the spot and hearts rise, for a moment.

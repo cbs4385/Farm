@@ -62,5 +62,22 @@ namespace Farm.Tests
             Assert.IsTrue(bounced, "it bounces while it purrs");
             Assert.IsFalse(cat.IsPurring, "and the purr ends");
         }
+
+        // Playtest report (2026-10-14): "found invisible cat, they already live at my house": the cat that had moved in was hidden but its body (a child) stayed solid and hoverable.
+        [UnityTest]
+        public IEnumerator ACatThatHasMovedIn_IsNotInTheVillageAtAll()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var session = GameContext.Current.Session;
+            session.BeginNewGame("Tester", "Test Farm", 0);
+            session.SetFlag(FatigueModel.WarnedFlag);
+            session.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 10 * 60));
+            session.SetFlag(CatBond.AdoptedFlag);
+            var op = SceneManager.LoadSceneAsync(MapIds.Village);
+            while (!op.isDone) yield return null;
+            for (var i = 0; i < 30; i++) yield return null;
+            Assert.IsNull(UnityEngine.Object.FindAnyObjectByType<VillageCat>(), "an adopted cat is not in the village at all");
+        }
     }
 }

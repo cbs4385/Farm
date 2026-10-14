@@ -790,6 +790,33 @@ namespace Farm.Editor
 
         const int WoodsW = 40, WoodsH = 30;
 
+        static bool WoodsOpenGround(int x, int y) => x >= 17 && x <= 21 && y < 14 || x >= 13 && x <= 25 && y >= 13 && y <= 24;
+
+        public static readonly (int x, int y)[] WoodsStones = { (14, 15), (24, 22), (11, 9) };
+
+        // The cells that hold a tree, placed like the forest's (WoodLayout: thickets and clearings, nothing in rows; playtest 2026-10-14: "the forest is too regular").
+        // Slanting lines of trees used to wall things in ("stuck behind a row of trees I cannot walk around or cut down"), so each carved stone stands in a small
+        // clearing with a lane cleared from it to the track or the clearing.
+        public static List<(int x, int y)> WoodsTrees()
+        {
+            var kept = new HashSet<(int, int)>();
+            foreach (var (sx, sy) in WoodsStones)
+            {
+                for (var dx = -1; dx <= 1; dx++)
+                    for (var dy = -1; dy <= 1; dy++) kept.Add((sx + dx, sy + dy));
+                var (x, y) = (sx, sy);
+                var step = x < 19 ? 1 : -1;
+                while (!WoodsOpenGround(x, y) && x > 0 && x < WoodsW - 1) kept.Add((x += step, y));
+            }
+            var trees = new List<(int x, int y)>();
+            for (var y = 3; y < WoodsH - WoodLayout.EdgeThickness; y++)
+                for (var x = WoodLayout.EdgeThickness; x < WoodsW - WoodLayout.EdgeThickness; x++)
+                    if (!WoodsOpenGround(x, y) && !kept.Contains((x, y)) && WoodLayout.ForestTreeAt(x, y, WoodsSeed)) trees.Add((x, y));
+            return trees;
+        }
+
+        const int WoodsSeed = 23;
+
         static void BuildWoods()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -800,45 +827,26 @@ namespace Farm.Editor
                 {
                     var path = x >= 18 && x <= 20 && y < 14 || x >= 14 && x <= 24 && y >= 14 && y <= 23;   // the track and the clearing
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(path ? "tile_dirt" : "tile_forest"));
-                    var edge = x == 0 || y == 0 || x == WoodsW - 1 || y == WoodsH - 1;
-                    var gap = x >= 18 && x <= 20 && y == 0;
-                    if (edge && !gap) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
+            PaintEdgeBand(rig, MapIds.Woods, WoodsW, WoodsH, (bx, by) => bx >= 18 && bx <= 20 && by == 0);
 
             AddSpawn("default", Center(19, 2));
             AddSpawn("sleepwalk", Center(19, 16));
             AddWarp(Center(19, 0), MapIds.Forest, "fromWoods", new Vector2(3f, 1f));
 
-            // The three relics that can seal the god away, hidden in the wood (no tree is grown on top of one).
-            var relicCells = new[] { (6, 20), (33, 12), (30, 26) };
-
-            // Dense trees everywhere except the track and the clearing.
-            for (var y = 3; y < WoodsH - 1; y++)
-                for (var x = 1; x < WoodsW - 1; x++)
-                {
-                    if (x >= 17 && x <= 21 && y < 14) continue;
-                    if (x >= 13 && x <= 25 && y >= 13 && y <= 24) continue;
-                    if ((x * 5 + y * 11) % 4 != 0) continue;
-                    if (System.Array.IndexOf(relicCells, (x, y)) >= 0) continue;
-                    AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
-                }
+            // Dense trees everywhere except the track, the clearing and a lane to each stone.
+            foreach (var (x, y) in WoodsTrees())
+                AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
 
             // The altar and the carved stones around the clearing.
             AddObject("Altar", "obj_altar", Center(19, 18), solid: true).AddComponent<Farm.Mythos.AltarObject>();
-            var stones = new[] { (14, 15), (24, 22), (11, 9) };
+            var stones = WoodsStones;
             for (var i = 0; i < stones.Length; i++)
             {
                 var stone = AddObject($"Stone_{i + 1}", "obj_stone", Center(stones[i].Item1, stones[i].Item2), solid: true).AddComponent<Farm.Mythos.LoreStone>();
                 stone.Key = $"mythos.stone.{(i % 2) + 1}";
                 stone.FlagId = $"mythos.stone.read.{i + 1}";
             }
-            for (var i = 0; i < Farm.Mythos.MythosData.Relics.Length; i++)
-            {
-                var relic = AddObject($"Relic_{i + 1}", "obj_relic", Center(relicCells[i].Item1, relicCells[i].Item2), solid: true).AddComponent<Farm.Mythos.RelicPickup>();
-                relic.ItemId = Farm.Mythos.MythosData.Relics[i];
-                relic.FlagId = $"mythos.relic.found.{i + 1}";
-            }
-
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Woods}.unity");
         }
 

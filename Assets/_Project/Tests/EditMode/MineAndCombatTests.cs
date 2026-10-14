@@ -89,6 +89,18 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheWayUpAndTheLift_AreFarEnoughApartForTheirPicturesNotToOverlap()
+        {
+            for (var floor = 1; floor <= MineGenerator.Floors; floor++)
+            {
+                var f = MineGenerator.Generate(5, floor);
+                var overlap = System.Math.Abs(f.Up.x - f.Elevator.x) < 2 && System.Math.Abs(f.Up.y - f.Elevator.y) < 2;      // each picture is two cells wide and tall
+                Assert.IsFalse(overlap, "floor " + floor);
+                Assert.IsFalse(f.IsWall(f.Spawn.x, f.Spawn.y - 1), "the cell between the arrival and the lift is open, so the lift can be reached on floor " + floor);
+            }
+        }
+
+        [Test]
         public void Elevator_StopsEveryFifthFloorReached()
         {
             CollectionAssert.AreEqual(new[] { 1 }, MineGenerator.ElevatorFloors(1));
