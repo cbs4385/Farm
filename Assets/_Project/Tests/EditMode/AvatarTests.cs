@@ -211,6 +211,31 @@ namespace Farm.Tests
             Assert.IsTrue(GameState.NewGame("T", "F", id => 999, 1).Avatar.SameAs(AvatarOptions.Default()), "a game started without choosing gets the starting look");
         }
 
+        static readonly string[] NewReds = { "#8c1c2b", "#d62a2a", "#e4572e" };      // crimson, bright red, orange-red (0.6.10)
+
+        [Test]
+        public void TheThreeReds_AreInEveryClothingAndHairRow_AppendedAfterTheOldOptions_AndLookDifferent()
+        {
+            foreach (var palette in new[] { AvatarOptions.HairColors, AvatarOptions.ShirtColors, AvatarOptions.PantsColors, AvatarOptions.AccessoryColors })
+            {
+                CollectionAssert.IsSubsetOf(NewReds, palette);
+                CollectionAssert.AreEqual(NewReds, palette.Skip(palette.Length - 3), "appended last so older choices keep their place");
+            }
+            Assert.AreEqual(12, AvatarOptions.ShirtColors.Length - 3, "the old twelve are untouched");
+            var px = NewReds.Select(h => AvatarComposer.Compose(new AvatarData { ShirtColor = h }, "down").Where(p => p.a > 0).Select(p => $"{p.r},{p.g},{p.b}").ToHashSet()).ToArray();
+            Assert.AreEqual(3, px.Length);
+            Assert.AreNotEqual(px[0].Count(x => px[1].Contains(x)), px[0].Count, "crimson and bright red differ on the figure");
+            foreach (var h in NewReds)
+            {
+                var c = AvatarComposer.ParseColor(h, default);
+                Assert.Greater(c.r, c.g + 50, h + " reads as red");
+                var look = new AvatarData { HairColor = h, ShirtColor = h, PantsColor = h, AccessoryColor = h };
+                Assert.IsTrue(look.SameAs(AvatarOptions.Sanitize(look)), h + " passes the check");
+                var back = JsonConvert.DeserializeObject<AvatarData>(JsonConvert.SerializeObject(look));
+                Assert.IsTrue(back.SameAs(look), h + " survives the save");
+            }
+        }
+
         [Test]
         public void TheStyleNames_HaveText()
         {

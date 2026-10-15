@@ -30,10 +30,10 @@ namespace Farm.Gameplay
         public static readonly string[] Accessories = { "none", "sunhat", "cap", "beanie", "glasses", "scarf", "flower" };
 
         public static readonly string[] SkinColors = { "#f6d5bd", "#e8b48a", "#d99a6c", "#c68642", "#a9693a", "#8d5524", "#6b3d1f", "#4a2a14" };
-        public static readonly string[] HairColors = { "#1f1a17", "#3b2a20", "#6b4226", "#8a5a32", "#a8522a", "#c8602d", "#d9b45a", "#efd9a0", "#9a9a9a", "#e8e8e8", "#3f6fb5", "#c85a9a" };
-        public static readonly string[] ShirtColors = { "#3f8f9b", "#c0453f", "#e0a83a", "#5f9e4f", "#4a6fb5", "#8a5aa8", "#e8e0d0", "#3a3a44", "#e08a5a", "#d98aa8", "#7a4a2e", "#9ad0c8" };
-        public static readonly string[] PantsColors = { "#5a4a8c", "#3b4a6b", "#6b4a2e", "#3a3a44", "#7a8a5a", "#b09060", "#8a3a3a", "#4f7a6a", "#c8c8d0", "#d9b45a", "#1f2a44", "#5a3a5a" };
-        public static readonly string[] AccessoryColors = { "#e0a83a", "#c0453f", "#3f8f9b", "#5f9e4f", "#4a6fb5", "#8a5aa8", "#e8e0d0", "#2b2b33", "#e08a5a", "#d98aa8", "#7a4a2e", "#f2d24a" };
+        public static readonly string[] HairColors = { "#1f1a17", "#3b2a20", "#6b4226", "#8a5a32", "#a8522a", "#c8602d", "#d9b45a", "#efd9a0", "#9a9a9a", "#e8e8e8", "#3f6fb5", "#c85a9a", "#8c1c2b", "#d62a2a", "#e4572e" };
+        public static readonly string[] ShirtColors = { "#3f8f9b", "#c0453f", "#e0a83a", "#5f9e4f", "#4a6fb5", "#8a5aa8", "#e8e0d0", "#3a3a44", "#e08a5a", "#d98aa8", "#7a4a2e", "#9ad0c8", "#8c1c2b", "#d62a2a", "#e4572e" };
+        public static readonly string[] PantsColors = { "#5a4a8c", "#3b4a6b", "#6b4a2e", "#3a3a44", "#7a8a5a", "#b09060", "#8a3a3a", "#4f7a6a", "#c8c8d0", "#d9b45a", "#1f2a44", "#5a3a5a", "#8c1c2b", "#d62a2a", "#e4572e" };
+        public static readonly string[] AccessoryColors = { "#e0a83a", "#c0453f", "#3f8f9b", "#5f9e4f", "#4a6fb5", "#8a5aa8", "#e8e0d0", "#2b2b33", "#e08a5a", "#d98aa8", "#7a4a2e", "#f2d24a", "#8c1c2b", "#d62a2a", "#e4572e" };
 
         // Eight ready-made looks to start from.
         public static readonly (string id, AvatarData look)[] Presets =
