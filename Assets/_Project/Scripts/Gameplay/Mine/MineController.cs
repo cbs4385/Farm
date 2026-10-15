@@ -93,9 +93,13 @@ namespace Farm.Gameplay
         // The ore and rocks that are left are kept when the floor is left (by stairs, elevator, the forest or the end of the game), as long as the trip goes on.
         void OnDestroy()
         {
-            if (_session == null || _memory == null || !_session.InGame || _session.State.Mine.Floor != _memory.Floor) return;
+            if (_session == null || _memory == null || !_session.InGame || !StillRemembered(_session.State.Mine, _memory)) return;
             _memory.Nodes = _session.GetNodes(MapIds.Mine).ToList();
         }
+
+        // The floor number in the state is already the next floor when this scene is destroyed (stairs and lift set it before loading), so the floor cannot be compared:
+        // the floor is kept as long as the trip still holds its memory (leaving the mine, a knock-out or the end of the day clears the trip first).
+        public static bool StillRemembered(MineState ms, MineFloorMemory memory) => ms != null && memory != null && ms.Memory.Contains(memory);
 
         // The open cell next to the ladder down (the arrival cell when climbing up from the floor below); the usual arrival cell on the last floor, which has no ladder.
         (int x, int y) BesideLadder()

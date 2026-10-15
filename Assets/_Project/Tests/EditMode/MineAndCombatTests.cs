@@ -288,6 +288,21 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void AFloorIsKept_WhenTheStairsHaveAlreadyChangedTheFloorNumber()
+        {
+            // Playtest 2026-10-15: "going back up the mine, there is nothing there, not even the ore I didn't mine". The stairs set State.Mine.Floor to the
+            // next floor before the scene is destroyed, and the old check (Floor == memory.Floor) therefore never saved anything.
+            var ms = new MineState { Floor = 3 };
+            var memory = new MineFloorMemory { Floor = 3 };
+            ms.Memory.Add(memory);
+            ms.Floor = 4;                                       // MineTravel.GoToFloor has run; floor 3's scene is about to be destroyed
+            Assert.IsTrue(MineController.StillRemembered(ms, memory));
+            ms.ForgetTrip();                                    // leaving the mine ends the trip: nothing is kept
+            Assert.IsFalse(MineController.StillRemembered(ms, memory));
+            Assert.IsFalse(MineController.StillRemembered(null, memory));
+        }
+
+        [Test]
         public void KnockOutAndTheEndOfTheDay_EndTheTrip()
         {
             var src = System.IO.File.ReadAllText("Assets/_Project/Scripts/Gameplay/Combat/PlayerCombat.cs");

@@ -2,6 +2,10 @@
 
 ## 0.6.10 (unreleased)
 
+The mine keeps its floors on the way back up (playtest: "going back up the mine, there is nothing there, not even the ore I didn't mine").
+
+- **A mine floor you come back to has its ore and rocks again.** The floor's remaining ore was meant to be kept for the trip but was never saved when you took the stairs or the lift, so a revisited floor had the same layout and dead monsters but no ore at all. It is now kept as you left it (ore you broke stays gone, the rest stays), until you leave the mine, are knocked out or the day ends. Old saves are unaffected. Checked by an automated flow in the real mine scene (it failed before the fix); not seen by a person yet.
+
 Hazel's "who falls ill" offer is asked once (playtest: the choice between Tilda and Marcus came up twice, in the library and again in the forest).
 
 - **The sabotage offer no longer repeats.** At the highest horror level, once the ritual interference has begun, Hazel offers the choice of making Tilda or Marcus ill, or forgetting it. Answering any way now ends the offer (the scene never recorded that it had been asked, and scenes this late in the story never go on cooldown, so she asked at every talk). A test now checks every late mythos scene for the same flaw.
