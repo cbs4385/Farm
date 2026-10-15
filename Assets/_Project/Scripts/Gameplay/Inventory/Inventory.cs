@@ -65,6 +65,13 @@ namespace Farm.Gameplay
 
         public bool Has(string itemId, int count = 1) => Count(itemId) >= count;
 
+        // Whether any slot is empty: with none, only what stacks onto a stack already held still fits.
+        public bool HasEmptySlot()
+        {
+            foreach (var s in _slots) if (s == null) return true;
+            return false;
+        }
+
         public bool CanAdd(string itemId, int count, int quality = 0, string mark = null)
         {
             var space = 0;

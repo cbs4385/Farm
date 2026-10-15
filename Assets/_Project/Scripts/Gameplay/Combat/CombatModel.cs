@@ -71,6 +71,9 @@ namespace Farm.Gameplay
 
     public enum EnemyMode { Idle, Chase, Attack, Hurt, Dead }
 
+    // What a monster's look says about when to hit it: Recovering (it has just struck and is slow to strike again: the moment to swing) or Warning (about to strike).
+    public enum EnemyCue { None, Recovering, Warning }
+
     // The enemy's mind: a small state machine. Each frame it is told where it is and where the player is and answers with
     // a movement direction and whether it hits this frame.
     public sealed class EnemyBrain
@@ -80,7 +83,9 @@ namespace Farm.Gameplay
         public const float HurtSeconds = 0.25f;
 
         readonly EnemyRow _row;
-        float _cooldown, _hurt, _wanderTimer;
+        float _cooldown, _hurt, _wanderTimer, _distance = float.MaxValue;
+        public const float RecoverCue = 0.35f;          // while more than this much of the cooldown is left it shows as recovering
+        public const float WarnRange = 1.6f;            // closer than this many attack ranges it shows as about to strike
         Vector2 _wander;
         readonly System.Random _rng;
 
@@ -106,6 +111,16 @@ namespace Farm.Gameplay
             return false;
         }
 
+        public EnemyCue Cue
+        {
+            get
+            {
+                if (Mode != EnemyMode.Chase && Mode != EnemyMode.Attack) return EnemyCue.None;
+                if (_cooldown > RecoverCue) return EnemyCue.Recovering;
+                return _distance <= AttackRange * WarnRange ? EnemyCue.Warning : EnemyCue.None;
+            }
+        }
+
         public struct Step { public Vector2 Move; public bool Strike; }
 
         public Step Tick(float dt, Vector2 self, Vector2 player)
@@ -115,6 +130,7 @@ namespace Farm.Gameplay
             _cooldown = Mathf.Max(0f, _cooldown - dt);
             var toPlayer = player - self;
             var distance = toPlayer.magnitude;
+            _distance = distance;
 
             if (Mode == EnemyMode.Hurt)
             {

@@ -271,6 +271,7 @@ namespace Farm.UI
         void BuildHotbar(Transform canvas)
         {
             var bar = UiKit.Panel(canvas, "Hotbar", UiKit.PanelColor);
+            bar.raycastTarget = false;          // only the slots take the mouse: a click on the bar's edge or between slots reaches the ground behind it (playtest 2026-10-14: mining clicks near the bar did nothing, or changed the tool)
             Fadable(bar);
             _hotbarBar = bar.rectTransform;
             const float slot = 44f;
@@ -514,6 +515,19 @@ namespace Farm.UI
             if (_padHint.text != text) _padHint.text = text;
         }
 
+        float _tipTimer;
+
+        // The first time health is low, the backpack is full, the mine is entered or a bat comes near, a tip says what to do (ContextTips).
+        void TickTips()
+        {
+            _tipTimer -= Time.unscaledDeltaTime;
+            if (_tipTimer > 0f) return;
+            _tipTimer = 1f;
+            var s = _ui.Session;
+            if (s == null || !s.InGame || _ui.AnyModalOpen) return;
+            ContextTips.Tick(s, ContextTips.BatNear(s));
+        }
+
         void UpdateQuestTracker(bool force)
         {
             if (_tracker == null) return;
@@ -624,7 +638,12 @@ namespace Farm.UI
         void BuildToast(Transform canvas)
         {
             _toast = UiKit.Label(canvas, "", 20f, TextAlignmentOptions.Center, UiKit.Accent);
-            UiKit.Place(_toast.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(700, 36), new Vector2(0, 70));
+            UiKit.Place(_toast.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(760, 56), new Vector2(0, 70));
+            _toast.textWrappingMode = TextWrappingModes.Normal;          // a tip is a sentence or two: it wraps and shrinks to fit rather than running off the screen
+            _toast.enableAutoSizing = true;
+            _toast.fontSizeMin = 13f;
+            _toast.fontSizeMax = 20f;
+            _toast.raycastTarget = false;
             _toast.alpha = 0f;
         }
 
@@ -636,6 +655,7 @@ namespace Farm.UI
             UpdateHotbarPointer();
             TickToast();
             UpdateQuestTracker(_dirty);
+            TickTips();
             UpdatePadHint();
             UpdateCoach();
             UpdateSelectionHelp();
@@ -736,6 +756,9 @@ namespace Farm.UI
 
         public string HotbarTooltipText => _tooltipShown ? _ui.HoverText : null;
 
+        // Long enough to read: a short notice stays 2.2 seconds, a tip longer.
+        public static float ToastSeconds(string text) => Mathf.Clamp(2.2f + Mathf.Max(0, (text?.Length ?? 0) - 50) * 0.045f, 2.2f, 9f);
+
         void TickToast()
         {
             if (_toastTimer > 0f)
@@ -748,7 +771,7 @@ namespace Farm.UI
             {
                 _toast.text = _toasts.Dequeue();
                 _toast.alpha = 1f;
-                _toastTimer = 2.2f;
+                _toastTimer = ToastSeconds(_toast.text);
             }
         }
     }

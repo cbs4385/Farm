@@ -208,5 +208,98 @@ namespace Farm.Tests
             Assert.AreEqual(1, AnimalRules.Quality(new AnimalState { Happiness = 70 }));
             Assert.AreEqual(2, AnimalRules.Quality(new AnimalState { Happiness = 95 }));
         }
+
+        // ---- the second list: tips, help, fishing, monsters --------------------------------------------------------------
+
+        [Test]
+        public void Tips_ComeOnceEach_AndNotWhenTurnedOff()
+        {
+            L.SetTable(L.Parse(File.ReadAllText("Assets/_Project/Resources/Localization/en.json")));
+            using (var f = new TestSessionFixture(RealDb().AllItems))
+            {
+                var s = f.Session;
+                Assert.IsNull(ContextTips.Next(s, false), "nothing to say on a quiet farm");
+                s.State.Health = 10;
+                Assert.AreEqual(ContextTips.LowHealth, ContextTips.Tick(s, false));
+                Assert.IsNull(ContextTips.Tick(s, false), "once");
+                s.State.Health = s.State.MaxHealth;
+
+                s.State.CurrentMap = MapIds.Mine;
+                Assert.AreEqual(ContextTips.Mine, ContextTips.Tick(s, false));
+                Assert.AreEqual(ContextTips.Bats, ContextTips.Tick(s, true));
+                Assert.IsNull(ContextTips.Tick(s, true));
+            }
+        }
+
+        [Test]
+        public void TheFullPackTip_NeedsNoEmptySlot()
+        {
+            L.SetTable(L.Parse(File.ReadAllText("Assets/_Project/Resources/Localization/en.json")));
+            var items = Enumerable.Range(0, 40).Select(i => ItemDefinition.Create("test.item" + i, ItemCategory.Resource, 999)).ToList();
+            using (var f = new TestSessionFixture(RealDb().AllItems.Concat(items)))
+            {
+                var s = f.Session;
+                f.EmptyBackpack();
+                Assert.IsTrue(s.Backpack.HasEmptySlot());
+                for (var i = 0; i < s.Backpack.Capacity; i++) s.Backpack.Add("test.item" + i, 1);
+                Assert.IsFalse(s.Backpack.HasEmptySlot());
+                Assert.AreEqual(ContextTips.PackFull, ContextTips.Tick(s, false));
+                Assert.IsNull(ContextTips.Tick(s, false));
+                s.Backpack.Remove("test.item0", 1);
+                Assert.IsTrue(s.Backpack.HasEmptySlot());
+            }
+        }
+
+        [Test]
+        public void EveryTip_HasItsWords()
+        {
+            L.SetTable(L.Parse(File.ReadAllText("Assets/_Project/Resources/Localization/en.json")));
+            foreach (var tip in new[] { ContextTips.LowHealth, ContextTips.PackFull, ContextTips.Mine, ContextTips.Bats })
+                Assert.IsTrue(L.Has("tip." + tip), tip);
+        }
+
+        [Test]
+        public void AMonster_ShowsWhenToHitIt_PaleBlueAfterAStrike_YellowWhenAboutToStrike()
+        {
+            var row = EnemyDefaults.Row("cave_bat");
+            var brain = new EnemyBrain(row, 1);
+            Assert.AreEqual(EnemyCue.None, brain.Cue, "far away and idle");
+            var step = brain.Tick(0.1f, Vector2.zero, new Vector2(0.5f, 0f));
+            Assert.IsTrue(step.Strike, "next to the player it strikes");
+            Assert.AreEqual(EnemyCue.Recovering, brain.Cue, "it has just struck: the time to hit it");
+            for (var i = 0; i < 8; i++) brain.Tick(0.1f, Vector2.zero, new Vector2(0.5f, 0f));
+            Assert.AreEqual(EnemyCue.Warning, brain.Cue, "close and ready to strike again");
+            Assert.AreNotEqual(EnemyActor.TintOf(EnemyCue.None), EnemyActor.TintOf(EnemyCue.Recovering));
+            Assert.AreNotEqual(EnemyActor.TintOf(EnemyCue.Recovering), EnemyActor.TintOf(EnemyCue.Warning));
+        }
+
+        [Test]
+        public void TheHelp_SearchFindsTitlesAndWords_InAnyCase()
+        {
+            Assert.IsTrue(HelpPage.Matches("", "Eating", "x"));
+            Assert.IsTrue(HelpPage.Matches("health", "The health bar", "x"));
+            Assert.IsTrue(HelpPage.Matches("HEALTH", "Eating", "gives back a little health"));
+            Assert.IsFalse(HelpPage.Matches("fish", "Eating", "gives back energy"));
+        }
+
+        [Test]
+        public void TheHelp_HasAnAnswerForHealthEnergyCookingCapacityMiningFishingAndMonsters()
+        {
+            L.SetTable(L.Parse(File.ReadAllText("Assets/_Project/Resources/Localization/en.json")));
+            foreach (var key in new[] { "help.energy", "help.health", "help.capacity", "help.cooking", "help.mining", "help.fishing", "help.combat" })
+            {
+                CollectionAssert.Contains(HelpPage.Topics, key);
+                Assert.IsTrue(L.Has(key) && L.Has(key + ".title"), key);
+            }
+            StringAssert.Contains("heal", L.Get("help.health").ToLowerInvariant());
+        }
+
+        [Test]
+        public void LongNotices_StayLongerOnScreen()
+        {
+            Assert.AreEqual(2.2f, HudView.ToastSeconds("Short."), 0.001f);
+            Assert.Greater(HudView.ToastSeconds(new string('x', 200)), 6f);
+            Assert.LessOrEqual(HudView.ToastSeconds(new string('x', 5000)), 9f);
+        }
     }
 }

@@ -102,7 +102,7 @@ namespace Farm.Gameplay
 
             if (_flash > 0f) _flash -= dt;
             if (_art != null) _renderer.sprite = _flash > 0f ? _art[2] : _art[EnemySprites.FrameAt(Time.time, _frameOffset)];
-            else _renderer.color = _flash > 0f ? Color.red : Color.white;
+            _renderer.color = _flash > 0f ? (_art != null ? Color.white : Color.red) : TintOf(_brain.Cue);
 
             if (_barLeft > 0f)
             {
@@ -110,6 +110,10 @@ namespace Farm.Gameplay
                 if (_barLeft <= 0f) _bar.gameObject.SetActive(false);
             }
         }
+
+        // Pale blue: it has just struck, the time to hit it. Yellow: about to strike.
+        public static Color TintOf(EnemyCue cue) =>
+            cue == EnemyCue.Recovering ? new Color(0.65f, 0.8f, 1f) : cue == EnemyCue.Warning ? new Color(1f, 0.88f, 0.45f) : Color.white;
 
         // Moves, stopping at walls (each axis on its own so enemies slide along them).
         void Move(Vector2 delta)

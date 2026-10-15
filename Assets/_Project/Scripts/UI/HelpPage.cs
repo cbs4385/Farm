@@ -14,7 +14,7 @@ namespace Farm.UI
     {
         // The order the tools are listed in, and the strings for the everyday topics.
         public static readonly ToolType[] ToolOrder = { ToolType.Hoe, ToolType.WateringCan, ToolType.Axe, ToolType.Pickaxe, ToolType.Scythe, ToolType.Hammer, ToolType.Rod, ToolType.Sword };
-        public static readonly string[] Topics = { "help.eat", "help.chest", "help.quality", "help.trees", "help.forage", "help.tracker", "help.sleep", "help.shops", "help.cat", "help.health", "help.rows" };
+        public static readonly string[] Topics = { "help.eat", "help.chest", "help.quality", "help.trees", "help.forage", "help.tracker", "help.sleep", "help.shops", "help.cat", "help.energy", "help.health", "help.capacity", "help.cooking", "help.mining", "help.fishing", "help.combat", "help.rows" };
         public static readonly string[] Controls = { "help.control.move", "help.control.use", "help.control.interact", "help.control.bar", "help.control.inventory", "help.control.crafting", "help.control.menu" };
 
         RectTransform _list;
@@ -38,6 +38,8 @@ namespace Farm.UI
         public override string Id => MenuTabs.Help;
 
         UiService Ui;
+        TMP_InputField _search;
+        string _query = string.Empty;
 
         protected override void Build(UiService ui, RectTransform content)
         {
@@ -49,6 +51,9 @@ namespace Farm.UI
             UiKit.Size(hint.gameObject, -1f, 22f);
             var tour = UiKit.MakeButton(stack.transform, L.Get("tour.start"), () => ui.ShowMenuTour(), 240f, 32f);          // the guided tour, for anyone who wants it
             tour.name = "StartTour";
+            _search = UiKit.MakeInput(stack.transform, L.Get("help.search"), string.Empty, 40, 300f);          // a question answered without leaving the game (playtest 2026-10-14)
+            _search.name = "Search";
+            _search.onValueChanged.AddListener(q => { _query = q.Trim(); if (Ui != null) Refresh(Ui); });
             var scroll = UiKit.Scroll(stack.transform, "List", out _list);
             UiKit.Size(scroll.gameObject, -1f, -1f, 1f, 1f);
         }
@@ -76,6 +81,7 @@ namespace Farm.UI
                 var item = ui.Session.Db.AllItems.FirstOrDefault(i => i.IsTool && i.ToolType == tool);
                 tools.Add(new Entry("tool." + tool, item != null ? L.Get(item.NameKey) : tool.ToString(), L.Get(HotbarTooltip.UseKey(tool)) + (L.Has(WhereKey(tool)) ? "\n" + L.Get(WhereKey(tool)) : string.Empty), tool));
             }
+            _shown = 0;
             Section("tools", L.Get("help.tools"), tools);
             Section("everyday", L.Get("help.everyday"), Topics.Select(k => new Entry(k, L.Get(TitleKeyOf(k)), L.Get(k))).ToList());
             Section("controls", L.Get("help.controls"), Controls.Select(k => new Entry(k, L.Get(TitleKeyOf(k)), L.Get(k))).ToList());
@@ -83,19 +89,35 @@ namespace Farm.UI
                 .Select(id => new Entry("hud." + id, L.Get("tour.hud." + id + ".title"), L.Get("tour.hud." + id))).ToList());
             Section("menu", L.Get("help.menu"), MenuTourScreen.Order.Where(id => L.Has("tour." + id))
                 .Select(id => new Entry("tab." + id, L.Get("menu.tab." + id), L.Get("tour." + id))).ToList());
+            if (Searching && _shown == 0) UiKit.Label(_list, L.Get("help.nothing"), 17f, TextAlignmentOptions.Center, UiKit.DimText);
         }
 
         // A branch with its leaves. Opening or closing a branch keeps the place in the list.
+        bool Searching => _query.Length > 0;
+        int _shown;
+
+        // Whether an entry answers the search: its title or its words hold what was typed (any case).
+        public static bool Matches(string query, string title, string body) =>
+            string.IsNullOrEmpty(query)
+            || (title != null && title.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0)
+            || (body != null && body.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0);
+
         void Section(string id, string title, System.Collections.Generic.List<Entry> entries)
         {
+            if (Searching)
+            {
+                entries = entries.Where(e => Matches(_query, e.Title, e.Body)).ToList();          // a search opens what matches and hides the rest
+                if (entries.Count == 0) return;
+                _shown += entries.Count;
+            }
             var key = "section." + id;
-            var open = _open.Contains(key);
+            var open = Searching || _open.Contains(key);
             Toggle(key, (open ? "v  " : ">  ") + title, 22f, 36f, "Section_" + id);
             if (!open) return;
             foreach (var entry in entries)
             {
                 var leaf = "leaf." + entry.Id;
-                var leafOpen = _open.Contains(leaf);
+                var leafOpen = Searching || _open.Contains(leaf);
                 var row = Toggle(leaf, "      " + (leafOpen ? "v  " : ">  ") + entry.Title, 18f, 32f, entry.Tool.HasValue ? "Tool_" + entry.Tool.Value : "Leaf_" + entry.Id);
                 if (!leafOpen) continue;
                 var text = UiKit.Label(_list, entry.Body, 16f, TextAlignmentOptions.TopLeft, UiKit.DimText);
