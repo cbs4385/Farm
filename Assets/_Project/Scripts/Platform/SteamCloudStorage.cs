@@ -1,25 +1,30 @@
-#if FARM_STEAM
 using System;
 using System.Text;
-using Steamworks;
 
 namespace Farm.Platform
 {
-    // Steam Remote Storage behind ICloudStorage. Not verified against a live Steam client yet (docs/STATUS.md).
+    // Steam Remote Storage behind ICloudStorage, over a small seam (IRemoteStorageApi). Real Steam behavior is not verified yet (docs/STATUS.md).
     public sealed class SteamCloudStorage : ICloudStorage
     {
+        static readonly UTF8Encoding Utf8 = new UTF8Encoding(false);
+        readonly IRemoteStorageApi _api;
+
+        public SteamCloudStorage(IRemoteStorageApi api) { _api = api; }
+
+        public CloudFailure LastFailure { get; private set; }
+
         public bool IsAvailable
         {
             get
             {
-                try { return SteamAPI.IsSteamRunning() && SteamRemoteStorage.IsCloudEnabledForAccount() && SteamRemoteStorage.IsCloudEnabledForApp(); }
+                try { return _api.IsSteamRunning && _api.IsCloudEnabledForAccount && _api.IsCloudEnabledForApp; }
                 catch (Exception) { return false; }
             }
         }
 
         public bool Exists(string name)
         {
-            try { return SteamRemoteStorage.FileExists(name); }
+            try { return _api.FileExists(name); }
             catch (Exception) { return false; }
         }
 
@@ -27,8 +32,8 @@ namespace Farm.Platform
         {
             try
             {
-                if (!SteamRemoteStorage.FileExists(name)) return DateTime.MinValue;
-                return DateTimeOffset.FromUnixTimeSeconds(SteamRemoteStorage.GetFileTimestamp(name)).UtcDateTime;
+                if (!_api.FileExists(name)) return DateTime.MinValue;
+                return DateTimeOffset.FromUnixTimeSeconds(_api.GetFileTimestamp(name)).UtcDateTime;
             }
             catch (Exception) { return DateTime.MinValue; }
         }
@@ -38,12 +43,12 @@ namespace Farm.Platform
             text = null;
             try
             {
-                if (!SteamRemoteStorage.FileExists(name)) return false;
-                var size = SteamRemoteStorage.GetFileSize(name);
+                if (!_api.FileExists(name)) return false;
+                var size = _api.GetFileSize(name);
+                if (size < 0) return false;
                 var buffer = new byte[size];
-                var read = SteamRemoteStorage.FileRead(name, buffer, size);
-                if (read != size) return false;
-                text = new UTF8Encoding(false).GetString(buffer);
+                if (_api.FileRead(name, buffer, size) != size) return false;
+                text = Utf8.GetString(buffer);
                 return true;
             }
             catch (Exception) { return false; }
@@ -53,17 +58,20 @@ namespace Farm.Platform
         {
             try
             {
-                var bytes = new UTF8Encoding(false).GetBytes(text);
-                return SteamRemoteStorage.FileWrite(name, bytes, bytes.Length);
+                if (!IsAvailable) { LastFailure = CloudFailure.Unavailable; return false; }
+                var bytes = Utf8.GetBytes(text);
+                if (_api.FileWrite(name, bytes, bytes.Length)) { LastFailure = CloudFailure.None; return true; }
+                // Steam only says "no": a full quota is the one reason worth telling the player about.
+                LastFailure = _api.GetQuota(out _, out var available) && available < bytes.Length ? CloudFailure.QuotaExceeded : CloudFailure.WriteFailed;
+                return false;
             }
-            catch (Exception) { return false; }
+            catch (Exception) { LastFailure = CloudFailure.WriteFailed; return false; }
         }
 
         public bool TryDelete(string name)
         {
-            try { return !SteamRemoteStorage.FileExists(name) || SteamRemoteStorage.FileDelete(name); }
+            try { return !_api.FileExists(name) || _api.FileDelete(name); }
             catch (Exception) { return false; }
         }
     }
 }
-#endif

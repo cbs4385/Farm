@@ -112,3 +112,15 @@ Farmer creator: `-farmScene Farm -farmOpen avatar -farmCapture <folder>` opens t
 Plug in the pad, start the game from Steam or the player, and without touching the keyboard or mouse: choose New Game and type the farmer's name with the on-screen keyboard (A on the field, A on keys, X delete, Y space, Menu done); play a day (move, A talk and pick up, X use the tool, B turn furniture, Y backpack, LB and RB change the hotbar); open the game menu with View and look at every tab (LB and RB switch tabs); go through a conversation and its choices; fish; open photo mode with the left stick pressed in. Check that every hint on the way names pad buttons, not keys, and that touching the keyboard switches the hints back. Pull the pad's USB cable while playing: the pause menu should appear.
 
 Cloud saves check (2026-10-15, development build): `Farm.exe -screen-width 1280 -screen-height 720 -screen-fullscreen 0 -farmDataRoot <data folder> -farmFakeCloud <cloud folder> -farmOpen newgame|load -farmCapture <dir>` (development builds only). `-farmFakeCloud` makes a folder the "cloud" so the "Save to" button, the cloud/computer icons and (with local saves in the data folder and no `cloud.json`) the one-time offer on the main menu can be seen without Steam; `-farmDataRoot` keeps saves and settings away from the real ones. Two data folders sharing one cloud folder try the two-computer case by hand. Real Steam Cloud can only be checked on a Steam build: `docs/RELEASE.md`.
+
+## Steam Cloud check (needs the Steam client, the app installed from a `beta` branch and, for step 6, a second computer; nobody has done this yet)
+Before the first run: in the partner site the Cloud settings are enabled and published (`docs/RELEASE.md`, "Cloud saves"), and in Steam > Settings > Cloud "Enable Steam Cloud" is on.
+1. Install the build from Steam and start it from Steam. Start a new game: the "Save to" line says Steam Cloud. Play a minute, sleep or save.
+2. Open https://store.steampowered.com/account/remotestorageapp/?appid=5408390 : `saves/slot0.json` (or the slot you used) is listed with a recent time and a size.
+3. Quit, start again, Load: the game shows the cloud icon and loads where you left off.
+4. Start another new game and choose "this computer": it is **not** in the cloud file list.
+5. Turn Steam Cloud off for the account (Steam > Settings > Cloud) and save a cloud game: a toast says it is kept on this computer; turn it on again, save again: the file appears in the list.
+6. On a second computer install the game from Steam: the cloud game appears in the load list and loads. Change it on one computer, then the other: the newer copy wins and `conflict-<time>.json` backups appear under `saves/slotN/` when both differed.
+7. Delete the cloud game in the game: it disappears from the cloud file list.
+8. Start the same build outside Steam (run `Farm.exe` directly, no `steam_appid.txt`): the game runs, no cloud choice is offered, every game is local.
+Record what was seen and by whom in `docs/STATUS.md`.

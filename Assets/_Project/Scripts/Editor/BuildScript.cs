@@ -84,6 +84,7 @@ namespace Farm.Editor
                     locationPathName = Path.Combine(outDir, exe),
                     target = target,
                     options = options,
+                    extraScriptingDefines = SteamDefines(),
                 });
 
                 var summary = report.summary;
@@ -107,6 +108,10 @@ namespace Farm.Editor
 
             if (Application.isBatchMode) EditorApplication.Exit(0);
         }
+
+        // Player builds carry Steam support (the FARM_STEAM define, the Steamworks.NET assembly and its native library); the Editor and the tests
+        // never do, because the define is given to the player compile only. `-noSteam` makes a build without it.
+        public static string[] SteamDefines() => HasFlag("-noSteam") ? new string[0] : new[] { "FARM_STEAM" };
 
         // The macOS architecture: a universal app (Intel and Apple silicon) when built on a Mac, where Unity can sign it; Intel only elsewhere, because
         // Apple silicon refuses an unsigned arm64 app, while an unsigned Intel app still runs there through Rosetta 2. -macArchitecture overrides.

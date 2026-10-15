@@ -100,6 +100,7 @@ namespace Farm.Gameplay
                 Atmosphere = atmosphere, Scenes = services.Loader, Input = inputService,
             };
             context.Notify = new Notifier(session, () => context.Ui);
+            saves.CloudNotice = key => context.Notify.Toast(L.Get(key));
             GameContext.SetCurrent(context);
             session.Game = context;
             context.Music = music;

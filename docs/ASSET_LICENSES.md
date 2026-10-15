@@ -40,7 +40,7 @@ Every non-code asset and every third-party component must be listed here with so
 |---|---|---|
 | Newtonsoft.Json (`com.unity.nuget.newtonsoft-json`) | MIT | Save files and string tables |
 | Unity packages (URP, Input System, 2D, uGUI/TextMeshPro, Timeline, Test Framework, Cinemachine, Localization) | Unity Companion License / package licenses | Redistributed as part of the player under the Unity runtime terms |
-| Steamworks.NET | MIT | Not yet added (T-062) |
+| Steamworks.NET 2025.164.1 (`Assets/ThirdParty/Steamworks.NET`: the C# runtime and the 64-bit Windows, Linux and macOS native libraries; its editor scripts, `SteamManager`, 32-bit, ARM and Android files are left out) | MIT, Copyright (c) 2013-2022 Riley Labrecque (`Assets/ThirdParty/Steamworks.NET/LICENSE.md`) | Source: https://github.com/rlabrecque/Steamworks.NET release 2025.164.1, tag commit `c21a8f0e31c56ae8707130967faf491f7dd7c0d8`; asset `Steamworks.NET_2025.164.1.unitypackage` (1,089,910 bytes, SHA256 `2b44031d81e2725cfc2fc326fc5fdc481ce0add4534962ed17bceb4ede67ca88`). The native `steam_api` libraries are Valve's Steamworks SDK redistributables (the Steamworks SDK terms apply). Compiled only with `FARM_STEAM`. Credit line for a credits screen (the game has none yet): "Steamworks.NET by Riley Labrecque" |
 | Yarn Spinner | MIT | Only if chosen at T-034 |
 
 ## Rules

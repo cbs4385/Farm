@@ -2,6 +2,12 @@
 
 ## 0.7.0 (2026-10-15)
 
+Steam Cloud saves are switched on in Steam builds (Steamworks.NET added; nobody has tried the real Steam Cloud).
+
+- **Player builds now carry Steam support.** Steamworks.NET 2025.164.1 (MIT) is in `Assets/ThirdParty/Steamworks.NET`; `BuildScript` defines `FARM_STEAM` for player builds (`-noSteam` leaves it out), the game starts Steam for app 5408390 before the first scene and shuts it down on quit, and Steam Cloud is used when the Steam client is running with cloud enabled. Without Steam (a plain download, the Editor, the tests) nothing changes and every game stays on this computer. Achievements go to Steam too.
+- **Cloud trouble is told once.** If the cloud is unreachable, full or refuses a save, a notice says the game is kept on this computer and will be tried again; moving old saves to the cloud only counts a game as moved after the cloud hands it back, and never deletes the local copy.
+- **Not verified by a person:** the real Steam Cloud (needs the Steam client, the Steamworks Cloud settings in `docs/RELEASE.md` and the script in `docs/QA.md`).
+
 The mine keeps its floors on the way back up (playtest: "going back up the mine, there is nothing there, not even the ore I didn't mine").
 
 - **A mine floor you come back to has its ore and rocks again.** The floor's remaining ore was meant to be kept for the trip but was never saved when you took the stairs or the lift, so a revisited floor had the same layout and dead monsters but no ore at all. It is now kept as you left it (ore you broke stays gone, the rest stays), until you leave the mine, are knocked out or the day ends. Old saves are unaffected. Checked by an automated flow in the real mine scene (it failed before the fix); not seen by a person yet.

@@ -2,6 +2,9 @@ using System;
 
 namespace Farm.Platform
 {
+    // Why the last write failed (the game tells the player once).
+    public enum CloudFailure { None, Unavailable, QuotaExceeded, WriteFailed }
+
     // A store's cloud file storage (Steam Remote Storage). Names are relative paths with forward slashes. Every call is
     // failure-tolerant: false/MinValue means "did not work", never an exception, so the game falls back to the local copy.
     public interface ICloudStorage
@@ -13,5 +16,7 @@ namespace Farm.Platform
         bool TryRead(string name, out string text);
         bool TryWrite(string name, string text);
         bool TryDelete(string name);
+        // Why the most recent TryWrite failed (None after a success or when the store does not say).
+        CloudFailure LastFailure => CloudFailure.None;
     }
 }

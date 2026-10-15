@@ -32,6 +32,19 @@ namespace Farm.Gameplay
             public List<int> PendingUploads = new List<int>();     // slots whose newest local save did not reach the cloud: the local copy wins at the next sync
         }
 
+        // Told the key of a short sentence (Resources/Localization/en.json) when a cloud game could not be kept in the cloud; GameServices turns
+        // it into a toast. Said once per trouble: it is armed again by the next successful cloud write.
+        public Action<string> CloudNotice;
+        bool _noticeGiven;
+
+        void NoticeCloudProblem(string key)
+        {
+            if (_noticeGiven) return;
+            _noticeGiven = true;
+            try { CloudNotice?.Invoke(key); }
+            catch (Exception e) { Log.Warn($"Cloud notice failed: {e.Message}"); }
+        }
+
         public static string CloudName(int slot) => $"saves/slot{slot}.json";
 
         ICloudStorage Cloud
@@ -91,11 +104,17 @@ namespace Farm.Gameplay
         {
             if (GetLocation(slot) != SaveLocation.Cloud) return;
             var cloud = Cloud;
-            if (cloud == null) { SetPendingUpload(slot, true); return; }      // offline: the next sync pushes the newer local copy
-            if (cloud.TryWrite(CloudName(slot), json)) { ForgetPendingDelete(slot); SetPendingUpload(slot, false); }
+            if (cloud == null)                                                // offline: the next sync pushes the newer local copy
+            {
+                SetPendingUpload(slot, true);
+                NoticeCloudProblem("cloud.err.offline");
+                return;
+            }
+            if (cloud.TryWrite(CloudName(slot), json)) { ForgetPendingDelete(slot); SetPendingUpload(slot, false); _noticeGiven = false; }
             else
             {
                 SetPendingUpload(slot, true);
+                NoticeCloudProblem(cloud.LastFailure == CloudFailure.QuotaExceeded ? "cloud.err.quota" : "cloud.err.write");
                 Log.Warn($"Save slot {slot} was kept locally; the cloud copy could not be written.");
             }
         }
@@ -248,7 +267,8 @@ namespace Farm.Gameplay
             foreach (var slot in LocalSaveSlots())
             {
                 var text = AtomicFile.Read(SlotPath(slot), IsParsableQuiet, out _);
-                if (cloud != null && text != null && cloud.TryWrite(CloudName(slot), text))
+                // The slot only counts as moved once the cloud hands the same text back; the local file is never touched here.
+                if (cloud != null && text != null && cloud.TryWrite(CloudName(slot), text) && cloud.TryRead(CloudName(slot), out var back) && back == text)
                 {
                     WriteLocation(slot, SaveLocation.Cloud);
                     ForgetPendingDelete(slot);
