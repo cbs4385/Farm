@@ -837,6 +837,39 @@
       ]
     },
     {
+      "id": "juno.tip.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.tip.1.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.tip.3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.tip.3.0"
+        }
+      ]
+    },
+    {
+      "id": "juno.tip.5",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.tip.5.0"
+        }
+      ]
+    },
+    {
       "id": "juno.cl.1",
       "start": "n0",
       "nodes": [
@@ -2001,6 +2034,24 @@
           "priority": 0,
           "dialogue": "juno.fr.8",
           "category": "tier"
+        },
+        {
+          "condition": "hearts:juno>=3",
+          "priority": 0,
+          "dialogue": "juno.tip.1",
+          "category": "reactive"
+        },
+        {
+          "condition": "hearts:juno>=3",
+          "priority": 0,
+          "dialogue": "juno.tip.3",
+          "category": "reactive"
+        },
+        {
+          "priority": 0,
+          "dialogue": "juno.tip.5",
+          "tag": "wholesome",
+          "category": "reactive"
         },
         {
           "condition": "hearts:juno>=6 && hearts:juno<9",

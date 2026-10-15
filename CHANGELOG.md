@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.9 (2026-10-15)
+
+An editing pass over what the villagers say when you talk to them.
+
+- **Each villager sounds like themselves.** Lines that had been written for nearly everyone with the names swapped (the letter they would write you, the "whole speech" thank-you, the Sunday repairs, the day-of-the-week notices about who is closed) now belong to one villager each, and the others say something of their own. Juno no longer repeats Bram with exclamation marks: her mornings, evenings, storms and gifts are about her labels, her sketches and Piper on the quench bucket.
+- **Villagers tell you about each other.** Over ninety new lines in which a villager mentions a neighbor and gives you something to use: a gift that neighbor loves, the date of their birthday, or a hint at what they quietly want. Closer friends share the quieter things.
+- **Gift thank-yous in voice.** The plain "Thanks!" fallbacks for Juno, Piper, Elara, Dr. Penn, Tilda, Felix and Dorian are now their own.
+- Two contradictions fixed (who played the rubber-chicken prank; who named the quench bucket "the swimming pool").
+
 ## 0.6.8 (2026-10-15)
 
 From the playtesters' list of the same day.

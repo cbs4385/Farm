@@ -88,6 +88,14 @@ addto npc.hazel.talk
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.6 cat=tier :: A book recommendation, unplanned. (That's new.) It slipped out.
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.7 cat=tier :: Wren asked how I know you. I said you borrowed a book once and gave it back. She nodded gravely.
 0 hearts:hazel>=3 && hearts:hazel<6 => hazel.fr.8 cat=tier tag=wholesome :: Someone left a seed packet in the poetry section. I planted it. It might be you.
+0 hearts:hazel>=3 => hazel.tip.1 cat=reactive :: Piper hums four notes when she tunes. The same four. (I've written them down.) (They're good.)
+0 hearts:hazel>=2 => hazel.tip.2 cat=reactive :: Marcus borrows the same book on roofs every fall. He stops at page forty. (The spine says so.)
+0 ~ => hazel.tip.3 cat=reactive :: Dorian eats blackberries on the walk here. The field guide comes back stained. (He blames the ink.)
+0 hearts:hazel>=3 => hazel.tip.4 cat=reactive :: Elara reads the atlas standing up. (Never sits.) Sitting would mean staying. I think she knows.
+0 ~ => hazel.tip.5 cat=reactive :: Ione's birthday is the twentieth of winter. She says she wants nothing. (She looks at the snowdrops.) (Twice.)
+0 ~ => hazel.tip.6 cat=reactive :: Bram's birthday is the fourth of fall. (He returned a book early that day.) (He always does.)
+0 ~ => hazel.tip.7 cat=reactive tag=funny :: Wren loves pickles. (This is not a secret.) (She tells the pickles.)
+0 hearts:hazel>=3 => hazel.tip.8 cat=reactive :: Felix borrows the tide tables and stands by the sea maps longer. (Fishing alone, I think, has started to show.)
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:hazel>=6 && hearts:hazel<9 => hazel.cl.1 cat=tier :: I talk more when you're around. I've counted. It's up forty percent.
@@ -106,7 +114,7 @@ addto npc.hazel.talk
 0 hearts:hazel>=9 => hazel.co.4 cat=tier :: There's a shelf I keep for you. It's growing in a way I find alarming.
 0 hearts:hazel>=9 => hazel.co.5 cat=tier tag=funny :: Your biography? The first line, right. Then I'd wander off into footnotes.
 0 hearts:hazel>=9 => hazel.co.6 cat=tier :: You listen to me read. It still takes courage. It takes less every time.
-0 hearts:hazel>=9 => hazel.co.7 cat=tier :: I used to count the days until the library closed. Now I count the days until you open the door.
+0 hearts:hazel>=9 => hazel.co.7 cat=tier :: The library still closes at six. (It always has.) Now I notice the hour before you come.
 0 hearts:hazel>=9 => hazel.co.8 cat=tier tag=wholesome :: A person can be a favorite book. I'd put you on the nightstand.
 
 # ---- moods ----
@@ -129,7 +137,7 @@ addto npc.hazel.talk
 2 festival.in:<=3 && festival.in:>0 => hazel.fest.2 cat=reactive tag=wholesome :: Ione says I should go to the festival. I said I'd think about it. I've thought about it.
 2 festival.in:==0 => hazel.fest.3 cat=reactive :: Festival today. I'm going for an hour. Possibly. Don't tell Ione.
 2 birthday.in:hazel<=3 && birthday.in:hazel>0 => hazel.bday.1 cat=reactive :: My birthday is soon. I'd like it to be quiet. I'd like it to be a tiny bit not quiet.
-2 birthday.in:hazel<=3 && birthday.in:hazel>0 => hazel.bday.2 cat=reactive :: Three days to my birthday. I've told no one. Ione has told everyone.
+2 birthday.in:hazel<=3 && birthday.in:hazel>0 => hazel.bday.2 cat=reactive :: Three days. (I've marked it in pencil.) (In case I change my mind.)
 3 birthday.in:hazel==0 => hazel.bday.3 cat=reactive expr=embarrassed emote=sweat :: It's my birthday. I'd like a quiet cake and no singing. (A little singing.)
 2 birthday.in:ione<=2 && birthday.in:ione>=0 => hazel.bday.4 cat=reactive :: Ione's birthday is near. I wrote her a poem. Please don't ask to see it.
 2 birthday.in:wren<=2 && birthday.in:wren>=0 => hazel.bday.5 cat=reactive :: Wren's birthday is close. She's already hinting. I'm bringing a very small book and a very large apology.

@@ -12,7 +12,7 @@ addto npc.bram.talk
 0 season:spring => bram.spring.5 cat=seasonal :: Spring means mud. Mud means rust. Rust means work.
 0 season:spring => bram.spring.6 cat=seasonal rarity=uncommon :: Hm. Juno talked through all of March. I learned the names of her seven favorite hammers.
 0 season:summer => bram.summer.2 cat=seasonal :: Hm. Hot. I wear less. The anvil doesn't care.
-0 season:summer => bram.summer.3 cat=seasonal :: Summer work is hinges and hooks. Quick jobs.
+0 season:summer => bram.summer.3 cat=seasonal :: Summer. Hinges and hooks. Felix's hooks keep fixing themselves. Thursdays. Hm. Salt air, probably.
 0 season:summer => bram.summer.4 cat=seasonal tag=funny :: I keep a bucket by the door. Juno calls it the swimming pool. I call it the bucket.
 0 season:summer => bram.summer.5 cat=seasonal :: Long days. The glow of the forge looks small at noon.
 0 season:summer => bram.summer.6 cat=seasonal rarity=uncommon :: Hm. Fished once. Caught nothing. Felix said it was a good start.
@@ -38,7 +38,7 @@ addto npc.bram.talk
 0 weekday:thu => bram.thu.1 cat=weekday :: Hm. Thursday. Felix's day off. His hooks are all mine.
 0 weekday:thu => bram.thu.2 cat=weekday :: Thursdays I sharpen. Everything. Even the spoons.
 0 weekday:fri => bram.fri.1 cat=weekday :: Friday. Everyone wants their tool done by Saturday.
-0 weekday:fri => bram.fri.2 cat=weekday :: Hm. Friday means orders. Orders mean noise. I accept noise.
+0 weekday:fri => bram.fri.2 cat=weekday :: Hm. Friday. Orders. Tilda's birthday order, twelfth of spring, is a hinge. Every year. She has forty.
 0 weekday:sat => bram.sat.1 cat=weekday :: Saturday. The market's loud. The forge isn't.
 0 weekday:sat => bram.sat.2 cat=weekday :: Hm. Saturday. Juno's cheerful. I allow it.
 0 weekday:sun => bram.sun.1 cat=weekday :: Sunday. I fix things nobody asked me to fix.
@@ -46,7 +46,7 @@ addto npc.bram.talk
 # ---- weather ----
 0 weather:sunny => bram.sunny.1 cat=weather :: Hm. Bright. Hot inside. Hotter outside.
 0 weather:sunny => bram.sunny.2 cat=weather :: Good weather. Bad for business. Everyone's outside.
-0 weather:sunny => bram.sunny.3 cat=weather :: Hm. Sun on the anvil. It shines. It means nothing.
+0 weather:sunny => bram.sunny.3 cat=weather :: Hm. Sun on the step. Dorian leaves mushrooms there. Says the forest did. Forest has good taste.
 1 weather:rain => bram.rain.4 cat=weather tag=funny :: Hm. Rain. Everyone brings in tools to dry. I'm a laundry.
 1 weather:storm => bram.storm.1 cat=weather :: Storm. Quench barrel's overflowing. I'll allow it.
 1 weather:storm => bram.storm.2 cat=weather :: Hm. Thunder. The anvil rings back. They know each other.
@@ -64,7 +64,7 @@ addto npc.bram.talk
 0 hour<10 => bram.morning.3 cat=time :: Before opening. Just me and the iron.
 0 hour>=10 && hour<16 => bram.midday.1 cat=time :: Hm. Midday. Peak heat. Peak noise.
 0 hour>=10 && hour<16 => bram.midday.2 cat=time :: Busy. Don't stand in the sparks.
-0 hour>=10 && hour<16 => bram.midday.3 cat=time :: Afternoon. The best iron gets made now.
+0 hour>=10 && hour<16 => bram.midday.3 cat=time :: Afternoon. Best iron gets made now. Juno's birthday, twenty-fifth of spring. Hm. Gold's too soft for tools. Right for her.
 0 hour>=16 && hour<20 => bram.evening.1 cat=time :: Closing soon. The fire's low. So's my mood. In a good way.
 0 hour>=16 && hour<20 => bram.evening.2 cat=time :: Hm. Evening. I clean up. Then I sit. That's my day.
 0 hour>=16 && hour<20 => bram.evening.3 cat=time :: Last job of the day. Always the hard one.
@@ -84,6 +84,10 @@ addto npc.bram.talk
 0 hearts:bram>=3 && hearts:bram<6 => bram.fr.6 cat=tier :: Hm. Good to see you. Don't tell anyone I said so.
 0 hearts:bram>=3 && hearts:bram<6 => bram.fr.7 cat=tier :: Marcus asked about you. I said you're all right. He nodded. That's a lot.
 0 hearts:bram>=3 && hearts:bram<6 => bram.fr.8 cat=tier tag=wholesome :: I moved the stool so you could sit by the fire. It was in the way anyway.
+0 hearts:bram>=3 => bram.tip.2 cat=reactive :: Marcus wants that roof done. Says "nearly." Means "help." Hm.
+0 ~ => bram.tip.3 cat=reactive :: Juno. Truffles. Peppers, too. Eats them raw at the anvil. Hm. Don't tell her I noticed.
+0 hearts:bram>=6 => bram.tip.6 cat=reactive :: Piper. Fiddle. Fixed a bad day once. Hm. Never told her. Don't you.
+0 hearts:bram>=3 => bram.tip.7 cat=reactive :: Hazel returns books early. Like me. Hm. Writes in a small book, too. Saw it. Said nothing.
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:bram>=6 && hearts:bram<9 => bram.cl.2 cat=tier :: I used to work alone. This is better. Don't make me say it twice.
@@ -110,7 +114,7 @@ addto npc.bram.talk
 1 mood:bram=tired => bram.tired.2 cat=mood :: Hm. Tired. Don't tell Juno. She'll make it a thing.
 1 mood:bram=delighted => bram.delighted.1 cat=mood expr=happy :: ...Hm. Good day. A fine pour. A true edge. Good.
 1 mood:bram=delighted => bram.delighted.2 cat=mood expr=happy emote=sparkle :: Hm. Made something right. Don't ask what. Just look at it.
-1 mood:bram=mischievous => bram.mischief.1 cat=mood expr=happy :: Hm. I put a rubber chicken on Juno's anvil. Wren swore it was an accident.
+1 mood:bram=mischievous => bram.mischief.1 cat=mood expr=happy :: Hm. Relabeled Juno's hammer. "Hammer (Mine)." She hasn't noticed. She will.
 1 mood:bram=mischievous => bram.mischief.2 cat=mood expr=happy :: Hm. I said something funny. Nobody noticed. I'm pleased.
 1 mood:bram=worried => bram.worried.1 cat=mood expr=sad :: Hm. A blade I made today won't hold. I'll start again.
 

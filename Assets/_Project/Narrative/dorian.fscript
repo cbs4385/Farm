@@ -21,8 +21,8 @@ addto npc.dorian.talk
 # ---- weekdays ----
 0 weekday:mon => dorian.mon.1 cat=weekday :: Monday. Marcus sharpens things. I listen from the porch. It sounds like thinking.
 0 weekday:tue => dorian.tue.1 cat=weekday :: Tuesday. Quiet forest. Quieter village. A good day for walking.
-0 weekday:wed => dorian.wed.1 cat=weekday :: Wednesday. Marcus is on a bench with Bram. I go by quietly. Two silences. I don't interrupt.
-0 weekday:thu => dorian.thu.1 cat=weekday :: Thursday. Felix is off. The pond's busy. I avoid it.
+0 weekday:wed => dorian.wed.1 cat=weekday :: Wednesday. Marcus at the bench. I leave a mushroom. He leaves it. We understand.
+0 weekday:thu => dorian.thu.1 cat=weekday :: Thursday. Felix at the pond. I go by the far bank. He nods. Enough.
 0 weekday:fri => dorian.fri.1 cat=weekday :: Friday. The village gets loud. I take the back path. It's longer. It's better.
 0 weekday:sat => dorian.sat.1 cat=weekday :: Saturday. Market. Noise. I leave a mushroom on a step and go.
 0 weekday:sun => dorian.sun.1 cat=weekday :: Sunday. I stay in the forest. The trees don't ask what day it is.
@@ -48,19 +48,27 @@ addto npc.dorian.talk
 0 hour>=16 && hour<20 => dorian.evening.2 cat=time :: Dusk. Owls begin. They don't mind company.
 0 hour>=20 => dorian.late.1 cat=time :: Late. I sort what I found. Please don't ask.
 0 hour>=20 => dorian.late.2 cat=time :: Night. Moss glows a little, if you squint. I squint.
-0 map:Forest => dorian.here.1 cat=place :: Step softly. Under the roots. Everyone looks up.
+0 map:Forest => dorian.here.1 cat=place :: Step softly. Everyone looks up. The good things are down.
 0 map:Carpenter => dorian.here.2 cat=place tag=funny :: The chair by the stove is mine. The cushion knows. Marcus pretends.
 
 # ---- friends (3 to 5 hearts) ----
 0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.1 cat=tier :: You say little. That's the best kind of company, [player].
-0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.2 cat=tier :: Come with me tomorrow. Bring a basket. Don't bring questions.
+0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.2 cat=tier :: A second basket on the porch. Yours. Don't ask how I knew.
 0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.3 cat=tier tag=funny :: A mushroom was on your step. Not me. The forest.
 0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.4 cat=tier :: You stand the right distance. Not many do.
 0 hearts:dorian>=3 && hearts:dorian<6 => dorian.fr.5 cat=tier tag=wholesome :: Walking is better with someone who doesn't need an answer.
+0 ~ => dorian.tip.1 cat=reactive tag=funny :: Bram likes truffles. I leave them. He thinks it's Juno. Juno thinks it's Marcus.
+0 ~ => dorian.tip.2 cat=reactive :: Hazel presses leaves in the field guide. Eats blackberries on the walk. Stains. Blames the ink.
+0 hearts:dorian>=3 => dorian.tip.3 cat=reactive :: Marcus measures the hall roof. Nights. Alone. I hear it from the porch.
+0 hearts:dorian>=3 => dorian.tip.4 cat=reactive :: Ione walks the cliff path Saturdays. Looks at the sea. Doesn't go down. Wants to.
+0 hearts:dorian>=3 => dorian.tip.5 cat=reactive :: Elara looks at boats. Not fish. Boats. Pencil in her hand. I don't ask.
+0 ~ => dorian.tip.6 cat=reactive :: Hazel's birthday. Eighth of fall. Blackberries. Don't say I said.
+0 ~ => dorian.tip.7 cat=reactive :: Marcus's birthday. Ninth of summer. A pumpkin. He'll carve it. Badly. Happily.
+0 hearts:dorian>=3 => dorian.tip.8 cat=reactive :: Juno wants one thing that isn't Bram's. Everybody knows. Nobody says. I said. Once.
 
 # ---- close friends (6 to 8 hearts) ----
-0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.1 cat=tier :: I'm not a talker. But I'm glad you're nearby.
-0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.2 cat=tier tag=wholesome :: The forest likes you. That's rare. It likes very few.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.1 cat=tier :: Trees don't talk. You don't need me to. Same comfort.
+0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.2 cat=tier tag=wholesome :: The forest knows your boots. Doesn't flinch. That's trust.
 0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.3 cat=tier :: There's a second spot. Quieter than the first. I'll show you. Someday. Soon.
 0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.4 cat=tier :: I notice small things. I keep them. I might show you one. Don't hurry me.
 0 hearts:dorian>=6 && hearts:dorian<9 => dorian.cl.5 cat=tier tag=funny :: Marcus asked who the gifts were from. I said "the forest". He nodded. Twice.
@@ -68,8 +76,8 @@ addto npc.dorian.talk
 # ---- confidant (9 and 10 hearts) ----
 0 hearts:dorian>=9 => dorian.co.1 cat=tier tag=wholesome :: Words are slow for me. You wait. It's the whole gift.
 0 hearts:dorian>=9 => dorian.co.2 cat=tier :: I left something on your step. It was me. Not the forest.
-0 hearts:dorian>=9 => dorian.co.3 cat=tier tag=funny :: A letter from me would be a drawing. Of a mushroom. With a speech bubble.
-0 hearts:dorian>=9 => dorian.co.4 cat=tier :: Thank you, [player]. For the quiet.
+0 hearts:dorian>=9 => dorian.co.3 cat=tier tag=funny :: A letter from me. One line. "Found this. Thought of you." Then a leaf.
+0 hearts:dorian>=9 => dorian.co.4 cat=tier :: Thank you, [player]. For the quiet. And for the long kind of waiting.
 
 # ---- moods ----
 1 mood:dorian=lonely => dorian.lonely.1 cat=mood :: A long walk. Nobody. The trees were kind. It wasn't enough.

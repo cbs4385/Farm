@@ -9,7 +9,7 @@ addto npc.piper.talk
 0 season:spring => piper.spring.2 cat=seasonal :: Spring in the saloon: the windows are open, the fiddle is in tune, and the mud sings along.
 0 season:spring => piper.spring.3 cat=seasonal tag=funny :: I wrote a spring anthem. It's four lines and a hiccup. The hiccup is the chorus.
 0 season:spring => piper.spring.4 cat=seasonal :: The first warm night, everyone sings. Badly. Beautifully. In the same key, occasionally.
-0 season:spring => piper.spring.5 cat=seasonal :: My birthday's in spring. I'm not hinting. I'm humming. It's the song of someone hinting.
+0 season:spring => piper.spring.5 cat=seasonal :: My birthday's the fifth of spring. First week! The year barely tunes up, and there I am, asking for jam.
 0 season:spring => piper.spring.6 cat=seasonal rarity=uncommon :: Every spring I retune the fiddle by the beach. The waves keep time. They have no sense of tempo.
 0 season:summer => piper.summer.1 cat=seasonal :: Summer sets on the beach. Sand in the strings, salt in the song. It's rustic. It's also itchy.
 0 season:summer => piper.summer.2 cat=seasonal :: The saloon's hot, so I play outside the door and charge nobody. The crowd pays in applause and lemonade.
@@ -37,7 +37,7 @@ addto npc.piper.talk
 0 weekday:tue => piper.tue.2 cat=weekday :: Tuesday is my day off and Wren's. We spend it apart, and then compare notes. Actual notes.
 0 weekday:wed => piper.wed.1 cat=weekday :: Wednesday. Midweek, mid-song, mid-nap. The three are not mutually exclusive.
 0 weekday:wed => piper.wed.2 cat=weekday :: Nothing happens on Wednesdays. I wrote a song about it. Nothing happens in it either.
-0 weekday:thu => piper.thu.1 cat=weekday :: Thursday. Felix's day off, so the beach is crowded with fishing hats and bad advice.
+0 weekday:thu => piper.thu.1 cat=weekday :: Thursday. Felix is at the pond, so I play to the crabs on the beach. They clap sideways. It's still clapping.
 0 weekday:thu => piper.thu.2 cat=weekday :: Thursday afternoons I tune the fiddle in the square. A dog sings along. It's a baritone.
 0 weekday:fri => piper.fri.1 cat=weekday :: Friday! The saloon's full, the strings are warm, and everybody wants "the one about the cow".
 0 weekday:fri => piper.fri.2 cat=weekday :: Friday night is my favorite. Every request is a challenge, and every challenge ends in a sing-along.
@@ -84,11 +84,19 @@ addto npc.piper.talk
 0 hearts:piper>=3 && hearts:piper<6 => piper.fr.1 cat=tier :: Front row again! You're my favorite regular. I named a chord after you. It's mostly a hum.
 0 hearts:piper>=3 && hearts:piper<6 => piper.fr.2 cat=tier :: You said "farm", I heard "charm". It rhymes if you squint. That's a chorus.
 0 hearts:piper>=3 && hearts:piper<6 => piper.fr.3 cat=tier tag=funny :: Juno says I talk too fast. I said that was a compliment. She said it was a tempo.
-0 hearts:piper>=3 && hearts:piper<6 => piper.fr.4 cat=tier :: Sing along tonight. Don't be shy. I'll cover you with a loud note and pretend it was me.
+0 hearts:piper>=3 && hearts:piper<6 => piper.fr.4 cat=tier :: You said "crops." I heard "hops." It rhymes if you squint. Wren's already asked for the hops.
 0 hearts:piper>=3 && hearts:piper<6 => piper.fr.5 cat=tier :: I wrote you a verse. It's terrible. It's yours. I'll play it once and then burn it.
 0 hearts:piper>=3 && hearts:piper<6 => piper.fr.6 cat=tier :: Wren says you stay for the second set. Wren's right. She's usually right about things that make me blush.
 0 hearts:piper>=3 && hearts:piper<6 => piper.fr.7 cat=tier tag=wholesome :: Someone in the room who actually listens: it changes the way I play. I'd hate to lose that.
 0 hearts:piper>=3 && hearts:piper<6 => piper.fr.8 cat=tier :: Come by after the set. I'll show you the third verse. It's not ready. Neither am I.
+0 hearts:piper>=3 => piper.tip.1 cat=reactive :: Wren keeps something under the bar she won't let me dust. I wrote a song about it. She asked me never to play it.
+0 ~ => piper.tip.2 cat=reactive :: Hazel corrects my rhymes in the margins of the library's songbooks. In pencil. She thinks I don't know. Hers are better.
+0 ~ => piper.tip.3 cat=reactive tag=funny :: Juno's birthday's the twenty-fifth of spring. I rhymed it with "ring." She loves gold, so she took it as a hint. It is now.
+0 ~ => piper.tip.4 cat=reactive :: Felix cried at the slow one in the summer set. He says it was the salt. Bring him a tuna and he'll cry again.
+0 hearts:piper>=3 => piper.tip.5 cat=reactive :: Bram hums. Nobody believes me. I've heard it twice, behind the forge. It wasn't one of mine. Yet.
+0 ~ => piper.tip.6 cat=reactive :: Elara's the first to hear anything new. Her needles keep time while I play. Snowdrops make her cry. The good kind.
+0 ~ => piper.tip.7 cat=reactive :: Ione's birthday's the twentieth of winter. I'll play her something about the sea. She'll say "shh." She'll stay for all of it.
+0 hearts:piper>=3 => piper.tip.8 cat=reactive :: Marcus hates my loud ones and comes anyway. He wants that roof done so the hall can hold a dance. His feet said so.
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:piper>=6 && hearts:piper<9 => piper.cl.1 cat=tier :: ...I used to fill it. Now I leave a second. Sometimes two.
@@ -104,15 +112,15 @@ addto npc.piper.talk
 0 hearts:piper>=9 => piper.co.1 cat=tier tag=wholesome :: Wetherell needed a song. You were the chorus. I'm only the one holding the fiddle.
 0 hearts:piper>=9 => piper.co.2 cat=tier :: I used to play so the room wouldn't be quiet. Now I play so you'll hear it. It's a better reason.
 0 hearts:piper>=9 => piper.co.3 cat=tier :: The best song I ever wrote is the one I haven't. It's about someone who showed up. You can guess.
-0 hearts:piper>=9 => piper.co.4 cat=tier tag=funny :: If I wrote you a letter, it'd rhyme badly and run long. I'd send it with a tune. The tune would be flat.
+0 hearts:piper>=9 => piper.co.4 cat=tier tag=funny :: If I wrote you a song, I'd never finish it. Finishing means you've heard the end. I'd rather keep playing.
 0 hearts:piper>=9 => piper.co.5 cat=tier :: I used to fear the quiet. Now it sounds like the moment before you walk in.
-0 hearts:piper>=9 => piper.co.6 cat=tier :: Thank you, [player]. For everything. That's the whole verse. It doesn't rhyme. I left it that way.
+0 hearts:piper>=9 => piper.co.6 cat=tier :: Thank you, [player]. There's no rhyme for that. I looked. I left it plain. Plain's the honest key.
 0 hearts:piper>=9 => piper.co.7 cat=tier :: I labeled a drawer in my head "Songs for later." Yours is at the top, and it's already playing.
 0 hearts:piper>=9 => piper.co.8 cat=tier tag=wholesome :: Anything I write next, you'll be the first to hear. And the first to hum along, badly, on purpose.
 
 # ---- moods ----
 1 mood:piper=lonely => piper.lonely.1 cat=mood :: Quiet week. I've been playing for the walls. They don't request anything. They don't clap, either.
-1 mood:piper=lonely => piper.lonely.2 cat=mood :: You were gone a while. I wrote a song every night. Most are sad. One is about soup.
+1 mood:piper=lonely => piper.lonely.2 cat=mood :: You were gone a while, so I wrote you a song a night. Most are sad. One's about soup. The soup one's the best.
 1 mood:piper=tired => piper.tired.1 cat=mood :: Long set last night. My fingers are noodles and my voice is a rumor.
 1 mood:piper=tired => piper.tired.2 cat=mood :: A bit worn today. The fiddle's fine. I'm the one out of tune.
 1 mood:piper=delighted => piper.delighted.1 cat=mood expr=happy :: Best night of my life! Everyone clapped on the bridge. Even the stool. It's a legend now.
@@ -130,8 +138,8 @@ addto npc.piper.talk
 2 festival.in:<=3 && festival.in:>0 => piper.fest.2 cat=reactive tag=wholesome :: Festival week. The whole village sings. I've never heard a room so in love with being out of tune.
 2 festival.in:==0 => piper.fest.3 cat=reactive :: Festival day! I'm playing till they carry me off. Come hear the new song. It's about all of you.
 2 birthday.in:piper<=3 && birthday.in:piper>0 => piper.bday.1 cat=reactive :: My birthday's close. I'm not hinting. I'm humming "Happy Birthday" in the key of Hint.
-2 birthday.in:piper<=3 && birthday.in:piper>0 => piper.bday.2 cat=reactive :: Three days to go. I'll be a year older and, I swear, exactly as flat.
-3 birthday.in:piper==0 => piper.bday.3 cat=reactive expr=embarrassed emote=sweat :: It's today! Somebody told. Wren told. Everyone's singing. Badly. I'd like this on a record.
+2 birthday.in:piper<=3 && birthday.in:piper>0 => piper.bday.2 cat=reactive :: Three days to my birthday, and I've written the song for it. It's called "Jam, Please." Subtle, I know.
+3 birthday.in:piper==0 => piper.bday.3 cat=reactive expr=embarrassed emote=sweat :: It's today! Wren told the room, and the room sang. Flat, loud, and all of them. That's a chorus.
 2 birthday.in:wren<=2 && birthday.in:wren>=0 => piper.bday.4 cat=reactive :: Wren's birthday! I wrote her a song. It rhymes "cider" with "wider". She'll hate it so much she'll frame it.
 2 birthday.in:juno<=2 && birthday.in:juno>=0 => piper.bday.5 cat=reactive :: Juno's birthday! I'm giving her a tune on the fiddle and a clip for her bow. She'll say it's the wrong shape.
 

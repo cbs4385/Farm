@@ -35,9 +35,9 @@ addto npc.tilda.talk
 0 weekday:mon => tilda.mon.2 cat=weekday :: Monday is for restocking. Don't lean on the shelf. The shelf is nervous.
 0 weekday:tue => tilda.tue.1 cat=weekday :: Tuesday. The saloon's shut, so everyone drops in here to complain about it.
 0 weekday:tue => tilda.tue.2 cat=weekday :: Tuesdays Wren is off. The village gossip comes straight to me. I'm very busy.
-0 weekday:wed => tilda.wed.1 cat=weekday :: Wednesday. Marcus is closed, so the nails are going quickly.
+0 weekday:wed => tilda.wed.1 cat=weekday :: Wednesday. Marcus is on the bench with his lunch and his roof plans. He thinks the plans are hidden. They're under the bench.
 0 weekday:wed => tilda.wed.2 cat=weekday :: Midweek. The cat naps in the window and the whole street slows down for her.
-0 weekday:thu => tilda.thu.1 cat=weekday :: Thursday. Felix is off, so the fish prices are all anyone argues about.
+0 weekday:thu => tilda.thu.1 cat=weekday :: Thursday. Felix's day off, so he's at the pond talking to a sturgeon. Thirty years. The sturgeon hasn't answered.
 0 weekday:thu => tilda.thu.2 cat=weekday :: Thursdays I do the books. They add up better when nobody's watching.
 0 weekday:fri => tilda.fri.1 cat=weekday :: Friday. The whole village needs one more thing before the weekend.
 0 weekday:fri => tilda.fri.2 cat=weekday :: Friday's busy. Wren says it's because I have good lighting. I say it's the cookies.
@@ -89,6 +89,14 @@ addto npc.tilda.talk
 0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.6 cat=tier :: Wren says you're good company. Wren's never wrong about company. About lemons, always.
 0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.7 cat=tier tag=wholesome :: A customer who stays for tea is worth ten who don't. You're worth at least twelve.
 0 hearts:tilda>=3 && hearts:tilda<6 => tilda.fr.8 cat=tier :: Come by tomorrow. I'll find something you need and sell it at cost.
+0 ~ => tilda.tip.1 cat=reactive :: Hazel's birthday is the eighth of fall. She'd like it forgotten. It's on the slate in red. Blackberries, if you're asking.
+0 ~ => tilda.tip.2 cat=reactive tag=wholesome :: Felix pretends fish are just stock. Hand him a tuna and watch a grown man go quiet. Don't tell him I said so.
+0 ~ => tilda.tip.3 cat=reactive :: Dr. Penn buys elderflower by the bunch and says it's for the clinic. Half of it's for her window. Doctor's orders, apparently.
+0 ~ => tilda.tip.4 cat=reactive :: Elara's birthday is the eighteenth of spring. She'll say she doesn't need a thing. She needs cranberries. I've seen her with the jam.
+0 ~ => tilda.tip.5 cat=reactive :: Marcus pays for his nails and then stands by the pumpkins. Every fall. He's never bought one. Somebody should give him one.
+0 hearts:tilda>=3 => tilda.tip.6 cat=reactive :: Juno settles her slate in clasps, and she's three ahead. What she wants isn't on the slate. It's one word, from Bram.
+0 hearts:tilda>=3 => tilda.tip.7 cat=reactive :: Wren asks me about the coast road every spring. Then she changes the subject to pickles. I let her.
+0 ~ => tilda.tip.8 cat=reactive :: Dorian comes in once a month, buys wild garlic seed, and leaves a mushroom on the counter. I've never charged him. He's never asked.
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:tilda>=6 && hearts:tilda<9 => tilda.cl.1 cat=tier :: You have your own seat now. I moved the chair an inch so it faces the door.
@@ -102,11 +110,11 @@ addto npc.tilda.talk
 
 # ---- confidant (9 and 10 hearts) ----
 0 hearts:tilda>=9 => tilda.co.1 cat=tier tag=wholesome :: Kindness is the only stock that goes up when you give it away. You taught me that again.
-0 hearts:tilda>=9 => tilda.co.2 cat=tier :: I used to count the days I was open. Now I count the days you came in.
+0 hearts:tilda>=9 => tilda.co.2 cat=tier :: I used to count the coins at closing. Now I count the faces. The second number's the one I keep.
 0 hearts:tilda>=9 => tilda.co.3 cat=tier :: There's a lamp in the back that I leave on for the whole village. Tonight it's on for you.
 0 hearts:tilda>=9 => tilda.co.4 cat=tier tag=funny :: Your slate page is the longest in the shop. I've started a second chalkboard.
 0 hearts:tilda>=9 => tilda.co.5 cat=tier :: I've sold a lot of seeds. The best thing I ever sold you was a "Good morning."
-0 hearts:tilda>=9 => tilda.co.6 cat=tier :: Thank you, [player]. I'll put it on the slate, but it won't fit, so I'll write it on the wall.
+0 hearts:tilda>=9 => tilda.co.6 cat=tier :: Thank you, [player]. There. I've said it, and it's not going on the slate. Some things stay off the books.
 0 hearts:tilda>=9 => tilda.co.7 cat=tier :: The village isn't shrinking. I counted again. It was only me, being foolish with a pencil.
 0 hearts:tilda>=9 => tilda.co.8 cat=tier tag=wholesome :: When I think of a full shop, I think of you in the doorway, pretending to browse.
 

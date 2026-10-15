@@ -19,8 +19,8 @@ addto npc.felix.talk
 
 # ---- weekdays ----
 0 weekday:mon => felix.mon.1 cat=weekday :: Monday. Fresh catch, fresh gossip. The first goes faster than the second.
-0 weekday:tue => felix.tue.1 cat=weekday :: Tuesday. Wren's shut, so I sit with my own cooking. A sad fish, but mine.
-0 weekday:wed => felix.wed.1 cat=weekday :: Wednesday. Marcus is on the bench with Bram. Two silences. I can almost hear them from the dock.
+0 weekday:tue => felix.tue.1 cat=weekday :: Tuesday. Saloon's shut, so Wren sits on my pier and listens to the water. Says it's quieter than cider. It isn't.
+0 weekday:wed => felix.wed.1 cat=weekday :: Wednesday. Bram sits with Marcus and says nothing. Thursday my hooks are mended. I've stopped asking how.
 0 weekday:thu => felix.thu.1 cat=weekday :: Thursday. Stall's shut. I'm on the pond. If you find me, bring bait and an opinion.
 0 weekday:fri => felix.fri.1 cat=weekday :: Friday. Everyone wants fish for the weekend. I've named the good ones. They're not for sale.
 0 weekday:sat => felix.sat.1 cat=weekday :: Saturday. Market day. The fish and I attract a crowd. It's mostly curious cats.
@@ -51,24 +51,31 @@ addto npc.felix.talk
 0 map:Saloon => felix.here.2 cat=place tag=funny :: Wren calls this "Felix's stool". I call it "the stool". Wren's right. It remembers me.
 
 # ---- friends (3 to 5 hearts) ----
-0 hearts:felix>=3 && hearts:felix<6 => felix.fr.1 cat=tier :: You're getting the hang of this, [player]. The fish are starting to like you.
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.1 cat=tier :: The fish talk about you now. "Mornin'," they say, "where's the one with the hat?" I say coming.
 0 hearts:felix>=3 && hearts:felix<6 => felix.fr.2 cat=tier tag=funny :: You should've seen the other one. Last week's. It was this big. Bigger now.
-0 hearts:felix>=3 && hearts:felix<6 => felix.fr.3 cat=tier :: Take my spot tomorrow. I've a feeling about the tide. It's usually wrong. Yours won't be.
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.3 cat=tier :: The pond's got a rock with your shape worn in it. That's not true yet. Give it a year.
 0 hearts:felix>=3 && hearts:felix<6 => felix.fr.4 cat=tier :: Fishing's mostly sitting. Good company makes the sitting count.
-0 hearts:felix>=3 && hearts:felix<6 => felix.fr.5 cat=tier tag=wholesome :: I've fished alone a long time. It's nicer with two lines in the water.
+0 hearts:felix>=3 && hearts:felix<6 => felix.fr.5 cat=tier tag=wholesome :: Two lines in the water and a flask between. That's the whole prayer, far as I know.
+0 ~ => felix.tip.1 cat=reactive :: Tilda's hated fish thirty years. Strawberries, though. She'd fight you for strawberries. Her birthday's the twelfth of spring.
+0 hearts:felix>=3 => felix.tip.2 cat=reactive :: Elara sits on the pier Saturdays, looking out. Not down, out. That's not a fishing look. That's a leaving look.
+0 hearts:felix>=3 => felix.tip.3 cat=reactive :: Wren asks what's past the point every spring. I tell her: more water. She wants to see it anyway. She won't say so.
+0 ~ => felix.tip.4 cat=reactive :: Ione sets a sea book aside for me every winter. Says she's never seen the sea in snow. Someone should take her.
+0 ~ => felix.tip.5 cat=reactive :: Piper's birthday is the fifth of spring. I bring her a sunflower. Don't know why. It's the only time she's quiet.
+0 ~ => felix.tip.6 cat=reactive :: Dorian comes by the pond at dawn and looks under roots. Mushrooms, he says. Leave him one on a stump and he'll leave you two.
+0 ~ => felix.tip.7 cat=reactive tag=funny :: Bram fixes my hooks and says it's the salt air. Salt air doesn't file a barb. Bring him a mushroom. He grunts the good grunt.
 
 # ---- close friends (6 to 8 hearts) ----
-0 hearts:felix>=6 && hearts:felix<9 => felix.cl.1 cat=tier :: You've the patience of a heron. That's the best compliment I've got.
+0 hearts:felix>=6 && hearts:felix<9 => felix.cl.1 cat=tier :: You wait like the pond's got all day. It has. You learned that quicker than I did.
 0 hearts:felix>=6 && hearts:felix<9 => felix.cl.2 cat=tier tag=wholesome :: Dawn's the best hour. It's better with someone to say so. I'm saying so.
 0 hearts:felix>=6 && hearts:felix<9 => felix.cl.3 cat=tier :: Tilda says I smile more since you arrived. I told her it's the tide. She didn't buy it.
 0 hearts:felix>=6 && hearts:felix<9 => felix.cl.4 cat=tier :: I told the sturgeon about you. It stayed on the bottom. A good sign.
 0 hearts:felix>=6 && hearts:felix<9 => felix.cl.5 cat=tier :: The pond has a secret or two. I'll share one. Not today. Soon.
 
 # ---- confidant (9 and 10 hearts) ----
-0 hearts:felix>=9 => felix.co.1 cat=tier tag=wholesome :: I fished alone my whole life. This is better. Don't tell the fish. They're very sensitive.
+0 hearts:felix>=9 => felix.co.1 cat=tier tag=wholesome :: Forty years of dawns on my own. Then you. I'd have waited forty more. Glad I didn't have to.
 0 hearts:felix>=9 => felix.co.2 cat=tier :: You're the best thing I've pulled up. And I've pulled up a boot with a clock in it.
-0 hearts:felix>=9 => felix.co.3 cat=tier tag=funny :: If I wrote you a letter, it'd be about the one that got away. It'd run to eleven pages.
-0 hearts:felix>=9 => felix.co.4 cat=tier :: Thank you, [player]. That's the whole tide table. I put your name next to dawn.
+0 hearts:felix>=9 => felix.co.3 cat=tier tag=funny :: I'd not write you a letter. I'd chalk it on the stall board. "Gone fishing. Back with company."
+0 hearts:felix>=9 => felix.co.4 cat=tier :: Thank you, [player]. Chalked your name next to dawn on the tide table. In pencil. Ink's for the sturgeon.
 
 # ---- moods ----
 1 mood:felix=lonely => felix.lonely.1 cat=mood :: Quiet pond. Quiet stall. I talked to a minnow. It had no opinions.

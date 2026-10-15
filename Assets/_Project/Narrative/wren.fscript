@@ -35,8 +35,8 @@ addto npc.wren.talk
 0 weekday:tue => wren.tue.1 cat=weekday :: Tuesday's my day off. I spend it in a hammock, listening to rumors blow past.
 0 weekday:tue => wren.tue.2 cat=weekday :: The saloon's shut on Tuesdays. Don't tell me what I'm missing. I'll make it up.
 0 weekday:wed => wren.wed.1 cat=weekday :: Wednesday, the quietest night. I get my best material from the quiet.
-0 weekday:wed => wren.wed.2 cat=weekday :: Midweek. Everyone's done pretending they're organized.
-0 weekday:thu => wren.thu.1 cat=weekday :: Thursday, and the whole room's gearing up for the weekend. I can smell the ambition.
+0 weekday:wed => wren.wed.2 cat=weekday :: Midweek. Everyone's done pretending they're organized. Marcus's birthday is the ninth of summer, since you asked. Bring him a pumpkin.
+0 weekday:thu => wren.thu.1 cat=weekday :: Thursday. Dorian's birthday is the eleventh of winter, and he'll hide. Leave a mushroom on Marcus's step. It'll find him.
 0 weekday:thu => wren.thu.2 cat=weekday :: Piper does her new songs on Thursdays. Some of them even end.
 0 weekday:fri => wren.fri.1 cat=weekday :: Friday! The good stool's reserved. For anyone but Felix.
 0 weekday:fri => wren.fri.2 cat=weekday :: Friday night, the saloon sings. Not well. Enthusiastically.
@@ -48,7 +48,7 @@ addto npc.wren.talk
 # ---- weather ----
 0 weather:sunny => wren.sunny.1 cat=weather :: A bright day means a thin crowd. Everyone's outside pretending they enjoy it.
 0 weather:sunny => wren.sunny.2 cat=weather :: Sunny out. The cider tastes better in the shade, I promise.
-0 weather:sunny => wren.sunny.3 cat=weather :: Sunlight on the bar, dust in the air. It's like a very small stage.
+0 weather:sunny => wren.sunny.3 cat=weather :: Sunny out, and Tilda's got the strawberries in the window. Put one on her counter and watch the whole shop stop.
 1 weather:rain => wren.rain.3 cat=weather :: Rain tapping the window and a full house inside. That's a good night's math.
 1 weather:rain => wren.rain.4 cat=weather tag=funny :: Everyone comes in wet and apologizing. I hand out towels and opinions.
 1 weather:storm => wren.storm.1 cat=weather :: A storm like this and every story gets taller. By midnight it's a hurricane.
@@ -87,6 +87,13 @@ addto npc.wren.talk
 0 hearts:wren>=3 && hearts:wren<6 => wren.fr.6 cat=tier :: Sit, sit. I've got a rumor with your name on it. Kidding. Mostly.
 0 hearts:wren>=3 && hearts:wren<6 => wren.fr.7 cat=tier :: Tilda says you're the best thing to happen to the village. I told her to get in line.
 0 hearts:wren>=3 && hearts:wren<6 => wren.fr.8 cat=tier tag=wholesome :: The stool by the fire has a dip in it now. It's shaped like you.
+0 hearts:wren>=2 => wren.tip.1 cat=reactive :: Felix won't say it, so I will: he wants company at dawn. Bring coffee. He'll pretend you brought the fish.
+0 hearts:wren>=2 => wren.tip.2 cat=reactive :: Between us, Bram would walk a mile for a truffle. Dorian knows where they grow. Neither of them will tell you.
+0 ~ => wren.tip.3 cat=reactive :: Piper's birthday is the fifth of spring. She'll say she doesn't want a fuss. She wants a fuss. Bring jam.
+0 hearts:wren>=3 => wren.tip.5 cat=reactive :: Hazel reads aloud when she thinks the library's empty. I've stood outside the door. Don't tell her. It was lovely.
+0 hearts:wren>=3 => wren.tip.6 cat=reactive :: Juno wants to make one thing that isn't Bram's pattern. Everyone knows. Nobody says. That's a village for you.
+0 hearts:wren>=3 => wren.tip.8 cat=reactive :: Elara keeps a map behind the clinic kettle. Harbors, circled. Between us, she's never been past the point either.
+0 ~ => wren.tip.9 cat=reactive :: Ione's birthday is the twentieth of winter. Between us, she wants a pearl. She'd never say pearl. She'd say "oh, you shouldn't."
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:wren>=6 && hearts:wren<9 => wren.cl.1 cat=tier :: I told a story about you last night. It was all true. That's how I know I like you.

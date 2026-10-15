@@ -782,6 +782,50 @@
       ]
     },
     {
+      "id": "bram.tip.2",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.tip.2.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.tip.3",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.tip.3.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.tip.6",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.tip.6.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.tip.7",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.tip.7.0"
+        }
+      ]
+    },
+    {
       "id": "bram.cl.2",
       "start": "n0",
       "nodes": [
@@ -1927,6 +1971,29 @@
           "dialogue": "bram.fr.8",
           "tag": "wholesome",
           "category": "tier"
+        },
+        {
+          "condition": "hearts:bram>=3",
+          "priority": 0,
+          "dialogue": "bram.tip.2",
+          "category": "reactive"
+        },
+        {
+          "priority": 0,
+          "dialogue": "bram.tip.3",
+          "category": "reactive"
+        },
+        {
+          "condition": "hearts:bram>=6",
+          "priority": 0,
+          "dialogue": "bram.tip.6",
+          "category": "reactive"
+        },
+        {
+          "condition": "hearts:bram>=3",
+          "priority": 0,
+          "dialogue": "bram.tip.7",
+          "category": "reactive"
         },
         {
           "condition": "hearts:bram>=6 && hearts:bram<9",

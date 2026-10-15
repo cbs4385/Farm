@@ -19,12 +19,12 @@ addto npc.marcus.talk
 
 # ---- weekdays ----
 0 weekday:mon => marcus.mon.1 cat=weekday :: Monday. Clean bench, sharp chisel. Best day for a first cut.
-0 weekday:tue => marcus.tue.1 cat=weekday :: Tuesday. Wren's closed, so the saloon's loud in my ears anyway. I imagine it.
+0 weekday:tue => marcus.tue.1 cat=weekday :: Tuesday. Dorian's home early when the saloon's shut. We sit. Twelve words a week, and most are "tea."
 0 weekday:wed => marcus.wed.1 cat=weekday :: Wednesday. Shut. I'm on a bench with Bram. Neither of us has said a word. It's good.
-0 weekday:thu => marcus.thu.1 cat=weekday :: Thursday. Felix is off. His boat needs a plank. It always does.
+0 weekday:thu => marcus.thu.1 cat=weekday :: Thursday. Felix's boat is in. It needs a plank. It always needs a plank. He never asks. I bring one.
 0 weekday:fri => marcus.fri.1 cat=weekday :: Friday. Orders due Saturday. Sawdust to the ankles. A fair price for being useful.
 0 weekday:sat => marcus.sat.1 cat=weekday :: Saturday. I sweep. Then I plan Monday. Then I sweep again. It's restful.
-0 weekday:sun => marcus.sun.1 cat=weekday :: Sunday. I fix things nobody asked about. It's how I say good morning.
+0 weekday:sun => marcus.sun.1 cat=weekday :: Sunday. I walk past every roof I've built and look at the ridge lines. None have moved. Good.
 
 # ---- weather ----
 0 weather:sunny => marcus.sunny.1 cat=weather :: Good drying weather. Boards behave. So do I.
@@ -52,15 +52,22 @@ addto npc.marcus.talk
 0 map:Carpenter => marcus.here.3 cat=place :: The chair by the stove is Dorian's. He doesn't say so. The cushion does.
 
 # ---- friends (3 to 5 hearts) ----
-0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.1 cat=tier :: You've got good hands, [player]. I noticed when you held the plank.
+0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.1 cat=tier :: You hold a plank like it matters. Most people hold it like a plank.
 0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.2 cat=tier tag=funny :: Tilda says I'm "reliable". I measured. She's right. I was surprised.
 0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.3 cat=tier :: Come by the bench Wednesday. Bram won't say hello. That's his way of saying hello.
 0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.4 cat=tier :: I don't build for strangers often. You're not one. Say what you need.
 0 hearts:marcus>=3 && hearts:marcus<6 => marcus.fr.5 cat=tier tag=wholesome :: A tool in a good hand is half a conversation. You're the other half.
+0 hearts:marcus>=3 => marcus.tip.1 cat=reactive :: Dorian keeps a notebook under his pillow. I don't look. He draws. I hear the pencil through the wall.
+0 ~ => marcus.tip.2 cat=reactive :: Bram's birthday is the fourth of fall. He'll want nothing. Roasted roots and silence. I bring both.
+0 ~ => marcus.tip.3 cat=reactive :: Tilda's birthday is the twelfth of spring. She says a shop has no birthday. Bring a strawberry. The shop shuts for a minute.
+0 ~ => marcus.tip.4 cat=reactive :: Dr. Penn says rest. She doesn't. The clinic light's on past ten. Somebody should prescribe her something.
+0 hearts:marcus>=3 => marcus.tip.5 cat=reactive :: Juno wants to make one thing that's hers. She measures mine when she thinks I'm not looking. I leave the good pencil out.
+0 hearts:marcus>=4 => marcus.tip.6 cat=reactive :: Bram writes letters on the bench Wednesdays. Long ones. He takes them home again. I don't ask.
+0 hearts:marcus>=3 => marcus.tip.7 cat=reactive :: Wren bets on my roof. I let her. If it pays out, she says she'll see the sea with it. She won't say which sea.
 
 # ---- close friends (6 to 8 hearts) ----
-0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.1 cat=tier :: I built half of this village. [farm] is the part I'd keep if I had to choose.
-0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.2 cat=tier tag=wholesome :: A good neighbor is worth more than good lumber. I've checked. Twice.
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.1 cat=tier :: I built the shed at [farm] as a job. I check on it as a neighbor. It's holding.
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.2 cat=tier tag=wholesome :: Good lumber warps if you rush it. So do friendships. I didn't rush this one.
 0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.3 cat=tier :: Measure twice. Then ask someone you trust. That's you, now.
 0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.4 cat=tier :: {if flag:hall.restored}The hall roof is fixed.{else}The hall roof is nearly fixed.{/if} There's a plan. I'm not ready to show it yet.
 0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.5 cat=tier :: Dorian leaves mushrooms on my table and says nothing. You'd get along. You already do.
@@ -68,8 +75,8 @@ addto npc.marcus.talk
 # ---- confidant (9 and 10 hearts) ----
 0 hearts:marcus>=9 => marcus.co.1 cat=tier tag=wholesome :: A building lasts if the people in it do. I'd like you in this one for a long time.
 0 hearts:marcus>=9 => marcus.co.2 cat=tier :: My father measured three times. I measure twice and trust you for the third.
-0 hearts:marcus>=9 => marcus.co.3 cat=tier tag=funny :: If I wrote you a letter it would be a blueprint. With margins.
-0 hearts:marcus>=9 => marcus.co.4 cat=tier :: Thank you, [player]. I'd carve it on a beam, but you'd say it was too much.
+0 hearts:marcus>=9 => marcus.co.3 cat=tier tag=funny :: I don't write letters. I'd build you a chair instead. It would say the same thing, and it would hold.
+0 hearts:marcus>=9 => marcus.co.4 cat=tier :: Thank you, [player]. I'd carve it on a beam. You'd tell me the beam had enough to carry.
 
 # ---- moods ----
 1 mood:marcus=lonely => marcus.lonely.1 cat=mood :: Quiet bench, quiet shop. I planed a plank thin as a leaf just to hear something.

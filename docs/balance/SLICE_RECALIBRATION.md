@@ -41,4 +41,4 @@ The "players attribute 80% of unlabelled lines to the right villager" blind test
 
 ## Regression guards in CI
 
-`StorySimulationTests` fails if repetition ever appears, if two-back repeats reach 20%, if fewer than half of lines carry a condition, if year-one coverage drops below 40% or two-year coverage below 55%, or if dead air passes 14 days. These are set at the measured level, not at the plan's targets, so they catch regressions without hiding the gap above.
+`StorySimulationTests` fails if repetition ever appears, if two-back repeats reach 20%, if fewer than half of lines carry a condition, if year-one coverage drops below 36% or two-year coverage below 49% (40% and 55% when first set; lowered on 2026-10-11 and 2026-10-12 for the goal lines, and on 2026-10-15 when the dialogue voice pass added about 80 cross-villager lines: the bot still hears one line per villager per day, so a bigger pool is a smaller share, and Bram and Juno measured 37% and 50%), or if dead air passes 14 days. These are set at the measured level, not at the plan's targets, so they catch regressions without hiding the gap above.

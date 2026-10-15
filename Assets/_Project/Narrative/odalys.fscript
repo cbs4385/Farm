@@ -19,7 +19,7 @@ addto npc.odalys.talk
 
 # ---- weekdays ----
 0 weekday:mon => odalys.mon.1 cat=weekday :: Monday. The week's complaints arrive in order of volume. I triage by tone.
-0 weekday:tue => odalys.tue.1 cat=weekday :: Tuesday. Wren's closed, so half the village has nowhere to be unwell. Quiet clinic.
+0 weekday:tue => odalys.tue.1 cat=weekday :: Tuesday. The saloon is shut, so Wren comes here and does not sit. I have prescribed sitting. She frames prescriptions.
 0 weekday:wed => odalys.wed.1 cat=weekday :: Wednesday. Marcus will be on a bench with Bram, resting his back as ordered. I've left a note regardless.
 0 weekday:thu => odalys.thu.1 cat=weekday :: Thursday. Felix's day off. His hands are chapped. He won't visit. I'll send salve.
 0 weekday:fri => odalys.fri.1 cat=weekday :: Friday. Everyone remembers their ailment before the weekend. It's a medical miracle.
@@ -52,15 +52,22 @@ addto npc.odalys.talk
 0 map:Clinic => odalys.here.3 cat=place :: The skeleton is for teaching. It also keeps the draft out of the corner.
 
 # ---- friends (3 to 5 hearts) ----
-0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.1 cat=tier :: You look well, [player]. I'd like that on record. I rarely say it out loud.
+0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.1 cat=tier :: Your color is good. Your hands are rough. Both are correct for a farmer. I approve.
 0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.2 cat=tier tag=funny :: Elara says I smiled at you. It was a muscle spasm. I'm monitoring it.
 0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.3 cat=tier :: Sit. That's the closest thing I have to a warm welcome, and I mean it.
 0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.4 cat=tier :: Prescription: one cup of tea, ten minutes' conversation, and no talking about work.
 0 hearts:odalys>=3 && hearts:odalys<6 => odalys.fr.5 cat=tier tag=wholesome :: Few patients visit when they're well. You do. It's a very good symptom.
+0 ~ => odalys.tip.1 cat=reactive :: Marcus's back and the hall roof are the same complaint. One causes the other. He knows which. Doctor's orders: finish the roof.
+0 hearts:odalys>=3 => odalys.tip.2 cat=reactive :: Elara keeps a map behind the kettle. Harbors, circled. I have not mentioned it. I moved the kettle so the steam misses it.
+0 hearts:odalys>=3 => odalys.tip.3 cat=reactive :: Hazel reads aloud to the shelves on Fridays. I diagnose stage fright. The treatment is an audience of one, applied gently.
+0 ~ => odalys.tip.4 cat=reactive :: Felix's hands crack every winter from the salt. I send salve. He sends a fish. Bring him tuna and he forgets the salve.
+0 ~ => odalys.tip.5 cat=reactive :: Ione's birthday is the twentieth of winter. She asks for nothing. Her eyes go to the snowdrops in my window. Noted.
+0 ~ => odalys.tip.6 cat=reactive tag=funny :: Juno eats peppers raw at the anvil. Medically, I disapprove. Personally, I have brought her two.
+0 ~ => odalys.tip.7 cat=reactive :: Dorian's birthday is the eleventh of winter. He will not come in. Leave wild garlic on the carpenter's step. The forest will take it.
 
 # ---- close friends (6 to 8 hearts) ----
 0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.1 cat=tier :: I trust your opinion on soil, weather and, increasingly, on me.
-0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.2 cat=tier tag=wholesome :: You remind me why I took up this work. Not the cures. The company between them.
+0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.2 cat=tier tag=wholesome :: I count the village's health in sleeps and soups. Yours are in order. It steadies me.
 0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.3 cat=tier :: Doctor's orders: take a day off. I'll take one too, and we'll compare notes.
 0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.4 cat=tier :: I don't sleep as I advise. You may report me to Elara. She keeps a list.
 0 hearts:odalys>=6 && hearts:odalys<9 => odalys.cl.5 cat=tier :: The village is healthier than it seems. I count it every night. The numbers are kind.
@@ -68,8 +75,8 @@ addto npc.odalys.talk
 # ---- confidant (9 and 10 hearts) ----
 0 hearts:odalys>=9 => odalys.co.1 cat=tier tag=wholesome :: A doctor should be afraid of nothing. I am afraid you'll stop visiting. I've prescribed myself courage.
 0 hearts:odalys>=9 => odalys.co.2 cat=tier :: I measure the village by its laughter. Lately it's louder, and half of it is yours.
-0 hearts:odalys>=9 => odalys.co.3 cat=tier tag=funny :: If I wrote you a letter, it would be a case history. Mostly good. A few notes on posture.
-0 hearts:odalys>=9 => odalys.co.4 cat=tier :: Thank you, [player]. That's the whole prescription. Take it daily.
+0 hearts:odalys>=9 => odalys.co.3 cat=tier tag=funny :: I do not write letters. I write notes in margins. Yours would say: "Thriving. Keep under observation."
+0 hearts:odalys>=9 => odalys.co.4 cat=tier :: Thank you, [player]. I have written it on your chart and underlined it. I never underline.
 
 # ---- moods ----
 1 mood:odalys=lonely => odalys.lonely.1 cat=mood :: Quiet clinic. I reorganized the shelves. Then I reorganized them back. It passed the time.

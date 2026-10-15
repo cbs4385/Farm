@@ -19,7 +19,7 @@ addto npc.ione.talk
 
 # ---- weekdays ----
 0 weekday:mon => ione.mon.1 cat=weekday :: Monday. New week, same shelves. I rearranged one. Hazel noticed in under a minute.
-0 weekday:tue => ione.tue.1 cat=weekday :: Tuesday. Wren's saloon is shut, so the saloon's gossip arrives here. Slightly bound.
+0 weekday:tue => ione.tue.1 cat=weekday :: Tuesday. Wren's shut, so Hazel comes in early and writes in the margins of the day. I don't look. I'm glad.
 0 weekday:wed => ione.wed.1 cat=weekday :: Wednesday. Marcus returned a book on joinery. Early. Without a word. Bram did the same, yesterday.
 0 weekday:thu => ione.thu.1 cat=weekday :: Thursday. Felix's day off. He borrows tide tables and returns them smelling of fish.
 0 weekday:fri => ione.fri.1 cat=weekday :: Friday. Everyone remembers they wanted a book for the weekend. I keep a few ready.
@@ -52,24 +52,32 @@ addto npc.ione.talk
 0 map:Library => ione.here.3 cat=place :: I set something aside for you. It's on the desk. It's very short. It's very good.
 
 # ---- friends (3 to 5 hearts) ----
-0 hearts:ione>=3 && hearts:ione<6 => ione.fr.1 cat=tier :: There's a book on the desk with your name on a slip. Farming. Beautifully drawn.
-0 hearts:ione>=3 && hearts:ione<6 => ione.fr.2 cat=tier :: Talking to you is easy. I'd forgotten conversation could be restful.
+0 hearts:ione>=3 && hearts:ione<6 => ione.fr.1 cat=tier :: The slip on the desk has your name on it again. A book about hedgerows. Someone drew the birds by hand.
+0 hearts:ione>=3 && hearts:ione<6 => ione.fr.2 cat=tier :: You ask a question and wait for the answer. Most people wait for the next question. It's restful.
 0 hearts:ione>=3 && hearts:ione<6 => ione.fr.3 cat=tier tag=funny :: Hazel says I smile at you more than at the books. The books are fine with it.
 0 hearts:ione>=3 && hearts:ione<6 => ione.fr.4 cat=tier :: You return things on time. I noticed. I'm quietly delighted.
 0 hearts:ione>=3 && hearts:ione<6 => ione.fr.5 cat=tier tag=wholesome :: A reader who stays for tea is the best kind. I'll put the kettle on.
+0 hearts:ione>=3 => ione.tip.1 cat=reactive :: Bram's set-aside book is a book of letters. He's never borrowed it. He touches the spine when he returns the others.
+0 hearts:ione>=3 => ione.tip.2 cat=reactive :: Elara's set-aside is an atlas. She reads it at the desk and never takes it home. Taking it home would be deciding.
+0 ~ => ione.tip.3 cat=reactive :: Felix's is a book about a sturgeon. He borrows it each winter and returns it the same week, smelling of the pond.
+0 ~ => ione.tip.4 cat=reactive :: Hazel's birthday is the eighth of fall. I tell everyone. She'd like blackberries, and for nobody to notice her eating them.
+0 hearts:ione>=3 => ione.tip.5 cat=reactive :: Dorian returns field guides with pressed leaves inside. He draws, I think. The pencil marks are too careful for notes.
+0 hearts:ione>=3 => ione.tip.6 cat=reactive :: Wren's set-aside is a book about the coast. It's been on the shelf for years. She looks at it. She never asks.
+0 ~ => ione.tip.7 cat=reactive :: Dr. Penn's birthday is the third of winter. She'll say she has no time. She has an hour on Sundays. Elderflower, and a short book.
+0 ~ => ione.tip.8 cat=reactive :: Marcus likes pumpkins, which he won't tell you. Every fall he borrows the carving book and carves one for the hall step. He doesn't measure it.
 
 # ---- close friends (6 to 8 hearts) ----
-0 hearts:ione>=6 && hearts:ione<9 => ione.cl.1 cat=tier :: I once read about farms like [farm]. None was as good as the real one.
-0 hearts:ione>=6 && hearts:ione<9 => ione.cl.2 cat=tier tag=wholesome :: Visit whenever, with or without a question. The shelves appreciate the company.
+0 hearts:ione>=6 && hearts:ione<9 => ione.cl.1 cat=tier :: Farming books lie a little. The real thing has more mud and better light. I've seen yours.
+0 hearts:ione>=6 && hearts:ione<9 => ione.cl.2 cat=tier tag=wholesome :: Come in without a question sometime. Sit by the window. The shelves like being looked at.
 0 hearts:ione>=6 && hearts:ione<9 => ione.cl.3 cat=tier :: I worry sometimes there are more stories here than readers. You help the numbers.
 0 hearts:ione>=6 && hearts:ione<9 => ione.cl.4 cat=tier :: There's a back shelf I don't dust when people are looking. Ask me again, later.
 0 hearts:ione>=6 && hearts:ione<9 => ione.cl.5 cat=tier :: The sea in winter is the one book I've never finished. I'd like to read it with you.
 
 # ---- confidant (9 and 10 hearts) ----
 0 hearts:ione>=9 => ione.co.1 cat=tier tag=wholesome :: I set something aside for you, years ago, before we'd met. It's the shelf. It's yours.
-0 hearts:ione>=9 => ione.co.2 cat=tier :: I used to count the readers. Now I count the days you come in.
-0 hearts:ione>=9 => ione.co.3 cat=tier tag=funny :: If I wrote you a letter, it would be a very long footnote to a very short sentence.
-0 hearts:ione>=9 => ione.co.4 cat=tier :: Thank you, [player]. The whole library knows. It's trying to be quiet about it.
+0 hearts:ione>=9 => ione.co.2 cat=tier :: I used to count readers at closing. Now I count the chair by the window. It's always one, and it's always yours.
+0 hearts:ione>=9 => ione.co.3 cat=tier tag=funny :: I'd not write you a letter. I'd set a book aside with a slip in it. The slip would say "this one."
+0 hearts:ione>=9 => ione.co.4 cat=tier :: Thank you, [player]. I've shelved it under "kept." It's a small section. It's growing.
 
 # ---- moods ----
 1 mood:ione=lonely => ione.lonely.1 cat=mood :: A quiet week. I read the dictionary aloud. It's a very good listener.
@@ -81,7 +89,7 @@ addto npc.ione.talk
 # ---- the world and the farm ----
 0 farm:crops>=5 => ione.farm.1 cat=reactive :: Your fields are coming along. I've a book on soil that's mostly poetry. You'll like it.
 0 farm:animals>=1 => ione.farm.2 cat=reactive :: Animals? I'll set a book aside on husbandry. It's a lovely word for a hard job.
-2 festival.in:<=3 && festival.in:>0 => ione.fest.1 cat=reactive :: Festival soon. The library will be nearly empty. I'll be at the soup, with a book.
+2 festival.in:<=3 && festival.in:>0 => ione.fest.1 cat=reactive :: Festival soon. I'll bring a book and not read it. That's how a librarian goes to a party.
 2 festival.in:==0 => ione.fest.2 cat=reactive :: Festival day. I've left a sign: "Back after pie." It will be true for hours.
 2 birthday.in:ione<=3 && birthday.in:ione>0 => ione.bday.1 cat=reactive :: My birthday's near. I don't make a fuss. I read a new book on the day. That's the fuss.
 3 birthday.in:ione==0 => ione.bday.2 cat=reactive expr=embarrassed emote=sweat :: You remembered. I'll put a bookmark here, in this moment. Thank you.
