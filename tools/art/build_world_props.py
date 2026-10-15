@@ -160,4 +160,11 @@ def mail():
 
 if __name__ == '__main__':
     chest(); toolrack(); bench(); board(); mail()
+    # Final art: the placeholder generator must never draw over these (it did, once: the rack went back to the plain picture).
+    final = os.path.join(OUT, 'final_art.txt')
+    have = set(open(final).read().split())
+    with open(final, 'a') as f:
+        for n in ('obj_toolrack', 'item_machine_toolrack'):
+            if n not in have: f.write(n + '
+')
     print('wrote obj_chest, obj_toolrack, prop_bench, obj_board, fx_mail in', OUT)

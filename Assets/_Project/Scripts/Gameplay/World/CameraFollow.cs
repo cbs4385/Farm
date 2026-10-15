@@ -83,7 +83,7 @@ namespace Farm.Gameplay
                 var halfHeight = _camera.orthographicSize;
                 var halfWidth = halfHeight * _camera.aspect;
                 p.x = Clamp(p.x, _bounds.min.x, _bounds.max.x, halfWidth);
-                p.y = Clamp(p.y, _bounds.min.y, _bounds.max.y, halfHeight);
+                p.y = Clamp(p.y, _bounds.min.y - BottomMargin(halfHeight), _bounds.max.y, halfHeight);          // black beyond the map's lower edge, so the item bar never covers the player or what they aim at
             }
             if (_shakeLeft > 0f)
             {
@@ -94,6 +94,11 @@ namespace Farm.Gameplay
             }
             transform.position = new Vector3(p.x, p.y, transform.position.z);
         }
+
+        // The item bar fills the bottom of the screen (its top is about a tenth of the way up); the view is allowed this far past the bottom edge of every map so that
+        // the farmer and the square they aim at stay above it (playtest 2026-10-14). A share of the view's height, so it holds at every window size. (pure)
+        public const float BottomMarginShare = 0.13f;
+        public static float BottomMargin(float halfHeight) => halfHeight * 2f * BottomMarginShare;
 
         static float Clamp(float value, float min, float max, float halfView)
         {

@@ -8,6 +8,8 @@ From the playtesters' list of the same day (fourth list).
 - **Fishing no longer covers the item bar.** The fishing panel sits above the bar. It always shows what is happening (waiting, a bite, reel it in), the bar and, when the backpack has no empty slot, a warning that a catch that does not stack will be lost. The sentences that explain the controls can be put away and brought back with the tab-back key (Q, or the left shoulder button); the choice is saved.
 - **Help answers the common questions.** New topics: Energy and health, A full backpack, Cooking, Mining, Fishing, Monsters; the health topic now says how to recover. The Help tab has a search box.
 - **Tips when you first meet something.** Once each: when health is low, when the backpack is full, the first time in the mine, and when a bat comes near. They stay on screen longer and wrap to fit. "Tutorial tips" in the options turns them off.
+- **The item bar never covers the farmer.** Every map may now show black below its lower edge, so the farmer and the square they aim at always stay above the bar.
+- **The tool rack keeps its own picture.** Rebuilding the pictures had put the plain placeholder back over it; it is now marked as final art.
 - **Monsters show when to hit them.** A monster that has just struck turns pale blue (slow to strike again: the time to swing) and turns yellow when it is about to strike; it still flashes when hit.
 
 ## 0.6.6 (2026-10-14)

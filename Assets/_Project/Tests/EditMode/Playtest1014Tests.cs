@@ -301,5 +301,24 @@ namespace Farm.Tests
             Assert.Greater(HudView.ToastSeconds(new string('x', 200)), 6f);
             Assert.LessOrEqual(HudView.ToastSeconds(new string('x', 5000)), 9f);
         }
+
+        [Test]
+        public void TheCamera_MayShowBlackBelowTheMap_SoTheItemBarNeverCoversTheFarmer()
+        {
+            Assert.AreEqual(0f, CameraFollow.BottomMargin(0f));
+            var halfHeight = 8.4375f;                                      // a 1080 line window at 8 pixels to the tile... any size: the margin is a share of the view
+            var margin = CameraFollow.BottomMargin(halfHeight);
+            Assert.AreEqual(halfHeight * 2f * CameraFollow.BottomMarginShare, margin, 0.0001f);
+            Assert.Greater(CameraFollow.BottomMarginShare, 0.11f, "more than the item bar's own height (about a tenth of the screen)");
+            Assert.Less(CameraFollow.BottomMarginShare, 0.25f, "and not a quarter of the screen thrown away");
+        }
+
+        [Test]
+        public void TheToolRackPicture_IsFinalArt_SoRegeneratingPlaceholdersLeavesItAlone()
+        {
+            var listed = File.ReadAllText("Assets/_Project/Art/Placeholders/final_art.txt").Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries);          // on any white space
+            CollectionAssert.Contains(listed, "obj_toolrack");
+            CollectionAssert.Contains(listed, "item_machine_toolrack");
+        }
     }
 }
