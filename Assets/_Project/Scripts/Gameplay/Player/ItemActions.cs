@@ -17,7 +17,8 @@ namespace Farm.Gameplay
             _c = context; _fishing = fishing; _placement = placement;
         }
 
-        public void UseTool(ToolType tool)
+        // Returns true when the tool did its work (only the axe and pickaxe swings are repeated by holding the button).
+        public bool UseTool(ToolType tool)
         {
             if (_c.Body.TryGetComponent<WalkBob>(out var bob) && _c.Body.TryGetComponent<PlayerController>(out var pc)) { bob.Lunge(pc.Facing); var at = _c.Target - _c.Map.WorldToCell(_c.Player.CellSamplePoint); bob.Strike(tool, new Vector2Int(at.x, at.y)); }
             var cell = _c.Target;
@@ -25,67 +26,87 @@ namespace Farm.Gameplay
             var tier = _c.Session.ToolTier(ToolModel.ItemId(tool));
             var cost = ToolModel.EnergyCost(PlayerActions.EnergyCost(tool), tier);
 
+            var acted = false;
+
             switch (tool)
             {
                 case ToolType.Hoe:
-                    if (grid.IsTilled(cell.x, cell.y)) { _c.Session.Toast(L.Get("toast.untill_hint")); return; }
-                    if (_c.Session.GetNodes(_c.Map.MapId).Has(cell.x, cell.y)) { _c.Session.Toast(L.Get("toast.clear_first")); return; }
-                    if (!_c.Map.IsTillable(cell)) { _c.Session.Toast(L.Get("toast.cannot_till")); return; }
-                    if (!_c.SpendEnergy(cost)) return;
+                    if (grid.IsTilled(cell.x, cell.y)) { _c.Session.Toast(L.Get("toast.untill_hint")); return false; }
+                    if (_c.Session.GetNodes(_c.Map.MapId).Has(cell.x, cell.y)) { _c.Session.Toast(L.Get("toast.clear_first")); return false; }
+                    if (!_c.Map.IsTillable(cell)) { _c.Session.Toast(L.Get("toast.cannot_till")); return false; }
+                    if (!_c.SpendEnergy(cost)) return false;
                     grid.Till(cell.x, cell.y);
                     if (_c.Map.MapId == MapIds.Village) _c.Session.Publish(new VillageDamaged(cell.x, cell.y, true, VillageDamage.Soil));
                     _c.Session.AddVar(QuestLog.Stats.Tilled, 1);
                     AudioService.PlayIfAvailable(Sfx.Hoe);
                     ActionPuff.Burst(_c.Map.CellCenter(cell), new Color(0.45f, 0.30f, 0.16f), 3, Fx.DigDirt);
+                    acted = true;
                     break;
 
                 case ToolType.WateringCan:
-                    if (!grid.IsTilled(cell.x, cell.y)) return;
-                    if (grid.TryGetTile(cell.x, cell.y, out var t) && t.Watered) return;
-                    if (!_c.SpendEnergy(cost)) return;
+                    if (!grid.IsTilled(cell.x, cell.y)) return false;
+                    if (grid.TryGetTile(cell.x, cell.y, out var t) && t.Watered) return false;
+                    if (!_c.SpendEnergy(cost)) return false;
                     grid.Water(cell.x, cell.y);
                     _c.Session.AddVar(QuestLog.Stats.Watered, 1);
                     AudioService.PlayIfAvailable(Sfx.Water);
                     ActionPuff.Burst(_c.Map.CellCenter(cell), new Color(0.35f, 0.65f, 0.95f), 3, Fx.WaterDrop);
+                    acted = true;
                     break;
 
                 case ToolType.Rod:
                     _fishing.Cast(cell);
-                    return;
+                    return false;
 
                 case ToolType.Hammer:
                     _c.Body.GetComponent<HammerMode>()?.Use(cell);
-                    return;
+                    return false;
 
                 case ToolType.Sword:
                     var held = _c.Session.Backpack.Get(_c.Session.State.SelectedHotbar);
                     var combat = _c.Body.GetComponent<PlayerCombat>();
-                    if (combat != null && held != null) combat.Swing(held.ItemId, _c.Map.CellCenter(cell));
-                    return;
+                    return combat != null && held != null && combat.Swing(held.ItemId, _c.Map.CellCenter(cell));
 
                 case ToolType.Axe:
                 case ToolType.Pickaxe:
                 case ToolType.Scythe:
                     // The axe and pickaxe take a placed chest, machine or sprinkler back (no energy needed).
-                    if (tool != ToolType.Scythe && _placement.TryPickUp(cell)) return;
+                    if (tool != ToolType.Scythe && _placement.TryPickUp(cell)) return false;
                     cost = Mathf.Max(1, Mathf.RoundToInt(ToolModel.EnergyCost(PlayerActions.EnergyCost(tool), tier) * Professions.EnergyMultiplier(_c.Session.State)));
                     if (tool == ToolType.Scythe && TryUprootSapling(cell)) break;
                     if (tool == ToolType.Scythe && TryUproot(cell)) break;
                     if (tool == ToolType.Scythe && TryClearWithered(cell, cost)) break;
                     if (tool == ToolType.Scythe && TryPullCrop(cell, cost)) break;
                     if (tool == ToolType.Scythe && TryUntill(cell, cost)) break;
-                    if (!SwingAtNode(tool, tier, cost, cell)) return;
+                    if (!SwingAtNode(tool, tier, cost, cell)) return false;
                     _c.View.RefreshNode(cell);
+                    acted = true;
                     break;
 
                 default:
-                    return;
+                    return false;
             }
             _c.View.RefreshCell(cell);
 
             // Lets other systems react to the player finishing an action that cost energy (for example the late-night
             // stay-awake check, T-046).
             if (cost > 0) _c.Session.Bus.Publish(new EnergyActionCompleted(tool.ToString(), cost));
+            return acted;
+        }
+
+        // Holding the button swings again only at a node that is still there, that this tool works and that it is strong enough for (nothing is shown or said when it is not).
+        public bool CanActAgain(ToolType tool, Vector3Int cell)
+        {
+            switch (tool)
+            {
+                case ToolType.Axe:
+                case ToolType.Pickaxe:
+                    if (!_c.Session.GetNodes(_c.Map.MapId).TryGet(cell.x, cell.y, out var node)) return false;
+                    var def = _c.Session.Nodes.Get(node.TypeId);
+                    return def != null && def.Tool == tool && _c.Session.ToolTier(ToolModel.ItemId(tool)) >= def.MinToolTier;
+                default:
+                    return false;
+            }
         }
 
         // The scythe lifts a sapling (a planted acorn) back out of the ground, and the acorn returns to the backpack (playtest 2026-10-14: a tree planted in the wrong place could not be moved).

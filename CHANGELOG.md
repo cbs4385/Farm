@@ -2,6 +2,10 @@
 
 ## Unreleased (after 0.6.9)
 
+Hold the button to keep swinging (playtester: "anyway we could press and hold instead of mult clicking on the axe and pickaxe?").
+
+- **Hold the tool button and the axe or pickaxe keeps swinging.** With the mouse button, X or a pad button held down, the next swing starts as soon as the last one is over (every 0.4 seconds, never faster than the swing). It stops when you let go, when the tree or rock is gone, when you run out of energy, when a menu or dialogue opens, or when you walk. A single click is one swing, as before. The other tools are not repeated. The Help text for the axe, pickaxe and mining says so.
+
 Paths and roads, following the forest trail of 0.6.8.
 
 - **The farm's path winds and is one cell wide.** The path from the farmhouse door and east to the village is a single cell wide (never two abreast) and now bends and steps sideways instead of running as two straight lines. It still begins at the door, ends at the way out to the village, and keeps clear of the house, the shipping bin and the mailbox.

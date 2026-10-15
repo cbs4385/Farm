@@ -30,6 +30,7 @@ namespace Farm.Gameplay
         PlacementActions _placement;
         ItemActions _items;
         HandInteraction _hand;
+        readonly ToolRepeat _repeat = new ToolRepeat();
 
         // Sits the player on a seat (SitSpot): they rest there until they move.
         public void Sit(SitSpot spot)
@@ -79,7 +80,7 @@ namespace Farm.Gameplay
             _aim.Update(ui);
             if (_cursor != null) _cursor.position = _map.CellCenter(_aim.Target);
 
-            if (_input.GameplayBlocked) return;
+            if (_input.GameplayBlocked) { _repeat.Cancel(); return; }
 
             var capacity = Session.Backpack.Capacity;
             for (var i = 0; i < InputNames.HotbarSlots; i++)
@@ -92,10 +93,12 @@ namespace Farm.Gameplay
             if (_player.Seated)
             {
                 // Seated, the buttons for using things stand the player up (moving does too) and do nothing else.
+                _repeat.Cancel();
                 if (_input.UseTool.WasPressedThisFrame() || _input.Interact.WasPressedThisFrame()) _player.StandUp();
             }
             else
             {
+                HoldToSwing();
                 if (_input.UseTool.WasPressedThisFrame() && !_hand.ClickLandedOnTheHud()) { if (HandInteraction.MouseClicked && _hand.ClickUsesTheHand()) _hand.Interact(); else UseSelected(); }
                 if (_input.Interact.WasPressedThisFrame()) _hand.Interact();
                 if (_input.Rotate.WasPressedThisFrame()) TurnPlacement();
@@ -134,6 +137,20 @@ namespace Farm.Gameplay
         // Does a quest wait on this villager for something the player carries? Then a click talks to them instead of giving them what is in the hand.
         public static bool TalksFirst(GameSession s, string npcId) => QuestTargets.Wants(s, npcId);
 
+        // Holding the button down swings the axe or pickaxe again once the last swing is over, while the node is still there and the energy lasts. Other tools are not repeated.
+        void HoldToSwing()
+        {
+            if (!_repeat.Armed) return;
+            var walking = _input.Move.ReadValue<Vector2>().sqrMagnitude > 0.25f;
+            if (!_repeat.Tick(Time.deltaTime, _input.UseTool.IsPressed(), false, walking)) return;
+            var stack = Session.Backpack.Get(Session.State.SelectedHotbar);
+            var sameTool = stack != null && Session.Db.TryGetItem(stack.ItemId, out var item) && item.Category == ItemCategory.Tool && item.ToolType == _repeat.Tool;
+            if (!sameTool) { _repeat.Cancel(); return; }
+            var cell = Target;
+            if (!_items.CanActAgain(_repeat.Tool, cell)) { if (cell == _repeat.Cell) _repeat.Cancel(); return; }          // the node is gone: stop; a cell with nothing to do is just passed over
+            if (_items.UseTool(_repeat.Tool)) _repeat.Arm(_repeat.Tool, cell); else _repeat.Cancel();
+        }
+
         public void UseSelected()
         {
             var stack = Session.Backpack.Get(Session.State.SelectedHotbar);
@@ -152,7 +169,7 @@ namespace Farm.Gameplay
 
             switch (item.Category)
             {
-                case ItemCategory.Tool: _items.UseTool(item.ToolType); break;
+                case ItemCategory.Tool: if (_items.UseTool(item.ToolType)) _repeat.Arm(item.ToolType, Target); break;
                 case ItemCategory.Seed: _placement.Plant(item); break;
                 case ItemCategory.Resource when item.Id == ItemIds.Acorn: _placement.PlantAcorn(item); break;
                 case ItemCategory.Food: _items.Eat(item); break;
