@@ -10,7 +10,8 @@ using UnityEngine.UI;
 
 namespace Farm.UI
 {
-    // Volume, display, text size and key rebinding. Changes apply immediately and are saved when the screen closes.
+    // Settings in groups that open and close (sound, display, accessibility, dialogue, gameplay, content, language), then the key table and the controller table.
+    // Changes apply immediately and are saved when the screen closes.
     public sealed class OptionsScreen : UiScreen
     {
         static readonly Vector2Int[] Resolutions =
@@ -18,9 +19,15 @@ namespace Farm.UI
             new Vector2Int(1280, 720), new Vector2Int(1600, 900), new Vector2Int(1920, 1080), new Vector2Int(2560, 1440),
         };
 
+        public static readonly string[] Groups = { "sound", "display", "accessibility", "dialogue", "gameplay", "content", "language", "keys", "pad" };
+
+        const float CellWidth = 190f, LabelWidth = 200f;
+
         readonly SettingsStore _store;
         readonly RectTransform _content;
         readonly ScrollRect _scroll;
+        RectTransform _target;                     // where the rows being built go: the body of the group being filled
+        readonly System.Collections.Generic.HashSet<string> _open = new System.Collections.Generic.HashSet<string> { "sound" };          // the open groups (kept while the game runs)
         GameObject _followed;
         InputActionRebindingExtensions.RebindingOperation _rebind;
         bool _rebinding;
@@ -30,13 +37,13 @@ namespace Farm.UI
         public OptionsScreen(UiService ui) : base(ui)
         {
             _store = ui.Game.Settings;
-            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "Options", new Vector2(620, 470), out var root);
+            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "Options", new Vector2(700, 470), out var root);
             Root = root;
             // Fill the canvas height (with margins) so the Back button is always on screen, whatever the window size.
             frame.anchorMin = new Vector2(0.5f, 0f);
             frame.anchorMax = new Vector2(0.5f, 1f);
-            frame.offsetMin = new Vector2(-310f, 24f);
-            frame.offsetMax = new Vector2(310f, -24f);
+            frame.offsetMin = new Vector2(-350f, 24f);
+            frame.offsetMax = new Vector2(350f, -24f);
 
             var stack = UiKit.VStack(frame, "Stack", 8f, 14);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -49,7 +56,7 @@ namespace Farm.UI
             catcher.color = new Color(0f, 0f, 0f, 0f);
             var rect = scroll.gameObject.AddComponent<ScrollRect>();
             scroll.gameObject.AddComponent<RectMask2D>();
-            var content = UiKit.VStack(scroll, "Content", 16f, 6);          // room between the lines (playtest 2026-10-13: the labels were too close together)
+            var content = UiKit.VStack(scroll, "Content", 10f, 6);
             var fitter = content.gameObject.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             var crt = (RectTransform)content.transform;
@@ -89,6 +96,15 @@ namespace Farm.UI
             Close();
         }
 
+        // Opens groups by id (see Groups) and builds the screen again if it is showing. The player just clicks the header.
+        public void Expand(params string[] ids)
+        {
+            foreach (var id in ids) _open.Add(id);
+            if (Root != null && Root.activeSelf) Build();
+        }
+
+        public bool IsOpen(string id) => _open.Contains(id);
+
         // Keep the gamepad/keyboard-selected row inside the scroll viewport. Only when the selection moves: following it every frame pulled the list back
         // whenever the mouse wheel scrolled the clicked row out of view (playtest 2026-10-14: "the wheel stops moving down at spots").
         public override void Tick()
@@ -113,19 +129,25 @@ namespace Farm.UI
             _scroll.verticalNormalizedPosition = Mathf.Clamp01(_scroll.verticalNormalizedPosition + delta / contentHeight);
         }
 
+        void Group(string id)
+        {
+            _target = CollapsibleSection.Create(_content, id, L.Get("options.group." + id), _open, out _);
+        }
+
         void Build()
         {
             UiKit.ClearChildren(_content);
+            _target = _content;
             var s = _store.Current;
             var audio = Ui.Game.Audio;
 
-            Section(L.Get("options.audio"));
+            Group("sound");
             VolumeRow(L.Get("options.master"), s.MasterVolume, v => { s.MasterVolume = v; audio?.ApplySettings(s); });
             VolumeRow(L.Get("options.music"), s.MusicVolume, v => { s.MusicVolume = v; audio?.ApplySettings(s); });
             VolumeRow(L.Get("options.sfx"), s.SfxVolume, v => { s.SfxVolume = v; audio?.ApplySettings(s); });
             VolumeRow(L.Get("options.ambience"), s.AmbienceVolume, v => { s.AmbienceVolume = v; audio?.ApplySettings(s); });
 
-            Section(L.Get("options.display"));
+            Group("display");
             var res = Row(L.Get("options.resolution"));
             Button resButton = null;
             resButton = UiKit.MakeButton(res, $"{s.ResolutionWidth}x{s.ResolutionHeight}", () =>
@@ -153,20 +175,7 @@ namespace Farm.UI
             var hudSlider = UiKit.MakeSlider(hudRow, s.HudTransparency / 0.6f, v => s.HudTransparency = v * 0.6f);
             hudSlider.name = "HudTransparency";
 
-            // Content intensity (X-009): off, mild or full. Takes effect at once; saved with the other settings.
-            Section(L.Get("options.content"));
-            var horror = Row(L.Get("options.horror"));
-            Button horrorButton = null;
-            horrorButton = UiKit.MakeButton(horror, L.Get("options.horror." + s.HorrorLevel), () =>
-            {
-                s.HorrorLevel = (s.HorrorLevel + 1) % 3;
-                UiKit.SetButtonText(horrorButton, L.Get("options.horror." + s.HorrorLevel));
-            }, 220f, 30f);
-            horrorButton.name = "HorrorLevel";
-            var notes = Row(L.Get("options.content_notes"));
-            UiKit.MakeButton(notes, L.Get("options.show"), () => Ui.ShowMessage("content.notes"), 220f, 30f).name = "ContentNotes";
-
-            Section(L.Get("options.access"));
+            Group("accessibility");
             // The font (any installed font) and the colour of ordinary text; both restyle every window at once.
             var fontRow = Row(L.Get("options.font"));
             var fonts = UiTextStyle.FontChoices();
@@ -190,6 +199,10 @@ namespace Farm.UI
             UiKit.MakeToggle(cb, L.Get("ui.on"), s.ColorblindPalette, on => s.ColorblindPalette = on, 220f);
             var calm = Row(L.Get("options.reduce_flashes"));
             UiKit.MakeToggle(calm, L.Get("ui.on"), s.ReduceFlashes, on => s.ReduceFlashes = on, 220f);
+            var stream = Row(L.Get("options.stream_mode"));
+            UiKit.MakeToggle(stream, L.Get("ui.on"), s.StreamMode, on => s.StreamMode = on, 220f).name = "StreamMode";
+
+            Group("dialogue");
             var speed = Row(L.Get("options.dialogue_speed"));
             Button speedButton = null;
             speedButton = UiKit.MakeButton(speed, L.Get("options.dialogue_speed." + s.DialogueSpeed), () =>
@@ -198,8 +211,6 @@ namespace Farm.UI
                 UiKit.SetButtonText(speedButton, L.Get("options.dialogue_speed." + s.DialogueSpeed));
             }, 220f, 30f);
             speedButton.name = "DialogueSpeed";
-            var stream = Row(L.Get("options.stream_mode"));
-            UiKit.MakeToggle(stream, L.Get("ui.on"), s.StreamMode, on => s.StreamMode = on, 220f).name = "StreamMode";
             var timer = Row(L.Get("options.choice_timer"));
             Button timerButton = null;
             timerButton = UiKit.MakeButton(timer, ChoiceTimerLabel(s.ChoiceTimer), () =>
@@ -219,7 +230,7 @@ namespace Farm.UI
             var auto = Row(L.Get("options.auto_advance"));
             UiKit.MakeToggle(auto, L.Get("ui.on"), s.AutoAdvance, on => s.AutoAdvance = on, 220f).name = "AutoAdvance";
 
-            Section(L.Get("options.gameplay"));
+            Group("gameplay");
             var hoverRow = Row(L.Get("options.hover_labels"));
             UiKit.MakeToggle(hoverRow, L.Get("ui.on"), s.HoverLabels, on => s.HoverLabels = on, 220f).name = "HoverLabels";
             var tipsRow = Row(L.Get("options.tutorial_tips"));
@@ -240,36 +251,33 @@ namespace Farm.UI
             }, 220f, 30f);
             dlButton.name = "DayLength";
 
+            // Content intensity (X-009): off, mild or full. Takes effect at once; saved with the other settings.
+            Group("content");
+            var horror = Row(L.Get("options.horror"));
+            Button horrorButton = null;
+            horrorButton = UiKit.MakeButton(horror, L.Get("options.horror." + s.HorrorLevel), () =>
+            {
+                s.HorrorLevel = (s.HorrorLevel + 1) % 3;
+                UiKit.SetButtonText(horrorButton, L.Get("options.horror." + s.HorrorLevel));
+            }, 220f, 30f);
+            horrorButton.name = "HorrorLevel";
+            var notes = Row(L.Get("options.content_notes"));
+            UiKit.MakeButton(notes, L.Get("options.show"), () => Ui.ShowMessage("content.notes"), 220f, 30f).name = "ContentNotes";
+
+            Group("language");
             var lang = Row(L.Get("options.language"));
             UiKit.Label(lang, L.Get("language.en"), 18f, TextAlignmentOptions.Left, UiKit.DimText);
 
-            Section(L.Get("options.controls"));
-            Section(L.Get("options.keys"));
-            foreach (var name in InputNames.Rebindable) KeyRow(L.Get("action." + name), Ui.Input.Gameplay[name], -1);
-            var move = Ui.Input.Move;
-            var composite = move.bindings.ToList().FindIndex(x => x.isComposite);
-            for (var i = 0; i < InputNames.MoveParts.Length && composite >= 0; i++) KeyRow(L.Get("action.Move" + InputNames.MoveParts[i]), move, composite + 1 + i);
-            for (var i = 0; i < InputNames.HotbarSlots; i++) KeyRow(L.Get("action.Hotbar", i + 1), Ui.Input.Hotbar(i), -1);
-            foreach (var name in InputNames.UiRebindable) KeyRow(L.Get("action." + name), Ui.Input.Ui[name], -1);
-            AlternateRows();
-
-            Section(L.Get("options.pad_buttons"));
-            var hint = UiKit.Label(_content, L.Get("options.pad_hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
-            UiKit.Size(hint.gameObject, -1f, 40f);
-            foreach (var name in InputNames.PadRebindable) PadRow(L.Get("options.pad_row", L.Get("action." + name)), Ui.Input.Gameplay[name]);
-            foreach (var name in InputNames.UiPadRebindable) PadRow(L.Get("options.pad_row", L.Get("action." + name)), Ui.Input.Ui[name]);
-            DpadRows();
-
-            var resetPad = UiKit.MakeButton(_content, L.Get("options.reset_pad"), () =>
+            // Keyboard and mouse: one table, an action on each row with its primary and its secondary key.
+            Group("keys");
+            TableHeader(L.Get("options.col.action"), L.Get("options.col.primary"), L.Get("options.col.secondary"));
+            KeyTable.Group? shown = null;
+            foreach (var spec in KeyTable.Rows(Ui.Input))
             {
-                Ui.Input.ResetPadBindings();
-                s.BindingOverridesJson = Ui.Input.ExportOverrides();
-                Ui.Game.Input.Hints.NotifyChanged();
-                Build();
-                Ui.FocusFirst(Root);
-            }, 260f, 30f);
-            resetPad.name = "ResetPadBindings";
-            var reset = UiKit.MakeButton(_content, L.Get("options.reset_bindings"), () =>
+                if (shown != spec.Group) { SubHeading(L.Get("options.keys." + spec.Group)); shown = spec.Group; }
+                KeyRow(spec);
+            }
+            var reset = UiKit.MakeButton(_target, L.Get("options.reset_bindings"), () =>
             {
                 Ui.Input.ResetBindings();
                 s.BindingOverridesJson = string.Empty;
@@ -278,22 +286,50 @@ namespace Farm.UI
                 Ui.FocusFirst(Root);
             }, 260f, 30f);
             reset.name = "ResetBindings";
+
+            Group("pad");
+            var hint = UiKit.Label(_target, L.Get("options.pad_hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
+            UiKit.Size(hint.gameObject, -1f, 40f);
+            TableHeader(L.Get("options.col.action"), L.Get("options.col.button"), null);
+            foreach (var name in InputNames.PadRebindable) PadRow(Ui.Input.Gameplay[name]);
+            foreach (var name in InputNames.UiPadRebindable) PadRow(Ui.Input.Ui[name]);
+            DpadRows();
+            var resetPad = UiKit.MakeButton(_target, L.Get("options.reset_pad"), () =>
+            {
+                Ui.Input.ResetPadBindings();
+                s.BindingOverridesJson = Ui.Input.ExportOverrides();
+                Ui.Game.Input.Hints.NotifyChanged();
+                Build();
+                Ui.FocusFirst(Root);
+            }, 260f, 30f);
+            resetPad.name = "ResetPadBindings";
         }
 
         static string ChoiceTimerLabel(int seconds) => seconds <= 0 ? L.Get("ui.off") : L.Get("options.choice_timer.seconds", seconds);
 
-        void Section(string title)
+        void SubHeading(string title)
         {
-            var label = UiKit.Label(_content, title, 20f, TextAlignmentOptions.Left, UiKit.Accent);
-            UiKit.Size(label.gameObject, -1f, 38f);
+            var label = UiKit.Label(_target, title, 17f, TextAlignmentOptions.Left, UiKit.Accent);
+            UiKit.Size(label.gameObject, -1f, 30f);
         }
 
-        RectTransform Row(string label)
+        // The column titles of a table (the third is left out in a two column one).
+        void TableHeader(string action, string first, string second)
         {
-            var row = UiKit.HStack(_content, label, 10f);
+            var row = UiKit.HStack(_target, "Header", 10f);
+            UiKit.Size(row.gameObject, -1f, 28f);
+            UiKit.Size(UiKit.Label(row.transform, action, 16f, TextAlignmentOptions.Left, UiKit.DimText).gameObject, LabelWidth, 26f);
+            UiKit.Size(UiKit.Label(row.transform, first, 16f, TextAlignmentOptions.Center, UiKit.DimText).gameObject, CellWidth, 26f);
+            if (second != null) UiKit.Size(UiKit.Label(row.transform, second, 16f, TextAlignmentOptions.Center, UiKit.DimText).gameObject, CellWidth, 26f);
+        }
+
+        // A row is named after `label` (the tests find rows by that name); `shown` is the text when it should differ.
+        RectTransform Row(string label, string shown = null)
+        {
+            var row = UiKit.HStack(_target, label, 10f);
             UiKit.Size(row.gameObject, -1f, 36f);
-            var text = UiKit.Label(row.transform, label, 18f);
-            UiKit.Size(text.gameObject, 200f, 34f);
+            var text = UiKit.Label(row.transform, shown ?? label, 18f);
+            UiKit.Size(text.gameObject, LabelWidth, 34f);
             return (RectTransform)row.transform;
         }
 
@@ -351,48 +387,23 @@ namespace Farm.UI
 
         // ---- rebinding -----------------------------------------------------------------------------------------
 
-        // One keyboard key: the action's first keyboard binding, or the binding at `index` (a part of the walking keys).
-        void KeyRow(string label, InputAction action, int index)
-        {
-            var row = Row(label);
-            if (index < 0) index = KeyboardBindingIndex(action);
-            var at = index;
-            Button button = null;
-            button = UiKit.MakeButton(row, BindingText(action, at), () => StartRebind(action, at, button), 220f, 30f);
-            button.name = KeyPrefix + action.name + "_" + at;
-            _shown.Add((action.actionMap.name, action.name, at));
-        }
-
-        // The keys and mouse buttons that have a row above are not listed again.
-        readonly System.Collections.Generic.HashSet<(string map, string action, int index)> _shown = new System.Collections.Generic.HashSet<(string, string, int)>();
-
-        // The pointer itself is not a button: it has no row.
-        static readonly System.Collections.Generic.HashSet<string> PointerOnly = new System.Collections.Generic.HashSet<string> { InputNames.Point, InputNames.Click, InputNames.RightClick, InputNames.ScrollWheel };
-
         static string ActionLabel(InputAction action) => L.Has("action." + action.name) ? L.Get("action." + action.name) : action.name;
 
-        // Every other key and mouse button of the game (the second walking keys, Tab beside I, the mouse buttons, the keys of the menus...), one row each, so that nothing is fixed.
-        void AlternateRows()
+        // One row of the key table: the action, then a rebind button for its primary and for its secondary key (a dimmed dash when it has no second one).
+        void KeyRow(KeyTable.Spec spec)
         {
-            Section(L.Get("options.alternates"));
-            foreach (var map in new[] { Ui.Input.Gameplay, Ui.Input.Ui })
-                foreach (var action in map.actions)
-                {
-                    if (PointerOnly.Contains(action.name)) continue;
-                    for (var i = 0; i < action.bindings.Count; i++)
-                    {
-                        var b = action.bindings[i];
-                        if (b.isComposite || b.path == null || !(b.path.StartsWith("<Keyboard>") || b.path.StartsWith("<Mouse>"))) continue;
-                        if (_shown.Contains((map.name, action.name, i))) continue;
-                        var label = b.isPartOfComposite ? L.Get("options.alt_part", ActionLabel(action), b.name) : L.Get("options.alt", ActionLabel(action));
-                        var row = Row(label);
-                        var at = i;
-                        var captured = action;
-                        Button button = null;
-                        button = UiKit.MakeButton(row, BindingText(action, at), () => StartRebind(captured, at, button), 220f, 30f);
-                        button.name = AltPrefix + action.actionMap.name + "_" + action.name + "_" + at;
-                    }
-                }
+            var row = Row(spec.Label);
+            var action = spec.Action;
+            Cell(row, action, spec.Primary, KeyPrefix + action.name + "_" + spec.Primary);
+            if (spec.Secondary >= 0) Cell(row, action, spec.Secondary, AltPrefix + action.actionMap.name + "_" + action.name + "_" + spec.Secondary);
+            else UiKit.Size(UiKit.Label(row, L.Get("options.none_key"), 18f, TextAlignmentOptions.Center, UiKit.DimText).gameObject, CellWidth, 30f);
+        }
+
+        void Cell(RectTransform row, InputAction action, int index, string buttonName)
+        {
+            Button button = null;
+            button = UiKit.MakeButton(row, BindingText(action, index), () => StartRebind(action, index, button), CellWidth, 30f);
+            button.name = buttonName;
         }
 
         // The D-pad's four directions (walking and the menus) can be moved to other buttons; the sticks are analog and stay what they are.
@@ -407,7 +418,7 @@ namespace Farm.UI
                     var at = i;
                     var captured = action;
                     Button button = null;
-                    button = UiKit.MakeButton(row, BindingNames.Describe(action, at), () => StartDpadRebind(captured, at, button), 220f, 30f);
+                    button = UiKit.MakeButton(row, BindingNames.Describe(action, at), () => StartDpadRebind(captured, at, button), CellWidth, 30f);
                     button.name = DpadPrefix + action.actionMap.name + "_" + action.name + "_" + at;
                 }
         }
@@ -433,13 +444,6 @@ namespace Farm.UI
                 FinishRebind();
                 UiKit.SetButtonText(button, BindingNames.Describe(action, index));
             });
-        }
-
-        static int KeyboardBindingIndex(InputAction action)
-        {
-            for (var i = 0; i < action.bindings.Count; i++)
-                if (!action.bindings[i].isComposite && !action.bindings[i].isPartOfComposite && action.bindings[i].path.StartsWith("<Keyboard>")) return i;
-            return 0;
         }
 
         static string BindingText(InputAction action, int index) => action.GetBindingDisplayString(index);
@@ -488,12 +492,13 @@ namespace Farm.UI
             return text;
         }
 
-        void PadRow(string label, InputAction action)
+        // The row keeps the long name (the tests find it by that) and shows the action's own.
+        void PadRow(InputAction action)
         {
             if (BindingNames.IndexOf(action, BindingNames.Gamepad) < 0) return;
-            var row = Row(label);
+            var row = Row(L.Get("options.pad_row", ActionLabel(action)), ActionLabel(action));
             Button button = null;
-            button = UiKit.MakeButton(row, PadText(action), () => StartPadRebind(action, button), 220f, 30f);
+            button = UiKit.MakeButton(row, PadText(action), () => StartPadRebind(action, button), CellWidth, 30f);
             button.name = PadPrefix + action.actionMap.name + "_" + action.name;
         }
 

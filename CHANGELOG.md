@@ -10,6 +10,7 @@ From the playtesters' list of the same day (fourth list).
 - **Tips when you first meet something.** Once each: when health is low, when the backpack is full, the first time in the mine, and when a bat comes near. They stay on screen longer and wrap to fit. "Tutorial tips" in the options turns them off.
 - **The item bar never covers the farmer.** Every map may now show black below its lower edge, so the farmer and the square they aim at always stay above the bar.
 - **The tool rack keeps its own picture.** Rebuilding the pictures had put the plain placeholder back over it; it is now marked as final art.
+- **Options in groups, and a key table.** The options are in groups that open and close like the Help tree (Sound, Display, Accessibility, Dialogue and text, Gameplay, Content, Language, Keyboard and mouse, Controller); only Sound is open at first and the game remembers which are open. Keyboard and mouse is a table: the action, its primary key and its secondary key (a dash when it has none), each a button that rebinds it; the "Other keys and mouse buttons" list is gone. Controller is a table too (action, button).
 - **Monsters show when to hit them.** A monster that has just struck turns pale blue (slow to strike again: the time to swing) and turns yellow when it is about to strike; it still flashes when hit.
 
 ## 0.6.6 (2026-10-14)

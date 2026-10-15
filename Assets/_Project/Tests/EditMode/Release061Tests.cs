@@ -149,14 +149,16 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void EveryKeyAndMouseBinding_OfBothMaps_HasARow_InTheOptions()
+        public void EveryKeyAndMouseBinding_OfBothMaps_HasACell_InTheOptions()
         {
             var src = File.ReadAllText("Assets/_Project/Scripts/UI/OptionsScreen.cs");
-            StringAssert.Contains("AlternateRows();", src);
+            StringAssert.Contains("KeyTable.Rows(", src);
             StringAssert.Contains("DpadRows();", src);
             StringAssert.Contains("WithControlsHavingToMatchPath(\"<Mouse>\")", src);
             var table = Table();
-            foreach (var key in new[] { "options.alternates", "options.alt", "options.alt_part", "options.dpad_part", "action.Navigate" }) Assert.IsTrue(table.ContainsKey(key), key);
+            foreach (var key in new[] { "options.col.action", "options.col.primary", "options.col.secondary", "options.col.button", "options.none_key", "options.part", "options.dpad_part", "action.Navigate" }) Assert.IsTrue(table.ContainsKey(key), key);
+            foreach (var id in OptionsScreen.Groups) Assert.IsTrue(table.ContainsKey("options.group." + id), id);
+            foreach (var group in System.Enum.GetNames(typeof(KeyTable.Group))) Assert.IsTrue(table.ContainsKey("options.keys." + group), group);
         }
 
         // ---- the Help tree and the health bar --------------------------------------------------------------------------

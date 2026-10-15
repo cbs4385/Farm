@@ -91,10 +91,12 @@ namespace Farm.Tests
             // Walk the whole screen with the d-pad: the cursor moves every press, and a slider and a toggle are reached.
             var visited = new List<GameObject>();
             var trail = new List<string>();
+            var opened = new HashSet<string>();
             for (var i = 0; i < 60; i++)
             {
                 if (Selected == null) Assert.Fail("the focus was lost after " + i + " presses; last: " + (visited.Count > 0 ? visited.Last().name : "-"));
                 if (!visited.Contains(Selected)) visited.Add(Selected);
+                if (Selected.name.StartsWith("Section_") && Selected.name != "Section_sound" && opened.Add(Selected.name)) yield return Tap(_pad.buttonSouth);          // a group header opens with A
                 if (i < 7) { var sel = Selected.GetComponent<Selectable>(); var dn = sel.FindSelectableOnDown(); trail.Add(Selected.transform.parent.name + "@" + Selected.transform.position.y.ToString("0") + "->" + (dn == null ? "null" : dn.transform.parent.name + "@" + dn.transform.position.y.ToString("0"))); }
                 yield return Tap(_pad.dpad.down);
             }

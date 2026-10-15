@@ -220,6 +220,7 @@ namespace Farm.Tests
             var input = GameContext.Current.Input;
             var settings = GameContext.Current.Settings;
             ui.ShowOptions();
+            ui.Options.Expand("pad");
             yield return null;
             yield return null;
 
@@ -251,6 +252,7 @@ namespace Farm.Tests
             var ui = ((UiService)GameContext.Current.Ui);
             var input = GameContext.Current.Input;
             ui.ShowOptions();
+            ui.Options.Expand("pad");
             yield return null;
             yield return null;
             var row = UnityEngine.Object.FindObjectsByType<RectTransform>().First(r => r.gameObject.activeInHierarchy && r.name == L.Get("options.pad_row", L.Get("action.Rotate")));
@@ -270,6 +272,7 @@ namespace Farm.Tests
             yield return StartFarm();
             var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowOptions();
+            ui.Options.Expand("keys", "pad");
             yield return null;
             yield return null;
             var names = UnityEngine.Object.FindObjectsByType<Button>().Where(b => b.gameObject.activeInHierarchy).Select(b => b.name).ToList();
@@ -278,6 +281,92 @@ namespace Farm.Tests
             for (var i = 1; i <= InputNames.HotbarSlots; i++) CollectionAssert.Contains(keyActions, InputNames.HotbarPrefix + i);
             Assert.AreEqual(4, names.Count(n => n.StartsWith(OptionsScreen.KeyPrefix + "Move_")), "the four walking keys");
             Assert.GreaterOrEqual(names.Count(n => n.StartsWith(OptionsScreen.PadPrefix)), 13, "and a controller button for each action that has one");
+        }
+
+        static System.Collections.Generic.List<Button> ActiveButtons() => UnityEngine.Object.FindObjectsByType<Button>().Where(b => b.gameObject.activeInHierarchy).ToList();
+
+        [UnityTest]
+        public IEnumerator TheOptionsScreen_StartsWithOnlyTheSoundGroupOpen_AndAHeaderOpensAndClosesItsGroup()
+        {
+            yield return StartFarm();
+            var ui = ((UiService)GameContext.Current.Ui);
+            ui.ShowOptions();
+            yield return null;
+            yield return null;
+            var names = ActiveButtons().Select(b => b.name).ToList();
+            foreach (var id in OptionsScreen.Groups) CollectionAssert.Contains(names, CollapsibleSection.HeaderPrefix + id, id);
+            CollectionAssert.DoesNotContain(names, "HorrorLevel", "the content group starts closed");
+            Assert.IsEmpty(names.Where(n => n.StartsWith(OptionsScreen.KeyPrefix)), "and so does the key table");
+            Assert.IsTrue(UnityEngine.Object.FindObjectsByType<Slider>().Any(s => s.gameObject.activeInHierarchy), "the sound sliders are showing");
+
+            var header = ActiveButtons().First(b => b.name == CollapsibleSection.HeaderPrefix + "content");
+            header.onClick.Invoke();
+            yield return null;
+            Assert.IsTrue(ActiveButtons().Any(b => b.name == "HorrorLevel"), "its header opens it");
+            header.onClick.Invoke();
+            yield return null;
+            Assert.IsFalse(ActiveButtons().Any(b => b.name == "HorrorLevel"), "and closes it again");
+
+            header.onClick.Invoke();
+            yield return null;
+            ui.CloseAllModals();
+            yield return null;
+            ui.ShowOptions();
+            yield return null;
+            yield return null;
+            Assert.IsTrue(ActiveButtons().Any(b => b.name == "HorrorLevel"), "an open group is still open when the screen comes back");
+        }
+
+        [UnityTest]
+        public IEnumerator TheKeyTable_HasAnActionAPrimaryAndASecondaryCell_AndADashWhereThereIsNoSecondKey()
+        {
+            yield return StartFarm();
+            var ui = ((UiService)GameContext.Current.Ui);
+            ui.ShowOptions();
+            ui.Options.Expand("keys");
+            yield return null;
+            yield return null;
+
+            var rows = UnityEngine.Object.FindObjectsByType<RectTransform>().Where(r => r.gameObject.activeInHierarchy).ToList();
+            var interact = rows.First(r => r.name == L.Get("action.Interact"));
+            var cells = interact.GetComponentsInChildren<Button>().ToList();
+            Assert.AreEqual(2, cells.Count, "a primary and a secondary cell");
+            StringAssert.StartsWith(OptionsScreen.KeyPrefix, cells[0].name);
+            StringAssert.StartsWith(OptionsScreen.AltPrefix, cells[1].name);
+            Assert.Less(cells[0].transform.position.x, cells[1].transform.position.x, "the primary is left of the secondary");
+
+            var pause = rows.First(r => r.name == L.Get("action.Pause"));
+            var pauseCells = pause.GetComponentsInChildren<Button>().ToList();
+            Assert.AreEqual(1, pauseCells.Count, "Escape has no second key");
+            StringAssert.Contains(L.Get("options.none_key"), pause.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Last().text);
+            Assert.AreEqual(cells[0].transform.position.x, pauseCells[0].transform.position.x, 0.5f, "the columns line up from row to row");
+        }
+
+        [UnityTest]
+        public IEnumerator ASecondaryKey_CanBeRebound_ThroughTheTable_AndSticks()
+        {
+            yield return StartFarm();
+            var ui = ((UiService)GameContext.Current.Ui);
+            var input = GameContext.Current.Input;
+            ui.ShowOptions();
+            ui.Options.Expand("keys");
+            yield return null;
+            yield return null;
+            var row = UnityEngine.Object.FindObjectsByType<RectTransform>().First(r => r.gameObject.activeInHierarchy && r.name == L.Get("action.Inventory"));
+            var secondary = row.GetComponentsInChildren<Button>()[1];
+            secondary.onClick.Invoke();
+            yield return null;
+            yield return null;
+            Press(_keyboard.gKey);
+            yield return null;
+            currentTime += 1.0;
+            yield return null;
+            yield return null;
+            Release(_keyboard.gKey);
+            yield return null;
+            yield return null;
+            Assert.AreEqual("<Keyboard>/tab", input.Inventory.bindings.First(b => b.path == "<Keyboard>/tab").effectivePath, "the primary key is untouched");
+            Assert.AreEqual("<Keyboard>/g", input.Inventory.bindings.First(b => b.path == "<Keyboard>/i").effectivePath, "the secondary key is the new one");
         }
 
         [UnityTest]
@@ -349,6 +438,7 @@ namespace Farm.Tests
             Assert.AreEqual("<Keyboard>/e", input.Interact.bindings.First(b => b.path.StartsWith("<Keyboard>")).effectivePath);
 
             ui.ShowOptions();
+            ui.Options.Expand("keys");
             yield return null;
             yield return null;
 
