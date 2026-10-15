@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.8 (2026-10-15)
+
+From the playtesters' list of the same day.
+
+- **House furniture goes into the backpack.** The mallet takes the farmhouse's own chairs, tables, lamps, paintings, clock, bookshelves, plants, vase, wardrobe, armchair, bench, sacks and barrels into the backpack, like furniture you bought: set them down anywhere, store them in a chest or sell them. The couch, fireplace, large rugs and jar shelf are wider than one cell and are still carried one at a time.
+- **Tips can be skipped with a pad.** While a tip is showing, the controller's B button (Rotate) skips the tips, and the button says so.
+- **Villagers sit on benches properly.** A seated villager (and the seated player) sits a little lower and is drawn over the bench instead of behind its back, and the bench no longer covers anyone standing in front of it.
+- **Forest trails wind.** The trail through the forest (and the track in the woods) no longer runs as a straight, even road: it bends left and right, gets wider and narrower, and its edge is drawn with a ragged, worn outline that ignores the tile grid. Walking and the trees are unchanged except that the trail now takes a new route.
+
 ## 0.6.7 (2026-10-14)
 
 From the playtesters' list of the same day (fourth list).

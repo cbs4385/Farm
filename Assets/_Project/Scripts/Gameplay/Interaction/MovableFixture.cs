@@ -16,7 +16,7 @@ namespace Farm.Gameplay
 
         // A prop that becomes an item when the mallet takes it (the farm's hay, sacks, wheelbarrow and barrels): the decoration id of the item, or empty.
         [SerializeField] string _itemId;
-        public string ItemId { get => _itemId; set => _itemId = value; }
+        public string ItemId { get => !string.IsNullOrEmpty(_itemId) ? _itemId : FixtureItems.For(_id); set => _itemId = value; }
 
         // The picture is drawn this much bigger, standing on its cell and rising above it (the farm's props, like the crafted machines).
         [SerializeField] float _scale = 1f;
@@ -73,7 +73,7 @@ namespace Farm.Gameplay
         // Moves the fixture to the cell the save says (when it says anything).
         public void Apply(GameSession session, FarmMap map)
         {
-            if (!string.IsNullOrEmpty(_itemId) && IsTaken(session, map)) { gameObject.SetActive(false); return; }
+            if (!string.IsNullOrEmpty(ItemId) && IsTaken(session, map)) { gameObject.SetActive(false); return; }
             foreach (var f in session.State.Fixtures)
                 if (f.Map == map.MapId && f.Id == _id) { Turns = f.Turns; Place(map, new Vector3Int(f.X, f.Y, 0)); return; }
         }

@@ -407,6 +407,26 @@ namespace Farm.Tests
             Assert.IsTrue(Cursor.visible);
         }
 
+        // Playtest 2026-10-15: no pad button skipped the tips, and the pointer cannot reach the Skip button.
+        [UnityTest]
+        public IEnumerator WithAPad_BSkipsTheTips_AndTheButtonSaysSo()
+        {
+            yield return StartFarm(started => started.SetFlag(FatigueModel.WarnedFlag));
+            ControlPrompts.SetKind(InputKind.Gamepad);
+            for (var i = 0; i < 30; i++) yield return null;
+            var s = GameContext.Current.Session;
+            var card = Resources.FindObjectsOfTypeAll<UnityEngine.UI.Image>().First(i => i.name == "TutorialCoach" && i.gameObject.scene.IsValid());
+            Assert.IsTrue(card.gameObject.activeSelf, "the first tip is up");
+            var label = card.transform.Find("CoachSkip").GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
+            StringAssert.Contains("B", label, "the button names the pad button");
+            StringAssert.DoesNotContain("[[", label);
+
+            yield return Tap(_pad.buttonEast);
+            for (var i = 0; i < 10; i++) yield return null;
+            Assert.IsTrue(s.HasFlag(TutorialCoach.SkipFlag), "B skipped the tips");
+            Assert.IsFalse(card.gameObject.activeSelf);
+        }
+
         // Playtest 2026-10-11: the "It is getting late" window had to be closed with A, while B closed the shop.
         [UnityTest]
         public IEnumerator TheLateNightWarning_ClosesWithB_AsWellAsWithA()

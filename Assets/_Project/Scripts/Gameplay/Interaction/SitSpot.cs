@@ -8,6 +8,7 @@ namespace Farm.Gameplay
     // The seated player rests (SeatRest) until they move. One sitter at a time.
     public sealed class SitSpot : MonoBehaviour, IInteractable
     {
+        const int StandingOrder = 9;                                     // NpcActor's sorting order for a villager on their feet
         public const float Reach = 1.55f;                                // a villager standing this close (cell centre to seat centre) takes the seat
 
         static readonly List<SitSpot> AllSpots = new List<SitSpot>();
@@ -18,12 +19,18 @@ namespace Farm.Gameplay
         public Vector2Int Facing { get => _facing; set => _facing = value; }
         public Component Occupant { get; set; }
 
-        // Where a sitter's feet are: a little below the middle of the seat, so that the picture sits on it.
-        public Vector3 SeatPosition => transform.position + new Vector3(0f, -0.3f, 0f);
+        // Where a sitter's feet are: a little below the middle of the seat, so that the picture sits on it (lowered 0.1 from 0.3: playtest 2026-10-15, a sitter looked perched too high on a bench).
+        public Vector3 SeatPosition => transform.position + new Vector3(0f, -0.4f, 0f);
 
         public string HoverLabel => L.Get(Occupant == null ? "hover.sit" : "hover.sit_taken");
 
-        void OnEnable() => AllSpots.Add(this);
+        void OnEnable()
+        {
+            AllSpots.Add(this);
+            // A bench is a tall prop drawn over actors, which covered a villager standing in front of it: seats are drawn two steps under standing actors, and sitters one step under them (drawn over the seat, but never tied with a standing actor: a tie flickers).
+            if (TryGetComponent<SpriteRenderer>(out var r) && r.sortingOrder > StandingOrder - 2) r.sortingOrder = StandingOrder - 2;
+        }
+
         void OnDisable() { AllSpots.Remove(this); Occupant = null; }
 
         static SitSpot() => TestResets.Add(ResetForTests);
@@ -31,6 +38,9 @@ namespace Farm.Gameplay
 
         // Is this seat within reach of a villager standing on a cell?
         public bool Reaches(FarmMap map, Vector3Int cell) => Vector3.Distance(map.CellCenter(cell), transform.position) <= Reach;
+
+        // The seat's own picture: a sitter is drawn over it (not behind its back) so that they sit on it rather than hang off the far side (playtest 2026-10-15).
+        public int SeatSortingOrder => TryGetComponent<SpriteRenderer>(out var r) ? r.sortingOrder : 0;
 
         public void Interact(PlayerActions player)
         {

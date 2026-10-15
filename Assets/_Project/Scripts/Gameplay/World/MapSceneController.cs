@@ -55,6 +55,7 @@ namespace Farm.Gameplay
             if (daylight != null && !daylight.IsIndoor && _map.MapId != MapIds.Mine)           // tufts and flowers over the grass, in the colours of the season
             {
                 gameObject.AddComponent<GroundDecor>().Build(_map, _session.State.WorldSeed, _session.Clock.Now.Season);
+                gameObject.AddComponent<TrailEdges>().Build(_map, _session.State.WorldSeed);                                  // the edges of paths through the forest are not straight
                 gameObject.AddComponent<SeasonalTrees>().Apply(_map.MapId, _session.State.WorldSeed, _session.Clock.Now.Season);          // and the trees in the season's kinds
             }
             if (_session.MemoryRestorePosition && _session.MemoryId == null)       // back from a memory replay

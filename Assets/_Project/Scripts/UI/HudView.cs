@@ -463,21 +463,22 @@ namespace Farm.UI
 
         // The first-days coach: a card above the hotbar with one tip at a time (TutorialCoach) and a button to skip them.
         Image _coachPanel;
-        TextMeshProUGUI _coach;
+        TextMeshProUGUI _coach, _coachSkipLabel;
 
         void BuildCoach(Transform canvas)
         {
             _coachPanel = UiKit.Panel(canvas, "TutorialCoach", new Color(0.09f, 0.07f, 0.06f, 0.88f));
             _coachPanel.raycastTarget = false;          // only the Skip button takes the mouse: the card must not eat clicks aimed at the ground behind it
-            UiKit.Place(_coachPanel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(760, 64), new Vector2(0, 86));
+            UiKit.Place(_coachPanel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(800, 64), new Vector2(0, 86));
             _coach = UiKit.Label(_coachPanel.transform, "", 17f, TextAlignmentOptions.MidlineLeft);
             _coach.name = "CoachText";
             _coach.raycastTarget = false;
-            UiKit.Place(_coach.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(600, 60), new Vector2(12, 2));
+            UiKit.Place(_coach.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(620, 60), new Vector2(12, 2));
             _coach.textWrappingMode = TextWrappingModes.Normal;
             var skip = UiKit.MakeButton(_coachPanel.transform, L.Get("tutorial.coach.skip"), () => { if (_ui.Session != null) TutorialCoach.Skip(_ui.Session); }, 120f, 34f);
             skip.name = "CoachSkip";
-            UiKit.Place((RectTransform)skip.transform, new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(120, 34), new Vector2(-10, 0));
+            _coachSkipLabel = skip.GetComponentInChildren<TextMeshProUGUI>();
+            UiKit.Place((RectTransform)skip.transform, new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(150, 34), new Vector2(-10, 0));
             _coachPanel.gameObject.SetActive(false);
         }
 
@@ -490,6 +491,12 @@ namespace Farm.UI
             var show = text.Length > 0;
             if (_coachPanel.gameObject.activeSelf != show) _coachPanel.gameObject.SetActive(show);
             if (show && _coach.text != text) _coach.text = text;
+            if (!show) return;
+            // A pad cannot point at the button, so one of its buttons skips the tips (playtest 2026-10-15) and the button says which.
+            var pad = PadInUse;
+            var label = L.Get(pad ? "tutorial.coach.skip_pad" : "tutorial.coach.skip");
+            if (_coachSkipLabel != null && _coachSkipLabel.text != label) _coachSkipLabel.text = label;
+            if (pad && _ui.Game.Input is InputService input && input.Rotate.WasPressedThisFrame()) TutorialCoach.Skip(s);
         }
 
         // For a player with a pad: what its main buttons do, small at the bottom left, so that the menu and the map are not a secret (playtest 2026-10-10).

@@ -745,7 +745,7 @@ namespace Farm.Editor
             for (var y = 0; y < ForestH; y++)
                 for (var x = 0; x < ForestW; x++)
                 {
-                    var path = x >= ForestPathX0 && x <= ForestPathX1;
+                    var path = x >= ForestTrees.Trail[y].x0 && x <= ForestTrees.Trail[y].x1;
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(path ? "tile_path" : "tile_forest"));
                 }
             PaintEdgeBand(rig, MapIds.Forest, ForestW, ForestH, (bx, by) => bx >= ForestPathX0 && bx <= ForestPathX1 && (by == 0 || by == ForestH - 1));
@@ -759,8 +759,10 @@ namespace Farm.Editor
             // The trees of the thickets are resource nodes, put in when the forest is first visited (ForestTrees): they can be chopped.
 
             // The cave: a path east from the main path to the mouth of the mine.
-            for (var x = ForestPathX1 + 1; x <= 34; x++)
-                for (var y = 4; y <= 6; y++) rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_path"));
+            // its middle row is whole; the rows beside it start and stop raggedly
+            for (var x = ForestTrees.Trail[5].x0 + 1; x <= 34; x++)
+                for (var y = 4; y <= 6; y++)
+                    if (y == 5 || x < ForestPathX1 + 2 || x > 32 || WoodLayout.Random01(x, y, 61) < 0.72f) rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_path"));
             AddSpawn("fromMine", Center(33, 5));
             AddWarp(Center(35, 5), MapIds.Mine, "default", new Vector2(1f, 3f));
             // the mine mouth: a timber-framed opening in the rock, two cells wide and two tall (cells 36-37, rows 5-6)
@@ -826,6 +828,9 @@ namespace Farm.Editor
 
         const int WoodsSeed = 23;
 
+        // The track to the clearing winds, like the forest's trail (TrailShape); the trees keep off the cells 17-21 beside it.
+        static readonly (int x0, int x1)[] WoodsTrack = TrailShape.Build(14, 18, 20, 17, 21, 29, endRows: 3);
+
         static void BuildWoods()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -834,7 +839,7 @@ namespace Farm.Editor
             for (var y = 0; y < WoodsH; y++)
                 for (var x = 0; x < WoodsW; x++)
                 {
-                    var path = x >= 18 && x <= 20 && y < 14 || x >= 14 && x <= 24 && y >= 14 && y <= 23;   // the track and the clearing
+                    var path = y < 14 && x >= WoodsTrack[y].x0 && x <= WoodsTrack[y].x1 || x >= 14 && x <= 24 && y >= 14 && y <= 23;   // the track and the clearing
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(path ? "tile_dirt" : "tile_forest"));
                 }
             PaintEdgeBand(rig, MapIds.Woods, WoodsW, WoodsH, (bx, by) => bx >= 18 && bx <= 20 && by == 0);

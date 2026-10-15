@@ -10,6 +10,11 @@ namespace Farm.Gameplay
     public static class ForestTrees
     {
         public const int Width = 40, Height = 30, PathX0 = 18, PathX1 = 20;
+        public const int TrailMinX = 16, TrailMaxX = 22, TrailSeed = 41;           // the corridor the trail wanders in: the thickets leave it clear
+
+        // The trail up the forest, row by row (TrailShape): it bends and its width changes, but it begins and ends where the village path and the brambles are.
+        public static (int x0, int x1)[] Trail { get; } = TrailShape.Build(Height, PathX0, PathX1, TrailMinX, TrailMaxX, TrailSeed);
+
         public const string SeededFlag = "forest.trees.seeded";
 
         // The cells of the thickets: not the path, the pond and its shore, or the way to the mine.
@@ -18,7 +23,7 @@ namespace Farm.Gameplay
             for (var y = 3; y < Height - WoodLayout.EdgeThickness; y++)
                 for (var x = WoodLayout.EdgeThickness; x < Width - WoodLayout.EdgeThickness; x++)
                 {
-                    if (x >= PathX0 - 2 && x <= PathX1 + 2) continue;
+                    if (x >= TrailMinX && x <= TrailMaxX) continue;
                     if (x >= 2 && x <= 16 && y >= 3 && y <= 15) continue;
                     if (x >= 21 && x <= 36 && y >= 3 && y <= 7) continue;
                     if (!WoodLayout.ForestTreeAt(x, y)) continue;

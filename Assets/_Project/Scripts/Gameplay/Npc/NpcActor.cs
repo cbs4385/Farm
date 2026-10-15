@@ -139,6 +139,7 @@ namespace Farm.Gameplay
                 }
                 if (_seat == null) return;
                 ShowPose("sit");
+                if (TryGetComponent<SpriteRenderer>(out var seated)) seated.sortingOrder = Mathf.Max(8, _seat.SeatSortingOrder + 1);      // over a bench, as for the player: seated on it, not hidden behind its back
             }
             transform.position = _seat.SeatPosition;
             SetFacing(_seat.Facing);
@@ -149,6 +150,7 @@ namespace Farm.Gameplay
             if (_seat == null) return;
             if (_seat.Occupant == this) _seat.Occupant = null;
             _seat = null;
+            if (TryGetComponent<SpriteRenderer>(out var risen)) risen.sortingOrder = Sleeping ? 10 : 9;
             ClearPose();
         }
         public Vector3Int Cell { get; private set; }
