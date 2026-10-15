@@ -61,6 +61,15 @@ namespace Farm.Tests
             yield return null;
         }
 
+        // A button held past the pad's tap time (Hotbar rearranging takes a quick press of the left stick, photo mode a hold of it).
+        IEnumerator Hold(ButtonControl button, float seconds)
+        {
+            Press(button);
+            yield return new WaitForSecondsRealtime(seconds);
+            Release(button);
+            yield return null;
+        }
+
         IEnumerator StartFarm()
         {
             Bootstrapper.InitializeServices();
@@ -176,7 +185,7 @@ namespace Farm.Tests
         {
             yield return StartFarm();
             Assert.IsFalse(PhotoMode.Active);
-            yield return Tap(_pad.leftStickButton);                      // the left stick pressed in
+            yield return Hold(_pad.leftStickButton, HotbarRearrange.PadTapSeconds + 0.3f);      // the left stick held in (a quick press rearranges the item bar)
             Assert.IsTrue(PhotoMode.Active, "photo mode is on");
             yield return Tap(_pad.buttonNorth);                          // Y: next villager (nothing breaks with none near)
             yield return Tap(_pad.rightShoulder);                        // RB: an emote
