@@ -9,8 +9,23 @@
 ## Achievement ids
 `first_furrows`, `first_harvest`, `neighbour`, `hall`, `second_year`, `third_year`, `end_sealed`, `end_joined`, `end_ignored`, `end_awakened`. Titles are in `en.json` (`ach.<id>.name`/`.desc`) and must stay spoiler-free.
 
-## Steam Auto-Cloud (configure in the Steamworks partner site)
-Root: `Application.persistentDataPath` (Windows `%USERPROFILE%/AppData/LocalLow/<company>/<product>`, Linux `~/.config/unity3d/<company>/<product>`). Include `saves/*/save.json` (and `.bak`) and `settings.json`; exclude `logs/`.
+## Cloud saves (Steam Cloud through the Remote Storage API)
+**What the player sees.** Starting a new game on Steam asks where it lives: Steam Cloud (the default) or this computer only. When cloud saves are available for the first time and saves from an earlier version are on this computer, the main menu asks once whether to move them to the cloud; any answer (including Esc) is remembered in `cloud.json` and the question is not asked again, and "No" keeps them local. The load list and the new-game list show a cloud or a computer icon (`ui_save_cloud`, `ui_save_local`) in front of each saved game. Without Steam, with the cloud switched off in Steam, or offline, nothing is offered and every game is local.
+
+**How it works** (`SaveService.Cloud.cs`, `Farm.Platform.ICloudStorage`, `SteamCloudStorage` behind `FARM_STEAM`):
+- Every slot keeps its working copy at `saves/slotN/save.json` under `Application.persistentDataPath`; a slot whose `saves/slotN/location.json` says `cloud` is also written to the store as `saves/slotN.json` after every save (a slot without that file is local, so saves from before this feature load unchanged).
+- Sync (at start-up of the load and new-game screens, before a load, and before the migration offer): a slot missing locally is pulled from the cloud (a second computer); a cloud slot missing in the cloud is pushed; a failed write leaves the local copy and is retried by the next sync.
+- **Conflict rule: newest wins, nothing is lost.** When the local and the cloud copy of a slot differ, the one with the later modification time wins (a copy that is not valid JSON always loses; a tie goes to the cloud). The loser is kept as `saves/slotN/conflict-<time>.json` (the last three are kept).
+- Deleting a cloud save also deletes the cloud copy; if the cloud refuses, the delete is remembered in `cloud.json` and retried, so a deleted game is never pulled back.
+- Settings (`settings.json`) are not synced.
+
+**What the owner must configure in the Steamworks partner site (app 5408390).** Not verified by a person yet.
+1. App Admin > Application > **Cloud**: tick *Enable cloud support* (turn it on for the app before the build that uses it is live; Steam Cloud is also a per-player switch in Steam settings, which the game respects).
+2. Set **Byte quota per user** and **Number of files allowed per user**. The game writes at most three files (`saves/slot0.json` to `saves/slot2.json`), each a few hundred KB at most for a long game; ask for at least 10 MB and 10 files to leave room (a quota that is too small makes writes fail, which the game treats as "keep it local").
+3. **Do not configure Auto-Cloud root paths for `saves/`.** The game uses the Remote Storage API so that only saves the player chose to keep in the cloud are uploaded; an Auto-Cloud rule over `saves/*/save.json` would upload local games too and fight with the game's own sync. (The earlier plan, Auto-Cloud on `saves/*/save.json`, is dropped.) If Steam later offers Auto-Cloud for `settings.json`, add only that.
+4. Publish the Steamworks changes (the Cloud settings need a *Publish* in the partner site, like the depots).
+5. The Steam build needs the scripting define `FARM_STEAM` and the Steamworks.NET package, and `SteamPlatform.TryInstall()` must be called at start-up. **Neither is wired into the shipped builds yet** (the game still runs on `NullPlatform`), so cloud saves are dormant until that is done; the logic is tested against a fake store only.
+6. Test on a `beta` branch with two computers (or one computer and Steam's "Cloud" page for the app): new cloud game, save, then check the files under steamcloud.steamgames.com's *View saved cloud files* for the app, then install on a second PC and see the game appear in the load list.
 
 ## Still to do (needs the owner)
 Steam App ID, depots and branches (T-070), SteamPipe scripts (T-071), Steam Input glyphs and the on-screen keyboard (Steam-only APIs), verification with Steam running on Windows and Linux/Steam Deck.
@@ -19,7 +34,7 @@ Steam App ID, depots and branches (T-070), SteamPipe scripts (T-071), Steam Inpu
 1. **Version.** `bundleVersion` in Project Settings is the version (semantic, `x.y.z`); builds go to `Builds/<OS>/<version>`. Bump it, add a `CHANGELOG.md` entry, commit, tag `v<version>`.
 2. **Build** both players (release, IL2CPP for candidates): `docs/BUILD.md`. The build guard fails if developer tools leak in.
 3. **Gate.** Run the EditMode and PlayMode suites and the manual checks in `docs/QA.md`; walk the release checklist in the plan (the automatable lines are `ReleaseChecklistTests`).
-4. **Upload to `beta`:** `STEAMCMD=... STEAM_USER=... Steam/upload.sh beta` (needs the App and depot ids in `Steam/*.vdf`; the script refuses placeholders and refuses the `default` branch). Install from Steam on Windows, Linux and a Steam Deck, play, check achievements and Auto-Cloud, check offline mode.
+4. **Upload to `beta`:** `STEAMCMD=... STEAM_USER=... Steam/upload.sh beta` (needs the App and depot ids in `Steam/*.vdf`; the script refuses placeholders and refuses the `default` branch). Install from Steam on Windows, Linux and a Steam Deck, play, check achievements and cloud saves (section above), check offline mode.
 5. **Go live:** in the partner site, set `beta` live on `default`, only after step 4 passes. Announce with the changelog text.
 6. **Hotfix:** branch from the release tag (`hotfix/<version>`), fix with a failing-first test, bump the patch version, repeat 2 to 5 (upload to `beta`, verify, promote). Saves are forward-compatible only: never lower `GameState.CurrentVersion`; any change to save shape adds a migration and a fixture under `Tests/EditMode/Saves`.
 7. **Patch pipeline:** SteamPipe uploads only changed files, so patches are small as long as the build is deterministic enough; keep `Builds/` out of git and archive the shipped folders.

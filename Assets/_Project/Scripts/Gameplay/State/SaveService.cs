@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Farm.Core;
+using Farm.Platform;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -25,10 +26,11 @@ namespace Farm.Gameplay
         public int SeasonIndex;
         public int Day;
         public int Gold;
+        public SaveLocation Location;
     }
 
     // Three save slots under <root>/saves/slotN/save.json with atomic writes and a .bak fallback.
-    public sealed class SaveService
+    public sealed partial class SaveService
     {
         public const int SlotCount = 3;
         const string FileName = "save.json";
@@ -40,11 +42,16 @@ namespace Farm.Gameplay
         };
 
         readonly string _root;
+        readonly string _dataRoot;
         readonly List<ISaveMigration> _migrations;
+        readonly Func<ICloudStorage> _cloud;
 
-        public SaveService(string rootDirectory, IEnumerable<ISaveMigration> migrations = null)
+        // `cloud` answers the store's cloud storage when asked (it can change: Steam starts after the services exist); null means none.
+        public SaveService(string rootDirectory, IEnumerable<ISaveMigration> migrations = null, Func<ICloudStorage> cloud = null)
         {
+            _dataRoot = rootDirectory;
             _root = Path.Combine(rootDirectory, "saves");
+            _cloud = cloud;
             _migrations = (migrations ?? Enumerable.Empty<ISaveMigration>()).OrderBy(m => m.FromVersion).ToList();
         }
 
@@ -62,13 +69,16 @@ namespace Farm.Gameplay
         public void Save(int slot, GameState state)
         {
             state.SaveVersion = GameState.CurrentVersion;
-            AtomicFile.Write(SlotPath(slot), JsonConvert.SerializeObject(state, JsonSettings));
+            var json = JsonConvert.SerializeObject(state, JsonSettings);
+            AtomicFile.Write(SlotPath(slot), json);
+            PushToCloud(slot, json);
         }
 
         public bool TryLoad(int slot, out GameState state, out string error)
         {
             state = null;
             error = null;
+            SyncSlot(slot);
             var text = AtomicFile.Read(SlotPath(slot), IsParsable, out var usedBackup);
             if (text == null)
             {
@@ -113,7 +123,7 @@ namespace Farm.Gameplay
 
         public SlotSummary Summarize(int slot)
         {
-            var summary = new SlotSummary { Slot = slot };
+            var summary = new SlotSummary { Slot = slot, Location = GetLocation(slot) };
             var text = AtomicFile.Read(SlotPath(slot), IsParsable, out _);
             if (text == null) return summary;
             try
@@ -137,6 +147,7 @@ namespace Farm.Gameplay
 
         public void Delete(int slot)
         {
+            DeleteFromCloud(slot);
             var dir = Path.GetDirectoryName(SlotPath(slot));
             if (dir != null && Directory.Exists(dir)) Directory.Delete(dir, true);
         }

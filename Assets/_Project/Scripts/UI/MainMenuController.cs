@@ -18,6 +18,7 @@ namespace Farm.UI
             _menu.Open();
             var open = CommandLine.GetArg("-farmOpen");
             if (open == "newgame") _menu.OpenNewGame();
+            else if (open == "load") _menu.OpenLoad();
             else if (open == "options") ui.ShowOptions();
         }
 

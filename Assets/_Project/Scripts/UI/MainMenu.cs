@@ -87,11 +87,26 @@ namespace Farm.UI
             base.Open();
             _continue.interactable = SaveSlots.MostRecentSlot(Ui) >= 0;
             if (!_continue.interactable) Ui.FocusFirst(Root);
+            OfferCloudMigration();
+        }
+
+        // Once, when Steam Cloud is available and saves from an earlier version are on this computer. Any way of closing the question
+        // (No, Esc) keeps them local and counts as the answer, so it never comes back.
+        void OfferCloudMigration()
+        {
+            var saves = Ui.Game?.Saves;
+            if (saves == null || !saves.ShouldOfferMigration()) return;
+            Ui.ShowConfirm("cloud.migrate.offer", () =>
+            {
+                var moved = saves.MigrateLocalToCloud(out var failed);
+                Ui.ShowText(failed > 0 ? L.Get("cloud.migrate.partial", moved, failed) : L.Get("cloud.migrate.done", moved));
+            }, saves.DeclineMigration);
         }
 
         public override void OnCancel() { }
 
         public void OpenNewGame() => _newGame.Open();
+        public void OpenLoad() => _load.Open();
 
         void Continue()
         {
@@ -124,6 +139,24 @@ namespace Farm.UI
             return best;
         }
 
+        public const string CloudIcon = "ui_save_cloud";
+        public const string LocalIcon = "ui_save_local";
+        public const float IconSize = 26f;
+
+        // The small picture that says where a saved game lives (an empty slot keeps the space but shows nothing).
+        public static Image AddLocationIcon(Transform row, SaveLocation location, bool visible = true)
+        {
+            var icon = UiKit.Panel(row, "Location", visible ? Color.white : Color.clear);
+            icon.sprite = UiArt.Get(location == SaveLocation.Cloud ? CloudIcon : LocalIcon);
+            icon.preserveAspect = true;
+            icon.raycastTarget = false;
+            if (icon.sprite == null || !visible) icon.color = Color.clear;
+            UiKit.Size(icon.gameObject, IconSize, IconSize);
+            if (visible) UiTip.Add(icon.gameObject, location == SaveLocation.Cloud ? "save.where_cloud" : "save.where_local");
+            else UiTip.Skip(icon.gameObject);
+            return icon;
+        }
+
         public static string Describe(SlotSummary s)
         {
             if (!s.Exists) return L.Get("slot.empty", s.Slot + 1);
@@ -152,6 +185,10 @@ namespace Farm.UI
         readonly RectTransform _slots;
         readonly TextMeshProUGUI _status;
         readonly Image _avatarPreview;
+        readonly GameObject _whereRow;
+        readonly Image _whereIcon;
+        readonly Button _whereButton;
+        SaveLocation _where = SaveLocation.Cloud;
         AvatarScreen _creator;
         int _opens;
         AvatarData _avatar = AvatarOptions.Default();
@@ -160,7 +197,7 @@ namespace Farm.UI
 
         public NewGameScreen(UiService ui, UiScreen parent) : base(ui)
         {
-            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "NewGame", new Vector2(520, 500), out var root);
+            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "NewGame", new Vector2(520, 548), out var root);
             Root = root;
             var stack = UiKit.VStack(frame, "Stack", 8f, 16);
             UiKit.Stretch((RectTransform)stack.transform);
@@ -181,6 +218,14 @@ namespace Farm.UI
             UiTip.Add(_avatarPreview.gameObject, "uitip.avatar.preview");
             UiKit.Place(_avatarPreview.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(32f, 64f), Vector2.zero);
             UiKit.MakeButton(farmer.transform, L.Get("newgame.customize"), OpenCreator, 300f, 38f).name = "Customize";
+            // Where the save lives: only offered while Steam Cloud is available.
+            var where = UiKit.HStack(stack.transform, "SaveWhere", 8f);
+            _whereRow = where.gameObject;
+            UiKit.Size(_whereRow, -1f, 34f);
+            _whereIcon = SaveSlots.AddLocationIcon(where.transform, _where);
+            UiTip.Add(_whereIcon.gameObject, () => L.Get(_where == SaveLocation.Cloud ? "save.where_cloud" : "save.where_local"));      // follows the toggle
+            _whereButton = UiKit.MakeButton(where.transform, "", ToggleWhere, 420f, 34f);
+            _whereButton.name = "SaveWhereButton";
             UiKit.Label(stack.transform, L.Get("newgame.choose_slot"), 16f, TextAlignmentOptions.Left, UiKit.DimText);
 
             var slots = UiKit.VStack(stack.transform, "Slots", 4f);
@@ -194,6 +239,9 @@ namespace Farm.UI
         {
             _name.text = DefaultFarmerName.Fallback;
             _avatar = AvatarOptions.Random(System.Environment.TickCount + _opens++ * 7919);   // as if Surprise Me was pressed; Customize changes it
+            Ui.Game.Saves.SyncAll();
+            _whereRow.SetActive(Ui.Game.Saves.CloudAvailable);
+            ShowWhere();
             Rebuild();
             base.Open();
         }
@@ -202,6 +250,18 @@ namespace Farm.UI
         {
             _creator ??= new AvatarScreen(Ui);
             _creator.OpenWith(_avatar, look => { _avatar = look; ShowAvatar(); });
+        }
+
+        void ToggleWhere()
+        {
+            _where = _where == SaveLocation.Cloud ? SaveLocation.Local : SaveLocation.Cloud;
+            ShowWhere();
+        }
+
+        void ShowWhere()
+        {
+            _whereIcon.sprite = UiArt.Get(_where == SaveLocation.Cloud ? SaveSlots.CloudIcon : SaveSlots.LocalIcon);
+            UiKit.SetButtonText(_whereButton, L.Get(_where == SaveLocation.Cloud ? "newgame.where.cloud" : "newgame.where.local"));
         }
 
         void ShowAvatar() => _avatarPreview.sprite = AvatarSprites.For(_avatar).Down;
@@ -216,7 +276,9 @@ namespace Farm.UI
             {
                 var slot = i;
                 var summary = saves.Summarize(slot);
-                UiKit.MakeButton(_slots, SaveSlots.Describe(summary), () => Begin(slot, summary.Exists), 460f, 34f);
+                var row = UiKit.HStack(_slots, "Slot" + slot, 6f);
+                SaveSlots.AddLocationIcon(row.transform, summary.Location, summary.Exists);
+                UiKit.MakeButton(row.transform, SaveSlots.Describe(summary), () => Begin(slot, summary.Exists), 426f, 34f);
             }
         }
 
@@ -238,6 +300,7 @@ namespace Farm.UI
 
         void Start(int slot)
         {
+            Ui.Game.Saves.StartSlot(slot, _where);                         // falls back to local by itself when the cloud is not available
             var session = Ui.Game.Session;
             session.BeginNewGame(_name.text, _farm.text, slot, _avatar.Clone(), toolsOnRack: true);
             session.PendingIntro = true;
@@ -249,16 +312,18 @@ namespace Farm.UI
     {
         readonly RectTransform _slots;
         readonly TextMeshProUGUI _status;
+        readonly TextMeshProUGUI _legend;
 
         public LoadGameScreen(UiService ui, UiScreen parent) : base(ui)
         {
-            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "LoadGame", new Vector2(520, 300), out var root);
+            var frame = UiKit.ModalFrame(ui.ScreenCanvas.transform, "LoadGame", new Vector2(580, 320), out var root);
             Root = root;
             var stack = UiKit.VStack(frame, "Stack", 8f, 16);
             UiKit.Stretch((RectTransform)stack.transform);
             UiKit.Label(stack.transform, L.Get("menu.load_game"), 26f, TextAlignmentOptions.Left, UiKit.Accent);
             var slots = UiKit.VStack(stack.transform, "Slots", 4f);
             _slots = (RectTransform)slots.transform;
+            _legend = UiKit.Label(stack.transform, L.Get("slot.legend"), 14f, TextAlignmentOptions.Left, UiKit.DimText);
             _status = UiKit.Label(stack.transform, "", 15f, TextAlignmentOptions.Left, UiKit.Danger);
             UiKit.MakeButton(stack.transform, L.Get("ui.back"), Close, 160f, 32f);
             root.SetActive(false);
@@ -269,19 +334,24 @@ namespace Farm.UI
             _status.text = string.Empty;
             UiKit.ClearChildren(_slots);
             var saves = Ui.Game.Saves;
+            saves.SyncAll();
+            var anyCloud = saves.CloudAvailable;
             for (var i = 0; i < SaveService.SlotCount; i++)
             {
                 var slot = i;
                 var summary = saves.Summarize(slot);
                 var row = UiKit.HStack(_slots, "Slot" + slot, 6f);
+                SaveSlots.AddLocationIcon(row.transform, summary.Location, summary.Exists);
+                anyCloud |= summary.Exists && summary.Location == SaveLocation.Cloud;
                 var b = UiKit.MakeButton(row.transform, SaveSlots.Describe(summary),
-                    () => SaveSlots.LoadAndStart(Ui, slot, error => _status.text = L.Get("load.failed", error)), 372f, 34f);
+                    () => SaveSlots.LoadAndStart(Ui, slot, error => _status.text = L.Get("load.failed", error)), 400f, 34f);
                 b.interactable = summary.Exists;
                 // Playtest 2026-10-10: there was no way to remove a saved game. Deleting asks first.
                 var del = UiKit.MakeButton(row.transform, L.Get("load.delete"), () => Ui.ShowConfirm("confirm.delete_save", () => { Ui.Game.Saves.Delete(slot); Open(); }), 82f, 34f);
                 del.name = "Delete" + slot;
                 del.interactable = summary.Exists;
             }
+            _legend.gameObject.SetActive(anyCloud);                       // the legend only matters when the cloud is in play
             base.Open();
         }
     }

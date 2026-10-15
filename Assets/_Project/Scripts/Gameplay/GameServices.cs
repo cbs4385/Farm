@@ -35,6 +35,10 @@ namespace Farm.Gameplay
             var root = services.Root;
             var bus = services.Bus;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            var dataRoot = CommandLine.GetArg("-farmDataRoot");
+            if (!string.IsNullOrEmpty(dataRoot) && DataRootOverride == null) DataRootOverride = dataRoot;
+#endif
             var settings = new SettingsStore(DataRoot);
             settings.Load();
             if (AudioVolumeOverride.HasValue)
@@ -65,7 +69,12 @@ namespace Farm.Gameplay
                 inputService.ApplyOverrides(settings.Current.BindingOverridesJson);
             }
 
-            var saves = new SaveService(DataRoot, new ISaveMigration[] { new FarmMirrorMigration() });
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            // QA: `-farmDataRoot <folder>` keeps saves and settings away from the real ones; `-farmFakeCloud <folder>` makes a folder the cloud, so the cloud-save screens can be seen and tried without Steam.
+            var fakeCloud = CommandLine.GetArg("-farmFakeCloud");
+            if (!string.IsNullOrEmpty(fakeCloud)) Farm.Platform.PlatformServices.Use(new Farm.Platform.FolderCloudPlatform(fakeCloud));
+#endif
+            var saves = new SaveService(DataRoot, new ISaveMigration[] { new FarmMirrorMigration() }, () => Farm.Platform.PlatformServices.Current.Cloud);
 
             var session = root.AddComponent<GameSession>();
             session.Init(bus, db, saves);

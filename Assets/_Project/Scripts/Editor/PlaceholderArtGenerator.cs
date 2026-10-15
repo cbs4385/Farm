@@ -153,6 +153,8 @@ namespace Farm.Editor
             UiFrame(written, "ui_slot", 18, new Color(0.80f, 0.70f, 0.50f), new Color(0.45f, 0.30f, 0.15f));
             UiFrame(written, "ui_slot_selected", 18, new Color(0.95f, 0.88f, 0.55f), new Color(0.85f, 0.30f, 0.20f));
 
+            SaveIcons(written);
+
             AssetDatabase.Refresh();
             Debug.Log($"[PlaceholderArt] Wrote {written.Count} sprites to {OutDir}.");
         }
@@ -292,6 +294,44 @@ namespace Farm.Editor
             Rect(t, 1, 1, 14, 14, body);
             Rect(t, 1, 10, 14, 5, trim);
             Save(written, name, t);
+        }
+
+        // Only the two icons that label a saved game as kept in the cloud or on this computer (the load and new-game lists).
+        [MenuItem("Farm/Setup/Generate Save Icons")]
+        public static void GenerateSaveIcons()
+        {
+            var written = new List<string>();
+            SaveIcons(written);
+            AssetDatabase.Refresh();
+            Debug.Log($"[PlaceholderArt] Wrote {written.Count} save icons.");
+        }
+
+        static void SaveIcons(List<string> written)
+        {
+            var ink = new Color(0.20f, 0.30f, 0.50f);
+            var fill = new Color(0.86f, 0.94f, 1f);
+            var cloud = NewTex(16, 16);
+            Disc(cloud, 5.5f, 6.5f, 4.5f, ink); Disc(cloud, 9f, 8.5f, 5.5f, ink); Disc(cloud, 11.5f, 6.5f, 4f, ink);
+            Rect(cloud, 3, 2, 10, 7, ink);
+            Disc(cloud, 5.5f, 6.5f, 3.5f, fill); Disc(cloud, 9f, 8.5f, 4.5f, fill); Disc(cloud, 11.5f, 6.5f, 3f, fill);
+            Rect(cloud, 4, 3, 8, 5, fill);
+            Save(written, "ui_save_cloud", cloud);
+
+            var edge = new Color(0.25f, 0.20f, 0.15f);
+            var body = new Color(0.78f, 0.74f, 0.66f);
+            var screen = new Color(0.30f, 0.45f, 0.40f);
+            var local = NewTex(16, 16);
+            Rect(local, 1, 5, 14, 10, edge); Rect(local, 2, 6, 12, 8, body); Rect(local, 3, 7, 10, 6, screen);
+            Rect(local, 5, 3, 6, 2, edge); Rect(local, 6, 3, 4, 1, body);
+            Rect(local, 3, 1, 10, 2, edge); Rect(local, 4, 2, 8, 1, body);
+            Save(written, "ui_save_local", local);
+        }
+
+        static void Disc(Texture2D t, float cx, float cy, float r, Color c)
+        {
+            for (var y = 0; y < t.height; y++)
+                for (var x = 0; x < t.width; x++)
+                    if ((x + 0.5f - cx) * (x + 0.5f - cx) + (y + 0.5f - cy) * (y + 0.5f - cy) <= r * r) t.SetPixel(x, y, c);
         }
 
         static void Cursor(List<string> written, string name)

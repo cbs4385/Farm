@@ -17,6 +17,14 @@ Paths and roads, following the forest trail of 0.6.8.
 - **The farm's path winds and is one cell wide.** The path from the farmhouse door and east to the village is a single cell wide (never two abreast) and now bends and steps sideways instead of running as two straight lines. It still begins at the door, ends at the way out to the village, and keeps clear of the house, the shipping bin and the mailbox.
 - **Ragged, worn edges on the village's roads and paths too.** The cobbled main road and lane, the shops' paths and the villagers' streets, and the farm's path, are drawn with the same grid-ignoring, worn outline as the forest trail, against grass as well as forest floor. The village's loose dirt specks stay specks. The tiles underneath are unchanged, so walking, footsteps and farming rules are the same.
 
+Steam Cloud saves (written behind a fake store, not yet tried against real Steam).
+
+- **Choose where a new game lives.** When Steam Cloud is available, the new-game screen has a "Save to" button: Steam Cloud (the default) or this computer only. Without Steam, with the cloud off, or offline, nothing is offered and every game is local.
+- **One-time offer for saves from earlier versions.** The first time the cloud is available and saves from before are on this computer, the main menu asks once whether to move them to Steam Cloud. Any answer (Yes, No, Esc) is remembered and it never asks again; No keeps them local; a save that cannot be uploaded stays local.
+- **A cloud or a computer icon in the load list** (and the new-game slot list) shows where each saved game lives, with a one-line legend.
+- Safe sync: the local file is always kept; when the local and cloud copy of a slot differ the newer wins and the other is kept as a `conflict-<time>.json` backup next to it. Deleting a cloud game also deletes its cloud copy (retried if the cloud refuses). Old saves load unchanged and count as local.
+- Owner to-do (Steamworks Cloud settings, quotas, no Auto-Cloud on `saves/`, and the still-missing `FARM_STEAM` / `SteamPlatform.TryInstall` wiring): `docs/RELEASE.md`, "Cloud saves".
+
 ## 0.6.9 (2026-10-15)
 
 An editing pass over what the villagers say when you talk to them.

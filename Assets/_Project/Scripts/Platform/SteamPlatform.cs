@@ -10,6 +10,7 @@ namespace Farm.Platform
     {
         public string Name => "steam";
         public bool IsOnline => SteamAPI.IsSteamRunning();
+        public ICloudStorage Cloud { get; } = new SteamCloudStorage();
 
         public static void TryInstall()
         {

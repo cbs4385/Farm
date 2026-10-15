@@ -8,6 +8,8 @@ namespace Farm.Platform
         bool IsOnline { get; }
         // Unlocks an achievement by its stable id. Safe to call repeatedly.
         void UnlockAchievement(string id);
+        // The store's cloud file storage, or null when it has none (saves are then always local).
+        ICloudStorage Cloud => null;
     }
 
     public sealed class NullPlatform : IPlatformServices
