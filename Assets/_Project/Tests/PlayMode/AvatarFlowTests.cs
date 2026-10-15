@@ -133,6 +133,35 @@ namespace Farm.Tests
         }
 
         [UnityTest]
+        public IEnumerator TheRgbSliders_EditTheChosenPart_AndTheSwatchesAreTheirPresets()
+        {
+            Bootstrapper.InitializeServices();
+            yield return null;
+            var creator = new AvatarScreen((UiService)GameContext.Current.Ui);
+            creator.OpenWith(AvatarOptions.Default(), _ => { });
+            yield return null;
+            var root = creator.Root;
+            Slider S(string n) => root.GetComponentsInChildren<Slider>(true).First(x => x.name == n);
+
+            // A swatch sets the sliders to its colour and makes its part the one the sliders edit.
+            Click(root, "shirt_d62a2a");
+            Assert.AreEqual(0xd6, (int)S("Rgb_R").value); Assert.AreEqual(0x2a, (int)S("Rgb_G").value); Assert.AreEqual(0x2a, (int)S("Rgb_B").value);
+            // Moving a slider changes only that part, to the mixed colour, which is a valid look.
+            var hair = creator.Look.HairColor;
+            S("Rgb_B").value = 200;
+            Assert.AreEqual("#d62ac8", creator.Look.ShirtColor);
+            Assert.AreEqual(hair, creator.Look.HairColor);
+            Assert.IsTrue(creator.Look.SameAs(AvatarOptions.Sanitize(creator.Look)));
+            // Choosing another part shows its colour on the sliders.
+            Click(root, "Custom_3");
+            Assert.AreEqual(AvatarOptions.Default().PantsColor, "#" + ((int)S("Rgb_R").value).ToString("x2") + ((int)S("Rgb_G").value).ToString("x2") + ((int)S("Rgb_B").value).ToString("x2"));
+            // No accessory, no colour to mix.
+            while (creator.Look.Accessory != "none") Click(root, "accessory_next");
+            Click(root, "Custom_4");
+            Assert.IsFalse(S("Rgb_R").interactable);
+        }
+
+        [UnityTest]
         public IEnumerator EachTimeTheNewGameScreenOpens_TheFarmerIsRandomised()
         {
             Bootstrapper.InitializeServices();

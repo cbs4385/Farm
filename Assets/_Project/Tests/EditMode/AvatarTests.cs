@@ -237,6 +237,22 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void AnAvatarSavedBeforeTheColourSliders_LoadsWithTheSameColours()
+        {
+            // The save format is unchanged: colours were and are "#RRGGBB" strings, so an old file (written with the 0.6.9 palettes) reads back as it was.
+            const string old = "{\"Build\":\"masculine\",\"Hair\":\"curly\",\"Shirt\":\"vest\",\"Pants\":\"cuffed\",\"Accessory\":\"glasses\"," +
+                "\"Skin\":\"#8d5524\",\"HairColor\":\"#c85a9a\",\"ShirtColor\":\"#9ad0c8\",\"PantsColor\":\"#5a3a5a\",\"AccessoryColor\":\"#f2d24a\"}";
+            var look = JsonConvert.DeserializeObject<AvatarData>(old);
+            Assert.IsTrue(look.SameAs(AvatarOptions.Sanitize(look)));
+            Assert.AreEqual("#c85a9a", look.HairColor); Assert.AreEqual("#9ad0c8", look.ShirtColor); Assert.AreEqual("#5a3a5a", look.PantsColor); Assert.AreEqual("#f2d24a", look.AccessoryColor);
+            Assert.AreEqual("#8d5524", look.Skin);
+            // A colour made with the sliders is kept the same way, whether or not it is a preset.
+            look.HairColor = "#12ab9f";
+            Assert.AreEqual("#12ab9f", JsonConvert.DeserializeObject<AvatarData>(JsonConvert.SerializeObject(look)).HairColor);
+            Assert.AreEqual("#12ab9f", AvatarOptions.Sanitize(look).HairColor);
+        }
+
+        [Test]
         public void TheStyleNames_HaveText()
         {
             var en = Farm.Core.L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json"));

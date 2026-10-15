@@ -333,6 +333,9 @@ namespace Farm.UI
             return (RectTransform)row.transform;
         }
 
+        // The game's fixed text colours: white, black, then the farmer creator's shirt colours (so the reds are here too).
+        static readonly string[] TextColorPresets = new[] { "ffffff", "000000" }.Concat(AvatarOptions.ShirtColors.Select(h => h.Substring(1))).ToArray();
+
         // A colour picker for one kind of text: a swatch and red, green and blue sliders, and a button that returns to the game's colour.
         void TextColorPicker(string labelKey, Color fallback, Func<string> get, Action<string> set, SettingsData settings)
         {
@@ -358,6 +361,19 @@ namespace Farm.UI
                 sliders[i].name = labelKey + "." + i;
             }
             building = false;
+            // The fixed colours are presets: a click moves the three sliders to that colour.
+            var presets = Row(string.Empty);
+            foreach (var hex in TextColorPresets)
+            {
+                var c = UiTextStyle.Parse(hex) ?? Color.white;
+                UiKit.MakeSwatch(presets, c, () =>
+                {
+                    building = true;
+                    sliders[0].SetValueWithoutNotify(c.r); sliders[1].SetValueWithoutNotify(c.g); sliders[2].SetValueWithoutNotify(c.b);
+                    building = false;
+                    Changed();
+                }, out _, 22f).name = labelKey + ".preset." + hex;
+            }
             var reset = Row(string.Empty);
             UiKit.MakeButton(reset, L.Get("options.color.reset"), () =>
             {

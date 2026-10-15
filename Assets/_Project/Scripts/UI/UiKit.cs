@@ -168,6 +168,20 @@ namespace Farm.UI
         }
 
         public static Slider MakeSlider(Transform parent, float value, UnityAction<float> onChanged, float width = 220f)
+        // A small square button filled with one colour; `mark` is the highlight behind the fill (on when this is the chosen colour).
+        public static Button MakeSwatch(Transform parent, Color32 colour, UnityAction onClick, out GameObject mark, float size = 24f)
+        {
+            var button = MakeButton(parent, "", onClick, size, size);
+            var m = Panel(button.transform, "Mark", Accent);
+            Stretch(m.rectTransform);
+            m.raycastTarget = false;
+            mark = m.gameObject;
+            var fill = Panel(button.transform, "Fill", new Color32(colour.r, colour.g, colour.b, 255));
+            Stretch(fill.rectTransform, 3f);
+            fill.raycastTarget = false;
+            return button;
+        }
+
         {
             var root = Rect("Slider", parent);
             Size(root.gameObject, width, 24f);
