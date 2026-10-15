@@ -79,6 +79,7 @@ namespace Farm.Gameplay
             ClearNodesInWater();
             _session.RunSpawns(_map.MapId, SpawnCandidates);
             if (_map.MapId == MapIds.Forest || _map.MapId == MapIds.Village) _view.TreeSkin = (x, y) => SeasonalTrees.SpriteAt(_map.MapId, _session.State.WorldSeed, _session.Clock.Now.Season, x, y);
+            WorldSorting.Apply(_map, Camera.main);
             _view.Bind(_session.GetGrid(_map.MapId), _session.Db, _session.GetNodes(_map.MapId), _session.Nodes);
 
             _camera.SetTarget(_player.transform);

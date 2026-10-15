@@ -2,6 +2,10 @@
 
 ## 0.6.10 (unreleased)
 
+Trees in the right order (playtest: "the trees in the forest still look strange").
+
+- **Trees, the farmer and the villagers are now drawn by height.** The trees you can chop (the forest's thickets, the village's and the farm's) were tiles drawn under the farmer, the edge-band trees were pictures drawn over him, and neither was put in order by height, so a nearer tree could be covered by a farther one and the farmer was in front of a tree he stood behind. Now one sorting order is shared and the camera sorts by height (lower on the screen is in front, with a tiny sideways tie-break so neighbours in a row never flicker). Villagers moved to the same order. Works on existing scenes (applied when a map starts). Automated tests only; not seen by a person yet, and the capture comparison is listed in docs/STATUS.md.
+
 Hover names for everything (playtest: bushes and logs on the farm showed nothing; not every icon said what it was). Checked by tests and captures; nobody has played it.
 
 - **Every thing a tool clears names itself on hover:** tree, sapling, stump, log, bush, rock, boulder, weeds and the ore veins. Props, furniture, festival stands and the mine entrance on the maps get names too.

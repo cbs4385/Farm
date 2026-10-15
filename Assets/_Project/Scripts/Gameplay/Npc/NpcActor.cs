@@ -9,6 +9,7 @@ namespace Farm.Gameplay
     [RequireComponent(typeof(SpriteRenderer))]
     public sealed class NpcActor : MonoBehaviour, IInteractable, ICellOccupant
     {
+        public const int StandingOrder = WorldSorting.ActorOrder, SleepingOrder = WorldSorting.ActorOrder;          // sorted by height with the farmer and the trees
         public string HoverLabel => _definition != null ? Farm.Core.L.Get(_definition.NameKey) : null;
 
         NpcDefinition _definition;
@@ -99,7 +100,7 @@ namespace Farm.Gameplay
             Sleeping = sleeping;
             if (_renderer != null)
             {
-                _renderer.sortingOrder = sleeping ? 10 : 9;
+                _renderer.sortingOrder = sleeping ? SleepingOrder : StandingOrder;
                 if (_definition != null) _renderer.sprite = sleeping ? SleepSpriteOf(_definition.SpriteFor(Vector2Int.down)) ?? _renderer.sprite : _definition.SpriteFor(_facing);
             }
             if (TryGetComponent<WalkBob>(out var bob)) bob.NoShadow = sleeping;
@@ -150,7 +151,7 @@ namespace Farm.Gameplay
             if (_seat == null) return;
             if (_seat.Occupant == this) _seat.Occupant = null;
             _seat = null;
-            if (TryGetComponent<SpriteRenderer>(out var risen)) risen.sortingOrder = Sleeping ? 10 : 9;
+            if (TryGetComponent<SpriteRenderer>(out var risen)) risen.sortingOrder = Sleeping ? SleepingOrder : StandingOrder;
             ClearPose();
         }
         public Vector3Int Cell { get; private set; }
@@ -194,7 +195,7 @@ namespace Farm.Gameplay
             _session = session;
             name = "Npc_" + definition.Id;
             _renderer = GetComponent<SpriteRenderer>();
-            _renderer.sortingOrder = 9;
+            _renderer.sortingOrder = StandingOrder;
             ActorBody.Add(gameObject);
             var bodyTransform = transform.Find(ActorBody.BodyName);
             _body = bodyTransform != null ? bodyTransform.GetComponent<BoxCollider2D>() : null;

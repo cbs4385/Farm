@@ -31,7 +31,7 @@ namespace Farm.Gameplay
             copy.color = sr.color;
             copy.sharedMaterial = sr.sharedMaterial;
             copy.sortingLayerID = sr.sortingLayerID;
-            copy.sortingOrder = sr.sortingOrder;
+            copy.sortingOrder = sr.sprite.name == SeasonalTrees.TreeSprite ? WorldSorting.ActorOrder : sr.sortingOrder;          // a tree is sorted by height with the player (WorldSorting)
             sr.enabled = false;
             _pivot = pivot;
         }

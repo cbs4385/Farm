@@ -1073,6 +1073,7 @@ namespace Farm.Editor
             if (name == "Nodes")
             {
                 tr.mode = TilemapRenderer.Mode.Individual;                    // chunk mode drew a tree behind one in front of it (playtest 2026-10-13)
+                tr.sortingOrder = WorldSorting.ActorOrder;                    // with the player and the villagers, put in order by height (2026-10-15)
                 tr.sortOrder = TilemapRenderer.SortOrder.TopLeft;             // the rows higher up are drawn first, so the lower ones overlap them
             }
             if (collider)
@@ -1126,7 +1127,7 @@ namespace Farm.Editor
             }
             var label = LabelKeyFor(spriteName);
             if (label != null) HoverNote.Add(go, label, spriteName == "prop_mine_entrance" ? "hover.mine.caution" : null, solid ? (Vector2?)null : size ?? Vector2.one);          // what a thing is, for a mouse resting on it or a pad facing it
-            if (spriteName == "obj_tree") sr.sortingOrder = TallSortingOrder;           // the crown covers a player who stands behind the tree (the player is at 10)
+            if (spriteName == "obj_tree") sr.sortingOrder = WorldSorting.ActorOrder;           // sorted by height with the player (same order, WorldSorting.Axis): the crown covers a player who stands behind the tree
             if (spriteName == "obj_tree" || spriteName == "obj_bramble") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
             return go;
         }
