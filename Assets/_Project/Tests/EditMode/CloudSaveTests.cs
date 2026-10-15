@@ -401,6 +401,31 @@ namespace Farm.Tests
             Assert.IsFalse(svc.ShouldOfferMigration());
         }
 
+        // ---- the new-game "Save to" row ---------------------------------------------------------------------------------------
+
+        // Playtest 2026-10-15: a game started outside Steam showed no "Save to" row at all, so nothing said why the game was not offered the cloud.
+        [Test]
+        public void TheSaveToRow_IsAlwaysShown_AndSaysWhyWhenTheCloudIsNotAvailable()
+        {
+            Assert.AreEqual("newgame.where.cloud", NewGameWhere.LabelKey(true, SaveLocation.Cloud));
+            Assert.AreEqual("newgame.where.local", NewGameWhere.LabelKey(true, SaveLocation.Local));
+            Assert.AreEqual("newgame.where.unavailable", NewGameWhere.LabelKey(false, SaveLocation.Cloud), "the default choice is the cloud, so this is the case a player outside Steam sees");
+            Assert.AreEqual("newgame.where.unavailable", NewGameWhere.LabelKey(false, SaveLocation.Local));
+            Assert.AreEqual(SaveLocation.Local, NewGameWhere.Shown(false, SaveLocation.Cloud), "without the cloud the picture is the computer");
+            Assert.AreEqual(SaveLocation.Cloud, NewGameWhere.Shown(true, SaveLocation.Cloud));
+            Assert.IsFalse(NewGameWhere.CanChoose(false));
+            Assert.IsTrue(NewGameWhere.CanChoose(true));
+        }
+
+        [Test]
+        public void TheSaveToUnavailableText_ExistsAndNamesTheFix()
+        {
+            Farm.Core.L.SetLanguage("en");
+            var text = Farm.Core.L.Get("newgame.where.unavailable");
+            Assert.AreNotEqual("newgame.where.unavailable", text, "the string is missing");
+            StringAssert.Contains("Steam", text);
+        }
+
         // ---- the QA folder cloud (development builds) -----------------------------------------------------------------------
 
         [Test]

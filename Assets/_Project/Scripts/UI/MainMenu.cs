@@ -218,12 +218,12 @@ namespace Farm.UI
             UiTip.Add(_avatarPreview.gameObject, "uitip.avatar.preview");
             UiKit.Place(_avatarPreview.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(32f, 64f), Vector2.zero);
             UiKit.MakeButton(farmer.transform, L.Get("newgame.customize"), OpenCreator, 300f, 38f).name = "Customize";
-            // Where the save lives: only offered while Steam Cloud is available.
+            // Where the save lives. Always shown: without Steam Cloud it says so and the game is kept on this computer.
             var where = UiKit.HStack(stack.transform, "SaveWhere", 8f);
             _whereRow = where.gameObject;
             UiKit.Size(_whereRow, -1f, 34f);
             _whereIcon = SaveSlots.AddLocationIcon(where.transform, _where);
-            UiTip.Add(_whereIcon.gameObject, () => L.Get(_where == SaveLocation.Cloud ? "save.where_cloud" : "save.where_local"));      // follows the toggle
+            UiTip.Add(_whereIcon.gameObject, () => L.Get(NewGameWhere.Shown(Ui.Game.Saves.CloudAvailable, _where) == SaveLocation.Cloud ? "save.where_cloud" : "save.where_local"));      // follows the toggle
             _whereButton = UiKit.MakeButton(where.transform, "", ToggleWhere, 420f, 34f);
             _whereButton.name = "SaveWhereButton";
             UiKit.Label(stack.transform, L.Get("newgame.choose_slot"), 16f, TextAlignmentOptions.Left, UiKit.DimText);
@@ -240,7 +240,7 @@ namespace Farm.UI
             _name.text = DefaultFarmerName.Fallback;
             _avatar = AvatarOptions.Random(System.Environment.TickCount + _opens++ * 7919);   // as if Surprise Me was pressed; Customize changes it
             Ui.Game.Saves.SyncAll();
-            _whereRow.SetActive(Ui.Game.Saves.CloudAvailable);
+            _whereRow.SetActive(true);
             ShowWhere();
             Rebuild();
             base.Open();
@@ -254,14 +254,17 @@ namespace Farm.UI
 
         void ToggleWhere()
         {
+            if (!NewGameWhere.CanChoose(Ui.Game.Saves.CloudAvailable)) return;
             _where = _where == SaveLocation.Cloud ? SaveLocation.Local : SaveLocation.Cloud;
             ShowWhere();
         }
 
         void ShowWhere()
         {
-            _whereIcon.sprite = UiArt.Get(_where == SaveLocation.Cloud ? SaveSlots.CloudIcon : SaveSlots.LocalIcon);
-            UiKit.SetButtonText(_whereButton, L.Get(_where == SaveLocation.Cloud ? "newgame.where.cloud" : "newgame.where.local"));
+            var available = Ui.Game.Saves.CloudAvailable;
+            _whereIcon.sprite = UiArt.Get(NewGameWhere.Shown(available, _where) == SaveLocation.Cloud ? SaveSlots.CloudIcon : SaveSlots.LocalIcon);
+            UiKit.SetButtonText(_whereButton, L.Get(NewGameWhere.LabelKey(available, _where)));
+            _whereButton.interactable = NewGameWhere.CanChoose(available);
         }
 
         void ShowAvatar() => _avatarPreview.sprite = AvatarSprites.For(_avatar).Down;

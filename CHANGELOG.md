@@ -2,6 +2,10 @@
 
 ## 0.7.0 (2026-10-15)
 
+The "Save to" choice is always shown (playtest: a new game on a used slot never asked whether to save locally or to the cloud).
+
+- **The new-game screen always has its "Save to" row.** It used to be hidden whenever Steam Cloud was not available, so a game started outside Steam (the build folder's own program, or Steam not running) silently saved on this computer and nothing said why. Now the row is there: without Steam Cloud it reads "Save to: this computer (Steam Cloud is not available; start the game from Steam to use it)" and cannot be changed; with Steam Cloud it is the same switch as before.
+
 Steam Cloud saves are switched on in Steam builds (Steamworks.NET added; nobody has tried the real Steam Cloud).
 
 - **Player builds now carry Steam support.** Steamworks.NET 2025.164.1 (MIT) is in `Assets/ThirdParty/Steamworks.NET`; `BuildScript` defines `FARM_STEAM` for player builds (`-noSteam` leaves it out), the game starts Steam for app 5408390 before the first scene and shuts it down on quit, and Steam Cloud is used when the Steam client is running with cloud enabled. Without Steam (a plain download, the Editor, the tests) nothing changes and every game stays on this computer. Achievements go to Steam too.
