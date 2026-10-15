@@ -80,7 +80,9 @@ namespace Farm.Gameplay
             _aim.Update(ui);
             if (_cursor != null) _cursor.position = _map.CellCenter(_aim.Target);
 
-            if (_input.GameplayBlocked) { _repeat.Cancel(); return; }
+            if (_input.GameplayBlocked) { _repeat.Cancel(); Session.RearrangeCancel(); return; }
+
+            if (Rearranging()) return;          // a stack is in the hand of the bar: buttons move it, nothing is used
 
             var capacity = Session.Backpack.Capacity;
             for (var i = 0; i < InputNames.HotbarSlots; i++)
@@ -110,6 +112,54 @@ namespace Farm.Gameplay
             if (_input.Menu.WasPressedThisFrame()) ui.ShowGameMenu();
             if (_input.Crafting.WasPressedThisFrame()) ui.ShowGameMenu(MenuTabs.Crafting);
             if (_input.Journal.WasPressedThisFrame()) ui.ShowGameMenu(MenuTabs.Journal);
+        }
+
+        // The button that picks up the selected item of the bar. On a pad it is the left stick, pressed and let go quickly: a longer hold is photo mode.
+        float _rearrangeDown;
+        bool _rearrangeFromPad;
+
+        bool RearrangePressed()
+        {
+            var action = _input.Rearrange;
+            if (action.WasPressedThisFrame())
+            {
+                _rearrangeFromPad = action.activeControl != null && action.activeControl.device is UnityEngine.InputSystem.Gamepad;
+                _rearrangeDown = Time.unscaledTime;
+                return !_rearrangeFromPad;
+            }
+            if (_rearrangeFromPad && action.WasReleasedThisFrame())
+            {
+                _rearrangeFromPad = false;
+                return Time.unscaledTime - _rearrangeDown < HotbarRearrange.PadTapSeconds;
+            }
+            return false;
+        }
+
+        // Picking an item up and putting it down on another slot of the bar. While one is picked up nothing else is done with the buttons: no tool swings, no menus.
+        // Returns true while the bar is being rearranged (or the press that began it).
+        bool Rearranging()
+        {
+            var pressed = RearrangePressed();
+            if (!Session.Rearranging)
+            {
+                if (!pressed || _player.Seated) return false;
+                _repeat.Cancel();
+                Session.BeginRearrange();
+                return true;
+            }
+            _repeat.Cancel();
+            for (var i = 0; i < InputNames.HotbarSlots; i++)
+                if (_input.Hotbar(i).WasPressedThisFrame()) { Session.BarRearrange.PickColumn(Session.Backpack, i); Session.RearrangeDrop(); return true; }
+            if (pressed || _input.Interact.WasPressedThisFrame()) Session.RearrangeDrop();
+            else if (_input.Pause.WasPressedThisFrame() || _input.Rotate.WasPressedThisFrame()) Session.RearrangeCancel();
+            else
+            {
+                if (_input.HotbarNext.WasPressedThisFrame()) Session.RearrangeStep(1);
+                if (_input.HotbarPrev.WasPressedThisFrame()) Session.RearrangeStep(-1);
+                if (_input.RowNext.WasPressedThisFrame()) Session.RearrangeRow(1);
+                if (_input.RowPrev.WasPressedThisFrame()) Session.RearrangeRow(-1);
+            }
+            return true;
         }
 
         // The control that was pressed, for the log: "Mouse/scroll/up", "Keyboard/period"...

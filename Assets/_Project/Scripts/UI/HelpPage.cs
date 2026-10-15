@@ -14,8 +14,8 @@ namespace Farm.UI
     {
         // The order the tools are listed in, and the strings for the everyday topics.
         public static readonly ToolType[] ToolOrder = { ToolType.Hoe, ToolType.WateringCan, ToolType.Axe, ToolType.Pickaxe, ToolType.Scythe, ToolType.Hammer, ToolType.Rod, ToolType.Sword };
-        public static readonly string[] Topics = { "help.eat", "help.chest", "help.quality", "help.trees", "help.forage", "help.tracker", "help.sleep", "help.shops", "help.cat", "help.energy", "help.health", "help.capacity", "help.cooking", "help.mining", "help.fishing", "help.combat", "help.rows" };
-        public static readonly string[] Controls = { "help.control.move", "help.control.use", "help.control.interact", "help.control.bar", "help.control.inventory", "help.control.crafting", "help.control.menu" };
+        public static readonly string[] Topics = { "help.eat", "help.chest", "help.quality", "help.trees", "help.forage", "help.tracker", "help.sleep", "help.shops", "help.cat", "help.energy", "help.health", "help.capacity", "help.cooking", "help.mining", "help.fishing", "help.combat", "help.rows", "help.rearrange" };
+        public static readonly string[] Controls = { "help.control.move", "help.control.use", "help.control.interact", "help.control.bar", "help.control.rearrange", "help.control.inventory", "help.control.crafting", "help.control.menu" };
 
         RectTransform _list;
         const float TextWidth = 640f;               // a little under the width the text really has, so that the measured height is never too small

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Farm.Core;
 using Farm.Data;
 using Farm.Gameplay;
@@ -26,6 +27,9 @@ namespace Farm.UI
         int _picked = -1;
         bool _pickedOne;          // the pick is a single item of the stack (a right-click)
         int _builtCapacity;
+        List<Selectable> _slots;
+        int _column;              // the column of the grid the cursor was last in
+        int _lastColumnSlot = -1;
         int _dragFrom = -1;
         Image _dragIcon;
 
@@ -142,23 +146,25 @@ namespace Farm.UI
             var selected = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
             var selectedIndex = selected != null && selected.transform.parent == _grid ? selected.transform.GetSiblingIndex() : 0;
 
+            var slots = new List<Selectable>(inv.Capacity);
             for (var i = 0; i < inv.Capacity; i++)
             {
                 var index = i;
                 var button = UiKit.MakeButton(_grid, $"Slot{i}", () => OnSlot(index), SlotSize, SlotSize);
+                slots.Add(button);
                 var label = button.GetComponentInChildren<TextMeshProUGUI>();
                 label.text = string.Empty;
 
                 var stack = inv.Get(i);
                 if (_picked == i) SlotUi.Mark(button.transform, "Picked");
                 if (SlotUi.Icon(button.transform, Ui.Session.Db, stack, 7f) != null && stack.Count > 1) SlotUi.Count(button.transform, stack.Count.ToString(), 14f);
+                UiTip.HasOwn(button.gameObject);            // the window's tooltip box names the item
 
                 button.gameObject.AddComponent<InventorySlotDrag>().Bind(this, index);
                 button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => RightClick(index);
 
                 var trigger = button.gameObject.AddComponent<EventTrigger>();
                 var enter = new EventTrigger.Entry { eventID = EventTriggerType.Select };
-                UiTip.HasOwn(button.gameObject);            // the window's tooltip box names the item
                 enter.callback.AddListener(_ => ShowTooltip(index));
                 trigger.triggers.Add(enter);
                 var hover = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
@@ -166,6 +172,9 @@ namespace Farm.UI
                 trigger.triggers.Add(hover);
             }
 
+            SlotGridNav.Link(slots, Columns, _discard);
+            _slots = slots;
+            LinkDiscard();
             _hintPrompt.Key = _picked >= 0 ? "inventory.hint_place" : "inventory.hint";
             _hintPrompt.Refresh();
             ShowTooltip(-1);
@@ -233,9 +242,19 @@ namespace Farm.UI
             }
         }
 
+        // Up from the Throw away button goes back to the last row of the grid, to the column the cursor was in.
+        void LinkDiscard()
+        {
+            if (_slots == null || _slots.Count == 0 || _discard == null) return;
+            var last = (_slots.Count - 1) / Columns * Columns;
+            var up = _slots[Mathf.Min(last + _column, _slots.Count - 1)];
+            _discard.navigation = new Navigation { mode = Navigation.Mode.Explicit, selectOnUp = up };
+        }
+
         void ShowTooltip(int index)
         {
             _hovered = index;
+            if (index >= 0 && index != _lastColumnSlot) { _lastColumnSlot = index; _column = index % Columns; LinkDiscard(); }
             if (_discard != null) _discard.gameObject.SetActive(index >= 0 && index < Ui.Session.Backpack.Capacity && Ui.Session.Backpack.Get(index) != null || _picked >= 0);
             var inv = Ui.Session.Backpack;
             var stack = index >= 0 && index < inv.Capacity ? inv.Get(index) : null;

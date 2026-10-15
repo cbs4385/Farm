@@ -200,7 +200,7 @@ namespace Farm.Gameplay
         }
 #endif
 
-        // QA aid: `-farmOpen inventory|shop|pause|options|message|upgrades|summary|sleep|dialogue|chatmenu|memories|neighbours|gossip|stream|tour|help` opens a screen shortly after the scene starts.
+        // QA aid: `-farmOpen inventory|rearrange|shop|pause|options|message|upgrades|summary|sleep|dialogue|chatmenu|memories|neighbours|gossip|stream|tour|help` opens a screen shortly after the scene starts.
         System.Collections.IEnumerator OpenRequestedScreen()
         {
             var which = CommandLine.GetArg("-farmOpen");
@@ -210,6 +210,12 @@ namespace Farm.Gameplay
             switch (which)
             {
                 case "inventory": ui.ToggleInventory(); break;
+                case "rearrange":
+                    // QA only (a throwaway game): a few tools on the bar, one picked up and carried three slots along.
+                    foreach (var id in new[] { Farm.Data.ItemIds.Sword, Farm.Data.ItemIds.Pickaxe, Farm.Data.ItemIds.Hoe }) if (!_session.Backpack.Has(id)) _session.Backpack.Add(id, 1);
+                    _session.State.SelectedHotbar = 0;
+                    if (_session.BeginRearrange()) _session.RearrangeStep(3);
+                    break;
                 case "shop": ui.ShowShop("general"); break;
                 case "pause": ui.ShowPause(); break;
                 case "options": ui.ShowOptions(); break;

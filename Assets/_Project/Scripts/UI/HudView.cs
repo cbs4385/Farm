@@ -317,6 +317,44 @@ namespace Farm.UI
             }
             BuildRowButtons(bar.transform);
             BuildTorchBar();
+            BuildRearrange(canvas, bar.transform);
+        }
+
+        // Rearranging the bar (a drag with the mouse, or a stack picked up with the key or the pad's button): the picked item floats above the slot it would land on, that slot
+        // and the slot the item came from are tinted, and a line says what the buttons do.
+        static readonly Color PickedTint = new Color(0.38f, 0.52f, 0.85f, 1f);
+        static readonly Color TargetTint = new Color(0.55f, 0.82f, 0.38f, 1f);
+        Image _lift;
+        TextMeshProUGUI _rearrangeHint;
+        int _dragFrom = -1;
+        Vector2 _dragStart;
+        bool _dragging;
+
+        void BuildRearrange(Transform canvas, Transform bar)
+        {
+            _lift = UiKit.Panel(bar, "Lifted", Color.white);
+            _lift.raycastTarget = false;
+            _lift.preserveAspect = true;
+            _lift.rectTransform.sizeDelta = new Vector2(40f, 40f);
+            _lift.gameObject.SetActive(false);
+            _rearrangeHint = UiKit.Label(canvas, "", 17f, TextAlignmentOptions.Center, UiKit.Accent);
+            _rearrangeHint.name = "RearrangeHint";
+            PromptText.Attach(_rearrangeHint, "hud.rearrange.hint");
+            _rearrangeHint.raycastTarget = false;
+            UiKit.Place(_rearrangeHint.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(1000, 26), new Vector2(0, 206));          // above the item bar and the first-days tip card
+            _rearrangeHint.gameObject.SetActive(false);
+        }
+
+        // The floating picture sits over a slot of the bar (the slot's centre, a little above) or follows the mouse.
+        void Lift(ItemStack stack, GameSession s, Vector3 worldPosition)
+        {
+            if (stack == null || !s.Db.TryGetItem(stack.ItemId, out var item)) { _lift.gameObject.SetActive(false); return; }
+            _lift.sprite = item.Icon;
+            SlotBadges.Replace(_lift.transform, stack.Quality);
+            _lift.transform.SetParent(_hotbarBar, false);
+            _lift.transform.SetAsLastSibling();
+            _lift.transform.position = worldPosition;
+            _lift.gameObject.SetActive(true);
         }
 
         // A backpack of more than one row: two small buttons at the end of the bar move to the next and the previous row, with the row number between them.
@@ -331,6 +369,7 @@ namespace Farm.UI
             UiKit.Place(_rowButtons, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(92f, 44f), new Vector2(52f, 0f));
             var up = UiKit.MakeButton(_rowButtons, L.Get("hud.row_prev"), () => ChangeRow(-1), 28f, 28f);
             up.name = "RowPrev";
+            UiTip.Add(up.gameObject, "uitip.hud.row_prev");
             UiKit.Place((RectTransform)up.transform, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(28f, 28f), new Vector2(14f, 0f));
             _rowLabel = UiKit.Label(_rowButtons, "", 14f, TextAlignmentOptions.Center);
             _rowLabel.name = "RowLabel";
@@ -338,6 +377,7 @@ namespace Farm.UI
             UiKit.Place(_rowLabel.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(32f, 24f), Vector2.zero);
             var down = UiKit.MakeButton(_rowButtons, L.Get("hud.row_next"), () => ChangeRow(1), 28f, 28f);
             down.name = "RowNext";
+            UiTip.Add(down.gameObject, "uitip.hud.row_next");
             UiKit.Place((RectTransform)down.transform, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(28f, 28f), new Vector2(-14f, 0f));
             _rowButtons.gameObject.SetActive(false);
         }
@@ -369,7 +409,6 @@ namespace Farm.UI
             var rows = HotbarRows.Rows(s.Backpack.Capacity);
             _rowButtons.gameObject.SetActive(rows > 1);
             if (rows > 1) _rowLabel.text = L.Get("hud.row", first / HotbarRows.Width + 1, rows);
-            UiTip.Add(up.gameObject, "uitip.hud.row_prev");
         }
 
         // How much of the burning torch is left: a small bar over its slot of the item bar, like a health bar over a monster (owner, 2026-10-12).
@@ -377,7 +416,6 @@ namespace Farm.UI
         RectTransform _torchFill;
 
         void BuildTorchBar()
-            UiTip.Add(down.gameObject, "uitip.hud.row_next");
         {
             var back = UiKit.Panel(_slots[0].Background.transform, "TorchBar", new Color(0.08f, 0.05f, 0.03f, 0.95f));
             back.raycastTarget = false;
@@ -726,11 +764,15 @@ namespace Farm.UI
 
             var first = HotbarRows.RowOf(s.State.SelectedHotbar) * HotbarRows.Width;          // the bar shows the row of the backpack that holds the selected slot
             UpdateRowButtons(s, first);
+            UpdateRearrange(s, first);
             for (var i = 0; i < _slots.Length; i++)
             {
                 var slot = _slots[i];
                 var stack = first + i < s.Backpack.Capacity ? s.Backpack.Get(first + i) : null;
-                slot.Background.color = first + i == s.State.SelectedHotbar ? UiKit.Accent : UiKit.PanelLight;
+                var rearranging = s.Rearranging;
+                slot.Background.color = rearranging && first + i == s.BarRearrange.Cursor ? TargetTint
+                    : rearranging && first + i == s.BarRearrange.Picked ? PickedTint
+                    : first + i == s.State.SelectedHotbar ? UiKit.Accent : UiKit.PanelLight;
 
                 Sprite icon = null;
                 if (stack != null && s.Db.TryGetItem(stack.ItemId, out var item)) icon = item.Icon;
@@ -741,6 +783,61 @@ namespace Farm.UI
                 slot.Quality.enabled = quality > 0;
                 slot.Quality.color = SlotBadges.TintOf(quality);
             }
+        }
+
+        // Where a slot of the bar is on the screen (the middle of it), for tests that drive the mouse.
+        public Vector2 BarSlotCenter(int column) => RectTransformUtility.WorldToScreenPoint(null, _slots[column].Background.transform.position);
+
+        void UpdateRearrange(GameSession s, int first)
+        {
+            var active = s.Rearranging;
+            _rearrangeHint.gameObject.SetActive(active);
+            if (!active) { if (!_dragging) _lift.gameObject.SetActive(false); return; }
+            var at = s.BarRearrange.Cursor - first;
+            if (at < 0 || at >= _slots.Length) { _lift.gameObject.SetActive(false); return; }
+            var target = _slots[at].Background.transform.position + Vector3.up * 34f * _hotbarBar.lossyScale.y;
+            Lift(s.Backpack.Get(s.BarRearrange.Picked), s, target);
+        }
+
+        // The slot of the bar under a point of the screen (a slot of the backpack: the row the bar shows counts), or -1.
+        int SlotAt(GameSession s, Vector2 position)
+        {
+            for (var i = 0; i < _slots.Length; i++)
+                if (_slots[i] != null && _slots[i].Background.gameObject.activeInHierarchy
+                    && RectTransformUtility.RectangleContainsScreenPoint(_slots[i].Background.rectTransform, position, null))
+                    return i + HotbarRows.RowOf(s.State.SelectedHotbar) * HotbarRows.Width;
+            return -1;
+        }
+
+        // Dragging a slot of the bar onto another moves or swaps them, the way it does in the backpack window (the pointer must move a few pixels first: a click only selects).
+        void UpdateBarDrag(GameSession s, Mouse mouse, int shown)
+        {
+            var position = mouse.position.ReadValue();
+            if (mouse.leftButton.wasPressedThisFrame)
+            {
+                if (s.Rearranging) { if (shown >= 0) s.RearrangeDrop(shown); }          // a stack picked up with the key: a click puts it down there
+                else if (shown >= 0 && shown < s.Backpack.Capacity && s.Backpack.Get(shown) != null) { _dragFrom = shown; _dragStart = position; }
+            }
+            if (_dragFrom >= 0 && mouse.leftButton.isPressed)
+            {
+                if (!_dragging && (position - _dragStart).sqrMagnitude > 64f) _dragging = true;
+                if (_dragging)
+                {
+                    var rt = _hotbarBar;
+                    RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, position, null, out var world);
+                    Lift(s.Backpack.Get(_dragFrom), s, world);
+                }
+            }
+            if (_dragFrom >= 0 && !mouse.leftButton.isPressed) EndBarDrag(s, _dragging ? shown : -1);
+        }
+
+        void EndBarDrag(GameSession s, int dropOn)
+        {
+            var from = _dragFrom;
+            _dragFrom = -1;
+            _dragging = false;
+            if (_lift != null) _lift.gameObject.SetActive(false);
+            if (s != null && dropOn >= 0 && dropOn != from) s.MoveOnBar(from, dropOn);
         }
 
         // The mouse over a hotbar slot: a click selects the item, and resting there shows a label saying what the item is and, for a tool, how to use it.
@@ -756,18 +853,23 @@ namespace Farm.UI
                     if (_slots[i] != null && _slots[i].Background.gameObject.activeInHierarchy
                         && RectTransformUtility.RectangleContainsScreenPoint(_slots[i].Background.rectTransform, position, null)) shown = i;
                 if (shown >= 0) shown += HotbarRows.RowOf(s.State.SelectedHotbar) * HotbarRows.Width;
-                if (shown >= 0 && mouse.leftButton.wasPressedThisFrame && s.State.SelectedHotbar != shown)
+                if (shown >= 0 && mouse.leftButton.wasPressedThisFrame && s.State.SelectedHotbar != shown && !s.Rearranging)
                 {
                     HotbarRows.Note(s.State.SelectedHotbar, shown, "a click on the bar at " + mouse.position.ReadValue());
                     s.State.SelectedHotbar = shown;
                     _ui.Bus.Publish(new StatsChanged());
                 }
+                UpdateBarDrag(s, mouse, shown);
                 var stack = shown >= 0 && shown < s.Backpack.Capacity ? s.Backpack.Get(shown) : null;
-                var text = stack != null ? HotbarTooltip.Text(s, stack.ItemId, stack.Quality) : null;
+                var text = _dragging ? null : stack != null ? HotbarTooltip.Text(s, stack.ItemId, stack.Quality) : null;
                 // no label over the tip card, and none from a mouse that rests on a slot while a pad is in hand; a click still selects
                 if ((_coachPanel != null && _coachPanel.gameObject.activeSelf) || PadInUse) text = null;
                 if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }
+                // The bar's own parts (date, time, weather, gold) take no clicks, so the pointer is tested against them here instead.
+                text = PadInUse ? null : UiTip.PolledAt(position);
+                if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }
             }
+            if (_dragFrom >= 0 && !(mouse != null && s != null && s.InGame && !_ui.AnyModalOpen)) EndBarDrag(s, -1);          // a window opened, or the game ended, in the middle of a drag
             if (_tooltipShown) { _ui.HideHover(); _tooltipShown = false; }
         }
 
@@ -793,6 +895,3 @@ namespace Farm.UI
         }
     }
 }
-                // The bar's own parts (date, time, weather, gold) take no clicks, so the pointer is tested against them here instead.
-                text = PadInUse ? null : UiTip.PolledAt(position);
-                if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }

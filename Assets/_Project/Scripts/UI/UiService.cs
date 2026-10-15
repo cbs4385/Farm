@@ -316,6 +316,7 @@ namespace Farm.UI
         // button, and the options menu seemed not to work).
         void ConfineNavigation()
         {
+            HudNavigable(_modals.Count == 0);
             for (var i = 0; i < _modals.Count; i++)
             {
                 var root = _modals[i].Root;
@@ -329,6 +330,16 @@ namespace Farm.UI
                 }
                 group.interactable = top;
             }
+        }
+
+        // The buttons of the item bar's row switch are on the screen behind every window: with a window open the pad and the arrow keys must not be able to reach them
+        // (the cursor left the backpack for them), so the whole HUD is made not interactable while a window is on top. Clicks on it are not taken either.
+        void HudNavigable(bool navigable)
+        {
+            if (_hudCanvas == null) return;
+            var group = _hudCanvas.GetComponent<CanvasGroup>();
+            if (group == null) { if (navigable) return; group = _hudCanvas.gameObject.AddComponent<CanvasGroup>(); }
+            group.interactable = navigable;
         }
 
         public void PopModal(UiScreen screen)
@@ -477,6 +488,8 @@ namespace Farm.UI
             _sell.OpenSell(onClose);
         }
 
+        public ChestScreen Chest => _chest;
+
         public void ShowChest(string objectId)
         {
             _chest ??= new ChestScreen(this);
@@ -488,8 +501,6 @@ namespace Farm.UI
             _shop ??= new ShopScreen(this);
             _shop.OpenShop(shopId);
         }
-        public ChestScreen Chest => _chest;
-
 
         public void ShowConfirm(string messageKey, Action onYes, Action onNo = null)
         {

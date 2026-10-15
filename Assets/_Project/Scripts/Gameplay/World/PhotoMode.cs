@@ -33,6 +33,8 @@ namespace Farm.Gameplay
             _session = session; _npcs = npcs; _player = player;
         }
 
+        float _stickHeld;
+
         void Update()
         {
             var keyboard = Keyboard.current;
@@ -41,8 +43,10 @@ namespace Farm.Gameplay
             bool Key_(Key key) => keyboard != null && keyboard[key].wasPressedThisFrame;
             if (!_on)
             {
-                // F8, or the left stick pressed in on a pad.
-                if ((Key_(Key.F8) || (pad != null && pad.leftStickButton.wasPressedThisFrame)) && !AnyModal()) Enter();
+                // F8, or the left stick held in on a pad (a quick press of it rearranges the item bar).
+                var held = pad != null && pad.leftStickButton.isPressed;
+                _stickHeld = held ? _stickHeld + Time.unscaledDeltaTime : 0f;
+                if ((Key_(Key.F8) || (held && _stickHeld >= HotbarRearrange.PadTapSeconds && _stickHeld - Time.unscaledDeltaTime < HotbarRearrange.PadTapSeconds)) && !AnyModal() && !_session.Rearranging) Enter();
                 return;
             }
             if (_shooting) return;

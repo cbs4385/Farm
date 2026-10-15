@@ -110,7 +110,7 @@ namespace Farm.Tests
             Assert.AreEqual(before, input.Rotate.bindings[rotate].effectivePath, "Rotate got the key Interact gave up");
 
             Assert.IsNull(BindingNames.SwapIfClash(input.Interact, interact, rotateKey), "a key that did not move clashes with nothing");
-            input.Interact.ApplyBindingOverride(interact, "<Keyboard>/v");
+            input.Interact.ApplyBindingOverride(interact, "<Keyboard>/semicolon");
             Assert.IsNull(BindingNames.SwapIfClash(input.Interact, interact, rotateKey), "a free key clashes with nothing");
         }
 

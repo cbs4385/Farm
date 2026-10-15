@@ -59,6 +59,7 @@ namespace Farm.Editor
             Button(map, InputNames.Crafting, ("<Keyboard>/c", Kbm), ("<Gamepad>/leftTrigger", Pad));
             Button(map, InputNames.RowNext, ("<Keyboard>/rightBracket", Kbm), ("<Gamepad>/rightTrigger", Pad));
             Button(map, InputNames.RowPrev, ("<Keyboard>/leftBracket", Kbm));          // a pad has one row button: it goes round
+            Button(map, InputNames.Rearrange, ("<Keyboard>/v", Kbm), ("<Gamepad>/leftStickPress", Pad), ("<Joystick>/button9", Pad));          // on a pad a tap (a hold of the stick is photo mode)
             Button(map, InputNames.Journal, ("<Keyboard>/j", Kbm), ("<Gamepad>/rightStickPress", Pad), ("<Joystick>/button10", Pad));
 
             var keys = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "minus", "equals" };
