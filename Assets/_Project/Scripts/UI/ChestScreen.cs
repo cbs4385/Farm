@@ -25,6 +25,7 @@ namespace Farm.UI
         bool _dragChestSide;
         int _dragSlot = -1;
         string _focusName;
+        ChestSlotInput _dragSource;
 
         public ChestScreen(UiService ui) : base(ui)
         {
@@ -55,9 +56,34 @@ namespace Farm.UI
             var obj = grid.ById(objectId);
             if (obj == null) return;
             _chest = grid.ChestOf(obj);
+            CancelDrag();
             AudioService.PlayIfAvailable(Sfx.ChestOpen);
             Rebuild();
             Open();
+        }
+
+        // A drag whose end never came (the window closed or the slot was rebuilt under the pointer, so no end-drag event reached it) must not leave its picture
+        // floating over a slot or the drag state set (playtest 2026-10-15: a second axe pictured over the one in the pack).
+        public override void Close()
+        {
+            CancelDrag();
+            base.Close();
+        }
+
+        public bool Dragging => _dragSlot >= 0;
+        public bool DragIconShown => _dragIcon != null && _dragIcon.gameObject.activeSelf;
+
+        void CancelDrag()
+        {
+            _dragSlot = -1;
+            _dragSource = null;
+            if (_dragIcon != null) _dragIcon.gameObject.SetActive(false);
+        }
+
+        // A slot that is destroyed in the middle of a drag it began never receives the end of it.
+        public void SlotGone(ChestSlotInput source)
+        {
+            if (_dragSource == source) CancelDrag();
         }
 
         Inventory SideOf(bool chestSide) => chestSide ? _chest : Ui.Session.Backpack;
@@ -66,6 +92,7 @@ namespace Farm.UI
 
         void Rebuild()
         {
+            if (_dragSlot < 0 && _dragIcon != null) _dragIcon.gameObject.SetActive(false);
             Ui.HideHover();                                  // the slots are made again: the pointer is on new ones
             BuildGrid(_chestGrid, true);
             BuildGrid(_packGrid, false);
@@ -92,6 +119,7 @@ namespace Farm.UI
                 if (stack == null) { label.text = string.Empty; continue; }
 
                 SlotUi.Icon(button.transform, Ui.Session.Db, stack, 5f);
+                UiTip.HasOwn(button.gameObject);            // ChestSlotInput shows the item's tooltip
                 label.transform.SetAsLastSibling();
                 label.alignment = TextAlignmentOptions.BottomRight;
                 label.fontSize = 14f;
@@ -119,7 +147,6 @@ namespace Farm.UI
 
         public void Click(bool chestSide, int slot, PointerEventData.InputButton button)
         {
-                UiTip.HasOwn(button.gameObject);            // ChestSlotInput shows the item's tooltip
             var stack = SideOf(chestSide).Get(slot);
             if (stack == null) return;
             var keyboard = UnityEngine.InputSystem.Keyboard.current;
@@ -156,12 +183,13 @@ namespace Farm.UI
 
         // ---- dragging a stack onto a slot ---------------------------------------------------------------------------------
 
-        public void BeginDrag(bool chestSide, int slot, PointerEventData eventData)
+        public void BeginDrag(bool chestSide, int slot, PointerEventData eventData, ChestSlotInput source = null)
         {
             var stack = SideOf(chestSide).Get(slot);
             if (stack == null || !Ui.Session.Db.TryGetItem(stack.ItemId, out var item)) return;
             _dragChestSide = chestSide;
             _dragSlot = slot;
+            _dragSource = source;
             if (_dragIcon == null)
             {
                 _dragIcon = UiKit.Panel(Root.transform, "DragIcon", Color.white);
@@ -189,6 +217,7 @@ namespace Farm.UI
             var from = _dragSlot;
             var fromChest = _dragChestSide;
             _dragSlot = -1;
+            _dragSource = null;
             if (ChestTransfer.Place(SideOf(fromChest), from, SideOf(chestSide), slot, intoChest: chestSide && !fromChest))
                 _focusName = SlotName(chestSide, slot);
         }
@@ -196,6 +225,7 @@ namespace Farm.UI
         public void EndDrag()
         {
             _dragSlot = -1;
+            _dragSource = null;
             if (_dragIcon != null) _dragIcon.gameObject.SetActive(false);
             if (IsOpen) Rebuild();
         }

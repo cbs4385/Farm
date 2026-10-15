@@ -488,6 +488,8 @@ namespace Farm.UI
             _shop ??= new ShopScreen(this);
             _shop.OpenShop(shopId);
         }
+        public ChestScreen Chest => _chest;
+
 
         public void ShowConfirm(string messageKey, Action onYes, Action onNo = null)
         {

@@ -19,6 +19,8 @@ namespace Farm.UI
             Slot = slot;
         }
 
+        void OnDestroy() => _screen?.SlotGone(this);
+
         public void OnPointerClick(PointerEventData eventData)
         {
             if (!eventData.dragging && eventData.button == PointerEventData.InputButton.Right) _screen?.Click(ChestSide, Slot, eventData.button);
@@ -28,7 +30,7 @@ namespace Farm.UI
         public void OnPointerExit(PointerEventData eventData) => _screen?.HideTip();
         public void OnSelect(BaseEventData eventData) => _screen?.ShowTip(ChestSide, Slot, RectTransformUtility.WorldToScreenPoint(null, transform.position));
         public void OnDeselect(BaseEventData eventData) => _screen?.HideTip();
-        public void OnBeginDrag(PointerEventData eventData) => _screen?.BeginDrag(ChestSide, Slot, eventData);
+        public void OnBeginDrag(PointerEventData eventData) => _screen?.BeginDrag(ChestSide, Slot, eventData, this);
         public void OnDrag(PointerEventData eventData) => _screen?.UpdateDrag(eventData);
         public void OnEndDrag(PointerEventData eventData) => _screen?.EndDrag();
         public void OnDrop(PointerEventData eventData) => _screen?.DropOn(ChestSide, Slot);

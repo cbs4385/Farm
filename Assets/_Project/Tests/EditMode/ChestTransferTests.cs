@@ -149,5 +149,37 @@ namespace Farm.Tests
             Assert.AreEqual("seed.parsnip", pack.Get(9).ItemId);
             Assert.IsFalse(ChestTransfer.Place(pack, 9, pack, 9, false));
         }
+
+        // Playtest 2026-10-15 (tool rack): an axe seemed doubled, then lost. Whatever the order of clicks, half-clicks and drags between the rack (a chest) and the
+        // pack, every item is somewhere exactly once.
+        [Test]
+        public void RandomRackAndPackMoves_NeverDuplicateOrLoseATool()
+        {
+            var rng = new System.Random(2026);
+            var tools = new[] { "tool.hoe", "tool.can", "tool.axe", "tool.pick" };
+            var pack = new Inventory(24, MaxStack);
+            var rack = new Inventory(12, MaxStack);
+            foreach (var t in tools) rack.Add(t, 1);
+            pack.Add("seed.parsnip", 7);
+            for (var step = 0; step < 5000; step++)
+            {
+                var fromRack = rng.Next(2) == 0;
+                var from = fromRack ? rack : pack;
+                var to = fromRack ? pack : rack;
+                var a = rng.Next(from.Capacity);
+                switch (rng.Next(4))
+                {
+                    case 0: ChestTransfer.Move(from, a, to, intoChest: !fromRack); break;
+                    case 1: ChestTransfer.Move(from, a, to, intoChest: !fromRack, count: 1); break;
+                    case 2: ChestTransfer.Place(from, a, to, rng.Next(to.Capacity), intoChest: !fromRack); break;
+                    default:
+                        var other = rng.Next(from.Capacity);
+                        ChestTransfer.Place(from, a, from, other, intoChest: false);
+                        break;
+                }
+                foreach (var t in tools) Assert.AreEqual(1, pack.Count(t) + rack.Count(t), t + " after step " + step);
+                Assert.AreEqual(7, pack.Count("seed.parsnip") + rack.Count("seed.parsnip"), "seeds after step " + step);
+            }
+        }
     }
 }
