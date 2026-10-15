@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.6.10 (unreleased)
+## 0.7.0 (2026-10-15)
 
 The mine keeps its floors on the way back up (playtest: "going back up the mine, there is nothing there, not even the ore I didn't mine").
 
