@@ -613,7 +613,8 @@
               "effects": [
                 "sick:tilda",
                 "dread:6",
-                "standing:-5"
+                "standing:-5",
+                "flag:mythos.sabotage.asked"
               ],
               "next": "r0_0"
             },
@@ -622,12 +623,16 @@
               "effects": [
                 "sick:marcus",
                 "dread:6",
-                "standing:-5"
+                "standing:-5",
+                "flag:mythos.sabotage.asked"
               ],
               "next": "r1_0"
             },
             {
               "text": "dlg.mythos.hazel.sabotage.c2",
+              "effects": [
+                "flag:mythos.sabotage.asked"
+              ],
               "next": "r2_0"
             }
           ]
@@ -869,7 +874,7 @@
       "set": "npc.hazel.talk",
       "entries": [
         {
-          "condition": "horror:2 && flag:clue.hazel.2 && flag:mythos.interference && !flag:mythos.sealed && var:lore>=6",
+          "condition": "horror:2 && flag:clue.hazel.2 && flag:mythos.interference && !flag:mythos.sealed && !flag:mythos.sabotage.asked && var:lore>=6",
           "priority": 14,
           "dialogue": "mythos.hazel.sabotage"
         }

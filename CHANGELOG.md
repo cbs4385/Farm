@@ -2,6 +2,10 @@
 
 ## 0.6.10 (unreleased)
 
+Hazel's "who falls ill" offer is asked once (playtest: the choice between Tilda and Marcus came up twice, in the library and again in the forest).
+
+- **The sabotage offer no longer repeats.** At the highest horror level, once the ritual interference has begun, Hazel offers the choice of making Tilda or Marcus ill, or forgetting it. Answering any way now ends the offer (the scene never recorded that it had been asked, and scenes this late in the story never go on cooldown, so she asked at every talk). A test now checks every late mythos scene for the same flaw.
+
 Trees in the right order (playtest: "the trees in the forest still look strange").
 
 - **Trees, the farmer and the villagers are now drawn by height.** The trees you can chop (the forest's thickets, the village's and the farm's) were tiles drawn under the farmer, the edge-band trees were pictures drawn over him, and neither was put in order by height, so a nearer tree could be covered by a farther one and the farmer was in front of a tree he stood behind. Now one sorting order is shared and the camera sorts by height (lower on the screen is in front, with a tiny sideways tie-break so neighbours in a row never flicker). Villagers moved to the same order. Works on existing scenes (applied when a map starts). Automated tests only; not seen by a person yet, and the capture comparison is listed in docs/STATUS.md.
