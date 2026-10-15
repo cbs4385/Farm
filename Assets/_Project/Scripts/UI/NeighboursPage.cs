@@ -57,6 +57,7 @@ namespace Farm.UI
                 portrait.preserveAspect = true;
                 portrait.raycastTarget = false;
                 UiKit.Size(portrait.gameObject, 26f, 26f);
+                UiTip.HasOwn(portrait.gameObject);          // the name is written beside it
 
                 var name = UiKit.Label(row.transform, met ? L.Get(npc.NameKey) : L.Get("social.unknown"), 17f, TextAlignmentOptions.Left, id == _selected ? UiKit.Accent : UiKit.TextColor);
                 name.raycastTarget = false;
@@ -65,10 +66,12 @@ namespace Farm.UI
                 var hearts = UiKit.HStack(row.transform, "Hearts", 1f);
                 UiKit.Size(hearts.gameObject, 130f, 28f);
                 var count = state != null ? FriendshipModel.Hearts(state.Points) : 0;
+                if (met) UiTip.Add(button.gameObject, () => L.Get("uitip.neighbour_hearts", L.Get(npc.NameKey), count));
                 for (var h = 0; h < FriendshipModel.MaxHearts; h++)
                 {
                     var heart = UiKit.Panel(hearts.transform, "Heart" + h, h < count ? new Color(0.90f, 0.30f, 0.35f) : new Color(0.25f, 0.18f, 0.16f));
                     heart.raycastTarget = false;
+                    UiTip.Skip(heart.gameObject);
                     UiKit.Size(heart.gameObject, 11f, 11f);
                 }
             }
@@ -93,6 +96,7 @@ namespace Farm.UI
             portrait.sprite = npc.Portrait;
             portrait.preserveAspect = true;
             UiKit.Size(portrait.gameObject, 64f, 64f);
+            UiTip.HasOwn(portrait.gameObject);              // the name is written beside it
             var names = UiKit.VStack(head.transform, "Names", 2f);
             UiKit.Size(names.gameObject, -1f, 66f, 1f);
             UiKit.Label(names.transform, L.Get(npc.NameKey), 24f, TextAlignmentOptions.Left, UiKit.Accent);

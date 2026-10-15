@@ -127,6 +127,7 @@ namespace Farm.UI
                 icon.sprite = item.Icon;
                 icon.preserveAspect = true;
                 UiKit.Size(icon.gameObject, 32f, 32f);
+                UiTip.HasOwn(icon.gameObject);              // the item's name is written beside it
 
                 var name = UiKit.Label(row.transform, nameText, 18f);
                 UiKit.Size(name.gameObject, -1f, 46f, 1f);

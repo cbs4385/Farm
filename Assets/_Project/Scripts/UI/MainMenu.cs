@@ -177,7 +177,8 @@ namespace Farm.UI
             UiKit.Size(stage.gameObject, 44f, 62f);
             _avatarPreview = UiKit.Panel(stage.transform, "Preview", Color.white);
             _avatarPreview.preserveAspect = true;
-            _avatarPreview.raycastTarget = false;
+            _avatarPreview.raycastTarget = true;
+            UiTip.Add(_avatarPreview.gameObject, "uitip.avatar.preview");
             UiKit.Place(_avatarPreview.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(32f, 64f), Vector2.zero);
             UiKit.MakeButton(farmer.transform, L.Get("newgame.customize"), OpenCreator, 300f, 38f).name = "Customize";
             UiKit.Label(stack.transform, L.Get("newgame.choose_slot"), 16f, TextAlignmentOptions.Left, UiKit.DimText);

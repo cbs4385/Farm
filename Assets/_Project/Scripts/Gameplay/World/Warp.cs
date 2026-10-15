@@ -31,6 +31,7 @@ namespace Farm.Gameplay
             {
                 if (string.IsNullOrEmpty(_targetMap)) return null;
                 var label = Farm.Core.L.Get("hover.door", Farm.Core.L.Get("map." + _targetMap));
+                if (_targetMap == MapIds.Mine) label += "\n" + Farm.Core.L.Get("hover.mine.caution");          // the way down to the mine: say what is waiting
                 return !string.IsNullOrEmpty(_businessId) && !IsOpen(out _) ? Farm.Core.L.Get("hover.door_closed", label) : label;
             }
         }

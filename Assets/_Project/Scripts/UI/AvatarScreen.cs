@@ -52,7 +52,8 @@ namespace Farm.UI
             UiKit.Size(stage.gameObject, 200f, 250f);
             _preview = UiKit.Panel(stage.transform, "Preview", Color.white);
             _preview.preserveAspect = true;
-            _preview.raycastTarget = false;
+            _preview.raycastTarget = true;
+            UiTip.Add(_preview.gameObject, "uitip.avatar.preview");
             UiKit.Place(_preview.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(112f, 224f), Vector2.zero);
             UiKit.MakeButton(left.transform, L.Get("avatar.turn"), Turn, 200f, 32f).name = "Turn";
             UiKit.MakeButton(left.transform, L.Get("avatar.randomize"), Randomize, 200f, 32f).name = "Randomize";

@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased (after 0.6.9)
+## 0.6.10 (unreleased)
+
+Hover names for everything (playtest: bushes and logs on the farm showed nothing; not every icon said what it was). Checked by tests and captures; nobody has played it.
+
+- **Every thing a tool clears names itself on hover:** tree, sapling, stump, log, bush, rock, boulder, weeds and the ore veins. Props, furniture, festival stands and the mine entrance on the maps get names too.
+- **Icons have hover names:** the status bar (date, time, weather, gold), the energy, health and tiredness bars, the item-row buttons, item slots in the shipping, sale and chest windows (with quality), the collections and neighbors lists, the map's pin, and color swatches. A test opens the real screens and fails for any picture without a name.
+- **The mine entrance warns you.** Hovering it (or the way down to the mine) shows its name and, on its own line, "CAUTION: DANGEROUS WILDLIFE" in red.
 
 Hold the button to keep swinging (playtester: "anyway we could press and hold instead of mult clicking on the axe and pickaxe?").
 

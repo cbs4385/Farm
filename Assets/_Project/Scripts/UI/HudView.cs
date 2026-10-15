@@ -164,6 +164,10 @@ namespace Farm.UI
             _timeIcon = BarIcon(_time, 22f);
             _weatherIcon = BarIcon(_weather, 20f);
             _goldIcon = BarIcon(_gold, 22f);
+            UiTip.AddPolled(_date.gameObject, "uitip.hud.date");
+            UiTip.AddPolled(_time.gameObject, "uitip.hud.time");
+            UiTip.AddPolled(_weather.gameObject, "uitip.hud.weather");
+            UiTip.AddPolled(_gold.gameObject, "uitip.hud.gold");
             _mineFloor.gameObject.SetActive(false);
         }
 
@@ -227,6 +231,7 @@ namespace Farm.UI
             _energyLabel = UiKit.Label(frame.transform, "", 13f, TextAlignmentOptions.Center);
             UiKit.Place(_energyLabel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(34, 16), new Vector2(0, 1));
 
+            UiTip.Add(frame.gameObject, "uitip.hud.energy");
             BuildFatigue(canvas);
             BuildHealth(canvas);
         }
@@ -245,6 +250,7 @@ namespace Farm.UI
             _healthLabel = UiKit.Label(frame.transform, "", 13f, TextAlignmentOptions.Center);
             UiKit.Stretch(_healthLabel.rectTransform);
             _healthIcon = Icon(_healthLabel.rectTransform, 18f);
+            UiTip.Add(frame.gameObject, "uitip.hud.health");
             _healthFrame.SetActive(false);
         }
 
@@ -265,6 +271,7 @@ namespace Farm.UI
 
             _fatigueLabel = UiKit.Label(frame.transform, "", 12f, TextAlignmentOptions.Center);
             UiKit.Place(_fatigueLabel.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(34, 16), new Vector2(0, 1));
+            UiTip.Add(frame.gameObject, "uitip.hud.fatigue");
             _fatigueFrame.SetActive(false);
         }
 
@@ -305,6 +312,7 @@ namespace Farm.UI
                 quality.raycastTarget = false;
                 quality.enabled = false;
 
+                UiTip.HasOwn(bg.gameObject);           // UpdateHotbarPointer shows what the item is (and how to use it)
                 _slots[i] = new HotbarSlot { Background = bg, Icon = icon, Count = count, Quality = quality };
             }
             BuildRowButtons(bar.transform);
@@ -361,6 +369,7 @@ namespace Farm.UI
             var rows = HotbarRows.Rows(s.Backpack.Capacity);
             _rowButtons.gameObject.SetActive(rows > 1);
             if (rows > 1) _rowLabel.text = L.Get("hud.row", first / HotbarRows.Width + 1, rows);
+            UiTip.Add(up.gameObject, "uitip.hud.row_prev");
         }
 
         // How much of the burning torch is left: a small bar over its slot of the item bar, like a health bar over a monster (owner, 2026-10-12).
@@ -368,6 +377,7 @@ namespace Farm.UI
         RectTransform _torchFill;
 
         void BuildTorchBar()
+            UiTip.Add(down.gameObject, "uitip.hud.row_next");
         {
             var back = UiKit.Panel(_slots[0].Background.transform, "TorchBar", new Color(0.08f, 0.05f, 0.03f, 0.95f));
             back.raycastTarget = false;
@@ -753,7 +763,7 @@ namespace Farm.UI
                     _ui.Bus.Publish(new StatsChanged());
                 }
                 var stack = shown >= 0 && shown < s.Backpack.Capacity ? s.Backpack.Get(shown) : null;
-                var text = stack != null ? HotbarTooltip.Text(s, stack.ItemId) : null;
+                var text = stack != null ? HotbarTooltip.Text(s, stack.ItemId, stack.Quality) : null;
                 // no label over the tip card, and none from a mouse that rests on a slot while a pad is in hand; a click still selects
                 if ((_coachPanel != null && _coachPanel.gameObject.activeSelf) || PadInUse) text = null;
                 if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }
@@ -783,3 +793,6 @@ namespace Farm.UI
         }
     }
 }
+                // The bar's own parts (date, time, weather, gold) take no clicks, so the pointer is tested against them here instead.
+                text = PadInUse ? null : UiTip.PolledAt(position);
+                if (text != null) { _ui.ShowHover(text, position); _tooltipShown = true; return; }

@@ -119,6 +119,7 @@ namespace Farm.UI
 
         public void Click(bool chestSide, int slot, PointerEventData.InputButton button)
         {
+                UiTip.HasOwn(button.gameObject);            // ChestSlotInput shows the item's tooltip
             var stack = SideOf(chestSide).Get(slot);
             if (stack == null) return;
             var keyboard = UnityEngine.InputSystem.Keyboard.current;

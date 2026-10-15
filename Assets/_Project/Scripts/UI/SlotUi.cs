@@ -1,3 +1,4 @@
+using Farm.Core;
 using Farm.Data;
 using Farm.Gameplay;
 using TMPro;
@@ -34,6 +35,8 @@ namespace Farm.UI
             icon.preserveAspect = true;
             icon.raycastTarget = false;
             SlotBadges.Quality(slot, stack.Quality);
+            var quality = stack.Quality;
+            UiTip.Add(slot.gameObject, () => SlotBadges.NameWithQuality(L.Get(item.NameKey), quality));      // a screen with a richer tooltip of its own marks the slot UiTip.HasOwn afterwards
             return icon;
         }
 

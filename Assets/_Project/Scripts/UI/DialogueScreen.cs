@@ -67,6 +67,7 @@ namespace Farm.UI
             _portrait = UiKit.Panel(box.transform, "Portrait", Color.white);
             UiKit.Stretch(_portrait.rectTransform, 4f);
             _portrait.preserveAspect = true;
+            UiTip.HasOwn(_portrait.gameObject);             // the speaker's name is written beside it
 
             var bubble = UiKit.Panel(box.transform, "Emote", UiKit.TextColor);
             UiKit.Place(bubble.rectTransform, new Vector2(1f, 1f), new Vector2(0.5f, 0.5f), new Vector2(46f, 34f), new Vector2(-6f, -6f));

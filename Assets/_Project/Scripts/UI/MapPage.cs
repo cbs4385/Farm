@@ -80,6 +80,7 @@ namespace Farm.UI
             image.enabled = image.sprite != null;
             image.preserveAspect = true;
             image.raycastTarget = false;
+            UiTip.Skip(image.gameObject);                   // scenery; the places and the pin are given their names below
             Fit(image.rectTransform, centre.x - size * 0.5f, centre.y - size * 0.5f, centre.x + size * 0.5f, centre.y + size * 0.5f);
             return image;
         }
@@ -197,6 +198,8 @@ namespace Farm.UI
                 var spotSize = spots.FirstOrDefault(sp => sp.Map == here)?.Size ?? WorldMapLayout.IconSize;
                 var pin = Picture(_places, "YouAreHere", "ui_map_here", at.Value + new Vector2(0f, indoors ? spotSize * 0.9f : 10f), 22f);
                 pin.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                pin.raycastTarget = true;
+                UiTip.Add(pin.gameObject, "uitip.map.you_are_here");
             }
         }
 
@@ -204,6 +207,7 @@ namespace Farm.UI
 
         void Hover(GameObject target, WorldMapLayout.Spot spot, bool atTheIcon)
         {
+            UiTip.HasOwn(target);                           // the label is the map's own (HoverText)
             var trigger = target.AddComponent<EventTrigger>();
             var enter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
             enter.callback.AddListener(data =>

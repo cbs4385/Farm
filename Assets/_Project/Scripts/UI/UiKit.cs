@@ -1,4 +1,5 @@
 using System;
+using Farm.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -167,7 +168,6 @@ namespace Farm.UI
             if (t != null) t.text = text;
         }
 
-        public static Slider MakeSlider(Transform parent, float value, UnityAction<float> onChanged, float width = 220f)
         // A small square button filled with one colour; `mark` is the highlight behind the fill (on when this is the chosen colour).
         public static Button MakeSwatch(Transform parent, Color32 colour, UnityAction onClick, out GameObject mark, float size = 24f)
         {
@@ -179,9 +179,11 @@ namespace Farm.UI
             var fill = Panel(button.transform, "Fill", new Color32(colour.r, colour.g, colour.b, 255));
             Stretch(fill.rectTransform, 3f);
             fill.raycastTarget = false;
+            UiTip.Add(button.gameObject, () => L.Get("uitip.swatch", ColorUtility.ToHtmlStringRGB(colour)));
             return button;
         }
 
+        public static Slider MakeSlider(Transform parent, float value, UnityAction<float> onChanged, float width = 220f)
         {
             var root = Rect("Slider", parent);
             Size(root.gameObject, width, 24f);

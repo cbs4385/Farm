@@ -20,6 +20,8 @@ namespace Farm.Mythos
         Transform _candleRoot;
         GameSession _session;
 
+        public string HoverLabel => L.Get("hover.altar");
+
         public bool CandlesLit { get; private set; }
         public bool OfferingShown => _offering != null && _offering.enabled;
 

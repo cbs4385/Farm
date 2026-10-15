@@ -9,6 +9,8 @@ namespace Farm.Mythos
     {
         public string Key;          // string key of the text (Key + ".mild" is the gentler version)
         public string FlagId;
+
+        public string HoverLabel => L.Get("hover.lore_stone");
         GameSession _session;
 
         public void Bind(MapContext map) => _session = map.Session;

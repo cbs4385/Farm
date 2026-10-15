@@ -7,10 +7,10 @@ namespace Farm.UI
     // The text of the label that appears when the mouse rests on a hotbar slot: what the item is and, for a tool, how and on what to use it.
     public static class HotbarTooltip
     {
-        public static string Text(GameSession session, string itemId)
+        public static string Text(GameSession session, string itemId, int quality = 0)
         {
             if (itemId == null || !session.Db.TryGetItem(itemId, out var item)) return null;
-            var text = item.IsTool ? session.ToolTitle(item.Id, session.ToolTier(item.Id)) : L.Get(item.NameKey);
+            var text = item.IsTool ? session.ToolTitle(item.Id, session.ToolTier(item.Id)) : SlotBadges.NameWithQuality(L.Get(item.NameKey), quality);
             var description = L.Get(item.DescriptionKey);
             if (!string.IsNullOrEmpty(description)) text += "\n" + description;
             if (item.IsTool)

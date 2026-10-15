@@ -49,6 +49,8 @@ namespace Farm.UI
                     var icon = UiKit.Panel(grid, item.Id, s.State.Collected.Contains(item.Id) ? Color.white : new Color(0.15f, 0.12f, 0.1f, 1f));
                     icon.sprite = item.Icon;
                     icon.preserveAspect = true;
+                    var has = s.State.Collected.Contains(item.Id);
+                    UiTip.Add(icon.gameObject, () => has ? L.Get(item.NameKey) : L.Get("collections.not_found"));          // a gray shape is not given away
                 }
             }
             var shipped = s.State.ShippedTotals.Values.Sum();

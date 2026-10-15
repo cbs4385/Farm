@@ -1124,13 +1124,35 @@ namespace Farm.Editor
                 box.offset = Vector2.zero;
                 box.size = size ?? Vector2.one;
             }
-            if (spriteName.StartsWith("obj_") && PlainFurniture.Contains(spriteName.Substring(4))) HoverNote.Add(go, "hover.furn." + spriteName.Substring(4), null, solid ? (Vector2?)null : size ?? Vector2.one);          // what a thing is, for a mouse resting on it or a pad facing it
+            var label = LabelKeyFor(spriteName);
+            if (label != null) HoverNote.Add(go, label, spriteName == "prop_mine_entrance" ? "hover.mine.caution" : null, solid ? (Vector2?)null : size ?? Vector2.one);          // what a thing is, for a mouse resting on it or a pad facing it
             if (spriteName == "obj_tree") sr.sortingOrder = TallSortingOrder;           // the crown covers a player who stands behind the tree (the player is at 10)
             if (spriteName == "obj_tree" || spriteName == "obj_bramble") go.AddComponent<ObjectSway>();   // leans in the wind about its base; the collider stays put
             return go;
         }
 
         const int TallSortingOrder = 11;
+
+        // The hover name of a picture put on a map (null: a flat floor covering or a decoration nobody points at). Counters, beds, shelves and boards that are used by hand get their own
+        // label from their component, which wins over this one (HoverInspector asks the interactable first). HoverLabelCoverageTests walks every map scene for anything left without a name.
+        static readonly Dictionary<string, string> ObjectLabels = new Dictionary<string, string>
+        {
+            { "obj_tree", "node.tree" }, { "obj_rock", "node.rock" }, { "obj_boulder", "node.boulder" }, { "obj_bramble", "hover.obj.bramble" },
+            { "obj_bed", "hover.obj.bed" }, { "obj_bed_double", "hover.obj.bed" }, { "obj_counter_wide", "hover.obj.counter" }, { "obj_bookshelf_tall", "hover.furn.bookshelf" },
+            { "obj_board", "hover.obj.board" }, { "obj_cat_door", "hover.obj.cat_door" }, { "obj_fishing_rock", "hover.obj.fishing_rock" },
+        };
+
+        public static string LabelKeyFor(string spriteName)
+        {
+            if (spriteName.StartsWith("obj_"))
+            {
+                var plain = spriteName.Substring(4);
+                return PlainFurniture.Contains(plain) ? "hover.furn." + plain : ObjectLabels.TryGetValue(spriteName, out var key) ? key : null;
+            }
+            if (!spriteName.StartsWith("prop_")) return null;
+            var prop = spriteName.Substring("prop_".Length);
+            return prop.StartsWith("fest_bunting_") ? "hover.prop.fest_bunting" : "hover.prop." + prop;
+        }
 
         // Furniture that is only to look at or sit on: it gets a name for the hover label (the bed, the kitchen, the counters and the board have their own).
         static readonly HashSet<string> PlainFurniture = new HashSet<string>
@@ -1153,9 +1175,7 @@ namespace Farm.Editor
             var position = Center(x, y) + (width > 1 ? new Vector3((width - 1) * 0.5f, 0f, 0f) : Vector3.zero);
             var go = AddObject(name, spriteName, position, solid: solid, size: new Vector2(width, 1f));
             go.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
-            if (!solid) go.AddComponent<BoxCollider2D>().isTrigger = true;
-            HoverNote.Add(go, "hover.prop." + spriteName.Substring("prop_".Length));
-            return go;
+            return go;          // AddObject has named it (and given a walk-through prop its trigger area)
         }
 
         // A prop of the farm that is the player's own: the mallet can lift it and put it down elsewhere, like the shipping bin.

@@ -135,6 +135,7 @@ namespace Farm.Gameplay
             var def = _session.Nodes.Get(node.TypeId);
             if (def != null && def.Id.EndsWith(ForageDefaults.PickedSuffix) && _session.Nodes.Get(def.GrowsIntoNodeId) is ResourceNodeDefinition grown && _session.Db.TryGetItem(grown.DropItemId, out var growing))
                 return L.Get("hover.forage_regrowing", L.Get(growing.NameKey));
+            if (def != null && NodeLabels.NamesItself(def)) return NodeLabels.For(def);
             if (def == null || def.Tool != ToolType.None || !_session.Db.TryGetItem(def.DropItemId, out var item)) return null;
             return L.Get(ForageRules.ReminderKey(ForageRules.IsLastOfItsKind(nodes, node.TypeId) ? "hover.forage_last" : "hover.forage", item.Id), L.Get(item.NameKey));
         }

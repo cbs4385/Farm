@@ -70,6 +70,7 @@ namespace Farm.UI
             icon.sprite = output != null ? output.Icon : null;
             icon.preserveAspect = true;
             UiKit.Size(icon.gameObject, 36f, 36f);
+            UiTip.HasOwn(icon.gameObject);                  // the recipe's name is written beside it
 
             var name = output != null ? L.Get(output.NameKey) : recipe.OutputItemId;
             if (recipe.OutputCount > 1) name = $"{name} x{recipe.OutputCount}";

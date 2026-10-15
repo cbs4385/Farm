@@ -158,6 +158,7 @@ namespace Farm.UI
 
                 var trigger = button.gameObject.AddComponent<EventTrigger>();
                 var enter = new EventTrigger.Entry { eventID = EventTriggerType.Select };
+                UiTip.HasOwn(button.gameObject);            // the window's tooltip box names the item
                 enter.callback.AddListener(_ => ShowTooltip(index));
                 trigger.triggers.Add(enter);
                 var hover = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
