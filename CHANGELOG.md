@@ -41,6 +41,10 @@ Steam Cloud saves (written behind a fake store, not yet tried against real Steam
 - Safe sync: the local file is always kept; when the local and cloud copy of a slot differ the newer wins and the other is kept as a `conflict-<time>.json` backup next to it. Deleting a cloud game also deletes its cloud copy (retried if the cloud refuses). Old saves load unchanged and count as local.
 - Owner to-do (Steamworks Cloud settings, quotas, no Auto-Cloud on `saves/`, and the still-missing `FARM_STEAM` / `SteamPlatform.TryInstall` wiring): `docs/RELEASE.md`, "Cloud saves".
 
+Felix looks like Felix (playtester: "the image looks like a guy with short black hair, but the person looks like a girl with reddish pig tails").
+
+- **Felix's front and back pictures in the world are redrawn.** They were a leftover drawing of someone with reddish tails; they now match his portrait and side views (dark short hair, stubble, straw hat, blue jacket, teal scarf). The other eleven villagers' pictures were checked against their portraits and match (`docs/qa/NPC_IMAGES.md`). A new automated check keeps every villager on their own portrait, four facings and poses. Not seen by a person yet.
+
 ## 0.6.9 (2026-10-15)
 
 An editing pass over what the villagers say when you talk to them.
