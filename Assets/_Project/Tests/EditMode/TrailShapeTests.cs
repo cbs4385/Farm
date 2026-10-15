@@ -89,5 +89,61 @@ namespace Farm.Tests
             Assert.GreaterOrEqual(crossings.Count, 4, "the left edge does not stay on one line");
             Assert.IsFalse(crossings.All(c => c == 16), "the edge is not the cell border");
         }
+
+        // ---- the farm's path: one cell wide, and it bends ---------------------------------------------------------------
+
+        [Test]
+        public void TheFarmPath_IsOneCellWide_OnePiece_AndStaysClearOfTheHouseTheBinAndTheMailbox()
+        {
+            var cells = FarmRoad.Cells.ToHashSet();
+            var doorX = MapLayout.FarmHouseDoorX;
+            Assert.IsTrue(cells.Contains((doorX, MapLayout.FarmRoadY)), "the corner by the door's path");
+            Assert.IsTrue(cells.Contains((doorX, FarmBuildings.HouseY0 - 1)), "the cell in front of the farmhouse door");
+            Assert.IsTrue(cells.Contains((MapLayout.FarmExitX, MapLayout.FarmRoadY)), "the way out to the village");
+            Assert.IsTrue(cells.Contains((MapLayout.FarmArriveX, MapLayout.FarmRoadY)), "where villagers arrive");
+            Assert.IsFalse(cells.Contains((doorX, FarmBuildings.HouseY0)), "the door cell is the floor tile");
+
+            // one cell wide: no 2 x 2 block, and no row or column of the path (apart from a step sideways) is wider than two cells
+            foreach (var (x, y) in cells)
+                Assert.IsFalse(cells.Contains((x + 1, y)) && cells.Contains((x, y + 1)) && cells.Contains((x + 1, y + 1)), $"a 2 x 2 block at {x},{y}: the path is wider than one cell");
+            foreach (var column in FarmRoad.Cells.Where(c => c.x > doorX).GroupBy(c => c.x))
+                Assert.LessOrEqual(column.Count(), 2, $"column {column.Key}");
+
+            // one piece
+            var seen = new System.Collections.Generic.HashSet<(int, int)> { (MapLayout.FarmExitX, MapLayout.FarmRoadY) };
+            var queue = new System.Collections.Generic.Queue<(int x, int y)>(seen);
+            while (queue.Count > 0)
+            {
+                var (x, y) = queue.Dequeue();
+                foreach (var n in new[] { (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1) })
+                    if (cells.Contains(n) && seen.Add(n)) queue.Enqueue(n);
+            }
+            Assert.AreEqual(cells.Count, seen.Count, "the path breaks into pieces");
+
+            foreach (var (x, y) in cells)
+            {
+                Assert.IsFalse(x >= 73 && x <= 74 && y >= 17 && y <= 18, $"the shipping bin stands on the path at {x},{y}");
+                Assert.IsFalse(x == 77 && y == 19, "the mailbox stands on the path");
+                Assert.IsFalse(x >= FarmBuildings.HouseX0 && x <= FarmBuildings.HouseX1 && y >= FarmBuildings.HouseY0 && y <= FarmBuildings.HouseY1, $"the house stands on the path at {x},{y}");
+            }
+        }
+
+        [Test]
+        public void TheFarmPath_Bends_ItIsNotTwoStraightLines()
+        {
+            Assert.IsTrue(FarmRoad.South.Any(o => o != 0), "the way to the door bends");
+            Assert.IsTrue(FarmRoad.East.Any(o => o != 0), "the road to the village bends");
+            for (var i = 1; i < FarmRoad.East.Length; i++) Assert.LessOrEqual(System.Math.Abs(FarmRoad.East[i] - FarmRoad.East[i - 1]), 1);
+        }
+
+        [Test]
+        public void TheEdges_AlsoCoverTheVillagesRoadsAndTheGrass()
+        {
+            Assert.IsTrue(TrailEdges.IsTrail("tile_cobble"));
+            Assert.IsTrue(TrailEdges.IsTrail("tile_path"));
+            Assert.IsTrue(TrailEdges.IsWood("tile_grass"));
+            Assert.IsTrue(TrailEdges.IsWood("tile_forest"));
+            Assert.IsFalse(TrailEdges.IsTrail("tile_grass"));
+        }
     }
 }

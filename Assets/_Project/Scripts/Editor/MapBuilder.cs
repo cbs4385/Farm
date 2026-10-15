@@ -324,9 +324,7 @@ namespace Farm.Editor
                 for (var x = 0; x < FarmW; x++)
                 {
                     var ground = "tile_grass";           // the old lattice of dirt squares read as a pattern, not as a farm gone wild
-                    // Path from the door south, then east along the road to the village.
-                    if (x == DoorX && y < HouseY0 && y >= 14) ground = "tile_path";
-                    if (y >= FarmExitY0 + 1 && y <= FarmExitY1 - 1 && x >= DoorX) ground = "tile_path";
+                    if (FarmRoad.Contains(x, y)) ground = "tile_path";           // from the door south, then east along the road to the village: one cell wide, and it bends (FarmRoad)
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(ground));
 
                 }

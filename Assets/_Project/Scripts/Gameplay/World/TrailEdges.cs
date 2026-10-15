@@ -5,23 +5,23 @@ using UnityEngine.Tilemaps;
 
 namespace Farm.Gameplay
 {
-    // Softens the outline of a trail through the forest. A trail painted in whole tiles has straight edges that follow the grid, which read as a road (playtest 2026-10-15).
-    // Where a path (or dirt) cell meets forest floor, a layer of small pictures is laid over both: made when the map starts from the two tiles' own pixels, with the line
+    // Softens the outline of the trails and roads. A trail painted in whole tiles has straight edges that follow the grid, which read as a road (playtest 2026-10-15).
+    // Where a path, cobble or dirt cell meets forest floor or grass (dirt only beside forest: the village's loose dirt specks stay specks), a layer of small pictures is laid over both: made when the map starts from the two tiles' own pixels, with the line
     // between them wandering across the cell borders (smooth noise for the broad bends, fine noise for a ragged edge) and a worn rim of slightly darker trail along it.
     // The tiles underneath stay as they are, so walking, footsteps and farming rules do not change.
     public sealed class TrailEdges : MonoBehaviour
     {
         public const float Threshold = 0.5f;
         public const float RimWidth = 0.08f;
-        const string WoodTile = "tile_forest";
+        const string WoodTile = "tile_forest", GrassTile = "tile_grass";
         const float BroadNoise = 0.5f, FineNoise = 0.3f;         // peak-to-peak: with the two together the line moves by at most 0.4 of a cell, so only cells next to the trail are drawn
 
         readonly List<UnityEngine.Object> _made = new List<UnityEngine.Object>();
 
         public Tilemap Layer { get; private set; }
 
-        public static bool IsTrail(string tile) => tile == "tile_path" || tile == "tile_dirt";
-        public static bool IsWood(string tile) => tile == WoodTile;
+        public static bool IsTrail(string tile) => tile == "tile_path" || tile == "tile_dirt" || tile == "tile_cobble";
+        public static bool IsWood(string tile) => tile == WoodTile || tile == GrassTile;          // the ground a trail is edged against
 
         // How much of a point is trail, 0..1, 0.5 being the edge. `trail` says whether a cell is trail; the point is in cell units. Pure, so that it can be tested.
         public static float Coverage(Func<int, int, bool> trail, float x, float y, int seed)
@@ -51,12 +51,32 @@ namespace Farm.Gameplay
                 var t = ground.GetTile(cell);
                 if (t != null) names[cell] = t.name;
             }
-            bool Trail(int x, int y) => names.TryGetValue(new Vector3Int(x, y, 0), out var n) && IsTrail(n);
+            var bounds = ground.cellBounds;
+            bool ForestNear(int x, int y)
+            {
+                for (var dx = -1; dx <= 1; dx++)
+                    for (var dy = -1; dy <= 1; dy++)
+                        if (names.TryGetValue(new Vector3Int(x + dx, y + dy, 0), out var n) && n == WoodTile) return true;
+                return false;
+            }
+            var trailCells = new HashSet<Vector3Int>();
+            foreach (var kv in names)
+                if (IsTrail(kv.Value) && (kv.Value != "tile_dirt" || ForestNear(kv.Key.x, kv.Key.y))) trailCells.Add(kv.Key);
+            // Beyond the map's edge a trail goes on as it is at the edge (so the way out is not eaten away), and a cell that is neither trail nor ground (a door, water, a floor)
+            // counts as trail so that the trail's end at a doorway is left alone.
+            bool Trail(int x, int y)
+            {
+                x = Mathf.Clamp(x, bounds.xMin, bounds.xMax - 1);
+                y = Mathf.Clamp(y, bounds.yMin, bounds.yMax - 1);
+                var at = new Vector3Int(x, y, 0);
+                if (trailCells.Contains(at)) return true;
+                return !names.TryGetValue(at, out var n) || !IsWood(n) && !IsTrail(n);
+            }
             bool Wood(int x, int y) => names.TryGetValue(new Vector3Int(x, y, 0), out var n) && IsWood(n);
 
             foreach (var kv in names)
             {
-                var isTrail = IsTrail(kv.Value);
+                var isTrail = trailCells.Contains(kv.Key);
                 if (!isTrail && !IsWood(kv.Value)) continue;
                 string other = null;
                 for (var dx = -1; dx <= 1 && other == null; dx++)
@@ -65,7 +85,8 @@ namespace Farm.Gameplay
                         if (dx == 0 && dy == 0) continue;
                         var nx = kv.Key.x + dx;
                         var ny = kv.Key.y + dy;
-                        if (isTrail ? Wood(nx, ny) : Trail(nx, ny)) { other = names[new Vector3Int(nx, ny, 0)]; break; }
+                        var nc = new Vector3Int(nx, ny, 0);
+                        if (isTrail ? Wood(nx, ny) : trailCells.Contains(nc)) { other = names[nc]; break; }
                     }
                 if (other != null) cells.Add((kv.Key, isTrail, other));
             }

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased (after 0.6.9)
+
+Paths and roads, following the forest trail of 0.6.8.
+
+- **The farm's path winds and is one cell wide.** The path from the farmhouse door and east to the village is a single cell wide (never two abreast) and now bends and steps sideways instead of running as two straight lines. It still begins at the door, ends at the way out to the village, and keeps clear of the house, the shipping bin and the mailbox.
+- **Ragged, worn edges on the village's roads and paths too.** The cobbled main road and lane, the shops' paths and the villagers' streets, and the farm's path, are drawn with the same grid-ignoring, worn outline as the forest trail, against grass as well as forest floor. The village's loose dirt specks stay specks. The tiles underneath are unchanged, so walking, footsteps and farming rules are the same.
+
 ## 0.6.9 (2026-10-15)
 
 An editing pass over what the villagers say when you talk to them.

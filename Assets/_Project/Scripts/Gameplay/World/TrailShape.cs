@@ -41,5 +41,37 @@ namespace Farm.Gameplay
             }
             return spans;
         }
+
+        // A trail of one cell that runs along a map (the farm's road): how far it is from the straight line at each of `length` columns, within minOff..maxOff. It is 0 for `endCells`
+        // columns at both ends (where the house path and the village exit are) and changes by at most one row from column to column; `Cells` fills the steps so that the cells touch.
+        public static int[] Line(int length, int minOff, int maxOff, int seed, int endCells = 6, float ramp = 5f, float amplitude = 2.4f)
+        {
+            var offsets = new int[length];
+            for (var i = 0; i < length; i++)
+            {
+                var toEnd = Math.Min(i, length - 1 - i);
+                if (toEnd < endCells) continue;
+                var t = Mathf.SmoothStep(0f, 1f, (toEnd - endCells + 1) / ramp);
+                var sway = (WoodLayout.Noise(i, 0f, 11f, seed) - 0.5f) * 2f + (WoodLayout.Noise(i, 0f, 4f, seed + 3) - 0.5f) * 0.8f;
+                var o = Mathf.RoundToInt(sway * amplitude * t);
+                o = Math.Max(minOff, Math.Min(maxOff, o));
+                var step = Math.Max(-1, Math.Min(1, o - offsets[i - 1]));
+                if (i > 1 && step != 0 && step == offsets[i - 2] - offsets[i - 1]) step = 0;          // no step straight back: with the filled corner cells it would be two cells wide
+                offsets[i] = offsets[i - 1] + step;
+            }
+            return offsets;
+        }
+
+        // The cells of a one-cell trail: the column's cell, and the cells between it and the previous column's so that the trail is one piece and never two cells wide in a row.
+        public static System.Collections.Generic.List<(int x, int y)> Cells(int[] offsets, int x0, int y)
+        {
+            var cells = new System.Collections.Generic.List<(int x, int y)>();
+            for (var i = 0; i < offsets.Length; i++)
+            {
+                cells.Add((x0 + i, y + offsets[i]));
+                if (i > 0 && offsets[i] != offsets[i - 1]) cells.Add((x0 + i, y + offsets[i - 1]));
+            }
+            return cells;
+        }
     }
 }
