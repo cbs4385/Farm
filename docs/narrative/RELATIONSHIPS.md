@@ -1,8 +1,8 @@
 # Villager relationships: the starting point
 
-Status: **working draft for design review.** Nothing here changes shipped lines or data. It collects what the game already says about how the twelve villagers feel about one another and about the player, so the team can see the web as a whole, find the thin spots and decide what to build next.
+Status: **working draft for design review; section 6 implemented 2026-10-15** (the eleven new ties are written and tested, the matrix is kept as data; the bigger mechanics in 6.3 are not built). Nothing here changes a shipped line. It collects what the game already says about how the twelve villagers feel about one another and about the player, so the team can see the web as a whole, find the thin spots and decide what to build next.
 
-**Sources.** `BIBLE.md` (Wren, Hazel, Bram), `BIBLE_WAVE2.md` (Tilda, Juno, Piper), `BIBLE_ENHANCED.md` (Marcus, Dr. Penn, Felix, Dorian, Elara, Ione), the eight storylines (`storylines/`), `mythos/LORE.md`, and the roster data (`NpcDefaults.cs`, `NpcRoster.cs`, `FriendshipModel.cs`). Where the sources are silent, this document says so (`·` in the matrix) rather than inventing an attitude; suggested fills are in section 6 and are proposals only.
+**Sources.** `BIBLE.md` (Wren, Hazel, Bram), `BIBLE_WAVE2.md` (Tilda, Juno, Piper), `BIBLE_ENHANCED.md` (Marcus, Dr. Penn, Felix, Dorian, Elara, Ione), the eight storylines (`storylines/`), `mythos/LORE.md`, and the roster data (`NpcDefaults.cs`, `NpcRoster.cs`, `FriendshipModel.cs`). Where the sources are silent, this document says so (`·` in the matrix) rather than inventing an attitude; section 6 records the fills that were written from it.
 
 **How to use it.** Section 2 is the cast at a glance. Section 3 is each villager's personality, wants and goals, and how they greet the player. Section 4 is the villager-to-villager matrix and the pair notes behind it. Sections 5 and 6 are the observations (clusters, gaps, uneven depth) and the questions worth discussing. Section 7 is the horror layer, kept apart because it changes what some of these attitudes really are (spoilers).
 
@@ -159,22 +159,22 @@ Row = how that villager feels about the column villager. Order: Til, Bra, Ion, M
 
 | from \ to | Til | Bra | Ion | Mar | Pen | Wre | Fel | Jun | Haz | Pip | Dor | Ela |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Tilda** | | 2 | 1 | 1 | 1 | R | 3 | 3 | 1 | R | 1 | · |
-| **Bram** | 2 | | 1 | 3 | 0 | 1 | 2 | 3 | 1 | 1 | 0 | 0 |
-| **Ione** | · | 1 | | 1 | 2 | 1 | · | · | 3 | · | S | S |
-| **Marcus** | 2 | 3 | 1 | | R | · | · | 2 | · | · | 1 | · |
-| **Dr. Penn** | 1 | · | 2 | 2 | | · | · | · | 1 | · | · | R |
-| **Wren** | R | 2 | 2 | 1 | 2 | | 2 | 3 | 3 | 3 | 1 | 2 |
-| **Felix** | 3 | 2 | · | · | · | 2 | | · | · | S | · | · |
-| **Juno** | 3 | 3 | · | 2 | · | 3 | · | | 2 | 3 | · | 2 |
-| **Hazel** | 0 | 0 | 3 | 0 | 0 | 3 | 0 | 2 | | 1 | 2 | 2 |
-| **Piper** | R | 1 | · | · | · | 3 | S | 3 | 1 | | S | 2 |
-| **Dorian** | 1 | 0 | S | 1 | · | 1 | · | · | 2 | · | | S |
-| **Elara** | · | · | S | · | R | 2 | · | 2 | 2 | 2 | S | |
+| **Tilda** |  | 2 | 1 | 1 | 1 | R | 3 | 3 | 1 | R | 1 | 1 |
+| **Bram** | 2 |  | 1 | 3 | 1 | 1 | 2 | 3 | 1 | 1 | 0 | 0 |
+| **Ione** | · | 1 |  | 1 | 2 | 1 | 2 | 2 | 3 | 1 | S | S |
+| **Marcus** | 2 | 3 | 1 |  | R | 1 | · | 2 | 0 | · | 1 | · |
+| **Dr. Penn** | 1 | 1 | 2 | 2 |  | 2 | · | · | 1 | 2 | · | R |
+| **Wren** | R | 2 | 2 | R | 2 |  | 2 | 3 | 3 | 3 | 1 | 2 |
+| **Felix** | 3 | 2 | 1 | · | · | 2 |  | · | · | S | · | 2 |
+| **Juno** | 3 | 3 | 1 | 2 | · | 3 | · |  | 2 | 3 | 1 | 2 |
+| **Hazel** | 0 | 0 | 3 | 2 | 0 | 3 | 0 | 2 |  | 1 | 2 | 2 |
+| **Piper** | R | 1 | 1 | · | 0 | 3 | S | 3 | 1 |  | S | 2 |
+| **Dorian** | 1 | 0 | S | 1 | · | 1 | · | 1 | 2 | · |  | S |
+| **Elara** | 2 | · | S | · | R | 2 | 2 | 2 | 2 | 2 | S |  |
 
 (Ione's S toward Dorian and Elara, and Elara's and Dorian's S toward Ione, come from the Dorian entry: "Elara, Ione leave him alone, gently." It is a courteous leaving-alone, not coldness. Piper's S toward Felix and Dorian is the "serenaded once, pretends it did not happen" bit, an embarrassment, not a dislike.)
 
-Counting the cells: of 132 possible directed pairs, about 94 have an attitude written and 38 are blank (Felix, Dr. Penn and Ione have the most blanks). Section 6 proposes how to fill the ones that matter.
+Counting the cells: of 132 possible directed pairs, 112 have an attitude written and 20 are still blank (Felix, Dr. Penn and Marcus have the most blanks). The table is also kept as data in `VillagerRelations.cs`, and a test holds every gossip topic to it. Section 6 proposes how to fill the ones that matter.
 
 ### 4.2 The pairs that already exist (what to build on)
 
@@ -220,7 +220,7 @@ The eight storylines (four drawn per new game) each put a small group together a
 ## 5. Observations
 
 1. **Strong clusters.** Three tight groups carry most of the writing: the **forge** (Bram, Juno, with Marcus and Tilda attached), the **saloon** (Wren, Piper, with Hazel's notebook and Bram's one cider), and the **library** (Ione, Hazel, with Dorian as a shy satellite). The clinic pair (Odalys and Elara) is a fourth, small and vivid.
-2. **Thin ties.** **Felix** has two strong ties (Tilda, Bram) and almost nothing else. **Ione** has one dominant tie (Hazel). **Dr. Penn** and **Marcus** each have one pair. **Dorian** has many weak ties and no strong one. **Elara's** ties are fully warm but unwritten in the other direction.
+2. **Thin ties (before section 6; the written fills now cover most of these).** **Felix** had two strong ties (Tilda, Bram) and almost nothing else. **Ione** had one dominant tie (Hazel). **Dr. Penn** and **Marcus** each had one pair. **Dorian** has many weak ties and no strong one. The blanks that remain are in the matrix.
 3. **No true antagonism, by design.** Tone rule 1 is "warm first". The sharpest relationships are rivalries with an obvious warm floor. This is deliberate; the question is whether the lack of *any* real friction limits drama (see 6.1).
 4. **Uneven depth.** Full villagers have five heart events; Enhanced villagers have two to three. The Enhanced six are also the least connected to each other, so the web is thinnest exactly where the writing is.
 5. **Romance coverage.** Eight are romanceable (Wren, Felix, Juno, Hazel, Piper, Dorian, Elara, Ione). No villager-to-villager romance exists in the writing at all; the likeliest candidates, if wanted, are Hazel and Dorian (already a quiet pair) and Felix and Wren (both want the sea).
@@ -229,41 +229,50 @@ The eight storylines (four drawn per new game) each put a small group together a
 
 ---
 
-## 6. Questions and proposed fills for discussion
+## 6. Decisions and what was built (2026-10-15)
 
-### 6.1 Questions
+### 6.1 Decisions on the open questions
 
-1. **Friction.** Should anyone dislike anyone? A mild, non-malicious tension (Marcus and Wren's noise, Dr. Penn and Tilda's herb shelf, Bram and Piper's volume) could drive more varied scenes without breaking "warm first".
-2. **Pairs with no tie.** Which blank cells matter? (See 6.2.)
-3. **Should attitudes change in play?** Currently villager-to-villager attitudes are authored text, not data. A small numeric table (this matrix) could drive barks, schedule overlaps, "who is mad at whom" gossip and friend-day triggers.
-4. **Should the player be able to change them?** The pie feud proves it is satisfying. Proposal: each villager has *one* relationship the player can repair or deepen (a "mend" action) and *one* the player can learn about (a secret).
-5. **Romance between villagers.** Worth a quiet, optional subplot (Hazel and Dorian are the obvious pair), or kept out so it never competes with the player's romance?
-6. **Spoken attitude.** Do villagers refer to one another at the right *hearts*? (A villager says something about Piper only if the player has met Piper.)
+The owner asked for the recommendations to be adopted. They are now the working rules for writers:
 
-### 6.2 Proposed fills for the highest-value blanks (not yet in the game)
+1. **Friction: mild and affectionate only.** The rivalries (R) are the whole of it: Tilda and Wren (who knows more), Tilda and Piper (haggling in rhyme), Marcus and Dr. Penn (the pie feud), Dr. Penn and Elara (the joke and the frown), and, new, Wren and Marcus (the bet on the hall roof). Nobody dislikes anybody, and every rivalry has a warm floor. No new friction was added beyond the roof bet.
+2. **Blank cells: fill the ones with a story.** Eleven ties were written (6.2). The blanks that remain are deliberate or low value (for example Marcus and Piper); fill one only when there is a gag or a feeling to put in it.
+3. **The matrix is data.** `VillagerRelations.cs` holds it, and a test makes every gossip topic point at a pair with a written attitude. It is not read during play yet. The document and the table must be changed together.
+4. **Can the player change attitudes?** The *learn* half is built: asking about someone is the way to learn a tie (the "Ask about" gossip topics, now 46). The *mend* half (one repairable tie per villager) needs new mechanics and is parked with 6.3.
+5. **Villager-to-villager romance: none.** Hazel and Dorian stay a quiet friendship and Felix and Wren stay regulars, so nothing competes with the player's romance.
+6. **Spoken attitude follows hearts.** Every topic needs three hearts with the speaker and a met flag for the person asked about, so nobody discusses a villager the player has not yet met.
 
-| Pair | Proposal | Why |
+### 6.2 The eleven ties, as built
+
+Lines live in `Assets/_Project/Narrative/relationship_gossip.fscript` (22 topics, one each way; compiled to `zz_fs_relationship_gossip.json`). Each plays after a chat as an "Ask about X" option, at priority 1 with a six-day cooldown, like the other gossip topics. Marks read *speaker to other*.
+
+| Pair | Attitudes | What the two lines say |
 |---|---|---|
-| Felix and Wren | **2 / 2**: she buys his best catch and his tall tales; he is one of her regulars, and her only audience that does not need an answer. | Gives Felix a second strong tie; both want to see the sea. |
-| Felix and Ione | **1 / 2**: she sets a book about the sea aside for him each winter; he pretends he does not read. | Two sea-loving quiet people with no tie. |
-| Ione and Juno | **2 / 1**: metals and maker's marks; Ione has the old guild book Juno needs for her mark. | Ties library to forge; supports Juno's heart 10. |
-| Marcus and Wren | **1 / R**: Wren takes bets on the hall roof; Marcus says "nearly" at her. | Reuses the bet gag; gives Marcus a comic partner. |
-| Marcus and Hazel | **0 / 2**: she shelved the almanac with the roof plans. | Connects the quiet pair at the hall. |
-| Dr. Penn and Wren | **2 / 2**: she prescribes Wren a night off; Wren ignores it. | The village's two over-carriers. |
-| Dr. Penn and Bram | **1 / 1** (Bram is currently 0 toward her): she nags about his hands and burns; he fixes her instruments. | Turns a silent "tolerated" into a real exchange. |
-| Elara and Felix | **1 / 1**: she knitted a hat for his boat; they both want the sea. | Seeds a "go out on the water" hook shared with Wren. |
-| Elara and Tilda | **2 / 1**: wool and bandages in the shop; Tilda's cold remedies. | Gives Elara a tie to the shop she is never written into. |
-| Dorian and Juno | **1 / 1**: she labels his baskets; he leaves her a leaf. | Gives Juno (who knows everyone) one more shy friend. |
-| Piper and Ione | **1 / 1**: Ione sets aside songbooks; Piper never returns them. | Fills a library/saloon bridge. |
-| Piper and Odalys | **0 / 2**: she plays at the clinic for patients; Odalys tolerates it with a frown. | A fiddle in a clinic is a gentle joke. |
+| Felix and Wren | 2 / 2 | He: she buys his best fish and listens to the rest; the tuna grows on purpose. She: his favorite regular; she tells the tuna story louder than he does. |
+| Felix and Ione | 1 / 2 | He: a sea book set aside each winter; "I don't read"; the lighthouse one, twice. She: he returns them early with a fish scale for a bookmark. |
+| Ione and Juno | 2 / 1 | She: soot on the spine of the guild book of maker's marks, decided to be a bookplate. Juno: every mark in the county, none of them hers, yet. |
+| Marcus and Wren | 1 / R | He: she runs a pool on the hall roof; the odds are probably poor. She: money on "nearly" for years; very close to being rich. |
+| Marcus and Hazel | 0 / 2 | He: she shelved the almanac holding the roof plans where he would find it. She: she found them, said nothing. |
+| Dr. Penn and Wren | 2 / 2 | Penn: one night off a week, prescribed; Wren framed it. Wren: it hangs by the good stool; unused. |
+| Dr. Penn and Bram | 1 / 1 | Penn: he calls a burn "weather"; he repaired her instrument case, unasked. Bram: hands disagree with the doctor; case fixed; she stopped asking. |
+| Elara and Tilda | 2 / 1 | Elara: wool and remedies in one bag; she owes a hat on the slate. Tilda: Elara pays in knitting; a tea cozy shaped like the shop. |
+| Dorian and Juno | 1 / 1 | He: she labeled his baskets, he left her a leaf, she labeled that too. Juno: the leaf on the anvil; the forest is labeled "Suspect". |
+| Piper and Ione | 1 / 1 | Piper: borrowed songbooks never returned, "a chorus of overdue". Ione: they come back as verses in the margins; Hazel corrects the scansion; it is interest. |
+| Piper and Dr. Penn | 0 / 2 | Piper: she played in the waiting room, Penn frowned, she took it as a rave. Penn: patients ask for the fiddle by name; she frowns with less conviction. |
 
-### 6.3 Ideas to drive engagement (for discussion, no commitment)
+**Elara and Felix** (also proposed in 6.2) was already built with the first gossip batch, so it was not rewritten; the matrix now shows it as 2 / 2.
 
-- **Carry-a-message** errands: the player takes a small kindness from one villager to another, which reveals how they feel about each other (and fills the matrix as a gameplay system).
-- **Gossip tiers.** Tilda and Wren trade rumors; the player can learn which are true. Because the *Wren gossip bingo* gag already runs on contradictions, the player's job could be to catch the contradiction and report the truth.
-- **Pair friend-days.** Today friend days are one villager and the player. A friend day for *two* villagers (the bench, the clinic, the saloon corner) would use the strong ties already present.
-- **Seasonal alignments.** Each festival could expose a different tie (the dance pairs; the lantern feast seats everyone by tie).
-- **A "village web" journal page** that fills in as the player learns each attitude. Because relationships are secrets in this game, learning them is a reward in itself.
+**Verified.** The story compiled with no errors; `RelationshipGossipTests` checks that all 22 topics exist, are gated correctly and play real dialogue, that every gossip topic is about a pair the table has written, and that the table is well formed. The lines are cozy-layer text and have not been read in play by a person.
+
+### 6.3 Ideas to drive engagement (not built; they need new mechanics)
+
+These stay proposals. Each would be its own task (claim it in `STATUS.md` first).
+
+- **Carry-a-message** errands: the player takes a small kindness from one villager to another, which reveals how they feel about each other. This is also the natural home for the *mend* half of decision 4.
+- **Gossip tiers.** Tilda and Wren trade rumors; the player can learn which are true. The *Wren gossip bingo* gag already runs on contradictions, so the player's job could be to catch one and report the truth.
+- **Pair friend-days.** A friend day for *two* villagers (the bench, the clinic, the saloon corner) would use the strongest ties.
+- **Seasonal alignments.** Each festival could expose a different tie.
+- **A "village web" journal page** that fills in as the player learns each attitude. The "Ask about" topics already supply the facts it would show.
 
 ---
 
@@ -290,10 +299,10 @@ Consequences for the relationship web:
 
 ---
 
-## 8. Open items to resolve before this becomes a design
+## 8. Open items
 
-- Confirm the matrix with the owner, especially every **R** and **S**, and the proposals in 6.2.
-- Decide whether the matrix should become **data** (a `Relationships` module data file, readable by conditions) or stay a writing reference.
+- Confirm the matrix with the owner, especially every **R** and **S**, and read the 22 new lines in play.
+- Decide whether the matrix should start driving play (barks, schedule overlaps, friend-day triggers) or stay a writing reference and test guard.
 - Decide how the **Enhanced** six reach the same depth (T-150) and whether new ties are written with them.
-- Decide how the **player-facing journal** might reveal the web.
+- Decide which 6.3 idea, if any, is built next.
 - Check every line that names another villager against section 4 (the "never contradict another villager's entry" rule in `BIBLE.md` section 6).

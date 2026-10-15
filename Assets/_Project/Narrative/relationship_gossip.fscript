@@ -1,0 +1,301 @@
+# Relationship gossip (RELATIONSHIPS.md section 6.2): eleven ties the bibles left unwritten, each askable in both directions once the player is a friend of the speaker and has met the other villager. Same shape as gossip_topics.fscript. Compiled to zz_fs_relationship_gossip.json.
+
+# ---- Felix and Wren (2 / 2): the catch and the stories ----
+
+topic felix.gossip.wren
+  npc felix
+  label Ask about Wren
+  plays felix.gossip.wren.d
+  if hearts:felix>=3 && flag:met.wren
+  priority 1
+  cooldown 6
+
+dialogue felix.gossip.wren.d
+n0 felix: Wren buys my best fish and listens to the rest. Nobody listens like she does.
+  next n1
+n1 felix: Don't tell her the tuna grows on purpose.
+
+topic wren.gossip.felix
+  npc wren
+  label Ask about Felix
+  plays wren.gossip.felix.d
+  if hearts:wren>=3 && flag:met.felix
+  priority 1
+  cooldown 6
+
+dialogue wren.gossip.felix.d
+n0 wren: Felix is my favorite regular, my darling. He has never once asked me to keep it short.
+  next n1
+n1 wren: Between us, I tell his tuna story louder than he does.
+
+# ---- Felix and Ione (1 / 2): the sea book set aside each winter ----
+
+topic felix.gossip.ione
+  npc felix
+  label Ask about Ione
+  plays felix.gossip.ione.d
+  if hearts:felix>=3 && flag:met.ione
+  priority 1
+  cooldown 6
+
+dialogue felix.gossip.ione.d
+n0 felix: Ione sets a sea book aside for me each winter. I say I don't read.
+  next n1
+n1 felix: The lighthouse one. Twice.
+
+topic ione.gossip.felix
+  npc ione
+  label Ask about Felix
+  plays ione.gossip.felix.d
+  if hearts:ione>=3 && flag:met.felix
+  priority 1
+  cooldown 6
+
+dialogue ione.gossip.felix.d
+n0 ione: I set a sea book aside for Felix each winter. He says he doesn't read.
+  next n1
+n1 ione: He returns them early, with a fish scale for a bookmark.
+
+# ---- Ione and Juno (2 / 1): the guild book of maker's marks ----
+
+topic ione.gossip.juno
+  npc ione
+  label Ask about Juno
+  plays ione.gossip.juno.d
+  if hearts:ione>=3 && flag:met.juno
+  priority 1
+  cooldown 6
+
+dialogue ione.gossip.juno.d
+n0 ione: Juno borrowed the guild book of maker's marks. She returned it with soot on the spine.
+  next n1
+n1 ione: I've decided it is a bookplate.
+
+topic juno.gossip.ione
+  npc juno
+  label Ask about Ione
+  plays juno.gossip.ione.d
+  if hearts:juno>=3 && flag:met.ione
+  priority 1
+  cooldown 6
+
+dialogue juno.gossip.ione.d
+n0 juno: Okay, okay, okay: Ione has a book with every maker's mark in the county! Hundreds! None of them are mine. Yet.
+
+# ---- Marcus and Wren (1 / rivalry): the bet on the hall roof ----
+
+topic marcus.gossip.wren
+  npc marcus
+  label Ask about Wren
+  plays marcus.gossip.wren.d
+  if hearts:marcus>=3 && flag:met.wren
+  priority 1
+  cooldown 6
+
+dialogue marcus.gossip.wren.d
+n0 marcus: Wren runs a pool on the hall roof. Nobody will tell me the odds.
+  next n1
+n1 marcus: I suspect they are poor.
+
+topic wren.gossip.marcus
+  npc wren
+  label Ask about Marcus
+  plays wren.gossip.marcus.d
+  if hearts:wren>=3 && flag:met.marcus
+  priority 1
+  cooldown 6
+
+dialogue wren.gossip.marcus.d
+n0 wren: Marcus says the roof is nearly fixed, my darling. I've had money on "nearly" for years.
+  next n1
+n1 wren: I am very close to being rich.
+
+# ---- Marcus and Hazel (0 / 2): the almanac with the roof plans ----
+
+topic marcus.gossip.hazel
+  npc marcus
+  label Ask about Hazel
+  plays marcus.gossip.hazel.d
+  if hearts:marcus>=3 && flag:met.hazel
+  priority 1
+  cooldown 6
+
+dialogue marcus.gossip.hazel.d
+n0 marcus: Hazel shelved an old almanac with the hall's roof plans inside. I never asked.
+  next n1
+n1 marcus: She put it where I would find it.
+
+topic hazel.gossip.marcus
+  npc hazel
+  label Ask about Marcus
+  plays hazel.gossip.marcus.d
+  if hearts:hazel>=3 && flag:met.marcus
+  priority 1
+  cooldown 6
+
+dialogue hazel.gossip.marcus.d
+n0 hazel: I found the hall's roof plans inside an almanac. (Marcus has needed them for years.)
+  next n1
+n1 hazel: I shelved it where he'd see it. I said nothing.
+
+# ---- Dr. Penn and Wren (2 / 2): the prescribed night off ----
+
+topic odalys.gossip.wren
+  npc odalys
+  label Ask about Wren
+  plays odalys.gossip.wren.d
+  if hearts:odalys>=3 && flag:met.wren
+  priority 1
+  cooldown 6
+
+dialogue odalys.gossip.wren.d
+n0 odalys: I prescribed Wren one night off a week. She framed the prescription.
+  next n1
+n1 odalys: It has not been filled.
+
+topic wren.gossip.odalys
+  npc wren
+  label Ask about Dr. Penn
+  plays wren.gossip.odalys.d
+  if hearts:wren>=3 && flag:met.odalys
+  priority 1
+  cooldown 6
+
+dialogue wren.gossip.odalys.d
+n0 wren: Dr. Penn prescribed me a night off, in writing. I framed it. It hangs by the good stool.
+  next n1
+n1 wren: Between us, I have not used it.
+
+# ---- Dr. Penn and Bram (1 / 1): the burn he calls weather ----
+
+topic odalys.gossip.bram
+  npc odalys
+  label Ask about Bram
+  plays odalys.gossip.bram.d
+  if hearts:odalys>=3 && flag:met.bram
+  priority 1
+  cooldown 6
+
+dialogue odalys.gossip.bram.d
+n0 odalys: Bram refuses to call a burn a burn. He calls it weather.
+  next n1
+n1 odalys: In return he repaired my instrument case, unasked. I have stopped objecting.
+
+topic bram.gossip.odalys
+  npc bram
+  label Ask about Dr. Penn
+  plays bram.gossip.odalys.d
+  if hearts:bram>=3 && flag:met.odalys
+  priority 1
+  cooldown 6
+
+dialogue bram.gossip.odalys.d
+n0 bram: Hm. Doctor wants my hands rested. Hands disagree.
+  next n1
+n1 bram: Fixed her instrument case. She stopped asking.
+
+# ---- Elara and Tilda (2 / 1): wool, remedies and the slate ----
+
+topic elara.gossip.tilda
+  npc elara
+  label Ask about Tilda
+  plays elara.gossip.tilda.d
+  if hearts:elara>=3 && flag:met.tilda
+  priority 1
+  cooldown 6
+
+dialogue elara.gossip.tilda.d
+n0 elara: Tilda saves me the soft wool and the cold remedies in one bag! The slate says I owe her a hat. I'm knitting it!
+
+topic tilda.gossip.elara
+  npc tilda
+  label Ask about Elara
+  plays tilda.gossip.elara.d
+  if hearts:tilda>=3 && flag:met.elara
+  priority 1
+  cooldown 6
+
+dialogue tilda.gossip.elara.d
+n0 tilda: Elara pays her slate in knitting. I now own a tea cozy shaped like the shop.
+  next n1
+n1 tilda: It's the nicest thing on the counter.
+
+# ---- Dorian and Juno (1 / 1): the labeled baskets and the leaf ----
+
+topic dorian.gossip.juno
+  npc dorian
+  label Ask about Juno
+  plays dorian.gossip.juno.d
+  if hearts:dorian>=3 && flag:met.juno
+  priority 1
+  cooldown 6
+
+dialogue dorian.gossip.juno.d
+n0 dorian: Juno labeled my baskets. "Mushrooms (Not For Anvils)."
+  next n1
+n1 dorian: I left her a leaf. She labeled that too.
+
+topic juno.gossip.dorian
+  npc juno
+  label Ask about Dorian
+  plays juno.gossip.dorian.d
+  if hearts:juno>=3 && flag:met.dorian
+  priority 1
+  cooldown 6
+
+dialogue juno.gossip.dorian.d
+n0 juno: Dorian leaves a perfect leaf on my anvil sometimes! He says the forest did it! I labeled the forest "Suspect"!
+
+# ---- Piper and Ione (1 / 1): the songbooks that never come back ----
+
+topic piper.gossip.ione
+  npc piper
+  label Ask about Ione
+  plays piper.gossip.ione.d
+  if hearts:piper>=3 && flag:met.ione
+  priority 1
+  cooldown 6
+
+dialogue piper.gossip.ione.d
+n0 piper: Ione sets songbooks aside for me, and I never bring them back! She calls it a long loan!
+  next n1
+n1 piper: I call it a chorus of overdue.
+
+topic ione.gossip.piper
+  npc ione
+  label Ask about Piper
+  plays ione.gossip.piper.d
+  if hearts:ione>=3 && flag:met.piper
+  priority 1
+  cooldown 6
+
+dialogue ione.gossip.piper.d
+n0 ione: Piper keeps the songbooks for months. She returns them as verses, written in the margins.
+  next n1
+n1 ione: Hazel corrects the scansion. I call it interest.
+
+# ---- Piper and Dr. Penn (0 / 2): the fiddle in the waiting room ----
+
+topic piper.gossip.odalys
+  npc piper
+  label Ask about Dr. Penn
+  plays piper.gossip.odalys.d
+  if hearts:piper>=3 && flag:met.odalys
+  priority 1
+  cooldown 6
+
+dialogue piper.gossip.odalys.d
+n0 piper: Dr. Penn let me play in the waiting room once. She frowned through the whole set! I took it as a rave!
+
+topic odalys.gossip.piper
+  npc odalys
+  label Ask about Piper
+  plays odalys.gossip.piper.d
+  if hearts:odalys>=3 && flag:met.piper
+  priority 1
+  cooldown 6
+
+dialogue odalys.gossip.piper.d
+n0 odalys: Piper plays in the waiting room by invitation, and I frown. Patients ask for the fiddle by name.
+  next n1
+n1 odalys: I frown with less conviction each week.
