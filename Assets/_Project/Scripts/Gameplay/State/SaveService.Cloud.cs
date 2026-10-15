@@ -274,7 +274,11 @@ namespace Farm.Gameplay
                     ForgetPendingDelete(slot);
                     moved++;
                 }
-                else failed++;
+                else
+                {
+                    failed++;
+                    Log.Warn($"[SteamCloud] slot {slot} stays on this computer: " + (cloud == null ? "no cloud storage" : text == null ? "the local file could not be read" : "the cloud refused the write, or what it handed back was not the same text (see the [SteamCloud] line above)") + ".");
+                }
             }
             DeclineMigration();
             return moved;

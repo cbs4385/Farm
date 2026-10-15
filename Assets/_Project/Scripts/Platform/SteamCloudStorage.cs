@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Farm.Core;
 
 namespace Farm.Platform
 {
@@ -38,6 +39,19 @@ namespace Farm.Platform
             catch (Exception) { return DateTime.MinValue; }
         }
 
+        // The cloud switches, as one line for the log: which of them is off is the first thing to know when a save does not go up.
+        string Flags()
+        {
+            try { return $"Steam running {_api.IsSteamRunning}, cloud on for the account {_api.IsCloudEnabledForAccount}, for the app {_api.IsCloudEnabledForApp}"; }
+            catch (Exception e) { return "the cloud switches could not be read (" + e.Message + ")"; }
+        }
+
+        string QuotaText()
+        {
+            try { return _api.GetQuota(out var total, out var available) ? $"quota {total} bytes, {available} free" : "quota unknown (Steam did not answer)"; }
+            catch (Exception e) { return "quota unknown (" + e.Message + ")"; }
+        }
+
         public bool TryRead(string name, out string text)
         {
             text = null;
@@ -45,27 +59,29 @@ namespace Farm.Platform
             {
                 if (!_api.FileExists(name)) return false;
                 var size = _api.GetFileSize(name);
-                if (size < 0) return false;
+                if (size < 0) { Log.Warn($"[SteamCloud] '{name}' is in the cloud but its size could not be read ({size})."); return false; }
                 var buffer = new byte[size];
-                if (_api.FileRead(name, buffer, size) != size) return false;
+                var got = _api.FileRead(name, buffer, size);
+                if (got != size) { Log.Warn($"[SteamCloud] '{name}' read {got} of {size} bytes."); return false; }
                 text = Utf8.GetString(buffer);
                 return true;
             }
-            catch (Exception) { return false; }
+            catch (Exception e) { Log.Warn($"[SteamCloud] reading '{name}' failed: {e.Message}"); return false; }
         }
 
         public bool TryWrite(string name, string text)
         {
             try
             {
-                if (!IsAvailable) { LastFailure = CloudFailure.Unavailable; return false; }
+                if (!IsAvailable) { LastFailure = CloudFailure.Unavailable; Log.Warn($"[SteamCloud] '{name}' not written: {Flags()}."); return false; }
                 var bytes = Utf8.GetBytes(text);
                 if (_api.FileWrite(name, bytes, bytes.Length)) { LastFailure = CloudFailure.None; return true; }
                 // Steam only says "no": a full quota is the one reason worth telling the player about.
                 LastFailure = _api.GetQuota(out _, out var available) && available < bytes.Length ? CloudFailure.QuotaExceeded : CloudFailure.WriteFailed;
+                Log.Warn($"[SteamCloud] writing '{name}' ({bytes.Length} bytes) was refused ({LastFailure}): {Flags()}; {QuotaText()}.");
                 return false;
             }
-            catch (Exception) { LastFailure = CloudFailure.WriteFailed; return false; }
+            catch (Exception e) { LastFailure = CloudFailure.WriteFailed; Log.Warn($"[SteamCloud] writing '{name}' failed: {e.Message}"); return false; }
         }
 
         public bool TryDelete(string name)

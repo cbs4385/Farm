@@ -2,6 +2,10 @@
 
 ## 0.7.0 (2026-10-15)
 
+Steam Cloud says why a save did not go up (playtest: "0 saved game(s) moved to Steam Cloud. 2 could not be moved", with no reason).
+
+- **The player log names the cause.** When Steam refuses or fails a cloud read or write, the log now has a `[SteamCloud]` line with the file, its size, the Steam, account and app cloud switches and the quota left; the move-to-cloud offer logs which slot stayed on this computer and why. Nothing changes for the player on screen.
+
 The "Save to" choice is always shown (playtest: a new game on a used slot never asked whether to save locally or to the cloud).
 
 - **The new-game screen always has its "Save to" row.** It used to be hidden whenever Steam Cloud was not available, so a game started outside Steam (the build folder's own program, or Steam not running) silently saved on this computer and nothing said why. Now the row is there: without Steam Cloud it reads "Save to: this computer (Steam Cloud is not available; start the game from Steam to use it)" and cannot be changed; with Steam Cloud it is the same switch as before.

@@ -67,6 +67,52 @@ namespace Farm.Tests
             return s;
         }
 
+        // Playtest 2026-10-15: the migration said "0 moved, 2 could not be moved" and the player log gave no reason. Every refusal now says why.
+        [Test]
+        public void ARefusedWrite_LogsTheNameTheSizeTheCloudFlagsAndTheQuota()
+        {
+            var api = new FakeRemoteStorage { Quota = 10 };
+            var cloud = new SteamCloudStorage(api);
+            LogAssert.Expect(LogType.Warning, new Regex(@"\[SteamCloud\].*saves/slot0\.json.*QuotaExceeded.*account True.*app True.*quota 10 bytes, 10 free"));
+            Assert.IsFalse(cloud.TryWrite("saves/slot0.json", new string('x', 500)));
+            Assert.AreEqual(CloudFailure.QuotaExceeded, cloud.LastFailure);
+        }
+
+        [Test]
+        public void AWriteWhileTheAppsCloudIsOff_LogsWhichSwitchIsOff()
+        {
+            var api = new FakeRemoteStorage { AppOn = false };
+            var cloud = new SteamCloudStorage(api);
+            LogAssert.Expect(LogType.Warning, new Regex(@"\[SteamCloud\].*saves/slot1\.json.*not written.*running True.*account True.*app False"));
+            Assert.IsFalse(cloud.TryWrite("saves/slot1.json", "{}"));
+            Assert.AreEqual(CloudFailure.Unavailable, cloud.LastFailure);
+        }
+
+        [Test]
+        public void AReadThatReturnsTheWrongNumberOfBytes_IsLogged()
+        {
+            var api = new ShortReadStorage();
+            api.FileWrite("saves/slot2.json", new byte[] { 1, 2, 3, 4 }, 4);
+            var cloud = new SteamCloudStorage(api);
+            LogAssert.Expect(LogType.Warning, new Regex(@"\[SteamCloud\].*saves/slot2\.json.*read 2 of 4 bytes"));
+            Assert.IsFalse(cloud.TryRead("saves/slot2.json", out _));
+        }
+
+        sealed class ShortReadStorage : IRemoteStorageApi
+        {
+            readonly Dictionary<string, byte[]> _files = new Dictionary<string, byte[]>();
+            public bool IsSteamRunning => true;
+            public bool IsCloudEnabledForAccount => true;
+            public bool IsCloudEnabledForApp => true;
+            public bool FileExists(string name) => _files.ContainsKey(name);
+            public int GetFileSize(string name) => _files[name].Length;
+            public int FileRead(string name, byte[] buffer, int size) => 2;
+            public bool FileWrite(string name, byte[] data, int size) { _files[name] = (byte[])data.Clone(); return true; }
+            public bool FileDelete(string name) => _files.Remove(name);
+            public long GetFileTimestamp(string name) => 1;
+            public bool GetQuota(out long total, out long available) { total = 100; available = 100; return true; }
+        }
+
         [Test]
         public void Storage_RoundTripsTextAndTimestamp_AsUtf8WithoutBom()
         {
