@@ -175,6 +175,12 @@ namespace Farm.Gameplay
         {
             foreach (var link in Links)
                 if (link.Contains(new Vector2Int(x, y))) return true;
+            return IsStreetPaving(x, y);
+        }
+
+        // The same without the links (the scene draws those winding, VillageRoads): each street's lane and the alleys in front of its doors.
+        public static bool IsStreetPaving(int x, int y)
+        {
             foreach (var street in Streets)
             {
                 if (x >= street.LaneX && x < street.LaneX + LaneWidth && y >= street.RowY - 2 && y <= street.RowY + RowRise + CottageH - 1) return true;

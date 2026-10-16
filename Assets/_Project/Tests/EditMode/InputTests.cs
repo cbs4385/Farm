@@ -43,7 +43,8 @@ namespace Farm.Tests
                 var paths = action.bindings.Select(b => b.effectivePath).ToList();
                 Assert.IsTrue(paths.Any(p => p.StartsWith("<Keyboard>") || p.StartsWith("<Mouse>")), $"{action.name}: no keyboard/mouse binding");
                 if (action.name.StartsWith(InputNames.HotbarPrefix) && action.name != InputNames.HotbarNext && action.name != InputNames.HotbarPrev) continue;
-                if (action.name == InputNames.RowPrev) continue;                       // a pad has one row button: RT goes round
+                if (action.name == InputNames.RowPrev) continue;
+                if (action.name == InputNames.Crafting) continue;                      // the pad opens it from the menu's tab: LT is Run                       // a pad has one row button: RT goes round
                 Assert.IsTrue(paths.Any(p => p.StartsWith("<Gamepad>")), $"{action.name}: no gamepad binding");
             }
         }

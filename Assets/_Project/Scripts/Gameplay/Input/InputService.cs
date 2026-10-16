@@ -39,6 +39,7 @@ namespace Farm.Gameplay
         public InputAction Pause => Gameplay[InputNames.Pause];
         public InputAction Menu => Gameplay[InputNames.Menu];
         public InputAction Journal => Gameplay[InputNames.Journal];
+        public InputAction Run => Gameplay[InputNames.Run];
         public InputAction Crafting => Gameplay[InputNames.Crafting];
 
         // Ref-counted so overlapping menus do not re-enable gameplay input prematurely.

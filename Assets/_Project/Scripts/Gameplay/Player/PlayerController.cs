@@ -23,6 +23,9 @@ namespace Farm.Gameplay
         int _restMinute;
         readonly Footsteps _steps = new Footsteps();
         Vector3 _lastPosition;
+        readonly RunModel _run = new RunModel();
+        float _runFactor = 1f;
+        public bool Running => _runFactor > 1f;
 
         public Vector2Int Facing { get; private set; } = Vector2Int.down;
 
@@ -213,8 +216,19 @@ namespace Farm.Gameplay
             if (input != null)
             {
                 var raw = input.Move.ReadValue<Vector2>();
+                var settings = _session != null ? _session.Settings : null;
+                if (settings != null && input.Hints.Kind == InputKind.Gamepad) raw = RunModel.ApplyStickSensitivity(raw, settings.ControllerSensitivity);
                 _move = Vector2.ClampMagnitude(raw, 1f);
             }
+
+            var moving = _move.sqrMagnitude > 0.01f;
+            _runFactor = 1f;
+            if (input != null && _session != null && _session.InGame)
+            {
+                _runFactor = _run.Step(input.Run.IsPressed(), moving, _session.State.Energy, Time.deltaTime, _session.Settings != null && _session.Settings.RelaxedEnergy, out var cost);
+                if (cost > 0) _session.TrySpendEnergy(cost);
+            }
+            else _run.Reset();
 
             if (_move.sqrMagnitude > 0.01f)
             {
@@ -227,7 +241,7 @@ namespace Farm.Gameplay
 
         void FixedUpdate()
         {
-            _rb.linearVelocity = _move * _speed;
+            _rb.linearVelocity = _move * (_speed * _runFactor);
         }
 
         // Dresses the farmer in a chosen look (the layered avatar sprites replace the plain placeholder ones).
@@ -254,6 +268,7 @@ namespace Farm.Gameplay
         public void Stop()
         {
             _move = Vector2.zero;
+            _runFactor = 1f;
             if (_rb != null) _rb.linearVelocity = Vector2.zero;
         }
 

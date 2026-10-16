@@ -39,6 +39,9 @@ namespace Farm.Core
         public bool TutorialTips = true;    // a card above the hotbar gives one tip at a time for the first things to do (till, plant, water, harvest, ship)
         public bool QuestTracker = true;    // the active quests and what each still needs are listed at the top right of the screen
         public bool MouseAim = true;        // the tool square follows the mouse around the player (playtest feedback); off keeps facing-only aiming
+        public float MouseSensitivity = 1f;         // how far the pointer travels in the world for a movement of the mouse (0.5 to 2.5; 1 = the system speed)
+        public float ControllerSensitivity = 1f;    // how quickly a tilt of the stick reaches full walking speed (0.5 to 2; 1 = as the stick reports)
+        public const float MinMouseSensitivity = 0.5f, MaxMouseSensitivity = 2.5f, MinControllerSensitivity = 0.5f, MaxControllerSensitivity = 2f;
         public bool Barks = true;           // villagers near you say short ambient lines in speech bubbles (T-125)
         public bool ChatMenu = true;        // after a chat, offer topics and social actions (jokes, compliments ...)
         public bool VoiceBlips = true;      // villagers' talking blips and signature sounds (T-132)
@@ -72,6 +75,8 @@ namespace Farm.Core
             MusicVolume = Mathf.Clamp01(MusicVolume);
             SfxVolume = Mathf.Clamp01(SfxVolume);
             AmbienceVolume = Mathf.Clamp01(AmbienceVolume);
+            MouseSensitivity = Mathf.Clamp(MouseSensitivity <= 0f ? 1f : MouseSensitivity, MinMouseSensitivity, MaxMouseSensitivity);          // an old file has 0 for a field it never wrote
+            ControllerSensitivity = Mathf.Clamp(ControllerSensitivity <= 0f ? 1f : ControllerSensitivity, MinControllerSensitivity, MaxControllerSensitivity);
             TextScale = Mathf.Clamp(TextScale, 0.75f, 1.5f);
             TitleColor ??= string.Empty;
             BodyColor ??= string.Empty;

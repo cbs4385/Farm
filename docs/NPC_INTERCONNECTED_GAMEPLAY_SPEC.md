@@ -1,443 +1,260 @@
-# NPC Interconnected Gameplay & Narrative Implementation Specification
+# NPC Interconnected Gameplay & Narrative: Implementation Specification (revision 2)
 
-**Status:** Agent-ready implementation specification  
-**Target repository:** `cbs4385/Farm`  
-**Review baseline:** 2026-10-16  
-**Purpose:** Turn the existing NPC narrative review into a prioritized, testable implementation plan that makes villagers feel like people with independent lives whose goals, relationships, dialogue, quests, and the optional cosmic-horror layer reinforce one another.
+**Status:** agent-ready work packages; revised against the game at **version 0.7.3 (2026-10-16)**
+**Replaces:** revision 1 (same file, commit `7d05223`), which predated the 0.7.1 text pass and treated finished work as open.
+**Evidence for the status column:** `CHANGELOG.md` (0.7.1, 0.7.2), `docs/STATUS.md`, and a read of `Assets/_Project/Narrative/*.fscript`, `Resources/Story/*.json`, `Resources/Mythos/mythos_story.json`, `Scripts/Gameplay/Story/HallRooms.cs` and `Scripts/Mythos/*`. Nothing here was played. Statuses marked **Verify** were not confirmed by a test or a read of the data and must be checked first.
+**Purpose:** make the villagers feel like people whose goals, relationships, dialogue, quests and the optional cosmic-horror layer reinforce one another, by closing the promises the writing already makes.
 
 ---
 
-## 0. Instructions to the implementation agent
+## 0. How to work
 
-You are implementing narrative/content improvements in an existing Unity cozy farming game. Work incrementally and preserve existing game architecture.
-
-### Required workflow
-
-1. Read these documents before changing content:
-   - `docs/NPC_DESIGN_REVIEW_2026-10-16.md`
-   - `docs/NPC_DIALOGUE_ANALYSIS.md`
-   - `docs/NPC_DIALOGUE_PLAN.md`
-   - `docs/narrative/RELATIONSHIPS.md`
-   - `docs/narrative/BIBLE.md`, `docs/narrative/BIBLE_ENHANCED.md`, and `docs/narrative/BIBLE_WAVE2.md`
-   - `docs/narrative/GOALS.md`, `docs/narrative/STYLE.md`, `docs/narrative/FSCRIPT.md`
-   - `docs/adr/0002-mythos-extension-points.md`, `docs/adr/0003-dialogue-and-story-content.md`, and `docs/adr/0004-mythos-layer-decisions.md`
-2. Inspect the actual current implementation and data before editing. Do not assume that an older review's line numbers or statuses are still current.
-3. Make a small, coherent change set. Do not attempt a wholesale rewrite of all dialogue.
-4. Preserve existing dialogue IDs, quest IDs, flags, save-compatible keys, localization keys, and authored canon unless a migration is explicitly justified. Prefer adding conditions or new IDs over renaming existing IDs.
-5. Keep cozy content in the normal narrative layer. Put cosmic-horror-only lines, reactions, clues, and endings in the established Mythos overlay/data path. With horror disabled, no Mythos content or behavior may leak into play.
-6. Do not add an engine/system abstraction for a content-only problem. Reuse the existing dialogue graph, condition atoms, effects, quests, mail, event templates, and validators where possible.
-7. Do not claim a scene or interaction exists merely because dialogue promises it. Every invitation must lead to a real choice, an existing activity, or a clearly worded non-promise.
-8. After each phase, run relevant EditMode and PlayMode tests, narrative lint/validation, and a content diff review. Report files changed, IDs added, tests run, and known gaps.
-9. Do not add lore or relationships that contradict the bibles or relationship matrix. If a canon change is necessary, update the source-of-truth document and associated data/tests together.
-10. Do not change art, animation, unrelated gameplay, or economy systems as part of this task.
+1. Read first: `docs/NPC_DESIGN_REVIEW_2026-10-16.md` (the findings this spec answers; its section numbers are used below), `docs/narrative/{BIBLE,BIBLE_ENHANCED,BIBLE_WAVE2,RELATIONSHIPS,GOALS,STYLE,FSCRIPT}.md`, `docs/adr/0002`, `0003`, `0004`, `docs/mythos/LORE.md`, `docs/mythos/M3b-COMPLETION-PLAN.md`, `CLAUDE.md` and `docs/BUILD.md`.
+2. Claim a package in `docs/STATUS.md` before starting. Do one package per change set. Do not batch packages.
+3. **Edit sources, not generated files.** Villager lines live in `Assets/_Project/Narrative/*.fscript` and compile to `Resources/Story/zz_fs_*.json` and the string table (`Farm > Compile Story`, or `-executeMethod Farm.Editor.FScriptCompiler.CompileAndExit`). Use `tools/narrative_edit.py` for checked edits to a line in both the source and the string table. `FScriptSourcesInSyncTests` fails when they disagree.
+4. Never rename a shipped id (items, maps, NPCs, flags, vars, quests, dialogue keys, localization keys). Add ids or conditions instead.
+5. Horror/cult content stays out of `Farm.Core/Data/Gameplay/UI`. It goes in `Farm.Mythos` and `Resources/Mythos`, gated on `horror:1` (mild) or `horror:2` (full) conditions. At `HorrorLevel` 0 the game must behave exactly like the base game: no Mythos line, flag write, object, clue or event.
+6. Hooks are failure-isolated and tested. New story state goes in flags, vars or module data, **not new `GameState` fields**.
+7. Most packages below are content only. **WP1 and part of WP2 need small code and map changes** (marked **CODE**). That is allowed; keep the change minimal and say so in the completion report. Do not add a general framework.
+8. Every change leaves the project compiling with all tests green. A bug fix needs a test that failed first. Bump `bundleVersion` and `CHANGELOG.md` for a player-visible change. Run filtered tests per package; the full EditMode and PlayMode runs happen once at the end (`docs/QA.md`).
+9. State honestly what was verified by a person and what by automation. Do not claim a playtest that did not happen (`docs/STATUS.md` records both).
 
 ### Definition of success
 
-The player should be able to answer, through play rather than exposition alone:
-- What does this villager want?
-- Why does it matter to them emotionally?
-- Which other villager is involved, knowingly or unknowingly?
-- What can the player do that changes the situation?
-- What visibly changes after the player helps?
-- What does this reveal about the village, and (when enabled) its hidden history?
-
-A character arc is not complete when a line says the goal is resolved. It is complete when the player sees a consequence, receives a callback, or participates in a scene that makes the change tangible.
+The player can answer, through play: what does this villager want, why does it matter, who else is involved, what can I do, what visibly changes, and (horror on) what does it reveal. A resolve is complete when the player sees a consequence or takes part in a scene, not when a line says it is resolved.
 
 ---
 
-## 1. Narrative design principles
+## 1. Status ledger
 
-### 1.1 Character motivation model
+Status: **Done** (shipped, with evidence), **Partial**, **Open**, **Verify**.
 
-For every major NPC, maintain these linked fields in the narrative source-of-truth:
+### 1.1 Review section 2 (promise and payoff)
 
-- **Surface want:** the concrete goal the character can say aloud.
-- **Emotional need:** the human need underneath the goal.
-- **Fear / resistance:** what makes pursuing the goal difficult.
-- **Behavioral tell:** an action that reveals character without explanation.
-- **Relationship dependency:** at least one other villager whose goal, secret, or behavior intersects with this arc.
-- **Player contribution:** a specific action, choice, gift, quest, or act of witness that the player can perform.
-- **Payoff:** a changed behavior, scene, object, mail, event, or follow-up line.
-- **Optional Mythos recontextualization:** where relevant, how the horror layer changes the meaning without invalidating the cozy reading.
+| Review item | Status | Evidence / what remains |
+|---|---|---|
+| 2.1 Wren's heart 10 retitled | **Done** | `memory.wren_heart10` is "One Listener" (0.7.1). |
+| 2.1 Wren's full house is staged | **Open** | `wren_full_house` quest takes the wine; no gathering event exists. Heart 10 outro already says "I wrote the map into the second verse". See WP2. |
+| 2.2 Hall roof is a hall room | **Open** | `HallRooms.Rooms` has six rooms (pantry, crafts, fishtank, boiler, bulletin, vault); `hall.restored` is set when all six are done; `marcus_planks` (`enhanced_quests.json`) feeds no room. See WP1 **CODE**. |
+| 2.3 Early confessions (`wren.cl.5`, `juno.co.1`, `ione.co.1`) | **Done** | 0.7.1: Wren's waits for the heart-8 bag scene; "years ago" removed. |
+| 2.4 Juno's gold, Bram's "Your Tool" | **Done** | 0.7.1: quest says the bar is for the die and the first piece is copper on purpose; Bram's heart 10 is "Soft Gold". |
+| 2.5 Elara's four props | **Done** | 0.7.1: map behind the kettle and the list; the atlas is Ione's set-aside book. |
+| 2.6 Letter-joke template, warmest room, lamp | **Done** | 0.7.1: confidant joke rewritten per villager (Bram's three words and Juno's forty pages stay); forge is warmest, Hazel corrects Wren; the lamp is Tilda's alone. **Verify** with a grep for `co.3`/`co.4` that no template shape remains. |
+| 2.7 Experts asking for their own stock | **Done** | 0.7.1: Felix, Dorian, Dr. Penn want the player to make, find or pick it. |
+| 2.8 Small contradictions (Bram's age, stool, bible line) | **Done** | 0.7.1: Bram forty-something; Felix's wobbly stool; wave 2 bible fixed. Tilda's Sunday "come back tomorrow" line is **Open** (schedule pass, low value). |
 
-Avoid giving a character several unrelated props or symbols for the same desire. Choose one or two recurring motifs and let other characters notice them.
+### 1.2 Review section 3 (links that are only text)
 
-### 1.2 Interconnection rules
+| Link | Status | Package |
+|---|---|---|
+| Hall roof / Marcus | **Open** | WP1 |
+| Wren's full room, Piper's song sung without her | **Open** (heart 10 already has the saloon sing it) | WP2 |
+| Bram's teacher's reply | **Partial**: `bram.goal.r1` says "Letter came back" in a line; mail infrastructure exists (`quests_and_mail.json`, `bram_tools`, `ione_recipe`), no letter | WP3 |
+| Juno's own forge / Bram's tongs | **Partial**: `juno.goal.r2`, `bram.goal.r2` and `overheard_juno_bram_4` are talk and one overheard scene | WP4 |
+| Felix's boat / Elara's sea | **Open**: talk lines only | WP5 |
+| Hazel and Ione's reading night | **Open**: talk lines only | WP6 |
+| Dorian shows Hazel the notebook | **Open**: a line | folded into WP6 |
 
-- Every major personal arc must touch at least one other NPC in a consequential way, not only through name-drops.
-- Every cross-NPC link should be one of:
-  1. **Mutual support** (one helps another),
-  2. **Asymmetric care** (one quietly helps without being acknowledged),
-  3. **Affectionate rivalry** (friction with a warm floor),
-  4. **Shared mystery** (characters hold different pieces of evidence),
-  5. **Player-mediated connection** (the player carries information or creates a meeting).
-- At least some links must be discoverable only by talking to multiple people or observing behavior.
-- Never make every villager equally close to every other villager. Preserve distinct clusters and asymmetrical knowledge.
-- Keep the established rule: nobody is cruel or contemptuous toward the player; rivalry remains mild and affectionate.
+### 1.3 Review section 4 (horror layer)
 
-### 1.3 Dialogue rules
+| Review item | Status | Evidence / what remains |
+|---|---|---|
+| 4.1 Keeper clue gates (2, 4, 6 hearts), Hazel's clues, Odalys's invitation on 6 hearts | **Done** | 0.7.1, with a test. |
+| Sabotage prompt asked twice | **Done** | `STATUS.md` (after 0.6.9): `mythos.hazel.sabotage` now sets `flag:mythos.sabotage.asked`; `MythosScenesPlayOnceTests` holds it. |
+| 4.2 Keepers react to being sabotaged | **Open** | Flags exist (`sick:` effect sets `MythosIds2.Sick(npc)`; `ritual:snatch`; `mythos.interference`); no Keeper line reads them. See WP7. |
+| 4.3 Dread legible in the unaware six | **Open** | Only `birthdays.fscript` and `courtship.fscript` use dread. See WP8. |
+| 4.4 Edmund's mysteries harvested | **Open** | Seeds are in `edmund.fscript` and cameos; the second uncle letter just arrives in the mailbox. Needs an owner decision on resolution. See WP9. |
+| 4.5 Four notes a deliberate Mythos motif | **Open** | The notes appear in `edmund.fscript`, `elara`, `hazel`, `juno`; `Farm.Mythos` does not treat them as one motif. See WP9. |
+| 4.6 Keeper romance variants (Wren, Dorian) | **Open** | WP9. |
+| 4.7 Marcus's roof as the Keepers' roof | **Open** | One clue line; depends on WP1. WP9. |
 
-- Every line must sound like its speaker even without a name label.
-- Dialogue should do at least one job: reveal character, advance a goal, change a relationship, provide actionable information, react to world state, or recontextualize an earlier detail.
-- Avoid generic gratitude tails, repeated metaphors, and the same joke structure across the entire cast.
-- Do not reveal a secret plainly before its scene or condition.
-- Time-bound statements must have matching time/season/location conditions, or be rewritten to be timeless.
-- Invitations phrased as questions must offer a real accept/decline choice or be rewritten as observations.
-- Keep all-ages warmth. Choices may differ in honesty, intimacy, or style, but should not punish players for choosing a kind response.
-- Do not use cosmic-horror terminology in ordinary dialogue when horror is disabled. Foreshadowing in the cozy layer must remain interpretable as ordinary village life.
+### 1.4 Not yet audited (do this before Phase 4)
 
-### 1.4 Systems rules
-
-- Use existing deterministic dialogue selection; do not introduce reroll-to-find-new-lines behavior.
-- Verify priorities do not make quests, seasonal lines, rain lines, or friendship tiers unreachable.
-- Condition and effect syntax must match `docs/narrative/FSCRIPT.md`.
-- Any new dialogue key must be localization-safe and pass existing narrative lint.
-- Add tests for newly introduced conditions, effects, and progression gates.
+Reactivity backlog (section 5), gossip and relationship-matrix sync, the 0 to 2 heart variety floor, rain-line reachability at every tier. The review did not read barks, gazette, name reactions or social actions. **Verify** each against the narrative lint and reachability tests before writing new lines.
 
 ---
 
-## 2. Cast-level goals and required payoffs
+## 2. Cast constraints (design limits, not permission to overwrite canon)
 
-Use these as design constraints, not permission to overwrite established canon.
+Keep the motivation model per major villager: surface want, emotional need, fear, behavioral tell, a dependency on another villager, a player contribution, a payoff, and an optional Mythos reading. Choose one or two recurring motifs per want and let others notice them.
 
-| NPC | Surface want / motif | Emotional need | Key relationship web | Required gameplay payoff |
+| NPC | Want / motif | Payoff owed | Package |
+|---|---|---|---|
+| Tilda Ashby | A full village; kindness slate, the lamp left on | Slate records a real milestone (the dance, or the farm as a supplier) | WP2 |
+| Bram Hollis | Good work; Juno's first piece; word from his old teacher | Pride said once, plainly; the teacher's letter in the mailbox | WP3, WP4 |
+| Ione Fairweather | Readers; set-aside books | Reading night | WP6 |
+| Marcus Dell | The hall roof, done properly | Roof is a hall objective with a visible change | WP1 |
+| Dr. Odalys Penn | A village that rests | Mythos: earned invitation (**Done**), reactions to sabotage | WP7 |
+| Wren Calloway | A full room and a story; packed bag | The full house, staged | WP2 |
+| Felix Hartwell | A dawn companion | The boat trip | WP5 |
+| Juno Hale | Her own first piece; Bram's spoken pride | Her own forge scene | WP4 |
+| Hazel Brandt | Be heard once, on her terms | Reading night; agency over the poem | WP6 |
+| Piper Vance | A song the village sings | Sung in the Hall Dance, with the player's word | WP2 |
+| Dorian Lake | A friend for silence; the notebook | Quiet part in reading night | WP6 |
+| Elara Finch | The sea from a boat | The boat trip; map and list are the only props | WP5 |
+
+Interconnection rules still hold: every major arc touches another villager consequentially (mutual support, quiet care, affectionate rivalry, shared mystery, or the player carrying something); not everyone is equally close; nobody is cruel to the player.
+
+---
+
+## 3. Work packages (in dependency order)
+
+Each package lists what it needs, how it triggers, the files, and **assertable** acceptance checks (a flag, a mail item, a priority, a test), not "pays off".
+
+### WP1: The roof is a room of the hall (**CODE**, data)
+
+**Why:** review 2.2. The most-referenced shared goal has no slot in the system that resolves it.
+**Design (decided by the owner):** add `hall_roof` as a **seventh room**. Marcus's planks (wood) are its input. `hall.restored` is set only when all seven are done.
+**Save compatibility (required):** a save that already has `flag:hall.restored` must keep it and must not be asked for a roof. On load, if `hall.restored` is set and `hall_roof` is not started, mark the roof done silently (no ending replay, no reward). Never clear a set flag.
+**Files:** `Scripts/Gameplay/Story/HallRooms.cs` (`Rooms`, `FlagOf`), `Resources/Story/hall_and_festivals.json` (new quest `hall_roof` with the planks objective; `hall_complete` waits for it), `Scripts/UI/HallScreen.cs` (a row for the roof; check layout with seven rooms), `Assets/_Project/Narrative/marcus.fscript` and `enhanced_events.fscript` (`marcus_planks` outro points at the hall; Marcus's "Not nearly. Fixed." stays gated on `flag:hall.restored`), `Scripts/Gameplay/Achievements/Achievements.cs` (no change expected), `gazette3.fscript` (no change). A visible change: use the existing hall restoration holder (`VillageRestored` in `MapBuilder.AddVillageRestorations`) so the hall shows a roof change when the room is done; regenerate with `SceneSetup`, do not hand-edit scenes.
+**Acceptance (tests):** with six rooms done and the roof not, `hall.restored` is unset and Marcus's resolve line is unreachable; with the roof done it is reachable and the ending plays once; a save with `hall.restored` set loads with the roof done and nothing replays; `marcus_planks` completion advances `hall_roof`. HallScreen shows seven rows without clipping (capture, `docs/QA.md`).
+**Depends on:** nothing. **Blocks:** WP2.
+
+### WP2: The Hall Dance and Wren's full house (Scene A; text plus event)
+
+**Why:** review 2.1, 5.3. One scene closes the full house, the roof, Piper's song and the forge.
+**Trigger:** `flag:hall.restored` (so the roof is done, WP1) and `quest:wren_full_house=done` and `flag:event.piper_heart10` (the song exists) and not `flag:event.hall_dance`. Fires once (`flag:event.hall_dance` is set by its own outro and ruled out in its own condition, the `MythosScenesPlayOnceTests` invariant).
+**Format (decided by the owner):** an **evening event** that places only the six participants (Marcus, Tilda, Wren, Piper, Bram, Juno) in the hall; it does not replace the festival schedule for the day. Everyone else appears as cameos in the existing cameo format (`cameo_reactions.fscript`).
+**Beats:** Marcus checks the roof and says it is done; Wren hosts a full room and uses the wine from `wren_full_house`; the village sings Piper's song with the word the player chose (read the stored choice the way `piper_heart10` does; if no choice is recorded use the default word); Bram hums; Juno's bell is on the door; Tilda's slate gets a kindness; end on two villagers in a changed relationship.
+**Reuse:** an existing event template (`enhanced_events.fscript` / `slice_events.fscript` pattern, with `{if choice:...}` branches) and the schedule entries that place a villager at a stop, so each of the six is in the hall at the event hour and walks home after. If the six cannot all be placed with existing hooks, propose a smaller version rather than a new system.
+**Acceptance:** cannot fire before WP1 completes (test by setting flags in each order); fires once; sets `flag:event.hall_dance`; at least two participants (Tilda, Marcus) have `heard:`/flag-gated follow-up lines the next day and the dance is not retold in them; Hazel's heart 10 stays distinct (one listener). Retitle nothing else: Wren's heart 10 remains "One Listener".
+
+### WP3: Bram's teacher writes back (Scene E; content plus mail)
+
+**Why:** review 3. The mailbox already carries villager mail.
+**Trigger:** the existing Bram chain state that `bram.goal.r1` uses (`flag:event.bram_heart10` and `heard:bram.goal.a1`); deliver one mail item the next morning.
+**Files:** `Resources/Story/quests_and_mail.json` (a new mail id; copy the shape of `bram_tools`), `bram.fscript` / `goals.fscript` (r1 line refers to the letter's contents without overexplaining; keep Bram terse).
+**Acceptance:** the mail is delivered once, only after the chain; Bram's later line references the actual words ("Good work."); the letter's tone is restrained; no new mail system.
+
+### WP4: Next Door (Scene D; Juno's forge)
+
+**Trigger:** both `flag:event.juno_heart10` and `flag:event.bram_heart10`. Reuse the dialogue already written in `overheard_juno_bram_4` and `juno.goal.r2`/`bram.goal.r2`.
+**Beats:** Juno unveils her piece (the copper first stamp is the visible object, matching the quest); a practical flaw; Bram offers the good tongs; Juno decides whether to accept (a choice with a callback, no punishment for either); Bram says one direct sentence of pride. Marcus may add a fitting only if the relationship data supports it.
+**Acceptance:** the item named in the scene is the item the quest and journal describe; one-time flag `flag:event.next_door`; Bram stays terse (lint); the scene does not duplicate Bram's heart 10 gift.
+
+### WP5: Past the Point (Scene B; the boat, a decorated scene)
+
+**Decided by the owner:** the boat trip is a **real scene, appropriately decorated**. It is not a rewritten promise.
+**Trigger:** the existing resolve conditions (Felix on Elara's heart 8; Elara on Felix's hearts), plus a dawn hour, weather that is not a storm, and not `flag:event.past_the_point`. Reuse `felix.goal.r2` and `elara.goal.r1`; the invitation line is only said when the scene can fire.
+**Where it plays (decided by the owner):** the **Beach** map, with a conditional-object holder (the pattern of the festival holders in `MapBuilder.AddFestivalGrounds`, using `ConditionalObject`) that appears only while the scene is available. Only if a capture of the beach's east shore shows the holder cannot fit without blocking an exit, stop and report before building a separate map.
+**Decoration (generated by editor scripts, never hand-edited scenes):** a rowing boat in the shallows (the `prop_fest_boat` from the pond is the starting point; a larger one-off if it reads too small), a short wooden jetty or landing, a lantern post lit for the dawn, coiled rope, a net on a rack, Felix's tackle box and flask, two oars, a gull or two (existing ambience), and the horizon: a visible sea edge with a low sun. Any new sprite goes through the placeholder art generator with a documented prompt in `docs/art_prompts/` (original art only); mark them placeholder until the art pass.
+**Beats:** Felix prepares the boat with understated care (walks the jetty, checks a rowlock); Elara chooses a destination from her list (a short choice of three, each its own line, stored for callbacks); the boat leaks politely and is bailed with competence and humor; the camera pans out to the horizon; Elara's list gets a crossed-out entry (a journal update, not a new prop); if Wren chose "go" she is on the point looking out, without her decision being forced to match; on the way back Felix says one thing that shows he got his dawn companion.
+**Acceptance (assertable):**
+- the scene fires only from the stated trigger, once, and sets `flag:event.past_the_point`;
+- the decoration holder exists only while the scene is available (test the conditional object) and is gone after;
+- the three destination choices each set a distinct flag, and Elara and Felix each have a later line that reads it;
+- the map and the list are the only sea-longing props; Felix is never asked to gather his own bait;
+- a capture of the Beach with the holder active (Windows player, `docs/QA.md`) shows the boat, jetty and lantern on walkable shore and not blocking the beach's exits;
+- horror levels 0 and 2 behave the same (no Mythos content).
+**Needs:** art placeholders and a map change (`MapBuilder` only, no new system). Claim it separately from the content packages.
+
+### WP6: Reading Night (Scene C)
+
+**Trigger:** `flag:event.hazel_heart10` (already the one-listener climax, so this is a different scale) and Ione's want state. Participants Hazel, Ione, Dorian; Wren optional.
+**Beats:** Ione offers the gathering (a real accept/decline); Hazel chooses whether to share (agency); Dorian contributes a pressed leaf or drawing by action, with no speech required; Wren's stories bridge to the written word.
+**Acceptance:** declining leaves Ione's want open without starving ordinary chat (reminder policy test); accepting sets `flag:event.reading_night`; Hazel's heart 10 is not repeated.
+
+### WP7: Keepers react to being sabotaged (Mythos data)
+
+**Why:** review 4.2. The resist ending shows the beat; play does not.
+**State:** `ritual:snatch` and the `sick:` effect (sets `MythosIds2.Sick(npc)`); both only fire with horror on and `mythos.interference`.
+**Content:** two state-gated lines per affected Keeper in their own voice, in `Resources/Mythos/mythos_story.json` and the Mythos scripts: hurt and withdrawn trust, never villainy. Tilda's slate no longer lists the player the next morning; Marcus is quiet and measures something else. Ordinary friendship pools must not overwrite the reaction for at least the next in-game day (use priority and an expiry flag set by the reaction).
+**Acceptance:** reactions fire only for the affected Keeper and only after the matching state; none at horror 0 (parametrized test over `HorrorLevel`); the player is not locked out of friendship (a later recovery line exists at hearts gate).
+
+### WP8: Dread shows in the people (Mythos data)
+
+**Why:** review 4.3. Dread cools friendship silently, which reads as a bug.
+**Content:** two lines each for Bram, Juno, Piper, Felix, Elara, Ione at a dread threshold, conditioned in Mythos data only, in each villager's habits ("Sit. You look like iron quenched too fast."). They show concern and never reveal the cult or the mechanic.
+**Acceptance:** lines appear only when dread >= threshold and horror on; a test proves none are reachable at horror 0; no gating of ordinary or quest lines.
+
+### WP9: Edmund's threads, the four notes, Keeper romance and the roof clue (Mythos; **owner choice per item**)
+
+**Why:** review 4.4 to 4.7. Each Edmund item below is a thread the cozy layer plants and nothing harvests. **Decided by the owner:** every item follows the recommendation column. **P** = pay it off in 1.0; **U** = a deliberate long-term mystery or a closed human beat, to be recorded in `docs/mythos/LORE.md` (do that in the first WP9 change set). The cellar door and its box are **Mythos-only**: at horror 0 there is no cellar object and the door is simply stuck. Where the table says "U or P" (E5), build the P version: a Dorian Mythos line that tells the player how to find the way in.
+
+**Rules for any payoff:** the cozy topics in `edmund.fscript` stay exactly as written; the payoff lives in `Farm.Mythos` and `Resources/Mythos`, gated on horror on and the lore variable; it reuses existing objects, inventory, mail and clue systems; it cannot soft-lock the ending; it is invisible at horror 0 (parametrized test).
+
+**The twelve topics (one per villager, asked once, `edmund.<npc>` in `Narrative/edmund.fscript`):**
+
+| # | Thread | Source | Current state | What a payoff would be | Rec. |
+|---|---|---|---|---|---|
+| E1 | The cellar door Edmund would not let Marcus oil | `edmund.marcus`, tag mystery | Seed only. No cellar object on the farm map. | A cellar door on the farm map (conditional object, Mythos-gated) that opens with the key (E2) onto a box holding the second letter. At horror 0 the door is simply a stuck cellar door (no object). | P |
+| E2 | The tiny brass key Juno made for "a box he'd lost the lock to" | `edmund.juno`, tag surprise | Seed only. No key item exists. | Juno gives the key (a new item, `mythos.brass_key`) once lore >= 2, in a Mythos-only Juno line. It opens E1's box. | P |
+| E3 | "He'd put his affairs in order" | `edmund.odalys`, tag mystery | Answered in part by the truth letter (he knew he was the offering). | Odalys's reaction line once lore >= 4: she knew what "in order" meant and could not stop it. No new object. | P (cheap) |
+| E4 | Almanac margins that stop in the fall, "Done well enough" | `edmund.ione`, tag mystery | Seed only. The almanacs are not an object. | Hazel's clue 2 (a pattern in the records, four times a year) cites Edmund's almanac margins by name; the margins' dates are the four ritual dates. Ione's later line reads them aloud. | P |
+| E5 | Counting the trees at the field's edge at dusk | `edmund.dorian`, tag mystery | Seed only. | The count is the number of trees to the woods' entry (a Dorian Mythos line that tells the player how to find the way in), or it stays atmosphere. | U or P |
+| E6 | Four notes, "leave it open" | `edmund.piper`, tag wholesome | Appears in Edmund's, Piper's, Elara's, Hazel's and Juno's lines and the night hum, but `Farm.Mythos` does not treat it as one motif. | Declare it the motif (night hum, Piper's pre-set notes, Edmund, the sealed ending plays the notes finished or left open). The cozy reading stays a musician's habit. No fifth note. | P |
+| E7 | One book a year, the same one, renewed by post, now overdue | `edmund.hazel`, tag wholesome | Unseeded and unresolved: which book is never said. | Make it the book on the Mythos bookshelf that names the seal, the bell and the thread; Hazel's "I've decided that it isn't" becomes a callback. | P (cheap) |
+| E8 | The last egg basket with a card, "thank you for everything" | `edmund.elara`, wholesome | Closed, a human goodbye. | Optional callback after the truth letter; otherwise leave. | U |
+| E9 | He stayed for all of Piper's last set and bought a round | `edmund.wren`, wholesome | Closed, a goodbye. | Optional: Wren's reaction after the truth letter. | U |
+| E10 | The open parsnip tab; the Friday fish reports | `edmund.tilda`, `edmund.felix` | Closed, wholesome. | Optional cozy callbacks (Tilda closes the tab after the Hall Dance; Felix keeps Friday's seat). No Mythos. | U (cheap callbacks welcome) |
+| E11 | "A man ought to know his own edge" (the scythe) | `edmund.bram`, wholesome | Closed. | Optional line when Bram sharpens the player's scythe. | U |
+| E12 | The porch built for pickles | `edmund.marcus`, first line | Closed. | None. | U |
+
+**The letters and the finding (`Resources/Mythos/mythos_story.json`, and `quests_and_mail.json`):**
+
+| # | Item | Condition today | Gap | Rec. |
 |---|---|---|---|---|
-| Tilda Ashby | A village that stays full; kindness slate and shop lamp | Proof people will return and care can be shared | Juno (aunt-like bond), Felix (old friend), Wren (gossip rival), whole village | Her slate/sign should reflect a real milestone, especially the farm becoming a supplier; the slate can carry relationship callbacks |
-| Bram Hollis | Good work; Juno's first original piece; word from old teacher | To express pride without feeling exposed; to know his work mattered | Juno (mentor/apprentice), Marcus (quiet friendship), Felix (quiet repairs), Wren (four-word bet) | Juno's achievement must be witnessed and acknowledged; the teacher's reply should arrive through the existing mailbox if that chain is completed |
-| Ione Fairweather | More readers; sea in winter; books set aside for absent visitors | To be visited and to share what she loves | Hazel (mentor/favorite person), Dorian and Elara (courteous distance), village readers | Make the set-aside shelf a reusable link between characters; avoid multiplying objects that all represent the same sea-longing |
-| Marcus Dell | Finish the Community Hall roof properly | To leave something sound behind and stop living with “nearly” | Bram (close quiet friend), Dorian (housemate), Odalys (pie feud), Tilda and Wren (roof bets) | The roof must be a real hall objective with a visible state change and a payoff scene; restoring unrelated rooms must not falsely imply the roof is fixed |
-| Dr. Odalys Penn | A village that rests; carry the Covenant/duty | To stop being the person who must carry everything alone | Elara (warm rivalry), Wren, Tilda and the Keepers when Mythos is enabled | Her personal rest arc needs a concrete response; Mythos clues require earned trust and sabotage must change relationships |
-| Wren Calloway | A full room and a story to tell; packed bag / sea | To be less lonely and to decide whether she will leave | Piper (bandmate), Hazel (listener/writer), Tilda (rival), Bram (word-count bet) | Stage or explicitly pay off the promised full-room gathering; her one-listener performance must not duplicate Hazel's emotional climax |
-| Felix Hartwell | A fishing partner; sturgeon; share the dawn | To have company without needing to ask for it | Tilda (oldest friendship), Bram (quiet kindness), Elara (travel/boat tie), Piper (awkward history) | Turn at least one “come with me tomorrow” or boat promise into a real activity or scene; avoid asking an expert to supply their own routine stock without a learning purpose |
-| Juno Hale | Make her first original piece; earn Bram's spoken pride | To become her own craftsperson without abandoning Bram | Bram (mentor), Tilda (aunt), Piper (best friend), Marcus (forge/hall links) | Ensure the promised material and finished item agree; her first independent work should be a visible milestone and Bram should react |
-| Hazel Brandt | Be heard once, properly; protect the library's quiet | To risk being known on her own terms | Ione (mentor), Wren (stories/notebook), Dorian (shared silence), Piper (secret lyric-writing) | Keep her poem/listener climax distinct from Wren's gathering; connect her research to the Mythos clues only when horror is enabled |
-| Piper Vance | A song the village sings without her | To matter as a writer, not only as a performer | Wren (bandmate), Juno (friend/rival), Hazel (secret lyric collaborator), Elara (first listener) | The village singing the song is the payoff; preserve the player's chosen word/line and reference it later where feasible |
-| Dorian Lake | A friend who can share silence; mushroom notebook | To be seen without being crowded | Marcus (housemate), Hazel (quiet friend), Elara/Ione (courteous distance), forest | Make the notebook/foraging goal a shared discovery or small activity; his generosity should be legible through behavior, not exposition |
-| Elara Finch | See the sea from a boat; knitted secret gifts | To be more than useful to everyone else | Odalys (clinic rivalry), Felix (boat), Piper (first listener), Juno (gloves), Ione (sea/books) | The map/list/sea longing should converge on one clear arc and culminate in a boat-related payoff, not four competing props |
+| L1 | `uncle_letter` (cozy) | start of game | None. | keep |
+| L2 | `mythos_uncle_note` ("I wrote kindly in the first letter...") | `horror:1 && var:lore>=1` | It just arrives; its text says it was behind the stove but nothing is found. | P: a Mythos-only interaction at the farmhouse stove delivers it (a conditional object, no new system). |
+| L3 | `mythos_warning` | `horror:1 && var:lore>=2` | Arrives by mail with no source. | U (a warning in the mail is fine) |
+| L4 | `mythos_uncle_truth` ("the offering for the fall dark"; a seal, a bell and a thread) | `horror:1 && var:lore>=4 && flag:woods.open` | Arrives by mail though it says "you have found the wood". | P: found at the stone or in the cellar box (E1) instead of by post, or both. |
+| L5 | The three things that can end it: a seal, a bell and a thread | named in L4 | The relics are in the mine (`RelicChest`, `MythosRelics`); nothing tells the player where. | P: Hazel's records (E4) and the book (E7) point to the mine; no new relic system. |
+
+**Other parts of WP9 (separate change sets):**
+1. **Romance variants.** One Mythos variant each for Wren's "go" branch and Dorian's partners line. Romance is never a prerequisite to the central mystery.
+2. **Roof clue.** One Marcus clue line after WP1 ("A roof that's finished gets used...").
+
+**Acceptance:** each chosen P has a trigger, a flag and a test; the chain steps (E2, E1, L2, L4, L5) cannot soft-lock the ending in any order the player can reach them; every U is listed in `docs/mythos/LORE.md`; the `docs/mythos/` canon files are updated in the same change; nothing appears at horror 0.
+
+### WP10: Variety and reactive talk (after WP1 to WP6)
+
+Audit first (section 1.4), then add lines in small batches: Tilda, Bram, Ione, Wren, then the rest. Requirements per talk set: 0 to 2 hearts keeps multiple reachable ordinary lines; friend and close tiers add variety without shadowing; rain lines are reachable at every tier; seasonal and hour lines carry matching conditions; quest offers, reminders and turn-ins outrank casual lines. Add reactive lines only when an existing condition atom supports them (festival countdown, a recent milestone, farm progress, shop upgrades, moon at night); each is specific and temporary. Gossip stays tied to `docs/narrative/RELATIONSHIPS.md` and its tests.
+
+### WP11: Polish (not a blocker)
+
+Portrait expressions where art exists, text speed and accessibility, voice blips, conversation-end friendship feedback. Only after content works.
 
 ---
 
-## 3. Highest-priority coherence fixes
+## 4. Dialogue and systems rules (kept from revision 1)
 
-Implement these before adding large quantities of new dialogue. Verify each against the current branch first.
-
-### P0 — Promise/payoff and canon consistency
-
-1. **Wren's full-room promise**
-   - The full-house request must culminate in a real gathering scene or be explicitly rewritten so it no longer promises a gathering.
-   - Preserve the one-listener performance if desired, but give it a distinct purpose and title; do not let it substitute for the full-room payoff.
-   - The wine or hosting preparation already requested should be used in the gathering if still compatible with current quest data.
-
-2. **Community Hall roof**
-   - Represent the roof as an explicit Hall objective/room or as the final dependency of hall completion.
-   - Connect Marcus's plank quest/material contribution to that objective.
-   - Do not set `flag:hall.restored` or equivalent in a way that allows Marcus to claim “fixed” before the roof state is actually complete.
-   - Give the roof a visible state transition and a short reaction from Marcus.
-
-3. **Secret timing**
-   - Gate Wren's early “almost left” confession behind the appropriate heart event/flag or move it to the correct higher-trust tier.
-   - Remove implausible “years ago” language from Juno/Ione lines when the timeline does not support it.
-   - Check all other confession lines against event ordering and plausible in-game elapsed time.
-
-4. **Juno/Bram reward consistency**
-   - The Juno quest that requests gold must deliver what it promises, or explicitly explain why gold is used to make a copper first piece.
-   - Bram's “Your Tool” memory must deliver a tool or be retitled/reframed to match the actual reward.
-   - Ensure quest descriptions, event dialogue, inventory rewards, and journal text tell the same story.
-
-5. **Elara's sea motif**
-   - Consolidate the list, map, notebook, and atlas into one coherent desire arc. Prefer the map (noticed by others) and the list (seen by the player) unless current implementation has a stronger dependency.
-   - Preserve Ione's book-gifting characterization without giving Elara yet another unrelated “sea” object.
-
-6. **Repeated dialogue templates**
-   - Keep the letter-writing joke with Bram and Juno as deliberate contrasts; rewrite equivalent confidant jokes for other villagers to use their own habits and fears.
-   - Assign signature motifs consistently: the forge is the village's warmest building; Tilda owns the “lamp left on” kindness motif; resolve overlapping door/wind imagery.
-   - Replace generic “Thank you, [player]” tails when they make all twelve sound alike.
-
-7. **Expert asks player to do their own work**
-   - Reframe Felix's bait, Dorian's forage, and Odalys's elderflower requests as teaching, shared discovery, or a meaningful reason the player should gather the item.
-   - A quest request should expose character or deepen a relationship, not just outsource a shopkeeper's normal stock.
-
-8. **Canon cleanup**
-   - Reconcile Bram's age with his teacher/letter history.
-   - Resolve the Felix stool joke so it reads as affectionate and consistent.
-   - Update the narrative bible where existing lines contradict it (including Piper/Elara history).
-   - Correct weekday/location invitations that send the player to an NPC who is not there.
-
-### P0 — Trust and Mythos behavior
-
-1. **Earned Keeper clues**
-   - Mythos clue tiers must require both the existing lore progression and a minimum friendship tier.
-   - Suggested default: clue 1 at 2 hearts, clue 2 at 4 hearts, clue 3 at 6 hearts, adjusted only where the existing scene requires a stronger gate.
-   - Apply equivalent trust gating to Hazel's clues and Odalys's invitation.
-   - Verify priority ordering does not let a clue interrupt a more appropriate introduction or make ordinary content unreachable.
-
-2. **Consequences for player interference**
-   - After the player steals an offering or makes a Keeper ill, the affected Keepers must react in later dialogue.
-   - Reactions should express hurt and withdrawn trust, not sudden villainy or cruelty.
-   - Give each affected Keeper at least two distinct, state-gated reactions in their own voice.
-   - Ensure the reaction is not silently overwritten by ordinary friendship lines the next morning.
-   - Test the existing duplicate-sabotage prompt bug separately; do not conflate the fix with writing.
-
-3. **Dread should be legible**
-   - The unaware six (Bram, Juno, Piper, Felix, Elara, Ione) should have brief, caring reactions when dread crosses an appropriate threshold.
-   - These lines must show concern through each character's normal habits, not make them suddenly aware of the cult or explain the mechanic in meta terms.
-   - Gate the lines in Mythos data so they never appear when horror is off.
-
-4. **Harvest Edmund's clues**
-   - The cellar door, Juno's brass key, Edmund's “affairs in order,” Ione's almanac margins, Hazel's pattern research, Dorian counting trees, and the two uncle letters must form a connected investigation.
-   - Reuse existing map/object, inventory, mailbox, and clue systems; do not add a new investigation subsystem.
-   - Every seeded mystery should either receive a payoff or be deliberately identified as a long-term unresolved mystery in the lore bible.
-
-5. **Four-note motif**
-   - Make the recurring four notes an intentional Mythos motif connecting Edmund, Piper, night-time humming, and the ending.
-   - The cozy interpretation must still work as a musician's habit.
-   - The final/sealed ending should pay off the motif; do not introduce a fifth note elsewhere without a clear reason.
-
-6. **Romanceable Keepers**
-   - Wren and Dorian's romance must remain emotionally sincere and non-exploitative when horror is enabled.
-   - Add minimal Mythos variants to existing relationship lines/scenes where the relationship changes the stakes.
-   - Do not make romance a prerequisite for solving the central mystery.
+- Every line sounds like its speaker without a name label, and does a job: character, goal, relationship, information, world reaction, or recontextualizing an earlier detail.
+- No generic gratitude tails; no repeated metaphors or joke shapes across the cast; no secret before its scene; time-bound statements carry the matching condition or are rewritten as timeless.
+- An invitation phrased as a question must lead to a real accept/decline or be rewritten as an observation. No scene is promised unless it can fire.
+- Deterministic dialogue selection (no reroll-for-new-lines). Check that a higher priority does not make quests, seasonal, rain or friendship lines unreachable.
+- Condition and effect syntax follows `docs/narrative/FSCRIPT.md`. New keys pass the narrative lint and localization checks. Every new condition or effect has a test.
+- Cozy content lives in the normal layer; no cosmic-horror vocabulary appears in ordinary dialogue at horror 0; foreshadowing must read as ordinary village life.
 
 ---
 
-## 4. Highest-value cross-NPC scenes
+## 5. Tests and review checklist
 
-Prefer a small number of scenes that close several arcs over many disconnected lines. Reuse current event templates.
-
-### Scene A — The Hall Dance (top priority)
-
-**Prerequisites:** Hall restored; roof objective complete; relevant personal arcs available.  
-**Participants:** Marcus, Tilda, Wren, Piper, Bram, Juno; optional cameos from the wider cast.  
-**Purpose:** Deliver the village's shared-space payoff and close multiple promises in one event.
-
-**Beat outline**
-1. Arrival: Marcus checks the roof once more and admits it is finished.
-2. Wren welcomes a genuinely full room; use the hosting request's prepared item if present.
-3. Piper hears the village sing the song the player helped shape. Preserve the chosen word/line if the existing system supports it.
-4. Bram hums or plays a small part; Juno's independent craft is present as a visible object/detail.
-5. Tilda's slate records a kindness that was repaid without being demanded.
-6. End on a small, specific interaction between two villagers that demonstrates a changed relationship.
-7. Follow-up: at least two participating NPCs reference the dance in later dialogue; avoid repeating the whole scene in recap.
-
-**Acceptance criteria**
-- Cannot trigger before the Hall roof is actually complete.
-- Cannot trigger repeatedly unless the current event system explicitly supports repeatable festivals.
-- Each participant's dialogue reflects their individual motive.
-- The scene pays off, rather than merely mentions, the full-house, roof, song, and forge arcs.
-
-### Scene B — Past the Point / The Boat
-
-**Participants:** Felix, Elara; Wren may appear if her “go” choice is relevant.  
-**Purpose:** Make the boat a real shared action and tie Elara's sea desire to Felix's wish for a dawn companion.
-
-**Beats:** Felix prepares the boat with his characteristic understated care; Elara chooses a destination from her existing list/map; a small mishap is handled through competence and humor; the player sees the sea or an equivalent destination payoff; if Wren chose “go,” she may be encountered at the point without forcing her decision to match Elara's.
-
-**Acceptance criteria**
-- The player is not promised a boat trip unless the event can actually trigger.
-- Elara's map/list are the canonical props; do not add more sea-longing objects.
-- Felix's expertise is used rather than asking him to gather routine bait for himself.
-
-### Scene C — Reading Night
-
-**Participants:** Hazel, Ione, Dorian; optional Wren as the storyteller.  
-**Purpose:** Pay off Hazel's wish to be heard and Ione's wish for readers without making Hazel's intimate heart-10 moment redundant.
-
-**Beats:** Ione offers a small reading gathering; Hazel decides what to share and how much; Dorian contributes a pressed leaf or notebook drawing without being forced into a speech; Wren's stories can provide a bridge between oral and written memory.
-
-**Acceptance criteria**
-- Hazel retains agency over whether the poem is shared.
-- Dorian can participate through a quiet action.
-- The scene differs in scale and emotional purpose from Wren's full-house gathering.
-
-### Scene D — Next Door (Juno's forge)
-
-**Participants:** Juno, Bram; Marcus may contribute a tool or fitting if consistent with the existing relationship data.  
-**Purpose:** Resolve Juno's first independent work and Bram's difficulty expressing pride.
-
-**Beats:** Juno unveils her own piece; a practical flaw is noticed; Bram offers a tool or correction without taking over; Juno decides whether to accept the help; Bram says one direct, unmistakable sentence of pride.
-
-**Acceptance criteria**
-- The finished object/reward matches the quest description.
-- The player witnesses a change in their mentor/apprentice relationship.
-- Bram remains terse; do not turn him into an eloquent speech-maker.
-
-### Scene E — The Letter Arrives
-
-**Participants:** Bram, his former teacher (off-screen is acceptable), player via mailbox.  
-**Purpose:** Turn a long-running spoken want into an actual payoff using existing mail infrastructure.
-
-**Acceptance criteria**
-- A completed quest/state produces mail with a specific response, not merely another line saying Bram hopes for a reply.
-- The letter's tone is restrained and emotionally legible.
-- Bram's follow-up references the actual contents without overexplaining.
+**Per package:** the reachability and lint tests for the narrative files changed; a test for each new gate, flag and one-time behavior; the invariant that a story-band scene sets a flag its own condition rules out (`MythosScenesPlayOnceTests`); `FScriptSourcesInSyncTests`; parametrized horror-0 tests for every Mythos addition; the `LocalizationTests` lint.
+**Progression:** each event requires its correct prerequisites, fires once, and has valid participants, effects and follow-up flags; the roof gate, the letter delivery and the Juno item/reward match each have a failing-first test.
+**Human review for every changed arc (all answers must be yes):** is the want concrete; is the need distinct; does the villager act in a way only they would; does another villager materially affect it; does the player do something meaningful; is there a visible or remembered payoff; is it consistent with timeline, schedule, relationship state and voice; does the cozy reading survive horror off.
+**Capture:** any change to a scene, the hall screen or UI layering needs a Windows player build and screenshots (`docs/QA.md`).
 
 ---
 
-## 5. Daily dialogue and world reactivity
+## 6. Decisions
 
-Do not begin by authoring hundreds of lines. Fix unreachable content and the biggest broken promises first, then expand coverage in measured batches.
+**All made by the owner (2026-10-16):**
+1. **WP1:** the roof is a seventh hall room.
+2. **WP2:** the Hall Dance is an evening event placing only the six participants.
+3. **WP5:** the boat trip is a real, decorated scene on the **Beach** map, using a conditional-object holder.
+4. **WP9, Edmund items:** follow the recommendation column. Pay off (P): E1 cellar door, E2 brass key, E3 "affairs in order", E4 almanac margins, E5 counting the trees, E6 four notes, E7 the overdue book, L2 the note found at the stove, L4 the truth letter found at the stone or in the box, L5 the seal, bell and thread pointed to the mine. Keep as mystery or closed beat (U): E8 to E12 (with the cheap cozy callbacks in E10 welcome), L3 the warning in the mail, L1 unchanged.
+5. **WP9, horror 0:** the cellar door and its box are Mythos-only; at horror 0 the door is just stuck.
 
-### Required content coverage
-
-For every talk set:
-- A player at 0–2 hearts should have multiple reachable ordinary lines.
-- Friend and close tiers must add variety without completely shadowing ordinary chat.
-- Rain lines must be reachable at every relevant heart tier.
-- Seasonal and hour-specific lines must only appear at their appropriate time.
-- Quest offer/reminder/turn-in lines must outrank casual dialogue when the player can act on them.
-- A line with a named event, season, time, or location must have the matching condition or be rewritten.
-
-### Reactivity backlog
-
-Implement only when supported by existing condition atoms or a small, well-tested addition:
-1. Upcoming festival (within a short countdown).
-2. Recently completed quest or personal milestone.
-3. Player harvest/farm progress.
-4. Shop/service progress or upgrade completion.
-5. Moon/night ambience, especially where it supports the existing four-note and forest motifs.
-
-Each reactive line should be specific and temporary. Avoid a generic system that simply inserts the player's name into every line.
-
-### Gossip
-
-- Preserve the established “player carries knowledge between villagers” structure.
-- Gossip should reflect a written relationship in `docs/narrative/RELATIONSHIPS.md` and the matching relation data.
-- Do not let an NPC discuss another villager the player has not met if the established gossip rules prohibit it.
-- Gossip should sometimes give the player a useful lead or reveal quiet kindness, not only provide a joke.
-- Keep the relationship matrix and gossip tests synchronized.
+**Nothing is waiting on the owner.** Start with WP1 (it blocks WP2 and WP9's roof clue), then WP3 and WP4 (content only), then WP2, WP5 and WP6; WP7 and WP8 are independent Mythos data and can run beside them; WP9 follows WP1.
 
 ---
 
-## 6. Production order and scope control
+## 7. Completion report template (per package)
 
-### Phase 1 — Consistency and progression bugs
+1. Summary (what changed and why). 2. Files changed (exact paths). 3. Ids added or changed; state that existing ids were preserved. 4. Behavior changes (gates, flags, quest states, items, mail, event prerequisites, save handling). 5. Tests: suites and commands run, pass and fail counts, baseline failures reported separately. 6. Manual QA: what a person inspected, or state it was not played. 7. Known gaps and why. 8. Canon updates (bibles, relationship matrix, lore, `STATUS.md`, `CHANGELOG.md`).
 
-Implement:
-- Wren full-room promise / event naming consistency.
-- Community Hall roof objective and Marcus's state gate.
-- Juno/Bram item and reward consistency.
-- Secret timing and age/timeline contradictions.
-- Elara motif consolidation.
-- Repeated dialogue-template cleanup.
-- Expert-quest reframing.
-- Keeper clue friendship gates.
-- Quest priority and reachability regression checks.
+## 8. Source-of-truth hierarchy
 
-**Exit criteria:** All affected narrative lint/tests pass; no promise is still contradicted by its reward/state; no new content IDs are unreachable.
-
-### Phase 2 — Mythos emotional consequences
-
-Implement:
-- Post-interference reactions.
-- Dread reactions for the unaware six.
-- Edmund/cellar/key/almanac/trees clue chain.
-- Four-note motif through the ending.
-- Minimal Wren/Dorian relationship variants and Marcus roof clue.
-
-**Exit criteria:** Mythos on: reactions/clues are correctly gated and pay off seeded evidence. Mythos off: no Mythos line, flag side effect, clue object, or behavior leaks into the cozy game.
-
-### Phase 3 — Shared-scene payoffs
-
-Implement in this order:
-1. Hall Dance.
-2. Next Door.
-3. Past the Point.
-4. Reading Night.
-5. Bram's teacher letter.
-
-Reuse event templates and current flags. If a scene cannot be implemented without a major new engine system, propose a smaller existing-system-compatible version instead of silently expanding scope.
-
-**Exit criteria:** Scene prerequisites, participants, rewards, one-time behavior, and callbacks are tested. At least one later line acknowledges each major completed scene.
-
-### Phase 4 — Variety and reactive talk
-
-Expand dialogue in small batches, beginning with Tilda, Bram, Ione, and Wren, then the remaining cast. Add seasonal, time, rain, friendship-tier, and world-state variety without reducing quest discoverability.
-
-**Exit criteria:** Reachability/variety tests pass; no seasonal/time contradictions; new lines are distinct in voice and do not duplicate motifs.
-
-### Phase 5 — Polish (not a blocker for narrative coherence)
-
-Only after content works:
-- Portrait expressions where art support exists.
-- Configurable text speed/accessibility improvements.
-- Optional speaker voice blips.
-- Conversation-end friendship feedback that does not obscure dialogue.
-
----
-
-## 7. Required tests and review checklist
-
-Add or extend automated tests for:
-
-### Dialogue selection
-- Every new line is reachable under at least one valid state.
-- Quest offers, reminders, and turn-ins cannot be hidden by ordinary friendship pools.
-- Rain, seasonal, and hour lines are selected only when their conditions are true.
-- Higher-heart pools do not erase all lower-tier variety.
-- A declined offer remains available according to the intended reminder policy without permanently starving ordinary dialogue.
-
-### Progression and payoff
-- Wren's full-house event requires the correct quest/state and fires once.
-- Marcus cannot claim the roof is fixed until the roof objective is complete.
-- Juno's requested input and resulting item match the authored promise.
-- Bram's teacher letter is delivered only after the relevant chain is complete.
-- Every new event has valid prerequisites, effects, participants, and follow-up flags.
-
-### Mythos
-- Friendship gates and lore gates both apply to clues.
-- Interference reactions only trigger for the affected NPCs and correct state.
-- Dread reactions do not leak into the horror-off mode.
-- Cellar/key/almanac/tree clues are connected and cannot soft-lock the ending.
-- Four-note clues and resolution are consistent across relevant scenes.
-
-### Narrative QA
-- Every time-bound statement has a matching condition or is rewritten.
-- Every invitation has a real accept/decline response or is not phrased as an invitation.
-- No secret is disclosed before its intended scene.
-- Every new gossip topic maps to a written relationship.
-- All new IDs pass narrative lint and localization checks.
-- Run relevant EditMode and PlayMode tests; report results and any baseline failures separately.
-
-### Human-readable content review
-For every changed NPC arc, answer “yes” to all:
-- Is the want concrete?
-- Is the emotional need distinct from the want?
-- Does the NPC act in a way only they would?
-- Does another NPC materially affect the arc?
-- Does the player do something meaningful?
-- Is there a visible or remembered payoff?
-- Is the dialogue consistent with timeline, schedule, relationship state, and voice?
-- Does the cozy interpretation still work with horror disabled?
-
----
-
-## 8. Agent completion report template
-
-At completion, report:
-
-1. **Summary:** what changed and why.
-2. **Files changed:** exact paths.
-3. **Dialogue/event IDs:** added or modified; explicitly state that existing IDs were preserved unless otherwise approved.
-4. **Behavior changes:** gates, flags, quest states, items, mail, and event prerequisites.
-5. **Tests:** commands/suites run and pass/fail counts.
-6. **Manual QA:** which events/conditions were inspected in game, or explicitly state if not played.
-7. **Known gaps:** items deferred and why.
-8. **Canon updates:** any changes to the bibles, relationship matrix, lore, or implementation status.
-
-Do not claim a playtest was performed if only static analysis and automated tests were run.
-
----
-
-## 9. Source-of-truth hierarchy
-
-When documents conflict, use this order and resolve conflicts explicitly rather than silently choosing:
-1. Current runtime behavior and save-compatible IDs/state (must not be broken).
-2. Accepted architecture decisions in `docs/adr/`.
-3. Narrative bibles and Mythos lore.
-4. Relationship matrix and goals.
-5. Existing dialogue scripts and quest/event data.
-6. This implementation specification, which is a synthesis and prioritization document.
-
-If a higher-priority source is itself inconsistent, stop and document the conflict before making a canon-changing edit.
+When documents conflict, resolve explicitly: 1) current runtime behavior and save-compatible ids and state; 2) accepted ADRs (`docs/adr/`); 3) the narrative bibles and Mythos lore; 4) the relationship matrix and goals; 5) existing dialogue scripts and quest and event data; 6) this specification. If a higher source is itself inconsistent, stop and record the conflict before a canon-changing edit.
 
 **End of specification.**

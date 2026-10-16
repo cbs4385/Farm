@@ -22,6 +22,7 @@ namespace Farm.Gameplay
         public const string Menu = "Menu";               // the game menu: skills, social, calendar, map, journal, crafting
         public const string Crafting = "Crafting";       // the game menu opened on crafting
         public const string Journal = "Journal";         // the game menu opened on the journal
+        public const string Run = "Run";                 // held while walking: the farmer runs and spends energy
         public const string HotbarPrefix = "Hotbar";     // Hotbar1 .. Hotbar12
 
         public const string Navigate = "Navigate";
@@ -39,7 +40,7 @@ namespace Farm.Gameplay
         // Actions the player may rebind from the options screen (button actions only).
         public static readonly string[] Rebindable =
         {
-            UseTool, Interact, Rotate, Inventory, Menu, Journal, Crafting, Pause, HotbarPrev, HotbarNext, RowPrev, RowNext, Rearrange,
+            UseTool, Interact, Rotate, Inventory, Menu, Journal, Crafting, Pause, HotbarPrev, HotbarNext, RowPrev, RowNext, Rearrange, Run,
         };
 
         // The Options screen lists every key: the gameplay buttons above, the walking keys, the twelve item slots, and the menu keys of the UI map.
@@ -49,7 +50,7 @@ namespace Farm.Gameplay
         // What a pad can be rebound for: the actions with a pad button (the stick moves, and is not rebound). Gameplay ones first, then the UI map's.
         public static readonly string[] PadRebindable =
         {
-            UseTool, Interact, Rotate, Inventory, Menu, Journal, Crafting, Pause, HotbarPrev, HotbarNext, RowNext, Rearrange,
+            UseTool, Interact, Rotate, Inventory, Menu, Journal, Pause, HotbarPrev, HotbarNext, RowNext, Rearrange, Run,
         };
         public static readonly string[] UiPadRebindable = { Submit, Cancel, TabPrev, TabNext };
     }

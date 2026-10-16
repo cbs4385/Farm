@@ -109,13 +109,14 @@ namespace Farm.Tests
         // ---- the keys ----------------------------------------------------------------------------------------------
 
         [Test]
-        public void Crafting_HasAKeyAndAPadButton_AndTheRowsHaveBoth()
+        public void Crafting_HasAKey_TheRowsHaveBoth_AndTheLeftTriggerRuns()
         {
             var asset = UnityEngine.Resources.Load<InputActionAsset>(InputNames.ResourcePath);
             var gameplay = asset.FindActionMap(InputNames.GameplayMap, true);
             var crafting = gameplay[InputNames.Crafting].bindings.Select(b => b.path).ToList();
             CollectionAssert.Contains(crafting, "<Keyboard>/c");
-            CollectionAssert.Contains(crafting, "<Gamepad>/leftTrigger");
+            CollectionAssert.DoesNotContain(crafting, "<Gamepad>/leftTrigger", "LT is Run; the pad opens crafting from the menu tab");
+            CollectionAssert.Contains(gameplay[InputNames.Run].bindings.Select(b => b.path).ToList(), "<Gamepad>/leftTrigger");
             foreach (var name in new[] { InputNames.RowNext, InputNames.RowPrev })
             {
                 var paths = gameplay[name].bindings.Select(b => b.path).ToList();

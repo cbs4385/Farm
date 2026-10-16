@@ -495,12 +495,8 @@ namespace Farm.Editor
             for (var y = 0; y < VillageH; y++)
                 for (var x = 0; x < VillageW; x++)
                 {
-                    var onRoad = y >= RoadY0 && y <= RoadY1;
-                    var onLane = x >= LaneX0 && x <= LaneX1;
-                    var ground = onRoad || onLane ? "tile_cobble" : (x * 31 + y * 17) % 29 == 0 ? "tile_dirt" : "tile_grass";
-                    foreach (var b in VillageBuildings())
-                        if (x == b.DoorX && InConnector(b, y) && !MapIds.IsHome(b.MapId)) ground = "tile_path";       // a shop's path to the road (the cottages have alleys)
-                    if (NpcHomes.IsCobbled(x, y)) ground = "tile_cobble";
+                    // The roads, the shops' paths and the links wind and are dirt like the other maps' paths; the square is cobbled (VillageRoads). The cottages' streets are dirt too.
+                    var ground = VillageRoads.Ground(x, y) ?? (NpcHomes.IsStreetPaving(x, y) ? VillageRoads.Dirt : (x * 31 + y * 17) % 29 == 0 ? "tile_dirt" : "tile_grass");
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(ground));
                 }
 
@@ -539,7 +535,7 @@ namespace Farm.Editor
                     if (x < 50 && y < 36) continue;                                            // the original village
                     if (NpcHomes.InStreet(x, y)) continue;                                      // the villagers' street
                     if (OnAnyBuilding(x, y)) continue;                                          // nor a shop
-                    if (y >= RoadY0 - 1 && y <= RoadY1 + 1 || x >= LaneX0 - 1 && x <= LaneX1 + 1) continue;
+                    if (VillageRoads.Near(x, y)) continue;
                     var edgeBand = x >= VillageW - 6 || y >= VillageH - 6;
                     if ((x * 37 + y * 53) % (edgeBand ? 3 : 17) != 0) continue;
                     AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
@@ -552,15 +548,15 @@ namespace Farm.Editor
             AddProp("Fountain", "prop_fountain", MapLayout.Fountain.x, MapLayout.Fountain.y, 2);
             AddProp("Flag_West", "prop_flag", 23, 20);
             AddProp("Flag_East", "prop_flag", 27, 19);
-            foreach (var lampX in new[] { 3, 11, 20, 34, 40, 46 }) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, 19).AddComponent<StreetLamp>();
-            foreach (var lampX in new[] { 4, 12, 20, 30, 38, 46 }) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, 15).AddComponent<StreetLamp>();
+            foreach (var lampX in new[] { 3, 11, 20, 34, 40, 46 }) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, VillageRoads.RowAboveRoad(lampX)).AddComponent<StreetLamp>();
+            foreach (var lampX in new[] { 4, 12, 20, 30, 38, 46 }) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, VillageRoads.RowBelowRoad(lampX)).AddComponent<StreetLamp>();
             MakeSeat(AddProp("Bench_1", "prop_bench", 14, 14, 2), "prop_bench", "Bench_1");
-            MakeSeat(AddProp("Bench_2", "prop_bench", 40, 14, 2), "prop_bench", "Bench_2");
+            MakeSeat(AddProp("Bench_2", "prop_bench", 40, 14 + VillageRoads.RoadShift(40), 2), "prop_bench", "Bench_2");
             foreach (var b in Buildings)
                 if (b.FacesSouth && !string.IsNullOrEmpty(b.Business))
                 {
-                    AddProp($"{b.MapId}_FlowersWest", "prop_flowerbox_1", b.DoorX - 1, 20, solid: false);          // walked through: people kept catching on them (playtest 2026-10-13)
-                    AddProp($"{b.MapId}_FlowersEast", "prop_flowerbox_2", b.DoorX + 1, 20, solid: false);
+                    AddProp($"{b.MapId}_FlowersWest", "prop_flowerbox_1", b.DoorX - 1, 20 + VillageRoads.RoadShift(b.DoorX), solid: false);          // walked through: people kept catching on them (playtest 2026-10-13)
+                    AddProp($"{b.MapId}_FlowersEast", "prop_flowerbox_2", b.DoorX + 1, 20 + VillageRoads.RoadShift(b.DoorX), solid: false);
                 }
             AddProp("Barrels_Store", "prop_barrels", 2, 22);
             AddProp("BarrelStack_Smith", "prop_barrel_stack", 23, 22);
@@ -612,9 +608,6 @@ namespace Farm.Editor
             return false;
         }
 
-        // The cells of the lane from a door to the road.
-        static bool InConnector(Building b, int y) =>
-            b.FacesSouth ? y > RoadY1 && y < b.Y0 : y < RoadY0 && y > b.Y1;
 
         // A building from the Cozy Village kit stands on its footprint: its picture (drawn over a player who stands behind it) with the door under the door cell, and
         // collision on the cells the picture covers, with an opening at the door. The old flat wall art is no longer drawn.

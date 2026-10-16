@@ -239,6 +239,12 @@ namespace Farm.UI
             UiKit.MakeToggle(trackerRow, L.Get("ui.on"), s.QuestTracker, on => s.QuestTracker = on, 220f).name = "QuestTracker";
             var aim = Row(L.Get("options.mouse_aim"));
             UiKit.MakeToggle(aim, L.Get("ui.on"), s.MouseAim, on => s.MouseAim = on, 220f).name = "MouseAim";
+            var mouseSens = Row(L.Get("options.mouse_sensitivity"));
+            UiKit.MakeSlider(mouseSens, Mathf.InverseLerp(SettingsData.MinMouseSensitivity, SettingsData.MaxMouseSensitivity, s.MouseSensitivity),
+                v => s.MouseSensitivity = Mathf.Lerp(SettingsData.MinMouseSensitivity, SettingsData.MaxMouseSensitivity, v)).name = "MouseSensitivity";
+            var padSens = Row(L.Get("options.controller_sensitivity"));
+            UiKit.MakeSlider(padSens, Mathf.InverseLerp(SettingsData.MinControllerSensitivity, SettingsData.MaxControllerSensitivity, s.ControllerSensitivity),
+                v => s.ControllerSensitivity = Mathf.Lerp(SettingsData.MinControllerSensitivity, SettingsData.MaxControllerSensitivity, v)).name = "ControllerSensitivity";
             var easy = Row(L.Get("options.relaxed_energy"));
             UiKit.MakeToggle(easy, L.Get("ui.on"), s.RelaxedEnergy, on => s.RelaxedEnergy = on, 220f);
             var dl = Row(L.Get("options.day_length"));

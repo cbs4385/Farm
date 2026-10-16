@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.3 (2026-10-16)
+
+Running, sensitivity settings and a winding village. Verified by automation only (see docs/STATUS.md); nobody has played it.
+
+- **Run.** Hold Shift (B on a pad) while walking to move 1.75 times as fast. It costs 1 energy for every 3 seconds of running (half with relaxed energy), and with no energy left you walk. The Run key is in the Options key list and the pad list, so it can be rebound like the others.
+- **Sensitivity.** Options > Gameplay has a mouse sensitivity slider (how far the pointer moves in the world for a movement of the mouse) and a controller stick slider (how far a tilt of the stick goes toward full walking speed).
+- **A winding village of dirt roads.** The village's main road, the lane to the forest and beach, the shops' paths and the links to the villagers' streets are now winding dirt paths like the other maps (they were straight cobbles). Only the square (the clock tower, fountain and festival grounds), the three ways out and the villagers' own street lanes keep their shape (the street lanes are dirt now too). Lamps, the bench and the flower boxes follow the bends.
+
 ## 0.7.2 (2026-10-16)
 
 Fixes from a controller playtest, and books you can read. Verified by automation only (EditMode green; PlayMode run for the new and related flows); nobody has played it.
