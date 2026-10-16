@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.5 (2026-10-16)
+
+The Options screen rebuilt for controller and keyboard players, and the deep mine and the ritual dressed with the Crawling Depths art. Verified by automation only (filtered EditMode and PlayMode runs; the full suites are pending); nobody has played it.
+
+- **Options is a list of categories and one page at a time.** Sound, Display, Accessibility, Dialogue and text, Gameplay, Keyboard and mouse, Controller, Content and language. The page you left is the page you come back to.
+- **The cursor can no longer go astray.** Every control is a fixed stop: up and down go to the row above or below and stop at the ends, the Back button is out of the way (B or Esc closes), and the focused row is lit, kept in view with room round it, and counted in the footer. The right stick scrolls, and then moves the cursor onto a row that is showing.
+- **Left and right change things.** A slider moves, a choice (resolution, dialogue speed, day length, content level...) cycles, a toggle goes off or on. Left from the first key of a row goes back to the category list.
+- **LB and RB (Q and E) change the page from anywhere.** The controller sensitivity is the first row of the Controller page: two presses of LB from opening the Options.
+- **Waiting for a key or a controller button gives up after five seconds,** so a player with only a pad is never stuck in it (any pad button can be the new binding, so B could not be the way out).
+- **Horror layer (on only).** The mine from floor 30 down is dressed with veins, urns, columns and cracked floor, and at full intensity with eyes, statues and arcs, more of it the deeper the floor and the higher the dread; the relic chest on floor 30 stands in a shrine. At full intensity six tentacles rise round the altar on a ritual night, the one of the turn reaching for the offering. Nothing at off.
+- **New furniture icons** for the armchair, bench, chair, clock, dining table, lamp, painting, rug and vase.
+
 ## 0.7.4 (2026-10-16)
 
 Playtest fixes, and the scenes that close the villagers' arcs (docs/NPC_INTERCONNECTED_GAMEPLAY_SPEC.md). Verified by automation only (EditMode 1888 of 1889 and PlayMode 440 of 441 pass, one test ignored); nobody has played it.
