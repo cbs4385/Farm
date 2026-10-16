@@ -216,7 +216,7 @@ namespace Farm.Tests
             yield return OnFestivalDay(Season.Spring, 12, 12 * 60, MapIds.Village, s => s.SetVar("festival.spring", 1));
             foreach (FestivalStationKind kind in Enum.GetValues(typeof(FestivalStationKind)))
                 Assert.IsEmpty(Stations(kind), kind + " is not out today");
-            Assert.IsNull(GameObject.Find("DanceFloor_25_17") is GameObject floor && floor.activeInHierarchy ? floor : null);
+            Assert.IsNull(GameObject.Find("DanceFloor_29_17") is GameObject floor && floor.activeInHierarchy ? floor : null);
         }
 
         [UnityTest]
@@ -224,7 +224,7 @@ namespace Farm.Tests
         {
             yield return OnFestivalDay(Season.Spring, 13, 12 * 60, MapIds.Village, s => s.SetVar("festival.spring", 1));
             var maypole = Stations(FestivalStationKind.Maypole).Single();
-            Assert.IsTrue(GameObject.Find("DanceFloor_25_17").activeInHierarchy, "the floor is down");
+            Assert.IsTrue(GameObject.Find("DanceFloor_29_17").activeInHierarchy, "the floor is down");
             for (var i = 0; i < 60; i++) yield return null;
             var actors = GameContext.Current.Map.Npcs.Actors.Values.ToList();
             Assert.GreaterOrEqual(actors.Count, 6, "the villagers are in the village at noon");

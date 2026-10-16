@@ -126,6 +126,8 @@ namespace Farm.Data
                 Forage("village.forage", "Village", Place.Meadow, "tile_grass", 5, 26),
                 Forage("forest.forage", "Forest", Place.Wood, "tile_forest", 7, 42),
                 Forage("beach.forage", "Beach", Place.Shore, "tile_sand", 5, 22),
+                // Rocks the pickaxe can break (they replace the pebbles that were only drawn on the sand, playtest 2026-10-16); the driftwood is laid by BeachDriftwood.
+                SpawnTableDefinition.Create("beach.rocks", "Beach", new[] { "tile_sand" }, 2, 6, new[] { Entry(NodeDefaults.Rock, 1f, SeasonMask.All) }),
             };
         }
 

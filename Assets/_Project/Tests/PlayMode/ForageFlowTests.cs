@@ -102,7 +102,8 @@ namespace Farm.Tests
             yield return Start(MapIds.Beach, Season.Summer);
             var kinds = _session.GetNodes(MapIds.Beach).Nodes.Select(n => n.TypeId).Distinct().ToList();
             Assert.IsNotEmpty(kinds);
-            CollectionAssert.IsSubsetOf(kinds, new[] { "seashell", "clam", "pearl" });
+            CollectionAssert.IsSubsetOf(kinds, new[] { "seashell", "clam", "pearl", "rock", "driftwood" }, "shells and the rest of what the sea leaves: rocks and driftwood");
+            Assert.IsTrue(kinds.Any(k => k == "seashell" || k == "clam" || k == "pearl"), "and still shells");
         }
 
         [UnityTest]

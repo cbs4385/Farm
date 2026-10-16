@@ -5,7 +5,7 @@ namespace Farm.Gameplay
 {
     // The village's dirt roads wind like the farm's road and the forest's trail (playtest 2026-10-16: "significant portions of the village have very straight paths and
     // they are not the dirt roads similar to the other maps"). The main road (three cells wide, west to east), the lane to the forest and the beach, the shops' paths to the
-    // road and the links to the villagers' streets are all `tile_path` and bend. Only the cobbled square stays straight and cobbled (the clock tower, the fountain, the
+    // road and the links to the villagers' streets are all `tile_road` (the brown of the dirt trail) and bend. Only the cobbled square stays straight and cobbled (the clock tower, the fountain, the
     // festival grounds and the lamps are laid out round it), with the three ways out; the villagers' own streets keep their shape (their cottages stand beside them) but are
     // dirt too. Walking does not depend on the tile, so a bend changes how the village looks, not where anyone can go. Pure, so that the scene builder and the tests share it.
     public static class VillageRoads
@@ -14,7 +14,7 @@ namespace Farm.Gameplay
         public const int PlazaX0 = 20, PlazaX1 = 38;        // the columns of the road that stay straight and cobbled (the square and the festival grounds)
         public const int PlazaLaneY0 = 14, PlazaLaneY1 = 22;
         public const int MinShift = -3, MaxShift = 2;       // how far the road moves down (-) or up (+) from its old rows; the lane moves west (-) or east (+) by the same
-        public const string Dirt = "tile_path", Cobble = "tile_cobble";
+        public const string Dirt = "tile_road", Cobble = "tile_cobble";          // the brown of the dirt trail (playtest 2026-10-16); not tillable, like tile_path
         const int Seed = 41;
 
         // How many rows the road is moved up (+) for each column of the village, and how many columns the lane is moved east (+) for each row.
@@ -31,15 +31,15 @@ namespace Farm.Gameplay
         public static int RowAboveRoad(int x) => RoadY1 + 1 + RoadShift(x);
         public static int RowBelowRoad(int x) => RoadY0 - 1 + RoadShift(x);
 
-        // The cobbled square: the road between the plaza columns, and the lane where it crosses.
-        public static bool OnPlaza(int x, int y) =>
-            OnRoad(x, y) && x >= PlazaX0 && x <= PlazaX1 || OnLane(x, y) && y >= PlazaLaneY0 && y <= PlazaLaneY1;
+        // The cobbled square (VillageSquare), where the road and the lane cross.
+        public static bool OnPlaza(int x, int y) => VillageSquare.Cobbled(x, y);
 
         // The tile for a cell of the village's roads, shop paths and links ("tile_cobble" on the square, "tile_path" elsewhere), or null when the cell is neither.
         public static string Ground(int x, int y)
         {
             if (OnPlaza(x, y)) return Cobble;
-            return OnRoad(x, y) || OnLane(x, y) || _paths.Contains((x, y)) ? Dirt : null;
+            if (VillageSquare.InRect(x, y)) return null;                      // the plaza's rounded corners are grass
+            return OnRoad(x, y) || OnLane(x, y) || VillageSquare.Flare(x, y) || _paths.Contains((x, y)) ? Dirt : null;
         }
 
         // The land the roads take, with a cell of margin (no scattered trees there).

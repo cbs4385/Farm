@@ -59,7 +59,8 @@ namespace Farm.Tests
                 Assert.IsTrue(names.Any(n => n.StartsWith("decor_" + set + "_t")), set + " tufts");
                 Assert.IsTrue(names.Any(n => n.StartsWith("decor_" + set + "_f")), set + " flowers");
             }
-            Assert.IsTrue(names.Any(n => n.StartsWith("decor_sand_t")), "pebbles and driftwood for the beach");
+            Assert.IsTrue(names.Any(n => n.StartsWith("decor_sand_t")), "dune grass for the beach");
+            Assert.AreEqual(3, names.Count(n => n.StartsWith("decor_sand_t")), "and nothing that looks like a pebble or a piece of driftwood: those are things you can pick up");
             Assert.AreEqual("spring", GroundDecor.SetFor(Season.Summer), "summer is green too");
             Assert.AreEqual("fall", GroundDecor.SetFor(Season.Fall));
             Assert.AreEqual("winter", GroundDecor.SetFor(Season.Winter));

@@ -34,6 +34,6 @@ namespace Farm.Gameplay
 
         // The village's landmarks in the square (cells; each is two cells wide).
         public static readonly Vector2Int ClockTower = new Vector2Int(27, 21);
-        public static readonly Vector2Int Fountain = new Vector2Int(20, 21);
+        public static readonly Vector2Int Fountain = new Vector2Int(22, 21);          // mirrors the clock tower across the lane (x 24 to 26)
     }
 }

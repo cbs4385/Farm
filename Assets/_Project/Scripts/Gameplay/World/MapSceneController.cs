@@ -78,7 +78,10 @@ namespace Farm.Gameplay
                 if (restored > 0) (GameContext.Current?.Notify ?? NullNotifier.Instance).Toast(L.Get("village.restored"));
             }
             ClearNodesInWater();
+            var firstVisitToday = _session.State.GetMap(_map.MapId).LastSpawnDay != _session.Clock.Now.TotalDays;          // RunSpawns marks today as done
             _session.RunSpawns(_map.MapId, SpawnCandidates);
+            if (_map.MapId == MapIds.Beach && firstVisitToday)
+                BeachDriftwood.Refresh(_session.GetNodes(MapIds.Beach), _session.Nodes.Get(BeachDriftwood.NodeId), DriftwoodCandidates(), _session.Clock.Now.TotalDays, _session.State.WorldSeed);
             if (_map.MapId == MapIds.Forest || _map.MapId == MapIds.Village) _view.TreeSkin = (x, y) => SeasonalTrees.SpriteAt(_map.MapId, _session.State.WorldSeed, _session.Clock.Now.Season, x, y);
             WorldSorting.Apply(_map, Camera.main);
             _view.Bind(_session.GetGrid(_map.MapId), _session.Db, _session.GetNodes(_map.MapId), _session.Nodes);
@@ -349,6 +352,21 @@ namespace Farm.Gameplay
                 cells.Add((cell.x, cell.y));
             }
             return cells;
+        }
+
+        // The sand where today's driftwood may lie: near the water, below the fish stall's row, clear of the way in, the stall, the fishing rock and anything already there.
+        System.Collections.Generic.IReadOnlyList<(int x, int y)> DriftwoodCandidates()
+        {
+            var keepClear = KeepClearCells();
+            var grid = _session.GetNodes(_map.MapId);
+            var bounds = _map.Ground.cellBounds;
+            var sand = new System.Collections.Generic.HashSet<(int x, int y)>();
+            foreach (var cell in _map.CellsOn(new[] { "tile_sand" })) sand.Add((cell.x, cell.y));
+            return BeachDriftwood.Candidates(bounds.xMax, bounds.yMax,
+                (x, y) => _map.IsWater(new Vector3Int(x, y, 0)),
+                (x, y) => sand.Contains((x, y)),
+                (x, y) => grid.Has(x, y) || (_map.Walls != null && _map.Walls.GetTile(new Vector3Int(x, y, 0)) != null) || NearAny(keepClear, new Vector3Int(x, y, 0), 1),
+                BeachDriftwood.StallRow);
         }
 
         // Trees, rocks and plants that were put in water by an earlier version are taken out of a saved game's map (playtest 2026-10-13: things in the pond).

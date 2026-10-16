@@ -72,25 +72,26 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator TheVillage_HasADecoratedGreen_APond_AndPlantersAtTheShopDoors()
+        public IEnumerator TheVillage_HasADecoratedGreen_APond_AndNoPlantersOrFlowerBoxes()
         {
             yield return Open(MapIds.Village);
             Assert.IsNotNull(Decor);
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             Assert.Greater(All(map.Ground.cellBounds).Count(c => map.IsWater(c)), 20, "a pond");
             var planters = UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Count(t => t.name.Contains("_Planter"));
-            Assert.GreaterOrEqual(planters, 10, "a planter on each side of every shop's door");
+            Assert.AreEqual(0, planters, "no planters at the shop doors: they were only things to walk round (playtest 2026-10-16)");
+            Assert.AreEqual(0, UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Count(t => t.name.Contains("_Flowers")), "and no flower boxes");
         }
 
         [UnityTest]
-        public IEnumerator TheBeach_HasPebblesAndDriftwoodOnTheSand_AndAShoreThatIsNotARuler()
+        public IEnumerator TheBeach_HasDuneGrassOnTheSand_AndAShoreThatIsNotARuler()
         {
             yield return Open(MapIds.Beach);
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
             var layer = Decor.Layer;
             var sandCells = All(layer.cellBounds).Where(c => layer.GetTile(c) != null && map.Ground.GetTile(c).name == "tile_sand").ToList();
             Assert.Greater(sandCells.Count, 20, "decoration on the sand");
-            Assert.IsTrue(sandCells.All(c => layer.GetTile(c).name.StartsWith("decor_sand_")), "pebbles and driftwood, whatever the season");
+            Assert.IsTrue(sandCells.All(c => layer.GetTile(c).name.StartsWith("decor_sand_")), "dune grass, whatever the season (the pebbles and driftwood are real now)");
             // The waterline wanders: the highest water row differs from column to column.
             var edge = Enumerable.Range(2, 30).Select(x => Enumerable.Range(0, 12).Count(y => map.IsWater(new Vector3Int(x, y, 0)))).Distinct().Count();
             Assert.GreaterOrEqual(edge, 3, "the shoreline has bays and points");

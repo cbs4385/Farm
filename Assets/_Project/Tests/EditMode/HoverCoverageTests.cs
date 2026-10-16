@@ -130,7 +130,7 @@ namespace Farm.Tests
         }
 
         // Pictures that are only a floor covering: nobody points at them.
-        static readonly HashSet<string> FlatDecoration = new HashSet<string> { "obj_rug", "obj_fest_floor" };
+        static readonly HashSet<string> FlatDecoration = new HashSet<string> { "obj_rug", "obj_fest_floor", "obj_plaza_ring" };
 
         static bool Named(Component c)
         {

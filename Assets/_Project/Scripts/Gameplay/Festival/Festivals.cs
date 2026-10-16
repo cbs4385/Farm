@@ -54,18 +54,18 @@ namespace Farm.Gameplay
         // festival's own props; a test opens the village scene and checks every one.
         public static readonly Dictionary<string, (int x, int y, string facing)[]> Gathering = new Dictionary<string, (int, int, string)[]>
         {
-            // round the maypole on the dance floor (road crossing)
-            { "spring", new[] { (25, 16, "right"), (25, 18, "right"), (29, 16, "left"), (29, 18, "left"), (24, 17, "right"), (30, 17, "left"), (26, 16, "down"), (28, 18, "up"),
-                                (23, 16, "right"), (31, 18, "left"), (25, 17, "right"), (29, 17, "left") } },
+            // round the maypole on the dance floor east of the gazebo
+            { "spring", new[] { (28, 16, "right"), (30, 16, "left"), (28, 18, "right"), (30, 18, "left"), (29, 16, "up"), (29, 18, "down"), (28, 17, "right"), (30, 17, "left"),
+                                (27, 15, "right"), (31, 16, "left"), (31, 18, "left"), (29, 15, "up") } },
             // along the shore of the village pond, facing the water
             { "summer", new[] { (16, 13, "down"), (17, 13, "down"), (18, 13, "down"), (19, 13, "down"), (20, 13, "down"), (21, 13, "down"), (15, 13, "down"), (22, 13, "down"),
                                 (24, 14, "left"), (21, 14, "down"), (17, 14, "down"), (19, 14, "down") } },
             // in front of the stalls and the judging table in the square
             { "fall", new[] { (29, 21, "up"), (30, 21, "up"), (31, 21, "up"), (34, 21, "up"), (35, 21, "up"), (12, 21, "up"), (13, 21, "up"), (14, 21, "up"),
-                              (15, 21, "up"), (36, 22, "left"), (29, 20, "right"), (11, 21, "up") } },
-            // round the long table along the north edge of the road
-            { "winter", new[] { (21, 19, "down"), (23, 19, "down"), (24, 19, "down"), (25, 19, "down"), (26, 19, "down"), (28, 19, "down"), (29, 19, "down"), (29, 17, "up"),
-                                (22, 17, "up"), (24, 17, "up"), (26, 17, "up"), (28, 17, "up") } },
+                              (15, 21, "up"), (36, 22, "left"), (31, 20, "up"), (11, 21, "up") } },
+            // round the long table along the south edge of the square, above and below it
+            { "winter", new[] { (21, 15, "down"), (23, 15, "down"), (24, 15, "down"), (26, 15, "down"), (27, 15, "down"), (29, 15, "down"), (21, 13, "up"), (23, 13, "up"),
+                                (27, 13, "up"), (29, 13, "up"), (22, 13, "up"), (28, 13, "up") } },
         };
 
         public static int IndexOf(string npcId) => System.Array.IndexOf(NpcIds.All, npcId);

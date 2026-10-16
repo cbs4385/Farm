@@ -76,6 +76,16 @@ namespace Farm.Editor
             { Name = name; Sprite = sprite; X = x; Y = y; W = w; H = h; ShopId = shopId; UpgradesAt = upgradesAt; SeatNpc = seatNpc; SeatKey = seatKey; Curio = curio; }
         }
 
+        // Batch use (-executeMethod Farm.Editor.MapBuilder.BuildVillageAndBeachAndExit): rebuilds only the village and the beach, so the other scenes are left as they are.
+        public static void BuildVillageAndBeachAndExit()
+        {
+            Directory.CreateDirectory(TileDir);
+            BuildVillage();
+            BuildBeach();
+            AssetDatabase.SaveAssets();
+            EditorApplication.Exit(0);
+        }
+
         public static void BuildAll()
         {
             Directory.CreateDirectory(TileDir);
@@ -217,10 +227,10 @@ namespace Farm.Editor
             FestivalStation Station(GameObject go, FestivalStationKind kind) { var s = go.AddComponent<FestivalStation>(); s.Kind = kind; return s; }
             void Bunting(GameObject holder, string season, int y, params int[] xs) { foreach (var x in xs) Put(holder, $"Bunting_{season}_{x}_{y}", "prop_fest_bunting_" + season, x, y, 2, solid: false, order: 14); }
 
-            // Blossom Day: a dance floor on the road where it crosses the lane, the maypole in the middle, a band stand beside it and bunting along both edges of the road.
+            // Blossom Day: a dance floor east of the gazebo, in the plaza and the road beyond it, the maypole in the middle, a band stand beside it and bunting along both edges of the road.
             var spring = Holder("spring");
-            for (var x = 23; x <= 31; x++)
-                for (var y = 16; y <= 18; y++)
+            for (var x = 28; x <= 31; x++)
+                for (var y = 15; y <= 19; y++)
                     Put(spring, $"DanceFloor_{x}_{y}", "obj_fest_floor", x, y, solid: false, order: 1);
             Station(Put(spring, "Maypole", "prop_fest_maypole", FestivalGrounds.Maypole.x, FestivalGrounds.Maypole.y), FestivalStationKind.Maypole);
             Put(spring, "BandStand", "prop_fest_bandstand", 33, 17, 2);
@@ -244,10 +254,10 @@ namespace Farm.Editor
             Put(fall, "Pumpkins", "prop_fest_pumpkins", 36, 21);
             Bunting(fall, "fall", 23, 12, 14, 29, 34);
 
-            // The Lantern Feast: the long table along the north edge of the road, lantern poles, and the rack where the player hangs a lantern.
+            // The Lantern Feast: the long table along the south edge of the plaza, lantern poles, and the rack where the player hangs a lantern.
             var winter = Holder("winter");
-            foreach (var x in new[] { 21, 23, 25, 27 })
-                Station(Put(winter, $"FeastTable_{x}", "prop_fest_feasttable", x, 18, 2), FestivalStationKind.FeastTable);
+            foreach (var x in new[] { 20, 22, 27, 29 })          // the long table, in two halves either side of the lane's way in, along the south of the plaza
+                Station(Put(winter, $"FeastTable_{x}", "prop_fest_feasttable", x, 14, 2), FestivalStationKind.FeastTable);
             foreach (var (x, y) in new[] { (22, 15), (25, 15), (28, 15), (33, 19) })
             {
                 var pole = Put(winter, $"Lantern_{x}_{y}", "prop_fest_lantern_lit", x, y);
@@ -281,11 +291,10 @@ namespace Farm.Editor
                 if (lamp) go.AddComponent<StreetLamp>();
                 return go;
             }
-            Put("pantry", "HallFlowersWest", "prop_flowerbox_1", dx - 3);
-            Put("pantry", "HallFlowersFar", "prop_flowerbox_2", dx - 4);
+            Put("pantry", "HallFlagPantry", "prop_flag", dx - 3);
+            Put("fishtank", "HallFlagFish", "prop_flag", dx + 4);
             Put("crafts", "HallFlagWest", "prop_flag", dx - 6);
             Put("crafts", "HallFlagEast", "prop_flag", dx + 6);
-            Put("fishtank", "HallRainBarrel", "prop_barrels", dx + 4);
             Put("bulletin", "HallLampWest", "prop_lamp", dx - 5, lamp: true);
             Put("bulletin", "HallLampEast", "prop_lamp", dx + 5, lamp: true);
             Put("vault", "HallBench", "prop_bench", dx + 2, 2);
@@ -510,7 +519,7 @@ namespace Farm.Editor
                 for (var x = 0; x < VillageW; x++)
                 {
                     // The roads, the shops' paths and the links wind and are dirt like the other maps' paths; the square is cobbled (VillageRoads). The cottages' streets are dirt too.
-                    var ground = VillageRoads.Ground(x, y) ?? (NpcHomes.IsStreetPaving(x, y) ? VillageRoads.Dirt : (x * 31 + y * 17) % 29 == 0 ? "tile_dirt" : "tile_grass");
+                    var ground = VillageRoads.Ground(x, y) ?? (NpcHomes.IsStreetPaving(x, y) ? VillageRoads.Dirt : "tile_grass");          // no loose brown patches on the green (playtest 2026-10-16)
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(ground));
                 }
 
@@ -528,54 +537,41 @@ namespace Farm.Editor
             AddWarp(Center(25, 0), MapIds.Beach, "fromVillage", new Vector2(3f, 1f));
 
             foreach (var b in VillageBuildings()) PlaceBuilding(rig, b);
-            AddObject("HelpWantedBoard", "obj_board", Center(22, 19), solid: true).AddComponent<HelpWantedBoard>();
+            AddObject("HelpWantedBoard", "obj_board", Center(VillageSquare.Board.x, VillageSquare.Board.y), solid: true).AddComponent<HelpWantedBoard>();
 
             // The traveling merchant's stall appears on some days only (the condition `merchant`).
             var merchant = new GameObject("MerchantStall");
             var visible = merchant.AddComponent<ConditionalObject>();
             visible.Condition = "merchant:today";
-            var stall = AddObject("Stall", "prop_stall", Center(30, 19), solid: true);
+            var stall = AddObject("Stall", "prop_stall", Center(VillageSquare.MerchantStall.x, VillageSquare.MerchantStall.y), solid: true);
             stall.AddComponent<ShopCounter>().ShopId = "merchant";
             stall.transform.SetParent(merchant.transform, true);
 
-            // A few trees at the corners so the village is not a bare lawn.
-            foreach (var t in new[] { new Vector2Int(3, 31), new Vector2Int(46, 33), new Vector2Int(3, 3), new Vector2Int(46, 3), new Vector2Int(20, 4), new Vector2Int(30, 33) })
-                AddObject($"Tree_{t.x}_{t.y}", "obj_tree", Center(t.x, t.y), solid: true);
+            // Copses of trees on the open ground round the village, never on a road, a building, a street, the square, the pond or where the festivals gather (playtest
+            // 2026-10-16: the scatter before this formed diagonal rows, not copses).
+            foreach (var t in VillageTreeCells()) AddObject($"Tree_{t.x}_{t.y}", "obj_tree", Center(t.x, t.y), solid: true);
 
-            // The land added to the east and north (the village grew): scattered trees and a thin wood along the edge, never on the road, the lane or a building.
-            for (var y = 2; y < VillageH - 2; y++)
-                for (var x = 2; x < VillageW - 2; x++)
-                {
-                    if (x < 50 && y < 36) continue;                                            // the original village
-                    if (NpcHomes.InStreet(x, y)) continue;                                      // the villagers' street
-                    if (OnAnyBuilding(x, y)) continue;                                          // nor a shop
-                    if (VillageRoads.Near(x, y)) continue;
-                    var edgeBand = x >= VillageW - 6 || y >= VillageH - 6;
-                    if ((x * 37 + y * 53) % (edgeBand ? 3 : 17) != 0) continue;
-                    AddObject($"Tree_{x}_{y}", "obj_tree", Center(x, y), solid: true);
-                }
-
-            // The village square and the roadside (the Cozy Village kit): a clock tower and a fountain between the road and the shops, benches, flags, lamp posts along
-            // both edges of the road, flower boxes and barrels at the shops' doors. All of it stands clear of the doors' lanes (x = a door's x), the cobbled lane and the
-            // villagers' streets.
+            // The village square (VillageSquare; playtest 2026-10-16: "it does not read nor look like a village square"): a gazebo in the middle of the cobbles where the road
+            // crosses the lane, a ring of paving stones round it, the fountain and the clock tower on the north edge either side of the lane, benches facing the gazebo, the
+            // notice board, flags and lamp posts. The festivals' props and the villagers' places are laid out round all of this (see FestivalGrounds and Festivals.Gathering).
+            var ring = AddDecorObject("Plaza_Ring", "obj_plaza_ring", Center(VillageSquare.Gazebo.x, VillageSquare.Gazebo.y + 1));
+            ring.GetComponent<SpriteRenderer>().sortingOrder = 1;                      // on the ground, under everything
+            foreach (var c in VillageSquare.GazeboSolidCells()) rig.Walls.SetTile(new Vector3Int(c.x, c.y, 0), GetHiddenWall());
+            var gazebo = AddObject("Gazebo", "prop_gazebo", Center(VillageSquare.Gazebo.x, VillageSquare.Gazebo.y), solid: false, size: new Vector2(5f, 3f));
+            gazebo.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 1f);       // the hover area covers the floor, one row up from the foot of the picture
+            gazebo.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
+            gazebo.AddComponent<BuildingDepth>().Configure(VillageSquare.GazeboY0 + 1f, TallSortingOrder);          // the roof is over a player inside or behind it, under one on the steps or in front
             AddProp("ClockTower", "prop_clock_tower", MapLayout.ClockTower.x, MapLayout.ClockTower.y, 2);
             AddProp("Fountain", "prop_fountain", MapLayout.Fountain.x, MapLayout.Fountain.y, 2);
-            AddProp("Flag_West", "prop_flag", 23, 20);
-            AddProp("Flag_East", "prop_flag", 27, 19);
-            foreach (var lampX in new[] { 3, 11, 20, 34, 40, 46 }) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, VillageRoads.RowAboveRoad(lampX)).AddComponent<StreetLamp>();
-            foreach (var lampX in new[] { 4, 12, 20, 30, 38, 46 }) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, VillageRoads.RowBelowRoad(lampX)).AddComponent<StreetLamp>();
+            AddProp("Flag_West", "prop_flag", VillageSquare.FlagWest.x, VillageSquare.FlagWest.y);
+            AddProp("Flag_East", "prop_flag", VillageSquare.FlagEast.x, VillageSquare.FlagEast.y);
+            MakeSeat(AddProp("Bench_Square_NW", "prop_bench", VillageSquare.BenchWest.x, VillageSquare.BenchWest.y, 2), "prop_bench", "Bench_Square_NW");
+            MakeSeat(AddProp("Bench_Square_NE", "prop_bench", VillageSquare.BenchEast.x, VillageSquare.BenchEast.y, 2), "prop_bench", "Bench_Square_NE");
+            foreach (var lampX in VillageSquare.LampNorthX) AddProp($"Lamp_N{lampX}", "prop_lamp", lampX, VillageRoads.RowAboveRoad(lampX)).AddComponent<StreetLamp>();
+            foreach (var lampX in VillageSquare.LampSouthX) AddProp($"Lamp_S{lampX}", "prop_lamp", lampX, VillageRoads.RowBelowRoad(lampX)).AddComponent<StreetLamp>();
             MakeSeat(AddProp("Bench_1", "prop_bench", 14, 14, 2), "prop_bench", "Bench_1");
             MakeSeat(AddProp("Bench_2", "prop_bench", 40, 14 + VillageRoads.RoadShift(40), 2), "prop_bench", "Bench_2");
-            foreach (var b in Buildings)
-                if (b.FacesSouth && !string.IsNullOrEmpty(b.Business))
-                {
-                    AddProp($"{b.MapId}_FlowersWest", "prop_flowerbox_1", b.DoorX - 1, 20 + VillageRoads.RoadShift(b.DoorX), solid: false);          // walked through: people kept catching on them (playtest 2026-10-13)
-                    AddProp($"{b.MapId}_FlowersEast", "prop_flowerbox_2", b.DoorX + 1, 20 + VillageRoads.RoadShift(b.DoorX), solid: false);
-                }
-            AddProp("Barrels_Store", "prop_barrels", 2, 22);
-            AddProp("BarrelStack_Smith", "prop_barrel_stack", 23, 22);
-            AddProp("Boxes_Library", "prop_boxes", 47, 23);
-            AddProp("Wheelbarrow_Library", "prop_wheelbarrow", 48, 22);
+            // (No flower boxes, planters, barrels, crates or wheelbarrows: they did not make the village more interesting and were things to walk round. Playtest 2026-10-16.)
             AddVillageRestorations();
             AddFestivalGrounds();
 
@@ -614,6 +610,46 @@ namespace Farm.Editor
                 }
         }
 
+        const int VillageTreeSeed = 71;
+        static HashSet<(int x, int y)> _festivalCells;
+
+        // The cells of the village where a tree may not stand: roads, paths and streets with two cells of room, the buildings, the square, the pond and the cells where the
+        // villagers gather for the festivals.
+        static bool VillageTreeBlocked(int x, int y)
+        {
+            if (NpcHomes.InStreet(x, y) || OnAnyBuilding(x, y) || VillageSquare.Near(x, y, 3)) return true;
+            for (var dx = -2; dx <= 2; dx++)
+                for (var dy = -2; dy <= 2; dy++)
+                    if (VillageRoads.Ground(x + dx, y + dy) != null || NpcHomes.IsStreetPaving(x + dx, y + dy)) return true;
+            for (var dx = -3; dx <= 3; dx++)
+                for (var dy = -3; dy <= 3; dy++)
+                    if (MapLayout.VillagePond.Contains(x + dx, y + dy)) return true;
+            if (_festivalCells == null)
+            {
+                _festivalCells = new HashSet<(int x, int y)>();
+                foreach (var row in Festivals.Gathering.Values)
+                    foreach (var c in row)
+                        for (var dx = -1; dx <= 1; dx++)
+                            for (var dy = -1; dy <= 1; dy++) _festivalCells.Add((c.x + dx, c.y + dy));
+            }
+            return _festivalCells.Contains((x, y));
+        }
+
+        // Where the village's trees stand: whole copses (WoodLayout.CopseReach: one per 12 x 12 block, most blocks) with a few gaps in them, on the ground the village leaves free.
+        public static List<(int x, int y)> VillageTreeCells()
+        {
+            var cells = new List<(int x, int y)>();
+            for (var y = 2; y < VillageH - 2; y++)
+                for (var x = 2; x < VillageW - 2; x++)
+                {
+                    if (WoodLayout.CopseReach(x, y, VillageTreeSeed) >= 1f) continue;
+                    if (WoodLayout.Random01(x, y, VillageTreeSeed + 5) > 0.84f) continue;          // gaps and a ragged edge
+                    if (VillageTreeBlocked(x, y)) continue;
+                    cells.Add((x, y));
+                }
+            return cells;
+        }
+
         // Is the cell on (or one cell from) a shop or a cottage?
         static bool OnAnyBuilding(int x, int y)
         {
@@ -644,12 +680,6 @@ namespace Farm.Editor
             }
 
             var outsideY = b.FacesSouth ? doorY - 1 : doorY + 1;
-            var planterY = b.FacesSouth ? outsideY - 1 : outsideY + 1;           // one row further out than the door's own row, which people walk along
-            if (!string.IsNullOrEmpty(b.Business))          // the shops: a planter a little way off each side of the door (the cells beside the door stay open for walking; the cottages' alleys stay clear)
-            {
-                AddObject($"{b.MapId}_PlanterWest", "obj_plant", Center(b.DoorX - 2, planterY), solid: true);
-                AddObject($"{b.MapId}_PlanterEast", "obj_plant", Center(b.DoorX + 2, planterY), solid: true);
-            }
             AddSpawn("from" + b.MapId, Center(b.DoorX, outsideY));
             AddWarp(Center(b.DoorX, doorY), b.MapId, "default", Vector2.one, business: b.Business, condition: b.Condition, blockedKey: b.BlockedKey);
         }

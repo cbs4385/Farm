@@ -114,7 +114,7 @@ namespace Farm.Tests
             yield return Start(MapIds.Village, 3, 18);          // Wednesday 18:00: Tilda has left the shop and strolls the lane
             var tilda = Actor("tilda");
             Assert.IsNotNull(tilda, "Tilda is out in the village after work");
-            Assert.AreEqual(new Vector3Int(25, 20, 0), tilda.Cell);
+            Assert.AreEqual(new Vector3Int(22, 18, 0), tilda.Cell);
         }
 
         [UnityTest]

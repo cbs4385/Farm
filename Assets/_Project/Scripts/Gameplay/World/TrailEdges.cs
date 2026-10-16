@@ -19,8 +19,14 @@ namespace Farm.Gameplay
         readonly List<UnityEngine.Object> _made = new List<UnityEngine.Object>();
 
         public Tilemap Layer { get; private set; }
+        public Tilemap Junctions { get; private set; }          // where the cobbled square meets a dirt road (the village)
 
-        public static bool IsTrail(string tile) => tile == "tile_path" || tile == "tile_dirt" || tile == "tile_cobble";
+        const string CobbleTile = "tile_cobble";
+
+        // The dirt roads, paths and trails that can run into paving.
+        public static bool IsRoad(string tile) => tile == "tile_road" || tile == "tile_path";
+
+        public static bool IsTrail(string tile) => tile == "tile_path" || tile == "tile_dirt" || tile == "tile_cobble" || tile == "tile_road";
         public static bool IsWood(string tile) => tile == WoodTile || tile == GrassTile;          // the ground a trail is edged against
 
         // How much of a point is trail, 0..1, 0.5 being the edge. `trail` says whether a cell is trail; the point is in cell units. Pure, so that it can be tested.
@@ -39,12 +45,12 @@ namespace Farm.Gameplay
             return field + (WoodLayout.Noise(x, y, 0.8f, seed) - 0.5f) * BroadNoise + (WoodLayout.Noise(x, y, 0.12f, seed + 1) - 0.5f) * FineNoise;
         }
 
-        // Lays the edge pictures over the map's ground; returns how many cells carry one.
+        // Lays the edge pictures over the map's ground; returns how many cells carry one. Two layers: the edges of the trails against grass and forest floor, and (the village
+        // square, playtest 2026-10-16: "soften the intersection of the village square and the dirt paths") the joins between cobbles and the dirt roads that run into them.
         public int Build(FarmMap map, int seed)
         {
             if (map.Ground == null) return 0;
             var ground = map.Ground;
-            var cells = new List<(Vector3Int cell, bool trail, string other)>();
             var names = new Dictionary<Vector3Int, string>();
             foreach (var cell in ground.cellBounds.allPositionsWithin)
             {
@@ -72,12 +78,41 @@ namespace Farm.Gameplay
                 if (trailCells.Contains(at)) return true;
                 return !names.TryGetValue(at, out var n) || !IsWood(n) && !IsTrail(n);
             }
-            bool Wood(int x, int y) => names.TryGetValue(new Vector3Int(x, y, 0), out var n) && IsWood(n);
+            if (Layer != null) Destroy(Layer.gameObject);
+            if (Junctions != null) Destroy(Junctions.gameObject);
+            var placed = Blend(ground, names, "TrailEdges", seed, c => trailCells.Contains(c), IsWood, _ => Trail, out var layer);
+            Layer = layer;
 
+            // The joins of the cobbled square and the dirt roads: the road is "trail", the cobbles the other ground. Seen from a road cell anything that is not paving counts as
+            // road (so the road's own sides are not eaten into), and from a cobble cell only the road counts as road.
+            var roadCells = new HashSet<Vector3Int>();
+            foreach (var kv in names)
+                if (IsRoad(kv.Value)) roadCells.Add(kv.Key);
+            var junctions = 0;
+            if (roadCells.Count > 0 && names.ContainsValue(CobbleTile))
+            {
+                bool Cobble(int x, int y) => names.TryGetValue(new Vector3Int(Mathf.Clamp(x, bounds.xMin, bounds.xMax - 1), Mathf.Clamp(y, bounds.yMin, bounds.yMax - 1), 0), out var n) && n == CobbleTile;
+                bool Road(int x, int y) => roadCells.Contains(new Vector3Int(Mathf.Clamp(x, bounds.xMin, bounds.xMax - 1), Mathf.Clamp(y, bounds.yMin, bounds.yMax - 1), 0));
+                junctions = Blend(ground, names, "TrailJunctions", seed + 17, c => roadCells.Contains(c), n => n == CobbleTile,
+                    onRoad => onRoad ? (Func<int, int, bool>)((x, y) => !Cobble(x, y)) : Road, out var junctionLayer);
+                Junctions = junctionLayer;
+            }
+            if (placed + junctions > 0) ground.GetComponent<TilemapRenderer>().sortingOrder = -2;
+            return placed + junctions;
+        }
+
+        // One layer of blended pictures: for every cell that is trail and has an "other" cell beside it (or the other way round) a picture made from the two tiles' own pixels
+        // with the line between them wandering. `coverageFor(isTrailCell)` gives the predicate the line is worked out from. Returns how many cells carry a picture.
+        int Blend(Tilemap ground, Dictionary<Vector3Int, string> names, string layerName, int seed, Func<Vector3Int, bool> isTrailCell, Func<string, bool> isOther,
+            Func<bool, Func<int, int, bool>> coverageFor, out Tilemap layer)
+        {
+            layer = null;
+            var cells = new List<(Vector3Int cell, bool trail, string other)>();
+            bool OtherAt(int x, int y) => names.TryGetValue(new Vector3Int(x, y, 0), out var n) && isOther(n);
             foreach (var kv in names)
             {
-                var isTrail = trailCells.Contains(kv.Key);
-                if (!isTrail && !IsWood(kv.Value)) continue;
+                var isTrail = isTrailCell(kv.Key);
+                if (!isTrail && !isOther(kv.Value)) continue;
                 string other = null;
                 for (var dx = -1; dx <= 1 && other == null; dx++)
                     for (var dy = -1; dy <= 1; dy++)
@@ -86,7 +121,7 @@ namespace Farm.Gameplay
                         var nx = kv.Key.x + dx;
                         var ny = kv.Key.y + dy;
                         var nc = new Vector3Int(nx, ny, 0);
-                        if (isTrail ? Wood(nx, ny) : trailCells.Contains(nc)) { other = names[nc]; break; }
+                        if (isTrail ? OtherAt(nx, ny) : isTrailCell(nc) && names.ContainsKey(nc)) { other = names[nc]; break; }
                     }
                 if (other != null) cells.Add((kv.Key, isTrail, other));
             }
@@ -102,11 +137,10 @@ namespace Farm.Gameplay
                 return patch.pixels != null;
             }
 
-            if (Layer != null) Destroy(Layer.gameObject);
-            var go = new GameObject("TrailEdges");
+            var go = new GameObject(layerName);
             go.transform.SetParent(ground.transform.parent, false);
-            Layer = go.AddComponent<Tilemap>();
-            Layer.color = ground.color;
+            var tilemap = go.AddComponent<Tilemap>();
+            tilemap.color = ground.color;
             var renderer = go.AddComponent<TilemapRenderer>();
             LitSprites.Apply(renderer);
 
@@ -121,12 +155,13 @@ namespace Farm.Gameplay
                 if (trailPatch.w != woodPatch.w || trailPatch.h != woodPatch.h) continue;
                 var w = own.w;
                 var h = own.h;
+                var predicate = coverageFor(isTrail);
                 var pixels = new Color32[w * h];
                 var any = false;
                 for (var py = 0; py < h; py++)
                     for (var px = 0; px < w; px++)
                     {
-                        var cov = Coverage(Trail, cell.x + (px + 0.5f) / w, cell.y + (py + 0.5f) / h, seed);
+                        var cov = Coverage(predicate, cell.x + (px + 0.5f) / w, cell.y + (py + 0.5f) / h, seed);
                         var i = py * w + px;
                         if (cov >= Threshold)
                         {
@@ -151,13 +186,13 @@ namespace Farm.Gameplay
                 tile.sprite = sprite;
                 tile.name = "trail_edge";
                 _made.Add(texture); _made.Add(sprite); _made.Add(tile);
-                Layer.SetTile(cell, tile);
+                tilemap.SetTile(cell, tile);
                 placed++;
             }
-            if (placed == 0) { Destroy(go); Layer = null; return 0; }
+            if (placed == 0) { Destroy(go); return 0; }
 
             renderer.sortingOrder = -1;                                        // over the ground, under the tufts and flowers (order 0) and the soil
-            ground.GetComponent<TilemapRenderer>().sortingOrder = -2;
+            layer = tilemap;
             return placed;
         }
 
