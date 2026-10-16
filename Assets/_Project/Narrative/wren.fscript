@@ -38,7 +38,7 @@ addto npc.wren.talk
 0 weekday:wed => wren.wed.2 cat=weekday :: Midweek. Everyone's done pretending they're organized. Marcus's birthday is the ninth of summer, since you asked. Bring him a pumpkin.
 0 weekday:thu => wren.thu.1 cat=weekday :: Thursday. Dorian's birthday is the eleventh of winter, and he'll hide. Leave a mushroom on Marcus's step. It'll find him.
 0 weekday:thu => wren.thu.2 cat=weekday :: Piper does her new songs on Thursdays. Some of them even end.
-0 weekday:fri => wren.fri.1 cat=weekday :: Friday! The good stool's reserved. For anyone but Felix.
+0 weekday:fri => wren.fri.1 cat=weekday :: Friday! The good stool's reserved. Felix won't take it. He wants the wobbly one. Says it knows him.
 0 weekday:fri => wren.fri.2 cat=weekday :: Friday night, the saloon sings. Not well. Enthusiastically.
 0 weekday:sat => wren.sat.1 cat=weekday :: Saturday, packed to the rafters. I pour with both hands.
 0 weekday:sat => wren.sat.2 cat=weekday :: Saturday night, between us, is where all the good rumors are born.
@@ -100,7 +100,7 @@ addto npc.wren.talk
 0 hearts:wren>=6 && hearts:wren<9 => wren.cl.2 cat=tier :: I stopped improving my stories about you. Didn't need to.
 0 hearts:wren>=6 && hearts:wren<9 => wren.cl.3 cat=tier tag=wholesome :: When you walk in, the room changes. Between us, I notice.
 0 hearts:wren>=6 && hearts:wren<9 => wren.cl.4 cat=tier :: You're the only one who asks how I am and waits for the answer.
-0 hearts:wren>=6 && hearts:wren<9 => wren.cl.5 cat=tier :: I almost left this village once. Then you showed up and ruined it. Thank you.
+0 hearts:wren>=6 && hearts:wren<9 && flag:event.wren_heart8 => wren.cl.5 cat=tier :: I almost left this village once. Then you showed up and ruined it. Thank you.
 0 hearts:wren>=6 && hearts:wren<9 => wren.cl.6 cat=tier :: I keep a tab for everyone. Yours has a drawing of a pie on it. It's a long story.
 0 hearts:wren>=6 && hearts:wren<9 => wren.cl.7 cat=tier tag=funny :: I'd tell you a secret, but you'd put it on a sign and ruin my reputation.
 0 hearts:wren>=6 && hearts:wren<9 => wren.cl.8 cat=tier :: Some friends I pour for. You, I pour with.
@@ -110,7 +110,7 @@ addto npc.wren.talk
 0 hearts:wren>=9 => wren.co.2 cat=tier :: Do you know what the best part of my job is now? Watching you walk in.
 0 hearts:wren>=9 => wren.co.3 cat=tier :: I don't need to embellish with you. That's a first. It scares me. I like it.
 0 hearts:wren>=9 => wren.co.4 cat=tier :: This place is a lot of noise, and a lot of faces. You're the one I look for.
-0 hearts:wren>=9 => wren.co.5 cat=tier tag=funny :: If I wrote a book, you'd be the only chapter nobody believes.
+0 hearts:wren>=9 => wren.co.5 cat=tier tag=funny :: I tell everyone's story louder than it happened. Yours I tell quieter. Folks lean in.
 0 hearts:wren>=9 => wren.co.6 cat=tier :: The stool's yours. The fire's yours. The soup, we'll leave to the professionals.
 0 hearts:wren>=9 => wren.co.7 cat=tier :: Between us, I check on the bag less than I used to.
 0 hearts:wren>=9 => wren.co.8 cat=tier tag=wholesome :: Some people make a place feel like a stage. You made mine feel like home.

@@ -58,6 +58,7 @@ addto npc.hazel.talk
 1 weather:snow => hazel.snow.1 cat=weather :: Snow. The library looks like it's been tucked in.
 1 weather:snow => hazel.snow.2 cat=weather :: Footprints in the snow. I'm reading them. One of them is yours.
 1 weather:snow => hazel.snow.3 cat=weather tag=wholesome :: Snowfall, tea, and a book I'm not ready to finish. That's all I want.
+1 weather:snow => hazel.snow.4 cat=weather :: Wren says the saloon is the warmest room in Wetherell. (It's the forge. By four degrees. I checked.)
 1 weather:wind => hazel.wind.1 cat=weather :: The wind turns pages without permission. I keep the windows shut. (The page I was on is gone.)
 1 weather:wind => hazel.wind.2 cat=weather :: A windy day. The shutters talk. I've begun to answer.
 1 weather:wind => hazel.wind.3 cat=weather :: Wind knocks the almanac off its shelf twice an hour. I stop picking it up on principle.
@@ -73,7 +74,7 @@ addto npc.hazel.talk
 0 hour>=16 && hour<20 => hazel.evening.2 cat=time :: Closing soon. A long look, so they hurry up. A short one, so they come back.
 0 hour>=16 && hour<20 => hazel.evening.3 cat=time :: Evening. The best time to read, and the worst time to be reminded of it.
 0 hour>=20 => hazel.late.1 cat=time :: It's late. I read in the kind of silence that has a color.
-0 hour>=20 => hazel.late.2 cat=time :: Late hours. I leave a lamp lit for anyone still walking home.
+0 hour>=20 => hazel.late.2 cat=time :: Late hours. The lamp's for me. (The book isn't finished. Neither am I.)
 0 hour>=20 => hazel.late.3 cat=time :: Asleep, I should be. The book disagrees.
 0 map:Library => hazel.here.1 cat=place :: Please don't dog-ear anything. I'll know. (I always know.)
 0 map:Library => hazel.here.2 cat=place :: The returns box is sticky. Nobody knows why. I've stopped asking.
@@ -91,7 +92,7 @@ addto npc.hazel.talk
 0 hearts:hazel>=3 => hazel.tip.1 cat=reactive :: Piper hums four notes when she tunes. The same four. (I've written them down.) (They're good.)
 0 hearts:hazel>=2 => hazel.tip.2 cat=reactive :: Marcus borrows the same book on roofs every fall. He stops at page forty. (The spine says so.)
 0 ~ => hazel.tip.3 cat=reactive :: Dorian eats blackberries on the walk here. The field guide comes back stained. (He blames the ink.)
-0 hearts:hazel>=3 => hazel.tip.4 cat=reactive :: Elara reads the atlas standing up. (Never sits.) Sitting would mean staying. I think she knows.
+0 hearts:hazel>=3 => hazel.tip.4 cat=reactive :: Ione set an atlas aside for Elara. Elara reads it standing up. (Never sits.) Sitting would mean staying.
 0 ~ => hazel.tip.5 cat=reactive :: Ione's birthday is the twentieth of winter. She says she wants nothing. (She looks at the snowdrops.) (Twice.)
 0 ~ => hazel.tip.6 cat=reactive :: Bram's birthday is the fourth of fall. (He returned a book early that day.) (He always does.)
 0 ~ => hazel.tip.7 cat=reactive tag=funny :: Wren loves pickles. (This is not a secret.) (She tells the pickles.)

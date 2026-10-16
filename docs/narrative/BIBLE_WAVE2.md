@@ -128,7 +128,8 @@ Decisions this draft needs from you are collected in section 4.
 - *Bram:* a fiddle tune once rescued his bad day; neither has ever said so.
 - *Tilda:* haggles in rhyme with her; Tilda keeps score on the slate.
 - *Hazel:* finds her lyrics in the library's margins and corrects the scansion, kindly.
-- *Dorian, Elara, Felix:* each has been serenaded once; each pretends it did not happen.
+- *Elara:* the first to hear every new song (her needles keep time; snowdrops make her cry); on Tuesdays Piper plays new songs to the clinic's skeleton while Elara listens.
+- *Dorian, Felix:* each has been serenaded once; each pretends it did not happen.
 - *The player:* "my front-row regular."
 
 **Tastes.** Existing: loves sunflower and jam; likes strawberry and raspberry; dislikes coal and slime. Proposed: **loved** `crop.sunflower`, `artisan.jam`, `artisan.juice`; **liked** `crop.strawberry`, `forage.raspberry`, `crop.corn`; **disliked** `resource.coal`, `resource.slime`, `resource.bat_wing`.
