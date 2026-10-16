@@ -91,7 +91,11 @@ namespace Farm.Gameplay
         }
 
         // The ore and rocks that are left are kept when the floor is left (by stairs, elevator, the forest or the end of the game), as long as the trip goes on.
-        void OnDestroy()
+        void OnDestroy() => KeepOre();
+
+        // Also whenever the game is saved: a save made while standing in the mine must hold the ore as it is now, or a reloaded game finds the floor as it was on arrival
+        // (playtest 2026-10-15: "the mine does not survive game reloads"). The trip's floors, the monsters killed and the floor itself are kept already.
+        public void KeepOre()
         {
             if (_session == null || _memory == null || !_session.InGame || !StillRemembered(_session.State.Mine, _memory)) return;
             _memory.Nodes = _session.GetNodes(MapIds.Mine).ToList();

@@ -2,6 +2,10 @@
 
 ## 0.7.0 (2026-10-15)
 
+The mine survives a reload (playtest: "the mine does not survive game reloads; mine levels should remain the same until the player exits the mine").
+
+- **A game saved in the mine comes back with the same floor.** The ore and rocks left on the floor you are standing on are now written into the save, so after a reload the floor has the same ore (what you mined stays gone), the same layout, the monsters you killed still dead and you where you stood. It lasts until you leave the mine, as before: going up and out, being knocked out or the end of the day starts the next trip with new floors.
+
 A loaded game continues where you stood (playtest: "reloading the cloud save did not remember where the player was; it loaded at the initial entry point of the map").
 
 - **Saves remember the player's spot.** The save now holds where you were standing on the map, and loading puts you there instead of at the map's door. It is used once, so walking through a door afterwards still arrives at that door, and the saves made when a day ends (you wake in bed) carry no spot. Saves made by earlier versions load as before, at the door. This applies to every save, local or cloud.

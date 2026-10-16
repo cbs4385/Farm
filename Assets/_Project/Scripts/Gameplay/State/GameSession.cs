@@ -373,6 +373,7 @@ namespace Farm.Gameplay
 
         public void SyncToState()
         {
+            Game?.Map?.Mine?.KeepOre();                   // the ore left on the floor the player is on goes into the trip's memory before it is written
             State.SetDate(Clock.Now);
             State.Backpack = Backpack.ToData();
             foreach (var kv in _grids) State.GetMap(kv.Key).Tiles = kv.Value.ToList();
