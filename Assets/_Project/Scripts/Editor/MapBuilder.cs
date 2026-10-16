@@ -562,6 +562,8 @@ namespace Farm.Editor
             var fountain = AddObject("Fountain", "obj_fountain", Center(VillageSquare.Centre.x, VillageSquare.Centre.y), solid: false, size: new Vector2(5.8f, 4.4f));
             fountain.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
             fountain.AddComponent<BuildingDepth>().Configure(VillageSquare.Centre.y, TallSortingOrder);          // over a player behind it, under one in front
+            var fountainFrames = new[] { "obj_fountain", "obj_fountain_1", "obj_fountain_2", "obj_fountain_3", "obj_fountain_4", "obj_fountain_5" }.Select(n => Sprite(n)).ToArray();
+            fountain.AddComponent<FrameAnimator>().Configure(fountainFrames, 0.14f, 0f);          // it spits water: the jet pulses and drops fly out in arcs
             AddProp("Flag_West", "prop_flag", VillageSquare.FlagWest.x, VillageSquare.FlagWest.y);
             AddProp("Flag_East", "prop_flag", VillageSquare.FlagEast.x, VillageSquare.FlagEast.y);
             MakeSeat(AddProp("Bench_Square_NW", "prop_bench", VillageSquare.BenchWest.x, VillageSquare.BenchWest.y, 2), "prop_bench", "Bench_Square_NW");

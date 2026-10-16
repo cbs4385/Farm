@@ -50,6 +50,11 @@ namespace Farm.Tests
             Assert.AreEqual(map.CellCenter(new Vector3Int(25, 17, 0)).x, fountain.transform.position.x, 0.01f, "in the middle of the square, on the lane's axis");
             Assert.AreEqual(map.CellCenter(new Vector3Int(25, 17, 0)).y, fountain.transform.position.y, 0.6f);
             StringAssert.Contains("Fountain", fountain.GetComponent<HoverNote>().HoverLabel, "it has a name");
+            var spout = fountain.GetComponent<FrameAnimator>();
+            Assert.IsNotNull(spout, "the fountain is animated");
+            var seen = new System.Collections.Generic.HashSet<string>();
+            for (var end = Time.realtimeSinceStartup + 1.2f; Time.realtimeSinceStartup < end;) { seen.Add(fountain.GetComponent<SpriteRenderer>().sprite.name); yield return null; }
+            Assert.GreaterOrEqual(seen.Count, 5, "it spits water: the picture changes through its frames (" + string.Join(", ", seen) + ")");
             Assert.IsNotNull(Named("Plaza_Ring"), "the ring of paving stones");
             Assert.IsNotNull(Named("Bench_Square_NW")); Assert.IsNotNull(Named("Bench_Square_NE")); Assert.IsNotNull(Named("ClockTower"));
             // what blocks in the middle of the square is the fountain's rounded block of cells, and nothing else

@@ -90,6 +90,39 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheGroundRoundTheFountainsBase_IsCobbled_EverywhereTheRingOfPavingLies()
+        {
+            // the ring is an ellipse about 9 x 7 cells round the middle cell (tools/art/build_square_ring.py); every cell it touches is cobbles
+            for (var y = 10; y <= 25; y++)
+                for (var x = 15; x <= 35; x++)
+                {
+                    var dx = (x + 0.5f - 25.5f) / 4.5f; var dy = (y + 0.5f - 17.5f) / 3.5f;
+                    if (dx * dx + dy * dy <= 1f) Assert.AreEqual(VillageRoads.Cobble, VillageRoads.Ground(x, y), $"({x},{y}) is inside the ring and is not cobbled");
+                }
+            foreach (var c in VillageSquare.FountainSolidCells()) Assert.AreEqual(VillageRoads.Cobble, VillageRoads.Ground(c.x, c.y), $"the fountain's base at {c} stands on cobbles");
+            foreach (var d in new[] { new Vector2Int(-3, 0), new Vector2Int(3, 0), new Vector2Int(0, -2), new Vector2Int(0, 2), new Vector2Int(-3, -1), new Vector2Int(3, 1) })
+                Assert.AreEqual(VillageRoads.Cobble, VillageRoads.Ground(25 + d.x, 17 + d.y), $"cobbles beside the base at {d}");
+        }
+
+        [Test]
+        public void TheFountain_HasSixDifferentFramesOfSpoutingWater()
+        {
+            var dir = "Assets/_Project/Art/Placeholders/";
+            var frames = new List<Color32[]>();
+            for (var i = 0; i < 6; i++)
+            {
+                var tex = new Texture2D(2, 2);
+                tex.LoadImage(System.IO.File.ReadAllBytes(dir + (i == 0 ? "obj_fountain.png" : $"obj_fountain_{i}.png")));
+                Assert.AreEqual(new Vector2Int(96, 112), new Vector2Int(tex.width, tex.height), $"frame {i}");
+                frames.Add(tex.GetPixels32());
+                Object.DestroyImmediate(tex);
+            }
+            for (var i = 0; i < 6; i++)
+                for (var j = i + 1; j < 6; j++)
+                    Assert.IsFalse(frames[i].SequenceEqual(frames[j]), $"frames {i} and {j} look the same");
+        }
+
+        [Test]
         public void TheFourLampPostsOfTheSquare_AreTheSameDistanceFromTheFountain_AndNoOtherLampStandsInIt()
         {
             var lamps = VillageSquare.LampNorthX.Select(x => new Vector2Int(x, VillageRoads.RowAboveRoad(x)))
