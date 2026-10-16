@@ -17,7 +17,7 @@ namespace Farm.Gameplay
             _c = context; _fishing = fishing; _placement = placement;
         }
 
-        // Returns true when the tool did its work (only the axe and pickaxe swings are repeated by holding the button).
+        // Returns true when the tool did its work (holding the button repeats it: see ToolRepeat and PlayerActions.HoldToSwing).
         public bool UseTool(ToolType tool)
         {
             if (_c.Body.TryGetComponent<WalkBob>(out var bob) && _c.Body.TryGetComponent<PlayerController>(out var pc)) { bob.Lunge(pc.Facing); var at = _c.Target - _c.Map.WorldToCell(_c.Player.CellSamplePoint); bob.Strike(tool, new Vector2Int(at.x, at.y)); }
@@ -94,16 +94,31 @@ namespace Farm.Gameplay
             return acted;
         }
 
-        // Holding the button swings again only at a node that is still there, that this tool works and that it is strong enough for (nothing is shown or said when it is not).
+        // Holding the button uses the tool again where it has work to do (nothing is shown, said or spent where it has none, so the aim can be swept over cells that
+        // need nothing): the hoe on soil that can be tilled, the can on dry tilled soil, the axe, pickaxe and scythe on a node they work that they are strong enough for,
+        // the scythe also on a crop, the sword anywhere.
         public bool CanActAgain(ToolType tool, Vector3Int cell)
         {
+            var nodes = _c.Session.GetNodes(_c.Map.MapId);
+            var grid = _c.Session.GetGrid(_c.Map.MapId);
             switch (tool)
             {
+                case ToolType.Hoe:
+                    return !grid.IsTilled(cell.x, cell.y) && !nodes.Has(cell.x, cell.y) && _c.Map.IsTillable(cell);
+                case ToolType.WateringCan:
+                    return grid.IsTilled(cell.x, cell.y) && !(grid.TryGetTile(cell.x, cell.y, out var wet) && wet.Watered);
                 case ToolType.Axe:
                 case ToolType.Pickaxe:
-                    if (!_c.Session.GetNodes(_c.Map.MapId).TryGet(cell.x, cell.y, out var node)) return false;
-                    var def = _c.Session.Nodes.Get(node.TypeId);
-                    return def != null && def.Tool == tool && _c.Session.ToolTier(ToolModel.ItemId(tool)) >= def.MinToolTier;
+                case ToolType.Scythe:
+                    if (nodes.TryGet(cell.x, cell.y, out var node))
+                    {
+                        if (tool == ToolType.Scythe && node.TypeId == NodeDefaults.Sapling) return true;
+                        var def = _c.Session.Nodes.Get(node.TypeId);
+                        if (def != null && def.Tool == tool && _c.Session.ToolTier(ToolModel.ItemId(tool)) >= def.MinToolTier) return true;
+                    }
+                    return tool == ToolType.Scythe && grid.TryGetTile(cell.x, cell.y, out var planted) && planted.Crop != null;
+                case ToolType.Sword:
+                    return true;
                 default:
                     return false;
             }

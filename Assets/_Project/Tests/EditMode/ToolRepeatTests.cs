@@ -10,25 +10,29 @@ namespace Farm.Tests
         static readonly Vector3Int Cell = new Vector3Int(3, 4, 0);
 
         [Test]
-        public void OnlyTheAxeAndPickaxeRepeat()
+        public void EveryToolRepeatsExceptTheRodAndTheHammer()
         {
-            Assert.IsTrue(ToolRepeat.Repeats(ToolType.Axe));
-            Assert.IsTrue(ToolRepeat.Repeats(ToolType.Pickaxe));
-            foreach (var x in new[] { ToolType.Hoe, ToolType.WateringCan, ToolType.Scythe, ToolType.Rod, ToolType.Sword, ToolType.Hammer, ToolType.None })
-                Assert.IsFalse(ToolRepeat.Repeats(x), x.ToString());
+            foreach (var x in new[] { ToolType.Axe, ToolType.Pickaxe, ToolType.Hoe, ToolType.WateringCan, ToolType.Scythe, ToolType.Sword })
+                Assert.IsTrue(ToolRepeat.Repeats(x), x.ToString());
+            foreach (var x in new[] { ToolType.Rod, ToolType.Hammer, ToolType.None })
+                Assert.IsFalse(ToolRepeat.Repeats(x), x.ToString());          // the rod and the hammer are not swung at a cell: they open their own modes
             var r = new ToolRepeat();
-            r.Arm(ToolType.Hoe, Cell);
+            r.Arm(ToolType.Rod, Cell);
             Assert.IsFalse(r.Armed);
+            r.Arm(ToolType.Hoe, Cell);
+            Assert.IsTrue(r.Armed);
         }
 
         [Test]
-        public void IsDueOnlyOnceTheSwingTimeHasPassed()
+        public void IsDueOnlyOnceTheSwingTimeHasPassed_AndStaysDueUntilTheNextActionIsMade()
         {
             var r = new ToolRepeat();
             r.Arm(ToolType.Axe, Cell);
             Assert.IsFalse(r.Tick(ToolRepeat.SwingSeconds * 0.5f, true, false, false));
             Assert.IsTrue(r.Tick(ToolRepeat.SwingSeconds * 0.5f, true, false, false));
-            Assert.IsFalse(r.Tick(0.01f, true, false, false), "the clock starts over after each swing");
+            Assert.IsTrue(r.Tick(0.01f, true, false, false), "still due: nothing was done at the aimed cell, so the next cell it moves to is acted on at once");
+            r.Arm(ToolType.Axe, Cell);
+            Assert.IsFalse(r.Tick(0.01f, true, false, false), "the clock starts over after each action");
         }
 
         [Test]

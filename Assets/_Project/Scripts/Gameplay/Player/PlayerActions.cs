@@ -187,7 +187,9 @@ namespace Farm.Gameplay
         // Does a quest wait on this villager for something the player carries? Then a click talks to them instead of giving them what is in the hand.
         public static bool TalksFirst(GameSession s, string npcId) => QuestTargets.Wants(s, npcId);
 
-        // Holding the button down swings the axe or pickaxe again once the last swing is over, while the node is still there and the energy lasts. Other tools are not repeated.
+        // Holding the button down uses the tool again once the last use is over, on whatever cell the aim is on, for as long as the button is down (any tool: the rod and the
+        // hammer excepted). A cell where the tool has nothing to do is passed over without a word or a cost; the next cell it has work at is acted on at once. It stops when
+        // the button is let go, the player walks, a menu opens, the tool is put away or the energy is spent.
         void HoldToSwing()
         {
             if (!_repeat.Armed) return;
@@ -197,8 +199,9 @@ namespace Farm.Gameplay
             var sameTool = stack != null && Session.Db.TryGetItem(stack.ItemId, out var item) && item.Category == ItemCategory.Tool && item.ToolType == _repeat.Tool;
             if (!sameTool) { _repeat.Cancel(); return; }
             var cell = Target;
-            if (!_items.CanActAgain(_repeat.Tool, cell)) { if (cell == _repeat.Cell) _repeat.Cancel(); return; }          // the node is gone: stop; a cell with nothing to do is just passed over
-            if (_items.UseTool(_repeat.Tool)) _repeat.Arm(_repeat.Tool, cell); else _repeat.Cancel();
+            if (!_items.CanActAgain(_repeat.Tool, cell)) return;          // nothing to do here: keep holding
+            if (_items.UseTool(_repeat.Tool) || _repeat.Tool == ToolType.Sword) _repeat.Arm(_repeat.Tool, cell);          // a sword on its cooldown is asked again at the next swing time
+            else _repeat.Cancel();                                                                                       // it could not be done (no energy): stop, once
         }
 
         public void UseSelected()
@@ -219,7 +222,10 @@ namespace Farm.Gameplay
 
             switch (item.Category)
             {
-                case ItemCategory.Tool: if (_items.UseTool(item.ToolType)) _repeat.Arm(item.ToolType, Target); break;
+                case ItemCategory.Tool:
+                    // Armed by a press that did the work, or that found none to do at that cell (the button stays down while the aim moves on to somewhere it does).
+                    if (_items.UseTool(item.ToolType) || (ToolRepeat.Repeats(item.ToolType) && !_items.CanActAgain(item.ToolType, Target))) _repeat.Arm(item.ToolType, Target);
+                    break;
                 case ItemCategory.Seed: _placement.Plant(item); break;
                 case ItemCategory.Resource when item.Id == ItemIds.Acorn: _placement.PlantAcorn(item); break;
                 case ItemCategory.Food: _items.Eat(item); break;

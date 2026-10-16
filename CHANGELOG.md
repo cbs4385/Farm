@@ -2,6 +2,10 @@
 
 ## 0.7.0 (2026-10-15)
 
+Hold the tool button and any tool keeps working (playtest: the pickaxe stopped in the mine; the hoe did not carry on to the next tile as the aim moved).
+
+- **Every tool repeats while the button is held** (the fishing rod and the hammer excepted, which open their own modes): axe, pickaxe, hoe, watering can, scythe and sword. It no longer stops when a rock breaks or a tile is done: keep the button down and move the aim, and the tool works on each cell it has work at (a fresh tile to hoe, dry tilled soil to water, a tree or rock, a crop, a monster). Cells that need nothing are passed over without a word or any energy. It ends when you let go, walk, open a menu, put the tool away or run out of energy. One click is still one use.
+
 The mine survives a reload (playtest: "the mine does not survive game reloads; mine levels should remain the same until the player exits the mine").
 
 - **A game saved in the mine comes back with the same floor.** The ore and rocks left on the floor you are standing on are now written into the save, so after a reload the floor has the same ore (what you mined stays gone), the same layout, the monsters you killed still dead and you where you stood. It lasts until you leave the mine, as before: going up and out, being knocked out or the end of the day starts the next trip with new floors.
