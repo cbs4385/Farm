@@ -9,8 +9,9 @@ namespace Farm.Gameplay
     // it. Cells are village cells; y grows to the north.
     public static class VillageSquare
     {
-        // The cobbled plaza, inclusive. Its four corner cells are not paved, which rounds it off.
-        public const int X0 = 20, X1 = 30, Y0 = 14, Y1 = 21;
+        // The cobbled plaza, inclusive. Its four corner cells are not paved, which rounds it off. It is centred on the fountain (x 25.5, y 17.5), so the same width of cobbles shows
+        // beyond the ring of paving on every side (owner, 2026-10-16: there were three rows more cobbling north of the ring than south of it).
+        public const int X0 = 20, X1 = 30, Y0 = 13, Y1 = 21;
 
         // The fountain stands in the middle of the plaza, where the road crosses the lane (the first version had a gazebo here; it was hard to walk round and was taken out, 2026-10-16).
         // Its basin is drawn 93 x 70 pixels, filling 95% of the ring of paving stones round it (about 5.8 x 4.4 cells); what blocks is a rounded block of cells in the middle of it,
@@ -50,7 +51,7 @@ namespace Farm.Gameplay
         // What stands in the plaza for good (the festivals bring their own props on their days; Festivals.Gathering keeps clear of all of these). Cells are the left cell of a
         // prop that is two cells wide.
         public static readonly Vector2Int FlagWest = new Vector2Int(23, 20), FlagEast = new Vector2Int(27, 20);
-        public static readonly Vector2Int BenchWest = new Vector2Int(20, 22), BenchEast = new Vector2Int(30, 22);          // two cells wide, north of the square (owner, 2026-10-16)
+        public static readonly Vector2Int BenchWest = new Vector2Int(20, 22), BenchEast = new Vector2Int(29, 22);          // two cells wide, north of the square, both cells on grass (owner, 2026-10-16)
         public static readonly Vector2Int Board = new Vector2Int(19, 13), MerchantStall = new Vector2Int(29, 19);          // the board by the pond
         // The four lamp posts of the square stand at (20 or 30, 15 or 19): the same distance from the fountain, each. The others line the road.
         public static readonly int[] LampNorthX = { 3, 11, 20, 30, 34, 40, 46 }, LampSouthX = { 4, 12, 20, 30, 38, 46 };          // along the road, a row outside each edge of it

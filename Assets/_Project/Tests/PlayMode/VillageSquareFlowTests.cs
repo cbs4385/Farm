@@ -70,7 +70,7 @@ namespace Farm.Tests
             var bench = Named("Bench_Square_NW").transform.position;
             Assert.AreEqual(21f, bench.x, 0.01f, "the north-west bench, two cells wide from x 20"); Assert.AreEqual(22.5f, bench.y, 0.01f);
             var east = Named("Bench_Square_NE").transform.position;
-            Assert.AreEqual(31f, east.x, 0.01f, "the north-east bench, from x 30"); Assert.AreEqual(22.5f, east.y, 0.01f);
+            Assert.AreEqual(30f, east.x, 0.01f, "the north-east bench, from x 29"); Assert.AreEqual(22.5f, east.y, 0.01f);
             foreach (var cell in new[] { new Vector2Int(20, 15), new Vector2Int(20, 19), new Vector2Int(30, 15), new Vector2Int(30, 19) })
                 Assert.IsNotNull(Named(cell.y == 19 ? $"Lamp_N{cell.x}" : $"Lamp_S{cell.x}"), $"a lamp post at {cell}");
             CaptureHelper.Save("village_square");

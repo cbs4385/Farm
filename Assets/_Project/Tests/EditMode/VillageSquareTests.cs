@@ -123,6 +123,36 @@ namespace Farm.Tests
         }
 
         [Test]
+        public void TheSquare_IsCentredOnTheFountain_SoTheSameAmountOfCobblesShowsOnEverySide()
+        {
+            Assert.AreEqual(VillageSquare.Centre.x + 0.5f, (VillageSquare.X0 + VillageSquare.X1 + 1) / 2f, "centred left to right");
+            Assert.AreEqual(VillageSquare.Centre.y + 0.5f, (VillageSquare.Y0 + VillageSquare.Y1 + 1) / 2f, "and top to bottom");
+            // the ring of paving stones is 9 cells wide and 7 tall round the middle cell: count the rows of cobbles beyond it on each side, down and up the lane and along the road
+            int Beyond(int dx, int dy)
+            {
+                var n = 0;
+                var x = 25 + dx * 4; var y = 17 + dy * 3;           // the ring's outer edge
+                for (x += dx, y += dy; VillageSquare.Cobbled(x, y); x += dx, y += dy) n++;
+                return n;
+            }
+            Assert.AreEqual(Beyond(0, 1), Beyond(0, -1), "north and south");
+            Assert.AreEqual(Beyond(1, 0), Beyond(-1, 0), "east and west");
+            Assert.GreaterOrEqual(Beyond(0, 1), 1, "and some cobbles do show beyond the ring");
+        }
+
+        [Test]
+        public void BothBenchesNorthOfTheSquare_StandWhollyOnGrass_NotOnADirtRoadOrPath()
+        {
+            foreach (var bench in new[] { VillageSquare.BenchWest, VillageSquare.BenchEast })
+                for (var dx = 0; dx <= 1; dx++)          // the two cells of the bench
+                {
+                    var x = bench.x + dx;
+                    Assert.IsNull(VillageRoads.Ground(x, bench.y), $"({x},{bench.y}) under the bench at {bench} is not grass");
+                    Assert.IsFalse(NpcHomes.IsStreetPaving(x, bench.y), $"({x},{bench.y}) is a street");
+                }
+        }
+
+        [Test]
         public void TheFourLampPostsOfTheSquare_AreTheSameDistanceFromTheFountain_AndNoOtherLampStandsInIt()
         {
             var lamps = VillageSquare.LampNorthX.Select(x => new Vector2Int(x, VillageRoads.RowAboveRoad(x)))
@@ -139,7 +169,7 @@ namespace Farm.Tests
         {
             Assert.AreEqual(new Vector2Int(19, 13), VillageSquare.Board, "the board by the pond");
             Assert.AreEqual(new Vector2Int(20, 22), VillageSquare.BenchWest);
-            Assert.AreEqual(new Vector2Int(30, 22), VillageSquare.BenchEast);
+            Assert.AreEqual(new Vector2Int(29, 22), VillageSquare.BenchEast);
             Assert.AreEqual(new Vector2Int(33, 12), MapLayout.ClockTower, "the clock tower, south-east of the square");
             Assert.IsFalse(VillageSquare.InRect(MapLayout.ClockTower.x, MapLayout.ClockTower.y));
             Assert.IsFalse(MapLayout.VillagePond.Contains(VillageSquare.Board.x, VillageSquare.Board.y), "and not in the water");
