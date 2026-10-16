@@ -112,9 +112,9 @@ addto npc.odalys.talk
 4 quest:odalys_elderflower=active => odalys.elder.remind
 5 quest:odalys_elderflower=active && has:forage.elderflower>=3 => odalys.elder.turnin
 dialogue odalys.elder.ask
-n0 odalys: Three bunches of elderflower for the clinic. Fresh. For a tonic. I'd gather it myself, but I've a waiting room.
+n0 odalys: Three bunches of elderflower, for a tonic. Pick them yourself. Then you'll know the smell when it's time to pick them again.
   next n1
-n1 odalys: Three. Fresh. I'll prescribe you a cup of tea in return.
+n1 odalys: Three. Fresh, and found by you. I'll prescribe you a cup of the tonic in return.
   ? Yes, I'll bring it. => r0 | quest.start:odalys_elderflower
   ? Not right now. => r1
 r0 odalys: Good. I'll have the kettle ready.
@@ -122,10 +122,10 @@ r0 odalys: Good. I'll have the kettle ready.
 r1 odalys: Understood. Do not let it keep you up at night.
 
 dialogue odalys.elder.remind
-n0 odalys: Three elderflowers for the tonic. Fresh. I'll note them in the ledger.
+n0 odalys: Three elderflowers, picked by you. Fresh. I'll note the lesson in the ledger.
 
 dialogue odalys.elder.turnin
-n0 odalys: Elderflower. Fresh, and in good order. Thank you, [player]. The clinic is in your debt, and I dislike debts.
+n0 odalys: Elderflower. Fresh, and picked right. Thank you, [player]. You know the smell now. That is the first ingredient.
   + quest.done:odalys_elderflower
   expr happy
 
@@ -134,9 +134,9 @@ addto npc.felix.talk
 4 quest:felix_bait=active => felix.bait.remind
 5 quest:felix_bait=active && has:resource.bait>=5 => felix.bait.turnin
 dialogue felix.bait.ask
-n0 felix: Short on bait. Five, if you've them. The tide's turning, and so's my luck.
+n0 felix: Make your own bait. Five. A partner should know how. I sell the stuff, but I'd rather you didn't buy it.
   next n1
-n1 felix: Five bait. I'll catch something this big. Bigger, by tomorrow.
+n1 felix: Five, made by you. Then we fish the dawn tide together, and I'll know you're ready.
   ? Yes, I'll bring it. => r0 | quest.start:felix_bait
   ? Not right now. => r1
 r0 felix: Good. The tide'll keep.
@@ -144,10 +144,10 @@ r0 felix: Good. The tide'll keep.
 r1 felix: No matter. The fish aren't going anywhere. Mostly.
 
 dialogue felix.bait.remind
-n0 felix: Five bait for the dawn. The tide's waiting.
+n0 felix: Five bait, your own. The tide's waiting.
 
 dialogue felix.bait.turnin
-n0 felix: Bait. Five. Perfect. Thank you, [player]. I'll fish for you. The first one's yours.
+n0 felix: Bait. Five. Your own hands. Thank you, [player]. Now you're a partner. The first fish is yours.
   + quest.done:felix_bait
   expr happy
 
@@ -156,9 +156,9 @@ addto npc.dorian.talk
 4 quest:dorian_basket=active => dorian.basket.remind
 5 quest:dorian_basket=active && has:forage.mushroom>=3 => dorian.basket.turnin
 dialogue dorian.basket.ask
-n0 dorian: A basket. Three mushrooms. It's for the forest. Don't ask. Please.
+n0 dorian: Find three mushrooms. Yourself. Look down. Everyone looks up.
   next n1
-n1 dorian: Three. Bring them. I'll say thank you later. Quietly.
+n1 dorian: Bring them here. I'll tell you which ones you got right.
   ? Yes, I'll bring it. => r0 | quest.start:dorian_basket
   ? Not right now. => r1
 r0 dorian: ...Good. Thank you.
@@ -166,10 +166,10 @@ r0 dorian: ...Good. Thank you.
 r1 dorian: ...Fine. The forest is patient.
 
 dialogue dorian.basket.remind
-n0 dorian: Three mushrooms. For the basket.
+n0 dorian: Three mushrooms. Found, not bought. Look down.
 
 dialogue dorian.basket.turnin
-n0 dorian: Mushrooms. Three. Good. Thank you, [player]. The forest says so too.
+n0 dorian: Mushrooms. Three. All good ones. Thank you, [player]. You looked down. The forest noticed.
   + quest.done:dorian_basket
   expr happy
 

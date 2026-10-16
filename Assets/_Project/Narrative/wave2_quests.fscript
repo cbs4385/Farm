@@ -133,7 +133,7 @@ n0 juno: Coal! Six lovely black lumps. This is the best day. Thank you, [player]
 dialogue juno.gold.ask
 n0 juno: Okay, okay, okay. This is a big one. I need a gold bar. Just one. It's for my first mark, my own mark.
   next n1
-n1 juno: If you can find one, I'll stamp the first piece with it. I think you should have it.
+n1 juno: If you find one, I'll cut my die from it. The first piece I stamp will be copper. Copper's honest. You should have it.
   ? I'll find one. => r0 | quest.start:juno_gold
   ? Let me look around first. => r1
 r0 juno: A gold bar! For my mark! You're the reason I'm even doing this. Don't tell Bram I cried.
@@ -141,10 +141,10 @@ r0 juno: A gold bar! For my mark! You're the reason I'm even doing this. Don't t
 r1 juno: Look. Slowly. I'll practice being patient. That's the other thing I'm bad at.
 
 dialogue juno.gold.remind
-n0 juno: One gold bar, for my first mark. I've cleared the corner of the anvil for it.
+n0 juno: One gold bar, for the die. My mark goes in it. I've cleared the corner of the anvil for it.
 
 dialogue juno.gold.turnin
-n0 juno: Gold. A real bar. I'm holding it, and my hands are shaking. Thank you, [player]. It's the beginning of something.
+n0 juno: Gold. A real bar. I'm holding it, and my hands are shaking. Thank you, [player]. My mark comes out of this.
   + quest.done:juno_gold
   expr happy
   emote heart
