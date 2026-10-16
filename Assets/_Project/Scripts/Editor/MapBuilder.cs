@@ -245,12 +245,12 @@ namespace Farm.Editor
             Put(summer, "Crate", "prop_fest_fishcrate", 20, 14);
             Bunting(summer, "summer", 15, 15, 17, 19, 21);
 
-            // The Harvest Fair: stalls on both sides of the square, the judging table by the clock tower, a heap of pumpkins and orange bunting under the shops.
+            // The Harvest Fair: stalls on both sides of the square, the judging table north of the square, a heap of pumpkins and orange bunting under the shops.
             var fall = Holder("fall");
             Put(fall, "StallWest1", "prop_fest_stall", 12, 22, 2);
             Put(fall, "StallWest2", "prop_fest_stall", 14, 22, 2);
             Put(fall, "StallEast", "prop_fest_stall", 34, 22, 2);
-            Station(Put(fall, "JudgingTable", "prop_fest_judging", 29, 22, 2), FestivalStationKind.JudgingTable);
+            Station(Put(fall, "JudgingTable", "prop_fest_judging", 27, 22, 2), FestivalStationKind.JudgingTable);
             Put(fall, "Pumpkins", "prop_fest_pumpkins", 36, 21);
             Bunting(fall, "fall", 23, 12, 14, 29, 34);
 
@@ -557,7 +557,11 @@ namespace Farm.Editor
             var ring = AddDecorObject("Plaza_Ring", "obj_plaza_ring", Center(VillageSquare.Centre.x, VillageSquare.Centre.y));
             ring.GetComponent<SpriteRenderer>().sortingOrder = 1;                      // on the ground, under everything
             AddProp("ClockTower", "prop_clock_tower", MapLayout.ClockTower.x, MapLayout.ClockTower.y, 2);
-            AddProp("Fountain", "prop_fountain", MapLayout.Fountain.x, MapLayout.Fountain.y);          // a cell and a half wide: one cell blocks
+            // The fountain: a basin filling the inside of the paving ring, drawn centred on the middle cell of the square; a rounded block of cells in the middle of it blocks.
+            foreach (var c in VillageSquare.FountainSolidCells()) rig.Walls.SetTile(new Vector3Int(c.x, c.y, 0), GetHiddenWall());
+            var fountain = AddObject("Fountain", "obj_fountain", Center(VillageSquare.Centre.x, VillageSquare.Centre.y), solid: false, size: new Vector2(5.8f, 4.4f));
+            fountain.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
+            fountain.AddComponent<BuildingDepth>().Configure(VillageSquare.Centre.y, TallSortingOrder);          // over a player behind it, under one in front
             AddProp("Flag_West", "prop_flag", VillageSquare.FlagWest.x, VillageSquare.FlagWest.y);
             AddProp("Flag_East", "prop_flag", VillageSquare.FlagEast.x, VillageSquare.FlagEast.y);
             MakeSeat(AddProp("Bench_Square_NW", "prop_bench", VillageSquare.BenchWest.x, VillageSquare.BenchWest.y, 2), "prop_bench", "Bench_Square_NW");
@@ -613,6 +617,7 @@ namespace Farm.Editor
         static bool VillageTreeBlocked(int x, int y)
         {
             if (NpcHomes.InStreet(x, y) || OnAnyBuilding(x, y) || VillageSquare.Near(x, y, 3)) return true;
+            if (x >= MapLayout.ClockTower.x - 3 && x <= MapLayout.ClockTower.x + 4 && y >= MapLayout.ClockTower.y - 2 && y <= MapLayout.ClockTower.y + 3) return true;          // room round the clock tower
             for (var dx = -2; dx <= 2; dx++)
                 for (var dy = -2; dy <= 2; dy++)
                     if (VillageRoads.Ground(x + dx, y + dy) != null || NpcHomes.IsStreetPaving(x + dx, y + dy)) return true;
@@ -1206,7 +1211,7 @@ namespace Farm.Editor
         {
             { "obj_tree", "node.tree" }, { "obj_rock", "node.rock" }, { "obj_boulder", "node.boulder" }, { "obj_bramble", "hover.obj.bramble" },
             { "obj_bed", "hover.obj.bed" }, { "obj_bed_double", "hover.obj.bed" }, { "obj_counter_wide", "hover.obj.counter" }, { "obj_bookshelf_tall", "hover.furn.bookshelf" },
-            { "obj_board", "hover.obj.board" }, { "obj_cat_door", "hover.obj.cat_door" }, { "obj_fishing_rock", "hover.obj.fishing_rock" }, { "obj_jetty", "hover.obj.jetty" }, { "obj_door_panel", "hover.obj.door" }, { "obj_net", "hover.obj.net" },
+            { "obj_board", "hover.obj.board" }, { "obj_fountain", "hover.prop.fountain" }, { "obj_cat_door", "hover.obj.cat_door" }, { "obj_fishing_rock", "hover.obj.fishing_rock" }, { "obj_jetty", "hover.obj.jetty" }, { "obj_door_panel", "hover.obj.door" }, { "obj_net", "hover.obj.net" },
         };
 
         public static string LabelKeyFor(string spriteName)

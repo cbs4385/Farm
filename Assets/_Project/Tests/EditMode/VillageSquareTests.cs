@@ -52,12 +52,64 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void ThereIsNoGazebo_AndOnlyTheFountainBlocksTheMiddleOfTheSquare()
+        public void TheFountainsBlock_IsARoundedBlockInTheMiddle_AndNothingElseBlocksTheMiddleOfTheSquare()
         {
+            var block = VillageSquare.FountainSolidCells().ToList();
+            Assert.AreEqual(5 + 3 + 3, block.Count, "five cells in the middle row, three above and three below");
+            foreach (var c in block) Assert.IsTrue(Mathf.Abs(c.x - 25) <= 2 && Mathf.Abs(c.y - 17) <= 1, c.ToString());
+            Assert.IsFalse(VillageSquare.FountainSolid(23, 16), "the corners are rounded off");
+            Assert.IsFalse(VillageSquare.FountainSolid(25, 15) || VillageSquare.FountainSolid(25, 19));
             var solid = VillageSquare.SolidPropCells().ToList();
-            CollectionAssert.Contains(solid, MapLayout.Fountain);
-            // the seven columns and four rows round the middle: the fountain's own cell is the only thing that blocks
-            Assert.AreEqual(1, solid.Count(c => c.x >= 22 && c.x <= 28 && c.y >= 15 && c.y <= 18), "one cell");
+            Assert.AreEqual(block.Count, solid.Count(c => c.x >= 22 && c.x <= 28 && c.y >= 15 && c.y <= 19), "nothing else blocks the middle of the square");
+            Assert.IsFalse(Resources.FindObjectsOfTypeAll<Sprite>().Any(sp => sp.name == "prop_gazebo"), "the gazebo's picture is gone");
+        }
+
+        [Test]
+        public void TheFountainsBasin_FillsNinetyFivePercentOfTheInsideOfTheRing()
+        {
+            int Widest(string file, out int height)
+            {
+                var tex = new Texture2D(2, 2);
+                tex.LoadImage(System.IO.File.ReadAllBytes("Assets/_Project/Art/Placeholders/" + file));
+                var widest = 0; int top = int.MaxValue, bottom = -1;
+                for (var y = 0; y < tex.height; y++)
+                {
+                    int left = -1, right = -1;
+                    for (var x = 0; x < tex.width; x++) if (tex.GetPixel(x, y).a > 0.5f) { if (left < 0) left = x; right = x; }
+                    if (left >= 0) { widest = Mathf.Max(widest, right - left + 1); top = Mathf.Min(top, y); bottom = Mathf.Max(bottom, y); }
+                }
+                height = bottom - top + 1;
+                Object.DestroyImmediate(tex);
+                return widest;
+            }
+            var ring = Widest("obj_plaza_ring.png", out var ringHeight);
+            var fountain = Widest("obj_fountain.png", out _);
+            // the ring is an ellipse band whose inside is 70% of its outside (tools/art/build_square_ring.py)
+            var inside = ring * 0.70f;
+            Assert.That(fountain / inside, Is.InRange(0.93f, 0.97f), $"the basin is {fountain} pixels wide and the inside of the ring {inside:0}");
+        }
+
+        [Test]
+        public void TheFourLampPostsOfTheSquare_AreTheSameDistanceFromTheFountain_AndNoOtherLampStandsInIt()
+        {
+            var lamps = VillageSquare.LampNorthX.Select(x => new Vector2Int(x, VillageRoads.RowAboveRoad(x)))
+                .Concat(VillageSquare.LampSouthX.Select(x => new Vector2Int(x, VillageRoads.RowBelowRoad(x))))
+                .Where(c => VillageSquare.Near(c.x, c.y, 1)).ToList();
+            Assert.AreEqual(4, lamps.Count, "four lamp posts at the square: " + string.Join(" ", lamps));
+            var distances = lamps.Select(c => Vector2.Distance(c, VillageSquare.Centre)).ToList();
+            foreach (var d in distances) Assert.AreEqual(distances[0], d, 0.0001f, "equidistant from the middle");
+            CollectionAssert.AreEquivalent(new[] { new Vector2Int(20, 15), new Vector2Int(20, 19), new Vector2Int(30, 15), new Vector2Int(30, 19) }, lamps);
+        }
+
+        [Test]
+        public void TheBoardBenchesAndClockTower_StandWhereTheOwnerPutThem()
+        {
+            Assert.AreEqual(new Vector2Int(19, 13), VillageSquare.Board, "the board by the pond");
+            Assert.AreEqual(new Vector2Int(20, 22), VillageSquare.BenchWest);
+            Assert.AreEqual(new Vector2Int(30, 22), VillageSquare.BenchEast);
+            Assert.AreEqual(new Vector2Int(33, 12), MapLayout.ClockTower, "the clock tower, south-east of the square");
+            Assert.IsFalse(VillageSquare.InRect(MapLayout.ClockTower.x, MapLayout.ClockTower.y));
+            Assert.IsFalse(MapLayout.VillagePond.Contains(VillageSquare.Board.x, VillageSquare.Board.y), "and not in the water");
         }
 
         [Test]
@@ -133,13 +185,6 @@ namespace Farm.Tests
                 Assert.IsTrue(FestivalGrounds.InDanceRing(new Vector3(x, y), new Vector3(maypole.x, maypole.y)), $"({x},{y}) dances");
                 Assert.AreNotEqual(maypole, new Vector2Int(x, y));
             }
-        }
-
-        [Test]
-        public void TheClockTower_StandsOnTheNorthEdge_EastOfTheLane()
-        {
-            Assert.AreEqual(VillageSquare.Y1, MapLayout.ClockTower.y);
-            Assert.Greater(MapLayout.ClockTower.x, VillageRoads.LaneX0 + 2, "east of the lane");
         }
 
         [Test]

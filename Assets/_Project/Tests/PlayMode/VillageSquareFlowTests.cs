@@ -52,15 +52,22 @@ namespace Farm.Tests
             StringAssert.Contains("Fountain", fountain.GetComponent<HoverNote>().HoverLabel, "it has a name");
             Assert.IsNotNull(Named("Plaza_Ring"), "the ring of paving stones");
             Assert.IsNotNull(Named("Bench_Square_NW")); Assert.IsNotNull(Named("Bench_Square_NE")); Assert.IsNotNull(Named("ClockTower"));
-            // nothing blocks round it: only the fountain's own cell is a wall or collider in the middle of the square
-            for (var y = 15; y <= 18; y++)
+            // what blocks in the middle of the square is the fountain's rounded block of cells, and nothing else
+            for (var y = 15; y <= 19; y++)
                 for (var x = 22; x <= 28; x++)
                 {
                     var cell = new Vector3Int(x, y, 0);
-                    Assert.IsNull(map.Walls.GetTile(cell), $"({x},{y}) is a wall");
-                    var blocked = Physics2D.OverlapPoint(map.CellCenter(cell)) is Collider2D c && !c.isTrigger;
-                    Assert.AreEqual(x == 25 && y == 17, blocked, $"({x},{y})");
+                    var blocked = map.Walls.GetTile(cell) != null || (Physics2D.OverlapPoint(map.CellCenter(cell)) is Collider2D c && !c.isTrigger);
+                    Assert.AreEqual(VillageSquare.FountainSolid(x, y), blocked, $"({x},{y})");
                 }
+            Assert.AreEqual(new Vector3Int(19, 13, 0), map.WorldToCell(Named("HelpWantedBoard").transform.position), "the notice board by the pond");
+            Assert.AreEqual(new Vector3Int(34, 12, 0), map.WorldToCell(Named("ClockTower").transform.position), "the clock tower south-east of the square (its picture is two cells wide)");
+            var bench = Named("Bench_Square_NW").transform.position;
+            Assert.AreEqual(21f, bench.x, 0.01f, "the north-west bench, two cells wide from x 20"); Assert.AreEqual(22.5f, bench.y, 0.01f);
+            var east = Named("Bench_Square_NE").transform.position;
+            Assert.AreEqual(31f, east.x, 0.01f, "the north-east bench, from x 30"); Assert.AreEqual(22.5f, east.y, 0.01f);
+            foreach (var cell in new[] { new Vector2Int(20, 15), new Vector2Int(20, 19), new Vector2Int(30, 15), new Vector2Int(30, 19) })
+                Assert.IsNotNull(Named(cell.y == 19 ? $"Lamp_N{cell.x}" : $"Lamp_S{cell.x}"), $"a lamp post at {cell}");
             CaptureHelper.Save("village_square");
         }
 

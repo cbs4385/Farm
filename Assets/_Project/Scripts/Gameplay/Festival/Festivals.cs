@@ -58,10 +58,10 @@ namespace Farm.Gameplay
             { "spring", new[] { (28, 16, "right"), (30, 16, "left"), (28, 18, "right"), (30, 18, "left"), (29, 16, "up"), (29, 18, "down"), (28, 17, "right"), (30, 17, "left"),
                                 (27, 15, "right"), (31, 16, "left"), (31, 18, "left"), (29, 15, "up") } },
             // along the shore of the village pond, facing the water
-            { "summer", new[] { (16, 13, "down"), (17, 13, "down"), (18, 13, "down"), (19, 13, "down"), (20, 13, "down"), (21, 13, "down"), (15, 13, "down"), (22, 13, "down"),
+            { "summer", new[] { (16, 13, "down"), (17, 13, "down"), (18, 13, "down"), (23, 13, "down"), (20, 13, "down"), (21, 13, "down"), (15, 13, "down"), (22, 13, "down"),
                                 (24, 14, "left"), (21, 14, "down"), (17, 14, "down"), (19, 14, "down") } },
             // in front of the stalls and the judging table in the square
-            { "fall", new[] { (29, 21, "up"), (30, 21, "up"), (31, 21, "up"), (34, 21, "up"), (35, 21, "up"), (12, 21, "up"), (13, 21, "up"), (14, 21, "up"),
+            { "fall", new[] { (27, 21, "up"), (28, 21, "up"), (29, 21, "up"), (34, 21, "up"), (35, 21, "up"), (12, 21, "up"), (13, 21, "up"), (14, 21, "up"),
                               (15, 21, "up"), (36, 22, "left"), (31, 20, "up"), (11, 21, "up") } },
             // round the long table along the south edge of the square, above and below it
             { "winter", new[] { (21, 15, "down"), (23, 15, "down"), (24, 15, "down"), (26, 15, "down"), (27, 15, "down"), (29, 15, "down"), (21, 13, "up"), (23, 13, "up"),
