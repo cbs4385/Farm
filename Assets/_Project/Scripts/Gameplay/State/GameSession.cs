@@ -384,7 +384,14 @@ namespace Farm.Gameplay
         {
             if (!InGame || ActiveSlot < 0) return false;
             SyncToState();
-            _saves.Save(ActiveSlot, State);
+            // Where the player stands goes into the file so a loaded game continues there (not at the map's door). Not at the end of a day or in bed:
+            // the player wakes in the bed, so those saves carry no spot. The running game never keeps it.
+            var player = _sleeping || _endingDay ? null : Game?.Map?.Player;
+            if (player != null && Game.Map.Map != null && Game.Map.Map.MapId == State.CurrentMap)
+                ResumePosition.Record(State, State.CurrentMap, player.transform.position.x, player.transform.position.y);
+            else ResumePosition.Clear(State);
+            try { _saves.Save(ActiveSlot, State); }
+            finally { ResumePosition.Clear(State); }
             return true;
         }
 

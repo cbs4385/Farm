@@ -59,6 +59,11 @@ namespace Farm.Gameplay
 
         public string CurrentMap = MapIds.Farm;
         public string SpawnPoint = "default";
+        // Where the player stood when the game was saved (world position on ResumeMap), so a loaded game starts there and not at the map's door. Empty in
+        // saves made before this existed. Never kept while playing: GameSession.Save writes it into the file and clears it; the loaded map takes it once (ResumePosition).
+        public string ResumeMap;
+        public float ResumeX;
+        public float ResumeY;
         public Dictionary<string, MapState> Maps = new Dictionary<string, MapState>();
 
         public List<ItemStack> ShippingBin = new List<ItemStack>();

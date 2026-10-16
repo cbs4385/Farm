@@ -2,6 +2,10 @@
 
 ## 0.7.0 (2026-10-15)
 
+A loaded game continues where you stood (playtest: "reloading the cloud save did not remember where the player was; it loaded at the initial entry point of the map").
+
+- **Saves remember the player's spot.** The save now holds where you were standing on the map, and loading puts you there instead of at the map's door. It is used once, so walking through a door afterwards still arrives at that door, and the saves made when a day ends (you wake in bed) carry no spot. Saves made by earlier versions load as before, at the door. This applies to every save, local or cloud.
+
 Steam Cloud says why a save did not go up (playtest: "0 saved game(s) moved to Steam Cloud. 2 could not be moved", with no reason).
 
 - **The player log names the cause.** When Steam refuses or fails a cloud read or write, the log now has a `[SteamCloud]` line with the file, its size, the Steam, account and app cloud switches and the quota left; the move-to-cloud offer logs which slot stayed on this computer and why. Nothing changes for the player on screen.

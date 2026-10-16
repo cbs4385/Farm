@@ -51,6 +51,7 @@ namespace Farm.Gameplay
             foreach (var fixture in FindObjectsByType<MovableFixture>(FindObjectsSortMode.None)) fixture.Apply(_session, _map);         // the bed and the kitchen where the player put them
             if (FindAnyObjectByType<FarmBuildingsView>() is FarmBuildingsView buildings) buildings.Rebuild(_session);           // the farm's own buildings, before anyone is placed at their doors
             PlacePlayer(_session.State.SpawnPoint);
+            ResumeWhereSaved();
             var daylight = FindAnyObjectByType<DayNightLighting>();
             if (daylight != null && !daylight.IsIndoor && _map.MapId != MapIds.Mine)           // tufts and flowers over the grass, in the colours of the season
             {
@@ -396,6 +397,20 @@ namespace Farm.Gameplay
         void OnPassOut(PassOutTimeReached _)
         {
             _session.StartSleep(true);
+        }
+
+        // A loaded game continues where the player stood when it was saved, once, if that spot is still on this map; anything else keeps the spawn point.
+        void ResumeWhereSaved()
+        {
+            if (!ResumePosition.TryTake(_session.State, _map.MapId, out var x, out var y)) return;
+            var b = _map.WorldBounds;
+            if (x < b.min.x || x > b.max.x || y < b.min.y || y > b.max.y)
+            {
+                Log.Warn($"The saved spot ({x:0.0}, {y:0.0}) is outside '{_map.MapId}'; the player starts at the spawn point.");
+                return;
+            }
+            var z = _player.transform.position.z;
+            _player.transform.position = new Vector3(x, y, z);
         }
 
         void PlacePlayer(string spawnId)
