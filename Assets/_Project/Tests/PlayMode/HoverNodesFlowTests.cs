@@ -75,6 +75,7 @@ namespace Farm.Tests
             {
                 var def = session.Nodes.Get(id);
                 Assert.IsNotNull(def, id);
+                nodes.Remove(x, 8);                                          // a new game scatters clutter at random: whatever landed on this cell is cleared first (a full run once failed on it)
                 Assert.IsTrue(nodes.Add(x, 8, def), id + " fits on the empty cell");
                 yield return PointAt(new Vector3Int(x, 8, 0));
                 Assert.AreEqual(L.Get("node." + id), HoverInspector.Current, id);
