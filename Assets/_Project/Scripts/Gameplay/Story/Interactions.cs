@@ -274,6 +274,30 @@ namespace Farm.Gameplay
             return graph;
         }
 
+        public const string BookKey = "menu.book", BookPromptKey = "menu.book_prompt";
+
+        // After a book has been read, a villager can be asked about it (owner, 2026-10-16): one entry on the menu opens a list of the books read and not yet talked over with
+        // this villager, and each one has a line in the villager's own voice (dlg.book.<villager>.<book>, else dlg.book.generic.<book>). Built on the fly, like the topics.
+        public static DialogueGraph WithBooks(DialogueGraph graph, string npc, IReadOnlyList<LibraryDesk.Book> books, Func<string, bool> hasKey)
+        {
+            var menu = graph.Nodes.Find(n => n.Id == "menu");
+            if (menu == null || books == null || books.Count == 0 || menu.Choices.Exists(c => c.Text == BookKey)) return graph;
+            var list = new DialogueNode { Id = "books", Speaker = npc, Text = BookPromptKey };
+            graph.Nodes.Add(list);
+            foreach (var book in books)
+            {
+                var key = hasKey != null && hasKey("dlg.book." + npc + "." + book.Id) ? "dlg.book." + npc + "." + book.Id : "dlg.book.generic." + book.Id;
+                var say = new DialogueNode { Id = "book:" + book.Id, Speaker = npc, Text = key, Effects = { "talk.again" } };
+                graph.Nodes.Add(say);
+                list.Choices.Add(new DialogueChoice { Text = "item." + book.ItemId + ".name", Effects = { $"book.discussed:{npc},{book.Id}" }, Next = say.Id });
+            }
+            list.Choices.Add(new DialogueChoice { Text = BackKey, Next = "menu", Default = true });
+            var at = menu.Choices.FindIndex(c => c.Default);
+            var entry = new DialogueChoice { Text = BookKey, Next = "books" };
+            if (at < 0) menu.Choices.Add(entry); else menu.Choices.Insert(at, entry);
+            return graph;
+        }
+
         // What is offered when there are no topics or social actions left today: just "keep chatting" and Goodbye.
         public static DialogueGraph Minimal(string npc, Func<string, bool> hasKey)
         {
@@ -320,6 +344,14 @@ namespace Farm.Gameplay
                 state.TopicTimes[a[0]] = (state.TopicTimes.TryGetValue(a[0], out var n) ? n : 0) + 1;
                 InteractionState.Store(s, state);
             });
+            Effects.Register("book.discussed", 2, 2, (s, a) =>
+            {
+                if (s.HasFlag(BookReading.DiscussedPrefix + a[0] + "." + a[1])) return;
+                s.SetFlag(BookReading.DiscussedPrefix + a[0] + "." + a[1]);
+                NpcInteractions.StateOf(s.State, a[0]).LastContactDay = s.Clock.Now.TotalDays;
+                NpcInteractions.AddPoints(s, a[0], BookReading.DiscussPoints + (a[0] == NpcIds.Ione ? 5 : 0));
+                s.Toast(L.Get("book.discussed"));
+            });
             Effects.Register("talk.more", 0, 0, (s, a) => s.SetVar(MoreVar, 1));
             Effects.Register("talk.sell", 0, 0, (s, a) => s.SetVar(SellVar, 1));
             Effects.Register("talk.build", 0, 0, (s, a) => s.SetVar(BuildVar, 1));
@@ -351,7 +383,8 @@ namespace Farm.Gameplay
             session.SetVar(AgainVar, 0);
             session.SetVar(SellVar, 0);
             session.SetVar(BuildVar, 0);
-            session.BeginDialogueGraph(WithBuilding(WithSell(WithMore(graph, npc.Id), npc), npc), () =>
+            var books = BookReading.ToDiscuss(session, npc.Id);
+            session.BeginDialogueGraph(WithBooks(WithBuilding(WithSell(WithMore(graph, npc.Id), npc), npc), npc.Id, books, L.Has), () =>
             {
                 if (session.GetVar(BuildVar) != 0)
                 {

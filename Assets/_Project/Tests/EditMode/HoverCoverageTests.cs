@@ -149,6 +149,8 @@ namespace Farm.Tests
                 var scene = Path.GetFileNameWithoutExtension(path);
                 if (scene == "Bootstrap" || scene == "MainMenu" || scene == "PixelPerfectTest") continue;
                 EditorSceneManager.OpenScene(path.Replace('\\', '/'), OpenSceneMode.Single);
+                foreach (var note in Object.FindObjectsByType<HoverNote>(FindObjectsInactive.Include))          // a label whose key has no text shows the key itself (playtest 2026-10-16: "hover.prop.bld_general")
+                    if (!string.IsNullOrEmpty(note.Key) && !En.ContainsKey(note.Key)) bad.Add(scene + ": " + note.gameObject.name + " names itself " + note.Key + ", which has no text");
                 foreach (var sr in Object.FindObjectsByType<SpriteRenderer>(FindObjectsInactive.Include))
                 {
                     var sprite = sr.sprite != null ? sr.sprite.name : null;

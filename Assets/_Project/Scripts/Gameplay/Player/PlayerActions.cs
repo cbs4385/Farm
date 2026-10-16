@@ -214,9 +214,14 @@ namespace Farm.Gameplay
             {
                 // A quest that waits on this villager comes before a gift (playtest 2026-10-13: the rock in hand was given away instead of handing in the quest).
                 if (TalksFirst(Session, npc.Definition.Id)) { npc.Interact(this); return; }
-                var result = NpcInteractions.Gift(Session, npc.Definition, Session.State.SelectedHotbar);
-                NpcInteractions.ToastFor(Session, result);
-                if (result == GiftResult.Given) ActionPuff.Hearts(npc.transform.position + Vector3.up * 1.2f, npc.GetComponent<WalkBob>());
+                // A book the player has not read yet is asked about first: it may be one they would like to keep and read (owner, 2026-10-16).
+                if (BookReading.ByItem(item.Id) is LibraryDesk.Book book && !BookReading.HasRead(Session, book) && Session.Ui is IUiService ui)
+                {
+                    var slot = Session.State.SelectedHotbar;
+                    ui.ShowConfirm("book.confirm_gift_unread", () => GiveGift(npc, slot));
+                    return;
+                }
+                GiveGift(npc, Session.State.SelectedHotbar);
                 return;
             }
 
@@ -236,7 +241,24 @@ namespace Farm.Gameplay
                 case ItemCategory.Furniture: _placement.PlaceObject(item); break;
                 case ItemCategory.Animal: _placement.PlaceAnimal(item); break;
                 case ItemCategory.Fertilizer: _placement.Fertilize(item); break;
+                case ItemCategory.Misc when BookReading.ByItem(item.Id) is LibraryDesk.Book readable: ReadBook(readable, item); break;
             }
+        }
+
+        void GiveGift(NpcActor npc, int slot)
+        {
+            if (npc == null || Session.Backpack.Get(slot) == null) return;
+            var result = NpcInteractions.Gift(Session, npc.Definition, slot);
+            NpcInteractions.ToastFor(Session, result);
+            if (result == GiftResult.Given) ActionPuff.Hearts(npc.transform.position + Vector3.up * 1.2f, npc.GetComponent<WalkBob>());
+        }
+
+        // A book in hand is read: the farmer sits still with it for the book's time, the clock at its fastest, until it is done or they move.
+        void ReadBook(LibraryDesk.Book book, ItemDefinition item)
+        {
+            if (_player.Reading) return;
+            if (!BookReading.CanStart(Session)) return;
+            if (_player.StartReading(book, item.Icon)) Session.Toast(L.Get("book.begin", L.Get(item.NameKey), BookReading.MinutesFor(book)));
         }
 
         // The villager whose picture the mouse is over: the picture is two cells tall (the head is in the cell above their feet), and a counter may stand between (playtest

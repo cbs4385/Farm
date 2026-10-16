@@ -15,7 +15,7 @@ namespace Farm.UI
         public const string HintsHiddenFlag = "fishing.hints.hidden";          // the instructions are put away (saved with the game)
 
         readonly TextMeshProUGUI _status, _hint, _toggle, _warning;
-        readonly RectTransform _barRoot, _zone, _marker;
+        readonly RectTransform _barRoot, _zone, _sweet, _marker;
         FishingSession _session;
         Action<FishingSession> _onDone;
 
@@ -51,6 +51,12 @@ namespace Farm.UI
             _barRoot = bar.rectTransform;
             var zone = UiKit.Panel(bar.transform, "Zone", new Color(0.3f, 0.8f, 0.3f, 1f));
             _zone = zone.rectTransform;
+            var sweet = UiKit.Panel(zone.transform, "PerfectSpot", new Color(0.75f, 1f, 0.55f, 1f));          // the middle of the zone: a stop here is a perfect catch
+            sweet.raycastTarget = false;
+            _sweet = sweet.rectTransform;
+            _sweet.anchorMin = new Vector2(0.5f - FishingModel.PerfectShare, 0f);
+            _sweet.anchorMax = new Vector2(0.5f + FishingModel.PerfectShare, 1f);
+            _sweet.offsetMin = _sweet.offsetMax = Vector2.zero;
             var marker = UiKit.Panel(bar.transform, "Marker", UiKit.Accent);
             _marker = marker.rectTransform;
 

@@ -1152,6 +1152,7 @@ namespace Farm.Editor
             }
             if (!spriteName.StartsWith("prop_")) return null;
             var prop = spriteName.Substring("prop_".Length);
+            if (prop.StartsWith("bld_")) return null;          // a building's picture is named by StandBuilding ("hover.building.<style>"); a second note here shadowed it with a key that has no text
             return prop.StartsWith("fest_bunting_") ? "hover.prop.fest_bunting" : "hover.prop." + prop;
         }
 

@@ -42,7 +42,7 @@ namespace Farm.UI
 
             var row = UiKit.HStack(stack.transform, "Quantity", 6f);
             UiKit.Size(row.gameObject, -1f, 32f);
-            Qty(row.transform, "-10", () => Change(-10));
+            _qtyFirst = Qty(row.transform, "-10", () => Change(-10));
             Qty(row.transform, "-1", () => Change(-1));
             Qty(row.transform, "+1", () => Change(1));
             Qty(row.transform, "+10", () => Change(10));
@@ -61,8 +61,12 @@ namespace Farm.UI
             root.SetActive(false);
         }
 
-        static void Qty(Transform parent, string text, UnityEngine.Events.UnityAction action) =>
-            UiKit.MakeButton(parent, text, action, 84f, 30f).name = "Qty_" + text;
+        static Button Qty(Transform parent, string text, UnityEngine.Events.UnityAction action)
+        {
+            var button = UiKit.MakeButton(parent, text, action, 84f, 30f);
+            button.name = "Qty_" + text;
+            return button;
+        }
 
         public void OpenShipping()
         {
@@ -70,6 +74,7 @@ namespace Farm.UI
             _selected = -1;
             Rebuild();
             Open();
+            if (EventSystem.current != null && _grid.childCount > 0) EventSystem.current.SetSelectedGameObject(_grid.GetChild(0).gameObject);          // the pad cursor starts on the first slot, not nowhere
         }
 
         void Change(int delta)
@@ -88,6 +93,29 @@ namespace Farm.UI
             Close();
         }
 
+        // The cursor moves along the grid exactly as it is drawn: left and right step one slot (wrapping to the next row), up and down one row; down from the last row
+        // reaches the quantity buttons, and up from the first slot of the quantity row comes back to the same column.
+        void WireGridNavigation(int count)
+        {
+            var below = _qtyFirst;
+            for (var i = 0; i < count && i < _grid.childCount; i++)
+            {
+                var button = _grid.GetChild(i).GetComponent<Button>();
+                if (button == null) continue;
+                Selectable At(int j) => j >= 0 && j < count && j < _grid.childCount ? _grid.GetChild(j).GetComponent<Button>() : null;
+                button.navigation = new Navigation
+                {
+                    mode = Navigation.Mode.Explicit,
+                    selectOnLeft = At(i - 1),
+                    selectOnRight = At(i + 1),
+                    selectOnUp = At(i - Columns),
+                    selectOnDown = At(i + Columns) ?? below,
+                };
+            }
+        }
+
+        Selectable _qtyFirst;
+
         void Rebuild()
         {
             var s = Ui.Session;
@@ -98,9 +126,11 @@ namespace Farm.UI
                 var index = i;
                 var stack = inv.Get(i);
                 var can = ShippingLot.CanShip(s, i);
-                var button = UiKit.MakeButton(_grid, $"Slot{i}", () => { _selected = index; if (_lot.Get(index) == 0) _lot.Add(s, index, 1); Rebuild(); }, SlotSize, SlotSize);
+                var button = UiKit.MakeButton(_grid, $"Slot{i}", () => { if (!can) return; _selected = index; if (_lot.Get(index) == 0) _lot.Add(s, index, 1); Rebuild(); }, SlotSize, SlotSize);
                 button.GetComponentInChildren<TextMeshProUGUI>().text = string.Empty;
-                button.interactable = can;
+                // A stack that cannot be shipped stays a stop for the pad cursor (dimmed, a click does nothing): if it dropped out of the navigation, the cursor jumped over the gaps
+                // to whichever slot was nearest, and a player in a groove ended on the wrong stack (playtest 2026-10-16).
+                button.interactable = true;
                 button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => { if (!can) return; _selected = index; _lot.Add(s, index, 1); Rebuild(); };          // right-click: one more into the lot
                 var inLot = _lot.Get(i);
                 if (inLot > 0) SlotUi.Outline(button.transform, UiKit.Accent);          // every stack in the lot is outlined, so it is plain that several kinds go at once
@@ -114,6 +144,8 @@ namespace Farm.UI
                     }
                 }
             }
+
+            WireGridNavigation(inv.Capacity);
 
             var focusStack = _selected >= 0 ? inv.Get(_selected) : null;
             if (focusStack != null && s.Db.TryGetItem(focusStack.ItemId, out var focusItem))

@@ -73,7 +73,14 @@ namespace Farm.Gameplay
         {
             var s = player.Session;
             if (!BusinessHoursRegistry.IsOpen(BusinessId, s.Clock.Now)) { s.Toast(BusinessHoursRegistry.ClosedMessage(BusinessId)); return; }
-            if (TryReturn(s)) return;
+            if (NextToReturn(s) != null)
+            {
+                // A book Ione lent can be one the player wants to keep reading (or one a story needs), and the same button that collects a book also hands it back: ask first.
+                var unread = NextToReturn(s) is Book due && !BookReading.HasRead(s, due);          // one never opened is asked about with a plainer warning
+                if (s.Ui is IUiService ui) ui.ShowConfirm(unread ? "library.desk.confirm_return_unread" : "library.desk.confirm_return", () => TryReturn(s));
+                else TryReturn(s);
+                return;
+            }
             var next = NextWaiting(s);
             if (next == null) { s.Toast(L.Get("library.desk.empty")); return; }
             var book = next.Value;

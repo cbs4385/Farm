@@ -45,10 +45,13 @@ namespace Farm.Gameplay
         public static float ZoneWidth(int level, float difficulty, bool bait = false) =>
             Math.Min(0.6f, Math.Max(0.12f, 0.34f + 0.02f * (Math.Max(1, level) - 1) - 0.25f * difficulty + (bait ? BaitZoneBonus : 0f)));
 
+        // A perfect catch: the marker stops within this share of the zone's width either side of its centre (the bright middle the fishing bar draws).
+        public const float PerfectShare = 0.15f;
+
         public static bool Judge(float marker, float zoneCenter, float zoneWidth, out bool perfect)
         {
             var d = Math.Abs(marker - zoneCenter);
-            perfect = d <= zoneWidth * 0.15f;
+            perfect = d <= zoneWidth * PerfectShare;
             return d <= zoneWidth / 2f;
         }
 

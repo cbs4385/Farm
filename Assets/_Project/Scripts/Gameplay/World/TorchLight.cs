@@ -55,7 +55,14 @@ namespace Farm.Gameplay
         // An hour of burning uses a torch up (see TorchBurn).
         void OnMinute(MinuteChanged e)
         {
-            if (TorchBurn.OnMinute(_session)) _session.Toast(L.Get("torch.burned_out"));
+            if (TorchBurn.OnMinute(_session)) Warn("torch.burned_out");
+        }
+
+        // A warning is a message window, which stops the clock until it is dismissed (owner, 2026-10-16); without a UI it is a notice.
+        void Warn(string key)
+        {
+            if (_session.Ui is IUiService ui) ui.ShowMessage(key);
+            else _session.Toast(L.Get(key));
         }
 
         void Update()
@@ -63,7 +70,7 @@ namespace Farm.Gameplay
             if (_session == null) return;
             var on = TorchBurn.Refresh(_session, out var lightedOne, out var noneLeft);
             if (lightedOne) _session.Toast(L.Get("torch.lit"));
-            if (noneLeft && !_warnedNone) { _warnedNone = true; _session.Toast(L.Get("torch.none")); }
+            if (noneLeft && !_warnedNone) { _warnedNone = true; Warn("torch.none"); }
             if (!noneLeft) _warnedNone = false;
             if (_flame.Lit != on) _flame.Lit = on;
             if (on) _flame.Color = GlowAt(Time.time);

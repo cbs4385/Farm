@@ -51,6 +51,39 @@ namespace Farm.Gameplay
             if (completed) done?.Invoke();
         }
 
+        // Reading a borrowed book (BookReading): the farmer stays where they are, facing the screen, with the book held up, until the book is done or they move or press a button.
+        BookReading.Session _reading;
+        ReadingBook _readingBook;
+        int _readingFrame;
+        public bool Reading => _reading != null && _reading.Active;
+        public BookReading.Session ReadingSession => _reading;
+
+        public bool StartReading(LibraryDesk.Book book, Sprite icon)
+        {
+            if (_session == null || _seat != null || Dancing || Reading || !BookReading.CanStart(_session)) return false;
+            Stop();
+            Face(Vector2Int.down);
+            _readingFrame = Time.frameCount;
+            _reading = new BookReading.Session(_session, _session.Bus, book);
+            _reading.Ended += OnReadingEnded;
+            _readingBook = ReadingBook.Create(transform, icon, _renderer != null ? _renderer.sortingOrder + 1 : 13);
+            return true;
+        }
+
+        public void StopReading() => _reading?.Cancel();
+
+        void OnReadingEnded(BookReading.Session ended)
+        {
+            ended.Ended -= OnReadingEnded;
+            if (_readingBook != null) Destroy(_readingBook.gameObject);
+            _readingBook = null;
+        }
+
+        void OnDestroy()
+        {
+            if (_reading != null) { _reading.Ended -= OnReadingEnded; _reading.Dispose(); }          // the clock never stays fast after the player is gone
+        }
+
         public bool Seated => _seat != null;
         public SitSpot Seat => _seat;
 
@@ -161,6 +194,13 @@ namespace Farm.Gameplay
                     if (side != Facing) Face(side);
                     return;
                 }
+            }
+            if (Reading)
+            {
+                var pushed = _input != null && !_input.GameplayBlocked && (_input.Move.ReadValue<Vector2>().sqrMagnitude > 0.25f
+                    || (Time.frameCount != _readingFrame && (_input.UseTool.WasPressedThisFrame() || _input.Interact.WasPressedThisFrame())));
+                if (pushed || (_input != null && _input.GameplayBlocked)) _reading.Cancel();
+                else return;
             }
             if (_seat != null)
             {

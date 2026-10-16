@@ -478,6 +478,7 @@ namespace Farm.UI
         }
 
         public ShippingScreen Shipping => _shipping;
+        public ConfirmDialog Confirm => _confirm;          // the yes/no question, once one has been asked (tests answer it)
 
         SellScreen _sell;
         public SellScreen Sell => _sell;

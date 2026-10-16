@@ -102,6 +102,19 @@ namespace Farm.Tests
             Assert.IsFalse(FishingModel.Judge(0.8f, 0.5f, 0.3f, out _));
         }
 
+        // Playtest 2026-10-16: "What makes some fish a perfect catch?" The bar now draws the middle of the zone and the hint says so; the drawn part is the judged part.
+        [Test]
+        public void APerfectCatch_IsTheMarkedMiddleOfTheZone_AndTheHintSaysSo()
+        {
+            const float centre = 0.5f, width = 0.4f;
+            Assert.IsTrue(FishingModel.Judge(centre + width * FishingModel.PerfectShare * 0.99f, centre, width, out var perfect));
+            Assert.IsTrue(perfect, "the edge of the marked middle still counts");
+            Assert.IsTrue(FishingModel.Judge(centre + width * FishingModel.PerfectShare * 1.2f, centre, width, out perfect));
+            Assert.IsFalse(perfect, "just outside it is a plain catch");
+            var hint = L.Parse(System.IO.File.ReadAllText("Assets/_Project/Resources/Localization/en.json"))["fishing.reel"];
+            StringAssert.Contains("perfect", hint);
+        }
+
         [Test]
         public void Quality_ImprovesWithLevelPerfectAndLuck()
         {

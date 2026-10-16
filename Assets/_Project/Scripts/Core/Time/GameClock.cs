@@ -44,6 +44,9 @@ namespace Farm.Core
         public float PreciseMinuteOfDay => _now.MinuteOfDay + (_now.IsDayOver ? 0f : _accumulator / SecondsPerStep * MinutesPerStep);
         public float SecondsPerStep { get; set; } = DefaultSecondsPerStep;
 
+        // Temporary speed-up (reading a book): the clock runs this many times faster until whoever raised it puts it back to 1. Never below 1.
+        public float SpeedMultiplier { get; set; } = 1f;
+
         // Ref-counted: every Pause() must be matched by a Resume() (menus, dialogue, cutscenes).
         public void Pause() => _pauseCount++;
 
@@ -56,7 +59,7 @@ namespace Farm.Core
         public void Tick(float deltaSeconds)
         {
             if (IsPaused || _now.IsDayOver) return;
-            _accumulator += deltaSeconds;
+            _accumulator += deltaSeconds * Math.Max(1f, SpeedMultiplier);
             while (_accumulator >= SecondsPerStep && !_now.IsDayOver)
             {
                 _accumulator -= SecondsPerStep;

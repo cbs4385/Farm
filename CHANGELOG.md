@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.2 (2026-10-16)
+
+Fixes from a controller playtest, and books you can read. Verified by automation only (EditMode green; PlayMode run for the new and related flows); nobody has played it.
+
+- **Read your books.** Use a borrowed book from the item bar to read it: the farmer holds it up and turns pages while the book's time goes by (30 minutes for the slim book, up to 2 hours for the very long one) with the clock at its fastest. Moving or pressing a button stops it; a book is only counted as read when you finish it.
+- **Ask first about unread books.** Handing an unread book back to Ione or giving it to a villager asks for confirmation. Returning any book to the library asks too.
+- **Talk about what you read.** After reading, every villager has a "Talk about a book you read" choice in the chat menu, with a line in their own voice for each book and a little friendship the first time.
+- **Warnings stop the game.** The torch warnings now open as message windows, which pause the clock until dismissed.
+- **Shipping window with a pad.** Every slot is a stop for the cursor (stacks that cannot be shipped are dimmed, not skipped), the cursor starts on the first slot and moves along the grid as drawn, so it no longer jumps to a slot you did not mean.
+- **Fishing.** The bar shows the bright middle of the zone and the hint says that stopping there is a perfect catch.
+- **Buildings show their names.** The village buildings showed a missing-text key ("hover.prop.bld_general") when pointed at; a test now checks every label on every map.
+
 ## 0.7.1 (2026-10-16)
 
 A design review of the twelve villagers (`docs/NPC_DESIGN_REVIEW_2026-10-16.md`) and its text-only fixes. No ids, keys, scenes or systems changed; nobody has read the new lines in play.
