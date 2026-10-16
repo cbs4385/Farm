@@ -18,6 +18,7 @@ namespace Farm.Mythos
             var s = ctx.Session;
             NoteWoodsEntered(s, ctx.MapId);
             MythosRelics.OnMapLoaded(ctx);
+            MythosDepths.OnMapLoaded(ctx);
             EdmundThreads.OnMapLoaded(ctx);
             WakefulnessService.ApplyAtmosphere(s);
             var atmosphere = s.Game?.Atmosphere;

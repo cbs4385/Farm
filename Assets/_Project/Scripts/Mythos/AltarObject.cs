@@ -25,7 +25,11 @@ namespace Farm.Mythos
         public bool CandlesLit { get; private set; }
         public bool OfferingShown => _offering != null && _offering.enabled;
 
-        public void Bind(MapContext map) => _session = map.Session;
+        public void Bind(MapContext map)
+        {
+            _session = map.Session;
+            if (GetComponent<AltarTentacles>() == null) gameObject.AddComponent<AltarTentacles>().Init(_session);          // Crawling Depths: they rise on a ritual night at full intensity
+        }
 
         // Is the altar's night on (the candles burning)? The hours the Keepers are out in their robes, on a ritual night. (pure, so it can be tested)
         public static bool NightOn(bool full, bool ritualDay, int minuteOfDay, int participants) =>

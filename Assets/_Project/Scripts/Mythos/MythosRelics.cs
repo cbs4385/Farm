@@ -25,10 +25,7 @@ namespace Farm.Mythos
         public static (int x, int y)? ChestCell(MineFloor f, int worldSeed)
         {
             var reach = Reachable(f, null);
-            var taken = new HashSet<(int, int)> { f.Spawn, f.Up, f.Elevator };
-            if (f.Ladder.HasValue) taken.Add(f.Ladder.Value);
-            foreach (var n in f.Nodes) taken.Add((n.X, n.Y));
-            foreach (var e in f.Enemies) taken.Add((e.X, e.Y));
+            var taken = Taken(f);
             var far = new List<(int x, int y)>();
             for (var y = 1; y < f.Height - 1; y++)
                 for (var x = 1; x < f.Width - 1; x++)
@@ -43,8 +40,21 @@ namespace Farm.Mythos
             return null;
         }
 
+        // The cells of a floor that already hold something: the arrival, the stairs and lift, ore and monsters.
+        public static HashSet<(int, int)> Taken(MineFloor f)
+        {
+            var taken = new HashSet<(int, int)> { f.Spawn, f.Up, f.Elevator };
+            if (f.Ladder.HasValue) taken.Add(f.Ladder.Value);
+            foreach (var n in f.Nodes) taken.Add((n.X, n.Y));
+            foreach (var e in f.Enemies) taken.Add((e.X, e.Y));
+            return taken;
+        }
+
         // The open cells that can be walked to from the arrival (the stairs and the lift are solid), with one more cell optionally blocked.
-        static HashSet<(int, int)> Reachable(MineFloor f, (int x, int y)? blocked)
+        static HashSet<(int, int)> Reachable(MineFloor f, (int x, int y)? blocked) => ReachableAvoiding(f, blocked.HasValue ? new[] { blocked.Value } : null);
+
+        // The same with any number of cells blocked (the shrine round the chest is solid too).
+        public static HashSet<(int, int)> ReachableAvoiding(MineFloor f, ICollection<(int x, int y)> blocked)
         {
             var seen = new HashSet<(int, int)> { f.Spawn };
             var queue = new Queue<(int x, int y)>();
@@ -53,7 +63,7 @@ namespace Farm.Mythos
             {
                 var (x, y) = queue.Dequeue();
                 foreach (var n in new[] { (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1) })
-                    if (!f.IsWall(n.Item1, n.Item2) && n != f.Up && n != f.Elevator && (!blocked.HasValue || n != blocked.Value) && seen.Add(n)) queue.Enqueue(n);
+                    if (!f.IsWall(n.Item1, n.Item2) && n != f.Up && n != f.Elevator && (blocked == null || !blocked.Contains(n)) && seen.Add(n)) queue.Enqueue(n);
             }
             return seen;
         }
