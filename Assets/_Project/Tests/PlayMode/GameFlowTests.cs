@@ -264,7 +264,7 @@ namespace Farm.Tests
 
             var ui = GameContext.Current.Ui;
             ui.ShowOptions();
-            ((Farm.UI.UiService)ui).Options.Expand("sound", "display", "accessibility");
+            ((Farm.UI.UiService)ui).Options.Expand("accessibility");
             yield return WaitFrames(4);
             Canvas.ForceUpdateCanvases();
 

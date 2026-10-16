@@ -272,7 +272,7 @@ namespace Farm.Tests
             yield return StartFarm();
             var ui = ((UiService)GameContext.Current.Ui);
             ui.ShowOptions();
-            ui.Options.Expand("keys", "pad");
+            ui.Options.Expand("keys");
             yield return null;
             yield return null;
             var names = UnityEngine.Object.FindObjectsByType<Button>().Where(b => b.gameObject.activeInHierarchy).Select(b => b.name).ToList();
@@ -280,13 +280,18 @@ namespace Farm.Tests
             foreach (var action in InputNames.Rebindable) CollectionAssert.Contains(keyActions, action, action);
             for (var i = 1; i <= InputNames.HotbarSlots; i++) CollectionAssert.Contains(keyActions, InputNames.HotbarPrefix + i);
             Assert.AreEqual(4, names.Count(n => n.StartsWith(OptionsScreen.KeyPrefix + "Move_")), "the four walking keys");
-            Assert.GreaterOrEqual(names.Count(n => n.StartsWith(OptionsScreen.PadPrefix)), 13, "and a controller button for each action that has one");
+
+            ui.Options.Expand("pad");
+            yield return null;
+            yield return null;
+            names = UnityEngine.Object.FindObjectsByType<Button>().Where(b => b.gameObject.activeInHierarchy).Select(b => b.name).ToList();
+            Assert.GreaterOrEqual(names.Count(n => n.StartsWith(OptionsScreen.PadPrefix)), 13, "and a controller button for each action that has one, on the controller page");
         }
 
         static System.Collections.Generic.List<Button> ActiveButtons() => UnityEngine.Object.FindObjectsByType<Button>().Where(b => b.gameObject.activeInHierarchy).ToList();
 
         [UnityTest]
-        public IEnumerator TheOptionsScreen_StartsWithOnlyTheSoundGroupOpen_AndAHeaderOpensAndClosesItsGroup()
+        public IEnumerator TheOptionsScreen_ShowsOnePageAtATime_AStartsOnSound_AndACategoryChangesIt()
         {
             yield return StartFarm();
             var ui = ((UiService)GameContext.Current.Ui);
@@ -294,27 +299,24 @@ namespace Farm.Tests
             yield return null;
             yield return null;
             var names = ActiveButtons().Select(b => b.name).ToList();
-            foreach (var id in OptionsScreen.Groups) CollectionAssert.Contains(names, CollapsibleSection.HeaderPrefix + id, id);
-            CollectionAssert.DoesNotContain(names, "HorrorLevel", "the content group starts closed");
-            Assert.IsEmpty(names.Where(n => n.StartsWith(OptionsScreen.KeyPrefix)), "and so does the key table");
+            foreach (var id in OptionsScreen.Groups) CollectionAssert.Contains(names, OptionsScreen.CategoryPrefix + id, id);
+            CollectionAssert.DoesNotContain(names, "HorrorLevel", "the content page is not showing");
+            Assert.IsEmpty(names.Where(n => n.StartsWith(OptionsScreen.KeyPrefix)), "and neither is the key table");
+            Assert.AreEqual("sound", ui.Options.CurrentPage);
             Assert.IsTrue(UnityEngine.Object.FindObjectsByType<Slider>().Any(s => s.gameObject.activeInHierarchy), "the sound sliders are showing");
 
-            var header = ActiveButtons().First(b => b.name == CollapsibleSection.HeaderPrefix + "content");
-            header.onClick.Invoke();
+            ActiveButtons().First(b => b.name == OptionsScreen.CategoryPrefix + "content").onClick.Invoke();
             yield return null;
-            Assert.IsTrue(ActiveButtons().Any(b => b.name == "HorrorLevel"), "its header opens it");
-            header.onClick.Invoke();
             yield return null;
-            Assert.IsFalse(ActiveButtons().Any(b => b.name == "HorrorLevel"), "and closes it again");
+            Assert.IsTrue(ActiveButtons().Any(b => b.name == "HorrorLevel"), "its category shows its page");
+            Assert.IsFalse(UnityEngine.Object.FindObjectsByType<Slider>().Any(s => s.gameObject.activeInHierarchy), "and the sound page is gone");
 
-            header.onClick.Invoke();
-            yield return null;
             ui.CloseAllModals();
             yield return null;
             ui.ShowOptions();
             yield return null;
             yield return null;
-            Assert.IsTrue(ActiveButtons().Any(b => b.name == "HorrorLevel"), "an open group is still open when the screen comes back");
+            Assert.IsTrue(ActiveButtons().Any(b => b.name == "HorrorLevel"), "the page is still the content page when the screen comes back");
         }
 
         [UnityTest]

@@ -208,6 +208,7 @@ namespace Farm.Gameplay
             var ui = _session.Ui;
             if (string.IsNullOrEmpty(which) || ui == null) yield break;
             for (var i = 0; i < 5; i++) yield return null;   // let the UI service finish its own startup
+            if (which.StartsWith("options:")) { ui.ShowOptions(which.Substring("options:".Length)); yield break; }          // a page of the options: sound, display, accessibility, dialogue, gameplay, keys, pad, content
             switch (which)
             {
                 case "inventory": ui.ToggleInventory(); break;

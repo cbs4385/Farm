@@ -556,6 +556,7 @@ namespace Farm.UI
         }
 
         public void ShowOptions() => Options.Open();
+        public void ShowOptions(string page) { Options.Expand(page); Options.Open(); }
         public void ShowBugReport() => BugReporter.Open();
 
         NamePromptScreen _namePrompt;

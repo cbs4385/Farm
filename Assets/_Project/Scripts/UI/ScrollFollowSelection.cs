@@ -11,6 +11,9 @@ namespace Farm.UI
         ScrollRect _scroll;
         GameObject _last;
 
+        // How much of the list beyond the focused row is kept in view (never more than fits): a row of context above and below, so the player sees what comes next.
+        public float Margin;
+
         void Awake() => _scroll = GetComponent<ScrollRect>();
 
         void LateUpdate()
@@ -31,8 +34,10 @@ namespace Farm.UI
             var top = -content.InverseTransformPoint(row.TransformPoint(new Vector3(0f, row.rect.yMax, 0f))).y;      // how far below the top of the list the row starts
             var offset = (1f - _scroll.verticalNormalizedPosition) * room;                                            // how far the list is scrolled now
             var view = ((RectTransform)_scroll.viewport).rect.height;
-            if (top < offset) offset = top;
-            else if (top + row.rect.height > offset + view) offset = top + row.rect.height - view;
+            var margin = Mathf.Min(Margin, Mathf.Max(0f, (view - row.rect.height) * 0.5f));
+            if (top - margin < offset) offset = top - margin;
+            else if (top + row.rect.height + margin > offset + view) offset = top + row.rect.height + margin - view;
+            offset = Mathf.Clamp(offset, 0f, room);
             _scroll.verticalNormalizedPosition = 1f - Mathf.Clamp01(offset / room);
         }
     }

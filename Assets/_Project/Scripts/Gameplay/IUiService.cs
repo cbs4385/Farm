@@ -40,6 +40,7 @@ namespace Farm.Gameplay
         void ShowDaySummary(DaySummary summary, Action onContinue);
         void ShowPause();
         void ShowOptions();
+        void ShowOptions(string page) => ShowOptions();          // the options on a page (QA: -farmOpen options:pad)
         void ShowBugReport() { }                          // the "report a bug" window (main menu and pause menu)
         bool AnyModalOpen { get; }
         bool PointerOverUi => false;

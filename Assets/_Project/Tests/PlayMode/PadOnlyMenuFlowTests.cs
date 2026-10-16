@@ -88,28 +88,16 @@ namespace Farm.Tests
             Assert.IsNotNull(Selected, "and has the focus");
             Assert.IsTrue(Selected.GetComponentInParent<Slider>() != null || Selected.GetComponent<Selectable>() != null);
 
-            // Walk the whole screen with the d-pad: the cursor moves every press, and a slider and a toggle are reached.
+            // The sound page: the d-pad walks the four volume sliders, and left and right move a slider.
             var visited = new List<GameObject>();
-            var trail = new List<string>();
-            var opened = new HashSet<string>();
-            for (var i = 0; i < 60; i++)
+            for (var i = 0; i < 6; i++)
             {
-                if (Selected == null) Assert.Fail("the focus was lost after " + i + " presses; last: " + (visited.Count > 0 ? visited.Last().name : "-"));
+                Assert.IsNotNull(Selected, "the focus is not lost after " + i + " presses");
                 if (!visited.Contains(Selected)) visited.Add(Selected);
-                if (Selected.name.StartsWith("Section_") && Selected.name != "Section_sound" && opened.Add(Selected.name)) yield return Tap(_pad.buttonSouth);          // a group header opens with A
-                if (i < 7) { var sel = Selected.GetComponent<Selectable>(); var dn = sel.FindSelectableOnDown(); trail.Add(Selected.transform.parent.name + "@" + Selected.transform.position.y.ToString("0") + "->" + (dn == null ? "null" : dn.transform.parent.name + "@" + dn.transform.position.y.ToString("0"))); }
                 yield return Tap(_pad.dpad.down);
             }
-            var last = Selected.GetComponent<Selectable>();
-            string P(Component c) => c == null ? "null" : c.name + "(" + c.transform.position.x.ToString("0") + "," + c.transform.position.y.ToString("0") + ")" + (c.transform.parent != null ? "/" + c.transform.parent.name : "");
-            var res = UnityEngine.Object.FindObjectsByType<Selectable>(FindObjectsSortMode.None).FirstOrDefault(x => x.name == "1280x720");
-            var info = "trail=" + string.Join(">", trail) + " last=" + P(last) + " down=" + P(last.FindSelectableOnDown()) + " res=" + P(res) + " lastScale=" + last.transform.lossyScale + " rot=" + last.transform.rotation.eulerAngles;
-            Assert.IsTrue(visited.Any(v => v.GetComponent<Toggle>() != null), info);
-            Assert.IsTrue(visited.Any(v => v.GetComponent<Slider>() != null), "a slider can be reached");
-            Assert.IsTrue(visited.Any(v => v.GetComponent<Toggle>() != null), "a toggle can be reached; visited: " + string.Join(", ", visited.Select(v => v.name + (v.GetComponent<Selectable>() != null ? ":" + v.GetComponent<Selectable>().GetType().Name : ""))));
-
-            // A slider moves with left and right.
-            var slider = visited.First(v => v.GetComponent<Slider>() != null).GetComponent<Slider>();
+            Assert.AreEqual(4, visited.Count(v => v.GetComponent<Slider>() != null), "the four volume sliders are reached, and the walk stops at the last row");
+            var slider = visited[0].GetComponent<Slider>();
             EventSystem.current.SetSelectedGameObject(slider.gameObject);
             yield return null;
             var before = slider.value;
@@ -117,10 +105,16 @@ namespace Farm.Tests
             yield return Tap(_pad.dpad.left);
             Assert.Less(slider.value, before, "d-pad left lowers a slider");
 
-            // A flips a toggle.
-            var toggle = visited.First(v => v.GetComponent<Toggle>() != null).GetComponent<Toggle>();
-            EventSystem.current.SetSelectedGameObject(toggle.gameObject);
-            yield return null;
+            // RB shows the display page, with the cursor on its first row; a toggle is reached with the d-pad and A flips it.
+            yield return Tap(_pad.rightShoulder);
+            Assert.AreEqual("display", GameContext.Current.Ui is UiService display ? display.Options.CurrentPage : null);
+            Toggle toggle = null;
+            for (var i = 0; i < 8 && toggle == null; i++)
+            {
+                toggle = Selected != null ? Selected.GetComponent<Toggle>() : null;
+                if (toggle == null) yield return Tap(_pad.dpad.down);
+            }
+            Assert.IsNotNull(toggle, "a toggle can be reached");
             var on = toggle.isOn;
             yield return Tap(_pad.buttonSouth);
             Assert.AreNotEqual(on, toggle.isOn, "A flips a toggle");
