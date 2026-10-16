@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.7.1 (2026-10-16)
+
+A design review of the twelve villagers (`docs/NPC_DESIGN_REVIEW_2026-10-16.md`) and its text-only fixes. No ids, keys, scenes or systems changed; nobody has read the new lines in play.
+
+- **Heart-event titles say what the scene is.** Wren's heart 10 is now "One Listener" (it was "Opening Night" for a one-song, one-listener scene) and Bram's is "Soft Gold" (it was "Your Tool" for a gold bar).
+- **Juno's gold is for the die.** Her gold quest says the bar is for cutting her maker's mark and the first stamped piece is copper on purpose; her heart 10 says so when the quest is done.
+- **Confessions stay secret until their scene.** Wren's "I almost left this village once" waits for the bag scene at heart 8; Juno and Ione no longer say "years ago" about a player who arrived months ago.
+- **Elara's longing has two props, not four:** the map behind the clinic kettle and her list of places. The atlas is a book Ione set aside for her.
+- **One joke per villager.** The "I'd not write you a letter, I'd..." line that eight villagers shared is replaced with a confidant line in each voice (Bram's three words and Juno's forty pages stay). The forge is the warmest room in Wetherell, and Hazel now corrects Wren when she claims the saloon is. The lamp left on for late walkers is Tilda's alone.
+- **Quests as lessons.** Felix, Dorian and Dr. Penn no longer ask for their own stock (bait, mushrooms, elderflower); they want you to make, find or pick it yourself.
+- **Small fixes:** Bram is forty-something; Felix wants the wobbly stool; the wave 2 bible agrees that Elara is the first to hear Piper's new songs.
+- **The Keepers confide in friends, not strangers (horror on).** Every clue line is now gated on friendship with that villager (2, 4 and 6 hearts for the three clues) and Dr. Penn's invitation on 6 hearts. A new test holds it. Verified by automation only (EditMode green; PlayMode not run).
+
 ## 0.7.0 (2026-10-15)
 
 Hold the tool button and any tool keeps working (playtest: the pickaxe stopped in the mine; the hoe did not carry on to the next tile as the aim moved).
