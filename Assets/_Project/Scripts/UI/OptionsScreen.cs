@@ -239,12 +239,6 @@ namespace Farm.UI
             UiKit.MakeToggle(trackerRow, L.Get("ui.on"), s.QuestTracker, on => s.QuestTracker = on, 220f).name = "QuestTracker";
             var aim = Row(L.Get("options.mouse_aim"));
             UiKit.MakeToggle(aim, L.Get("ui.on"), s.MouseAim, on => s.MouseAim = on, 220f).name = "MouseAim";
-            var mouseSens = Row(L.Get("options.mouse_sensitivity"));
-            UiKit.MakeSlider(mouseSens, Mathf.InverseLerp(SettingsData.MinMouseSensitivity, SettingsData.MaxMouseSensitivity, s.MouseSensitivity),
-                v => s.MouseSensitivity = Mathf.Lerp(SettingsData.MinMouseSensitivity, SettingsData.MaxMouseSensitivity, v)).name = "MouseSensitivity";
-            var padSens = Row(L.Get("options.controller_sensitivity"));
-            UiKit.MakeSlider(padSens, Mathf.InverseLerp(SettingsData.MinControllerSensitivity, SettingsData.MaxControllerSensitivity, s.ControllerSensitivity),
-                v => s.ControllerSensitivity = Mathf.Lerp(SettingsData.MinControllerSensitivity, SettingsData.MaxControllerSensitivity, v)).name = "ControllerSensitivity";
             var easy = Row(L.Get("options.relaxed_energy"));
             UiKit.MakeToggle(easy, L.Get("ui.on"), s.RelaxedEnergy, on => s.RelaxedEnergy = on, 220f);
             var dl = Row(L.Get("options.day_length"));
@@ -276,6 +270,9 @@ namespace Farm.UI
 
             // Keyboard and mouse: one table, an action on each row with its primary and its secondary key.
             Group("keys");
+            var mouseSens = Row(L.Get("options.mouse_sensitivity"));          // how far the pointer travels in the world for a movement of the mouse
+            UiKit.MakeSlider(mouseSens, Mathf.InverseLerp(SettingsData.MinMouseSensitivity, SettingsData.MaxMouseSensitivity, s.MouseSensitivity),
+                v => s.MouseSensitivity = Mathf.Lerp(SettingsData.MinMouseSensitivity, SettingsData.MaxMouseSensitivity, v)).name = "MouseSensitivity";
             TableHeader(L.Get("options.col.action"), L.Get("options.col.primary"), L.Get("options.col.secondary"));
             KeyTable.Group? shown = null;
             foreach (var spec in KeyTable.Rows(Ui.Input))
@@ -294,6 +291,9 @@ namespace Farm.UI
             reset.name = "ResetBindings";
 
             Group("pad");
+            var padSens = Row(L.Get("options.controller_sensitivity"));          // how far a tilt of the stick goes toward full walking speed
+            UiKit.MakeSlider(padSens, Mathf.InverseLerp(SettingsData.MinControllerSensitivity, SettingsData.MaxControllerSensitivity, s.ControllerSensitivity),
+                v => s.ControllerSensitivity = Mathf.Lerp(SettingsData.MinControllerSensitivity, SettingsData.MaxControllerSensitivity, v)).name = "ControllerSensitivity";
             var hint = UiKit.Label(_target, L.Get("options.pad_hint"), 15f, TextAlignmentOptions.Left, UiKit.DimText);
             UiKit.Size(hint.gameObject, -1f, 40f);
             TableHeader(L.Get("options.col.action"), L.Get("options.col.button"), null);

@@ -1,0 +1,253 @@
+{
+  "dialogues": [
+    {
+      "id": "mythos.thread.juno.key",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "mythos.thread.juno.key",
+          "effects": [
+            "give:mythos.brass_key,1",
+            "flag:edmund.key_given",
+            "dread:1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.odalys.order",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "odalys",
+          "text": "mythos.thread.odalys.order",
+          "effects": [
+            "flag:edmund.order_told",
+            "lore:1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.ione.margins",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "mythos.thread.ione.margins",
+          "effects": [
+            "flag:edmund.margins_told"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.hazel.mine",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "mythos.thread.hazel.mine",
+          "effects": [
+            "flag:edmund.mine_pointed",
+            "lore:1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.dorian.count",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "mythos.thread.dorian.count",
+          "effects": [
+            "flag:edmund.count_told"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.piper.notes",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "mythos.thread.piper.notes",
+          "effects": [
+            "flag:edmund.notes_told",
+            "dread:2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.marcus.roof",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "mythos.thread.marcus.roof",
+          "effects": [
+            "flag:edmund.roof_told"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.wren.go",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "mythos.thread.wren.go",
+          "effects": [
+            "flag:edmund.wren_go"
+          ],
+          "choices": [
+            {
+              "text": "mythos.thread.wren.go.c0",
+              "effects": [
+                "friend:wren,10"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "mythos.thread.wren.go.c1",
+              "effects": [
+                "friend:wren,10"
+              ],
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "wren",
+          "text": "mythos.thread.wren.go.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "wren",
+          "text": "mythos.thread.wren.go.r1"
+        }
+      ]
+    },
+    {
+      "id": "mythos.thread.dorian.partner",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "mythos.thread.dorian.partner",
+          "effects": [
+            "flag:edmund.dorian_partner"
+          ]
+        }
+      ]
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.juno.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && var:lore>=2 && hearts:juno>=4 && !flag:edmund.key_given",
+          "priority": 9,
+          "dialogue": "mythos.thread.juno.key"
+        }
+      ]
+    },
+    {
+      "set": "npc.odalys.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:odalys && var:lore>=4 && hearts:odalys>=6 && !flag:edmund.order_told",
+          "priority": 9,
+          "dialogue": "mythos.thread.odalys.order"
+        }
+      ]
+    },
+    {
+      "set": "npc.ione.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && flag:clue.hazel.2 && hearts:ione>=4 && !flag:edmund.margins_told",
+          "priority": 8,
+          "dialogue": "mythos.thread.ione.margins"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && flag:clue.hazel.2 && flag:edmund.box_opened && hearts:hazel>=6 && !flag:edmund.mine_pointed",
+          "priority": 9,
+          "dialogue": "mythos.thread.hazel.mine"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:dorian && var:lore>=3 && flag:clue.dorian.1 && hearts:dorian>=5 && !flag:edmund.count_told",
+          "priority": 8,
+          "dialogue": "mythos.thread.dorian.count"
+        }
+      ]
+    },
+    {
+      "set": "npc.piper.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && var:lore>=3 && hearts:piper>=6 && !flag:edmund.notes_told",
+          "priority": 8,
+          "dialogue": "mythos.thread.piper.notes"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:marcus && flag:hall.roof && flag:clue.marcus.1 && hearts:marcus>=5 && !flag:edmund.roof_told",
+          "priority": 8,
+          "dialogue": "mythos.thread.marcus.roof"
+        }
+      ]
+    },
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:wren && flag:choice.wren.bag.go && hearts:wren>=8 && !flag:edmund.wren_go",
+          "priority": 9,
+          "dialogue": "mythos.thread.wren.go"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "horror:1 && keeper:dorian && flag:partners.dorian && !flag:edmund.dorian_partner",
+          "priority": 9,
+          "dialogue": "mythos.thread.dorian.partner"
+        }
+      ]
+    }
+  ]
+}

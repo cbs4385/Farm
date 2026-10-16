@@ -4,12 +4,9 @@ namespace Farm.Gameplay
 {
     public static class PointerMath
     {
-        // The pointer after the mouse moved by `delta` pixels, when the movement should count `sensitivity` times: the extra (or the part taken back) is added to where the system put it, kept on the screen. (pure)
-        public static Vector2 Scale(Vector2 position, Vector2 delta, float sensitivity, Vector2 screen)
-        {
-            var extra = delta * (sensitivity - 1f);
-            var scaled = position + extra;
-            return new Vector2(Mathf.Clamp(scaled.x, 0f, Mathf.Max(0f, screen.x - 1f)), Mathf.Clamp(scaled.y, 0f, Mathf.Max(0f, screen.y - 1f)));
-        }
+        // Where the mouse aims, with the sensitivity setting applied: how far the pointer is from the player on the screen is multiplied, so that at 2 the tool square follows the mouse
+        // twice as eagerly (a pointer half a tile away aims a whole tile away) and at 0.5 half as eagerly. At 1 it is the pointer itself. It is read afresh every frame, so the slider
+        // takes effect at once. The cursor the operating system draws is never moved. (pure)
+        public static Vector2 AimPoint(Vector2 pointer, Vector2 player, float sensitivity) => player + (pointer - player) * sensitivity;
     }
 }

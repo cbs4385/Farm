@@ -1,0 +1,171 @@
+# Variety wave 1 (docs/NPC_INTERCONNECTED_GAMEPLAY_SPEC.md WP10): rain lines by friendship, lines that answer a recent deed, the harvest shipped and the animals on the farm for all twelve,
+# and morning, evening, night and seasonal lines for the six whose pools were thinner. Cozy only. Existing lines are untouched.
+
+addto npc.tilda.talk
+1 weather:rain && hearts:tilda<3 => tilda.v1.rain1 cat=weather :: Rain on the awning. Customers come in for shelter and leave with seed packets. I call that a forecast.
+1 weather:rain && hearts:tilda>=3 && hearts:tilda<7 => tilda.v1.rain2 cat=weather :: Wet boots by the door again. I keep a mat for it, and a second mat for the first mat.
+1 weather:rain && hearts:tilda>=7 => tilda.v1.rain3 cat=weather :: Rain's good for the shop and good for the soul. Sit by the stove. I'll put it on the slate as company.
+2 recent:quest => tilda.v1.quest cat=reactive :: Heard you finished a job for someone. The slate remembers. So do I, and I'm easier to bribe.
+2 recent:gift => tilda.v1.gift cat=reactive :: Somebody got a gift from you lately. Word travels faster than my deliveries. I'm not jealous. I'm noting it.
+1 shipped:>=50 && !shipped:>=500 => tilda.v1.ship1 cat=reactive :: Your shipments are showing up in my numbers. A little farm, a little reputation. I'll chalk it.
+1 shipped:>=500 => tilda.v1.ship2 cat=reactive :: Half the village eats from your bin now. I used to sell that parsnip. I'm proud, and a little out of business.
+1 farm:animals>=3 => tilda.v1.animals cat=reactive :: Animals on the place now. That's feed orders, bedding, and a customer who won't leave. Good for you.
+
+addto npc.bram.talk
+1 weather:rain && hearts:bram<3 => bram.v1.rain1 cat=weather :: Hm. Rain on the forge roof. Sounds like applause. Wet applause.
+1 weather:rain && hearts:bram>=3 && hearts:bram<7 => bram.v1.rain2 cat=weather :: Hm. Rain cools the iron too fast. Patience. The rain doesn't have any.
+1 weather:rain && hearts:bram>=7 => bram.v1.rain3 cat=weather :: Hm. Sit by the forge. The rain can wait outside. It's good at that.
+2 recent:quest => bram.v1.quest cat=reactive :: Hm. Heard you finished a job. Good. Work done is work done.
+2 recent:gift => bram.v1.gift cat=reactive :: Hm. You gave someone something. I heard. Kindness is a tool too.
+1 shipped:>=50 && !shipped:>=500 => bram.v1.ship1 cat=reactive :: Hm. Crops shipping steady. Good. Steady is what I respect.
+1 shipped:>=500 => bram.v1.ship2 cat=reactive :: Hm. Five hundred shipped. I counted the cart wheels. Good farm.
+1 farm:animals>=3 => bram.v1.animals cat=reactive :: Hm. Animals now. Need hinges for the pens? I'll make them. No charge.
+
+addto npc.ione.talk
+1 weather:rain && hearts:ione<3 => ione.v1.rain1 cat=weather :: Rain on the windows is the library's favorite weather. Nobody comes in, so the books get my full attention.
+1 weather:rain && hearts:ione>=3 && hearts:ione<7 => ione.v1.rain2 cat=weather :: Come in and shake off the rain. I've set a book aside. It's about a harbor, and it's damp-proof.
+1 weather:rain && hearts:ione>=7 => ione.v1.rain3 cat=weather :: On a day like this I read aloud to nobody. If you sit down, it becomes a reading. Please sit.
+2 recent:quest => ione.v1.quest cat=reactive :: I heard you finished a task for someone. I set a book aside for the occasion. It has a happy ending.
+2 recent:gift => ione.v1.gift cat=reactive :: A gift, I hear, and well chosen. I wrapped nothing. I only set a book aside, which is much the same.
+1 shipped:>=50 && !shipped:>=500 => ione.v1.ship1 cat=reactive :: Your harvest is on every table I pass. I read your farm's name on a crate. It looked lovely.
+1 shipped:>=500 => ione.v1.ship2 cat=reactive :: Five hundred things shipped, and not one overdue. You would make a fine borrower.
+1 farm:animals>=3 => ione.v1.animals cat=reactive :: I heard hens on your place from the road. I'd like a book about hens. Do you know one?
+0 hour<10 => ione.v1.morn cat=time :: Morning light is the library's best reader. It goes through every shelf and finds the right page.
+0 hour>=17 && hour<20 => ione.v1.eve cat=time :: The lamps are lit. Evening is when the quiet readers arrive. They bring their own silence.
+0 hour>=20 => ione.v1.night cat=time :: Late. The library keeps its own hours, which are mostly yours. Please lower your voice to a lamp.
+0 season:spring => ione.v1.spring cat=seasonal :: Spring: windows open, dust leaves, and the returned books arrive with mud on them. I forgive both.
+0 season:summer => ione.v1.summer cat=seasonal :: Summer reading is slow and sticky. The ceiling fan is a rumor. The shade is real.
+0 season:fall => ione.v1.fall cat=seasonal :: Fall: the almanacs come out. Everyone wants to know what winter plans to do.
+0 season:winter => ione.v1.winter cat=seasonal :: Winter is the best season for a library. I say this without bias, and with a blanket.
+
+addto npc.marcus.talk
+0 hearts:marcus<3 => marcus.v1.fr0 cat=tier :: You came in without a project. Good. Sawdust doesn't need a reason to be swept.
+0 hearts:marcus>=3 && hearts:marcus<6 => marcus.v1.fr1 cat=tier :: Sit on the stool. It's level. I check it every day, and twice on Mondays.
+1 weather:rain && hearts:marcus<3 => marcus.v1.rain1 cat=weather :: Rain finds every flaw in a roof. I take notes. I don't enjoy it.
+1 weather:rain && hearts:marcus>=3 && hearts:marcus<7 => marcus.v1.rain2 cat=weather :: Wet wood swells. Dry wood shrinks. Neither argues. People could learn.
+1 weather:rain && hearts:marcus>=7 => marcus.v1.rain3 cat=weather :: Come in out of the rain. The shop's dry. I checked the roof. Twice.
+2 recent:quest => marcus.v1.quest cat=reactive :: I hear you did a job for someone. Measure twice, finish once. That's how it's done.
+2 recent:gift => marcus.v1.gift cat=reactive :: A gift is a well-cut joint. It fits where it should. A good one, I hear.
+1 shipped:>=50 && !shipped:>=500 => marcus.v1.ship1 cat=reactive :: Your crates are good. Square corners. I notice corners.
+1 shipped:>=500 => marcus.v1.ship2 cat=reactive :: Five hundred crates. I'd have built the bin bigger. I did offer.
+1 farm:animals>=3 => marcus.v1.animals cat=reactive :: Animals mean fences, troughs and a good barn. I can build all three.
+0 hour<10 => marcus.v1.morn cat=time :: Morning. Sawdust is better before breakfast. The air hasn't decided anything yet.
+0 hour>=17 && hour<20 => marcus.v1.eve cat=time :: End of the day. Tools back on their hooks. A tidy bench is a finished day.
+0 hour>=20 => marcus.v1.night cat=time :: Late. The workshop is quiet. Good wood is patient. So is its carpenter.
+0 season:spring => marcus.v1.spring cat=seasonal :: Spring thaw. Fences lean and doors stick. I'm booked until the next thaw.
+0 season:summer => marcus.v1.summer cat=seasonal :: Summer. Greenhouse frames and warm sawdust. Good wood sings in the heat.
+0 season:fall => marcus.v1.fall cat=seasonal :: Fall. Sheds before snow. Everyone remembers in October. I remember in March.
+0 season:winter => marcus.v1.winter cat=seasonal :: Winter. Indoor work. Chairs, shelves, one honest bench.
+
+addto npc.odalys.talk
+0 hearts:odalys<3 => odalys.v1.fr0 cat=tier :: A visit with no symptoms. Refreshing. Please don't invent one to be polite.
+0 hearts:odalys>=3 && hearts:odalys<6 => odalys.v1.fr1 cat=tier :: You look well. I make that observation rarely, so enjoy it. Tea is optional. Sit anyway.
+1 weather:rain && hearts:odalys<3 => odalys.v1.rain1 cat=weather :: Rain brings colds, and colds bring patients. Doctor's orders: dry socks, and a closed umbrella indoors.
+1 weather:rain && hearts:odalys>=3 && hearts:odalys<7 => odalys.v1.rain2 cat=weather :: Damp weather. Elbows ache and tempers shorten. Sit. I'll prescribe tea and ten minutes of doing nothing.
+1 weather:rain && hearts:odalys>=7 => odalys.v1.rain3 cat=weather :: Rain days are the quiet ones. Sit. I will pretend to review charts, and you will pretend to be a patient.
+2 recent:quest => odalys.v1.quest cat=reactive :: I hear you completed a task for a neighbor. Altruism has no side effects. I checked.
+2 recent:gift => odalys.v1.gift cat=reactive :: A gift. Excellent. Giving lowers the pulse and raises the mood. Doctor's orders: repeat weekly.
+1 shipped:>=50 && !shipped:>=500 => odalys.v1.ship1 cat=reactive :: Your shipments suggest a healthy, productive routine. Keep it. Add water and sleep.
+1 shipped:>=500 => odalys.v1.ship2 cat=reactive :: Five hundred items shipped. Your farm is in better health than most patients. Sit anyway.
+1 farm:animals>=3 => odalys.v1.animals cat=reactive :: Animals on a farm: eggs, milk and a few risks. Wash your hands. Doctor's orders.
+0 hour<10 => odalys.v1.morn cat=time :: Morning. Rounds, then tea, then more rounds. The tea is the clinical high point.
+0 hour>=17 && hour<20 => odalys.v1.eve cat=time :: Evening. The waiting room empties. The kettle, however, never gets a break.
+0 hour>=20 => odalys.v1.night cat=time :: Late. Sleep is the cheapest medicine, and the most ignored. Doctor's orders: bed.
+0 season:spring => odalys.v1.spring cat=seasonal :: Spring: allergies, and sprains from overenthusiastic gardening. Doctor's orders: pace yourself.
+0 season:summer => odalys.v1.summer cat=seasonal :: Summer: sunburn, dehydration, and a surprising number of sandwiches. Drink water.
+0 season:fall => odalys.v1.fall cat=seasonal :: Fall: coughs and ambition. Both are seasonal. Scarves are advised.
+0 season:winter => odalys.v1.winter cat=seasonal :: Winter: chilblains and cabin fever. Prescribed: soup, company and one open window.
+
+addto npc.wren.talk
+1 weather:rain && hearts:wren<3 => wren.v1.rain1 cat=weather :: Rain! The best advertising a saloon has. Stand there dripping and tell me you're not tempted to come in.
+1 weather:rain && hearts:wren>=3 && hearts:wren<7 => wren.v1.rain2 cat=weather :: On a night like this the stories write themselves. Sit down and I'll tell you the one about the umbrella.
+1 weather:rain && hearts:wren>=7 => wren.v1.rain3 cat=weather :: Rain on the roof, a full stove, and you on my best stool. Tell me something I'll repeat tomorrow.
+2 recent:quest => wren.v1.quest cat=reactive :: I heard you pulled off a job for someone. By tomorrow it'll be a rescue. Don't correct me, it's more fun.
+2 recent:gift => wren.v1.gift cat=reactive :: A gift, I hear! Who was it? Don't tell me. I'll guess, I'll be wrong, and it'll be a story.
+1 shipped:>=50 && !shipped:>=500 => wren.v1.ship1 cat=reactive :: Your crates are the talk of the bar. I may have said famous. It was only a little exaggeration.
+1 shipped:>=500 => wren.v1.ship2 cat=reactive :: Five hundred shipped! I told the bar it was five thousand. Nobody checked. That's the beauty of a bar.
+1 farm:animals>=3 => wren.v1.animals cat=reactive :: Animals on the farm! Do any of them sing? If one does, I want first refusal on the act.
+
+addto npc.felix.talk
+1 weather:rain && hearts:felix<3 => felix.v1.rain1 cat=weather :: Rain's good for fish. Bad for the ones holding the rod. I hold it anyway.
+1 weather:rain && hearts:felix>=3 && hearts:felix<7 => felix.v1.rain2 cat=weather :: Fish bite better in rain. I'd tell you that's science. It's mostly stubbornness.
+1 weather:rain && hearts:felix>=7 => felix.v1.rain3 cat=weather :: Sit under the awning. Rain's a good listener. Better than most. Don't tell the fish.
+2 recent:quest => felix.v1.quest cat=reactive :: Heard you did a job for someone. Good. A fish ain't caught by talking about it.
+2 recent:gift => felix.v1.gift cat=reactive :: Heard you gave a gift. Small bait, good catch. You should've seen the other one I nearly gave.
+1 shipped:>=50 && !shipped:>=500 => felix.v1.ship1 cat=reactive :: Your crates smell like honest work. I know honest work. It smells like bait.
+1 shipped:>=500 => felix.v1.ship2 cat=reactive :: Five hundred shipped. That's a good run, in any water.
+1 farm:animals>=3 => felix.v1.animals cat=reactive :: You've got animals now. Same as fish, only they come when called. Mostly.
+0 hour<10 => felix.v1.morn cat=time :: Mornin'. Best light of the day. Fish like it. So do I. Don't tell the fish.
+0 hour>=17 && hour<20 => felix.v1.eve cat=time :: Evenin'. Nets drying. The sea's turning gold, and it's not charging for it.
+0 hour>=20 => felix.v1.night cat=time :: Late. Even the tide's gone quiet. Take the hint, partner.
+0 season:spring => felix.v1.spring cat=seasonal :: Spring. Fish come back like cousins. Hungry, loud, and sure they're welcome.
+0 season:summer => felix.v1.summer cat=seasonal :: Summer. Slow fish and quick tempers. I wear a hat and a patient expression.
+0 season:fall => felix.v1.fall cat=seasonal :: Fall. Best fishing of the year. The water goes clear and honest.
+0 season:winter => felix.v1.winter cat=seasonal :: Winter. Ice on the pond, ice in the bucket. Fish don't mind. I mind, a little.
+
+addto npc.juno.talk
+1 weather:rain && hearts:juno<3 => juno.v1.rain1 cat=weather :: Okay, okay, okay: rain on the forge roof sounds like a hundred tiny hammers. I labeled the sound 'Applause (Wet)'!
+1 weather:rain && hearts:juno>=3 && hearts:juno<7 => juno.v1.rain2 cat=weather :: Rain means everyone's indoors, which means hinges are safe and tools are dry and Bram says 'Hm' to the weather.
+1 weather:rain && hearts:juno>=7 => juno.v1.rain3 cat=weather :: Stand by the forge, it's the warmest room in Wetherell, and I will talk about nothing for as long as you want!
+2 recent:quest => juno.v1.quest cat=reactive :: I heard you finished a job for someone, and I wrote it on a label and stuck it to my apron. It's a good apron.
+2 recent:gift => juno.v1.gift cat=reactive :: A gift! I heard! I'd love a gift, but I'd settle for knowing what it was, with a label.
+1 shipped:>=50 && !shipped:>=500 => juno.v1.ship1 cat=reactive :: Your crates came past the forge on the cart and I read the farm name out loud. It sounds like a real place!
+1 shipped:>=500 => juno.v1.ship2 cat=reactive :: Five hundred shipped! I made a tally on the wall. Bram says it's unnecessary. He's tallying too.
+1 farm:animals>=3 => juno.v1.animals cat=reactive :: Animals! Do they need bells? Latches? I can make the best latch in the county, and I'll label it 'Latch (Escape-Proof)'.
+
+addto npc.hazel.talk
+1 weather:rain && hearts:hazel<3 => hazel.v1.rain1 cat=weather :: Rain on the windows. (Fourteen drops on this pane. I counted.) It makes reading easier.
+1 weather:rain && hearts:hazel>=3 && hearts:hazel<7 => hazel.v1.rain2 cat=weather :: Damp books smell of old gardens. (That's a recommendation.)
+1 weather:rain && hearts:hazel>=7 => hazel.v1.rain3 cat=weather :: Sit by the window. The rain does the shushing. (I just read.)
+2 recent:quest => hazel.v1.quest cat=reactive :: I heard you helped someone. (A good chapter. Short. Warm.)
+2 recent:gift => hazel.v1.gift cat=reactive :: You gave someone a gift. (Gifts are footnotes. They explain the story.)
+1 shipped:>=50 && !shipped:>=500 => hazel.v1.ship1 cat=reactive :: Your crates are on the cart again. (I count them. It's calming.)
+1 shipped:>=500 => hazel.v1.ship2 cat=reactive :: Five hundred crates. (A shelf of them would fill this room.)
+1 farm:animals>=3 => hazel.v1.animals cat=reactive :: Animals: a quiet kind of company. (Lower circulation than books.)
+
+addto npc.piper.talk
+1 weather:rain && hearts:piper<3 => piper.v1.rain1 cat=weather :: Rain on the roof, the best drummer in the county. Terrible timing, but excellent commitment.
+1 weather:rain && hearts:piper>=3 && hearts:piper<7 => piper.v1.rain2 cat=weather :: Rain, rain, rhyme with 'again.' ...It almost works if you squint. That's a chorus.
+1 weather:rain && hearts:piper>=7 => piper.v1.rain3 cat=weather :: I wrote a song to the rain. It's four lines and a drip. The drip is the bridge.
+2 recent:quest => piper.v1.quest cat=reactive :: I heard you did a job for someone. I'm writing the ballad. Verse one is 'You did a job.' Verse two is pending.
+2 recent:gift => piper.v1.gift cat=reactive :: A gift, I hear. A lovely secret in a minor key. I'll hum about it. Quietly.
+1 shipped:>=50 && !shipped:>=500 => piper.v1.ship1 cat=reactive :: Your crates ship out on my beat. Thump, thump, rhythm section. I may be reading too much into carts.
+1 shipped:>=500 => piper.v1.ship2 cat=reactive :: Five hundred crates! That's a whole symphony of parsnips. The percussion section is the cart.
+1 farm:animals>=3 => piper.v1.animals cat=reactive :: Animals on the farm. A chicken is a natural soprano, if it believes in itself.
+
+addto npc.dorian.talk
+1 weather:rain && hearts:dorian<3 => dorian.v1.rain1 cat=weather :: Rain wakes the forest. Mushrooms. Moss. Listen.
+1 weather:rain && hearts:dorian>=3 && hearts:dorian<7 => dorian.v1.rain2 cat=weather :: Wet moss smells green. Not me. The forest.
+1 weather:rain && hearts:dorian>=7 => dorian.v1.rain3 cat=weather :: Stay. Rain is quiet company. The forest likes it.
+2 recent:quest => dorian.v1.quest cat=reactive :: You helped someone. The forest noticed. So did I.
+2 recent:gift => dorian.v1.gift cat=reactive :: A gift. Small things last. Like moss.
+1 shipped:>=50 && !shipped:>=500 => dorian.v1.ship1 cat=reactive :: Your crops are going out. The soil sounds happy.
+1 shipped:>=500 => dorian.v1.ship2 cat=reactive :: So many crops. The forest nods. I do too.
+1 farm:animals>=3 => dorian.v1.animals cat=reactive :: Animals on the farm. The forest sends hello. Mostly crows.
+0 hour<10 => dorian.v1.morn cat=time :: Early. Dew is best. Everything is listening.
+0 hour>=17 && hour<20 => dorian.v1.eve cat=time :: Evening. The forest changes shift. Birds out. Owls in.
+0 hour>=20 => dorian.v1.night cat=time :: Dark. The forest is awake. Walk softly.
+0 season:spring => dorian.v1.spring cat=seasonal :: Spring. Fiddleheads. Wet earth. Go slow.
+0 season:summer => dorian.v1.summer cat=seasonal :: Summer. Berries by the creek. Mind the bees.
+0 season:fall => dorian.v1.fall cat=seasonal :: Fall. Mushrooms. Count them twice.
+0 season:winter => dorian.v1.winter cat=seasonal :: Winter. Quiet. Roots keep secrets. So do I.
+
+addto npc.elara.talk
+0 hearts:elara<3 => elara.v1.fr0 cat=tier :: Hello! Come in, no appointment needed. I keep a chair warm for strangers. It's a medical policy.
+0 hearts:elara>=3 && hearts:elara<6 => elara.v1.fr1 cat=tier :: You're back! I knitted a pocket-sized warmer in case you came by. It's a bit lopsided.
+1 weather:rain && hearts:elara<3 => elara.v1.rain1 cat=weather :: Rain! Keep your socks on and your umbrella on a short leash. I'm knitting a rain hat. For a cat.
+1 weather:rain && hearts:elara>=3 && hearts:elara<7 => elara.v1.rain2 cat=weather :: Wet weather means sniffles. I prescribe tea, rest and one extra pair of socks. For the soul.
+1 weather:rain && hearts:elara>=7 => elara.v1.rain3 cat=weather :: It's a good day for knitting. Sit by me. I'll teach you a stitch, and you'll teach me patience.
+2 recent:quest => elara.v1.quest cat=reactive :: I heard you finished a job for someone! That's a clean bill of health for the village.
+2 recent:gift => elara.v1.gift cat=reactive :: A gift, I heard, and very thoughtful. Good for the heart. I mean that medically.
+1 shipped:>=50 && !shipped:>=500 => elara.v1.ship1 cat=reactive :: Your crates are a healthy sign. Regular, steady, well packed. Textbook farm.
+1 shipped:>=500 => elara.v1.ship2 cat=reactive :: Five hundred shipped! Dr. Penn says your farm has an excellent pulse. I agreed. Out loud.
+1 farm:animals>=3 => elara.v1.animals cat=reactive :: Animals on the farm! Do they need check-ups? I'll bring a stethoscope and a carrot.
+0 hour<10 => elara.v1.morn cat=time :: Good morning! Fresh air is a free prescription. Take two deep breaths and call me never.
+0 hour>=17 && hour<20 => elara.v1.eve cat=time :: Evening! My knitting is three rows longer and my tea is two sips colder.
+0 hour>=20 => elara.v1.night cat=time :: It's late! Sleep is a stitch in time. Keep your socks on and go to bed.
+0 season:spring => elara.v1.spring cat=seasonal :: Spring! Pollen is nature's way of saying hello, with sneezes. I carry tissues and optimism.
+0 season:summer => elara.v1.summer cat=seasonal :: Summer! Sunscreen is a hug for your skin. Apply it like you mean it.
+0 season:fall => elara.v1.fall cat=seasonal :: Fall! Scarf season. I've knitted nine and worn none. They're for the clinic.
+0 season:winter => elara.v1.winter cat=seasonal :: Winter! Sniffles up, spirits up. Keep your socks on and your tea hot.
+

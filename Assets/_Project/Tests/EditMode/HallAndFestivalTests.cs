@@ -20,7 +20,7 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void SixRooms_EachWithItemsOrFriendshipObjectives()
+        public void SevenRooms_EachWithItemsOrFriendshipObjectives()
         {
             using (var f = Fixture())
             {
@@ -91,6 +91,7 @@ namespace Farm.Tests
                     foreach (var o in q.Objectives)
                     {
                         if (!string.IsNullOrEmpty(o.GiveItem)) s.Backpack.Add(o.GiveItem, o.GiveCount);
+                        else if (o.Condition.StartsWith("quest:")) s.State.Quests[o.Condition.Substring(6).Split('=')[0]] = new QuestProgress { Status = QuestStatus.Done };          // the roof waits for Marcus's planks
                         else { var npc = o.Condition.Split(':')[1].Split('>')[0]; s.State.Npcs[npc] = new NpcState { Met = true, Points = 800 }; }
                     }
                 }
@@ -99,11 +100,63 @@ namespace Farm.Tests
                 foreach (var room in HallRooms.Rooms.Where(r => !HallRooms.IsRestored(s.State, r)))
                     foreach (var o in s.Story.Quest(room).Objectives) HallRooms.Donate(s, room, o);              // a room that only asked for friendship
                 foreach (var room in HallRooms.Rooms.Where(r => !HallRooms.IsRestored(s.State, r))) QuestLog.TryComplete(s, s.Story.Quest(room));
-                Assert.AreEqual(6, HallRooms.RestoredCount(s.State));
+                Assert.AreEqual(7, HallRooms.RestoredCount(s.State));
                 Assert.IsTrue(s.HasFlag(HallRooms.RestoredFlag), "the hall is restored");
                 CollectionAssert.Contains(s.PendingEvents, "hall_ending");
                 Assert.AreEqual(QuestStatus.Done, QuestLog.StatusOf(s.State, HallRooms.CompleteQuest));
             }
+        }
+
+        // Spec WP1: the roof is the seventh room. It needs Marcus's planks done first, and the hall is not restored (so Marcus cannot call the roof fixed) without it.
+        [Test]
+        public void TheHall_IsNotRestoredUntilTheRoofIsDone_AndTheRoofWaitsForMarcusPlanks()
+        {
+            using (var f = Fixture())
+            {
+                var s = f.Session;
+                s.Backpack.Resize(80);
+                HallRooms.StartAll(s);
+                foreach (var room in HallRooms.Rooms.Where(r => r != HallRooms.RoofQuest))
+                    foreach (var o in s.Story.Quest(room).Objectives)
+                    {
+                        if (!string.IsNullOrEmpty(o.GiveItem)) s.Backpack.Add(o.GiveItem, o.GiveCount);
+                        else { var npc = o.Condition.Split(':')[1].Split('>')[0]; s.State.Npcs[npc] = new NpcState { Met = true, Points = 800 }; }
+                    }
+                HallRooms.DonateAll(s);
+                foreach (var room in HallRooms.Rooms.Where(r => r != HallRooms.RoofQuest && !HallRooms.IsRestored(s.State, r))) QuestLog.TryComplete(s, s.Story.Quest(room));
+                Assert.AreEqual(6, HallRooms.RestoredCount(s.State), "six rooms are done");
+                Assert.IsFalse(s.HasFlag(HallRooms.RestoredFlag), "the hall is not restored without the roof");
+                CollectionAssert.DoesNotContain(s.PendingEvents, "hall_ending");
+
+                var roof = s.Story.Quest(HallRooms.RoofQuest);
+                foreach (var o in roof.Objectives.Where(o => !string.IsNullOrEmpty(o.GiveItem))) s.Backpack.Add(o.GiveItem, o.GiveCount);
+                HallRooms.DonateAll(s);
+                Assert.IsFalse(HallRooms.IsRestored(s.State, HallRooms.RoofQuest), "the timber and stone are given but Marcus has not proved the oak");
+                Assert.IsFalse(s.HasFlag(HallRooms.RoofFlag));
+
+                s.State.Quests["marcus_planks"] = new QuestProgress { Status = QuestStatus.Done };
+                foreach (var o in roof.Objectives) HallRooms.Donate(s, HallRooms.RoofQuest, o);
+                QuestLog.TryComplete(s, roof);
+                Assert.IsTrue(HallRooms.IsRestored(s.State, HallRooms.RoofQuest));
+                Assert.IsTrue(s.HasFlag(HallRooms.RoofFlag));
+                Assert.IsTrue(s.HasFlag(HallRooms.RestoredFlag), "the seventh room restores the hall");
+                CollectionAssert.Contains(s.PendingEvents, "hall_ending");
+            }
+        }
+
+        [Test]
+        public void ASaveWithTheHallAlreadyRestored_HasTheRoofDone_AndNothingIsAskedOrReplayed()
+        {
+            var state = GameState.NewGame("Old", "Old Farm", _ => 99);
+            state.Flags.Add(HallRooms.RestoredFlag);
+            HallRooms.MigrateRoof(state, 12);
+            Assert.IsTrue(state.Flags.Contains(HallRooms.RoofFlag));
+            Assert.AreEqual(QuestStatus.Done, QuestLog.StatusOf(state, HallRooms.RoofQuest));
+            Assert.IsTrue(state.Flags.Contains(HallRooms.RestoredFlag), "a flag that is set is never cleared");
+            var fresh = GameState.NewGame("New", "New Farm", _ => 99);
+            HallRooms.MigrateRoof(fresh, 1);
+            Assert.IsFalse(fresh.Flags.Contains(HallRooms.RoofFlag), "a hall that is not restored keeps its roof to do");
+            Assert.AreEqual("new", QuestLog.StatusOf(fresh, HallRooms.RoofQuest));
         }
 
         [Test]

@@ -65,6 +65,7 @@ namespace Farm.UI
         ShopScreen _shop;
         public ShopScreen Shop => _shop;
         ConfirmDialog _confirm;
+        QuantityDialog _quantity;
         MessageDialog _message;
         IllustrationScreen _illustration;
         DialogueScreen _dialogue;
@@ -90,6 +91,7 @@ namespace Farm.UI
         public void Attach(GameContext context) => Game = context;
         public EventBus Bus => _bus;
         public bool AnyModalOpen => _modals.Count > 0;
+        public bool DialogueOpen => _dialogue != null && _dialogue.IsOpen;          // a conversation is on screen: notices wait until it ends
         public bool PointerOverUi => EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
 
         BugReportScreen _bugReport;
@@ -244,7 +246,7 @@ namespace Farm.UI
             top.Tick();
             if (_input.Ui[InputNames.Cancel].WasPressedThisFrame() && Time.frameCount != top.OpenedFrame) top.OnCancel();
             RecoverFocus(top);
-            PadScroll.Tick(top.Root, Time.unscaledDeltaTime);
+            PadScroll.Tick(top.Root, Time.unscaledDeltaTime, Game.Settings.Current.ControllerSensitivity);
         }
 
         // ---- the menu tour ---------------------------------------------------------------------------------------
@@ -478,6 +480,7 @@ namespace Farm.UI
         }
 
         public ShippingScreen Shipping => _shipping;
+        public QuantityDialog Quantity => _quantity;       // the "how many?" window, once one has been asked (tests set the number)
         public ConfirmDialog Confirm => _confirm;          // the yes/no question, once one has been asked (tests answer it)
 
         SellScreen _sell;
@@ -501,6 +504,13 @@ namespace Farm.UI
         {
             _shop ??= new ShopScreen(this);
             _shop.OpenShop(shopId);
+        }
+
+        // The "how many?" window for a stack that is sold, shipped or bought: a number box with -All, -5, -1, +1, +5 and +All around it. `onConfirm` gets the amount.
+        public void ShowQuantity(QuantityRequest request, Action<int> onConfirm)
+        {
+            _quantity ??= new QuantityDialog(this);
+            _quantity.Ask(request, onConfirm);
         }
 
         public void ShowConfirm(string messageKey, Action onYes, Action onNo = null)

@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 namespace Farm.UI
 {
-    // The shipping bin as a window: the backpack on screen, pick a stack, set how many go in the lot (-10, -1, +1, +10, all, none), see
-    // what the lot is worth, and ship it all at once. Every control is a Button, so mouse, keyboard and gamepad all work.
+    // The shipping bin as a window: the backpack on screen, pick a stack, set how many go in the lot in the "how many?" window that opens (a single item is put in the lot or
+    // taken out again with a click), see what the lot is worth, and ship it all at once. Every control is a Button, so mouse, keyboard and gamepad all work.
     public sealed class ShippingScreen : UiScreen
     {
         const int Columns = 12;
@@ -40,15 +40,6 @@ namespace Farm.UI
             _focus = UiKit.Label(stack.transform, "", 18f, TextAlignmentOptions.Left);
             UiKit.Size(_focus.gameObject, -1f, 26f);
 
-            var row = UiKit.HStack(stack.transform, "Quantity", 6f);
-            UiKit.Size(row.gameObject, -1f, 32f);
-            _qtyFirst = Qty(row.transform, "-10", () => Change(-10));
-            Qty(row.transform, "-1", () => Change(-1));
-            Qty(row.transform, "+1", () => Change(1));
-            Qty(row.transform, "+10", () => Change(10));
-            Qty(row.transform, L.Get("shipping.all"), () => { if (_selected >= 0) _lot.All(Ui.Session, _selected); Rebuild(); });
-            Qty(row.transform, L.Get("shipping.none"), () => { if (_selected >= 0) _lot.None(_selected); Rebuild(); });
-
             _summary = UiKit.Label(stack.transform, "", 24f, TextAlignmentOptions.Left, UiKit.Accent);
             _summary.fontStyle = FontStyles.Bold;
             UiKit.Size(_summary.gameObject, -1f, 34f);
@@ -61,13 +52,6 @@ namespace Farm.UI
             root.SetActive(false);
         }
 
-        static Button Qty(Transform parent, string text, UnityEngine.Events.UnityAction action)
-        {
-            var button = UiKit.MakeButton(parent, text, action, 84f, 30f);
-            button.name = "Qty_" + text;
-            return button;
-        }
-
         public void OpenShipping()
         {
             _lot = new ShippingLot();
@@ -77,10 +61,23 @@ namespace Farm.UI
             if (EventSystem.current != null && _grid.childCount > 0) EventSystem.current.SetSelectedGameObject(_grid.GetChild(0).gameObject);          // the pad cursor starts on the first slot, not nowhere
         }
 
-        void Change(int delta)
+        void AskHowMany(int slot)
         {
-            if (_selected >= 0) _lot.Add(Ui.Session, _selected, delta);
-            Rebuild();
+            var s = Ui.Session;
+            var stack = s.Backpack.Get(slot);
+            if (stack == null || !ShippingLot.CanShip(s, slot)) return;
+            s.Db.TryGetItem(stack.ItemId, out var item);
+            Ui.ShowQuantity(new QuantityRequest
+            {
+                Title = L.Get("quantity.ship_title"),
+                ItemName = item != null ? L.Get(item.NameKey) : stack.ItemId,
+                Icon = item?.Icon,
+                Min = 0,
+                Max = QuantityPicker.MaxToGive(s, slot),
+                Initial = System.Math.Max(1, _lot.Get(slot)),
+                UnitValue = ShippingLot.ValueOf(s, slot, 1),
+                TotalKey = "quantity.total_worth",
+            }, count => { _lot.Set(s, slot, count); Rebuild(); });          // Set keeps it between none and the whole stack
         }
 
         void ShipLot()
@@ -94,10 +91,10 @@ namespace Farm.UI
         }
 
         // The cursor moves along the grid exactly as it is drawn: left and right step one slot (wrapping to the next row), up and down one row; down from the last row
-        // reaches the quantity buttons, and up from the first slot of the quantity row comes back to the same column.
+        // reaches the Ship button.
         void WireGridNavigation(int count)
         {
-            var below = _qtyFirst;
+            var below = _ship;
             for (var i = 0; i < count && i < _grid.childCount; i++)
             {
                 var button = _grid.GetChild(i).GetComponent<Button>();
@@ -114,8 +111,6 @@ namespace Farm.UI
             }
         }
 
-        Selectable _qtyFirst;
-
         void Rebuild()
         {
             var s = Ui.Session;
@@ -126,7 +121,21 @@ namespace Farm.UI
                 var index = i;
                 var stack = inv.Get(i);
                 var can = ShippingLot.CanShip(s, i);
-                var button = UiKit.MakeButton(_grid, $"Slot{i}", () => { if (!can) return; _selected = index; if (_lot.Get(index) == 0) _lot.Add(s, index, 1); Rebuild(); }, SlotSize, SlotSize);
+                var button = UiKit.MakeButton(_grid, $"Slot{i}", () =>
+                {
+                    if (!can) return;
+                    _selected = index;
+                    var held = s.Backpack.Get(index);
+                    if (held != null && held.Count > 1)
+                    {
+                        if (_lot.Get(index) == 0) _lot.Add(s, index, 1);
+                        Rebuild();
+                        AskHowMany(index);          // a stack opens the "how many?" window
+                        return;
+                    }
+                    if (_lot.Get(index) == 0) _lot.Add(s, index, 1); else _lot.None(index);          // one item: a click puts it in the lot, another takes it out
+                    Rebuild();
+                }, SlotSize, SlotSize);
                 button.GetComponentInChildren<TextMeshProUGUI>().text = string.Empty;
                 // A stack that cannot be shipped stays a stop for the pad cursor (dimmed, a click does nothing): if it dropped out of the navigation, the cursor jumped over the gaps
                 // to whichever slot was nearest, and a player in a groove ended on the wrong stack (playtest 2026-10-16).

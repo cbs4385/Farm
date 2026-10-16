@@ -135,9 +135,28 @@ namespace Farm.UI
                 UiKit.Size(price.gameObject, 70f, 32f);
 
                 var captured = item;
-                UiKit.MakeButton(row.transform, L.Get("shop.buy1"), () => Buy(captured, 1), 70f, 32f);
-                UiKit.MakeButton(row.transform, L.Get("shop.buy5"), () => Buy(captured, 5), 70f, 32f);
+                UiKit.MakeButton(row.transform, L.Get("shop.buy"), () => AskHowMany(captured), 90f, 32f).name = "Buy_" + captured.Id;
             }
+        }
+
+        // Choosing an item opens the "how many?" window (playtest 2026-10-16: too many clicks): it allows what the gold pays for and the backpack has room for.
+        void AskHowMany(ItemDefinition item)
+        {
+            var session = Ui.Session;
+            var max = QuantityPicker.MaxToBuy(session, item);
+            if (max <= 0) { session.Toast(L.Get(session.State.Gold < item.BuyPrice ? "toast.not_enough_gold" : "toast.inventory_full")); return; }
+            if (max == 1) { Buy(item, 1); return; }
+            Ui.ShowQuantity(new QuantityRequest
+            {
+                Title = L.Get("quantity.buy_title"),
+                ItemName = L.Get(item.NameKey),
+                Icon = item.Icon,
+                Min = 1,
+                Max = max,
+                Initial = 1,
+                UnitValue = item.BuyPrice,
+                TotalKey = "quantity.total_cost",
+            }, count => Buy(item, QuantityPicker.Clamp(count, 1, QuantityPicker.MaxToBuy(session, item))));
         }
 
         void Buy(ItemDefinition item, int count)

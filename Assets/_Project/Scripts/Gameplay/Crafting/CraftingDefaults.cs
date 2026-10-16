@@ -112,7 +112,7 @@ namespace Farm.Gameplay
             foreach (var d in Decor)
                 rows.Add(new ExtraItemRow(ItemIds.Machine(d.id), ItemCategory.Furniture, d.price / 4, C(0.60f, 0.40f, 0.22f), buy: d.price, placeableId: d.id, soldIn: new[] { "carpenter", "general", "merchant" }));          // the general store and the traveling merchant stock the furniture too (owner, 2026-10-14)
             foreach (var id in FarmProps)
-                rows.Add(new ExtraItemRow(ItemIds.Machine(id), ItemCategory.Furniture, 5, C(0.60f, 0.45f, 0.25f), placeableId: id));
+                rows.Add(new ExtraItemRow(ItemIds.Machine(id), ItemCategory.Furniture, 5, FarmPropColor(id), placeableId: id));
             foreach (var d in Dishes)
                 rows.Add(new ExtraItemRow("food." + d.id, ItemCategory.Food, d.sell, C(0.85f, 0.60f, 0.35f), buy: DishPrice(d.sell), energy: d.energy, soldIn: new[] { "saloon" }));          // the saloon sells its meals (playtest 2026-10-13)
             rows.AddRange(GemDefaults.CreateItems());
@@ -121,6 +121,18 @@ namespace Farm.Gameplay
 
         // A meal at the bar costs half as much again as the same dish fetches when it is sold, in whole fives, so that cooking at home always pays.
         public static int DishPrice(int sell) => (sell * 3 / 2 + 4) / 5 * 5;
+
+        // Each prop of the farm has a picture of its own (no two items look the same): straw yellow, sack cloth, dark wood and barrel brown.
+        static Color FarmPropColor(string id)
+        {
+            switch (id)
+            {
+                case "hay": return C(0.88f, 0.74f, 0.30f);
+                case "sacks": return C(0.74f, 0.66f, 0.50f);
+                case "wheelbarrow": return C(0.42f, 0.36f, 0.30f);
+                default: return C(0.52f, 0.34f, 0.18f);
+            }
+        }
 
         static Color MachineColor(string id)
         {

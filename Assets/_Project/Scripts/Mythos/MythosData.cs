@@ -29,6 +29,10 @@ namespace Farm.Mythos
         public const string RelicSeal = "mythos.relic_seal", RelicBell = "mythos.relic_bell", RelicThread = "mythos.relic_thread";
         public static readonly string[] Relics = { RelicSeal, RelicBell, RelicThread };
 
+        // Things the story hands over that are not relics: Juno's spare key to the box behind the farm's cellar door (spec WP9, E2).
+        public const string BrassKey = "mythos.brass_key";
+        public static readonly string[] Keepsakes = { BrassKey };
+
         public static readonly HorrorCropRow[] Crops =
         {
             // Grow only while the player's dread is high enough; otherwise they lie dormant.

@@ -125,7 +125,7 @@ namespace Farm.Tests
         // ---- placing, using and picking up ------------------------------------------------------------------------------
 
         [UnityTest]
-        public IEnumerator AChest_CanBePlaced_Filled_AndPickedUpAgainWhenEmpty()
+        public IEnumerator AChest_CanBePlaced_Filled_AndTheAxeLeavesItAlone()
         {
             yield return Start();
             _session.Backpack.Add("machine.chest", 1);
@@ -151,14 +151,14 @@ namespace Farm.Tests
             yield return Tap(Key.Escape);
             Assert.IsFalse(Ui.AnyModalOpen);
 
-            // A full chest cannot be picked up; an empty one can, with the axe.
+            // The axe leaves a chest alone, full or empty: the builder's mallet picks placed things up (playtest 2026-10-16).
             yield return Face(20, 8, Vector2Int.right, ItemIds.Axe);
             yield return Tap(Key.X);
             Assert.IsTrue(_session.GetObjects(MapIds.Farm).Has(21, 8), "it still holds parsnips");
             _session.GetObjects(MapIds.Farm).ChestOf(placed).Remove("crop.parsnip", 9);
             yield return Tap(Key.X);
-            Assert.IsFalse(_session.GetObjects(MapIds.Farm).Has(21, 8));
-            Assert.AreEqual(1, _session.Backpack.Count("machine.chest"));
+            Assert.IsTrue(_session.GetObjects(MapIds.Farm).Has(21, 8), "the axe does not take even an empty chest");
+            Assert.AreEqual(0, _session.Backpack.Count("machine.chest"));
         }
 
         // Playtest report (2026-10-05): tools put into a chest and taken out again did not come back to their place on the item bar.

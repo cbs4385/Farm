@@ -217,7 +217,10 @@ namespace Farm.Gameplay
             {
                 var raw = input.Move.ReadValue<Vector2>();
                 var settings = _session != null ? _session.Settings : null;
-                if (settings != null && input.Hints.Kind == InputKind.Gamepad) raw = RunModel.ApplyStickSensitivity(raw, settings.ControllerSensitivity);
+                // The controller sensitivity is read afresh every frame, so the slider takes effect at once; it scales the stick whenever the stick is being pushed (not the keys or the d-pad).
+                var pad = UnityEngine.InputSystem.Gamepad.current;
+                var stickPushed = pad != null && pad.leftStick.ReadValue().sqrMagnitude > 0.0004f;
+                if (settings != null && stickPushed) raw = RunModel.ApplyStickSensitivity(raw, settings.ControllerSensitivity);
                 _move = Vector2.ClampMagnitude(raw, 1f);
             }
 

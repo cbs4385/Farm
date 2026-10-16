@@ -78,7 +78,7 @@ namespace Farm.Tests
             foreach (var v in _report.Villagers)
             {
                 Assert.GreaterOrEqual(v.CoverageYear1, 0.36, $"{v.Villager}: {v.CoverageYear1:P0} after year one");          // was 0.40, then 0.39 (2026-10-12, the goal lines); 0.36 since the voice pass added about 80 cross-villager lines to pools the bot already heard only once a day (2026-10-15)
-                Assert.GreaterOrEqual(v.Coverage, 0.49, $"{v.Villager}: {v.Coverage:P0} after two years of {v.TalkEntries} entries");          // was 0.55, then 0.52 (2026-10-11, the goal lines); 0.49 after the voice pass of 2026-10-15 (Bram and Juno measured 50% with the larger pools)
+                Assert.GreaterOrEqual(v.Coverage, 0.46, $"{v.Villager}: {v.Coverage:P0} after two years of {v.TalkEntries} entries");          // 0.46 since variety wave 1 added 11 to 20 entries per villager (the share heard falls as entries are added; the number heard does not)          // was 0.55, then 0.52 (2026-10-11, the goal lines); 0.49 after the voice pass of 2026-10-15 (Bram and Juno measured 50% with the larger pools)
             }
         }
 

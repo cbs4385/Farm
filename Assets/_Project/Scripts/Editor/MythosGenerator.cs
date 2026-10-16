@@ -34,6 +34,9 @@ namespace Farm.Editor
                 items.Add(ContentGenerator.Persist(ItemDefinition.Create($"crop.{row.Id}", ItemCategory.Crop, sellPrice: row.SellPrice,
                     icon: ContentGenerator.Sprite($"item_crop_{row.Id}")), $"{Dir}/item_{row.Id}.asset"));
             }
+            foreach (var keepsake in MythosData.Keepsakes)
+                items.Add(ContentGenerator.Persist(ItemDefinition.Create(keepsake, ItemCategory.Misc, 1,
+                    icon: ContentGenerator.Sprite("item_" + keepsake.Replace('.', '_'))), $"{Dir}/{keepsake}.asset"));
             foreach (var relic in MythosData.Relics)
                 items.Add(ContentGenerator.Persist(ItemDefinition.Create(relic, ItemCategory.Misc, 1,
                     icon: ContentGenerator.Sprite("item_" + relic.Replace('.', '_'))), $"{Dir}/{relic}.asset"));

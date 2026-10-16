@@ -1,0 +1,78 @@
+# Scenes that close arcs (docs/NPC_INTERCONNECTED_GAMEPLAY_SPEC.md): the dialogues and the callbacks. The scenes themselves are in Resources/Story/spec_scenes.json.
+
+# ---- Next Door: Juno and Bram at the forge (WP4) ----
+dialogue next_door.talk
+n0 juno: Tongs or no tongs? Say something. Anything. I'll do the opposite if I'm nervous enough!
+  ? Let Bram bring the tongs. => r0 | flag:choice.next_door.tongs | friend:juno,5
+  ? Trust your own hands. => r1 | flag:choice.next_door.own | friend:juno,5
+r0 juno: Fine. Fine! One heat, together. ...Okay, that's better. It's still mine. The tongs only held it.
+r1 juno: Own hands. Okay. Okay, okay. ...It's a hair thicker. I did that. Bram, I did that!
+
+addto npc.juno.talk
+0 flag:event.next_door && hearts:juno>=10 => juno.nextdoor.1 cat=reactive tag=wholesome :: {if choice:next_door.tongs}Bram's tongs are on a hook with my name chalked under his. I labeled the hook. Obviously.{else}I fixed the shoulder with my own hands. Bram keeps the good tongs near. Just near.{/if}
+
+addto npc.bram.talk
+0 flag:event.next_door && hearts:bram>=10 => bram.nextdoor.1 cat=reactive tag=wholesome :: {if choice:next_door.tongs}Hm. She let me hold the tongs. First time. I held them like they were hers.{else}Hm. She fixed it herself. The shoulder holds. I checked twice.{/if}
+
+# ---- Opening Night: the hall dance (WP2). The scene is in spec_scenes.json; these are what four of the six say about it afterwards. ----
+addto npc.tilda.talk
+0 flag:event.hall_dance && hearts:tilda>=5 => tilda.dance.1 cat=reactive tag=wholesome :: The slate says 'roof' now, in the good chalk. Nobody asked me to write it. That's why I did.
+
+addto npc.marcus.talk
+0 flag:event.hall_dance && hearts:marcus>=5 => marcus.dance.1 cat=reactive tag=wholesome :: I danced. One dance. The roof held, and so did I.
+
+addto npc.wren.talk
+0 flag:event.hall_dance && hearts:wren>=5 => wren.dance.1 cat=reactive tag=funny :: I tell the porch story every night. Fourteen people, then forty. The roof I never exaggerate. Fixed is fixed.
+
+addto npc.piper.talk
+0 flag:event.hall_dance && hearts:piper>=5 => piper.dance.1 cat=reactive tag=wholesome expr=happy :: They sang it without me and I stood there like a lamp post. A happy lamp post.
+
+# ---- Reading Night at the library (WP6) ----
+topic ione.reading
+  npc ione
+  label Ask about the reading night
+  plays reading.offer
+  if flag:event.hazel_heart10 && flag:event.ione_heart8 && hearts:ione>=8 && !flag:choice.reading.yes
+  priority 3
+
+dialogue reading.offer
+n0 ione: Hazel and I would like a reading night here. One evening, a few chairs, a lamp. Would you come?
+  ? I'd love to. => r0 | flag:choice.reading.yes | friend:ione,10
+  ? Not just yet. => r1
+r0 ione: Then I'll set out the chairs. Come in the evening, when the lamp is lit.
+  expr happy
+r1 ione: The chairs will keep. So will I.
+
+dialogue reading.hazel
+n0 hazel: (Nobody has to hear it.) What would you do? ...I mean, if you were me.
+  ? Read it. We're listening. => r0 | flag:choice.reading.poem | friend:hazel,10
+  ? Read something borrowed. => r1 | flag:choice.reading.borrowed | friend:hazel,10
+  ? Listen first. Ione can start. => r2 | flag:choice.reading.listen | friend:hazel,10
+r0 hazel: (Fine.) A short one. Eleven lines. (I counted twice.)
+r1 hazel: Someone else's, then. Kinder to the room. (Mine can wait.)
+r2 hazel: Then Ione goes first. (Thank you.) I'll stay.
+
+addto npc.ione.talk
+0 flag:event.reading_night && hearts:ione>=8 => ione.reading.1 cat=reactive tag=wholesome :: {if choice:reading.poem}Hazel's poem is in my desk drawer now. She doesn't know I know.{else}{if choice:reading.borrowed}Hazel listened with her eyes shut. I read the winter pages twice.{else}Hazel stayed to the end. I count that as a reader.{/if}{/if}
+
+addto npc.hazel.talk
+0 flag:event.reading_night && hearts:hazel>=8 => hazel.reading.1 cat=reactive tag=wholesome :: Seven people heard a lamp being kept company. (Four. I exaggerate when I'm happy.)
+
+addto npc.dorian.talk
+0 flag:event.reading_night && hearts:dorian>=6 => dorian.reading.1 cat=reactive tag=wholesome :: The flower is still on the desk. Pressed. Good.
+
+# ---- Past the Point: the boat (WP5) ----
+dialogue past_point.talk
+n0 elara: Forty-two places on the list, and Felix says we can manage one before breakfast. Which one?
+  ? Round the headland. => r0 | flag:choice.point.headland | friend:elara,5
+  ? The white rocks. => r1 | flag:choice.point.rocks | friend:elara,5
+  ? Straight out, until the shore is a line. => r2 | flag:choice.point.horizon | friend:elara,5
+r0 elara: The headland! I've drawn it eleven times. Never from a boat.
+r1 elara: The white rocks. I've never been closer than the bench. Row slowly!
+r2 elara: Straight out. I'll hold the sandwich tin. It's very steadying.
+
+addto npc.felix.talk
+0 flag:event.past_the_point && hearts:felix>=6 => felix.point.1 cat=reactive tag=wholesome :: {if choice:point.headland}We went round the headland. She named every rock. I let her.{else}{if choice:point.rocks}She waved at the white rocks. They didn't wave back. She said that's polite.{else}We rowed till the shore was a line. She didn't talk. Best company I've had.{/if}{/if}
+
+addto npc.elara.talk
+0 flag:event.past_the_point && hearts:elara>=6 => elara.point.1 cat=reactive tag=wholesome :: {if choice:point.headland}I crossed out the headland. One place down, forty-one to go, and now I have a boat!{else}{if choice:point.rocks}I crossed out the white rocks. In pencil! It's a start.{else}I crossed out the horizon. It's the only one I'll ever cross out and keep.{/if}{/if}

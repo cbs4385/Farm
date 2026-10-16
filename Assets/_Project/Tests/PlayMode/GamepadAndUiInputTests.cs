@@ -206,7 +206,7 @@ namespace Farm.Tests
                 var controls = action.controls.Select(c => c.device).Distinct().ToList();
                 Assert.IsTrue(controls.OfType<Keyboard>().Any() || controls.OfType<Mouse>().Any(), $"{action.name}: keyboard/mouse");
                 if (action.name.StartsWith(InputNames.HotbarPrefix) && action.name != InputNames.HotbarNext && action.name != InputNames.HotbarPrev) continue;
-                if (action.name == InputNames.RowPrev) continue;                       // a pad has one row button: RT goes round
+                if (action.name == InputNames.RowPrev || action.name == InputNames.Crafting) continue;                       // a pad has one row button: RT goes round; crafting opens from the menu tab (LT is Run)
                 Assert.IsTrue(controls.OfType<Gamepad>().Any(), $"{action.name}: gamepad");
             }
         }

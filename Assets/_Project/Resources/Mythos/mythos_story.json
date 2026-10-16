@@ -957,7 +957,7 @@
       "id": "mythos_uncle_note",
       "subjectKey": "letter.mythos_uncle_note.subject",
       "bodyKey": "letter.mythos_uncle_note.body",
-      "condition": "horror:1 && var:lore>=1",
+      "condition": "horror:1 && var:lore>=1 && flag:edmund.stove_note",
       "effects": [
         "lore:1",
         "dread:2"
@@ -967,7 +967,7 @@
       "id": "mythos_uncle_truth",
       "subjectKey": "letter.mythos_uncle_truth.subject",
       "bodyKey": "letter.mythos_uncle_truth.body",
-      "condition": "horror:1 && var:lore>=4 && flag:woods.open",
+      "condition": "horror:1 && var:lore>=4 && flag:woods.open && flag:edmund.box_opened",
       "effects": [
         "lore:1",
         "dread:4"
@@ -1413,6 +1413,10 @@
         {
           "type": "say",
           "text": "event.resist.4"
+        },
+        {
+          "type": "say",
+          "text": "event.resist.notes"
         },
         {
           "type": "say",
@@ -1875,6 +1879,12 @@
         {
           "type": "label",
           "label": "snatched"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:mythos.snatched"
+          ]
         },
         {
           "type": "camera",

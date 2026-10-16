@@ -50,6 +50,8 @@ namespace Farm.Tests
 
             var buy = sheep.GetComponentsInChildren<Button>().First();
             buy.onClick.Invoke();
+            var ui = (UiService)GameContext.Current.Ui;
+            if (ui.Quantity != null && ui.Quantity.IsOpen) ui.Quantity.Submit(1);          // Buy... asks how many
             Assert.AreEqual(1, s.Backpack.Count("animal.sheep"), "and can be bought");
         }
     }

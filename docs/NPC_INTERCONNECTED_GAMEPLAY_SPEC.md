@@ -206,13 +206,17 @@ Each package lists what it needs, how it triggers, the files, and **assertable**
 
 **Acceptance:** each chosen P has a trigger, a flag and a test; the chain steps (E2, E1, L2, L4, L5) cannot soft-lock the ending in any order the player can reach them; every U is listed in `docs/mythos/LORE.md`; the `docs/mythos/` canon files are updated in the same change; nothing appears at horror 0.
 
-### WP10: Variety and reactive talk (after WP1 to WP6)
+### WP10: Variety and reactive talk (after WP1 to WP6) **Built 2026-10-16 (wave 1); see the status note below**
+
+**Status (2026-10-16, version 0.7.4).** The audit is a set of tests that fail on gaps (`NarrativeCoverageTests`: a floor of lines at every friendship tier, rain lines at every tier that nothing outranks, morning, evening and night lines, a line for each reactive state, and a time-bound line check; the table is written to `Builds/narrative_coverage.txt`). It found rain the thinnest area (3 to 5 lines), the `recent:` condition used by no villager, `shipped:` used only by Tilda, and six villagers (Ione, Marcus, Odalys, Felix, Dorian, Elara) with pools about 40 percent smaller than the other six. Wave 1 wrote 144 lines in `Narrative/variety_wave1.fscript` (rain by friendship for all twelve, a recent quest and a recent gift, 50 and 500 items shipped, farm animals, and for the six morning, evening, night and one line a season). No existing line was edited. Not done: moon-at-night lines (there is no moon condition), upgrade-progress lines for the shopkeepers, and further waves.
 
 Audit first (section 1.4), then add lines in small batches: Tilda, Bram, Ione, Wren, then the rest. Requirements per talk set: 0 to 2 hearts keeps multiple reachable ordinary lines; friend and close tiers add variety without shadowing; rain lines are reachable at every tier; seasonal and hour lines carry matching conditions; quest offers, reminders and turn-ins outrank casual lines. Add reactive lines only when an existing condition atom supports them (festival countdown, a recent milestone, farm progress, shop upgrades, moon at night); each is specific and temporary. Gossip stays tied to `docs/narrative/RELATIONSHIPS.md` and its tests.
 
-### WP11: Polish (not a blocker)
+### WP11: Polish (not a blocker) **Audited 2026-10-16; see the status note below**
 
 Portrait expressions where art exists, text speed and accessibility, voice blips, conversation-end friendship feedback. Only after content works.
+
+**Status (2026-10-16, version 0.7.4).** All four items were audited by tests (`PolishAuditTests`, `DialoguePacingTests`, `StreamModeTests`). Every villager has every expression picture, and every expression the story names exists; every villager has a voice and a signature sound of their own; text speed (slow, normal, fast, instant) and the stream-mode floor were already covered. The one gap was friendship feedback: a "heart gained" notice sat under the dialogue box and expired during the conversation, so notices now wait until the conversation closes (`HudView.AdvanceToast`, `UiService.DialogueOpen`). Anything that needs new art (portraits, animation) is not drawn as a placeholder: it goes to the art pass.
 
 ---
 

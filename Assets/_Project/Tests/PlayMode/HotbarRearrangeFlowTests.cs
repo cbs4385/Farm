@@ -13,6 +13,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 namespace Farm.Tests
 {
@@ -61,6 +62,7 @@ namespace Farm.Tests
             _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
+            _session.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 12 * 60));          // daylight: no torch is needed (an emptied backpack would raise the torch warning window)
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
@@ -99,6 +101,29 @@ namespace Farm.Tests
         {
             var end = Time.realtimeSinceStartup + seconds;
             while (Time.realtimeSinceStartup < end) yield return null;
+        }
+
+        // Playtest 2026-10-16: "the buttons to scroll the hot bar for larger backpacks obscure and overlap the last item slot".
+        [UnityTest]
+        public IEnumerator TheRowButtons_StandPastTheEndOfTheBar_AndNeverOverTheLastSlot()
+        {
+            yield return Enter(24);
+            for (var i = 0; i < 8; i++) yield return null;
+            var holder = Resources.FindObjectsOfTypeAll<RectTransform>().First(r => r.name == "RowButtons" && r.gameObject.scene.IsValid());
+            Assert.IsTrue(holder.gameObject.activeInHierarchy, "a backpack of two rows shows the buttons");
+            var last = holder.parent.Find("Slot" + (InputNames.HotbarSlots - 1)) as RectTransform;
+            Assert.IsNotNull(last, "the last slot of the bar");
+            var buttons = new Vector3[4];
+            var slot = new Vector3[4];
+            holder.GetWorldCorners(buttons);
+            last.GetWorldCorners(slot);
+            Assert.GreaterOrEqual(buttons[0].x, slot[2].x, "the buttons start where the last slot ends");
+            foreach (var b in holder.GetComponentsInChildren<Button>(true))
+            {
+                var corners = new Vector3[4];
+                ((RectTransform)b.transform).GetWorldCorners(corners);
+                Assert.GreaterOrEqual(corners[0].x, slot[2].x, b.name + " is clear of the last slot");
+            }
         }
 
         // ---- the keyboard ------------------------------------------------------------------------------------------

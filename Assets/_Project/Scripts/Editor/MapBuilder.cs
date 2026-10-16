@@ -150,7 +150,7 @@ namespace Farm.Editor
         // Restoring a room of the hall (its quest done: the flag `hall.<room>`) used to change nothing that could be seen (playtest 2026-10-13: "no change to the village or the
         // community center after completing a quest"). Now each of the six rooms shows in the hall itself and in the village. Everything here is hidden until its flag is set.
 
-        static readonly string[] HallRoomIds = { "pantry", "crafts", "fishtank", "boiler", "bulletin", "vault" };
+        static readonly string[] HallRoomIds = { "pantry", "crafts", "fishtank", "boiler", "bulletin", "vault", "roof" };
 
         static GameObject WhenRestored(string prefix, string room)
         {
@@ -187,6 +187,11 @@ namespace Farm.Editor
             Put("bulletin", "Lamp", "obj_lamp", 12, 2);
             Put("vault", "Clock", "obj_clock", 10, 8);
             Put("vault", "Vase", "obj_vase", 1, 2);
+            Put("roof", "RoofLantern", "obj_lamp", 7, 8);                                  // where the roof leaked there is light now
+            var leaks = new GameObject("HallLeaks");                                        // until the roof is done, buckets stand under its drips
+            leaks.AddComponent<ConditionalObject>().Condition = "!flag:hall." + "roof";
+            foreach (var (bx, by) in new[] { (4, 4), (9, 5) })
+                AddObject($"Bucket_{bx}_{by}", "obj_jar", Center(bx, by), false).transform.SetParent(leaks.transform, true);
         }
 
         // ---- the festival grounds ----------------------------------------------------------------------------------
@@ -284,6 +289,7 @@ namespace Farm.Editor
             Put("bulletin", "HallLampWest", "prop_lamp", dx - 5, lamp: true);
             Put("bulletin", "HallLampEast", "prop_lamp", dx + 5, lamp: true);
             Put("vault", "HallBench", "prop_bench", dx + 2, 2);
+            Put("roof", "HallRoofFlag", "prop_flag", dx - 2);                                // a pennant on the finished roof
             AddChimneySmoke(hall, (hall.X0 + hall.X1 + 1) / 2f, hall.Y0);            // the boiler is lit again: smoke from the hall's chimney
             var smoke = GameObject.Find($"{hall.MapId}_Smoke");
             if (smoke != null) smoke.transform.SetParent(RestoredHolder("VillageRestored", "boiler").transform, true);
@@ -401,16 +407,24 @@ namespace Farm.Editor
                 for (var x = 0; x < InW; x++)
                 {
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_floor_wood"));
-                    var edge = x == 0 || y == 0 || x == InW - 1 || y == InH - 1 || (x == KitchenWallX && y != KitchenDoorY) || (y == BedroomWallY && x > KitchenWallX && x != BedroomDoorX);
-                    var door = y == 0 && x == 5;
+                    var edge = x == 0 || y == 0 || x == InW - 1 || y == InH - 1 || (x == KitchenWallX && y != KitchenDoorY && y != KitchenDoorY + 1) || (y == BedroomWallY && x > KitchenWallX && x != BedroomDoorX && x != BedroomDoorX + 1);
+                    var door = y == 0 && (x == 5 || x == 6);          // doorways are two cells wide (playtest 2026-10-16: the one-cell door was finicky to walk through)
                     if (edge && !door) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
 
             AddSpawn("default", Center(5, 2));
             AddSpawn("bed", Center(14, 6));
             rig.Ground.SetTile(new Vector3Int(KitchenWallX, KitchenDoorY, 0), GetTile("tile_door"));          // the doors between the rooms, drawn on the floor like the doors of the shops
+            rig.Ground.SetTile(new Vector3Int(KitchenWallX, KitchenDoorY + 1, 0), GetTile("tile_door"));
             rig.Ground.SetTile(new Vector3Int(BedroomDoorX, BedroomWallY, 0), GetTile("tile_door"));
-            AddWarp(Center(5, 0), MapIds.Farm, "fromHouse");
+            rig.Ground.SetTile(new Vector3Int(BedroomDoorX + 1, BedroomWallY, 0), GetTile("tile_door"));
+            // The doors between the rooms open as someone comes near and close behind them (DoorSwing): a pair of leaves in each doorway, each folding to its own end.
+            AddDoorLeaf("Door_Kitchen_0", KitchenWallX, KitchenDoorY, new Vector2(0f, -1f));
+            AddDoorLeaf("Door_Kitchen_1", KitchenWallX, KitchenDoorY + 1, new Vector2(0f, 1f));
+            AddDoorLeaf("Door_Bedroom_0", BedroomDoorX, BedroomWallY, new Vector2(-1f, 0f));
+            AddDoorLeaf("Door_Bedroom_1", BedroomDoorX + 1, BedroomWallY, new Vector2(1f, 0f));
+            // The doors between the rooms open as someone comes near and close behind them (DoorSwing): a pair of leaves in each doorway, each folding to its own end.
+            AddWarp(Center(5, 0), MapIds.Farm, "fromHouse", extraCells: 1);
 
             // Furnishings the farmhouse starts with (more can be bought at the carpenter's). Nothing here may close off the bed, the kitchen or the door.
             foreach (var p in HouseFurnishings)
@@ -455,14 +469,14 @@ namespace Farm.Editor
             for (var y = 0; y < GreenH; y++)
                 for (var x = 0; x < GreenW; x++)
                 {
-                    var door = y == 0 && x == 7;
+                    var door = y == 0 && (x == 7 || x == 8);
                     var edge = x == 0 || y == 0 || x == GreenW - 1 || y == GreenH - 1;
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile(door ? "tile_floor_wood" : "tile_dirt"));
                     if (edge && !door) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
 
             AddSpawn("default", Center(7, 2));
-            AddWarp(Center(7, 0), MapIds.Farm, "fromGreenhouse");
+            AddWarp(Center(7, 0), MapIds.Farm, "fromGreenhouse", extraCells: 1);
 
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Greenhouse}.unity");
         }
@@ -477,12 +491,12 @@ namespace Farm.Editor
             for (var y = 0; y < h; y++)
                 for (var x = 0; x < w; x++)
                 {
-                    var door = y == 0 && x == 6;
+                    var door = y == 0 && (x == 6 || x == 7);
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_floor_wood"));
                     if ((x == 0 || y == 0 || x == w - 1 || y == h - 1) && !door) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
                 }
             AddSpawn("default", Center(6, 2));
-            AddWarp(Center(6, 0), MapIds.Farm, "from" + mapId);
+            AddWarp(Center(6, 0), MapIds.Farm, "from" + mapId, extraCells: 1);
             AddObject("Trough", "obj_trough", Center(10, 6), solid: true).AddComponent<FeedTrough>();
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{mapId}.unity");
         }
@@ -877,6 +891,11 @@ namespace Farm.Editor
 
         const int BeachW = 36, BeachH = 24, BeachWaterRows = 5, BeachExitX0 = 16, BeachExitX1 = 18;
 
+        // When Felix's boat trip with Elara can happen (the scene `past_the_point` in spec_scenes.json uses the same words: a test keeps them equal). While it can, the boat
+        // and Felix's gear stand on the east shore; once the trip is made they are gone (spec WP5).
+        public const string PastThePointCondition = "flag:event.elara_heart8 && flag:event.felix_heart8 && hearts:felix>=6 && hearts:elara>=6 && hour>=5 && hour<10 && !weather:storm "
+            + "&& !flag:event.past_the_point && !festival.in:==0";
+
         // The shore is not a ruler line: the water reaches a little further up the sand in places (never past row 6, so the fishing rock, the stall and the spawns stay on land).
         static bool IsBeachWater(int x, int y)
         {
@@ -915,6 +934,26 @@ namespace Farm.Editor
             rock.NpcId = "felix";
             rock.SeatKey = "rock";
 
+            // Past the Point: a rowing boat in the shallows, a plank landing on the sand, a lantern lit for the dawn, a crate of the day's catch and a net on its rack, only while
+            // the boat trip can happen. Nothing here can be walked into, apart from the landing, which is walked on.
+            var boatScene = new GameObject("PastThePoint");
+            boatScene.AddComponent<ConditionalObject>().Condition = PastThePointCondition;
+            void Decor(string name, string sprite, int x, int y, int width = 1)
+            {
+                var piece = AddObject(name, sprite, Center(x, y) + new Vector3((width - 1) * 0.5f, 0f, 0f), solid: false, size: new Vector2(width, 1f));
+                piece.transform.SetParent(boatScene.transform, true);
+            }
+            Decor("Boat", "prop_fest_boat", 26, 3, 2);
+            for (var x = 25; x <= 28; x++) Decor($"Landing_{x}", "obj_jetty", x, 4);
+            Decor("FishCrate", "prop_fest_fishcrate", 29, 5);
+            Decor("NetRack", "obj_net", 30, 5);
+            Decor("Lantern", "prop_fest_lantern_lit", 24, 5);
+            var lanternGlow = new GameObject("LanternGlow");
+            lanternGlow.transform.SetParent(boatScene.transform, true);
+            lanternGlow.transform.position = Center(24, 5) + new Vector3(0f, 0.9f, 0f);
+            var glow = lanternGlow.AddComponent<FlickerLight>();
+            glow.Radius = 4f; glow.Intensity = 0.9f; glow.Color = new Color(1f, 0.78f, 0.4f);
+
             EditorSceneManager.SaveScene(scene, $"{SceneDir}/{MapIds.Beach}.unity");
         }
 
@@ -939,11 +978,11 @@ namespace Farm.Editor
                 {
                     rig.Ground.SetTile(new Vector3Int(x, y, 0), GetTile("tile_floor_wood"));
                     var edge = x == 0 || y == 0 || x == w - 1 || y == h - 1;
-                    if (edge && !(y == 0 && x == doorX)) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));
+                    if (edge && !(y == 0 && (x == doorX || x == doorX + 1))) rig.Walls.SetTile(new Vector3Int(x, y, 0), GetTile("tile_wall"));          // a two-cell doorway
                 }
 
             AddSpawn("default", Center(doorX, 2));
-            AddWarp(Center(doorX, 0), MapIds.Village, "from" + mapId);
+            AddWarp(Center(doorX, 0), MapIds.Village, "from" + mapId, extraCells: 1);
 
             var business = props.Select(q => q.ShopId ?? q.UpgradesAt).FirstOrDefault(id => id != null);
             foreach (var p in props)
@@ -1090,19 +1129,28 @@ namespace Farm.Editor
         }
 
         static void AddWarp(Vector3 position, string targetMap, string targetSpawn, Vector2? size = null,
-            string business = null, string condition = null, string blockedKey = null)
+            string business = null, string condition = null, string blockedKey = null, int extraCells = 0)
         {
             var go = new GameObject($"Warp_{targetMap}");
             go.transform.position = position;
             var col = go.AddComponent<BoxCollider2D>();
             col.isTrigger = true;
             col.size = size ?? Vector2.one;
+            if (extraCells > 0) { col.size = new Vector2(1f + extraCells, 1f); col.offset = new Vector2(extraCells * 0.5f, 0f); }          // a doorway two cells wide is one warp that covers both cells
             var warp = go.AddComponent<Warp>();
             warp.TargetMap = targetMap;
             warp.TargetSpawn = targetSpawn;
             warp.BusinessId = business;
             warp.Condition = condition;
             warp.BlockedMessageKey = blockedKey;
+        }
+
+        // One leaf of an interior doorway: a door panel over the doorway's cell that swings back when someone is near. It has no collider: the doorway is always open to walk through.
+        static void AddDoorLeaf(string name, int x, int y, Vector2 hinge)
+        {
+            var leaf = AddObject(name, "obj_door_panel", Center(x, y), solid: false);
+            leaf.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            leaf.AddComponent<DoorSwing>().Configure(hinge);
         }
 
         static GameObject AddObject(string name, string spriteName, Vector3 position, bool solid, Vector2? size = null)
@@ -1133,7 +1181,7 @@ namespace Farm.Editor
         {
             { "obj_tree", "node.tree" }, { "obj_rock", "node.rock" }, { "obj_boulder", "node.boulder" }, { "obj_bramble", "hover.obj.bramble" },
             { "obj_bed", "hover.obj.bed" }, { "obj_bed_double", "hover.obj.bed" }, { "obj_counter_wide", "hover.obj.counter" }, { "obj_bookshelf_tall", "hover.furn.bookshelf" },
-            { "obj_board", "hover.obj.board" }, { "obj_cat_door", "hover.obj.cat_door" }, { "obj_fishing_rock", "hover.obj.fishing_rock" },
+            { "obj_board", "hover.obj.board" }, { "obj_cat_door", "hover.obj.cat_door" }, { "obj_fishing_rock", "hover.obj.fishing_rock" }, { "obj_jetty", "hover.obj.jetty" }, { "obj_door_panel", "hover.obj.door" }, { "obj_net", "hover.obj.net" },
         };
 
         public static string LabelKeyFor(string spriteName)

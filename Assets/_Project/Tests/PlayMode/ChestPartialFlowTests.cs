@@ -60,6 +60,7 @@ namespace Farm.Tests
             _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
+            _session.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 12 * 60));          // daylight: no torch is needed (an emptied backpack would raise the torch warning window)
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
@@ -96,6 +97,7 @@ namespace Farm.Tests
             _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
+            _session.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 12 * 60));          // daylight: no torch is needed (an emptied backpack would raise the torch warning window)
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;
@@ -155,6 +157,7 @@ namespace Farm.Tests
             _session = GameContext.Current.Session;
             _session.BeginNewGame("Tester", "Test Farm", 0);
             _session.SetFlag(FatigueModel.WarnedFlag);
+            _session.Clock.SetTime(new GameDateTime(1, Season.Spring, 3, 12 * 60));          // daylight: no torch is needed (an emptied backpack would raise the torch warning window)
             _session.State.GetMap(MapIds.Farm).ClutterSeeded = true;
             var op = SceneManager.LoadSceneAsync(MapIds.Farm);
             while (!op.isDone) yield return null;

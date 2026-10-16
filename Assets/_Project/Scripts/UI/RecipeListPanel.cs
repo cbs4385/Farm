@@ -64,7 +64,10 @@ namespace Farm.UI
             var known = session.KnowsRecipe(recipe);
             var output = session.Db.TryGetItem(recipe.OutputItemId, out var item) ? item : null;
             var row = UiKit.HStack(_content, recipe.Id, 8f);
-            UiKit.Size(row.gameObject, -1f, 46f);
+            // A dish says what it gives back under its name, so that meals can be planned (playtest 2026-10-16): energy, and the health that comes with it.
+            var restores = known && FoodEffects.Restores(output)
+                ? "\n<size=72%><color=#" + ColorUtility.ToHtmlStringRGB(UiKit.Accent) + ">" + L.Get("crafting.restores", FoodEffects.Energy(output), FoodEffects.Health(output)) + "</color></size>" : string.Empty;
+            UiKit.Size(row.gameObject, -1f, restores.Length > 0 ? 52f : 46f);
 
             var icon = UiKit.Panel(row.transform, "Icon", known ? Color.white : new Color(0.3f, 0.3f, 0.3f));
             icon.sprite = output != null ? output.Icon : null;
@@ -74,9 +77,9 @@ namespace Farm.UI
 
             var name = output != null ? L.Get(output.NameKey) : recipe.OutputItemId;
             if (recipe.OutputCount > 1) name = $"{name} x{recipe.OutputCount}";
-            var title = UiKit.Label(row.transform, known ? name : L.Get("crafting.locked", L.Get("skill." + recipe.SkillId), recipe.SkillLevel), 18f,
+            var title = UiKit.Label(row.transform, known ? name + restores : L.Get("crafting.locked", L.Get("skill." + recipe.SkillId), recipe.SkillLevel), 18f,
                 TextAlignmentOptions.Left, known ? UiKit.TextColor : UiKit.DimText);
-            UiKit.Size(title.gameObject, 250f, 40f);
+            UiKit.Size(title.gameObject, 250f, restores.Length > 0 ? 48f : 40f);
 
             var ingredients = known ? string.Join(", ", recipe.Ingredients.Select(i => IngredientText(session, i, near))) : string.Empty;
             var needs = UiKit.Label(row.transform, ingredients, 15f, TextAlignmentOptions.Left, UiKit.DimText);

@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.7.4 (2026-10-16)
+
+Playtest fixes, and the scenes that close the villagers' arcs (docs/NPC_INTERCONNECTED_GAMEPLAY_SPEC.md). Verified by automation only (EditMode 1888 of 1889 and PlayMode 440 of 441 pass, one test ignored); nobody has played it.
+
+- **"How many?" when buying, selling and shipping.** Choosing a stack opens a window with a number box and -All, -5, -1, +1, +5 and +All around it (the number can be typed too). Selling and shipping can never go above what the backpack holds; buying stops at what the gold pays for and the backpack has room for. Right-click still sells or ships one.
+- **The shipping and sell windows lose their count buttons** (-10, -1, +1, +10, All, None; Sell 1, Sell all): the "how many?" window covers them. A single item is put in the lot (or taken out again) or sold with one click.
+- **Interior doors open and close.** The doors between the farmhouse's rooms are a pair of leaves that swing back as you or a villager come near and shut behind you.
+- **The mouse and controller sensitivity sliders are in the controls sections** of Options: the mouse one first under Keyboard and mouse, the stick one first under Controller.
+- **No flat placeholder squares are left** in item or object pictures: the brass key, the cat's bowl, the door leaf, the beach landing, the fishing net, the target brackets, the farm props' backpack icons, the mushroom and the goat cheese were drawn (`tools/art/build_story_pixels.py`). A test keeps it so; every item also has a picture, a hover name and a description of its own.
+- **More to say.** 144 new talk lines for the twelve villagers: rain by friendship, a line for a quest or a gift you have just done, the harvest you have shipped (50 and 500 items), animals on the farm, and morning, evening, night and seasonal lines for Ione, Marcus, Odalys, Felix, Dorian and Elara. No existing line changed. New tests fail if a villager runs short of lines at any friendship tier, in the rain or at night.
+- **A heart gained is announced after the conversation,** not under the dialogue box where it expired before you could read it.
+- **Dishes show what they give back.** Each recipe says "Restores N energy, M health" (health is half the energy, as eating always was), and the eating message says it too.
+- **The pickaxe and axe leave placed things alone.** Chests, machines and sprinklers are picked up with the builder's mallet only.
+- **Doorways are two cells wide** in the farmhouse (the front door and the doors between its rooms), the greenhouse, the barn and coop, and every shop and home.
+- **The hall roof is the seventh room** of the Community Hall: Marcus's planks prove the oak, then timber and stone finish it. The hall is restored (and Marcus calls the roof fixed) only when it is done; a game that had already restored the hall counts the roof as done. Buckets stand under the leaks until then.
+- **Opening Night.** Once the hall is restored, Wren has the wine, Piper's song is known and Juno has her mark, an evening scene in the hall brings Marcus, Tilda, Wren, Piper, Bram and Juno together: the roof, the full house, the village singing Piper's chorus, the roof pool paid and one dance.
+- **Next Door.** Juno shows Bram her first piece and Bram says the one sentence. **Bram's teacher writes back:** the reply arrives as a letter in the mailbox.
+- **Reading Night.** Ask Ione about it in the chat menu (after Hazel's poem and Ione's heart 8); the evening at the library is Hazel's to decide, with Dorian's pressed flower. **Past the Point.** At dawn, with Felix and Elara ready, a boat and landing stand on the beach and the trip is made, with a choice of three places.
+- **Horror layer (on only).** The Keepers react to the offering being taken and, for Tilda and Marcus, to being made ill: hurt and withdrawn trust, never cruelty. Bram, Juno, Piper, Felix, Elara and Ione notice your dread in their own ways. Edmund's threads connect: Juno's spare key, the cellar door by the farmhouse, the note behind the range, the letters found rather than posted, Hazel's records pointing to the mine, Marcus's roof clue, the four notes (and how the sealed ending ends them). The cellar door and everything else exists only with the layer on.
+
 ## 0.7.3 (2026-10-16)
 
 Running, sensitivity settings and a winding village. Verified by automation only (see docs/STATUS.md); nobody has played it.

@@ -1,0 +1,461 @@
+{
+  "dialogues": [
+    {
+      "id": "next_door.talk",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.next_door.talk.0",
+          "choices": [
+            {
+              "text": "dlg.next_door.talk.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.next_door.tongs",
+                "friend:juno,5"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.next_door.talk.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.next_door.own",
+                "friend:juno,5"
+              ],
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "juno",
+          "text": "dlg.next_door.talk.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "juno",
+          "text": "dlg.next_door.talk.r1"
+        }
+      ]
+    },
+    {
+      "id": "juno.nextdoor.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "juno",
+          "text": "dlg.juno.nextdoor.1.0"
+        }
+      ]
+    },
+    {
+      "id": "bram.nextdoor.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "bram",
+          "text": "dlg.bram.nextdoor.1.0"
+        }
+      ]
+    },
+    {
+      "id": "tilda.dance.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "tilda",
+          "text": "dlg.tilda.dance.1.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.dance.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.dance.1.0"
+        }
+      ]
+    },
+    {
+      "id": "wren.dance.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "wren",
+          "text": "dlg.wren.dance.1.0"
+        }
+      ]
+    },
+    {
+      "id": "piper.dance.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "piper",
+          "text": "dlg.piper.dance.1.0",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "reading.offer",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.reading.offer.0",
+          "choices": [
+            {
+              "text": "dlg.reading.offer.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.reading.yes",
+                "friend:ione,10"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.reading.offer.c1",
+              "default": false,
+              "next": "r1"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "ione",
+          "text": "dlg.reading.offer.r0",
+          "expression": "happy"
+        },
+        {
+          "id": "r1",
+          "speaker": "ione",
+          "text": "dlg.reading.offer.r1"
+        }
+      ]
+    },
+    {
+      "id": "reading.hazel",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.reading.hazel.0",
+          "choices": [
+            {
+              "text": "dlg.reading.hazel.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.reading.poem",
+                "friend:hazel,10"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.reading.hazel.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.reading.borrowed",
+                "friend:hazel,10"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.reading.hazel.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.reading.listen",
+                "friend:hazel,10"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "hazel",
+          "text": "dlg.reading.hazel.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "hazel",
+          "text": "dlg.reading.hazel.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "hazel",
+          "text": "dlg.reading.hazel.r2"
+        }
+      ]
+    },
+    {
+      "id": "ione.reading.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "ione",
+          "text": "dlg.ione.reading.1.0"
+        }
+      ]
+    },
+    {
+      "id": "hazel.reading.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "hazel",
+          "text": "dlg.hazel.reading.1.0"
+        }
+      ]
+    },
+    {
+      "id": "dorian.reading.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "dorian",
+          "text": "dlg.dorian.reading.1.0"
+        }
+      ]
+    },
+    {
+      "id": "past_point.talk",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.past_point.talk.0",
+          "choices": [
+            {
+              "text": "dlg.past_point.talk.c0",
+              "default": false,
+              "effects": [
+                "flag:choice.point.headland",
+                "friend:elara,5"
+              ],
+              "next": "r0"
+            },
+            {
+              "text": "dlg.past_point.talk.c1",
+              "default": false,
+              "effects": [
+                "flag:choice.point.rocks",
+                "friend:elara,5"
+              ],
+              "next": "r1"
+            },
+            {
+              "text": "dlg.past_point.talk.c2",
+              "default": false,
+              "effects": [
+                "flag:choice.point.horizon",
+                "friend:elara,5"
+              ],
+              "next": "r2"
+            }
+          ]
+        },
+        {
+          "id": "r0",
+          "speaker": "elara",
+          "text": "dlg.past_point.talk.r0"
+        },
+        {
+          "id": "r1",
+          "speaker": "elara",
+          "text": "dlg.past_point.talk.r1"
+        },
+        {
+          "id": "r2",
+          "speaker": "elara",
+          "text": "dlg.past_point.talk.r2"
+        }
+      ]
+    },
+    {
+      "id": "felix.point.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "felix",
+          "text": "dlg.felix.point.1.0"
+        }
+      ]
+    },
+    {
+      "id": "elara.point.1",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "elara",
+          "text": "dlg.elara.point.1.0"
+        }
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "ione.reading",
+      "npc": "ione",
+      "labelKey": "topic.ione.reading",
+      "dialogue": "reading.offer",
+      "condition": "flag:event.hazel_heart10 && flag:event.ione_heart8 && hearts:ione>=8 && !flag:choice.reading.yes",
+      "priority": 3,
+      "once": false,
+      "cooldownDays": 1
+    }
+  ],
+  "setEntries": [
+    {
+      "set": "npc.juno.talk",
+      "entries": [
+        {
+          "condition": "flag:event.next_door && hearts:juno>=10",
+          "priority": 0,
+          "dialogue": "juno.nextdoor.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.bram.talk",
+      "entries": [
+        {
+          "condition": "flag:event.next_door && hearts:bram>=10",
+          "priority": 0,
+          "dialogue": "bram.nextdoor.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.tilda.talk",
+      "entries": [
+        {
+          "condition": "flag:event.hall_dance && hearts:tilda>=5",
+          "priority": 0,
+          "dialogue": "tilda.dance.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "flag:event.hall_dance && hearts:marcus>=5",
+          "priority": 0,
+          "dialogue": "marcus.dance.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.wren.talk",
+      "entries": [
+        {
+          "condition": "flag:event.hall_dance && hearts:wren>=5",
+          "priority": 0,
+          "dialogue": "wren.dance.1",
+          "tag": "funny",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.piper.talk",
+      "entries": [
+        {
+          "condition": "flag:event.hall_dance && hearts:piper>=5",
+          "priority": 0,
+          "dialogue": "piper.dance.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.ione.talk",
+      "entries": [
+        {
+          "condition": "flag:event.reading_night && hearts:ione>=8",
+          "priority": 0,
+          "dialogue": "ione.reading.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.hazel.talk",
+      "entries": [
+        {
+          "condition": "flag:event.reading_night && hearts:hazel>=8",
+          "priority": 0,
+          "dialogue": "hazel.reading.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.dorian.talk",
+      "entries": [
+        {
+          "condition": "flag:event.reading_night && hearts:dorian>=6",
+          "priority": 0,
+          "dialogue": "dorian.reading.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.felix.talk",
+      "entries": [
+        {
+          "condition": "flag:event.past_the_point && hearts:felix>=6",
+          "priority": 0,
+          "dialogue": "felix.point.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    },
+    {
+      "set": "npc.elara.talk",
+      "entries": [
+        {
+          "condition": "flag:event.past_the_point && hearts:elara>=6",
+          "priority": 0,
+          "dialogue": "elara.point.1",
+          "tag": "wholesome",
+          "category": "reactive"
+        }
+      ]
+    }
+  ]
+}

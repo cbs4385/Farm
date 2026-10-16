@@ -186,7 +186,7 @@ namespace Farm.Tests
         }
 
         [UnityTest]
-        public IEnumerator TheHallBoard_ListsSixRooms_AndDonatingARoomPays()
+        public IEnumerator TheHallBoard_ListsSevenRooms_AndDonatingARoomPays()
         {
             yield return Start(MapIds.CommunityHall);
             _s.Story = StoryContent.LoadFromResources();

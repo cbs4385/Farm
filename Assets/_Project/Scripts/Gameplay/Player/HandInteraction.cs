@@ -86,7 +86,7 @@ namespace Farm.Gameplay
             if (_c.Here?.Animals != null && _c.Here?.Animals.ActorAt(cell) != null) return true;
             if (_c.Session.GetGrid(_c.Map.MapId).IsMature(cell.x, cell.y, CropLookup)) return true;
             if (_c.Session.GetNodes(_c.Map.MapId).TryGet(cell.x, cell.y, out var node) && _c.Session.Nodes.Get(node.TypeId) is ResourceNodeDefinition def && def.Tool == ToolType.None) return true;
-            if (_c.Here?.Placed != null && _c.Here?.Placed.At(cell) != null) return tool != ToolType.Axe && tool != ToolType.Pickaxe;
+            if (_c.Here?.Placed != null && _c.Here?.Placed.At(cell) != null) return true;          // the axe and pickaxe no longer take placed things back (the mallet does), so the click opens or uses it
             return InteractableAt(cell, 0) != null;
         }
 

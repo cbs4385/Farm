@@ -32,7 +32,7 @@ addto npc.hazel.talk
 addto npc.bram.talk
 0 hearts:bram>=2 && !flag:event.bram_heart6 => bram.goal.h1 cat=goal :: {Hm. Slow week. Good iron doesn't hurry. Neither do I.|Juno's quicker than I was. Don't tell her. She'll slow down to prove me wrong.|Hm. Good iron tells you when it's ready. People too. Waiting on both.}
 1 flag:event.bram_heart6 && !flag:event.bram_heart10 => bram.goal.a1 cat=goal :: {if flag:event.bram_heart8}{if choice:bram.juno.praise}Later I told Juno it was wonderful. Your word. She cried on the anvil. Anvil's fine. Wrote my teacher about her. Two pages.{else}{if choice:bram.juno.tease}Later I teased her about the bend. Gently. She laughed. Made another. Straighter. Hm. Wrote my teacher about her.{else}Later I told Juno what I see. Me, starting out. She went quiet. Then hugged the bellows. Wrote my teacher.{/if}{/if}{else}{if choice:bram.long.nod}Hm. You nodded. Last week. Still thinking about it. Good nod.{else}{if choice:bram.long.glad}Glad. You said it. Put it in a letter. Didn't send it. Yet.{else}One word. Right size. Wrote my teacher one back. In the drawer. Hm.{/if}{/if}{/if}
-1 flag:event.bram_heart10 && heard:bram.goal.a1 => bram.goal.r1 cat=goal tag=surprise sfx=signature :: Letter came back. From my old teacher. Two words. "Good work." ...Hm.
+1 flag:event.bram_heart10 && flag:bram.teacher_replied => bram.goal.r1 cat=goal tag=surprise sfx=signature :: You read it. The bottom first, like me. Two words. I keep the page in my apron. ...Hm.
 1 flag:event.bram_heart10 && flag:event.juno_heart10 => bram.goal.r2 cat=goal :: Juno talks about her own forge. Someday. Small one. I said, 'Next door.' Meant it. Mostly.
 
 # ---------------------------------------------------------------- Tilda: a village that stays full
@@ -73,7 +73,7 @@ addto npc.marcus.talk
 0 hearts:marcus>=3 && !flag:event.marcus_heart8 => marcus.goal.h3 cat=goal :: Six winters I've called the hall roof nearly fixed. Nearly is honest. Fixed would be better.
 1 hearts:marcus>=4 && flag:event.marcus_heart5 && quest:marcus_planks=done && !flag:event.marcus_heart8 => marcus.goal.a1 cat=goal :: Your planks are drying under cover. Good grain. I measured them twice. Then I just looked at them a while.
 1 flag:event.marcus_heart8 => marcus.goal.b1 cat=goal :: {if choice:roof.measure}We measured it together. Three times. It holds on paper. Paper is where roofs start.{else}{if choice:roof.design}Your angle sheds rain better than mine. I'd never have tried it. I'm trying it. Slowly.{else}You held the ladder. I climbed higher than I have in years. The view is good. The roof is worse.{/if}{/if}
-1 flag:event.marcus_heart8 && flag:hall.restored => marcus.goal.r1 cat=goal tag=wholesome :: The hall roof is fixed. Not nearly. Fixed. I keep saying it. It doesn't wear out.
+1 flag:event.marcus_heart8 && flag:hall.roof => marcus.goal.r1 cat=goal tag=wholesome :: The hall roof is fixed. Not nearly. Fixed. I keep saying it. It doesn't wear out.
 
 # ---------------------------------------------------------------- Odalys: a village that rests, herself included
 addto npc.odalys.talk

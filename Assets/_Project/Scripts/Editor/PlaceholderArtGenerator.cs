@@ -139,6 +139,9 @@ namespace Farm.Editor
             WorldObject(written, "obj_altar", new Color(0.25f, 0.24f, 0.28f), new Color(0.55f, 0.15f, 0.15f));
             WorldObject(written, "obj_stone", new Color(0.35f, 0.38f, 0.36f), new Color(0.50f, 0.55f, 0.50f));
             WorldObject(written, "obj_relic", new Color(0.20f, 0.18f, 0.22f), new Color(0.80f, 0.75f, 0.35f));
+            WorldObject(written, "obj_jetty", new Color(0.55f, 0.40f, 0.25f), new Color(0.38f, 0.27f, 0.17f));          // a plank of the beach landing (Past the Point)
+            WorldObject(written, "obj_door_panel", new Color(0.45f, 0.30f, 0.18f), new Color(0.30f, 0.20f, 0.12f));          // one leaf of an interior door (it swings open as someone nears)
+            WorldObject(written, "obj_net", new Color(0.35f, 0.45f, 0.40f), new Color(0.62f, 0.55f, 0.40f));            // a fishing net on its rack (Past the Point)
             foreach (var crop in Farm.Mythos.MythosData.Crops)
             {
                 for (var stage = 0; stage <= crop.Days.Length; stage++) Crop(written, $"crop_{crop.Id}_{stage}", stage, crop.Days.Length, crop.Color);
@@ -146,6 +149,7 @@ namespace Farm.Editor
                 Item(written, $"item_crop_{crop.Id}", crop.Color);
             }
             foreach (var relic in Farm.Mythos.MythosData.Relics) Item(written, "item_" + relic.Replace('.', '_'), new Color(0.80f, 0.75f, 0.35f));
+            foreach (var keepsake in Farm.Mythos.MythosData.Keepsakes) Item(written, "item_" + keepsake.Replace('.', '_'), new Color(0.78f, 0.62f, 0.25f));
             Cursor(written, "ui_cursor");
 
             // UI (small 9-slice-friendly frames)

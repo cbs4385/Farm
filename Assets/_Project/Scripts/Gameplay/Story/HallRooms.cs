@@ -4,21 +4,31 @@ using Farm.Core;
 
 namespace Farm.Gameplay
 {
-    // The Community Hall (T-055): six rooms, each restored by a "bundle" (an ordinary quest in the story data whose objectives
-    // hand over items). Restoring all six sets the flag `hall.restored` and plays the ending event. The relation to the
+    // The Community Hall (T-055): seven rooms (the roof is the seventh: Marcus's planks open it, spec WP1), each restored by a "bundle" (an ordinary quest in the story data whose objectives
+    // hand over items). Restoring all seven sets the flag `hall.restored` and plays the ending event. The relation to the
     // mythos arc is deliberately only flags: the optional layer reads `hall.*` and the `quest:` states.
     public static class HallRooms
     {
         public const string RestoredFlag = "hall.restored";
         public const string CompleteQuest = "hall_complete";
+        public const string RoofQuest = "hall_roof";
+        public const string RoofFlag = "hall.roof";
 
-        public static readonly string[] Rooms = { "hall_pantry", "hall_crafts", "hall_fishtank", "hall_boiler", "hall_bulletin", "hall_vault" };
+        public static readonly string[] Rooms = { "hall_pantry", "hall_crafts", "hall_fishtank", "hall_boiler", "hall_bulletin", "hall_vault", RoofQuest };
 
         public static string FlagOf(string roomQuestId) => "hall." + roomQuestId.Substring("hall_".Length);
 
         public static bool IsRestored(GameState state, string roomQuestId) => QuestLog.StatusOf(state, roomQuestId) == QuestStatus.Done;
 
         public static int RestoredCount(GameState state) => Rooms.Count(r => IsRestored(state, r));
+
+        // A save made before the roof was a room, with the hall already restored: the roof counts as done and nothing is asked or replayed. A flag that is set is never cleared.
+        public static void MigrateRoof(GameState state, int today)
+        {
+            if (state == null || !state.Flags.Contains(RestoredFlag)) return;
+            state.Flags.Add(RoofFlag);
+            if (!state.Quests.ContainsKey(RoofQuest)) state.Quests[RoofQuest] = new QuestProgress { Status = QuestStatus.Done, StartedDay = today, EndedDay = today };
+        }
 
         // Starts every room's quest that has not been started (done on the first visit).
         public static void StartAll(GameSession s)

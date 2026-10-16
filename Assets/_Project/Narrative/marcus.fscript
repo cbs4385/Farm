@@ -12,7 +12,7 @@ addto npc.marcus.talk
 0 season:summer => marcus.summer.3 cat=seasonal :: My birthday's in summer. I plane a plank for it. Nothing fancy. A straight board.
 0 season:fall => marcus.fall.1 cat=seasonal :: Fall: coops, sheds, anything that keeps winter out. Measure twice. The weather doesn't.
 0 season:fall => marcus.fall.2 cat=seasonal :: The oak comes in this month. Slow wood. Honest wood. I'd rather work with it than most things.
-0 season:fall => marcus.fall.3 cat=seasonal tag=wholesome :: {if flag:hall.restored}The hall's roof gets a look every fall. It's fixed. Fixed is a respectable word.{else}The hall's roof gets a look every fall. It's nearly fixed. Nearly is a respectable word.{/if}
+0 season:fall => marcus.fall.3 cat=seasonal tag=wholesome :: {if flag:hall.roof}The hall's roof gets a look every fall. It's fixed. Fixed is a respectable word.{else}The hall's roof gets a look every fall. It's nearly fixed. Nearly is a respectable word.{/if}
 0 season:winter => marcus.winter.1 cat=seasonal :: Winter is for furniture. Indoor work. Warm hands, long grain, nothing in a hurry.
 0 season:winter => marcus.winter.2 cat=seasonal :: Snow on a half-finished roof teaches humility. I've been taught several times.
 0 season:winter => marcus.winter.3 cat=seasonal :: The workshop stove burns scraps. Nothing wasted. A good shop keeps itself warm.
@@ -29,7 +29,7 @@ addto npc.marcus.talk
 # ---- weather ----
 0 weather:sunny => marcus.sunny.1 cat=weather :: Good drying weather. Boards behave. So do I.
 0 weather:sunny => marcus.sunny.2 cat=weather :: Sun on the roof means I can see every joint I got wrong. Honest light.
-1 weather:rain => marcus.rain.2 cat=weather :: {if flag:hall.restored}Rain tests a roof. Mine passes. The hall's passes now too. Fixed.{else}Rain tests a roof. Mine passes. The hall's does not. Nearly.{/if}
+1 weather:rain => marcus.rain.2 cat=weather :: {if flag:hall.roof}Rain tests a roof. Mine passes. The hall's passes now too. Fixed.{else}Rain tests a roof. Mine passes. The hall's does not. Nearly.{/if}
 1 weather:rain => marcus.rain.3 cat=weather tag=wholesome :: A wet day, a warm shop, and the sound of a plane on pine. Hard to beat.
 1 weather:storm => marcus.storm.1 cat=weather :: Storm. I check the doors twice. Then a third time, under my breath.
 1 weather:storm => marcus.storm.2 cat=weather :: Thunder rattles the shelves. I put a chisel on each one. Good luck charms.
@@ -45,7 +45,7 @@ addto npc.marcus.talk
 0 hour>=10 && hour<16 => marcus.midday.2 cat=time :: Busy hour. Don't stand where the board swings.
 0 hour>=16 && hour<20 => marcus.evening.1 cat=time :: Evening. I sweep the shop and tell the floor it did well.
 0 hour>=16 && hour<20 => marcus.evening.2 cat=time :: Last cut of the day. I make it a good one. Tomorrow starts clean.
-0 hour>=20 => marcus.late.1 cat=time :: {if flag:hall.restored}Late. The lamp's on, the stove's on, and the roof plans are rolled up. Fixed.{else}Late. The lamp's on, the stove's on, and the roof plans are on the table. Again.{/if}
+0 hour>=20 => marcus.late.1 cat=time :: {if flag:hall.roof}Late. The lamp's on, the stove's on, and the roof plans are rolled up. Fixed.{else}Late. The lamp's on, the stove's on, and the roof plans are on the table. Again.{/if}
 0 hour>=20 => marcus.late.2 cat=time :: Quiet shop. A sleeping saw. A man could think. I do. Mostly about joints.
 0 map:Carpenter => marcus.here.1 cat=place :: Mind the sawdust. It gets into everything. It's good for the soul.
 0 map:Carpenter => marcus.here.2 cat=place tag=funny :: Each tool has its place. Juno labeled them. Now they have two places. Hers and mine.
@@ -69,7 +69,7 @@ addto npc.marcus.talk
 0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.1 cat=tier :: I built the shed at [farm] as a job. I check on it as a neighbor. It's holding.
 0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.2 cat=tier tag=wholesome :: Good lumber warps if you rush it. So do friendships. I didn't rush this one.
 0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.3 cat=tier :: Measure twice. Then ask someone you trust. That's you, now.
-0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.4 cat=tier :: {if flag:hall.restored}The hall roof is fixed.{else}The hall roof is nearly fixed.{/if} There's a plan. I'm not ready to show it yet.
+0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.4 cat=tier :: {if flag:hall.roof}The hall roof is fixed.{else}The hall roof is nearly fixed.{/if} There's a plan. I'm not ready to show it yet.
 0 hearts:marcus>=6 && hearts:marcus<9 => marcus.cl.5 cat=tier :: Dorian leaves mushrooms on my table and says nothing. You'd get along. You already do.
 
 # ---- confidant (9 and 10 hearts) ----
@@ -83,7 +83,7 @@ addto npc.marcus.talk
 1 mood:marcus=tired => marcus.tired.1 cat=mood :: Long week of lifting. My back keeps a ledger. Dr. Penn reads it aloud.
 1 mood:marcus=delighted => marcus.delighted.1 cat=mood expr=happy :: A perfect joint today. Dry-fit, no gap. I held it up and looked at it for a minute.
 1 mood:marcus=mischievous => marcus.mischief.1 cat=mood expr=happy :: I told Juno her label is perfectly level. She's been measuring for an hour anyway.
-1 mood:marcus=worried => marcus.worried.1 cat=mood expr=sad :: {if flag:hall.restored}The hall roof holds. I check anyway. Old habit.{else}The hall roof again. It leans a hair. Maybe I'm tired. Maybe I'm right.{/if}
+1 mood:marcus=worried => marcus.worried.1 cat=mood expr=sad :: {if flag:hall.roof}The hall roof holds. I check anyway. Old habit.{else}The hall roof again. It leans a hair. Maybe I'm tired. Maybe I'm right.{/if}
 
 # ---- the world and the farm ----
 0 farm:crops>=5 => marcus.farm.1 cat=reactive :: Your fields are coming in. A good farm wants a good shed. Come by when you're ready.
@@ -111,3 +111,15 @@ say npc.marcus.gift.item.crop.kale marcus: Kale. I'll pass it to Dorian. He'll k
 say npc.marcus.gift.item.resource.slime marcus: Slime. On my bench. I'll find a bucket for it. And a very long stick.
 say npc.marcus.gift.cat.Fish marcus: A fish. Felix is down at the beach. I'll walk it over. Then wash my hands. Twice.
 say npc.marcus.gift.repeat marcus: Another one. Measure twice, thank twice. Thank you.
+
+# ---- the roof is a room of the hall (spec WP1): the hint once his planks have proved the oak, and one beat when the roof is done ----
+addto npc.marcus.talk
+0 hearts:marcus>=3 && quest:marcus_planks=done && !flag:hall.roof => marcus.roof.hint cat=goal :: Your ten planks proved the oak. The hall board lists the rest: forty planks, thirty stone. Bring it. I will bring the ladder.
+5 flag:hall.roof && flag:met.marcus && !flag:event.marcus_roof_beat => marcus.roof.done
+
+dialogue marcus.roof.done
+n0 marcus: Measure twice. Then I asked you.
+  next n1
+n1 marcus: It holds. I went up the ladder four times to be sure. Do not tell anyone how many.
+  + flag:event.marcus_roof_beat
+  expr happy

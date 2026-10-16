@@ -366,7 +366,8 @@ namespace Farm.UI
             var holder = UiKit.Panel(bar, "RowButtons", Color.clear);
             holder.raycastTarget = false;
             _rowButtons = holder.rectTransform;
-            UiKit.Place(_rowButtons, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(92f, 44f), new Vector2(52f, 0f));
+            // Past the end of the bar, not over its last slot (playtest 2026-10-16): the holder is 92 wide, its right edge 96 beyond the bar's, so its left edge is 4 clear of it.
+            UiKit.Place(_rowButtons, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(92f, 44f), new Vector2(96f, 0f));
             var up = UiKit.MakeButton(_rowButtons, L.Get("hud.row_prev"), () => ChangeRow(-1), 28f, 28f);
             up.name = "RowPrev";
             UiTip.Add(up.gameObject, "uitip.hud.row_prev");
@@ -878,11 +879,16 @@ namespace Farm.UI
         // Long enough to read: a short notice stays 2.2 seconds, a tip longer.
         public static float ToastSeconds(string text) => Mathf.Clamp(2.2f + Mathf.Max(0, (text?.Length ?? 0) - 50) * 0.045f, 2.2f, 9f);
 
+        // The time a notice has left after `dt` seconds. While a conversation is open the notices wait (a heart gained in it is announced when it ends, never over the dialogue
+        // box). (pure)
+        public static float AdvanceToast(float timer, bool dialogueOpen, float dt) => dialogueOpen ? timer : Mathf.Max(0f, timer - dt);
+
         void TickToast()
         {
+            if (_ui.DialogueOpen) { _toast.alpha = 0f; return; }          // held until the conversation is over
             if (_toastTimer > 0f)
             {
-                _toastTimer -= Time.unscaledDeltaTime;
+                _toastTimer = AdvanceToast(_toastTimer, false, Time.unscaledDeltaTime);
                 _toast.alpha = Mathf.Clamp01(_toastTimer / 0.4f);
                 return;
             }

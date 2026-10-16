@@ -237,13 +237,42 @@
       ]
     },
     {
+      "id": "hall_roof",
+      "titleKey": "quest.hall_roof.title",
+      "descriptionKey": "quest.hall_roof.desc",
+      "category": "story",
+      "objectives": [
+        {
+          "text": "quest.hall_roof.o0",
+          "condition": "quest:marcus_planks=done"
+        },
+        {
+          "text": "quest.hall_roof.o1",
+          "condition": "",
+          "giveItem": "resource.wood",
+          "giveCount": 40
+        },
+        {
+          "text": "quest.hall_roof.o2",
+          "condition": "",
+          "giveItem": "resource.stone",
+          "giveCount": 30
+        }
+      ],
+      "rewards": [
+        "gold:400",
+        "friend:marcus,100",
+        "flag:hall.roof"
+      ]
+    },
+    {
       "id": "hall_complete",
       "titleKey": "quest.hall_complete.title",
       "descriptionKey": "quest.hall_complete.desc",
       "category": "story",
       "autoStart": true,
       "autoComplete": true,
-      "available": "quest:hall_pantry=done && quest:hall_crafts=done && quest:hall_fishtank=done && quest:hall_boiler=done && quest:hall_bulletin=done && quest:hall_vault=done",
+      "available": "quest:hall_pantry=done && quest:hall_crafts=done && quest:hall_fishtank=done && quest:hall_boiler=done && quest:hall_bulletin=done && quest:hall_vault=done && quest:hall_roof=done",
       "objectives": [],
       "rewards": [
         "flag:hall.restored",

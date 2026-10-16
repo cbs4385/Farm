@@ -1,0 +1,736 @@
+{
+  "letters": [
+    {
+      "id": "bram_teacher",
+      "sender": "bram",
+      "subjectKey": "letter.bram_teacher.subject",
+      "bodyKey": "letter.bram_teacher.body",
+      "condition": "flag:event.bram_heart10 && heard:bram.goal.a1",
+      "effects": [
+        "flag:bram.teacher_replied"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "next_door",
+      "trigger": "map",
+      "map": "Blacksmith",
+      "priority": 6,
+      "condition": "flag:event.juno_heart10 && flag:event.bram_heart10 && hearts:juno>=10 && hearts:bram>=10 && !weekday:mon && hour>=9 && hour<17 && !festival.in:==0",
+      "titleKey": "memory.next_door",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "place",
+          "actor": "juno",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "type": "face",
+          "actor": "juno",
+          "facing": "right"
+        },
+        {
+          "type": "place",
+          "actor": "bram",
+          "x": 6,
+          "y": 3
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "left"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 4,
+          "y": 2
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "left"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.next_door.0",
+          "emote": "sparkle"
+        },
+        {
+          "type": "spawn",
+          "id": "piece",
+          "name": "resource.copperbar",
+          "x": 3,
+          "y": 2
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.next_door.1",
+          "expression": "happy"
+        },
+        {
+          "type": "emote",
+          "actor": "bram",
+          "name": "ellipsis",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.next_door.2"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.next_door.3"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "next_door.talk"
+        },
+        {
+          "type": "despawn",
+          "id": "piece"
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.next_door.4",
+          "emote": "heart"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.next_door.5",
+          "expression": "embarrassed"
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.next_door",
+            "friend:juno,40",
+            "friend:bram,40"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hall_dance",
+      "trigger": "map",
+      "map": "CommunityHall",
+      "priority": 8,
+      "recheck": true,
+      "condition": "flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0",
+      "titleKey": "memory.hall_dance",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "letterbox",
+          "name": "on",
+          "seconds": 0.6
+        },
+        {
+          "type": "lighting",
+          "name": "warm",
+          "seconds": 1.0
+        },
+        {
+          "type": "place",
+          "actor": "marcus",
+          "x": 8,
+          "y": 6
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "up"
+        },
+        {
+          "type": "place",
+          "actor": "tilda",
+          "x": 5,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "right"
+        },
+        {
+          "type": "place",
+          "actor": "wren",
+          "x": 7,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "down"
+        },
+        {
+          "type": "place",
+          "actor": "piper",
+          "x": 6,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "piper",
+          "facing": "down"
+        },
+        {
+          "type": "place",
+          "actor": "bram",
+          "x": 9,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "left"
+        },
+        {
+          "type": "place",
+          "actor": "juno",
+          "x": 8,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "juno",
+          "facing": "down"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 7,
+          "y": 2
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.hall_dance.0"
+        },
+        {
+          "type": "emote",
+          "actor": "marcus",
+          "name": "sparkle",
+          "seconds": 1.5,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance.1",
+          "emote": "sparkle"
+        },
+        {
+          "type": "spawn",
+          "id": "wine",
+          "name": "artisan.wine",
+          "x": 7,
+          "y": 3
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance.2",
+          "expression": "happy"
+        },
+        {
+          "type": "despawn",
+          "id": "wine"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.hall_dance.3"
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.hall_dance.4",
+          "emote": "sweat"
+        },
+        {
+          "type": "music",
+          "name": "piper_theme"
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.hall_dance.5",
+          "emote": "note"
+        },
+        {
+          "type": "anim",
+          "actor": "piper",
+          "name": "sway",
+          "seconds": 2.0,
+          "async": true
+        },
+        {
+          "type": "say",
+          "text": "event.hall_dance.6"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.hall_dance.7",
+          "emote": "note"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.hall_dance.8",
+          "expression": "happy"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance.9"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.hall_dance.10"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.hall_dance.11"
+        },
+        {
+          "type": "anim",
+          "actor": "marcus",
+          "name": "dance",
+          "seconds": 4.0,
+          "async": true
+        },
+        {
+          "type": "anim",
+          "actor": "tilda",
+          "name": "dance",
+          "seconds": 4.0,
+          "async": true
+        },
+        {
+          "type": "emote",
+          "actor": "wren",
+          "name": "heart",
+          "seconds": 2.0,
+          "async": true
+        },
+        {
+          "type": "emote",
+          "actor": "juno",
+          "name": "note",
+          "seconds": 2.0,
+          "async": true
+        },
+        {
+          "type": "wait",
+          "seconds": 2.5
+        },
+        {
+          "type": "say",
+          "text": "event.hall_dance.12"
+        },
+        {
+          "type": "music",
+          "name": "stop"
+        },
+        {
+          "type": "lighting",
+          "name": "reset",
+          "seconds": 1.0
+        },
+        {
+          "type": "letterbox",
+          "name": "off",
+          "seconds": 0.6
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.hall_dance",
+            "friend:marcus,40",
+            "friend:tilda,40",
+            "friend:wren,40",
+            "friend:piper,40",
+            "friend:bram,40",
+            "friend:juno,40"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reading_night",
+      "trigger": "map",
+      "map": "Library",
+      "priority": 7,
+      "recheck": true,
+      "condition": "flag:choice.reading.yes && flag:event.hazel_heart10 && flag:event.ione_heart8 && flag:met.dorian && hour>=17 && hour<21 && !weekday:sat && !festival.in:==0",
+      "titleKey": "memory.reading_night",
+      "tag": "wholesome",
+      "steps": [
+        {
+          "type": "letterbox",
+          "name": "on",
+          "seconds": 0.6
+        },
+        {
+          "type": "lighting",
+          "name": "warm",
+          "seconds": 1.0
+        },
+        {
+          "type": "place",
+          "actor": "ione",
+          "x": 6,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "ione",
+          "facing": "down"
+        },
+        {
+          "type": "place",
+          "actor": "hazel",
+          "x": 8,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "hazel",
+          "facing": "left"
+        },
+        {
+          "type": "place",
+          "actor": "dorian",
+          "x": 4,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "dorian",
+          "facing": "right"
+        },
+        {
+          "type": "place",
+          "actor": "wren",
+          "x": 7,
+          "y": 3,
+          "condition": "flag:met.wren && hearts:wren>=3"
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "down",
+          "condition": "flag:met.wren && hearts:wren>=3"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 6,
+          "y": 2
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.reading_night.0"
+        },
+        {
+          "type": "say",
+          "speaker": "hazel",
+          "text": "event.reading_night.1",
+          "expression": "embarrassed"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "reading.hazel"
+        },
+        {
+          "type": "say",
+          "speaker": "hazel",
+          "text": "event.reading_night.poem",
+          "expression": "thinking",
+          "condition": "flag:choice.reading.poem"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.reading_night.poem_after",
+          "condition": "flag:choice.reading.poem"
+        },
+        {
+          "type": "say",
+          "text": "event.reading_night.borrowed",
+          "condition": "flag:choice.reading.borrowed"
+        },
+        {
+          "type": "say",
+          "text": "event.reading_night.listen",
+          "condition": "flag:choice.reading.listen"
+        },
+        {
+          "type": "spawn",
+          "id": "flower",
+          "name": "forage.snowdrop",
+          "x": 5,
+          "y": 3
+        },
+        {
+          "type": "say",
+          "speaker": "dorian",
+          "text": "event.reading_night.2"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.reading_night.3",
+          "condition": "flag:met.wren && hearts:wren>=3"
+        },
+        {
+          "type": "say",
+          "speaker": "ione",
+          "text": "event.reading_night.4",
+          "expression": "happy"
+        },
+        {
+          "type": "despawn",
+          "id": "flower"
+        },
+        {
+          "type": "lighting",
+          "name": "reset",
+          "seconds": 1.0
+        },
+        {
+          "type": "letterbox",
+          "name": "off",
+          "seconds": 0.6
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.reading_night",
+            "friend:ione,40",
+            "friend:hazel,40",
+            "friend:dorian,40"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "past_the_point",
+      "trigger": "map",
+      "map": "Beach",
+      "priority": 7,
+      "recheck": true,
+      "condition": "flag:event.elara_heart8 && flag:event.felix_heart8 && hearts:felix>=6 && hearts:elara>=6 && hour>=5 && hour<10 && !weather:storm && !flag:event.past_the_point && !festival.in:==0",
+      "titleKey": "memory.past_the_point",
+      "tag": "funny",
+      "steps": [
+        {
+          "type": "letterbox",
+          "name": "on",
+          "seconds": 0.6
+        },
+        {
+          "type": "lighting",
+          "name": "dawn",
+          "seconds": 1.0
+        },
+        {
+          "type": "place",
+          "actor": "felix",
+          "x": 26,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "felix",
+          "facing": "up"
+        },
+        {
+          "type": "place",
+          "actor": "elara",
+          "x": 25,
+          "y": 6
+        },
+        {
+          "type": "face",
+          "actor": "elara",
+          "facing": "up"
+        },
+        {
+          "type": "place",
+          "actor": "wren",
+          "x": 32,
+          "y": 7,
+          "condition": "flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8"
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "up",
+          "condition": "flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 27,
+          "y": 6
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "felix",
+          "text": "event.past_the_point.0"
+        },
+        {
+          "type": "say",
+          "speaker": "elara",
+          "text": "event.past_the_point.1",
+          "expression": "happy",
+          "emote": "sparkle"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "past_point.talk"
+        },
+        {
+          "type": "fadeout",
+          "seconds": 0.8
+        },
+        {
+          "type": "sfx",
+          "name": "click"
+        },
+        {
+          "type": "advance",
+          "minutes": 40
+        },
+        {
+          "type": "camera",
+          "name": "pan",
+          "seconds": 0.1,
+          "x": 27,
+          "y": 1
+        },
+        {
+          "type": "lighting",
+          "name": "warm",
+          "seconds": 0.1
+        },
+        {
+          "type": "fadein",
+          "seconds": 1.0
+        },
+        {
+          "type": "say",
+          "text": "event.past_the_point.2"
+        },
+        {
+          "type": "say",
+          "speaker": "elara",
+          "text": "event.past_the_point.headland",
+          "expression": "happy",
+          "condition": "flag:choice.point.headland"
+        },
+        {
+          "type": "say",
+          "speaker": "elara",
+          "text": "event.past_the_point.rocks",
+          "expression": "happy",
+          "condition": "flag:choice.point.rocks"
+        },
+        {
+          "type": "say",
+          "speaker": "elara",
+          "text": "event.past_the_point.horizon",
+          "expression": "happy",
+          "condition": "flag:choice.point.horizon"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.past_the_point.wren",
+          "condition": "flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8"
+        },
+        {
+          "type": "say",
+          "text": "event.past_the_point.3"
+        },
+        {
+          "type": "say",
+          "speaker": "felix",
+          "text": "event.past_the_point.4",
+          "emote": "heart"
+        },
+        {
+          "type": "fadeout",
+          "seconds": 0.8
+        },
+        {
+          "type": "camera",
+          "name": "reset",
+          "seconds": 0.1
+        },
+        {
+          "type": "lighting",
+          "name": "reset",
+          "seconds": 0.1
+        },
+        {
+          "type": "advance",
+          "minutes": 20
+        },
+        {
+          "type": "fadein",
+          "seconds": 1.0
+        },
+        {
+          "type": "letterbox",
+          "name": "off",
+          "seconds": 0.6
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.past_the_point",
+            "friend:felix,40",
+            "friend:elara,40"
+          ]
+        }
+      ]
+    }
+  ]
+}

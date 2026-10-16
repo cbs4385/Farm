@@ -52,13 +52,23 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheMouseSensitivity_MovesThePointerByTheExtraAndStaysOnTheScreen()
+        public void TheMouseSensitivity_IsAGainOnHowFarThePointerIsFromThePlayer()
         {
-            var screen = new Vector2(1280f, 720f);
-            Assert.AreEqual(new Vector2(110f, 50f), PointerMath.Scale(new Vector2(110f, 50f), new Vector2(10f, 0f), 1f, screen));
-            Assert.AreEqual(new Vector2(130f, 50f), PointerMath.Scale(new Vector2(110f, 50f), new Vector2(10f, 0f), 3f, screen));
-            Assert.AreEqual(new Vector2(105f, 50f), PointerMath.Scale(new Vector2(110f, 50f), new Vector2(10f, 0f), 0.5f, screen));
-            Assert.AreEqual(1279f, PointerMath.Scale(new Vector2(1275f, 50f), new Vector2(20f, 0f), 2.5f, screen).x);
+            var player = new Vector2(640f, 360f);
+            Assert.AreEqual(new Vector2(700f, 330f), PointerMath.AimPoint(new Vector2(700f, 330f), player, 1f), "1 is the pointer itself");
+            Assert.AreEqual(new Vector2(760f, 300f), PointerMath.AimPoint(new Vector2(700f, 330f), player, 2f), "twice as far from the player");
+            Assert.AreEqual(new Vector2(670f, 345f), PointerMath.AimPoint(new Vector2(700f, 330f), player, 0.5f), "half as far");
+            Assert.AreEqual(player, PointerMath.AimPoint(player, player, 2.5f), "a pointer on the player stays on the player");
+        }
+
+        // The tool square is within one cell of the player, so the setting decides how far from the player the pointer has to be to choose the next cell: more sensitive, nearer.
+        [Test]
+        public void ARaisedSensitivity_ChoosesTheNextCellWithAPointerCloserToThePlayer()
+        {
+            var player = new Vector2(640f, 360f);
+            var pointer = new Vector2(640f + 12f, 360f);          // 12 pixels beside the player: under a cell (a cell is 16 pixels at the camera's scale of one)
+            Assert.Less(PointerMath.AimPoint(pointer, player, 1f).x - player.x, 16f, "at 1 it is still the player's own cell");
+            Assert.GreaterOrEqual(PointerMath.AimPoint(pointer, player, 2.5f).x - player.x, 16f, "at 2.5 it reaches the next cell");
         }
 
         [Test]

@@ -963,6 +963,38 @@
           "text": "dlg.npc.marcus.gift.repeat.0"
         }
       ]
+    },
+    {
+      "id": "marcus.roof.hint",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.hint.0"
+        }
+      ]
+    },
+    {
+      "id": "marcus.roof.done",
+      "start": "n0",
+      "nodes": [
+        {
+          "id": "n0",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.done.0",
+          "next": "n1"
+        },
+        {
+          "id": "n1",
+          "speaker": "marcus",
+          "text": "dlg.marcus.roof.done.1",
+          "expression": "happy",
+          "effects": [
+            "flag:event.marcus_roof_beat"
+          ]
+        }
+      ]
     }
   ],
   "setEntries": [
@@ -1434,6 +1466,22 @@
           "rarity": "legendary",
           "tag": "surprise",
           "category": "rare"
+        }
+      ]
+    },
+    {
+      "set": "npc.marcus.talk",
+      "entries": [
+        {
+          "condition": "hearts:marcus>=3 && quest:marcus_planks=done && !flag:hall.roof",
+          "priority": 0,
+          "dialogue": "marcus.roof.hint",
+          "category": "goal"
+        },
+        {
+          "condition": "flag:hall.roof && flag:met.marcus && !flag:event.marcus_roof_beat",
+          "priority": 5,
+          "dialogue": "marcus.roof.done"
         }
       ]
     }

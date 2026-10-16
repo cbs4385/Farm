@@ -23,7 +23,7 @@ namespace Farm.Gameplay
         int Gold() => 0;
         int ShippedCount() => 0;                // items sold through the shipping bin, ever
         bool RecentDeed(string kind) => false;      // a deed (quest, gift, skill, scene, bigsale) in the last seven days (DeedLog)
-        int HallRoomsRestored() => 0;           // Community Hall rooms restored, 0 to 6 (T-124)
+        int HallRoomsRestored() => 0;           // Community Hall rooms restored, 0 to 7 (T-124)
         bool UpgradeDone(string upgradeId) => false;   // a paid-for upgrade, for example backpack.24 or energy.1
     }
 

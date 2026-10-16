@@ -123,3 +123,12 @@ SHEET: Interior furniture and decor. A sprite sheet laid out as a strict grid of
 Cozy decor props: patterned rug (2x2), a floor lamp with warm glow, a window with checked curtains, a potted plant, a mantel clock, a framed painting, a stool, a stone fireplace with fire (2x2), a bookshelf, curtains, a barrel, a crate, a woven basket, a festival bunting banner, a flower pot, a hay bale, a wooden fence segment, a fence corner, a village signpost, a lantern post.
 NEGATIVE: photorealism, 3D render, smooth gradients, anti-aliased edges, blur, black outlines, neon colours, harsh contrast, gore, blood, violence, scary faces, text, watermark, signature, extra limbs, inconsistent perspective, different art style, background scenery (unless requested).
 ```
+
+## Beach: Past the Point (placeholders until the art pass)
+
+Two small pieces dress the beach on the morning of the boat trip (docs/NPC_INTERCONNECTED_GAMEPLAY_SPEC.md, WP5). The boat, the lantern and the fish crate reuse the festival pictures
+(`prop_fest_boat`, `prop_fest_lantern_lit`, `prop_fest_fishcrate`). Original art only; follow `STYLE_GUIDE.md`.
+
+- `obj_jetty`: one 16x16 plank of a short wooden landing seen from above, warm brown boards with darker gaps and a nail at each end, tileable left to right
+- `obj_net`: a fishing net hung to dry on a low wooden rack, 16x16, green-grey netting with a few cork floats, transparent background
+- `obj_door_panel`: one leaf of an interior door seen from above, 16x16, warm brown boards with a dark frame and a small brass handle at one edge (the game swings it open by narrowing it toward its hinge, so the picture must still read when it is a quarter of a cell wide)

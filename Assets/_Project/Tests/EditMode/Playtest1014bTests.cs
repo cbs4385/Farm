@@ -71,7 +71,7 @@ namespace Farm.Tests
             var scene = UnityEditor.SceneManagement.EditorSceneManager.OpenScene($"Assets/_Project/Scenes/{MapIds.FarmHouse}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);
             var roots = scene.GetRootGameObjects();
             var map = roots.SelectMany(r => r.GetComponentsInChildren<FarmMap>(true)).Single();
-            Assert.AreEqual(2, map.DoorTiles().Count(), "a door to the kitchen and a door to the bedroom");
+            Assert.AreEqual(4, map.DoorTiles().Count(), "a door to the kitchen and a door to the bedroom, each two cells wide");
             Vector3Int Cell(Component c) => map.Ground.WorldToCell(c.transform.position);
             var bed = Cell(roots.SelectMany(r => r.GetComponentsInChildren<Bed>(true)).Single());
             var range = Cell(roots.SelectMany(r => r.GetComponentsInChildren<Kitchen>(true)).Single());

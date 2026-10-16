@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Farm.Gameplay
 {
-    // The bundle board of the Community Hall: six rooms to restore by bringing things (see HallRooms).
+    // The bundle board of the Community Hall: seven rooms to restore by bringing things (see HallRooms).
     public sealed class HallBoard : MonoBehaviour, IInteractable
     {
         public string HoverLabel => Farm.Core.L.Get("hover.hall_board");

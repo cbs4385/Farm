@@ -70,6 +70,14 @@ namespace Farm.Tests
             button.onClick.Invoke();
         }
 
+        // Looks inside the "how many?" window.
+        void Click2(string objectName)
+        {
+            var button = _ui.Quantity.Root.GetComponentsInChildren<Button>().FirstOrDefault(b => b.name == objectName);
+            Assert.IsNotNull(button, objectName + " is in the quantity window");
+            button.onClick.Invoke();
+        }
+
         void OpenTheBin()
         {
             var actions = UnityEngine.Object.FindAnyObjectByType<PlayerActions>();
@@ -90,15 +98,18 @@ namespace Farm.Tests
             Assert.IsTrue(_ui.AnyModalOpen, "the bin opens a window");
             Assert.IsNotNull(_ui.Shipping);
 
-            Click("Slot" + parsnips);                       // picking a stack puts one in the lot
+            Click("Slot" + parsnips);                       // picking a stack opens the "how many?" window
             yield return null;
-            Click("Qty_+10");                               // and +10 takes it to the whole stack
+            Assert.IsTrue(_ui.Quantity.IsOpen);
+            Click2("Quantity_+5"); Click2("Quantity_+5");   // +5 twice takes it past the stack: it stops at the whole stack
+            Assert.AreEqual(10, _ui.Quantity.Value, "never more than the backpack holds");
+            Click2("Ok");
             yield return null;
             Click("Slot" + potatoes);
             yield return null;
-            Click("Qty_" + L.Get("shipping.all"));
-            yield return null;
-            Click("Qty_-1");
+            Click2("Quantity_" + L.Get("quantity.plus_all"));
+            Click2("Quantity_-1");
+            Click2("Ok");
             yield return null;
 
             var lot = _ui.Shipping.Lot;
@@ -124,6 +135,12 @@ namespace Farm.Tests
             Click("Slot" + SlotOf("crop.parsnip"));
             yield return null;
             Assert.AreEqual(1, _ui.Shipping.Lot.ItemCount);
+            Assert.IsTrue(_ui.Quantity.IsOpen, "a stack asks how many");
+            Press(_keyboard[Key.Escape]);               // the first Escape closes the "how many?" window
+            yield return null;
+            Release(_keyboard[Key.Escape]);
+            yield return null;
+            Assert.IsTrue(_ui.Shipping.IsOpen, "the shipping window is still there");
             Press(_keyboard[Key.Escape]);
             yield return null;
             Release(_keyboard[Key.Escape]);
@@ -131,6 +148,72 @@ namespace Farm.Tests
             Assert.IsFalse(_ui.AnyModalOpen);
             Assert.AreEqual(6, _session.Backpack.Count("crop.parsnip"));
             Assert.IsEmpty(_session.State.ShippingBin);
+        }
+
+        // Playtest 2026-10-16: "the whole process of putting things into the shipping container seems overly laborious". A stack opens a window with a number box.
+        [UnityTest]
+        public IEnumerator TheQuantityWindow_SetsTheAmountInOneGo_AndNeverAsksForMoreThanThePackHolds()
+        {
+            yield return Enter();
+            _session.Backpack.Add("crop.parsnip", 12);
+            var slot = SlotOf("crop.parsnip");
+            OpenTheBin();
+            yield return null;
+            Click("Slot" + slot);
+            yield return null;
+            Assert.IsTrue(_ui.Quantity.IsOpen);
+            Assert.AreEqual(12, _ui.Quantity.Max);
+            _ui.Quantity.Set(500);
+            Assert.AreEqual(12, _ui.Quantity.Value, "typing too many gives the whole stack");
+            _ui.Quantity.Set(-4);
+            Assert.AreEqual(0, _ui.Quantity.Value, "and never less than none");
+            _ui.Quantity.Set(7);
+            Click2("Ok");
+            yield return null;
+            Assert.IsFalse(_ui.Quantity.IsOpen);
+            Assert.AreEqual(7, _ui.Shipping.Lot.Get(slot));
+            Click("Close");
+        }
+
+        [UnityTest]
+        public IEnumerator Selling_ToTheShopkeeper_AsksHowMany_AndPaysForThatMany()
+        {
+            yield return Enter();
+            _session.Backpack.Add("crop.parsnip", 9);
+            var slot = SlotOf("crop.parsnip");
+            var gold = _session.State.Gold;
+            _ui.ShowSell();
+            yield return null;
+            _ui.Sell.Root.GetComponentsInChildren<Button>().First(b => b.name == "Slot" + slot).onClick.Invoke();
+            yield return null;
+            Assert.IsTrue(_ui.Quantity.IsOpen, "a stack asks how many");
+            Assert.AreEqual(9, _ui.Quantity.Max);
+            _ui.Quantity.Submit(4);
+            yield return null;
+            Assert.AreEqual(5, _session.Backpack.Count("crop.parsnip"), "four were sold");
+            Assert.Greater(_session.State.Gold, gold);
+            _ui.Sell.Close();
+        }
+
+        [UnityTest]
+        public IEnumerator Buying_AsksHowMany_AndStopsAtWhatTheGoldPaysFor()
+        {
+            yield return Enter();
+            var seed = ItemIds.Seed("parsnip");
+            _ui.ShowShop("general");
+            yield return null;
+            _session.State.Gold = 10 * _session.Db.GetItem(seed).BuyPrice + 3;
+            var buy = UnityEngine.Object.FindObjectsByType<Button>().First(b => b.gameObject.activeInHierarchy && b.name == "Buy_" + seed);
+            buy.onClick.Invoke();
+            yield return null;
+            Assert.IsTrue(_ui.Quantity.IsOpen);
+            Assert.AreEqual(10, _ui.Quantity.Max, "ten is what the gold pays for");
+            _ui.Quantity.Set(99);
+            Assert.AreEqual(10, _ui.Quantity.Value);
+            var before = _session.Backpack.Count(seed);
+            _ui.Quantity.Confirm();
+            yield return null;
+            Assert.AreEqual(before + 10, _session.Backpack.Count(seed));
         }
 
         // Playtest 2026-10-13: "it looks like you cannot sell more than one type at once". Every stack in the lot has a contour of its own, not only the one being edited, and the
@@ -149,8 +232,10 @@ namespace Farm.Tests
 
             Click("Slot" + parsnips);
             yield return null;
+            _ui.Quantity.Close();
             Click("Slot" + potatoes);
             yield return null;
+            _ui.Quantity.Close();
             var root = _ui.Shipping.Root.transform;
             Transform SlotButton(int slot) => root.GetComponentsInChildren<Button>(true).FirstOrDefault(b => b.name == "Slot" + slot)?.transform;
             bool Contour(int slot) { var s = SlotButton(slot); Assert.IsNotNull(s, "Slot" + slot); return s.Find("InLot") != null; }

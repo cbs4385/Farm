@@ -42,6 +42,7 @@ namespace Farm.Tests
             Assert.IsTrue(session.HasFlag(LibraryDesk.TakenFlag));
 
             hit.Interact(player);
+            UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Button>().First(b => b.gameObject.activeInHierarchy && b.name == "Yes").onClick.Invoke();          // returning a book asks first (0.7.2)
             Assert.AreEqual(0, session.Backpack.Count(LibraryDesk.BookItemId), "the desk takes the borrowed book back");
             Assert.IsTrue(session.HasFlag(LibraryDesk.ReturnedFlag(LibraryDesk.Books[0])));
 

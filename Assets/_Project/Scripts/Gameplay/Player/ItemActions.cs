@@ -70,8 +70,8 @@ namespace Farm.Gameplay
                 case ToolType.Axe:
                 case ToolType.Pickaxe:
                 case ToolType.Scythe:
-                    // The axe and pickaxe take a placed chest, machine or sprinkler back (no energy needed).
-                    if (tool != ToolType.Scythe && _placement.TryPickUp(cell)) return false;
+                    // The axe and pickaxe leave placed chests, machines and sprinklers alone: the builder's mallet picks those up (playtest 2026-10-16: "the pickaxe acts like the mallet
+                    // removing a sprinkler, which is nonsensical").
                     cost = Mathf.Max(1, Mathf.RoundToInt(ToolModel.EnergyCost(PlayerActions.EnergyCost(tool), tier) * Professions.EnergyMultiplier(_c.Session.State)));
                     if (tool == ToolType.Scythe && TryUprootSapling(cell)) break;
                     if (tool == ToolType.Scythe && TryUproot(cell)) break;
@@ -245,8 +245,8 @@ namespace Farm.Gameplay
             }
             _c.Session.Backpack.Remove(food.Id, 1);
             _c.Session.RestoreEnergy(food.EnergyRestore);
-            Combat.Heal(_c.Session, food.EnergyRestore / 2);
-            _c.Session.Toast(L.Get("toast.ate", L.Get(food.NameKey), food.EnergyRestore));
+            Combat.Heal(_c.Session, FoodEffects.Health(food));
+            _c.Session.Toast(L.Get("toast.ate", L.Get(food.NameKey), food.EnergyRestore, FoodEffects.Health(food)));
         }
     }
 }

@@ -14,11 +14,12 @@ namespace Farm.UI
         const float Dead = 0.25f;
         static readonly List<ScrollRect> Found = new List<ScrollRect>();
 
-        public static void Tick(GameObject root, float dt)
+        // `sensitivity` is the controller sensitivity setting: the tilt of the stick counts that many times (never past full), so the page scrolls faster or slower with the slider.
+        public static void Tick(GameObject root, float dt, float sensitivity = 1f)
         {
             var pad = Gamepad.current;
             if (pad == null || root == null) return;
-            var tilt = pad.rightStick.ReadValue().y;
+            var tilt = Mathf.Clamp(pad.rightStick.ReadValue().y * sensitivity, -1f, 1f);
             if (Mathf.Abs(tilt) < Dead) return;
             var rect = Pick(root);
             if (rect == null) return;

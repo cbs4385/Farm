@@ -44,7 +44,7 @@ namespace Farm.Tests
             var scene = EditorSceneManager.OpenScene($"{SceneDir}/{MapIds.FarmHouse}.unity", UnityEditor.SceneManagement.OpenSceneMode.Single);
             var fixtures = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<MovableFixture>(true)).ToList();
             var pieces = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<SpriteRenderer>(true))
-                .Where(r => r.sprite != null && r.sprite.name.StartsWith("obj_") && r.GetComponentInParent<Warp>() == null).ToList();
+                .Where(r => r.sprite != null && r.sprite.name.StartsWith("obj_") && r.GetComponentInParent<Warp>() == null && r.GetComponent<DoorSwing>() == null).ToList();          // a door leaf is part of the house, not furniture
             foreach (var piece in pieces)
                 Assert.IsNotNull(piece.GetComponent<MovableFixture>(), piece.name + " cannot be moved");
             Assert.AreEqual(fixtures.Count, fixtures.Select(f => f.Id).Distinct().Count(), "ids are unique");

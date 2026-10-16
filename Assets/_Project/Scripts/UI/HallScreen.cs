@@ -18,7 +18,7 @@ namespace Farm.UI
             var stack = UiKit.VStack(frame, "Stack", 6f, 14);
             UiKit.Stretch((RectTransform)stack.transform);
             UiKit.Label(stack.transform, L.Get("hall.title"), 24f, TextAlignmentOptions.Left, UiKit.Accent);
-            var list = UiKit.Scroll(stack.transform, "List", out _list);                 // six rooms with up to four things each do not fit the screen at once
+            var list = UiKit.Scroll(stack.transform, "List", out _list);                 // seven rooms with up to four things each do not fit the screen at once
             UiKit.Size(list.gameObject, -1f, -1f, 1f, 1f);
             var bar = UiKit.PinnedRow(frame, 12f, 470f);          // the same place whatever the board says
             UiKit.MakeButton(bar, L.Get("hall.donate_all"), () => { HallRooms.DonateAll(Ui.Session); Rebuild(); }, 280f, 34f).name = "DonateAll";

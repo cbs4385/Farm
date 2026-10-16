@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 namespace Farm.UI
 {
-    // Sell to the general store's keeper, from the conversation menu: the backpack on screen, click a stack to pick it, then Sell 1 or Sell all; a right-click sells one
-    // at once. Paid in gold on the spot.
+    // Sell to the general store's keeper, from the conversation menu: the backpack on screen, click a stack and say how many in the "how many?" window (a single item is sold at
+    // once); a right-click sells one at once. Paid in gold on the spot.
     public sealed class SellScreen : UiScreen
     {
         const int Columns = 12;
@@ -16,8 +16,6 @@ namespace Farm.UI
 
         readonly RectTransform _grid;
         readonly TextMeshProUGUI _focus;
-        readonly Button _sellOne;
-        readonly Button _sellAll;
         int _selected = -1;
         System.Action _onClose;
 
@@ -40,10 +38,6 @@ namespace Farm.UI
 
             var buttons = UiKit.HStack(stack.transform, "Buttons", 10f);
             UiKit.Size(buttons.gameObject, -1f, 34f);
-            _sellOne = UiKit.MakeButton(buttons.transform, L.Get("sell.one"), () => SellSelected(1), 160f, 34f);
-            _sellOne.name = "SellOne";
-            _sellAll = UiKit.MakeButton(buttons.transform, L.Get("sell.all"), () => SellSelected(int.MaxValue), 160f, 34f);
-            _sellAll.name = "SellAll";
             UiKit.MakeButton(buttons.transform, L.Get("ui.close"), Close, 160f, 34f).name = "Close";
             root.SetActive(false);
         }
@@ -62,6 +56,26 @@ namespace Farm.UI
             _onClose = null;
             base.Close();
             callback?.Invoke();
+        }
+
+        // A stack of more than one opens the "how many?" window: the amount is set in one go and can never be more than the backpack holds.
+        void AskHowMany(int slot)
+        {
+            var s = Ui.Session;
+            var stack = s.Backpack.Get(slot);
+            if (stack == null || !SellLogic.CanSell(s, slot)) return;
+            s.Db.TryGetItem(stack.ItemId, out var item);
+            Ui.ShowQuantity(new QuantityRequest
+            {
+                Title = L.Get("quantity.sell_title"),
+                ItemName = item != null ? L.Get(item.NameKey) : stack.ItemId,
+                Icon = item?.Icon,
+                Min = 1,
+                Max = QuantityPicker.MaxToGive(s, slot),
+                Initial = 1,
+                UnitValue = SellLogic.ValueOf(s, slot, 1),
+                TotalKey = "quantity.total_worth",
+            }, count => SellSlot(slot, QuantityPicker.Clamp(count, 1, QuantityPicker.MaxToGive(s, slot))));
         }
 
         // Sells from the picked stack. Returns the gold paid.
@@ -96,7 +110,14 @@ namespace Farm.UI
                 var index = i;
                 var stack = inv.Get(i);
                 var can = SellLogic.CanSell(s, i);
-                var button = UiKit.MakeButton(_grid, $"Slot{i}", () => { _selected = index; Rebuild(); }, SlotSize, SlotSize);
+                var button = UiKit.MakeButton(_grid, $"Slot{i}", () =>
+                {
+                    _selected = index;
+                    var held = s.Backpack.Get(index);
+                    if (can && held != null && held.Count > 1) { Rebuild(); AskHowMany(index); }          // a stack asks how many
+                    else if (can && held != null) SellSlot(index, 1);                                   // one item is sold at once
+                    else Rebuild();
+                }, SlotSize, SlotSize);
                 button.GetComponentInChildren<TextMeshProUGUI>().text = string.Empty;
                 button.interactable = can;
                 button.gameObject.AddComponent<SlotRightClick>().OnRightClick = () => { if (can) { _selected = index; SellSlot(index, 1); } };
@@ -109,7 +130,6 @@ namespace Farm.UI
                 _focus.text = L.Get("sell.focus", L.Get(focusItem.NameKey), focusStack.Count, SellLogic.ValueOf(s, _selected, 1));
             else _focus.text = SellLogic.AnythingToSell(s) ? L.Get("sell.pick") : L.Get("sell.nothing");
 
-            _sellOne.interactable = _sellAll.interactable = focusStack != null;
             if (IsOpen && EventSystem.current != null && _selected >= 0 && _selected < _grid.childCount)
                 EventSystem.current.SetSelectedGameObject(_grid.GetChild(_selected).gameObject);
         }

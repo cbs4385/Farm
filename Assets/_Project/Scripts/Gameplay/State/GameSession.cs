@@ -286,6 +286,7 @@ namespace Farm.Gameplay
             if (string.IsNullOrEmpty(state.ForecastWeather))
                 state.ForecastWeather = WeatherRoller.Roll(state.GetDate().StartOfNextDay(), Weather, state.WorldSeed, Hooks, state);
             Clock = new GameClock(state.GetDate(), _bus);
+            HallRooms.MigrateRoof(state, Clock.Now.TotalDays);
             ApplySettings();
             Achievements.SyncToPlatform(this);
             ToolRack.MigrateOldRack(state, _db.MaxStack);
