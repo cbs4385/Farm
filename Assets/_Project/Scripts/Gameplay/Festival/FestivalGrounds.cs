@@ -10,7 +10,7 @@ namespace Farm.Gameplay
     // only gives them something to do while they stand there, so it is all animation and nothing that has to be saved.
     public sealed class FestivalGrounds : MonoBehaviour
     {
-        public static readonly Vector2Int Maypole = new Vector2Int(29, 17);          // east of the village square's gazebo
+        public static readonly Vector2Int Maypole = new Vector2Int(29, 17);          // east of the fountain in the village square
         public const float DanceRadius = 6.5f;
         public const float TurnSeconds = 1.1f;
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Farm.Tests
 {
-    // Playtest 2026-10-16 on the village: "the village square needs reworking: it does not read nor look like a village square. Use a gazebo as a center piece and build a
+    // Playtest 2026-10-16 on the village: "the village square needs reworking: it does not read nor look like a village square. Use a gazebo as a center piece ... (a day later: the gazebo is difficult to navigate around, remove it and move the fountain to the center) and build a
     // realistic cozy village square around it... soften the intersection of the village square and the dirt paths". And: copses of trees, no brown patches, brown roads, no
     // little decorations that are only obstacles.
     public class VillageSquareTests
@@ -34,7 +34,7 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheSquare_IsACobbledPlazaWithRoundedCorners_AndTheGazeboStandsInItsMiddle()
+        public void TheSquare_IsACobbledPlazaWithRoundedCorners_AndTheFountainStandsInItsMiddle()
         {
             for (var y = VillageSquare.Y0; y <= VillageSquare.Y1; y++)
                 for (var x = VillageSquare.X0; x <= VillageSquare.X1; x++)
@@ -45,45 +45,39 @@ namespace Farm.Tests
                 }
             Assert.GreaterOrEqual(VillageSquare.X1 - VillageSquare.X0 + 1, 11, "a square is wide");
             Assert.GreaterOrEqual(VillageSquare.Y1 - VillageSquare.Y0 + 1, 8);
-            Assert.AreEqual(25, (VillageSquare.GazeboX0 + VillageSquare.GazeboX1) / 2, "on the lane's axis");
-            Assert.IsTrue(VillageRoads.OnLane(25, 17) && VillageRoads.OnRoad(25, 17), "where the road crosses the lane");
-            for (var y = VillageSquare.GazeboY0; y <= VillageSquare.GazeboY1; y++)
-                for (var x = VillageSquare.GazeboX0; x <= VillageSquare.GazeboX1; x++) Assert.IsTrue(VillageSquare.Cobbled(x, y), "the gazebo stands on the paving");
+            Assert.AreEqual(VillageSquare.Centre, MapLayout.Fountain, "the fountain is the centrepiece");
+            Assert.AreEqual(25, VillageSquare.Centre.x, "on the lane's axis");
+            Assert.IsTrue(VillageRoads.OnLane(VillageSquare.Centre.x, VillageSquare.Centre.y) && VillageRoads.OnRoad(VillageSquare.Centre.x, VillageSquare.Centre.y), "where the road crosses the lane");
+            Assert.IsTrue(VillageSquare.Cobbled(VillageSquare.Centre.x, VillageSquare.Centre.y), "on the paving");
         }
 
         [Test]
-        public void TheGazebo_IsSolidAtTheBackAndTheRails_ButItsFrontAndMiddleCanBeWalked()
+        public void ThereIsNoGazebo_AndOnlyTheFountainBlocksTheMiddleOfTheSquare()
         {
-            var solid = VillageSquare.GazeboSolidCells().ToList();
-            Assert.AreEqual(5 + 2, solid.Count, "the back row and a rail either side of the way in");
-            for (var x = VillageSquare.GazeboX0; x <= VillageSquare.GazeboX1; x++)
-            {
-                Assert.IsTrue(VillageSquare.GazeboSolid(x, VillageSquare.GazeboY1), "the back");
-                Assert.IsFalse(VillageSquare.GazeboSolid(x, VillageSquare.GazeboY0), "the way in along the front");
-            }
-            for (var x = VillageSquare.GazeboX0 + 1; x < VillageSquare.GazeboX1; x++) Assert.IsFalse(VillageSquare.GazeboSolid(x, VillageSquare.GazeboY0 + 1), "the inside");
-            Assert.IsTrue(VillageSquare.GazeboSolid(VillageSquare.GazeboX0, VillageSquare.GazeboY0 + 1));
-            Assert.IsTrue(VillageSquare.GazeboSolid(VillageSquare.GazeboX1, VillageSquare.GazeboY0 + 1));
-            Assert.IsFalse(VillageSquare.GazeboSolid(0, 0));
+            var solid = VillageSquare.SolidPropCells().ToList();
+            CollectionAssert.Contains(solid, MapLayout.Fountain);
+            // the seven columns and four rows round the middle: the fountain's own cell is the only thing that blocks
+            Assert.AreEqual(1, solid.Count(c => c.x >= 22 && c.x <= 28 && c.y >= 15 && c.y <= 18), "one cell");
         }
 
         [Test]
-        public void TheRoadAndTheLane_RunInToTheSquareFromAllFourSides_AndTheYWalkRoundTheGazebo()
+        public void TheRoadAndTheLane_RunInToTheSquareFromAllFourSides_AndTheyWalkRoundTheFountain()
         {
             var solid = new HashSet<Vector2Int>(VillageSquare.SolidPropCells());
-            var everything = Reach(new Vector2Int(2, 17), solid, (x, y) => true);
-            foreach (var entry in new[] { new Vector2Int(VillageSquare.X0 - 2, 17), new Vector2Int(VillageSquare.X1 + 2, 17), new Vector2Int(25, VillageSquare.Y0 - 2), new Vector2Int(25, VillageSquare.Y1 + 2) })
-            {
-                Assert.IsNotNull(VillageRoads.Ground(entry.x, entry.y), $"{entry} is road");
-                Assert.IsTrue(everything.Contains(entry), $"{entry} can be reached from the way in from the farm");
-            }
-            // Inside the plaza alone, west to east and south to north can be walked round the gazebo.
-            bool InPlaza(int x, int y) => VillageSquare.Cobbled(x, y);
+            bool InPlaza(int x, int y) => x >= VillageSquare.X0 - 1 && x <= VillageSquare.X1 + 1 && y >= VillageSquare.Y0 - 1 && y <= VillageSquare.Y1 + 1;          // the square and the open ground one cell round it (the corners are grass)
             var from = Reach(new Vector2Int(VillageSquare.X0, 17), solid, InPlaza);
             Assert.IsTrue(from.Contains(new Vector2Int(VillageSquare.X1, 17)), "west to east");
             Assert.IsTrue(from.Contains(new Vector2Int(25, VillageSquare.Y1)), "to the north");
             Assert.IsTrue(from.Contains(new Vector2Int(25, VillageSquare.Y0)), "to the south");
-            Assert.IsTrue(from.Contains(new Vector2Int(25, VillageSquare.GazeboY0 + 1)), "and into the gazebo by its front");
+            // and every walkable cell of the plaza can be reached from every other: nothing is walled off by the furniture
+            var all = new List<Vector2Int>();
+            for (var y = VillageSquare.Y0; y <= VillageSquare.Y1; y++)
+                for (var x = VillageSquare.X0; x <= VillageSquare.X1; x++)
+                    if (VillageSquare.Cobbled(x, y) && !solid.Contains(new Vector2Int(x, y))) all.Add(new Vector2Int(x, y));
+            var unreachable = all.Where(c => !from.Contains(c)).ToList();
+            Assert.IsEmpty(unreachable, "cells of the plaza that cannot be walked to: " + string.Join(" ", unreachable));
+            foreach (var entry in new[] { new Vector2Int(VillageSquare.X0 - 2, 17), new Vector2Int(VillageSquare.X1 + 2, 17), new Vector2Int(25, VillageSquare.Y0 - 2), new Vector2Int(25, VillageSquare.Y1 + 2) })
+                Assert.IsNotNull(VillageRoads.Ground(entry.x, entry.y), $"{entry} is road");
         }
 
         [Test]
@@ -120,7 +114,7 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void NoFestivalGatheringCell_IsOnAGazeboRailOrAnyThingThatStandsInTheSquareForGood()
+        public void NoFestivalGatheringCell_IsOnAnythingThatStandsInTheSquareForGood()
         {
             var solid = new HashSet<Vector2Int>(VillageSquare.SolidPropCells());
             foreach (var kv in Festivals.Gathering)
@@ -129,11 +123,11 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheSpringDance_IsRoundTheMaypole_AndTheMaypoleIsClearOfTheGazebo()
+        public void TheSpringDance_IsRoundTheMaypole_AndTheMaypoleIsEastOfTheFountain()
         {
             var maypole = FestivalGrounds.Maypole;
-            Assert.IsFalse(VillageSquare.OnGazebo(maypole.x, maypole.y));
-            Assert.Greater(maypole.x, VillageSquare.GazeboX1, "east of the gazebo");
+            Assert.AreNotEqual(MapLayout.Fountain, maypole);
+            Assert.Greater(maypole.x, MapLayout.Fountain.x + 1, "east of the fountain, with room to walk between");
             foreach (var (x, y, _) in Festivals.Gathering["spring"])
             {
                 Assert.IsTrue(FestivalGrounds.InDanceRing(new Vector3(x, y), new Vector3(maypole.x, maypole.y)), $"({x},{y}) dances");
@@ -142,16 +136,20 @@ namespace Farm.Tests
         }
 
         [Test]
-        public void TheFountainAndTheClockTower_FlankTheLaneOnTheNorthEdge()
+        public void TheClockTower_StandsOnTheNorthEdge_EastOfTheLane()
         {
             Assert.AreEqual(VillageSquare.Y1, MapLayout.ClockTower.y);
-            Assert.AreEqual(VillageSquare.Y1, MapLayout.Fountain.y);
-            Assert.Less(MapLayout.Fountain.x + 1, MapRoadsLaneX0(), "west of the lane");
-            Assert.Greater(MapLayout.ClockTower.x, MapRoadsLaneX0() + 2, "east of it");
-            Assert.AreEqual(25 - (MapLayout.Fountain.x + 1), MapLayout.ClockTower.x - 25, "the same distance either side");
+            Assert.Greater(MapLayout.ClockTower.x, VillageRoads.LaneX0 + 2, "east of the lane");
         }
 
-        static int MapRoadsLaneX0() => VillageRoads.LaneX0;
+        [Test]
+        public void EveryTrailTile_IsTheBrownOfTileDirt_TheWhiteTrailIsGoneFromAllMaps()
+        {
+            var dir = "Assets/_Project/Art/Placeholders/";
+            var brown = System.IO.File.ReadAllBytes(dir + "tile_dirt.png");
+            foreach (var tile in new[] { "tile_path", "tile_road" })
+                CollectionAssert.AreEqual(brown, System.IO.File.ReadAllBytes(dir + tile + ".png"), tile + " is the same picture as tile_dirt");
+        }
 
         // ---- the trees ----
 

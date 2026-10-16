@@ -11,7 +11,7 @@ using UnityEngine.TestTools;
 
 namespace Farm.Tests
 {
-    // Playtest 2026-10-16, in the real scenes: the village square has its gazebo, ring of paving and benches; the roads are brown and meet it softly; the green has no brown patches
+    // Playtest 2026-10-16, in the real scenes: the village square has its fountain in the middle, ring of paving and benches; the roads are brown and meet it softly; the green has no brown patches
     // and none of the little decorations; the beach has driftwood and rocks you can pick up, with names, freshly laid every day. Set FARM_CAPTURE_DIR for pictures.
     public class VillageSquareFlowTests : PlayModeFixture
     {
@@ -40,21 +40,27 @@ namespace Farm.Tests
         static System.Collections.Generic.IEnumerable<Vector3Int> All(BoundsInt bounds) { foreach (var c in bounds.allPositionsWithin) yield return c; }
 
         [UnityTest]
-        public IEnumerator TheSquare_HasItsGazebo_WithItsRingAndBenches_AndTheGazeboBlocksOnlyItsBackAndRails()
+        public IEnumerator TheSquare_HasItsFountainInTheMiddle_WithItsRingAndBenches_AndNoGazebo()
         {
             yield return Open(MapIds.Village);
             var map = UnityEngine.Object.FindAnyObjectByType<FarmMap>();
-            var gazebo = Named("Gazebo");
-            Assert.IsNotNull(gazebo, "a gazebo");
-            Assert.AreEqual("prop_gazebo", gazebo.GetComponent<SpriteRenderer>().sprite.name);
-            Assert.GreaterOrEqual(gazebo.GetComponent<SpriteRenderer>().sortingOrder, 11, "its roof hides a player who stands behind or inside it");
-            StringAssert.Contains("Gazebo", gazebo.GetComponent<HoverNote>().HoverLabel, "it has a name");
+            Assert.IsNull(Named("Gazebo"), "no gazebo");
+            var fountain = Named("Fountain");
+            Assert.IsNotNull(fountain, "the fountain");
+            Assert.AreEqual(map.CellCenter(new Vector3Int(25, 17, 0)).x, fountain.transform.position.x, 0.01f, "in the middle of the square, on the lane's axis");
+            Assert.AreEqual(map.CellCenter(new Vector3Int(25, 17, 0)).y, fountain.transform.position.y, 0.6f);
+            StringAssert.Contains("Fountain", fountain.GetComponent<HoverNote>().HoverLabel, "it has a name");
             Assert.IsNotNull(Named("Plaza_Ring"), "the ring of paving stones");
-            Assert.IsNotNull(Named("Bench_Square_NW")); Assert.IsNotNull(Named("Bench_Square_NE"));
-            Assert.IsNotNull(Named("Fountain")); Assert.IsNotNull(Named("ClockTower"));
-            for (var y = VillageSquare.GazeboY0; y <= VillageSquare.GazeboY1; y++)
-                for (var x = VillageSquare.GazeboX0; x <= VillageSquare.GazeboX1; x++)
-                    Assert.AreEqual(VillageSquare.GazeboSolid(x, y), map.Walls.GetTile(new Vector3Int(x, y, 0)) != null, $"({x},{y})");
+            Assert.IsNotNull(Named("Bench_Square_NW")); Assert.IsNotNull(Named("Bench_Square_NE")); Assert.IsNotNull(Named("ClockTower"));
+            // nothing blocks round it: only the fountain's own cell is a wall or collider in the middle of the square
+            for (var y = 15; y <= 18; y++)
+                for (var x = 22; x <= 28; x++)
+                {
+                    var cell = new Vector3Int(x, y, 0);
+                    Assert.IsNull(map.Walls.GetTile(cell), $"({x},{y}) is a wall");
+                    var blocked = Physics2D.OverlapPoint(map.CellCenter(cell)) is Collider2D c && !c.isTrigger;
+                    Assert.AreEqual(x == 25 && y == 17, blocked, $"({x},{y})");
+                }
             CaptureHelper.Save("village_square");
         }
 
@@ -163,7 +169,7 @@ namespace Farm.Tests
         // ---- the festivals round the gazebo ----
 
         [UnityTest]
-        public IEnumerator EachFestival_HasItsPropsInTheSquare_ClearOfTheGazeboAndTheLane()
+        public IEnumerator EachFestival_HasItsPropsInTheSquare_ClearOfTheFountainAndTheLane()
         {
             foreach (var (season, day, holder) in new[] { (Season.Spring, 13, "Festival_spring"), (Season.Summer, 11, "Festival_summer"), (Season.Fall, 16, "Festival_fall"), (Season.Winter, 25, "Festival_winter") })
             {
@@ -191,7 +197,7 @@ namespace Farm.Tests
                 foreach (var piece in go.GetComponentsInChildren<Collider2D>().Where(c => !c.isTrigger))
                 {
                     var cell = map.WorldToCell(piece.bounds.center);
-                    Assert.IsFalse(VillageSquare.GazeboSolid(cell.x, cell.y) || VillageSquare.SolidPropCells().Contains(new Vector2Int(cell.x, cell.y)), $"{holder}: {piece.name} stands on something permanent at ({cell.x},{cell.y})");
+                    Assert.IsFalse(VillageSquare.SolidPropCells().Contains(new Vector2Int(cell.x, cell.y)), $"{holder}: {piece.name} stands on something permanent at ({cell.x},{cell.y})");
                     if (cell.y >= VillageSquare.Y0 - 1 && cell.y <= VillageSquare.Y1 + 1)
                         Assert.IsFalse(cell.x >= 24 && cell.x <= 26 && (cell.y == VillageSquare.Y0 || cell.y == VillageSquare.Y0 - 1 || cell.y == VillageSquare.Y1 || cell.y == VillageSquare.Y1 + 1), $"{holder}: {piece.name} blocks the lane at ({cell.x},{cell.y})");
                 }

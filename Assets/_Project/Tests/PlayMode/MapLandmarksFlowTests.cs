@@ -42,7 +42,7 @@ namespace Farm.Tests
                 var name = key.EndsWith("fountain") ? "Fountain" : "ClockTower";
                 var thing = Named(name);
                 Assert.IsNotNull(thing, name + " stands in the village");
-                Assert.AreEqual(cell.x + 1f, thing.position.x, 0.01f, name + " is two cells wide from the cell the map uses");
+                Assert.AreEqual(cell.x + (name == "Fountain" ? 0.5f : 1f), thing.position.x, 0.01f, name + (name == "Fountain" ? " stands on the cell the map uses" : " is two cells wide from the cell the map uses"));
                 Assert.AreEqual(cell.y + 0.5f, thing.position.y, 0.6f);
             }
             var pond = MapLayout.VillagePond;

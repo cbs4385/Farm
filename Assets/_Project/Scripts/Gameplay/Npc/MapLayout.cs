@@ -32,8 +32,8 @@ namespace Farm.Gameplay
         public static readonly Pond VillagePond = new Pond(19.5f, 8.5f, 3.2f, 3.6f);
         public static readonly Pond ForestPond = new Pond(6.5f, 10f, 3.8f, 2.9f);
 
-        // The village's landmarks in the square (cells; each is two cells wide).
+        // The village's landmarks in the square (cells; the clock tower is two cells wide, the fountain one).
         public static readonly Vector2Int ClockTower = new Vector2Int(27, 21);
-        public static readonly Vector2Int Fountain = new Vector2Int(22, 21);          // mirrors the clock tower across the lane (x 24 to 26)
+        public static readonly Vector2Int Fountain = new Vector2Int(25, 17);          // the middle of the square, where the road crosses the lane; one cell blocks
     }
 }

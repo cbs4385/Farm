@@ -551,18 +551,13 @@ namespace Farm.Editor
             // 2026-10-16: the scatter before this formed diagonal rows, not copses).
             foreach (var t in VillageTreeCells()) AddObject($"Tree_{t.x}_{t.y}", "obj_tree", Center(t.x, t.y), solid: true);
 
-            // The village square (VillageSquare; playtest 2026-10-16: "it does not read nor look like a village square"): a gazebo in the middle of the cobbles where the road
-            // crosses the lane, a ring of paving stones round it, the fountain and the clock tower on the north edge either side of the lane, benches facing the gazebo, the
-            // notice board, flags and lamp posts. The festivals' props and the villagers' places are laid out round all of this (see FestivalGrounds and Festivals.Gathering).
-            var ring = AddDecorObject("Plaza_Ring", "obj_plaza_ring", Center(VillageSquare.Gazebo.x, VillageSquare.Gazebo.y + 1));
+            // The village square (VillageSquare; playtest 2026-10-16: "it does not read nor look like a village square"): the fountain in the middle of the cobbles where the road
+            // crosses the lane, a ring of paving stones round it, the clock tower on the north edge, benches, the notice board, flags and lamp posts. (A gazebo stood in the middle
+            // for a day; it was hard to walk round.) The festivals' props and the villagers' places are laid out round all of this (see FestivalGrounds and Festivals.Gathering).
+            var ring = AddDecorObject("Plaza_Ring", "obj_plaza_ring", Center(VillageSquare.Centre.x, VillageSquare.Centre.y));
             ring.GetComponent<SpriteRenderer>().sortingOrder = 1;                      // on the ground, under everything
-            foreach (var c in VillageSquare.GazeboSolidCells()) rig.Walls.SetTile(new Vector3Int(c.x, c.y, 0), GetHiddenWall());
-            var gazebo = AddObject("Gazebo", "prop_gazebo", Center(VillageSquare.Gazebo.x, VillageSquare.Gazebo.y), solid: false, size: new Vector2(5f, 3f));
-            gazebo.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 1f);       // the hover area covers the floor, one row up from the foot of the picture
-            gazebo.GetComponent<SpriteRenderer>().sortingOrder = TallSortingOrder;
-            gazebo.AddComponent<BuildingDepth>().Configure(VillageSquare.GazeboY0 + 1f, TallSortingOrder);          // the roof is over a player inside or behind it, under one on the steps or in front
             AddProp("ClockTower", "prop_clock_tower", MapLayout.ClockTower.x, MapLayout.ClockTower.y, 2);
-            AddProp("Fountain", "prop_fountain", MapLayout.Fountain.x, MapLayout.Fountain.y, 2);
+            AddProp("Fountain", "prop_fountain", MapLayout.Fountain.x, MapLayout.Fountain.y);          // a cell and a half wide: one cell blocks
             AddProp("Flag_West", "prop_flag", VillageSquare.FlagWest.x, VillageSquare.FlagWest.y);
             AddProp("Flag_East", "prop_flag", VillageSquare.FlagEast.x, VillageSquare.FlagEast.y);
             MakeSeat(AddProp("Bench_Square_NW", "prop_bench", VillageSquare.BenchWest.x, VillageSquare.BenchWest.y, 2), "prop_bench", "Bench_Square_NW");

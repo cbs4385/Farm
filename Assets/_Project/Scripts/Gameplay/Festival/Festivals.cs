@@ -54,7 +54,7 @@ namespace Farm.Gameplay
         // festival's own props; a test opens the village scene and checks every one.
         public static readonly Dictionary<string, (int x, int y, string facing)[]> Gathering = new Dictionary<string, (int, int, string)[]>
         {
-            // round the maypole on the dance floor east of the gazebo
+            // round the maypole on the dance floor east of the fountain
             { "spring", new[] { (28, 16, "right"), (30, 16, "left"), (28, 18, "right"), (30, 18, "left"), (29, 16, "up"), (29, 18, "down"), (28, 17, "right"), (30, 17, "left"),
                                 (27, 15, "right"), (31, 16, "left"), (31, 18, "left"), (29, 15, "up") } },
             // along the shore of the village pond, facing the water

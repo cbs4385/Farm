@@ -53,7 +53,7 @@ namespace Farm.Editor
             Tile(written, "tile_dirt", new Color(0.55f, 0.40f, 0.26f), new Color(0.50f, 0.36f, 0.23f));
             Tile(written, "tile_tilled", new Color(0.40f, 0.27f, 0.17f), new Color(0.33f, 0.22f, 0.14f), furrows: true);
             Tile(written, "tile_tilled_watered", new Color(0.28f, 0.19f, 0.12f), new Color(0.22f, 0.15f, 0.10f), furrows: true);
-            Tile(written, "tile_path", new Color(0.72f, 0.66f, 0.52f), new Color(0.66f, 0.60f, 0.47f));
+            Tile(written, "tile_path", new Color(0.55f, 0.40f, 0.26f), new Color(0.50f, 0.36f, 0.23f));          // the brown of tile_dirt (playtest 2026-10-16: the pale trail was replaced on every map)
             Tile(written, "tile_water", new Color(0.25f, 0.48f, 0.80f), new Color(0.30f, 0.54f, 0.86f));
             Tile(written, "tile_wall", new Color(0.45f, 0.40f, 0.42f), new Color(0.38f, 0.34f, 0.36f), border: true);
             Tile(written, "tile_floor_wood", new Color(0.62f, 0.45f, 0.28f), new Color(0.56f, 0.40f, 0.25f), border: true);

@@ -1,6 +1,6 @@
-"""An inlaid ring of paving stones round the gazebo in the village square (playtest 2026-10-16: the square did not look like one): two concentric bands of paler and darker stones
-on the cobbles, laid on the ground under the gazebo and showing at its sides. `obj_plaza_ring.png`, 144 x 112 pixels (9 x 7 cells), drawn here, original art; it is centred on the
-cell the gazebo's floor is centred on. Run from the repository root: py tools/art/build_square_ring.py"""
+"""An inlaid ring of paving stones round the fountain in the village square (playtest 2026-10-16: the square did not look like one): two concentric bands of paler and darker stones
+on the cobbles, laid on the ground. `obj_plaza_ring.png`, 144 x 112 pixels (9 x 7 cells), drawn here, original art; it is centred on the
+middle cell of the square (25, 17), where the fountain stands. Run from the repository root: py tools/art/build_square_ring.py"""
 import math
 import os
 from PIL import Image
