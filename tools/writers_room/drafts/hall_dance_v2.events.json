@@ -1,0 +1,525 @@
+{
+  "events": [
+    {
+      "id": "hall_dance_v2",
+      "trigger": "map",
+      "map": "CommunityHall",
+      "priority": 7,
+      "recheck": true,
+      "condition": "flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0",
+      "titleKey": "memory.hall_dance_v2",
+      "steps": [
+        {
+          "type": "letterbox",
+          "name": "on",
+          "seconds": 0.6
+        },
+        {
+          "type": "lighting",
+          "name": "warm",
+          "seconds": 1.0
+        },
+        {
+          "type": "place",
+          "actor": "marcus",
+          "x": 8,
+          "y": 6
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "up"
+        },
+        {
+          "type": "place",
+          "actor": "tilda",
+          "x": 5,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "right"
+        },
+        {
+          "type": "place",
+          "actor": "wren",
+          "x": 7,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "down"
+        },
+        {
+          "type": "place",
+          "actor": "piper",
+          "x": 6,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "piper",
+          "facing": "down"
+        },
+        {
+          "type": "place",
+          "actor": "bram",
+          "x": 9,
+          "y": 5
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "left"
+        },
+        {
+          "type": "place",
+          "actor": "juno",
+          "x": 8,
+          "y": 4
+        },
+        {
+          "type": "face",
+          "actor": "juno",
+          "facing": "down"
+        },
+        {
+          "type": "move",
+          "actor": "player",
+          "x": 7,
+          "y": 2
+        },
+        {
+          "type": "face",
+          "actor": "player",
+          "facing": "up"
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.hall_dance_v2.0",
+          "expression": "happy"
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.hall_dance_v2.1",
+          "expression": "happy"
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.hall_dance_v2.2",
+          "emote": "sparkle",
+          "expression": "happy"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance_v2.3",
+          "emote": "sparkle",
+          "expression": "happy"
+        },
+        {
+          "type": "spawn",
+          "id": "wine",
+          "name": "artisan.wine",
+          "x": 7,
+          "y": 3
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance_v2.4",
+          "expression": "happy"
+        },
+        {
+          "type": "sfx",
+          "name": "clink"
+        },
+        {
+          "type": "despawn",
+          "id": "wine"
+        },
+        {
+          "type": "face",
+          "actor": "juno",
+          "facing": "down"
+        },
+        {
+          "type": "anim",
+          "actor": "juno",
+          "name": "hop",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.hall_dance_v2.5",
+          "expression": "happy"
+        },
+        {
+          "type": "dialogue",
+          "dialogue": "hall_dance_v2.choice1"
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "right"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.hall_dance_v2.6"
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "left"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.hall_dance_v2.7"
+        },
+        {
+          "type": "anim",
+          "actor": "piper",
+          "name": "hop",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.hall_dance_v2.8",
+          "expression": "happy"
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.hall_dance_v2.9",
+          "emote": "sweat",
+          "expression": "embarrassed"
+        },
+        {
+          "type": "music",
+          "name": "saloon"
+        },
+        {
+          "type": "anim",
+          "actor": "piper",
+          "name": "sway",
+          "seconds": 2.0,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.hall_dance_v2.10",
+          "emote": "note"
+        },
+        {
+          "type": "say",
+          "text": "event.hall_dance_v2.11"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.hall_dance_v2.12",
+          "emote": "note"
+        },
+        {
+          "type": "anim",
+          "actor": "piper",
+          "name": "sway",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "piper",
+          "text": "event.hall_dance_v2.13",
+          "emote": "note",
+          "expression": "surprised"
+        },
+        {
+          "type": "music",
+          "name": "stop"
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "right"
+        },
+        {
+          "type": "anim",
+          "actor": "wren",
+          "name": "hop",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance_v2.14",
+          "expression": "happy"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.hall_dance_v2.15",
+          "expression": "happy"
+        },
+        {
+          "type": "face",
+          "actor": "juno",
+          "facing": "right"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.hall_dance_v2.16",
+          "expression": "thinking"
+        },
+        {
+          "type": "sfx",
+          "name": "anvil"
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "down"
+        },
+        {
+          "type": "anim",
+          "actor": "bram",
+          "name": "nod",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.hall_dance_v2.17",
+          "expression": "thinking"
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "up"
+        },
+        {
+          "type": "anim",
+          "actor": "tilda",
+          "name": "hop",
+          "seconds": 1.2,
+          "async": true
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.hall_dance_v2.18",
+          "emote": "sparkle",
+          "expression": "happy"
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "left"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance_v2.19"
+        },
+        {
+          "type": "face",
+          "actor": "bram",
+          "facing": "left"
+        },
+        {
+          "type": "say",
+          "speaker": "bram",
+          "text": "event.hall_dance_v2.20",
+          "expression": "happy"
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "right"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.hall_dance_v2.21"
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.hall_dance_v2.22",
+          "expression": "thinking"
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "left"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.hall_dance_v2.23",
+          "expression": "embarrassed"
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "right"
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "left"
+        },
+        {
+          "type": "anim",
+          "actor": "marcus",
+          "name": "dance",
+          "seconds": 4.0,
+          "async": true
+        },
+        {
+          "type": "anim",
+          "actor": "tilda",
+          "name": "dance",
+          "seconds": 4.0,
+          "async": true
+        },
+        {
+          "type": "emote",
+          "actor": "wren",
+          "name": "heart",
+          "seconds": 2.0,
+          "async": true
+        },
+        {
+          "type": "emote",
+          "actor": "juno",
+          "name": "note",
+          "seconds": 2.0,
+          "async": true
+        },
+        {
+          "type": "wait",
+          "seconds": 2.5
+        },
+        {
+          "type": "say",
+          "text": "event.hall_dance_v2.24"
+        },
+        {
+          "type": "face",
+          "actor": "juno",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "juno",
+          "text": "event.hall_dance_v2.25",
+          "emote": "sparkle",
+          "expression": "happy"
+        },
+        {
+          "type": "face",
+          "actor": "marcus",
+          "facing": "up"
+        },
+        {
+          "type": "say",
+          "speaker": "marcus",
+          "text": "event.hall_dance_v2.26",
+          "expression": "happy"
+        },
+        {
+          "type": "face",
+          "actor": "tilda",
+          "facing": "right"
+        },
+        {
+          "type": "say",
+          "speaker": "tilda",
+          "text": "event.hall_dance_v2.27",
+          "emote": "heart",
+          "expression": "happy"
+        },
+        {
+          "type": "sfx",
+          "name": "clink"
+        },
+        {
+          "type": "face",
+          "actor": "wren",
+          "facing": "down"
+        },
+        {
+          "type": "say",
+          "speaker": "wren",
+          "text": "event.hall_dance_v2.28",
+          "emote": "heart",
+          "expression": "happy"
+        },
+        {
+          "type": "lighting",
+          "name": "reset",
+          "seconds": 1.0
+        },
+        {
+          "type": "letterbox",
+          "name": "off",
+          "seconds": 0.6
+        },
+        {
+          "type": "effects",
+          "effects": [
+            "flag:event.hall_dance_v2",
+            "friend:marcus,40",
+            "friend:tilda,40",
+            "friend:wren,40",
+            "friend:piper,40",
+            "friend:bram,40",
+            "friend:juno,40"
+          ]
+        }
+      ],
+      "tag": "wholesome"
+    }
+  ]
+}

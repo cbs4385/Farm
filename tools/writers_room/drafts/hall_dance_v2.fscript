@@ -1,0 +1,22 @@
+# Generated from hall_dance_v2.scene.json by tools/writers_room/compile_scene.py; edit the draft, not this.
+
+dialogue hall_dance_v2.choice1
+n0 wren: So. Is this the full house I asked for? Be honest. I'll improve it later.
+  ? It's everything you asked for. => r0 | flag:choice.hall_dance.everything
+  tone kind
+  ? Loud, crowded, and perfect. => r1 | flag:choice.hall_dance.perfect
+  tone honest
+  ? I counted forty. Then four hundred. => r2 | flag:choice.hall_dance.forty
+  tone playful
+  ? I'm just glad I'm in it. => r3 | flag:choice.hall_dance.glad
+  tone shy
+r0 wren: Everything I asked for, and a roof I didn't. That's how the story starts. Now, between us, who takes the credit?
+  expr happy
+  emote sparkle
+r1 wren: Loud, crowded and perfect. I'm stealing that for the story. Somebody write it down before I improve it.
+  expr happy
+r2 wren: Four hundred! By tomorrow it's a thousand, and you were there for every one. You're learning how I tell it. Somebody keep score.
+  expr happy
+  emote exclaim
+r3 wren: You're in it. You're the first line, actually. I'll keep your part small, but somebody in this hall is keeping score.
+  expr happy

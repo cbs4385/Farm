@@ -111,6 +111,11 @@ class Lint:
             for banned in v.get("banned", []):
                 if banned.lower() in t.lower():
                     self.add("warning", where, f"uses '{banned}', which this villager never says", speaker)
+            # A tic opener belongs to one voice (Bram's "Hm."); another villager opening a sentence with it is a slip.
+            for other, ov in self.rules.get("voices", {}).items():
+                tic = ov.get("ticOpener")
+                if tic and other != speaker and re.search(rf"(?:^|[.!?]\s+)\.*{re.escape(tic)}\b", t, re.I):
+                    self.add("warning", where, f"opens a sentence with '{tic.capitalize()}', which is {other.capitalize()}'s tic", speaker)
 
     def check_condition(self, cond: str, where: str):
         if not cond or cond == "true":
@@ -122,7 +127,7 @@ class Lint:
             atom = atom.strip().lstrip("!").strip("() ")
             if not atom:
                 continue
-            head = re.split(r"[:<>=!]", atom, 1)[0]
+            head = re.split(r"[:<>=!]", atom, maxsplit=1)[0]
             if head not in atoms:
                 self.add("error", where, f"condition atom '{head}' is not registered (from '{atom}')")
 
@@ -235,7 +240,8 @@ class Lint:
             elif kind == "music":
                 self.check_name("music", beat["music"], where)
                 visual = True
-                spoken_last = False
+                if beat["music"] != "stop":
+                    spoken_last = False
             elif kind == "sfx":
                 visual = True
                 spoken_last = False
@@ -266,8 +272,7 @@ class Lint:
             self.add("warning", sid, f"{total_lines} spoken lines; a heart event or set piece runs 25 to 45")
         if total_lines and player_lines / total_lines > 0.25:
             self.add("warning", sid, f"[player] in {player_lines} of {total_lines} lines (limit one in four)")
-        if not any(f == f"flag:event.{sid}" for f in flags_set):
-            self.add("warning", sid, f"no effect sets flag:event.{sid}; later lines cannot refer to the scene")
+        # compile_scene.py always appends flag:event.<id>, so a draft need not list it.
         return self.issues
 
 
