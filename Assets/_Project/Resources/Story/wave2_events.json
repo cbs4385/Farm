@@ -314,13 +314,131 @@
           "friend:piper,80"
         ],
         "intro": "event.piper_heart10.intro",
-        "cue": "piper_theme",
+        "cue": "saloon",
         "outro": "event.piper_heart10.outro"
       },
       "event": {
         "titleKey": "memory.piper_heart10",
         "priority": 7,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "steps": [
+          {
+            "type": "face",
+            "actor": "piper",
+            "facing": "down"
+          },
+          {
+            "type": "say",
+            "speaker": "piper",
+            "text": "event.piper_heart10.intro"
+          },
+          {
+            "type": "move",
+            "actor": "player",
+            "x": 11,
+            "y": 6
+          },
+          {
+            "type": "face",
+            "actor": "player",
+            "facing": "up"
+          },
+          {
+            "type": "lighting",
+            "name": "warm",
+            "seconds": 0.6
+          },
+          {
+            "type": "letterbox",
+            "name": "on",
+            "seconds": 0.4
+          },
+          {
+            "type": "camera",
+            "name": "focus",
+            "actor": "piper",
+            "seconds": 0.5
+          },
+          {
+            "type": "music",
+            "name": "saloon"
+          },
+          {
+            "type": "parallel",
+            "steps": [
+              {
+                "type": "anim",
+                "actor": "piper",
+                "name": "dance",
+                "seconds": 3.0
+              },
+              {
+                "type": "emote",
+                "actor": "piper",
+                "name": "note",
+                "seconds": 3.0
+              }
+            ]
+          },
+          {
+            "type": "sfx",
+            "name": "bell"
+          },
+          {
+            "type": "music",
+            "name": "stop"
+          },
+          {
+            "type": "camera",
+            "name": "reset",
+            "seconds": 0.4
+          },
+          {
+            "type": "lighting",
+            "name": "reset",
+            "seconds": 0.4
+          },
+          {
+            "type": "letterbox",
+            "name": "off",
+            "seconds": 0.4
+          },
+          {
+            "type": "say",
+            "speaker": "piper",
+            "text": "event.piper_heart10.req_ballad",
+            "condition": "flag:choice.request.ballad"
+          },
+          {
+            "type": "say",
+            "speaker": "piper",
+            "text": "event.piper_heart10.req_jig",
+            "condition": "flag:choice.request.jig"
+          },
+          {
+            "type": "say",
+            "speaker": "piper",
+            "text": "event.piper_heart10.req_parsnip",
+            "condition": "flag:choice.request.parsnip"
+          },
+          {
+            "type": "say",
+            "speaker": "piper",
+            "text": "event.piper_heart10.outro"
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "flag:event.piper_heart10"
+            ]
+          },
+          {
+            "type": "effects",
+            "effects": [
+              "friend:piper,80"
+            ]
+          }
+        ]
       }
     },
     {
