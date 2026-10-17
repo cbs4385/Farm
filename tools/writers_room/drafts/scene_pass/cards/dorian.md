@@ -66,7 +66,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   [narration]: "Ione reads first, an old page about birds in fall. Hazel says nothing, and does not leave." [only if flag:choice.reading.listen]
   · (spawn prop forage.snowdrop at (5,3))
   [dorian]: "A snowdrop. Pressed since winter. It kept my place. Now it keeps the lamp."  ✏ `event.reading_night.2`
-  [wren]: "Don't mind me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds." [only if flag:met.wren && hearts:wren>=3]
+  [wren]: "Ignore me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds." [only if flag:met.wren && hearts:wren>=3]
   [ione]: "A snowdrop, for the lamp. ...Every chair taken. Next time, one more chair, and the door left open."  (expr happy)
   · (remove prop flower)
   · (lighting reset)
@@ -175,7 +175,7 @@ placed: player(19, 11)
     r0 [dorian]: "Lovely. First time for that word. It goes in the margin."  ✏ `dlg.dorian.notebook.r0`   (expr happy)
     r1 [dorian]: "One. Take the small brown one, under the fern. It's me, mostly."  ✏ `dlg.dorian.notebook.r1`   (expr happy)
     r2 [dorian]: "It has a face. Mushrooms don't. ...This one does now. I love it."  ✏ `dlg.dorian.notebook.r2`   (expr happy)
-  [dorian]: "{if choice:notebook.praise}You said lovely. The next page is yours. I'll draw you as a mushroom.{else}{if choice:notebook.ask}The brown one's yours. Don't lose it. I'll miss it. A little.{else}Your mushroom lives in the notebook now. Page one. Crooked. Perfect.{/if}{/if}"  ✏ `event.dorian_heart8.after`
+  [dorian]: "{if choice:notebook.praise}You said lovely. The next page is yours. I'll draw you as a mushroom.{else}{if choice:notebook.ask}The brown one's yours. Don't lose it. I'll miss it. A little.{else}Your mushroom lives in the notebook now. Crooked. Four hundred and thirteen.{/if}{/if}"  ✏ `event.dorian_heart8.after`
   · effects: flag:event.dorian_heart8
   · effects: friend:dorian,70
 
@@ -334,7 +334,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (place dorian to (26,18))
   · (marcus faces right)
   · (dorian faces left)
-  [marcus]: "Dorian. I built a window for your room. Square. Oak. Measured three times."
+  [marcus]: "A window for your room, Dorian. Square. Oak. True to the plumb."
   [dorian]: "...Toward the trees? Good. The light comes in green there."  ✏ `event.overheard_marcus_dorian_4.l2`
   · (dorian wave (background))
   · (dorian emote ellipsis)
@@ -370,13 +370,13 @@ placed: dorian(24, 18), hazel(26, 18)
   · (place hazel to (26,18))
   · (dorian faces right)
   · (hazel faces left)
-  [dorian]: "My old mushroom guide. Pressed leaves inside. Nine falls of them."  ✏ `event.overheard_dorian_hazel_2.l1`
+  [dorian]: "My old mushroom guide. Pressed leaves inside. Eight falls of them."  ✏ `event.overheard_dorian_hazel_2.l1`
   [hazel]: "Pressed leaves. May I borrow it? (This year's found bookmarks: two receipts, a sock, one apology.)"
   · (hazel shrug (background))
   · (hazel emote ellipsis)
   · (dorian wave (background))
   [dorian]: "...They'd like that. Leaves like being kept."  ✏ `event.overheard_dorian_hazel_2.l3`
-  [hazel]: "Then we agree. I'll return it with one leaf more. (Maple. From the library step.)"
+  [hazel]: "Settled. I'll return it with one leaf more. (Maple. From the library step.)"
   · effects: flag:event.overheard_dorian_hazel_2
 
 ### overheard_dorian_hazel_3 · "Two Silences" · wholesome

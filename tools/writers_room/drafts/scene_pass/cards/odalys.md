@@ -187,7 +187,7 @@ placed: odalys(24, 18), ione(26, 18)
   · (place ione to (26,18))
   · (odalys faces right)
   · (ione faces left)
-  [odalys]: "Ione. I prescribe you a nap. Fifteen minutes. I've already written it down."  ✏ `event.overheard_odalys_ione_2.l1`
+  [odalys]: "I'm prescribing you a nap, Ione. Fifteen minutes. I've already written it down."  ✏ `event.overheard_odalys_ione_2.l1`
   [ione]: "And I prescribe you a novel, Dr. Penn. One chapter. Equally non-negotiable."
   · (ione shrug (background))
   · (ione emote ellipsis)
@@ -246,8 +246,8 @@ placed: marcus(24, 18), odalys(26, 18)
   · (odalys shrug (background))
   · (odalys emote ellipsis)
   · (marcus point (background))
-  [marcus]: "That's why it worked loose. Nobody sits on it. Five minutes would do it good."
-  [odalys]: "...Five minutes, then. Strictly for the bench's health. Elara is not to hear of this."  ✏ `event.overheard_marcus_odalys_2.l4`
+  [marcus]: "Nobody sits on it. That's why it worked loose. Five minutes would do it good."
+  [odalys]: "Five minutes, then. For the bench's health. If Elara asks, this was an inspection."  ✏ `event.overheard_marcus_odalys_2.l4`
   · effects: flag:event.overheard_marcus_odalys_2
 
 ### overheard_marcus_odalys_3 · "Doctor's Own Orders" · wholesome
@@ -259,11 +259,11 @@ placed: odalys(24, 18), marcus(26, 18)
   · (place marcus to (26,18))
   · (odalys faces right)
   · (marcus faces left)
-  [odalys]: "Marcus. Your back. Honestly, this time."  ✏ `event.overheard_marcus_odalys_3.l1`
+  [odalys]: "Your back, Marcus. Honestly, this time."  ✏ `event.overheard_marcus_odalys_3.l1`
   [marcus]: "Better. I rest it Wednesdays. The doctor told me to."
   · (marcus point (background))
   · (marcus emote heart)
   · (odalys shrug (background))
   [odalys]: "I did say that. You listened. You're the only patient who does, and it ruins my averages."  ✏ `event.overheard_marcus_odalys_3.l3`
-  [marcus]: "Then take your own advice. Saturdays. I'll build the chair."
+  [marcus]: "Take your own advice, then. Saturdays. I'll build the chair."
   · effects: flag:event.overheard_marcus_odalys_3

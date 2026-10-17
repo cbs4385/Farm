@@ -49,7 +49,7 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (move player to (27,6))
   · (player faces up)
   [felix]: "There you are. The boat I promised. She floats. I checked twice. The bailing tin is the elegant part."
-  [elara]: "I knitted a life jacket! Felix explained floating to me very kindly. It goes over the real one. For morale!"  ✏ `event.past_the_point.1`  (emote sparkle, expr happy)
+  [elara]: "Felix explained floating to me very kindly, so I knitted a life jacket! It goes over the real one. For morale!"  ✏ `event.past_the_point.1`  (emote sparkle, expr happy)
   [felix]: "Wear both, then. The knitted one can look brave. The real one can do the floating."  (expr happy)
   ▶ DIALOGUE `past_point.talk` (player-facing graph, plays here):
     n0 [elara]: "A whole list, and Felix says one place before breakfast. You choose. My hands are full of sandwiches."  ✏ `dlg.past_point.talk.0`
@@ -107,7 +107,7 @@ plays when: `(hearts:elara>=8 && flag:event.elara_heart5 && !weekday:sat && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
-  [elara]: "Shut the door a minute! It lives behind the kettle, and it's shy. Don't laugh. ...Laugh a little."  ✏ `event.elara_heart8.intro`
+  [elara]: "Shut the door a minute! Remember the shy list behind the kettle? The doodles are brave now. Don't laugh. ...Laugh a little."  ✏ `event.elara_heart8.intro`
   · (move player to (3,2))
   · (player faces up)
   · (elara wave (background))
@@ -154,7 +154,7 @@ plays when: `(hearts:elara>=8 && flag:event.elara_heart8 && !flag:partners.elara
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
-  [elara]: "Made you a scarf. Mind the end, it trails. The last row took me nine tries. It's a question: would you court me? In red. Red means very serious!"  ✏ `event.elara_courtship.intro`
+  [elara]: "Made you a scarf. Mind the end, it trails. The last row took all my nerve. It's a question: would you court me? In red. Red means very serious!"  ✏ `event.elara_courtship.intro`
   · (move player to (3,2))
   · (player faces up)
   · (elara wave (background))
@@ -200,7 +200,7 @@ plays when: `(hearts:elara>=10 && flag:choice.courtship.elara.yes && !flag:partn
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
-  [elara]: "I made you a hat! It looked lonely, so it got a smaller hat. So did that one. Somebody had to stop me. Nobody did. There are three!"  ✏ `event.elara_partners.intro`
+  [elara]: "Hat delivery! It looked lonely, so it got a smaller hat. So did that one. Somebody had to stop me. Nobody did. There are three!"  ✏ `event.elara_partners.intro`
   · (move player to (3,2))
   · (player faces up)
   · (elara wave (background))

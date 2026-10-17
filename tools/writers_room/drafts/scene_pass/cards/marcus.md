@@ -70,13 +70,13 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
   [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
-  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."  ✏ `event.hall_dance.11`
+  [marcus]: "Something that isn't wood. That narrows it. ...One dance. I built this floor to take it."  ✏ `event.hall_dance.11`
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
   · (juno emote note)
   · (wait 2.5s)
-  [narration]: "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low, and nobody goes home."
+  [narration]: "Marcus takes his one dance, and Tilda, two steps away, takes her own. The lamps burn low, and nobody goes home."
   · (music stop)
   · (lighting reset)
   · (letterbox off)
@@ -270,7 +270,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (place dorian to (26,18))
   · (marcus faces right)
   · (dorian faces left)
-  [marcus]: "Dorian. I built a window for your room. Square. Oak. Measured three times."  ✏ `event.overheard_marcus_dorian_4.l1`
+  [marcus]: "A window for your room, Dorian. Square. Oak. True to the plumb."  ✏ `event.overheard_marcus_dorian_4.l1`
   [dorian]: "...Toward the trees? Good. The light comes in green there."
   · (dorian wave (background))
   · (dorian emote ellipsis)
@@ -306,7 +306,7 @@ placed: bram(24, 18), marcus(26, 18)
   · (place marcus to (26,18))
   · (bram faces right)
   · (marcus faces left)
-  [bram]: "Hm. Handle for the big hammer?"
+  [bram]: "Handle for the big hammer?"
   [marcus]: "Made you one. Oak. Measured your grip while you weren't looking."  ✏ `event.overheard_bram_marcus_2.l2`
   · (marcus shrug (background))
   · (marcus emote ellipsis)
@@ -324,13 +324,13 @@ placed: bram(24, 18), marcus(26, 18)
   · (place marcus to (26,18))
   · (bram faces right)
   · (marcus faces left)
-  [bram]: "Hm. A hundred nails today."
+  [bram]: "A hundred nails today."
   [marcus]: "A hundred and four. All straight. I counted."  ✏ `event.overheard_bram_marcus_3.l2`
   · (marcus point (background))
   · (marcus emote ellipsis)
   · (bram shrug (background))
   [bram]: "Mine were straighter. Yours were more."
-  [marcus]: "Measure them. Bring them Wednesday. Lunch goes to the straighter."  ✏ `event.overheard_bram_marcus_3.l4`
+  [marcus]: "Bring them Wednesday. Side by side, in the light. Lunch goes to the straighter."  ✏ `event.overheard_bram_marcus_3.l4`
   · effects: flag:event.overheard_bram_marcus_3
 
 ### overheard_marcus_odalys_1 · "Bend the Knees" · funny
@@ -365,8 +365,8 @@ placed: marcus(24, 18), odalys(26, 18)
   · (odalys shrug (background))
   · (odalys emote ellipsis)
   · (marcus point (background))
-  [marcus]: "That's why it worked loose. Nobody sits on it. Five minutes would do it good."  ✏ `event.overheard_marcus_odalys_2.l3`
-  [odalys]: "...Five minutes, then. Strictly for the bench's health. Elara is not to hear of this."
+  [marcus]: "Nobody sits on it. That's why it worked loose. Five minutes would do it good."  ✏ `event.overheard_marcus_odalys_2.l3`
+  [odalys]: "Five minutes, then. For the bench's health. If Elara asks, this was an inspection."
   · effects: flag:event.overheard_marcus_odalys_2
 
 ### overheard_marcus_odalys_3 · "Doctor's Own Orders" · wholesome
@@ -378,11 +378,11 @@ placed: odalys(24, 18), marcus(26, 18)
   · (place marcus to (26,18))
   · (odalys faces right)
   · (marcus faces left)
-  [odalys]: "Marcus. Your back. Honestly, this time."
+  [odalys]: "Your back, Marcus. Honestly, this time."
   [marcus]: "Better. I rest it Wednesdays. The doctor told me to."  ✏ `event.overheard_marcus_odalys_3.l2`
   · (marcus point (background))
   · (marcus emote heart)
   · (odalys shrug (background))
   [odalys]: "I did say that. You listened. You're the only patient who does, and it ruins my averages."
-  [marcus]: "Then take your own advice. Saturdays. I'll build the chair."  ✏ `event.overheard_marcus_odalys_3.l4`
+  [marcus]: "Take your own advice, then. Saturdays. I'll build the chair."  ✏ `event.overheard_marcus_odalys_3.l4`
   · effects: flag:event.overheard_marcus_odalys_3

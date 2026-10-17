@@ -32,7 +32,7 @@ placed: player(2, 2)
   [juno]: "A steel sword. For the mines, or the weeds, or looking very serious on your porch. It's yours."  ✏ `event.juno_heart5.1`
   [juno]: "Swing it once? Here, where I can see. ...There. That's the sound. That's the exact sound I drew."  ✏ `event.juno_heart5.4`  (emote sparkle, expr happy)
   [juno]: "I polished the flat until it showed my nose. Then my whole face. Then Bram behind me, nodding at it."  ✏ `event.juno_heart5.3`  (expr embarrassed)
-  [juno]: "Don't lose it! ...It's still Bram's pattern. Every line. The next one will be mine, once I find out what mine looks like."  ✏ `event.juno_heart5.2`
+  [juno]: "Don't lose it! ...It's still Bram's pattern. Every line. Mine's still under the coal bin, getting braver."  ✏ `event.juno_heart5.2`
   · effects: give:tool.sword_steel,1, friend:juno,60, flag:event.juno_heart5
 
 ### next_door · "Next Door" · wholesome
@@ -101,13 +101,13 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  ✏ `event.hall_dance.8`  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
   [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
-  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."
+  [marcus]: "Something that isn't wood. That narrows it. ...One dance. I built this floor to take it."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
   · (juno emote note)
   · (wait 2.5s)
-  [narration]: "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low, and nobody goes home."
+  [narration]: "Marcus takes his one dance, and Tilda, two steps away, takes her own. The lamps burn low, and nobody goes home."
   · (music stop)
   · (lighting reset)
   · (letterbox off)
@@ -121,7 +121,7 @@ placed: juno(25, 18), player(25, 17)
   · (place juno to (25,18))
   · (juno faces down)
   · (spawn prop prop.note at (26,18))
-  [juno]: "Don't look! ...Okay, you looked. Fine. Encouragement leaks out of me. I can't plug it."  ✏ `event.story_notes_juno.intro`
+  [juno]: "You saw nothing! ...You saw everything. Fine. Encouragement leaks out of me. I can't plug it."  ✏ `event.story_notes_juno.intro`
   · (move player to (25,17))
   · (player faces up)
   · (juno emote sparkle)
@@ -227,7 +227,7 @@ plays when: `(hearts:juno>=8 && flag:event.juno_heart6 && !weekday:mon && hour>=
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay. Today's the right day. I'm showing Bram the horseshoe. Stand next to me? I sweat less with company."  ✏ `event.juno_heart8.intro`
+  [juno]: "Today's the day. The right one. I checked twice. I'm showing Bram the horseshoe. Stand next to me? I sweat less with company."  ✏ `event.juno_heart8.intro`
   · (move player to (2,2))
   · (player faces up)
   · (juno wave (background))
@@ -260,7 +260,7 @@ placed: player(2, 2)
   · (sfx coin)
   · effects: give:resource.copperbar,1, flag:event.juno_heart10
   · (remove prop heirloom)
-  [juno]: "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Once! Next door has an empty sign hook.{else}Bram saw the mark and said 'Hm.' The good 'Hm.' I'd know. Next door has an empty sign hook.{/if}"  ✏ `event.juno_heart10.thanks`
+  [juno]: "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Once! Next door has an empty sign hook.{else}Bram saw the mark and said 'Hm.' Then he said it again, quieter. That's a speech. Next door has an empty sign hook.{/if}"  ✏ `event.juno_heart10.thanks`
   · effects: friend:juno,80
 
 ### juno_friend · "The Swimming Pool" · funny
@@ -285,7 +285,7 @@ plays when: `hearts:juno>=2 && birthday.in:juno==0 && unseen:birthday.juno && !w
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay, it's my birthday and I'm not nervous! I labeled the cake 'Cake (Birthday)', in case of confusion. Come in!"  ✏ `event.juno_birthday.intro`
+  [juno]: "My birthday! I'm not nervous! I labeled the cake 'Cake (Birthday)', in case of confusion. Come in!"  ✏ `event.juno_birthday.intro`
   · (move player to (2,2))
   · (player faces up)
   · (juno wave (background))
@@ -308,7 +308,7 @@ plays when: `(hearts:juno>=8 && flag:event.juno_heart8 && !flag:partners.juno &&
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay. I made a list. 'Reasons I Like the Farmer.' Forty items. I'd read it, but I'd faint. So. Would you court me?"  ✏ `event.juno_courtship.intro`
+  [juno]: "Deep breath. Mine, not yours. I made a list. 'Reasons I Like the Farmer.' Forty items. I'd read it, but I'd faint. So. Would you court me?"  ✏ `event.juno_courtship.intro`
   · (move player to (2,2))
   · (player faces up)
   · (juno wave (background))
@@ -400,7 +400,7 @@ placed: juno(24, 18), bram(26, 18)
   · (place bram to (26,18))
   · (juno faces right)
   · (bram faces left)
-  [juno]: "Bram. Did you put a second label on my cake? It just says 'Eat'."  ✏ `event.overheard_juno_bram_2.l1`
+  [juno]: "There's a second label on my cake. It just says 'Eat'. Bram. Confess."  ✏ `event.overheard_juno_bram_2.l1`
   [bram]: "Hm. It was missing a verb."
   · (bram shrug (background))
   · (bram emote sweat)
@@ -418,7 +418,7 @@ placed: juno(24, 18), bram(26, 18)
   · (place bram to (26,18))
   · (juno faces right)
   · (bram faces left)
-  [juno]: "Bram! I'm on your bench again. I fixed its wobbly leg myself. The joint's crooked. Don't look."  ✏ `event.overheard_juno_bram_3.l1`
+  [juno]: "I'm on your bench again, Bram. I fixed its wobbly leg myself. The joint's crooked. Don't look."  ✏ `event.overheard_juno_bram_3.l1`
   [bram]: "Hm. Saw it. Keep it. Every bench needs one honest mistake."
   · (bram point (background))
   · (bram emote sweat)
@@ -436,7 +436,7 @@ placed: juno(24, 18), bram(26, 18)
   · (place bram to (26,18))
   · (juno faces right)
   · (bram faces left)
-  [juno]: "Bram. Someday I'll have my own forge. A tiny one. Maybe next door."  ✏ `event.overheard_juno_bram_4.l1`
+  [juno]: "Someday I'll have my own forge, Bram. A tiny one. Maybe next door."  ✏ `event.overheard_juno_bram_4.l1`
   [bram]: "Good. Make it next door. I measured the wall. I'll visit. Daily."
   · (bram wave (background))
   · (bram emote sweat)
@@ -472,7 +472,7 @@ placed: piper(24, 18), juno(26, 18)
   · (place juno to (26,18))
   · (piper faces right)
   · (juno faces left)
-  [piper]: "Juno! I wrote a song to the rhythm of your hammer! Don't stop!"
+  [piper]: "I wrote a song to your hammer's rhythm, Juno! Don't stop!"
   [juno]: "You did? Play it! No, wait, I'll keep time! Okay, go!"  ✏ `event.overheard_piper_juno_2.l2`
   · (juno shrug (background))
   · (juno emote note)
@@ -490,12 +490,12 @@ placed: piper(24, 18), juno(26, 18)
   · (place juno to (26,18))
   · (piper faces right)
   · (juno faces left)
-  [piper]: "Juno, did you build me a tiny stage? Out of a crate?"
+  [piper]: "Did you build me a tiny stage, Juno? Out of a crate?"
   [juno]: "It says 'Stage (Piper)'! Official! Play on it! I sanded the splinters!"  ✏ `event.overheard_piper_juno_3.l2`
   · (juno point (background))
   · (juno emote note)
   · (piper shrug (background))
-  [piper]: "Then it gets my best set! Front row's yours, Juno. Sit!"
+  [piper]: "Then it gets my best set! Best seat's yours, Juno. Sit!"
   [juno]: "Okay! No, I'll hammer! No, I'll watch! Both! Always both!"  ✏ `event.overheard_piper_juno_3.l4`
   · effects: flag:event.overheard_piper_juno_3
 
@@ -544,7 +544,7 @@ placed: juno(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (juno faces right)
   · (tilda faces left)
-  [juno]: "Tilda... if I ever had my own forge, a small one, would you still feed me?"  ✏ `event.overheard_tilda_juno_3.l1`
+  [juno]: "If I ever had my own forge, Tilda... a small one... would you still feed me?"  ✏ `event.overheard_tilda_juno_3.l1`
   [tilda]: "Open one in Wetherell and I'll stock your first shelf. Go farther, and I'll post you pie."
   · (tilda point (background))
   · (tilda emote ellipsis)

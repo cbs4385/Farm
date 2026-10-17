@@ -8,7 +8,7 @@ plays when: `(hearts:ione>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:eve
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (ione faces down)
-  [ione]: "Oh, [player]! Come here. The oldest almanac in the room has been keeping something from me."  ✏ `event.ione_heart2.0`
+  [ione]: "There you are, [player]. The oldest almanac in the room has been keeping something from me."  ✏ `event.ione_heart2.0`
   · (move player to (7,4))
   · (player faces up)
   · (ione emote note)
@@ -67,7 +67,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   [narration]: "Ione reads first, an old page about birds in fall. Hazel says nothing, and does not leave." [only if flag:choice.reading.listen]
   · (spawn prop forage.snowdrop at (5,3))
   [dorian]: "A snowdrop. Pressed since winter. It kept my place. Now it keeps the lamp."
-  [wren]: "Don't mind me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds." [only if flag:met.wren && hearts:wren>=3]
+  [wren]: "Ignore me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds." [only if flag:met.wren && hearts:wren>=3]
   [ione]: "A snowdrop, for the lamp. ...Every chair taken. Next time, one more chair, and the door left open."  ✏ `event.reading_night.4`  (expr happy)
   · (remove prop flower)
   · (lighting reset)
@@ -95,7 +95,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
   [hazel]: "One lantern, one wish. Fold it small. (Spoken wishes don't rise. I've charted this.)"
   · (hazel emote sparkle)
   · (sfx lantern)
-  [felix]: "My wish is this big. Last winter it was this big. Wishes grow, like fish."
+  [felix]: "Mine's this big. Last winter it was this big. Wishes grow, like fish."
   [ione]: "That's the bell. Together now, and slowly. Let them go. ...Mine is drifting toward the sea. I didn't steer it."  ✏ `event.festival_winter_lanterns.3`
   · (ione emote heart)
   · (remove prop story_prop_3)
@@ -266,7 +266,7 @@ placed: ione(24, 18), hazel(26, 18)
   · (ione faces right)
   · (hazel faces left)
   [ione]: "I put a chair by the window. It has a cushion. It's for nobody in particular."  ✏ `event.overheard_hazel_ione_3.l1`
-  [hazel]: "Oh. (Green. My favorite. You knew.) I'm saying nothing. Loudly."
+  [hazel]: "(Green. My favorite. You knew.) I'm saying nothing. Loudly."
   · (hazel point (background))
   · (hazel emote ellipsis)
   · (ione shrug (background))
@@ -301,7 +301,7 @@ placed: odalys(24, 18), ione(26, 18)
   · (place ione to (26,18))
   · (odalys faces right)
   · (ione faces left)
-  [odalys]: "Ione. I prescribe you a nap. Fifteen minutes. I've already written it down."
+  [odalys]: "I'm prescribing you a nap, Ione. Fifteen minutes. I've already written it down."
   [ione]: "And I prescribe you a novel, Dr. Penn. One chapter. Equally non-negotiable."  ✏ `event.overheard_odalys_ione_2.l2`
   · (ione shrug (background))
   · (ione emote ellipsis)

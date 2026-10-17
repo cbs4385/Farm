@@ -100,13 +100,13 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
   [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
-  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."
+  [marcus]: "Something that isn't wood. That narrows it. ...One dance. I built this floor to take it."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
   · (juno emote note)
   · (wait 2.5s)
-  [narration]: "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low, and nobody goes home."
+  [narration]: "Marcus takes his one dance, and Tilda, two steps away, takes her own. The lamps burn low, and nobody goes home."
   · (music stop)
   · (lighting reset)
   · (letterbox off)
@@ -219,7 +219,7 @@ plays when: `(hearts:bram>=8 && flag:event.bram_heart6 && !weekday:mon && hour>=
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
-  [bram]: "Hm. Juno made something. All hers. Look quick, before I start measuring."  ✏ `event.bram_heart8.intro`
+  [bram]: "Juno made something. All hers. Look quick, before I start measuring."  ✏ `event.bram_heart8.intro`
   · (move player to (6,3))
   · (player faces up)
   · (bram wave (background))
@@ -242,7 +242,7 @@ plays when: `(hearts:bram>=10 && flag:event.bram_heart8 && !weekday:mon && hour>
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
-  [bram]: "Hm. Stand still. No questions. I practiced this part without you in it."  ✏ `event.bram_heart10.intro`
+  [bram]: "Stand still. No questions. I practiced this part without you in it."  ✏ `event.bram_heart10.intro`
   · (move player to (6,3))
   · (player faces up)
   · (spawn prop resource.goldbar at (6,4))
@@ -276,7 +276,7 @@ plays when: `hearts:bram>=2 && birthday.in:bram==0 && unseen:birthday.bram && !w
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
-  [bram]: "Hm. Birthday. No fuss. Juno made a card, mostly diagrams. No other mail."  ✏ `event.bram_birthday.intro`
+  [bram]: "Birthday. No fuss. Juno made a card, mostly diagrams. No other mail."  ✏ `event.bram_birthday.intro`
   · (move player to (6,3))
   · (player faces up)
   · (bram wave (background))
@@ -320,7 +320,7 @@ placed: juno(24, 18), bram(26, 18)
   · (place bram to (26,18))
   · (juno faces right)
   · (bram faces left)
-  [juno]: "Bram. Did you put a second label on my cake? It just says 'Eat'."
+  [juno]: "There's a second label on my cake. It just says 'Eat'. Bram. Confess."
   [bram]: "Hm. It was missing a verb."  ✏ `event.overheard_juno_bram_2.l2`
   · (bram shrug (background))
   · (bram emote sweat)
@@ -338,7 +338,7 @@ placed: juno(24, 18), bram(26, 18)
   · (place bram to (26,18))
   · (juno faces right)
   · (bram faces left)
-  [juno]: "Bram! I'm on your bench again. I fixed its wobbly leg myself. The joint's crooked. Don't look."
+  [juno]: "I'm on your bench again, Bram. I fixed its wobbly leg myself. The joint's crooked. Don't look."
   [bram]: "Hm. Saw it. Keep it. Every bench needs one honest mistake."  ✏ `event.overheard_juno_bram_3.l2`
   · (bram point (background))
   · (bram emote sweat)
@@ -356,7 +356,7 @@ placed: juno(24, 18), bram(26, 18)
   · (place bram to (26,18))
   · (juno faces right)
   · (bram faces left)
-  [juno]: "Bram. Someday I'll have my own forge. A tiny one. Maybe next door."
+  [juno]: "Someday I'll have my own forge, Bram. A tiny one. Maybe next door."
   [bram]: "Good. Make it next door. I measured the wall. I'll visit. Daily."  ✏ `event.overheard_juno_bram_4.l2`
   · (bram wave (background))
   · (bram emote sweat)
@@ -392,7 +392,7 @@ placed: bram(24, 18), marcus(26, 18)
   · (place marcus to (26,18))
   · (bram faces right)
   · (marcus faces left)
-  [bram]: "Hm. Handle for the big hammer?"  ✏ `event.overheard_bram_marcus_2.l1`
+  [bram]: "Handle for the big hammer?"  ✏ `event.overheard_bram_marcus_2.l1`
   [marcus]: "Made you one. Oak. Measured your grip while you weren't looking."
   · (marcus shrug (background))
   · (marcus emote ellipsis)
@@ -410,13 +410,13 @@ placed: bram(24, 18), marcus(26, 18)
   · (place marcus to (26,18))
   · (bram faces right)
   · (marcus faces left)
-  [bram]: "Hm. A hundred nails today."  ✏ `event.overheard_bram_marcus_3.l1`
+  [bram]: "A hundred nails today."  ✏ `event.overheard_bram_marcus_3.l1`
   [marcus]: "A hundred and four. All straight. I counted."
   · (marcus point (background))
   · (marcus emote ellipsis)
   · (bram shrug (background))
   [bram]: "Mine were straighter. Yours were more."  ✏ `event.overheard_bram_marcus_3.l3`
-  [marcus]: "Measure them. Bring them Wednesday. Lunch goes to the straighter."
+  [marcus]: "Bring them Wednesday. Side by side, in the light. Lunch goes to the straighter."
   · effects: flag:event.overheard_bram_marcus_3
 
 ### overheard_wren_bram_1 · "The Fourth Word" · funny

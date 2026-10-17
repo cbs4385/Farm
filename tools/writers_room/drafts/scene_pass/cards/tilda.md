@@ -24,7 +24,7 @@ plays when: `(hearts:tilda>=2 && !weekday:sun && hour>=9 && hour<17) && !flag:ev
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Oh, [player]! Just the account I wanted. Come here. This one won't fit in a bag."  ✏ `event.tilda_heart2.0`
+  [tilda]: "Just the account I wanted! Come here, [player]. This one won't fit in a bag."  ✏ `event.tilda_heart2.0`
   · (move player to (7,4))
   · (player faces up)
   · (tilda emote ellipsis)
@@ -70,13 +70,13 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
   [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."  ✏ `event.hall_dance.10`
-  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."
+  [marcus]: "Something that isn't wood. That narrows it. ...One dance. I built this floor to take it."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
   · (juno emote note)
   · (wait 2.5s)
-  [narration]: "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low, and nobody goes home."
+  [narration]: "Marcus takes his one dance, and Tilda, two steps away, takes her own. The lamps burn low, and nobody goes home."
   · (music stop)
   · (lighting reset)
   · (letterbox off)
@@ -241,7 +241,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
   [hazel]: "One lantern, one wish. Fold it small. (Spoken wishes don't rise. I've charted this.)"
   · (hazel emote sparkle)
   · (sfx lantern)
-  [felix]: "My wish is this big. Last winter it was this big. Wishes grow, like fish."
+  [felix]: "Mine's this big. Last winter it was this big. Wishes grow, like fish."
   [ione]: "That's the bell. Together now, and slowly. Let them go. ...Mine is drifting toward the sea. I didn't steer it."
   · (ione emote heart)
   · (remove prop story_prop_3)
@@ -310,7 +310,7 @@ plays when: `(hearts:tilda>=8 && flag:event.tilda_heart6 && !weekday:sun && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Yearly stocktake, and I need strong arms. Shift the flour? There's a tin back there I've been carefully not looking at."  ✏ `event.tilda_heart8.intro`
+  [tilda]: "Yearly stocktake. Shift the flour for me? There's a tin back there I've been carefully not looking at."  ✏ `event.tilda_heart8.intro`
   · (move player to (7,4))
   · (player faces up)
   · (tilda wave (background))
@@ -377,7 +377,7 @@ placed: player(7, 4)
        ? "Happy birthday, Tilda." → r0  effects: friend:tilda,10, flag:choice.bday.tilda.wish  ✏ `dlg.tilda.birthday.c0`
        ? "Give her a flower." → r1  effects: friend:tilda,10, flag:choice.bday.tilda.flower  ✏ `dlg.tilda.birthday.c1`
        ? "Mind the shop. Go read." → r2  effects: friend:tilda,10, flag:choice.bday.tilda.mind  ✏ `dlg.tilda.birthday.c2`
-    r0 [tilda]: "Oh. Well. That goes at the top of the slate, where I'll see it first thing every morning."  ✏ `dlg.tilda.birthday.r0`   (expr happy)
+    r0 [tilda]: "Top of the slate, that one. I'll see it first thing every morning."  ✏ `dlg.tilda.birthday.r0`   (expr happy)
     r1 [tilda]: "A flower, in my shop! It goes in the window, beside the good parsnips."  ✏ `dlg.tilda.birthday.r1`   (expr happy)
     r2 [tilda]: "You'd mind it? That's the best present. Take the stool. Ledger bites coins, not customers."  ✏ `dlg.tilda.birthday.r2`   (expr happy)
   [tilda]: "{if choice:bday.tilda.wish}Top of the slate. It reads very well from the street.{else}{if choice:bday.tilda.flower}The flower's in the window. Half the village asked who sent it. I said an account in good standing.{else}An hour off! I read a whole chapter upstairs. The shop survived. I'm slightly offended.{/if}{/if}"  ✏ `event.tilda_birthday.after`
@@ -393,7 +393,7 @@ placed: tilda(24, 18), felix(26, 18)
   · (place felix to (26,18))
   · (tilda faces right)
   · (felix faces left)
-  [tilda]: "Felix. Your carp is eight coins today. On Monday it was six."  ✏ `event.overheard_tilda_felix_1.l1`
+  [tilda]: "Felix. Your carp is eight coins today. Yesterday it was six."  ✏ `event.overheard_tilda_felix_1.l1`
   [felix]: "It's a bigger carp. It grew. In the stall, overnight, out of pride."
   · (felix shrug (background))
   · (felix emote ellipsis)
@@ -411,7 +411,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda. Remember the winter the pond froze, and I went out to test it?"
+  [felix]: "Remember the winter the pond froze, Tilda? I went out to test it."
   [tilda]: "I remember the winter you fell in. And the Tuesday you fell in again."  ✏ `event.overheard_tilda_felix_2.l2`
   · (tilda shrug (background))
   · (tilda emote ellipsis)
@@ -430,7 +430,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (felix faces right)
   · (tilda faces left)
   [felix]: "Tilda. I chalked the year's first fish on your slate. Capital letters."
-  [tilda]: "Oh, Felix. A very good fish. It stays up until the thaw."  ✏ `event.overheard_tilda_felix_3.l2`
+  [tilda]: "A very good fish, Felix. It stays up until the thaw."  ✏ `event.overheard_tilda_felix_3.l2`
   · (tilda point (background))
   · (tilda emote ellipsis)
   · (felix shrug (background))
@@ -447,7 +447,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda. I brought a pie, for once. A fish pie. Don't judge it."
+  [felix]: "Brought a pie, for once. A fish pie. Don't judge it."
   [tilda]: "I'll judge it kindly, Felix. Then I'll salt it."  ✏ `event.overheard_tilda_felix_4.l2`
   · (tilda wave (background))
   · (tilda emote ellipsis)
@@ -501,7 +501,7 @@ placed: tilda(24, 18), wren(26, 18)
   · (place wren to (26,18))
   · (tilda faces right)
   · (wren faces left)
-  [tilda]: "Six days at that counter this week. Save me a seat later?"  ✏ `event.overheard_tilda_wren_3.l1`
+  [tilda]: "Six days straight at that counter. Save me a seat later?"  ✏ `event.overheard_tilda_wren_3.l1`
   [wren]: "You've earned the good stool, Tilda. Come at seven. Cider's on me."
   · (wren point (background))
   · (wren emote note)
@@ -555,7 +555,7 @@ placed: juno(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (juno faces right)
   · (tilda faces left)
-  [juno]: "Tilda... if I ever had my own forge, a small one, would you still feed me?"
+  [juno]: "If I ever had my own forge, Tilda... a small one... would you still feed me?"
   [tilda]: "Open one in Wetherell and I'll stock your first shelf. Go farther, and I'll post you pie."  ✏ `event.overheard_tilda_juno_3.l2`
   · (tilda point (background))
   · (tilda emote ellipsis)

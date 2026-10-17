@@ -71,13 +71,13 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."  ✏ `event.hall_dance.9`
   [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
-  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."
+  [marcus]: "Something that isn't wood. That narrows it. ...One dance. I built this floor to take it."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
   · (juno emote note)
   · (wait 2.5s)
-  [narration]: "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low, and nobody goes home."  ✏ `event.hall_dance.12`
+  [narration]: "Marcus takes his one dance, and Tilda, two steps away, takes her own. The lamps burn low, and nobody goes home."  ✏ `event.hall_dance.12`
   · (music stop)
   · (lighting reset)
   · (letterbox off)
@@ -116,7 +116,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   [narration]: "Ione reads first, an old page about birds in fall. Hazel says nothing, and does not leave." [only if flag:choice.reading.listen]
   · (spawn prop forage.snowdrop at (5,3))
   [dorian]: "A snowdrop. Pressed since winter. It kept my place. Now it keeps the lamp."
-  [wren]: "Don't mind me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds."  ✏ `event.reading_night.3` [only if flag:met.wren && hearts:wren>=3]
+  [wren]: "Ignore me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds."  ✏ `event.reading_night.3` [only if flag:met.wren && hearts:wren>=3]
   [ione]: "A snowdrop, for the lamp. ...Every chair taken. Next time, one more chair, and the door left open."  (expr happy)
   · (remove prop flower)
   · (lighting reset)
@@ -139,7 +139,7 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (move player to (27,6))
   · (player faces up)
   [felix]: "There you are. The boat I promised. She floats. I checked twice. The bailing tin is the elegant part."
-  [elara]: "I knitted a life jacket! Felix explained floating to me very kindly. It goes over the real one. For morale!"  (emote sparkle, expr happy)
+  [elara]: "Felix explained floating to me very kindly, so I knitted a life jacket! It goes over the real one. For morale!"  (emote sparkle, expr happy)
   [felix]: "Wear both, then. The knitted one can look brave. The real one can do the floating."  (expr happy)
   ▶ DIALOGUE `past_point.talk` (player-facing graph, plays here):
     n0 [elara]: "A whole list, and Felix says one place before breakfast. You choose. My hands are full of sandwiches."
@@ -203,7 +203,7 @@ plays when: `(hearts:wren>=4 && flag:event.wren_heart2 && !weekday:tue && hour>=
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(9, 6)
   · (wren faces down)
-  [wren]: "Don't sit yet. Tonight I'm trying something, and I need a witness. Possibly an accomplice. Definitely a crowd."  ✏ `event.wren_heart4.setup`
+  [wren]: "Up, up, no sitting yet. Tonight I'm trying something, and I need a witness. Possibly an accomplice. Definitely a crowd."  ✏ `event.wren_heart4.setup`
   · (move player to (9,6))
   · (player faces up)
   · (wren jiggle (background))
@@ -305,7 +305,7 @@ plays when: `(hearts:wren>=3 && weekday:fri && !weekday:tue && hour>=12 && hour<
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(9, 6)
   · (wren faces down)
-  [wren]: "Friday means bingo. Not numbers, rumors. Sit down, take a card, cross off anything you've heard twice."  ✏ `event.wren_friend.intro`
+  [wren]: "Friday means bingo. Not numbers, rumors. Take a card, cross off anything you've heard twice."  ✏ `event.wren_friend.intro`
   · (move player to (9,6))
   · (player faces up)
   · (wren emote note)
@@ -321,7 +321,7 @@ plays when: `hearts:wren>=2 && birthday.in:wren==0 && unseen:birthday.wren && !w
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(9, 6)
   · (wren faces down)
-  [wren]: "It's my birthday. You knew, because I lit a very small flare. Sit, be festive, have a pickle from the good jar."  ✏ `event.wren_birthday.intro`
+  [wren]: "My birthday! You knew, because I lit a very small flare. Be festive. Have a pickle from the good jar."  ✏ `event.wren_birthday.intro`
   · (move player to (9,6))
   · (player faces up)
   · (wren wave (background))
@@ -524,7 +524,7 @@ placed: tilda(24, 18), wren(26, 18)
   · (place wren to (26,18))
   · (tilda faces right)
   · (wren faces left)
-  [tilda]: "Six days at that counter this week. Save me a seat later?"
+  [tilda]: "Six days straight at that counter. Save me a seat later?"
   [wren]: "You've earned the good stool, Tilda. Come at seven. Cider's on me."  ✏ `event.overheard_tilda_wren_3.l2`
   · (wren point (background))
   · (wren emote note)
@@ -632,7 +632,7 @@ placed: hazel(24, 18), wren(26, 18)
   · (place wren to (26,18))
   · (hazel faces right)
   · (wren faces left)
-  [hazel]: "I read a poem aloud. To one person. (I survived. I checked twice.)"
+  [hazel]: "I read a poem aloud. To one person. (I survived. So did the poem.)"
   [wren]: "Hazel! To who? No, don't tell me. Yes, tell me."  ✏ `event.overheard_wren_hazel_3.l2`
   · (wren wave (background))
   · (wren emote heart)

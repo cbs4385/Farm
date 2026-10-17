@@ -29,7 +29,7 @@ placed: player(11, 10)
   · (player faces up)
   · (felix emote note)
   [felix]: "It was mine. It's yours now. I don't need luck on the mornings you're here."  ✏ `event.felix_heart5.1`
-  [felix]: "And fifteen bait, hand-dug. Don't tell the stall I gave it away."  ✏ `event.felix_heart5.3`  (expr happy)
+  [felix]: "And fifteen bait, hand-dug. Better than what I sell. The stall can sulk."  ✏ `event.felix_heart5.3`  (expr happy)
   [felix]: "Fair winds. ...Someday I'll show you the boat. She leaks, but politely."  ✏ `event.felix_heart5.2`
   · effects: give:resource.bait,15, give:prop.charm, friend:felix,60, flag:event.felix_heart5
 
@@ -49,7 +49,7 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (move player to (27,6))
   · (player faces up)
   [felix]: "There you are. The boat I promised. She floats. I checked twice. The bailing tin is the elegant part."  ✏ `event.past_the_point.0`
-  [elara]: "I knitted a life jacket! Felix explained floating to me very kindly. It goes over the real one. For morale!"  (emote sparkle, expr happy)
+  [elara]: "Felix explained floating to me very kindly, so I knitted a life jacket! It goes over the real one. For morale!"  (emote sparkle, expr happy)
   [felix]: "Wear both, then. The knitted one can look brave. The real one can do the floating."  ✏ `event.past_the_point.5`  (expr happy)
   ▶ DIALOGUE `past_point.talk` (player-facing graph, plays here):
     n0 [elara]: "A whole list, and Felix says one place before breakfast. You choose. My hands are full of sandwiches."
@@ -149,7 +149,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
   [hazel]: "One lantern, one wish. Fold it small. (Spoken wishes don't rise. I've charted this.)"
   · (hazel emote sparkle)
   · (sfx lantern)
-  [felix]: "My wish is this big. Last winter it was this big. Wishes grow, like fish."  ✏ `event.festival_winter_lanterns.2`
+  [felix]: "Mine's this big. Last winter it was this big. Wishes grow, like fish."  ✏ `event.festival_winter_lanterns.2`
   [ione]: "That's the bell. Together now, and slowly. Let them go. ...Mine is drifting toward the sea. I didn't steer it."
   · (ione emote heart)
   · (remove prop story_prop_3)
@@ -257,7 +257,7 @@ plays when: `(hearts:felix>=10 && flag:choice.courtship.felix.yes && !flag:partn
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Mornin'. I caught something for you. Not a fish. A shell. A very good one. Hold it to your ear."  ✏ `event.felix_partners.intro`
+  [felix]: "Caught you something. Not a fish. A shell. A very good one. Hold it to your ear."  ✏ `event.felix_partners.intro`
   · (move player to (11,10))
   · (player faces up)
   · (felix wave (background))
@@ -285,7 +285,7 @@ placed: tilda(24, 18), felix(26, 18)
   · (place felix to (26,18))
   · (tilda faces right)
   · (felix faces left)
-  [tilda]: "Felix. Your carp is eight coins today. On Monday it was six."
+  [tilda]: "Felix. Your carp is eight coins today. Yesterday it was six."
   [felix]: "It's a bigger carp. It grew. In the stall, overnight, out of pride."  ✏ `event.overheard_tilda_felix_1.l2`
   · (felix shrug (background))
   · (felix emote ellipsis)
@@ -303,7 +303,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda. Remember the winter the pond froze, and I went out to test it?"  ✏ `event.overheard_tilda_felix_2.l1`
+  [felix]: "Remember the winter the pond froze, Tilda? I went out to test it."  ✏ `event.overheard_tilda_felix_2.l1`
   [tilda]: "I remember the winter you fell in. And the Tuesday you fell in again."
   · (tilda shrug (background))
   · (tilda emote ellipsis)
@@ -322,7 +322,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (felix faces right)
   · (tilda faces left)
   [felix]: "Tilda. I chalked the year's first fish on your slate. Capital letters."  ✏ `event.overheard_tilda_felix_3.l1`
-  [tilda]: "Oh, Felix. A very good fish. It stays up until the thaw."
+  [tilda]: "A very good fish, Felix. It stays up until the thaw."
   · (tilda point (background))
   · (tilda emote ellipsis)
   · (felix shrug (background))
@@ -339,7 +339,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda. I brought a pie, for once. A fish pie. Don't judge it."  ✏ `event.overheard_tilda_felix_4.l1`
+  [felix]: "Brought a pie, for once. A fish pie. Don't judge it."  ✏ `event.overheard_tilda_felix_4.l1`
   [tilda]: "I'll judge it kindly, Felix. Then I'll salt it."
   · (tilda wave (background))
   · (tilda emote ellipsis)
