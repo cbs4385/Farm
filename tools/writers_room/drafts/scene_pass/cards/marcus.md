@@ -4,7 +4,7 @@
 
 ### marcus_heart2 · "Hold This Plank" · funny
 event · npc_roster.json · map Carpenter · priority 6
-plays when: `hearts:marcus>=2 && !weekday:wed && hour>=9 && hour<17`
+plays when: `(hearts:marcus>=2 && !weekday:wed && hour>=9 && hour<17) && !flag:event.marcus_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(6, 3)
   · (marcus faces down)
@@ -19,7 +19,7 @@ placed: player(6, 3)
 
 ### marcus_heart5 · "The Boyhood Carving" · wholesome
 event · npc_roster.json · map Carpenter · priority 7
-plays when: `hearts:marcus>=5 && !weekday:wed && hour>=9 && hour<17 && flag:event.marcus_heart2`
+plays when: `(hearts:marcus>=5 && !weekday:wed && hour>=9 && hour<17 && flag:event.marcus_heart2) && !flag:event.marcus_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(6, 3)
   · (marcus faces down)
@@ -35,7 +35,7 @@ placed: player(6, 3)
 
 ### hall_dance · "Opening Night" · wholesome
 event · spec_scenes.json · map CommunityHall · priority 8
-plays when: `flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0`
+plays when: `(flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0) && !flag:event.hall_dance`
 beats may be ADDED or CUT in this scene
 placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 4), player(7, 2)
   · (letterbox on)
@@ -62,7 +62,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
   [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
-  · (music saloon)
+  · (music piper_theme)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
@@ -84,7 +84,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
 
 ### story_pie_payoff · "A Slice for Odalys" · funny
 event · storyline_events.json · map Village · priority 7
-plays when: `storyline:pie_feud && (hearts:marcus>=3 || hearts:odalys>=3) && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:pie_feud && (hearts:marcus>=3 || hearts:odalys>=3) && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pie_payoff`
 beats may be ADDED or CUT in this scene
 placed: marcus(25, 18), player(25, 17)
   · (place marcus to (25,18))
@@ -110,7 +110,7 @@ placed: marcus(25, 18), player(25, 17)
 
 ### story_whistler_marcus · "The Whistler" · funny
 event · storyline_events.json · map Village · priority 7
-plays when: `storyline:mystery_whistler.marcus && hour>=18 && hour<21 && !festival.in:==0`
+plays when: `(storyline:mystery_whistler.marcus && hour>=18 && hour<21 && !festival.in:==0) && !flag:event.story_whistler_marcus`
 beats may be ADDED or CUT in this scene
 placed: marcus(25, 18), player(25, 17)
   · (place marcus to (25,18))
@@ -133,7 +133,7 @@ placed: marcus(25, 18), player(25, 17)
 
 ### story_pumpkin_marcus · "The Missing Pumpkin" · funny
 event · storyline_events2.json · map Village · priority 7
-plays when: `storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_marcus`
 beats may be ADDED or CUT in this scene
 placed: marcus(25, 18), player(25, 17), tilda(24, 18)
   · (place marcus to (25,18))
@@ -162,7 +162,7 @@ placed: marcus(25, 18), player(25, 17), tilda(24, 18)
 
 ### marcus_heart8 · "The Hall Roof" · surprise
 conversation · wave3_events.json · map Carpenter · priority 7
-plays when: `hearts:marcus>=8 && flag:event.marcus_heart5 && !weekday:wed && hour>=9 && hour<17`
+plays when: `(hearts:marcus>=8 && flag:event.marcus_heart5 && !weekday:wed && hour>=9 && hour<17) && !flag:event.marcus_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (marcus faces down)
@@ -209,7 +209,7 @@ placed: player(6, 3)
 
 ### overheard_marcus_dorian_1 · "The Straight Plank" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.dorian && hearts:marcus>=2 && hearts:dorian>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.marcus && flag:met.dorian && hearts:marcus>=2 && hearts:dorian>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_marcus_dorian_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: marcus(24, 18), dorian(26, 18)
   · (place marcus to (24,18))
@@ -227,7 +227,7 @@ placed: marcus(24, 18), dorian(26, 18)
 
 ### overheard_marcus_dorian_2 · "Sawdust Silence" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.dorian && hearts:marcus>=4 && hearts:dorian>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_1`
+plays when: `(flag:met.marcus && flag:met.dorian && hearts:marcus>=4 && hearts:dorian>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_1) && !flag:event.overheard_marcus_dorian_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: marcus(24, 18), dorian(26, 18)
   · (place marcus to (24,18))
@@ -245,7 +245,7 @@ placed: marcus(24, 18), dorian(26, 18)
 
 ### overheard_marcus_dorian_3 · "The Forest Door" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.dorian && hearts:marcus>=6 && hearts:dorian>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_2`
+plays when: `(flag:met.marcus && flag:met.dorian && hearts:marcus>=6 && hearts:dorian>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_2) && !flag:event.overheard_marcus_dorian_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: marcus(24, 18), dorian(26, 18)
   · (place marcus to (24,18))
@@ -263,7 +263,7 @@ placed: marcus(24, 18), dorian(26, 18)
 
 ### overheard_marcus_dorian_4 · "The Hut Window" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.dorian && hearts:marcus>=8 && hearts:dorian>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_3`
+plays when: `(flag:met.marcus && flag:met.dorian && hearts:marcus>=8 && hearts:dorian>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_3) && !flag:event.overheard_marcus_dorian_4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: marcus(24, 18), dorian(26, 18)
   · (place marcus to (24,18))
@@ -281,7 +281,7 @@ placed: marcus(24, 18), dorian(26, 18)
 
 ### overheard_bram_marcus_1 · "The Two Trades" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.bram && flag:met.marcus && hearts:bram>=2 && hearts:marcus>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.bram && flag:met.marcus && hearts:bram>=2 && hearts:marcus>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_bram_marcus_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: bram(24, 18), marcus(26, 18)
   · (place bram to (24,18))
@@ -317,7 +317,7 @@ placed: bram(24, 18), marcus(26, 18)
 
 ### overheard_bram_marcus_3 · "Quiet Competition" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.bram && flag:met.marcus && hearts:bram>=6 && hearts:marcus>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_bram_marcus_2`
+plays when: `(flag:met.bram && flag:met.marcus && hearts:bram>=6 && hearts:marcus>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_bram_marcus_2) && !flag:event.overheard_bram_marcus_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: bram(24, 18), marcus(26, 18)
   · (place bram to (24,18))
@@ -335,7 +335,7 @@ placed: bram(24, 18), marcus(26, 18)
 
 ### overheard_marcus_odalys_1 · "Bend the Knees" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.odalys && hearts:marcus>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.marcus && flag:met.odalys && hearts:marcus>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_marcus_odalys_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), marcus(26, 18)
   · (place odalys to (24,18))
@@ -353,7 +353,7 @@ placed: odalys(24, 18), marcus(26, 18)
 
 ### overheard_marcus_odalys_2 · "The Clinic Bench" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.odalys && hearts:marcus>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_1`
+plays when: `(flag:met.marcus && flag:met.odalys && hearts:marcus>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_1) && !flag:event.overheard_marcus_odalys_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: marcus(24, 18), odalys(26, 18)
   · (place marcus to (24,18))
@@ -371,7 +371,7 @@ placed: marcus(24, 18), odalys(26, 18)
 
 ### overheard_marcus_odalys_3 · "Doctor's Own Orders" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.odalys && hearts:marcus>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_2`
+plays when: `(flag:met.marcus && flag:met.odalys && hearts:marcus>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_2) && !flag:event.overheard_marcus_odalys_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), marcus(26, 18)
   · (place odalys to (24,18))

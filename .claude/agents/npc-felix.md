@@ -1,7 +1,7 @@
 ---
 name: npc-felix
 description: The voice of Felix Hartwell for the writers' room. Use when a scene, line pool or table read needs Felix's thoughts, reactions or dialogue. Speaks only as this villager; never writes another villager's lines.
-tools: Read, Grep
+tools: Read, Grep, Glob, Write, Edit, Bash, SendMessage
 model: inherit
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: npc-edmund
 description: Edmund Fenn, the player's late great-uncle. Never present on screen. Use when a scene needs what villagers remember of him, a letter in his hand, or a check that a memory of Edmund fits what each villager would actually know.
-tools: Read, Grep
+tools: Read, Grep, Glob, Write, Edit, Bash, SendMessage
 model: inherit
 ---
 

@@ -4,7 +4,7 @@
 
 ### hazel_heart2 · "Come Look at This" · wholesome
 event · npc_roster.json · map Library · priority 6
-plays when: `hearts:hazel>=2 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:hazel>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(4, 4)
   · (hazel faces down)
@@ -20,7 +20,7 @@ placed: player(4, 4)
 
 ### hazel_heart5 · "A Small Poem" · wholesome
 event · npc_roster.json · map Library · priority 7
-plays when: `hearts:hazel>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.hazel_heart2`
+plays when: `(hearts:hazel>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.hazel_heart2) && !flag:event.hazel_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(4, 4)
   · (hazel faces down)
@@ -36,7 +36,7 @@ placed: player(4, 4)
 
 ### reading_night · "Reading Night" · wholesome
 event · spec_scenes.json · map Library · priority 7
-plays when: `flag:choice.reading.yes && flag:event.hazel_heart10 && flag:event.ione_heart8 && flag:met.dorian && hour>=17 && hour<21 && !weekday:sat && !festival.in:==0`
+plays when: `(flag:choice.reading.yes && flag:event.hazel_heart10 && flag:event.ione_heart8 && flag:met.dorian && hour>=17 && hour<21 && !weekday:sat && !festival.in:==0) && !flag:event.reading_night`
 beats may be ADDED or CUT in this scene
 placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   · (letterbox on)
@@ -106,7 +106,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
 
 ### hazel_heart4 · "The Swap" · wholesome
 conversation · slice_events.json · map Library · priority 7
-plays when: `hearts:hazel>=4 && flag:event.hazel_heart2 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:hazel>=4 && flag:event.hazel_heart2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_heart4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
@@ -129,7 +129,7 @@ placed: player(4, 4)
 
 ### hazel_heart6 · "Behind the Shelves" · surprise
 confession · slice_events.json · map Library · priority 7
-plays when: `hearts:hazel>=6 && flag:event.hazel_heart5 && flag:event.hazel_heart4 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:hazel>=6 && flag:event.hazel_heart5 && flag:event.hazel_heart4 && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_heart6`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
@@ -158,7 +158,7 @@ placed: player(4, 4)
 
 ### hazel_heart8 · "Rehearsal" · wholesome
 conversation · slice_events.json · map Library · priority 7
-plays when: `hearts:hazel>=8 && flag:event.hazel_heart6 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:hazel>=8 && flag:event.hazel_heart6 && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
@@ -181,7 +181,7 @@ placed: player(4, 4)
 
 ### hazel_heart10 · "The Reading" · wholesome
 performance · slice_events.json · map Library · priority 7
-plays when: `hearts:hazel>=10 && flag:event.hazel_heart8 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:hazel>=10 && flag:event.hazel_heart8 && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_heart10`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
@@ -191,7 +191,7 @@ placed: player(4, 4)
   · (lighting warm)
   · (letterbox on)
   · (camera focus on hazel)
-  · (music library)
+  · (music hazel_theme)
   · (together: hazel dance; hazel emote note)
   · (sfx coin)
   · (music stop)
@@ -242,7 +242,7 @@ placed: player(4, 4)
 
 ### hazel_courtship · "Hazel Asks" · wholesome
 conversation · wave5_courtship.json · map Library · priority 8
-plays when: `hearts:hazel>=8 && flag:event.hazel_heart8 && !flag:partners.hazel && !flag:choice.courtship.hazel.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:hazel>=8 && flag:event.hazel_heart8 && !flag:partners.hazel && !flag:choice.courtship.hazel.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_courtship`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
@@ -288,7 +288,7 @@ placed: player(4, 4)
 
 ### hazel_partners · "Hazel, Together" · wholesome
 conversation · wave5_courtship.json · map Library · priority 8
-plays when: `hearts:hazel>=10 && flag:choice.courtship.hazel.yes && !flag:partners.hazel && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:hazel>=10 && flag:choice.courtship.hazel.yes && !flag:partners.hazel && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_partners`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
@@ -311,7 +311,7 @@ placed: player(4, 4)
 
 ### overheard_hazel_ione_1 · "Quiet Hours" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.ione && hearts:hazel>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.hazel && flag:met.ione && hearts:hazel>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_hazel_ione_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: hazel(24, 18), ione(26, 18)
   · (place hazel to (24,18))
@@ -329,7 +329,7 @@ placed: hazel(24, 18), ione(26, 18)
 
 ### overheard_hazel_ione_2 · "The Overdue Notice" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.ione && hearts:hazel>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_1`
+plays when: `(flag:met.hazel && flag:met.ione && hearts:hazel>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_1) && !flag:event.overheard_hazel_ione_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: ione(24, 18), hazel(26, 18)
   · (place ione to (24,18))
@@ -347,7 +347,7 @@ placed: ione(24, 18), hazel(26, 18)
 
 ### overheard_hazel_ione_3 · "The Reading Chair" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.ione && hearts:hazel>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_2`
+plays when: `(flag:met.hazel && flag:met.ione && hearts:hazel>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_2) && !flag:event.overheard_hazel_ione_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: ione(24, 18), hazel(26, 18)
   · (place ione to (24,18))
@@ -365,7 +365,7 @@ placed: ione(24, 18), hazel(26, 18)
 
 ### overheard_dorian_hazel_1 · "The Quiet Bench" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.dorian && flag:met.hazel && hearts:dorian>=2 && hearts:hazel>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.dorian && flag:met.hazel && hearts:dorian>=2 && hearts:hazel>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_dorian_hazel_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: dorian(24, 18), hazel(26, 18)
   · (place dorian to (24,18))
@@ -383,7 +383,7 @@ placed: dorian(24, 18), hazel(26, 18)
 
 ### overheard_dorian_hazel_2 · "Forage and Book" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.dorian && flag:met.hazel && hearts:dorian>=4 && hearts:hazel>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_dorian_hazel_1`
+plays when: `(flag:met.dorian && flag:met.hazel && hearts:dorian>=4 && hearts:hazel>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_dorian_hazel_1) && !flag:event.overheard_dorian_hazel_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: dorian(24, 18), hazel(26, 18)
   · (place dorian to (24,18))
@@ -401,7 +401,7 @@ placed: dorian(24, 18), hazel(26, 18)
 
 ### overheard_dorian_hazel_3 · "Two Silences" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.dorian && flag:met.hazel && hearts:dorian>=6 && hearts:hazel>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_dorian_hazel_2`
+plays when: `(flag:met.dorian && flag:met.hazel && hearts:dorian>=6 && hearts:hazel>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_dorian_hazel_2) && !flag:event.overheard_dorian_hazel_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: dorian(24, 18), hazel(26, 18)
   · (place dorian to (24,18))
@@ -419,7 +419,7 @@ placed: dorian(24, 18), hazel(26, 18)
 
 ### overheard_wren_hazel_1 · "The Notebook" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.hazel && hearts:wren>=2 && hearts:hazel>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.wren && flag:met.hazel && hearts:wren>=2 && hearts:hazel>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_wren_hazel_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), hazel(26, 18)
   · (place wren to (24,18))
@@ -437,7 +437,7 @@ placed: wren(24, 18), hazel(26, 18)
 
 ### overheard_wren_hazel_2 · "The Corner Stool" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.hazel && hearts:wren>=4 && hearts:hazel>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_hazel_1`
+plays when: `(flag:met.wren && flag:met.hazel && hearts:wren>=4 && hearts:hazel>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_hazel_1) && !flag:event.overheard_wren_hazel_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), hazel(26, 18)
   · (place wren to (24,18))
@@ -455,7 +455,7 @@ placed: wren(24, 18), hazel(26, 18)
 
 ### overheard_wren_hazel_3 · "One Line Aloud" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.hazel && hearts:wren>=6 && hearts:hazel>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_hazel_2 && flag:event.hazel_heart8`
+plays when: `(flag:met.wren && flag:met.hazel && hearts:wren>=6 && hearts:hazel>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_hazel_2 && flag:event.hazel_heart8) && !flag:event.overheard_wren_hazel_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: hazel(24, 18), wren(26, 18)
   · (place hazel to (24,18))
@@ -473,7 +473,7 @@ placed: hazel(24, 18), wren(26, 18)
 
 ### overheard_hazel_piper_1 · "Pencil Rhymes" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.piper && hearts:hazel>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.hazel && flag:met.piper && hearts:hazel>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_hazel_piper_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), hazel(26, 18)
   · (place piper to (24,18))
@@ -491,7 +491,7 @@ placed: piper(24, 18), hazel(26, 18)
 
 ### overheard_hazel_piper_2 · "Eight Syllables" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.piper && hearts:hazel>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_1`
+plays when: `(flag:met.hazel && flag:met.piper && hearts:hazel>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_1) && !flag:event.overheard_hazel_piper_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), hazel(26, 18)
   · (place piper to (24,18))
@@ -509,7 +509,7 @@ placed: piper(24, 18), hazel(26, 18)
 
 ### overheard_hazel_piper_3 · "The Hidden Verse" · surprise
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.piper && hearts:hazel>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_2 && flag:event.piper_heart8`
+plays when: `(flag:met.hazel && flag:met.piper && hearts:hazel>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_2 && flag:event.piper_heart8) && !flag:event.overheard_hazel_piper_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), hazel(26, 18)
   · (place piper to (24,18))

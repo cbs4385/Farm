@@ -4,7 +4,7 @@
 
 ### odalys_heart2 · "Pulse Check" · funny
 event · npc_roster.json · map Clinic · priority 6
-plays when: `hearts:odalys>=2 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:odalys>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.odalys_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(6, 2)
   · (odalys faces down)
@@ -20,7 +20,7 @@ placed: player(6, 2)
 
 ### odalys_heart5 · "The Remedy Notebook" · wholesome
 event · npc_roster.json · map Clinic · priority 7
-plays when: `hearts:odalys>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.odalys_heart2`
+plays when: `(hearts:odalys>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.odalys_heart2) && !flag:event.odalys_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(6, 2)
   · (odalys faces down)
@@ -35,7 +35,7 @@ placed: player(6, 2)
 
 ### story_pie_payoff · "A Slice for Odalys" · funny
 event · storyline_events.json · map Village · priority 7
-plays when: `storyline:pie_feud && (hearts:marcus>=3 || hearts:odalys>=3) && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:pie_feud && (hearts:marcus>=3 || hearts:odalys>=3) && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pie_payoff`
 beats may be ADDED or CUT in this scene
 placed: marcus(25, 18), player(25, 17)
   · (place marcus to (25,18))
@@ -61,7 +61,7 @@ placed: marcus(25, 18), player(25, 17)
 
 ### odalys_heart8 · "Office Hours" · wholesome
 conversation · wave3_events.json · map Clinic · priority 7
-plays when: `hearts:odalys>=8 && flag:event.odalys_heart5 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:odalys>=8 && flag:event.odalys_heart5 && !weekday:sat && hour>=9 && hour<17) && !flag:event.odalys_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 2)
   · (odalys faces down)
@@ -108,7 +108,7 @@ placed: player(6, 2)
 
 ### overheard_elara_odalys_1 · "The Waiting Room" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.elara && flag:met.odalys && hearts:elara>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.elara && flag:met.odalys && hearts:elara>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_elara_odalys_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: elara(24, 18), odalys(26, 18)
   · (place elara to (24,18))
@@ -126,7 +126,7 @@ placed: elara(24, 18), odalys(26, 18)
 
 ### overheard_elara_odalys_2 · "Soup Rounds" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.elara && flag:met.odalys && hearts:elara>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_1`
+plays when: `(flag:met.elara && flag:met.odalys && hearts:elara>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_1) && !flag:event.overheard_elara_odalys_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: elara(24, 18), odalys(26, 18)
   · (place elara to (24,18))
@@ -144,7 +144,7 @@ placed: elara(24, 18), odalys(26, 18)
 
 ### overheard_elara_odalys_3 · "Late Shift" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.elara && flag:met.odalys && hearts:elara>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_2`
+plays when: `(flag:met.elara && flag:met.odalys && hearts:elara>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_2) && !flag:event.overheard_elara_odalys_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: elara(24, 18), odalys(26, 18)
   · (place elara to (24,18))
@@ -162,7 +162,7 @@ placed: elara(24, 18), odalys(26, 18)
 
 ### overheard_odalys_ione_1 · "Late Lamps" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.odalys && flag:met.ione && hearts:odalys>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.odalys && flag:met.ione && hearts:odalys>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_odalys_ione_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), ione(26, 18)
   · (place odalys to (24,18))
@@ -180,7 +180,7 @@ placed: odalys(24, 18), ione(26, 18)
 
 ### overheard_odalys_ione_2 · "Reading Prescription" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.odalys && flag:met.ione && hearts:odalys>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_1`
+plays when: `(flag:met.odalys && flag:met.ione && hearts:odalys>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_1) && !flag:event.overheard_odalys_ione_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), ione(26, 18)
   · (place odalys to (24,18))
@@ -198,7 +198,7 @@ placed: odalys(24, 18), ione(26, 18)
 
 ### overheard_odalys_ione_3 · "Tea Rounds" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.odalys && flag:met.ione && hearts:odalys>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_2`
+plays when: `(flag:met.odalys && flag:met.ione && hearts:odalys>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_2) && !flag:event.overheard_odalys_ione_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), ione(26, 18)
   · (place odalys to (24,18))
@@ -216,7 +216,7 @@ placed: odalys(24, 18), ione(26, 18)
 
 ### overheard_marcus_odalys_1 · "Bend the Knees" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.odalys && hearts:marcus>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.marcus && flag:met.odalys && hearts:marcus>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_marcus_odalys_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), marcus(26, 18)
   · (place odalys to (24,18))
@@ -234,7 +234,7 @@ placed: odalys(24, 18), marcus(26, 18)
 
 ### overheard_marcus_odalys_2 · "The Clinic Bench" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.odalys && hearts:marcus>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_1`
+plays when: `(flag:met.marcus && flag:met.odalys && hearts:marcus>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_1) && !flag:event.overheard_marcus_odalys_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: marcus(24, 18), odalys(26, 18)
   · (place marcus to (24,18))
@@ -252,7 +252,7 @@ placed: marcus(24, 18), odalys(26, 18)
 
 ### overheard_marcus_odalys_3 · "Doctor's Own Orders" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.marcus && flag:met.odalys && hearts:marcus>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_2`
+plays when: `(flag:met.marcus && flag:met.odalys && hearts:marcus>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_2) && !flag:event.overheard_marcus_odalys_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), marcus(26, 18)
   · (place odalys to (24,18))

@@ -4,7 +4,7 @@
 
 ### elara_heart2 · "Hold Out Your Hand" · funny
 event · npc_roster.json · map Clinic · priority 6
-plays when: `hearts:elara>=2 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:elara>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.elara_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(3, 2)
   · (elara faces down)
@@ -19,7 +19,7 @@ placed: player(3, 2)
 
 ### elara_heart5 · "Something Knitted" · wholesome
 event · npc_roster.json · map Clinic · priority 7
-plays when: `hearts:elara>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.elara_heart2`
+plays when: `(hearts:elara>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.elara_heart2) && !flag:event.elara_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(3, 2)
   · (elara faces down)
@@ -79,7 +79,7 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
 
 ### elara_garden_visit
 event · zz_fs_elara_garden.json · map Farm · priority 50
-plays when: `year==1 && season:spring && day==2 && hour>=8 && hour<18`
+plays when: `(year==1 && season:spring && day==2 && hour>=8 && hour<18) && !flag:event.elara_garden_visit`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(80, 18), elara(80, 16)
   · (sfx Knock)
@@ -102,7 +102,7 @@ placed: player(80, 18), elara(80, 16)
 
 ### elara_heart8 · "The List" · surprise
 conversation · wave3_events.json · map Clinic · priority 7
-plays when: `hearts:elara>=8 && flag:event.elara_heart5 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:elara>=8 && flag:event.elara_heart5 && !weekday:sat && hour>=9 && hour<17) && !flag:event.elara_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
@@ -149,7 +149,7 @@ placed: player(3, 2)
 
 ### elara_courtship · "Elara Asks" · wholesome
 conversation · wave5_courtship.json · map Clinic · priority 8
-plays when: `hearts:elara>=8 && flag:event.elara_heart8 && !flag:partners.elara && !flag:choice.courtship.elara.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:elara>=8 && flag:event.elara_heart8 && !flag:partners.elara && !flag:choice.courtship.elara.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17) && !flag:event.elara_courtship`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
@@ -195,7 +195,7 @@ placed: player(3, 2)
 
 ### elara_partners · "Elara, Together" · wholesome
 conversation · wave5_courtship.json · map Clinic · priority 8
-plays when: `hearts:elara>=10 && flag:choice.courtship.elara.yes && !flag:partners.elara && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:elara>=10 && flag:choice.courtship.elara.yes && !flag:partners.elara && !weekday:sat && hour>=9 && hour<17) && !flag:event.elara_partners`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
@@ -218,7 +218,7 @@ placed: player(3, 2)
 
 ### overheard_elara_odalys_1 · "The Waiting Room" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.elara && flag:met.odalys && hearts:elara>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.elara && flag:met.odalys && hearts:elara>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_elara_odalys_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: elara(24, 18), odalys(26, 18)
   · (place elara to (24,18))
@@ -236,7 +236,7 @@ placed: elara(24, 18), odalys(26, 18)
 
 ### overheard_elara_odalys_2 · "Soup Rounds" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.elara && flag:met.odalys && hearts:elara>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_1`
+plays when: `(flag:met.elara && flag:met.odalys && hearts:elara>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_1) && !flag:event.overheard_elara_odalys_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: elara(24, 18), odalys(26, 18)
   · (place elara to (24,18))
@@ -254,7 +254,7 @@ placed: elara(24, 18), odalys(26, 18)
 
 ### overheard_elara_odalys_3 · "Late Shift" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.elara && flag:met.odalys && hearts:elara>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_2`
+plays when: `(flag:met.elara && flag:met.odalys && hearts:elara>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_2) && !flag:event.overheard_elara_odalys_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: elara(24, 18), odalys(26, 18)
   · (place elara to (24,18))
@@ -272,7 +272,7 @@ placed: elara(24, 18), odalys(26, 18)
 
 ### overheard_felix_elara_1 · "The Scarf Net" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.felix && flag:met.elara && hearts:felix>=2 && hearts:elara>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.felix && flag:met.elara && hearts:felix>=2 && hearts:elara>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_felix_elara_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), elara(26, 18)
   · (place felix to (24,18))
@@ -290,7 +290,7 @@ placed: felix(24, 18), elara(26, 18)
 
 ### overheard_felix_elara_2 · "Big Fish, Big Scarf" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.felix && flag:met.elara && hearts:felix>=4 && hearts:elara>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_1`
+plays when: `(flag:met.felix && flag:met.elara && hearts:felix>=4 && hearts:elara>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_1) && !flag:event.overheard_felix_elara_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), elara(26, 18)
   · (place felix to (24,18))
@@ -308,7 +308,7 @@ placed: felix(24, 18), elara(26, 18)
 
 ### overheard_felix_elara_3 · "Sunrise Knitting" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.felix && flag:met.elara && hearts:felix>=6 && hearts:elara>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_2`
+plays when: `(flag:met.felix && flag:met.elara && hearts:felix>=6 && hearts:elara>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_2) && !flag:event.overheard_felix_elara_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), elara(26, 18)
   · (place felix to (24,18))

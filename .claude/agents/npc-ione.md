@@ -1,7 +1,7 @@
 ---
 name: npc-ione
 description: The voice of Ione Fairweather for the writers' room. Use when a scene, line pool or table read needs Ione's thoughts, reactions or dialogue. Speaks only as this villager; never writes another villager's lines.
-tools: Read, Grep
+tools: Read, Grep, Glob, Write, Edit, Bash, SendMessage
 model: inherit
 ---
 

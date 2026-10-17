@@ -1,7 +1,7 @@
 ---
 name: npc-hazel
 description: The voice of Hazel Brandt for the writers' room. Use when a scene, line pool or table read needs Hazel's thoughts, reactions or dialogue. Speaks only as this villager; never writes another villager's lines.
-tools: Read, Grep
+tools: Read, Grep, Glob, Write, Edit, Bash, SendMessage
 model: inherit
 ---
 

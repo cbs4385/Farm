@@ -4,7 +4,7 @@
 
 ### tilda_heart5 · "Too Many Scones" · funny
 event · npc_roster_core.json · map GeneralStore · priority 6
-plays when: `hearts:tilda>=5 && !weekday:sun && hour>=9 && hour<17`
+plays when: `(hearts:tilda>=5 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (tilda faces down)
@@ -20,7 +20,7 @@ placed: player(7, 4)
 
 ### tilda_heart2 · "Mother's Gratin" · wholesome
 event · quests_and_mail.json · map GeneralStore · priority 5
-plays when: `hearts:tilda>=2 && !weekday:sun && hour>=9 && hour<17`
+plays when: `(hearts:tilda>=2 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (tilda faces down)
@@ -34,7 +34,7 @@ placed: player(7, 4)
 
 ### hall_dance · "Opening Night" · wholesome
 event · spec_scenes.json · map CommunityHall · priority 8
-plays when: `flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0`
+plays when: `(flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0) && !flag:event.hall_dance`
 beats may be ADDED or CUT in this scene
 placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 4), player(7, 2)
   · (letterbox on)
@@ -61,7 +61,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."  ✏ `event.hall_dance.3`
   [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
-  · (music saloon)
+  · (music piper_theme)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
@@ -83,7 +83,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
 
 ### story_notes_tilda · "The Note Writer" · wholesome
 event · storyline_events.json · map Village · priority 7
-plays when: `flag:notes.began && storyline:anonymous_notes.tilda && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:notes.began && storyline:anonymous_notes.tilda && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_notes_tilda`
 beats may be ADDED or CUT in this scene
 placed: tilda(25, 18), player(25, 17)
   · (place tilda to (25,18))
@@ -109,7 +109,7 @@ placed: tilda(25, 18), player(25, 17)
 
 ### story_scarecrows · "The Scarecrow Contest" · funny
 event · storyline_events.json · map Village · priority 7
-plays when: `storyline:rival_scarecrows && season:fall && weekday:sat && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:rival_scarecrows && season:fall && weekday:sat && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_scarecrows`
 beats may be ADDED or CUT in this scene
 placed: tilda(25, 18), player(25, 17)
   · (place tilda to (25,18))
@@ -138,7 +138,7 @@ placed: tilda(25, 18), player(25, 17)
 
 ### story_pumpkin_dorian · "The Missing Pumpkin" · funny
 event · storyline_events2.json · map Village · priority 7
-plays when: `storyline:missing_pumpkin.dorian && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:missing_pumpkin.dorian && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_dorian`
 beats may be ADDED or CUT in this scene
 placed: dorian(25, 18), player(25, 17)
   · (place dorian to (25,18))
@@ -165,7 +165,7 @@ placed: dorian(25, 18), player(25, 17)
 
 ### story_pumpkin_marcus · "The Missing Pumpkin" · funny
 event · storyline_events2.json · map Village · priority 7
-plays when: `storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_marcus`
 beats may be ADDED or CUT in this scene
 placed: marcus(25, 18), player(25, 17), tilda(24, 18)
   · (place marcus to (25,18))
@@ -194,7 +194,7 @@ placed: marcus(25, 18), player(25, 17), tilda(24, 18)
 
 ### story_pumpkin_felix · "The Missing Pumpkin" · funny
 event · storyline_events2.json · map Village · priority 7
-plays when: `storyline:missing_pumpkin.felix && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:missing_pumpkin.felix && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_felix`
 beats may be ADDED or CUT in this scene
 placed: felix(25, 18), player(25, 17)
   · (place felix to (25,18))
@@ -251,7 +251,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
 
 ### tilda_heart4 · "The Slate" · wholesome
 conversation · wave2_events.json · map GeneralStore · priority 7
-plays when: `hearts:tilda>=4 && flag:event.tilda_heart2 && !weekday:sun && hour>=9 && hour<17`
+plays when: `(hearts:tilda>=4 && flag:event.tilda_heart2 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
@@ -275,7 +275,7 @@ placed: player(7, 4)
 
 ### tilda_heart6 · "After Hours" · surprise
 confession · wave2_events.json · map GeneralStore · priority 7
-plays when: `hearts:tilda>=6 && flag:event.tilda_heart5 && flag:event.tilda_heart4 && !weekday:sun && hour>=9 && hour<17`
+plays when: `(hearts:tilda>=6 && flag:event.tilda_heart5 && flag:event.tilda_heart4 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart6`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
@@ -305,7 +305,7 @@ placed: player(7, 4)
 
 ### tilda_heart8 · "The Recipe Card" · surprise
 conversation · wave2_events.json · map GeneralStore · priority 7
-plays when: `hearts:tilda>=8 && flag:event.tilda_heart6 && !weekday:sun && hour>=9 && hour<17`
+plays when: `(hearts:tilda>=8 && flag:event.tilda_heart6 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
@@ -329,7 +329,7 @@ placed: player(7, 4)
 
 ### tilda_heart10 · "The Sign" · wholesome
 heirloom · wave2_events.json · map GeneralStore · priority 7
-plays when: `hearts:tilda>=10 && flag:event.tilda_heart8 && !weekday:sun && hour>=9 && hour<17`
+plays when: `(hearts:tilda>=10 && flag:event.tilda_heart8 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart10`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
@@ -385,7 +385,7 @@ placed: player(7, 4)
 
 ### overheard_tilda_felix_1 · "Fish Prices" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=2 && hearts:felix>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=2 && hearts:felix>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_felix_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: tilda(24, 18), felix(26, 18)
   · (place tilda to (24,18))
@@ -403,7 +403,7 @@ placed: tilda(24, 18), felix(26, 18)
 
 ### overheard_tilda_felix_2 · "The Oldest Friend" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=4 && hearts:felix>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_1`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=4 && hearts:felix>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_1) && !flag:event.overheard_tilda_felix_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), tilda(26, 18)
   · (place felix to (24,18))
@@ -421,7 +421,7 @@ placed: felix(24, 18), tilda(26, 18)
 
 ### overheard_tilda_felix_3 · "Slate and Line" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=6 && hearts:felix>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_2`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=6 && hearts:felix>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_2) && !flag:event.overheard_tilda_felix_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), tilda(26, 18)
   · (place felix to (24,18))
@@ -439,7 +439,7 @@ placed: felix(24, 18), tilda(26, 18)
 
 ### overheard_tilda_felix_4 · "The Last Pie" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=8 && hearts:felix>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_3`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=8 && hearts:felix>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_3) && !flag:event.overheard_tilda_felix_4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), tilda(26, 18)
   · (place felix to (24,18))
@@ -457,7 +457,7 @@ placed: felix(24, 18), tilda(26, 18)
 
 ### overheard_tilda_wren_1 · "Slate and Chalkboard" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.wren && hearts:tilda>=2 && hearts:wren>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.tilda && flag:met.wren && hearts:tilda>=2 && hearts:wren>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_wren_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: tilda(24, 18), wren(26, 18)
   · (place tilda to (24,18))
@@ -475,7 +475,7 @@ placed: tilda(24, 18), wren(26, 18)
 
 ### overheard_tilda_wren_2 · "Gossip Exchange" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.wren && hearts:tilda>=4 && hearts:wren>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_wren_1`
+plays when: `(flag:met.tilda && flag:met.wren && hearts:tilda>=4 && hearts:wren>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_wren_1) && !flag:event.overheard_tilda_wren_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: tilda(24, 18), wren(26, 18)
   · (place tilda to (24,18))
@@ -493,7 +493,7 @@ placed: tilda(24, 18), wren(26, 18)
 
 ### overheard_tilda_wren_3 · "Closing the Books" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.wren && hearts:tilda>=6 && hearts:wren>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_wren_2`
+plays when: `(flag:met.tilda && flag:met.wren && hearts:tilda>=6 && hearts:wren>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_wren_2) && !flag:event.overheard_tilda_wren_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: tilda(24, 18), wren(26, 18)
   · (place tilda to (24,18))
@@ -511,7 +511,7 @@ placed: tilda(24, 18), wren(26, 18)
 
 ### overheard_tilda_juno_1 · "Paying the Slate" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.juno && hearts:tilda>=2 && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.tilda && flag:met.juno && hearts:tilda>=2 && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_juno_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: juno(24, 18), tilda(26, 18)
   · (place juno to (24,18))
@@ -547,7 +547,7 @@ placed: tilda(24, 18), juno(26, 18)
 
 ### overheard_tilda_juno_3 · "Next Door" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.juno && hearts:tilda>=6 && hearts:juno>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_juno_2 && flag:event.juno_heart6`
+plays when: `(flag:met.tilda && flag:met.juno && hearts:tilda>=6 && hearts:juno>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_juno_2 && flag:event.juno_heart6) && !flag:event.overheard_tilda_juno_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: juno(24, 18), tilda(26, 18)
   · (place juno to (24,18))
@@ -565,7 +565,7 @@ placed: juno(24, 18), tilda(26, 18)
 
 ### overheard_tilda_bram_1 · "The Even Slate" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.bram && hearts:tilda>=3 && hearts:bram>=3 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.tilda && flag:met.bram && hearts:tilda>=3 && hearts:bram>=3 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_bram_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: tilda(24, 18), bram(26, 18)
   · (place tilda to (24,18))

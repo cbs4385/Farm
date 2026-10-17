@@ -4,7 +4,7 @@
 
 ### ione_heart2 · "What Ione Found" · wholesome
 event · npc_roster_core.json · map Library · priority 6
-plays when: `hearts:ione>=2 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:ione>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (ione faces down)
@@ -20,7 +20,7 @@ placed: player(7, 4)
 
 ### ione_heart5 · "A Question" · wholesome
 event · npc_roster_core.json · map Library · priority 6
-plays when: `hearts:ione>=5 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:ione>=5 && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (ione faces down)
@@ -36,7 +36,7 @@ placed: player(7, 4)
 
 ### reading_night · "Reading Night" · wholesome
 event · spec_scenes.json · map Library · priority 7
-plays when: `flag:choice.reading.yes && flag:event.hazel_heart10 && flag:event.ione_heart8 && flag:met.dorian && hour>=17 && hour<21 && !weekday:sat && !festival.in:==0`
+plays when: `(flag:choice.reading.yes && flag:event.hazel_heart10 && flag:event.ione_heart8 && flag:met.dorian && hour>=17 && hour<21 && !weekday:sat && !festival.in:==0) && !flag:event.reading_night`
 beats may be ADDED or CUT in this scene
 placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   · (letterbox on)
@@ -106,7 +106,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
 
 ### ione_heart8 · "The Set-Aside Shelf" · wholesome
 conversation · wave3_events.json · map Library · priority 7
-plays when: `hearts:ione>=8 && flag:event.ione_heart5 && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:ione>=8 && flag:event.ione_heart5 && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (ione faces down)
@@ -153,7 +153,7 @@ placed: player(7, 4)
 
 ### ione_courtship · "Ione Asks" · wholesome
 conversation · wave5_courtship.json · map Library · priority 8
-plays when: `hearts:ione>=8 && flag:event.ione_heart8 && !flag:partners.ione && !flag:choice.courtship.ione.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:ione>=8 && flag:event.ione_heart8 && !flag:partners.ione && !flag:choice.courtship.ione.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_courtship`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (ione faces down)
@@ -199,7 +199,7 @@ placed: player(7, 4)
 
 ### ione_partners · "Ione, Together" · wholesome
 conversation · wave5_courtship.json · map Library · priority 8
-plays when: `hearts:ione>=10 && flag:choice.courtship.ione.yes && !flag:partners.ione && !weekday:sat && hour>=9 && hour<17`
+plays when: `(hearts:ione>=10 && flag:choice.courtship.ione.yes && !flag:partners.ione && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_partners`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (ione faces down)
@@ -222,7 +222,7 @@ placed: player(7, 4)
 
 ### overheard_hazel_ione_1 · "Quiet Hours" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.ione && hearts:hazel>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.hazel && flag:met.ione && hearts:hazel>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_hazel_ione_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: hazel(24, 18), ione(26, 18)
   · (place hazel to (24,18))
@@ -240,7 +240,7 @@ placed: hazel(24, 18), ione(26, 18)
 
 ### overheard_hazel_ione_2 · "The Overdue Notice" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.ione && hearts:hazel>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_1`
+plays when: `(flag:met.hazel && flag:met.ione && hearts:hazel>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_1) && !flag:event.overheard_hazel_ione_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: ione(24, 18), hazel(26, 18)
   · (place ione to (24,18))
@@ -258,7 +258,7 @@ placed: ione(24, 18), hazel(26, 18)
 
 ### overheard_hazel_ione_3 · "The Reading Chair" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.ione && hearts:hazel>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_2`
+plays when: `(flag:met.hazel && flag:met.ione && hearts:hazel>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_2) && !flag:event.overheard_hazel_ione_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: ione(24, 18), hazel(26, 18)
   · (place ione to (24,18))
@@ -276,7 +276,7 @@ placed: ione(24, 18), hazel(26, 18)
 
 ### overheard_odalys_ione_1 · "Late Lamps" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.odalys && flag:met.ione && hearts:odalys>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.odalys && flag:met.ione && hearts:odalys>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_odalys_ione_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), ione(26, 18)
   · (place odalys to (24,18))
@@ -294,7 +294,7 @@ placed: odalys(24, 18), ione(26, 18)
 
 ### overheard_odalys_ione_2 · "Reading Prescription" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.odalys && flag:met.ione && hearts:odalys>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_1`
+plays when: `(flag:met.odalys && flag:met.ione && hearts:odalys>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_1) && !flag:event.overheard_odalys_ione_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), ione(26, 18)
   · (place odalys to (24,18))
@@ -312,7 +312,7 @@ placed: odalys(24, 18), ione(26, 18)
 
 ### overheard_odalys_ione_3 · "Tea Rounds" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.odalys && flag:met.ione && hearts:odalys>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_2`
+plays when: `(flag:met.odalys && flag:met.ione && hearts:odalys>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_2) && !flag:event.overheard_odalys_ione_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: odalys(24, 18), ione(26, 18)
   · (place odalys to (24,18))

@@ -4,7 +4,7 @@
 
 ### bram_heart2 · "You Again" · funny
 event · npc_roster_core.json · map Blacksmith · priority 6
-plays when: `hearts:bram>=2 && !weekday:mon && hour>=9 && hour<17`
+plays when: `(hearts:bram>=2 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(6, 3)
   · (bram faces down)
@@ -20,7 +20,7 @@ placed: player(6, 3)
 
 ### bram_heart5 · "Words from Bram" · surprise
 event · npc_roster_core.json · map Blacksmith · priority 6
-plays when: `hearts:bram>=5 && !weekday:mon && hour>=9 && hour<17`
+plays when: `(hearts:bram>=5 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(6, 3)
   · (bram faces down)
@@ -35,7 +35,7 @@ placed: player(6, 3)
 
 ### next_door · "Next Door" · wholesome
 event · spec_scenes.json · map Blacksmith · priority 6
-plays when: `flag:event.juno_heart10 && flag:event.bram_heart10 && hearts:juno>=10 && hearts:bram>=10 && !weekday:mon && hour>=9 && hour<17 && !festival.in:==0`
+plays when: `(flag:event.juno_heart10 && flag:event.bram_heart10 && hearts:juno>=10 && hearts:bram>=10 && !weekday:mon && hour>=9 && hour<17 && !festival.in:==0) && !flag:event.next_door`
 beats may be ADDED or CUT in this scene
 placed: juno(2, 2), bram(6, 3), player(4, 2)
   · (place juno to (2,2))
@@ -64,7 +64,7 @@ placed: juno(2, 2), bram(6, 3), player(4, 2)
 
 ### hall_dance · "Opening Night" · wholesome
 event · spec_scenes.json · map CommunityHall · priority 8
-plays when: `flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0`
+plays when: `(flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0) && !flag:event.hall_dance`
 beats may be ADDED or CUT in this scene
 placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 4), player(7, 2)
   · (letterbox on)
@@ -91,7 +91,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
   [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
-  · (music saloon)
+  · (music piper_theme)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
@@ -113,7 +113,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
 
 ### story_whistler_bram · "The Whistler" · funny
 event · storyline_events.json · map Village · priority 7
-plays when: `storyline:mystery_whistler.bram && hour>=18 && hour<21 && !festival.in:==0`
+plays when: `(storyline:mystery_whistler.bram && hour>=18 && hour<21 && !festival.in:==0) && !flag:event.story_whistler_bram`
 beats may be ADDED or CUT in this scene
 placed: bram(25, 18), player(25, 17)
   · (place bram to (25,18))
@@ -136,7 +136,7 @@ placed: bram(25, 18), player(25, 17)
 
 ### story_band_battle · "Battle of the Bands" · funny
 event · storyline_events2.json · map Village · priority 7
-plays when: `storyline:competing_band && hearts:piper>=2 && hearts:juno>=2 && hour>=17 && hour<21 && !festival.in:==0`
+plays when: `(storyline:competing_band && hearts:piper>=2 && hearts:juno>=2 && hour>=17 && hour<21 && !festival.in:==0) && !flag:event.story_band_battle`
 beats may be ADDED or CUT in this scene
 placed: piper(25, 18), player(25, 17)
   · (place piper to (25,18))
@@ -162,7 +162,7 @@ placed: piper(25, 18), player(25, 17)
 
 ### bram_heart4 · "The Repair" · wholesome
 conversation · slice_events.json · map Blacksmith · priority 7
-plays when: `hearts:bram>=4 && flag:event.bram_heart2 && !weekday:mon && hour>=9 && hour<17`
+plays when: `(hearts:bram>=4 && flag:event.bram_heart2 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
@@ -185,7 +185,7 @@ placed: player(6, 3)
 
 ### bram_heart6 · "One Long Sentence" · surprise
 confession · slice_events.json · map Blacksmith · priority 7
-plays when: `hearts:bram>=6 && flag:event.bram_heart5 && flag:event.bram_heart4 && !weekday:mon && hour>=9 && hour<17`
+plays when: `(hearts:bram>=6 && flag:event.bram_heart5 && flag:event.bram_heart4 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart6`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
@@ -197,7 +197,7 @@ placed: player(6, 3)
   · (camera focus on bram)
   · (bram expression thinking)
   ▶ DIALOGUE `bram.long` (player-facing graph, plays here):
-    n0 [bram]: "I worked alone for years, told myself I liked it, lied, and then you kept sitting down. I wrote my teacher thirty letters. Sent none."  ✏ `dlg.bram.long.0`   (expr thinking)
+    n0 [bram]: "I worked alone for years. I told myself I liked it alone, and then you sat down. I wrote my teacher thirty letters. Sent none."  ✏ `dlg.bram.long.0`   (expr thinking)
        ? "Say nothing. Nod." → r0  effects: friend:bram,15, flag:choice.bram.long.nod  ✏ `dlg.bram.long.c0`
        ? "Tell him you're glad he said it." → r1  effects: friend:bram,10, flag:choice.bram.long.glad  ✏ `dlg.bram.long.c1`
        ? "Answer with one word." → r2  effects: friend:bram,10, flag:choice.bram.long.word  ✏ `dlg.bram.long.c2`
@@ -214,7 +214,7 @@ placed: player(6, 3)
 
 ### bram_heart8 · "Juno's Piece" · funny
 conversation · slice_events.json · map Blacksmith · priority 7
-plays when: `hearts:bram>=8 && flag:event.bram_heart6 && !weekday:mon && hour>=9 && hour<17`
+plays when: `(hearts:bram>=8 && flag:event.bram_heart6 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
@@ -237,7 +237,7 @@ placed: player(6, 3)
 
 ### bram_heart10 · "Soft Gold" · wholesome
 heirloom · slice_events.json · map Blacksmith · priority 7
-plays when: `hearts:bram>=10 && flag:event.bram_heart8 && !weekday:mon && hour>=9 && hour<17`
+plays when: `(hearts:bram>=10 && flag:event.bram_heart8 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart10`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
@@ -255,7 +255,7 @@ placed: player(6, 3)
 
 ### bram_friend · "The Bench" · wholesome
 shared_activity · slice_events.json · map Blacksmith · priority 7
-plays when: `hearts:bram>=3 && weekday:wed && !weekday:mon && hour>=9 && hour<17`
+plays when: `(hearts:bram>=3 && weekday:wed && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_friend`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
@@ -294,7 +294,7 @@ placed: player(6, 3)
 
 ### overheard_juno_bram_1 · "Labeled Tongs" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.juno && flag:met.bram && hearts:juno>=2 && hearts:bram>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.juno && flag:met.bram && hearts:juno>=2 && hearts:bram>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_juno_bram_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: juno(24, 18), bram(26, 18)
   · (place juno to (24,18))
@@ -312,7 +312,7 @@ placed: juno(24, 18), bram(26, 18)
 
 ### overheard_juno_bram_2 · "The Second Label" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.juno && flag:met.bram && hearts:juno>=4 && hearts:bram>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_1`
+plays when: `(flag:met.juno && flag:met.bram && hearts:juno>=4 && hearts:bram>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_1) && !flag:event.overheard_juno_bram_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: juno(24, 18), bram(26, 18)
   · (place juno to (24,18))
@@ -330,7 +330,7 @@ placed: juno(24, 18), bram(26, 18)
 
 ### overheard_juno_bram_3 · "The Apprentice Bench" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.juno && flag:met.bram && hearts:juno>=6 && hearts:bram>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_2`
+plays when: `(flag:met.juno && flag:met.bram && hearts:juno>=6 && hearts:bram>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_2) && !flag:event.overheard_juno_bram_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: juno(24, 18), bram(26, 18)
   · (place juno to (24,18))
@@ -348,7 +348,7 @@ placed: juno(24, 18), bram(26, 18)
 
 ### overheard_juno_bram_4 · "The Tiny Forge" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.juno && flag:met.bram && hearts:juno>=8 && hearts:bram>=8 && flag:event.juno_heart10 && flag:event.bram_heart10 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_3`
+plays when: `(flag:met.juno && flag:met.bram && hearts:juno>=8 && hearts:bram>=8 && flag:event.juno_heart10 && flag:event.bram_heart10 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_3) && !flag:event.overheard_juno_bram_4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: juno(24, 18), bram(26, 18)
   · (place juno to (24,18))
@@ -366,7 +366,7 @@ placed: juno(24, 18), bram(26, 18)
 
 ### overheard_bram_marcus_1 · "The Two Trades" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.bram && flag:met.marcus && hearts:bram>=2 && hearts:marcus>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.bram && flag:met.marcus && hearts:bram>=2 && hearts:marcus>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_bram_marcus_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: bram(24, 18), marcus(26, 18)
   · (place bram to (24,18))
@@ -402,7 +402,7 @@ placed: bram(24, 18), marcus(26, 18)
 
 ### overheard_bram_marcus_3 · "Quiet Competition" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.bram && flag:met.marcus && hearts:bram>=6 && hearts:marcus>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_bram_marcus_2`
+plays when: `(flag:met.bram && flag:met.marcus && hearts:bram>=6 && hearts:marcus>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_bram_marcus_2) && !flag:event.overheard_bram_marcus_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: bram(24, 18), marcus(26, 18)
   · (place bram to (24,18))
@@ -420,7 +420,7 @@ placed: bram(24, 18), marcus(26, 18)
 
 ### overheard_wren_bram_1 · "The Fourth Word" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.bram && hearts:wren>=2 && hearts:bram>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.wren && flag:met.bram && hearts:wren>=2 && hearts:bram>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_wren_bram_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), bram(26, 18)
   · (place wren to (24,18))
@@ -438,7 +438,7 @@ placed: wren(24, 18), bram(26, 18)
 
 ### overheard_wren_bram_2 · "The Unsent Letter" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.bram && hearts:wren>=4 && hearts:bram>=4 && flag:event.bram_heart6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_bram_1`
+plays when: `(flag:met.wren && flag:met.bram && hearts:wren>=4 && hearts:bram>=4 && flag:event.bram_heart6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_bram_1) && !flag:event.overheard_wren_bram_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), bram(26, 18)
   · (place wren to (24,18))
@@ -456,7 +456,7 @@ placed: wren(24, 18), bram(26, 18)
 
 ### overheard_wren_bram_3 · "Five Words" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.bram && hearts:wren>=6 && hearts:bram>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_bram_2 && flag:event.wren_heart8`
+plays when: `(flag:met.wren && flag:met.bram && hearts:wren>=6 && hearts:bram>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_bram_2 && flag:event.wren_heart8) && !flag:event.overheard_wren_bram_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), bram(26, 18)
   · (place wren to (24,18))
@@ -474,7 +474,7 @@ placed: wren(24, 18), bram(26, 18)
 
 ### overheard_tilda_bram_1 · "The Even Slate" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.bram && hearts:tilda>=3 && hearts:bram>=3 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.tilda && flag:met.bram && hearts:tilda>=3 && hearts:bram>=3 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_bram_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: tilda(24, 18), bram(26, 18)
   · (place tilda to (24,18))

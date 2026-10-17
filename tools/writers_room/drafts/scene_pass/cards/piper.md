@@ -4,7 +4,7 @@
 
 ### piper_heart2 · "Learn a Chord" · funny
 event · npc_roster.json · map Saloon · priority 6
-plays when: `hearts:piper>=2 && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=2 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(11, 6)
   · (piper faces down)
@@ -19,7 +19,7 @@ placed: player(11, 6)
 
 ### piper_heart5 · "A Song for You" · wholesome
 event · npc_roster.json · map Saloon · priority 7
-plays when: `hearts:piper>=5 && !weekday:tue && hour>=18 && hour<24 && flag:event.piper_heart2`
+plays when: `(hearts:piper>=5 && !weekday:tue && hour>=18 && hour<24 && flag:event.piper_heart2) && !flag:event.piper_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(11, 6)
   · (piper faces down)
@@ -34,7 +34,7 @@ placed: player(11, 6)
 
 ### hall_dance · "Opening Night" · wholesome
 event · spec_scenes.json · map CommunityHall · priority 8
-plays when: `flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0`
+plays when: `(flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0) && !flag:event.hall_dance`
 beats may be ADDED or CUT in this scene
 placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 4), player(7, 2)
   · (letterbox on)
@@ -61,7 +61,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
   [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  ✏ `event.hall_dance.4`  (emote sweat)
-  · (music saloon)
+  · (music piper_theme)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  ✏ `event.hall_dance.5`  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
@@ -83,7 +83,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
 
 ### story_umbrella · "The Red Umbrella" · funny
 event · storyline_events.json · map Village · priority 7
-plays when: `storyline:lost_umbrella && weather:rain && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:lost_umbrella && weather:rain && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_umbrella`
 beats may be ADDED or CUT in this scene
 placed: piper(25, 18), player(25, 17)
   · (place piper to (25,18))
@@ -109,7 +109,7 @@ placed: piper(25, 18), player(25, 17)
 
 ### story_band_battle · "Battle of the Bands" · funny
 event · storyline_events2.json · map Village · priority 7
-plays when: `storyline:competing_band && hearts:piper>=2 && hearts:juno>=2 && hour>=17 && hour<21 && !festival.in:==0`
+plays when: `(storyline:competing_band && hearts:piper>=2 && hearts:juno>=2 && hour>=17 && hour<21 && !festival.in:==0) && !flag:event.story_band_battle`
 beats may be ADDED or CUT in this scene
 placed: piper(25, 18), player(25, 17)
   · (place piper to (25,18))
@@ -135,7 +135,7 @@ placed: piper(25, 18), player(25, 17)
 
 ### piper_heart4 · "Request Line" · funny
 conversation · wave2_events.json · map Saloon · priority 7
-plays when: `hearts:piper>=4 && flag:event.piper_heart2 && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=4 && flag:event.piper_heart2 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
@@ -158,7 +158,7 @@ placed: player(11, 6)
 
 ### piper_heart6 · "Stage Fright" · surprise
 confession · wave2_events.json · map Saloon · priority 7
-plays when: `hearts:piper>=6 && flag:event.piper_heart5 && flag:event.piper_heart4 && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=6 && flag:event.piper_heart5 && flag:event.piper_heart4 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart6`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
@@ -188,7 +188,7 @@ placed: player(11, 6)
 
 ### piper_heart8 · "The Chorus" · wholesome
 conversation · wave2_events.json · map Saloon · priority 7
-plays when: `hearts:piper>=8 && flag:event.piper_heart6 && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=8 && flag:event.piper_heart6 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
@@ -211,7 +211,7 @@ placed: player(11, 6)
 
 ### piper_heart10 · "The Song They Know" · wholesome
 performance · wave2_events.json · map Saloon · priority 7
-plays when: `hearts:piper>=10 && flag:event.piper_heart8 && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=10 && flag:event.piper_heart8 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart10`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
@@ -221,9 +221,9 @@ placed: player(11, 6)
   · (lighting warm)
   · (letterbox on)
   · (camera focus on piper)
-  · (music saloon)
+  · (music piper_theme)
   · (together: piper dance; piper emote note)
-  · (sfx bell)
+  · (sfx coin)
   · (music stop)
   · (camera reset)
   · (lighting reset)
@@ -237,7 +237,7 @@ placed: player(11, 6)
 
 ### piper_friend · "Parsnip Ballad" · funny
 shared_activity · wave2_events.json · map Saloon · priority 7
-plays when: `hearts:piper>=3 && weekday:fri && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=3 && weekday:fri && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_friend`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
@@ -276,7 +276,7 @@ placed: player(11, 6)
 
 ### piper_courtship · "Piper Asks" · wholesome
 conversation · wave5_courtship.json · map Saloon · priority 8
-plays when: `hearts:piper>=8 && flag:event.piper_heart8 && !flag:partners.piper && !flag:choice.courtship.piper.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=8 && flag:event.piper_heart8 && !flag:partners.piper && !flag:choice.courtship.piper.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_courtship`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
@@ -322,7 +322,7 @@ placed: player(11, 6)
 
 ### piper_partners · "Piper, Together" · wholesome
 conversation · wave5_courtship.json · map Saloon · priority 8
-plays when: `hearts:piper>=10 && flag:choice.courtship.piper.yes && !flag:partners.piper && !weekday:tue && hour>=18 && hour<24`
+plays when: `(hearts:piper>=10 && flag:choice.courtship.piper.yes && !flag:partners.piper && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_partners`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
@@ -345,7 +345,7 @@ placed: player(11, 6)
 
 ### overheard_wren_piper_1 · "Sound Check" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.piper && hearts:wren>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.wren && flag:met.piper && hearts:wren>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_wren_piper_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), piper(26, 18)
   · (place wren to (24,18))
@@ -363,7 +363,7 @@ placed: wren(24, 18), piper(26, 18)
 
 ### overheard_wren_piper_2 · "The Shared Verse" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.piper && hearts:wren>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_1`
+plays when: `(flag:met.wren && flag:met.piper && hearts:wren>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_1) && !flag:event.overheard_wren_piper_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), piper(26, 18)
   · (place wren to (24,18))
@@ -381,7 +381,7 @@ placed: wren(24, 18), piper(26, 18)
 
 ### overheard_wren_piper_3 · "Closing Time" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.piper && hearts:wren>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_2`
+plays when: `(flag:met.wren && flag:met.piper && hearts:wren>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_2) && !flag:event.overheard_wren_piper_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), piper(26, 18)
   · (place wren to (24,18))
@@ -399,7 +399,7 @@ placed: wren(24, 18), piper(26, 18)
 
 ### overheard_wren_piper_4 · "The Headliner" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.wren && flag:met.piper && hearts:wren>=8 && hearts:piper>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_3`
+plays when: `(flag:met.wren && flag:met.piper && hearts:wren>=8 && hearts:piper>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_3) && !flag:event.overheard_wren_piper_4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: wren(24, 18), piper(26, 18)
   · (place wren to (24,18))
@@ -417,7 +417,7 @@ placed: wren(24, 18), piper(26, 18)
 
 ### overheard_piper_juno_1 · "Volume Control" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.piper && flag:met.juno && hearts:piper>=2 && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.piper && flag:met.juno && hearts:piper>=2 && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_piper_juno_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), juno(26, 18)
   · (place piper to (24,18))
@@ -435,7 +435,7 @@ placed: piper(24, 18), juno(26, 18)
 
 ### overheard_piper_juno_2 · "Forge Song" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.piper && flag:met.juno && hearts:piper>=4 && hearts:juno>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_piper_juno_1`
+plays when: `(flag:met.piper && flag:met.juno && hearts:piper>=4 && hearts:juno>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_piper_juno_1) && !flag:event.overheard_piper_juno_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), juno(26, 18)
   · (place piper to (24,18))
@@ -453,7 +453,7 @@ placed: piper(24, 18), juno(26, 18)
 
 ### overheard_piper_juno_3 · "Stage and Anvil" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.piper && flag:met.juno && hearts:piper>=6 && hearts:juno>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_piper_juno_2`
+plays when: `(flag:met.piper && flag:met.juno && hearts:piper>=6 && hearts:juno>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_piper_juno_2) && !flag:event.overheard_piper_juno_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), juno(26, 18)
   · (place piper to (24,18))
@@ -471,7 +471,7 @@ placed: piper(24, 18), juno(26, 18)
 
 ### overheard_hazel_piper_1 · "Pencil Rhymes" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.piper && hearts:hazel>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.hazel && flag:met.piper && hearts:hazel>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_hazel_piper_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), hazel(26, 18)
   · (place piper to (24,18))
@@ -489,7 +489,7 @@ placed: piper(24, 18), hazel(26, 18)
 
 ### overheard_hazel_piper_2 · "Eight Syllables" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.piper && hearts:hazel>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_1`
+plays when: `(flag:met.hazel && flag:met.piper && hearts:hazel>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_1) && !flag:event.overheard_hazel_piper_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), hazel(26, 18)
   · (place piper to (24,18))
@@ -507,7 +507,7 @@ placed: piper(24, 18), hazel(26, 18)
 
 ### overheard_hazel_piper_3 · "The Hidden Verse" · surprise
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.hazel && flag:met.piper && hearts:hazel>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_2 && flag:event.piper_heart8`
+plays when: `(flag:met.hazel && flag:met.piper && hearts:hazel>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_2 && flag:event.piper_heart8) && !flag:event.overheard_hazel_piper_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: piper(24, 18), hazel(26, 18)
   · (place piper to (24,18))

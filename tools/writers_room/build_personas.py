@@ -185,7 +185,7 @@ def frontmatter(slug: str, display: str) -> str:
         f"description: The voice of {display} for the writers' room. Use when a scene, line pool or table read needs "
         f"{display.split()[0] if slug != 'odalys' else 'Dr. Penn'}'s thoughts, reactions or dialogue. "
         "Speaks only as this villager; never writes another villager's lines.\n"
-        "tools: Read, Grep\n"
+        "tools: Read, Grep, Glob, Write, Edit, Bash, SendMessage\n"
         "model: inherit\n"
         "---\n"
     )
@@ -285,7 +285,7 @@ def edmund(table: dict[str, str]) -> str:
     return f"""---
 name: npc-edmund
 description: Edmund Fenn, the player's late great-uncle. Never present on screen. Use when a scene needs what villagers remember of him, a letter in his hand, or a check that a memory of Edmund fits what each villager would actually know.
-tools: Read, Grep
+tools: Read, Grep, Glob, Write, Edit, Bash, SendMessage
 model: inherit
 ---
 

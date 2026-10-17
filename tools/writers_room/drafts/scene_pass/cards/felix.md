@@ -4,7 +4,7 @@
 
 ### felix_heart2 · "Hold the Line" · funny
 event · npc_roster.json · map Beach · priority 6
-plays when: `hearts:felix>=2 && !weekday:thu && hour>=6 && hour<14`
+plays when: `(hearts:felix>=2 && !weekday:thu && hour>=6 && hour<14) && !flag:event.felix_heart2`
 beats may be ADDED or CUT in this scene
 placed: player(11, 10)
   · (felix faces down)
@@ -19,7 +19,7 @@ placed: player(11, 10)
 
 ### felix_heart5 · "The Lucky Charm" · wholesome
 event · npc_roster.json · map Beach · priority 7
-plays when: `hearts:felix>=5 && !weekday:thu && hour>=6 && hour<14 && flag:event.felix_heart2`
+plays when: `(hearts:felix>=5 && !weekday:thu && hour>=6 && hour<14 && flag:event.felix_heart2) && !flag:event.felix_heart5`
 beats may be ADDED or CUT in this scene
 placed: player(11, 10)
   · (felix faces down)
@@ -79,7 +79,7 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
 
 ### story_whistler_felix · "The Whistler" · funny
 event · storyline_events.json · map Village · priority 7
-plays when: `storyline:mystery_whistler.felix && hour>=18 && hour<21 && !festival.in:==0`
+plays when: `(storyline:mystery_whistler.felix && hour>=18 && hour<21 && !festival.in:==0) && !flag:event.story_whistler_felix`
 beats may be ADDED or CUT in this scene
 placed: felix(25, 18), player(25, 17)
   · (place felix to (25,18))
@@ -102,7 +102,7 @@ placed: felix(25, 18), player(25, 17)
 
 ### story_pumpkin_felix · "The Missing Pumpkin" · funny
 event · storyline_events2.json · map Village · priority 7
-plays when: `storyline:missing_pumpkin.felix && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(storyline:missing_pumpkin.felix && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_felix`
 beats may be ADDED or CUT in this scene
 placed: felix(25, 18), player(25, 17)
   · (place felix to (25,18))
@@ -159,7 +159,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
 
 ### felix_heart8 · "The Big One" · funny
 conversation · wave3_events.json · map Beach · priority 7
-plays when: `hearts:felix>=8 && flag:event.felix_heart5 && !weekday:thu && hour>=6 && hour<14`
+plays when: `(hearts:felix>=8 && flag:event.felix_heart5 && !weekday:thu && hour>=6 && hour<14) && !flag:event.felix_heart8`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
@@ -206,7 +206,7 @@ placed: player(11, 10)
 
 ### felix_courtship · "Felix Asks" · wholesome
 conversation · wave5_courtship.json · map Beach · priority 8
-plays when: `hearts:felix>=8 && flag:event.felix_heart8 && !flag:partners.felix && !flag:choice.courtship.felix.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:thu && hour>=6 && hour<14`
+plays when: `(hearts:felix>=8 && flag:event.felix_heart8 && !flag:partners.felix && !flag:choice.courtship.felix.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:thu && hour>=6 && hour<14) && !flag:event.felix_courtship`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
@@ -252,7 +252,7 @@ placed: player(11, 10)
 
 ### felix_partners · "Felix, Together" · wholesome
 conversation_prop · wave5_courtship.json · map Beach · priority 8
-plays when: `hearts:felix>=10 && flag:choice.courtship.felix.yes && !flag:partners.felix && !weekday:thu && hour>=6 && hour<14`
+plays when: `(hearts:felix>=10 && flag:choice.courtship.felix.yes && !flag:partners.felix && !weekday:thu && hour>=6 && hour<14) && !flag:event.felix_partners`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
@@ -277,7 +277,7 @@ placed: player(11, 10)
 
 ### overheard_tilda_felix_1 · "Fish Prices" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=2 && hearts:felix>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=2 && hearts:felix>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_felix_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: tilda(24, 18), felix(26, 18)
   · (place tilda to (24,18))
@@ -295,7 +295,7 @@ placed: tilda(24, 18), felix(26, 18)
 
 ### overheard_tilda_felix_2 · "The Oldest Friend" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=4 && hearts:felix>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_1`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=4 && hearts:felix>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_1) && !flag:event.overheard_tilda_felix_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), tilda(26, 18)
   · (place felix to (24,18))
@@ -313,7 +313,7 @@ placed: felix(24, 18), tilda(26, 18)
 
 ### overheard_tilda_felix_3 · "Slate and Line" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=6 && hearts:felix>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_2`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=6 && hearts:felix>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_2) && !flag:event.overheard_tilda_felix_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), tilda(26, 18)
   · (place felix to (24,18))
@@ -331,7 +331,7 @@ placed: felix(24, 18), tilda(26, 18)
 
 ### overheard_tilda_felix_4 · "The Last Pie" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.tilda && flag:met.felix && hearts:tilda>=8 && hearts:felix>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_3`
+plays when: `(flag:met.tilda && flag:met.felix && hearts:tilda>=8 && hearts:felix>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_3) && !flag:event.overheard_tilda_felix_4`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), tilda(26, 18)
   · (place felix to (24,18))
@@ -349,7 +349,7 @@ placed: felix(24, 18), tilda(26, 18)
 
 ### overheard_felix_elara_1 · "The Scarf Net" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.felix && flag:met.elara && hearts:felix>=2 && hearts:elara>=2 && hour>=9 && hour<19 && !festival.in:==0`
+plays when: `(flag:met.felix && flag:met.elara && hearts:felix>=2 && hearts:elara>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_felix_elara_1`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), elara(26, 18)
   · (place felix to (24,18))
@@ -367,7 +367,7 @@ placed: felix(24, 18), elara(26, 18)
 
 ### overheard_felix_elara_2 · "Big Fish, Big Scarf" · funny
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.felix && flag:met.elara && hearts:felix>=4 && hearts:elara>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_1`
+plays when: `(flag:met.felix && flag:met.elara && hearts:felix>=4 && hearts:elara>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_1) && !flag:event.overheard_felix_elara_2`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), elara(26, 18)
   · (place felix to (24,18))
@@ -385,7 +385,7 @@ placed: felix(24, 18), elara(26, 18)
 
 ### overheard_felix_elara_3 · "Sunrise Knitting" · wholesome
 overheard · wave6_overheard.json · map Village · priority 5
-plays when: `flag:met.felix && flag:met.elara && hearts:felix>=6 && hearts:elara>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_2`
+plays when: `(flag:met.felix && flag:met.elara && hearts:felix>=6 && hearts:elara>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_2) && !flag:event.overheard_felix_elara_3`
 text-only scene: rewrite lines, do not add or cut beats
 placed: felix(24, 18), elara(26, 18)
   · (place felix to (24,18))
