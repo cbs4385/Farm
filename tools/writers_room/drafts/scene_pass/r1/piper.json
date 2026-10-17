@@ -220,6 +220,182 @@
   "event.piper_friend.wrap": {
    "text": "That's a chorus! A bad one. Mine. Come back next Friday. Verse five is about you.",
    "why": "promise with a day"
+  },
+  "event.piper_birthday.intro": {
+   "text": "My birthday! I wrote myself a song. It's a very modest masterpiece. Front row, please.",
+   "why": "vain, and happy about it"
+  },
+  "dlg.piper.birthday.c0": {
+   "text": "Wish her a happy birthday.",
+   "why": "kind"
+  },
+  "dlg.piper.birthday.c1": {
+   "text": "Sing her song back to her.",
+   "why": "bold"
+  },
+  "dlg.piper.birthday.c2": {
+   "text": "Ask what the next song is.",
+   "why": "playful"
+  },
+  "dlg.piper.birthday.r0": {
+   "text": "Happy birthday to me, from you! That's a chorus. It's going in the encore.",
+   "why": "turns the wish into a lyric"
+  },
+  "dlg.piper.birthday.r1": {
+   "text": "You sang my song! Back to me! ...I'm keeping your key. It's mine now.",
+   "why": "a taste of her real want, never mocks singing"
+  },
+  "dlg.piper.birthday.r2": {
+   "text": "The next one's yours. It isn't finished. It's a birthday present on a musician's schedule.",
+   "why": "promise with a wink"
+  },
+  "event.piper_birthday.after": {
+   "text": "{if choice:bday.piper.wish}It's in the encore now. It rhymes with 'year', if you squint very hard.{else}{if choice:bday.piper.sing}My song, your voice, and the room clapped for you. I'm only a tiny bit jealous.{else}A song's coming with your name in it. Don't ask when. It will rhyme. Eventually.{/if}{/if}",
+   "why": "each ends on a deflating last word"
+  },
+  "event.piper_courtship.intro": {
+   "text": "So. I wrote a love song and a coward's song. This is the coward's. Would you court me? It scans if you say yes.",
+   "why": "the ask, hidden in a joke"
+  },
+  "dlg.piper.courtship.c1": {
+   "text": "I'd rather we stay friends.",
+   "why": "honest"
+  },
+  "dlg.piper.courtship.r0": {
+   "text": "Yes! Then the love song's yours. It rhymes! It has a bridge! I'm going to be insufferable.",
+   "why": "joy, self-aware"
+  },
+  "dlg.piper.courtship.r1": {
+   "text": "Friends. That's a good song too. I'll still play your requests first. Thanks for the honest note.",
+   "why": "graceful, keeps the bond"
+  },
+  "dlg.piper.courtship.r2": {
+   "text": "A verse or two. Fair. It's a long song. I'll leave the last line open.",
+   "why": "patient, musical"
+  },
+  "event.piper_courtship.after": {
+   "text": "{if flag:choice.courtship.piper.yes}A love song, rhymed and bridged. You'll hear it Friday. It's unbearable. You'll love it.{else}{if flag:choice.courtship.piper.friends}Friends. The best duet going. Wren will still charge us both for the good stool.{else}A verse or two, then. Take your time. I'll hum while I wait. Quietly. Mostly.{/if}{/if}",
+   "why": "each branch closes warm with a tail"
+  },
+  "event.piper_courtship2.intro": {
+   "text": "Me again. I finished the coward's song. It has a second verse now. Same question. Still scans if you say yes.",
+   "why": "the second ask, acknowledging the wait"
+  },
+  "event.piper_courtship2.after": {
+   "text": "{if flag:choice.courtship.piper.yes}Finally! That love song's been waiting in the case for ages. You'll hear it Friday.{else}{if flag:choice.courtship.piper.friends}Friends, then. Good. Some songs are better as duets. I'm keeping the second verse anyway.{else}Still a verse or two? Then the last line stays blank. Some songs end better late.{/if}{/if}",
+   "why": "differs from the first ask's close"
+  },
+  "event.piper_partners.intro": {
+   "text": "Hey, you. Front row. I wrote you a song, and it's the first one I haven't hidden. Clap anyway. Gently.",
+   "why": "open, then a joke"
+  },
+  "dlg.piper.partners.c0": {
+   "text": "Hear the whole song.",
+   "why": "attentive"
+  },
+  "dlg.piper.partners.c1": {
+   "text": "Sing the chorus with her.",
+   "why": "bold"
+  },
+  "dlg.piper.partners.c2": {
+   "text": "Walk her home after the set.",
+   "why": "tender"
+  },
+  "dlg.piper.partners.r0": {
+   "text": "Every note? Oh, you star. If I wobble on the high part, blame the lamps.",
+   "why": "a tease aimed at the lights"
+  },
+  "dlg.piper.partners.r1": {
+   "text": "A duet! You know the words! ...I wrote them yesterday. How do you know the words?",
+   "why": "delighted confusion"
+  },
+  "dlg.piper.partners.r2": {
+   "text": "A walk home after. The night's quiet. I'm loud. Let's see who wins.",
+   "why": "her fear turned playful"
+  },
+  "event.piper_partners.after": {
+   "text": "{if choice:courtship.piper.song}Your name's in the bridge. The bridge is the best part. That's not an accident.{else}{if choice:courtship.piper.duet}We sang the chorus together, and the room joined in. I nearly forgot the bridge.{else}A walk home under the stars. I hummed. You hummed back. Best accompaniment I've ever had.{/if}{/if}",
+   "why": "quiet payoff, truest word last"
+  },
+  "event.overheard_wren_piper_1.l2": {
+   "text": "I'm not flat, the stool's tilted! It's a stage stool, Wren. It has opinions!",
+   "why": "blames furniture"
+  },
+  "event.overheard_wren_piper_1.l4": {
+   "text": "Fine. From the top. But I'm taking the bridge up a key, out of spite.",
+   "why": "last word, petty and fond"
+  },
+  "event.overheard_wren_piper_2.l2": {
+   "text": "Wren! You wrote a verse? Read it! No, sing it! I'll pretend I'm not crying.",
+   "why": "thrilled for a friend, never mocks"
+  },
+  "event.overheard_wren_piper_2.l4": {
+   "text": "It's perfect. I'm stealing it for my next opening. You get credit. Tiny letters. Huge feelings.",
+   "why": "steals with love"
+  },
+  "event.overheard_wren_piper_3.l2": {
+   "text": "Soft, I can do. No words. Just a hum for you, the stool and the last of the sun.",
+   "why": "gentle, not filling silence"
+  },
+  "event.overheard_wren_piper_3.l4": {
+   "text": "Pencil it is. Hazel will only fix the scansion anyway. Save me the last glass.",
+   "why": "callback to Hazel's margins"
+  },
+  "event.overheard_wren_piper_4.l2": {
+   "text": "Headline? Me? Your stage? Wren! I'll cry! Then write a song about crying!",
+   "why": "pure joy, rhythm"
+  },
+  "event.overheard_wren_piper_4.l4": {
+   "text": "Deal! ...Actually, make it a duet. Your stage, your song too.",
+   "why": "shares the spotlight"
+  },
+  "event.overheard_piper_juno_1.l1": {
+   "text": "Juno! Hammer softer! My ballad's drowning!",
+   "why": "short, loud"
+  },
+  "event.overheard_piper_juno_1.l3": {
+   "text": "I felt it in my teeth! Through the whole stage!",
+   "why": "escalates"
+  },
+  "event.overheard_piper_juno_2.l1": {
+   "text": "Juno! I wrote a song to the rhythm of your hammer! Don't stop!",
+   "why": "turns rivalry into a duet"
+  },
+  "event.overheard_piper_juno_2.l3": {
+   "text": "One, two, clang! That's a chorus!",
+   "why": "catchphrase on the payoff"
+  },
+  "event.overheard_piper_juno_3.l1": {
+   "text": "Juno, did you build me a tiny stage? Out of a crate?",
+   "why": "touched surprise"
+  },
+  "event.overheard_piper_juno_3.l3": {
+   "text": "Then it gets my best set! Front row's yours, Juno. Sit!",
+   "why": "gives Juno her own phrase back"
+  },
+  "event.overheard_hazel_piper_1.l1": {
+   "text": "Hazel! Someone's fixing the rhymes in my songbook. In very neat pencil.",
+   "why": "suspects with delight"
+  },
+  "event.overheard_hazel_piper_1.l3": {
+   "text": "It was you! 'Moon' doesn't rhyme with 'spoon' now. It rhymes with 'soon'. It's better!",
+   "why": "caught, and grateful"
+  },
+  "event.overheard_hazel_piper_2.l1": {
+   "text": "Help. My new chorus has nine syllables, and the tune only has eight.",
+   "why": "a real problem, specific"
+  },
+  "event.overheard_hazel_piper_2.l3": {
+   "text": "...Oh! That's it! Where did you learn songs, Hazel?",
+   "why": "genuine curiosity"
+  },
+  "event.overheard_hazel_piper_3.l1": {
+   "text": "Hazel. Write me one verse. Just one. Your words, my tune.",
+   "why": "the direct ask"
+  },
+  "event.overheard_hazel_piper_3.l3": {
+   "text": "That's where it came from? It's the best verse I own! It should have your name on it.",
+   "why": "stunned, generous"
   }
  },
  "adds": [
@@ -257,7 +433,18 @@
   "piper_heart4": "Why is Piper writing down the player's request?",
   "piper_heart6": "Will the village ever sing one of Piper's songs without her?",
   "piper_heart8": "Will the saloon sing the new song back without Piper?",
-  "piper_friend": "What will verse five of the parsnip ballad say about the player?"
+  "piper_friend": "What will verse five of the parsnip ballad say about the player?",
+  "piper_birthday": "When will the song with the player's name in it be finished?",
+  "piper_courtship": "What does the love song sound like, and what happens Friday?",
+  "piper_courtship2": "Will Piper's last line ever get written?",
+  "overheard_wren_piper_1": "Does the good stool really tilt, or is Piper flat?",
+  "overheard_wren_piper_2": "What song will open with Wren's verse?",
+  "overheard_wren_piper_3": "Why is Hazel always the one fixing Piper's lines?",
+  "overheard_wren_piper_4": "What will Piper and Wren sing together next month?"
  },
- "notes": []
+ "notes": [
+  "dlg.piper.courtship.* keys are shared by piper_courtship and piper_courtship2; rewritten once, they must work for both (they do).",
+  "event.piper_heart4.after now says she is writing the request down for later: heart 10 should honor the request flag (choice.request.*) if the engine supports it; currently piper_heart10 only branches on chorus.",
+  "event.hall_dance.5 (the chorus) kept as is; it already matches the heart 8 choices. piper_heart5 now plants the four notes thread; Director may want Edmund topics to pick it up."
+ ]
 }

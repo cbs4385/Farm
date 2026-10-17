@@ -220,6 +220,186 @@
     "event.juno_heart10.thanks": {
       "text": "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Once! Next door has an empty sign hook.{else}Bram saw the mark and said 'Hm.' I'm framing it. The 'Hm.' Next door has an empty sign hook.{/if}",
       "why": "Bram's response, then the next-door thread"
+    },
+    "event.juno_friend.intro": {
+      "text": "Okay, okay, okay, quick! Come see the swimming pool. It's a bucket. Wren named it. I made the sign.",
+      "why": "tightened"
+    },
+    "event.juno_friend.doing": {
+      "text": "See? 'Swimming Pool (Official)'. Quench tried it once. Quench has opinions now.",
+      "why": "calls back the forge cat"
+    },
+    "event.juno_friend.wrap": {
+      "text": "Best pool in Wetherell. Only pool in Wetherell. Still a bucket. Thursdays are swim day, if you want a lane.",
+      "why": "invites the player back on a named day"
+    },
+    "event.juno_birthday.intro": {
+      "text": "Okay, okay, okay, it's my birthday and I'm not nervous! I labeled the cake 'Cake (Birthday)', in case of confusion. Come in!",
+      "why": "the label as nerves"
+    },
+    "dlg.juno.birthday.c1": {
+      "text": "'Cake (Birthday)'? Really?",
+      "why": "playful tease in the player's voice"
+    },
+    "dlg.juno.birthday.c2": {
+      "text": "Slip her a tiny gift.",
+      "why": "shy"
+    },
+    "dlg.juno.birthday.r0": {
+      "text": "Thank you! I'm framing that. The words. Don't tell Bram I frame words.",
+      "why": "absurd reaction to a simple wish"
+    },
+    "dlg.juno.birthday.r1": {
+      "text": "It's a perfectly good label! ...Okay, it's too good. I'm going red. That's the forge.",
+      "why": "defends, then deflates"
+    },
+    "dlg.juno.birthday.r2": {
+      "text": "A gift! For me! On purpose! I'm going to cry on a clasp. Again.",
+      "why": "callback to crying on a clasp"
+    },
+    "event.juno_birthday.after": {
+      "text": "{if choice:bday.juno.wish}It's framed now, next to the first clasp that ever closed. Click is very proud.{else}{if choice:bday.juno.tease}The cake label stays. Bram added a second one underneath. It says 'Eat'.{else}A gift, from you, on my birthday. It's on the anvil. Everything else in here orbits it now.{/if}{/if}",
+      "why": "branches kept; wish calls back the clasp named Click"
+    },
+    "event.juno_courtship.intro": {
+      "text": "Okay, okay, okay. I made a list. 'Reasons I Like the Farmer.' Forty items. I'd read it, but I'd faint. So. Would you court me?",
+      "why": "list as courage"
+    },
+    "dlg.juno.courtship.0": {
+      "text": "My ears are hot. Say something before I label them.",
+      "why": "nerves in her bit instead of a bare question"
+    },
+    "dlg.juno.courtship.c0": {
+      "text": "Yes! Read me the list.",
+      "why": "warm yes; works in both asks"
+    },
+    "dlg.juno.courtship.r0": {
+      "text": "Yes? YES. Okay. I need a minute, and also a hammer. Courting! You and me!",
+      "why": "joy, run-on"
+    },
+    "dlg.juno.courtship.r1": {
+      "text": "Friends! Oh. Okay! Good! The best kind! ...I'll label it 'Friends (Very Good)'. Thank you for saying it straight.",
+      "why": "takes it bravely, label as cover"
+    },
+    "dlg.juno.courtship.r2": {
+      "text": "Think! Yes! Take your time! I'll be right here, polishing one clasp very slowly, not watching the door.",
+      "why": "watching the door anyway"
+    },
+    "event.juno_courtship.after": {
+      "text": "{if flag:choice.courtship.juno.yes}Courting! Bram says I'm vibrating. I am. The tongs are vibrating. Thank you!{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. I'll start item forty-one. It's 'patient'.{/if}{/if}",
+      "why": "branches kept"
+    },
+    "event.juno_courtship2.intro": {
+      "text": "Okay, okay, okay. The list has forty-one items now. Forty-one is 'patient'. I've been so patient! So. Would you court me?",
+      "why": "asks again, calling back item forty-one"
+    },
+    "event.juno_courtship2.after": {
+      "text": "{if flag:choice.courtship.juno.yes}Courting! Finally! Bram says I'm vibrating. I am. Thank you!{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. Item forty-two is 'still patient'. It's underlined.{/if}{/if}",
+      "why": "second ask has its own later-branch"
+    },
+    "event.juno_partners.intro": {
+      "text": "Hi! Hi, hi! I made you something. Four hours, zero nerves. It's a tiny anvil for your desk. It does nothing!",
+      "why": "gift, funniest word last"
+    },
+    "dlg.juno.partners.0": {
+      "text": "Okay, okay, okay. Forge is banked, evening's free. What are we doing?",
+      "why": "craft word"
+    },
+    "dlg.juno.partners.r0": {
+      "text": "It's perfect, right? It rings if you tap it with a pin. I tested it twice. Once on Bram.",
+      "why": "tightened"
+    },
+    "dlg.juno.partners.r1": {
+      "text": "The beach! With sand! I'll bring a clasp for luck, and a sandwich. Not for the clasp.",
+      "why": "kept joke, cleaner"
+    },
+    "dlg.juno.partners.r2": {
+      "text": "Okay. Yes. Hands. I'm very warm. That's the forge. Definitely the forge. Don't let go.",
+      "why": "repetition as fluster"
+    },
+    "event.juno_partners.after": {
+      "text": "{if choice:courtship.juno.anvil}The tiny anvil's on my bench now. Most important tool I own. Still does nothing. Perfectly.{else}{if choice:courtship.juno.beach}The beach was perfect. I got sand in a clasp. It crunches now. I'm keeping it.{else}Hands, at the forge. Bram pretended not to see. Then he smiled at the coal. I saw.{/if}{/if}",
+      "why": "branches kept; Bram's quiet seeing"
+    },
+    "event.overheard_juno_bram_1.l1": {
+      "text": "Bram! I labeled the tongs! 'Tongs (Left)' and 'Tongs (Right)'. Same tongs.",
+      "why": "tightened"
+    },
+    "event.overheard_juno_bram_1.l3": {
+      "text": "That's what labels are for! So everyone else knows too!",
+      "why": "sets up Bram's hat reveal"
+    },
+    "event.overheard_juno_bram_2.l1": {
+      "text": "Bram. Did you put a second label on my cake? It just says 'Eat'.",
+      "why": "callback to the birthday"
+    },
+    "event.overheard_juno_bram_2.l3": {
+      "text": "That's the nicest label anyone's ever made me, and I make all the labels!",
+      "why": "the claim earns its tail"
+    },
+    "event.overheard_juno_bram_3.l1": {
+      "text": "Bram! I'm on your bench again. I fixed its wobbly leg myself. The joint's crooked. Don't look.",
+      "why": "makes Bram's 'best joint' reply make sense"
+    },
+    "event.overheard_juno_bram_3.l3": {
+      "text": "Wait. Was that a compliment? Bram. Was that a compliment? I need a minute.",
+      "why": "repetition as shock"
+    },
+    "event.overheard_juno_bram_4.l1": {
+      "text": "Bram. Someday I'll have my own forge. A tiny one. Maybe next door.",
+      "why": "names the thread"
+    },
+    "event.overheard_juno_bram_4.l3": {
+      "text": "You would? You'd sit on my bench? Even the crooked one?",
+      "why": "calls back the crooked joint"
+    },
+    "event.overheard_piper_juno_1.l2": {
+      "text": "Quieter? Piper, it's a forge! You're supposed to feel it!",
+      "why": "tightened"
+    },
+    "event.overheard_piper_juno_1.l4": {
+      "text": "Then the anvil has a fan! Tell your teeth I said thanks!",
+      "why": "flips the complaint"
+    },
+    "event.overheard_piper_juno_2.l2": {
+      "text": "You did? Play it! No, wait, I'll keep time! Okay, go!",
+      "why": "interrupts herself"
+    },
+    "event.overheard_piper_juno_2.l4": {
+      "text": "That's a hit! I'm labeling it 'Song (Forge)' and hammering it all week!",
+      "why": "replaces slang; label bit"
+    },
+    "event.overheard_piper_juno_3.l2": {
+      "text": "It says 'Stage (Piper)'! Official! Play on it! I sanded the splinters!",
+      "why": "practical care in the brag"
+    },
+    "event.overheard_piper_juno_3.l4": {
+      "text": "Okay! No, I'll hammer! No, I'll watch! Both! Always both!",
+      "why": "kept rhythm"
+    },
+    "event.overheard_tilda_juno_1.l1": {
+      "text": "Tilda! Slate payment! Three clasps and one hinge with a smiley face stamped on.",
+      "why": "specific payment"
+    },
+    "event.overheard_tilda_juno_1.l3": {
+      "text": "Is the smiley face worth extra? It took me an hour.",
+      "why": "effort makes Tilda's reply land"
+    },
+    "event.overheard_tilda_juno_2.l2": {
+      "text": "I still can't! I stand on the flour sack now.",
+      "why": "kept"
+    },
+    "event.overheard_tilda_juno_2.l4": {
+      "text": "Years? Tilda, that's going on my slate. Under 'Owed (Forever)'.",
+      "why": "turns Tilda's slate into her label"
+    },
+    "event.overheard_tilda_juno_3.l1": {
+      "text": "Tilda... if I ever had my own forge, a small one, would you still feed me?",
+      "why": "tightened"
+    },
+    "event.overheard_tilda_juno_3.l3": {
+      "text": "In Wetherell. Definitely. Next door to Bram. Probably. Okay, definitely.",
+      "why": "talks herself into it"
     }
   },
   "adds": [
@@ -257,7 +437,25 @@
     "juno_heart4": "Juno plans to label the whole village next, starting with the hall roof.",
     "juno_heart6": "When will Juno show Bram the crooked horseshoe?",
     "juno_heart8": "Bram is holding her horseshoe and still hasn't said the word she wants.",
-    "juno_heart10": "The empty sign hook next door is waiting for Juno's mark."
+    "juno_heart10": "The empty sign hook next door is waiting for Juno's mark.",
+    "juno_friend": "Thursday is swim day at the bucket; will the player claim a lane?",
+    "juno_birthday": "Bram quietly added his own label to her cake.",
+    "juno_courtship": "Item forty-one on her list is 'patient'; she is waiting for an answer.",
+    "juno_courtship2": "Her list keeps growing while she waits.",
+    "juno_partners": "Bram saw, and said nothing; what will he say to her later?",
+    "overheard_juno_bram_1": "Someone has put a label on Bram's hat.",
+    "overheard_juno_bram_2": "Bram is quietly learning her labels.",
+    "overheard_juno_bram_3": "Bram praised her work out loud; she wants more of it.",
+    "overheard_juno_bram_4": "Juno's tiny forge, next door, with Bram on the bench.",
+    "overheard_piper_juno_1": "Piper's ballad versus the anvil; who wins next?",
+    "overheard_piper_juno_2": "A forge song exists now; will the village learn it?",
+    "overheard_piper_juno_3": "Piper has a stage of her own now."
   },
-  "notes": []
+  "notes": [
+    "juno_heart8: card intro said 'Tonight I show it to Bram' but the scene plays 9-17 with Bram present; I made it 'now'. Bram's heart 8 should match (bible calls it 'the same night').",
+    "story_notes_juno.after: new fact that Bram keeps six of her notes in his apron and thinks they're from Tilda; Bram's writer should know (or veto).",
+    "overheard_juno_bram_3.l1: changed 'carved a small mistake' to fixing the bench's wobbly leg so Bram's 'Best joint in the shop' makes sense.",
+    "dlg.juno.courtship.* keys are shared by juno_courtship and juno_courtship2; c0 changed from 'Forty items is a lot' to 'Read me the list' so it fits the second ask (forty-one items).",
+    "next_door and juno_heart10 both point at the empty shop next door (measured bench, empty sign hook): one consistent thread."
+  ]
 }
