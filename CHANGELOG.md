@@ -2,7 +2,7 @@
 
 ## 0.7.5 (2026-10-16)
 
-The Options screen rebuilt for controller and keyboard players, and the deep mine and the ritual dressed with the Crawling Depths art. Verified by automation only (filtered EditMode and PlayMode runs; the full suites are pending); nobody has played it.
+The Options screen rebuilt for controller and keyboard players, the village square and the village redone, driftwood on the beach, and the deep mine and the ritual dressed with the Crawling Depths art. Verified by automation (the full EditMode and PlayMode suites pass); no person has played it.
 
 - **Options is a list of categories and one page at a time.** Sound, Display, Accessibility, Dialogue and text, Gameplay, Keyboard and mouse, Controller, Content and language. The page you left is the page you come back to.
 - **The cursor can no longer go astray.** Every control is a fixed stop: up and down go to the row above or below and stop at the ends, the Back button is out of the way (B or Esc closes), and the focused row is lit, kept in view with room round it, and counted in the footer. The right stick scrolls, and then moves the cursor onto a row that is showing.
@@ -11,6 +11,11 @@ The Options screen rebuilt for controller and keyboard players, and the deep min
 - **Waiting for a key or a controller button gives up after five seconds,** so a player with only a pad is never stuck in it (any pad button can be the new binding, so B could not be the way out).
 - **Horror layer (on only).** The mine from floor 30 down is dressed with veins, urns, columns and cracked floor, and at full intensity with eyes, statues and arcs, more of it the deeper the floor and the higher the dread; the relic chest on floor 30 stands in a shrine. At full intensity six tentacles rise round the altar on a ritual night, the one of the turn reaching for the offering. Nothing at off.
 - **New furniture icons** for the armchair, bench, chair, clock, dining table, lamp, painting, rug and vase.
+- **A real village square.** A cobbled plaza where the road crosses the lane, with a large fountain in the middle that spits water, inside a ring of paving stones, the clock tower to the south-east, benches and the notice board off the cobbles, four lamp posts the same distance from the fountain, and the roads widening and blending into the cobbles instead of meeting them in hard corners. The festivals' dance floor, maypole, feast tables and judging table, and some villagers' places, moved to fit it.
+- **The village looks different.** Trees stand in copses instead of diagonal rows, the brown patches on the green are grass, and the little flower boxes, planters, barrels, crates and wheelbarrow that were only things to walk round are gone.
+- **Every trail is brown.** The pale trail of the farm road, the forest and the village roads is the brown of the dirt trail on every map.
+- **Driftwood and rocks on the beach can be picked up.** A random amount of driftwood (2 to 7 pieces) is left each day on the sand between the water and the fish stall: cut it with an axe for wood. Rocks you can break with the pickaxe are on the sand too; the pebbles and driftwood that were only drawn there are gone, and everything has a name when you point at it.
+- **Torch and street lamp light reaches twice as far** (the torch ten tiles, a street lamp nine).
 
 ## 0.7.4 (2026-10-16)
 
