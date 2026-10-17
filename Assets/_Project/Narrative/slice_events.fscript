@@ -1,26 +1,26 @@
 # Heart events and friend-day scenes for the slice villagers (docs/narrative/EVENTS.md). Compiled to zz_fs_slice_events.json.
 
 dialogue wren.openmic
-n0 wren: Well? Be honest. A performer needs one honest face in the crowd.
-  ? Cheer like a whole crowd. => r0 | friend:wren,10 | flag:choice.wren.openmic.cheer
-  ? Heckle her, gently. => r1 | friend:wren,10 | flag:choice.wren.openmic.heckle
+n0 wren: Well? Be honest. A performer needs one honest face in the crowd. Today you're the whole crowd.
+  ? Cheer like forty people. => r0 | friend:wren,10 | flag:choice.wren.openmic.cheer
+  ? Heckle, but kindly. => r1 | friend:wren,10 | flag:choice.wren.openmic.heckle
   ? Hide behind the menu. => r2 | flag:choice.wren.openmic.hide
-r0 wren: Oh, I could live on that. Do it again, but louder.
+r0 wren: Oh, I could live on that. Do it again. Louder. Pretend the porch is full.
   expr happy
-r1 wren: A heckler! At last I'm somebody. I'll put you in the second verse.
+r1 wren: A heckler! At last, I'm a real act. You're going in the second verse.
   expr happy
-r2 wren: Ha! Fair. I'd hide too. Come out, though. The second verse is better.
+r2 wren: Fair. I'd hide too. Come out, though. The second verse is worse, and you'll want to see it.
 
 
 dialogue wren.kitchen
-n0 wren: One more pinch of something. Pepper, cider, or leave it plain?
+n0 wren: It needs one more thing. Pepper, a splash of cider, or do we leave it alone and back away slowly?
   ? Pepper. Be brave. => r0 | friend:wren,10 | flag:choice.wren.kitchen.pepper
-  ? Cider. Go soft. => r1 | friend:wren,10 | flag:choice.wren.kitchen.cider
+  ? A splash of cider. => r1 | friend:wren,10 | flag:choice.wren.kitchen.cider
   ? Plain. It's already good. => r2 | friend:wren,10 | flag:choice.wren.kitchen.plain
-r0 wren: Brave it is! If I weep, blame the pepper, not me.
+r0 wren: Brave it is! If I cry, blame the pepper. Officially, it was always the pepper.
   emote sweat
-r1 wren: Cider. Sweet and a little sly. That's very you.
-r2 wren: Plain. Oh. You think it's already good? Nobody says that. I'm keeping you.
+r1 wren: Cider. Sweet, with a little mischief in it. Like most of my regulars.
+r2 wren: Plain? You think it's already good? Nobody has ever said that about my cooking. I'm keeping you.
   expr happy
 
 
@@ -28,37 +28,37 @@ dialogue wren.bag
 n0 wren: There's a bag under my bar. Packed since the day I arrived. I haven't opened it in years, and I haven't unpacked it either.
   expr thinking
   next n1
-n1 wren: I came here to rest for a season. That was eight years ago. Tell me: should I go, stay, or just leave it under the bar?
+n1 wren: I came here to rest for one season. That was eight years ago. So tell me. Go, stay, or leave it under there?
   ? Go. See what's out there. => r0 | friend:wren,10 | flag:choice.wren.bag.go
   ? Stay. We'd all miss you. => r1 | friend:wren,10 | flag:choice.wren.bag.stay
-  ? Just listen to her. => r2 | friend:wren,15 | flag:choice.wren.bag.listen
-r0 wren: Go. Just like that. You say it so plainly. I might. Someday. With a very good map.
-r1 wren: Stay. Oh. That's a nicer word than I expected.
-r2 wren: ...You didn't tell me what to do. That's the kindest thing anyone has done. Thank you.
+  ? Say nothing. Just listen. => r2 | friend:wren,15 | flag:choice.wren.bag.listen
+r0 wren: Go. Just like that. You say it like it's easy. ...Maybe it is. I'd want a very good map.
+r1 wren: Stay. Oh. That's a nicer word than I expected. I'll keep it in the bag, next to the socks.
+r2 wren: ...You didn't tell me what to do. Everyone has advice for the one behind the bar. You just let me talk.
   expr sad
 
 
 dialogue hazel.swap
-n0 hazel: What would you swap? (I'm not choosing for you.)
-  ? Your favorite book. => r0 | friend:hazel,10 | flag:choice.hazel.swap.book
-  ? A recipe card. => r1 | friend:hazel,10 | flag:choice.hazel.swap.recipe
-  ? I don't read much. => r2 | friend:hazel,10 | flag:choice.hazel.swap.honest
-r0 hazel: Oh. (She holds it with both hands.) I'll read it twice.
+n0 hazel: What would you lend me? (I'm not choosing for you. I'm leaning slightly.)
+  ? The book I love best. => r0 | friend:hazel,10 | flag:choice.hazel.swap.book
+  ? A recipe card, if that counts. => r1 | friend:hazel,10 | flag:choice.hazel.swap.recipe
+  ? Honestly? I don't read much. => r2 | friend:hazel,10 | flag:choice.hazel.swap.honest
+r0 hazel: Oh. (It's a both-hands book.) I'll read it twice. Once for the story, once for you.
   expr happy
-r1 hazel: A recipe. (A book without a spine.) I like that.
-r2 hazel: Thank you for saying so. (Most people pretend.) I'll pick something short.
+r1 hazel: A recipe. (A book without a spine.) I'll shelve it under Fiction until I bake it.
+r2 hazel: Thank you for saying so. (Most people pretend.) I'll find something short. There's a heron in it.
 
 
 dialogue hazel.hiding
-n0 hazel: I hide in the stacks when it's loud. (It's quieter between the books.) Is that strange?
+n0 hazel: The festival wants someone to read aloud. Ione said my name. (I've been back here since ten.) Is that strange?
   expr thinking
-  ? Ask what she hears in the quiet. => r0 | friend:hazel,10 | flag:choice.hazel.hiding.ask
-  ? Sit with her in silence. => r1 | friend:hazel,15 | flag:choice.hazel.hiding.wait
-  ? Joke about hiding in a book. => r2 | friend:hazel,5 | flag:choice.hazel.hiding.joke
-r0 hazel: Pages turning, far away. (Someone else's thoughts, stored.) It's company.
-r1 hazel: ...Yes. This. (Thank you.)
+  ? Ask what she hears back here. => r0 | friend:hazel,10 | flag:choice.hazel.hiding.ask
+  ? Sit down beside her, quietly. => r1 | friend:hazel,15 | flag:choice.hazel.hiding.wait
+  ? Joke that she could hide in a book. => r2 | friend:hazel,5 | flag:choice.hazel.hiding.joke
+r0 hazel: Pages turning, two rooms away. Other people's thoughts, kept. (It never asks me to read aloud.)
+r1 hazel: ...Oh. (Nobody's ever sat down. They usually say 'there you are'.)
   expr happy
-r2 hazel: Ha. (A small one.) You're not wrong.
+r2 hazel: Ha. (A small one.) I tried that once. The book was too thin.
 
 
 dialogue hazel.rehearsal
@@ -67,43 +67,43 @@ n0 hazel: ...and so the lamp burned lower, and nobody minded. (That's the end.) 
   ? It was lovely. => r0 | friend:hazel,10 | flag:choice.hazel.rehearsal.praise
   ? The middle dragged a little. => r1 | friend:hazel,15 | flag:choice.hazel.rehearsal.critique
   ? Laugh gently at the lamp. => r2 | friend:hazel,10 | flag:choice.hazel.rehearsal.laugh
-r0 hazel: Lovely. (I'll hold on to that word.) Thank you.
+r0 hazel: Lovely. (I'm going to press that word in a book.) Thank you.
   expr happy
-r1 hazel: The middle. (I knew it.) Thank you for saying so out loud.
-r2 hazel: The lamp is a bit much. (It was supposed to be.) I'll keep it.
+r1 hazel: The middle. (I knew it. Lines five through eight.) Thank you for saying it out loud.
+r2 hazel: The lamp is a bit much. (It's meant to be.) It stays. It's my only regular listener.
 
 
 dialogue bram.repair
-n0 bram: Hm. The handle's cracked. Hold, hammer, or watch?
-  ? Hold the handle. => r0 | friend:bram,10 | flag:choice.bram.repair.hold
-  ? Take the hammer. => r1 | friend:bram,15 | flag:choice.bram.repair.hammer
-  ? Watch and learn. => r2 | friend:bram,10 | flag:choice.bram.repair.watch
-r0 bram: Hm. Steady. Good.
-r1 bram: ...Hm. Strike true. Again. Good.
+n0 bram: Old hoe. Split socket, blade's still good. Hold it, strike it, or watch?
+  ? Hold it steady for him. => r0 | friend:bram,10 | flag:choice.bram.repair.hold
+  ? Ask to swing the hammer. => r1 | friend:bram,15 | flag:choice.bram.repair.hammer
+  ? Watch from a safe distance. => r2 | friend:bram,10 | flag:choice.bram.repair.watch
+r0 bram: Don't grip. Hold. ...Hm. Like that.
+r1 bram: Square on. Again. ...Hm. The iron believed you.
   expr happy
-r2 bram: Hm. Watching's a skill. Few have it.
+r2 bram: Hm. Watch the edge, not me. Juno watches me. Bad habit.
 
 
 dialogue bram.long
-n0 bram: I worked alone a long time, and I decided I liked it, and I was wrong about that, and I'm saying so because you came in and sat down. I wrote my old teacher thirty letters. Sent none.
+n0 bram: I worked alone for years, told myself I liked it, and lied. Then you kept sitting down. I wrote my teacher thirty letters. Sent none.
   expr thinking
   ? Say nothing. Nod. => r0 | friend:bram,15 | flag:choice.bram.long.nod
-  ? Tell him you're glad. => r1 | friend:bram,10 | flag:choice.bram.long.glad
+  ? Tell him you're glad he said it. => r1 | friend:bram,10 | flag:choice.bram.long.glad
   ? Answer with one word. => r2 | friend:bram,10 | flag:choice.bram.long.word
-r0 bram: ...Hm. Good. You understood. Fine.
-r1 bram: Hm. Glad. Hm. Yes. Me too.
+r0 bram: ...Hm. A nod. That's how my teacher said yes.
+r1 bram: Glad. Hm. Good word. I'll keep it.
   expr happy
-r2 bram: One word. ...Hm. Right size.
+r2 bram: One word. ...Hm. That's all I ever wanted back.
 
 
 dialogue bram.juno
-n0 bram: She made a horseshoe. Crooked. She's proud. What do I say?
-  ? Say it's wonderful. => r0 | friend:bram,10 | flag:choice.bram.juno.praise
-  ? Tease the crookedness. => r1 | friend:bram,10 | flag:choice.bram.juno.tease
+n0 bram: A horseshoe. Crooked by a thumb. She's out back, pretending not to wait. What do I say?
+  ? Tell her it's wonderful. => r0 | friend:bram,10 | flag:choice.bram.juno.praise
+  ? Tease her about the crook. => r1 | friend:bram,10 | flag:choice.bram.juno.tease
   ? Ask what he sees in it. => r2 | friend:bram,15 | flag:choice.bram.juno.ask
-r0 bram: Hm. Wonderful. It's crooked. Still wonderful.
-r1 bram: Ha. Hm. I'll tease her. Gently. With a nail.
+r0 bram: Wonderful. Hm. Crooked and wonderful. Both true. I can say both.
+r1 bram: Hm. Tease. I can do that. Teasing's just praise with a dent.
   expr happy
-r2 bram: ...Hm. Me. When I started. That's what I see.
+r2 bram: ...Hm. Me. My first shoe was crooked the same way.
   expr sad
 

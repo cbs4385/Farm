@@ -2,11 +2,11 @@
 
 # ---- Next Door: Juno and Bram at the forge (WP4) ----
 dialogue next_door.talk
-n0 juno: Tongs or no tongs? Say something. Anything. I'll do the opposite if I'm nervous enough!
-  ? Let Bram bring the tongs. => r0 | flag:choice.next_door.tongs | friend:juno,5
-  ? Trust your own hands. => r1 | flag:choice.next_door.own | friend:juno,5
-r0 juno: Fine. Fine! One heat, together. ...Okay, that's better. It's still mine. The tongs only held it.
-r1 juno: Own hands. Okay. Okay, okay. ...It's a hair thicker. I did that. Bram, I did that!
+n0 juno: He brought the good tongs. The good tongs! Do I take them? Say something quick, before I do the opposite!
+  ? Let Bram help. One heat. => r0 | flag:choice.next_door.tongs | friend:juno,5
+  ? Your hands. Your hinge. => r1 | flag:choice.next_door.own | friend:juno,5
+r0 juno: One heat, together. ...Okay. Better. It's still mine, though. The tongs only held it.
+r1 juno: My hands. Okay, okay. ...A hair thicker at the shoulder. I did that! Bram, I did that!
 
 addto npc.juno.talk
 0 flag:event.next_door && hearts:juno>=10 => juno.nextdoor.1 cat=reactive tag=wholesome :: {if choice:next_door.tongs}Bram's tongs are on a hook with my name chalked under his. I labeled the hook. Obviously.{else}I fixed the shoulder with my own hands. Bram keeps the good tongs near. Just near.{/if}
@@ -44,13 +44,13 @@ r0 ione: Then I'll set out the chairs. Come in the evening, when the lamp is lit
 r1 ione: The chairs will keep. So will I.
 
 dialogue reading.hazel
-n0 hazel: (Nobody has to hear it.) What would you do? ...I mean, if you were me.
-  ? Read it. We're listening. => r0 | flag:choice.reading.poem | friend:hazel,10
-  ? Read something borrowed. => r1 | flag:choice.reading.borrowed | friend:hazel,10
-  ? Listen first. Ione can start. => r2 | flag:choice.reading.listen | friend:hazel,10
-r0 hazel: (Fine.) A short one. Eleven lines. (I counted twice.)
-r1 hazel: Someone else's, then. Kinder to the room. (Mine can wait.)
-r2 hazel: Then Ione goes first. (Thank you.) I'll stay.
+n0 hazel: (Nobody has to hear it.) What would you do? ...If you were me, I mean.
+  ? Read yours. We're all listening. => r0 | flag:choice.reading.poem | friend:hazel,10
+  ? Read something borrowed tonight. => r1 | flag:choice.reading.borrowed | friend:hazel,10
+  ? Listen first. Ione's face needs the practice. => r2 | flag:choice.reading.listen | friend:hazel,10
+r0 hazel: (Fine.) A short one. Eleven lines. (I counted twice. It's still eleven.)
+r1 hazel: Someone else's, then. Kinder to the room. (Mine stays in my sleeve.)
+r2 hazel: Ione first. (Thank you.) I'm not leaving. I'm only sitting very still.
 
 addto npc.ione.talk
 0 flag:event.reading_night && hearts:ione>=8 => ione.reading.1 cat=reactive tag=wholesome :: {if choice:reading.poem}Hazel's poem is in my desk drawer now. She doesn't know I know.{else}{if choice:reading.borrowed}Hazel listened with her eyes shut. I read the winter pages twice.{else}Hazel stayed to the end. I count that as a reader.{/if}{/if}
@@ -63,13 +63,13 @@ addto npc.dorian.talk
 
 # ---- Past the Point: the boat (WP5) ----
 dialogue past_point.talk
-n0 elara: Forty-two places on the list, and Felix says we can manage one before breakfast. Which one?
-  ? Round the headland. => r0 | flag:choice.point.headland | friend:elara,5
-  ? The white rocks. => r1 | flag:choice.point.rocks | friend:elara,5
-  ? Straight out, until the shore is a line. => r2 | flag:choice.point.horizon | friend:elara,5
-r0 elara: The headland! I've drawn it eleven times. Never from a boat.
-r1 elara: The white rocks. I've never been closer than the bench. Row slowly!
-r2 elara: Straight out. I'll hold the sandwich tin. It's very steadying.
+n0 elara: My list is longer than the boat, and Felix says one place before breakfast. Which one?
+  ? Round the headland. You've drawn it enough. => r0 | flag:choice.point.headland | friend:elara,5
+  ? The white rocks. Slowly. => r1 | flag:choice.point.rocks | friend:elara,5
+  ? Straight out, till the shore's a line. => r2 | flag:choice.point.horizon | friend:elara,5
+r0 elara: The headland! I've drawn it eleven times from the bench. Never from the water side!
+r1 elara: The white rocks! I've never been closer than the bench. Row slowly, Felix. I want it to last.
+r2 elara: Straight out! I'll hold the sandwich tin. It's very steadying. Medically.
 
 addto npc.felix.talk
 0 flag:event.past_the_point && hearts:felix>=6 => felix.point.1 cat=reactive tag=wholesome :: {if choice:point.headland}We went round the headland. She named every rock. I let her.{else}{if choice:point.rocks}She waved at the white rocks. They didn't wave back. She said that's polite.{else}We rowed till the shore was a line. She didn't talk. Best company I've had.{/if}{/if}
