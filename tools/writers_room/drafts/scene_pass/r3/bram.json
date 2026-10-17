@@ -1,0 +1,145 @@
+{
+  "villager": "bram",
+  "variants": {
+    "event.bram_heart2.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. You again. You look cold. Come here. Stand where the floor's swept.", "why": "Unaware comfort: he reads the player's state as plain cold and brings them to the fire." }
+    ],
+    "event.bram_heart2.1": [
+      { "when": "horror:2 && var:dread>=60", "text": "Watch the color. Cherry, not... not pale. Fire's burned pale all week.", "why": "Frightened band: a one-word stammer, and the forge fire itself is wrong. He does not explain it." },
+      { "when": "horror:1 && var:dread>=30", "text": "Watch the color. Cherry, not yellow. Fire's been sulking lately. Damp coal, maybe.", "why": "Uneasy band: the forge burns low; he offers an ordinary reason that does not quite fit." }
+    ],
+    "event.bram_heart5.1": [
+      { "when": "horror:1 && var:dread>=30", "text": "You look like you slept in a ditch. Still oiled your tools. Here.", "why": "He notices the player's tiredness and praises the care anyway; warmth intact." }
+    ],
+    "event.bram_heart5.2": [
+      { "when": "horror:2 && var:dread>=60", "text": "Look after them. Keep one by the bed. Iron keeps score.", "why": "Practical comfort that lands strange: he means a tool to feel safe with, nothing more." }
+    ],
+    "event.next_door.3": [
+      { "when": "horror:1 && var:dread>=30", "text": "Shoulder's thin. A hair. Good tongs are on the bench. Fire's sulking. Work quick.", "why": "The low fire recurs from heart 2; same offer of the tongs, same meaning." }
+    ],
+    "event.hall_dance.7": [
+      { "when": "horror:2 && var:dread>=60", "text": "Hm. Hm-hm. Hm. ...Wrong tune. Came out on its own. Hm.", "why": "Frightened band: his hum drifts to a tune he did not choose; echoes the four notes without naming them." },
+      { "when": "horror:1 && var:lore>=1", "text": "Hm. Hm-hm. Hm. Sing loud, everyone. Drowns out the wind.", "why": "Hint: the night outside is felt in the warmest scene; still reads as a joke." },
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. Hm-hm. Hm. I sing it in my own language. Louder than usual.", "why": "Uneasy band: he hums louder, a human way of keeping the dark out." }
+    ],
+    "event.story_whistler_bram.intro": [
+      { "when": "horror:2 && var:dread>=60", "text": "...Hm. You're pale. How long have you been standing there?", "why": "Frightened band: he notices the player before the joke." },
+      { "when": "horror:1 && var:dread>=30", "text": "...Hm. Didn't hear you. No birds tonight. How long have you been there?", "why": "Uneasy band: the quieter birds from the wakefulness ladder, noticed as weather." }
+    ],
+    "event.story_whistler_bram.after": [
+      { "when": "horror:1 && var:lore>=3 && hearts:bram>=4", "text": "My teacher whistled that tune. Same wrong note. Fenn asked where I learned it. Twice.", "why": "Clue: Edmund knew the tune; a curious player asks why it mattered to him." }
+    ],
+    "dlg.story.band.talk.2": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. One hit. Loud. Square's been too quiet lately.", "why": "Uneasy band: the hushed village, noticed by the one who likes quiet." }
+    ],
+    "event.bram_heart4.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. You. Hands free? Cold, too. Stand by the fire. I need two more.", "why": "He warms the player before putting them to work." }
+    ],
+    "dlg.bram.repair.r2": [
+      { "when": "horror:2 && var:dread>=60", "text": "Hm. Watch the edge, not the window. Nothing out there. Fog.", "why": "Frightened band: the player keeps looking out; he redirects them, kindly and too quickly." },
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. Watch the edge, not the door. Fog's just fog.", "why": "Uneasy band: same redirect, softer." }
+    ],
+    "event.bram_heart4.after": [
+      { "when": "horror:1 && var:lore>=3 && hearts:bram>=4", "text": "It'll hold. Fenn's hoe, this. Left it here last fall. Never came back.", "why": "Clue: Edmund left a repair unfinished; he meant to return. Bram states it, never reads into it." }
+    ],
+    "event.bram_heart6.after": [
+      { "when": "horror:2 && var:dread>=60", "text": "That's all of it. Your turn, someday. Whatever keeps you up.", "why": "Frightened band: having confessed, he makes room for the player's fear without asking it." },
+      { "when": "horror:1 && var:dread>=30", "text": "That's all of it. Letters stay in the drawer. You should sleep more.", "why": "Uneasy band: a blunt, kind note on the player's tiredness." }
+    ],
+    "event.bram_heart8.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. Juno made something. On her own. Look. Good for what ails you.", "why": "He offers Juno's piece as comfort; plain human care." }
+    ],
+    "event.bram_heart8.after": [
+      { "when": "horror:2 && var:dread>=60", "text": "I'll tell her. Today. You tell someone too. Whatever it is.", "why": "Frightened band: he passes the courage back to the player." }
+    ],
+    "event.bram_heart10.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. Stand still. Breathe. Don't speak. It's easier.", "why": "One word added: he steadies the player before the gift." }
+    ],
+    "event.bram_friend.intro": [
+      { "when": "horror:1 && var:lore>=1", "text": "Hm. Wednesday. Marcus is late. Third time this month. Up all night, he says.", "why": "Hint: a Keeper abroad at odd hours, reported as a friend's bad sleep." }
+    ],
+    "event.bram_friend.doing": [
+      { "when": "horror:1 && var:dread>=30", "text": "Bread's yours. All of it. You look hollow. Silence we split.", "why": "Uneasy band: he gives up his half of the deal." }
+    ],
+    "event.bram_friend.wrap": [
+      { "when": "horror:2 && var:dread>=60", "text": "Good lunch. Come Wednesday. Every Wednesday. I'll keep the bread.", "why": "Frightened band: the joke gives way to a standing invitation." }
+    ],
+    "event.bram_birthday.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. Birthday. No fuss. Juno made a card. You look worn. Sit first.", "why": "Even on his day he notices the player first." }
+    ],
+    "event.overheard_juno_bram_1.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "Then peel the one off my apron. I know I'm Bram. Most mornings.", "why": "Uneasy band: the village's poor sleep, as a dry joke about himself." }
+    ],
+    "event.overheard_juno_bram_2.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. Don't cry on the clasp. Well water rusts things fast enough.", "why": "Uneasy band: wells tasting of iron, noticed by the one man who would." }
+    ],
+    "event.overheard_juno_bram_3.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "Hm. Take the minute. Move over. Fog's in early again.", "why": "Uneasy band: the longer fog, as weather talk." }
+    ],
+    "event.overheard_juno_bram_4.l2": [
+      { "when": "horror:1 && var:lore>=1", "text": "Good. Make it next door. Not out by the woods. I'll visit. Daily.", "why": "Hint: even the unaware keep the forge away from the wood, without saying why." }
+    ],
+    "event.overheard_bram_marcus_1.l1": [
+      { "when": "horror:1 && var:lore>=1", "text": "Hm. Your joint's tight. Your eyes aren't. Sleeping?", "why": "Hint: Marcus up at all hours; Bram asks as a friend." }
+    ],
+    "event.overheard_bram_marcus_3.l1": [
+      { "when": "horror:1 && var:lore>=1", "text": "Hm. A hundred nails today. Tilda's order. Again. New moon week.", "why": "Hint: the nails ordered before the new moon, from the persona's mythos note. Noticed, not explained." }
+    ],
+    "event.overheard_bram_marcus_3.l3": [
+      { "when": "horror:1 && var:lore>=3 && hearts:bram>=4", "text": "Mine were straighter. Yours were more. Who needs that many by the fourth?", "why": "Clue: the fourth day of the season, as an honest smith's puzzle." }
+    ],
+    "event.overheard_wren_bram_3.l4": [
+      { "when": "horror:1 && var:lore>=1", "text": "Hm. Don't go far. Not past the trees.", "why": "Hint: a plain warning said to a Keeper; the irony is the player's, not his." }
+    ],
+    "event.overheard_tilda_bram_1.l2": [
+      { "when": "horror:1 && var:lore>=1", "text": "Hm. Hinges squeaked. Lamp bracket too. You burn it all night. Noticed.", "why": "Hint: Tilda's lamp, seen from the forge; his repair is still the thank-you." }
+    ]
+  },
+  "adds": [
+    { "scene": "bram_heart2", "after": "event.bram_heart2.1", "when": "horror:2 && var:dread>=60",
+      "text": "Hm. Your hands are shaking. Sit. Iron can wait.", "emote": null, "expression": "sad", "why": "Fills the cut teacher line: he stops the lesson for the player." },
+    { "scene": "bram_heart2", "after": "event.bram_heart2.3", "when": "horror:1 && var:lore>=1",
+      "text": "Hm. Somebody orders a keg of nails every new moon. Paid ahead. Odd.", "emote": "question", "expression": "thinking", "why": "Hint: a thing to chase (who orders, and why)." },
+    { "scene": "bram_heart5", "after": "event.bram_heart5.3", "when": "horror:1 && var:lore>=3 && hearts:bram>=4",
+      "text": "Hm. Your great-uncle bought nails four times a year. Same weeks. Never built anything.", "emote": "ellipsis", "expression": "thinking", "why": "Clue: Edmund's four dates, seen from the forge ledger; points to the almanac margins." },
+    { "scene": "next_door", "after": "event.next_door.4", "when": "horror:1 && var:dread>=30",
+      "text": "Hm. You too, [player]. Whatever's keeping you up. Sit here a while.", "emote": null, "expression": "neutral", "why": "Unaware comfort at the warmest moment; Juno's reply still follows naturally." },
+    { "scene": "hall_dance", "after": "event.hall_dance.7", "when": "horror:1 && var:lore>=1",
+      "text": "Hm. Dorian stayed on the porch. Facing the woods. All night.", "emote": "question", "expression": null, "why": "Hint: a Keeper watching the wood, noticed by an unaware friend." },
+    { "scene": "story_whistler_bram", "after": "event.story_whistler_bram.after", "when": "horror:2 && var:dread>=60",
+      "text": "Walk with me. Tilda's lamp is on. I'll see you that far.", "emote": null, "expression": "neutral", "why": "Frightened band: he walks the player toward the light; the lamp is a Keeper's tell he takes at face value." }
+  ],
+  "cuts": [
+    { "scene": "bram_heart2", "key": "event.bram_heart2.4", "when": "horror:2 && var:dread>=60", "why": "The teacher reminiscence gives way to the added 'your hands are shaking' beat." }
+  ],
+  "threads": {
+    "bram_heart2": "Who orders a keg of nails before every new moon, and why does the forge fire burn pale?",
+    "bram_heart5": "What did Edmund need nails for, four times a year, always the same weeks?",
+    "next_door": "Why is the forge fire sulking even on its best day?",
+    "hall_dance": "Why did Dorian spend the opening night watching the woods?",
+    "story_whistler_bram": "Why did Edmund care where Bram learned his teacher's tune?",
+    "story_band_battle": "Why has the square gone so quiet that Bram wants noise?",
+    "bram_heart4": "Edmund left a hoe for repair last fall; what took him away before he could fetch it?",
+    "bram_heart6": "Bram offers to hear what keeps the player up; what is it?",
+    "bram_heart8": "Bram tells the player to tell someone; who would understand?",
+    "bram_heart10": "Plain on purpose: only the player's breathing is noticed.",
+    "bram_friend": "What keeps Marcus up all night, three times a month?",
+    "bram_birthday": "Plain on purpose: Bram notices the player before his own day.",
+    "overheard_juno_bram_1": "Why does nobody in Wetherell sleep through anymore?",
+    "overheard_juno_bram_2": "Why is the well water rusting iron?",
+    "overheard_juno_bram_3": "Why does the fog come in earlier every week?",
+    "overheard_juno_bram_4": "Why would even Bram keep a forge away from the woods?",
+    "overheard_bram_marcus_1": "Why is Marcus not sleeping?",
+    "overheard_bram_marcus_2": "Left plain for contrast.",
+    "overheard_bram_marcus_3": "What does Tilda need a hundred nails for by the fourth of the season?",
+    "overheard_wren_bram_1": "Left plain for contrast.",
+    "overheard_wren_bram_2": "Left plain for contrast.",
+    "overheard_wren_bram_3": "What lies past the trees that even Bram warns Wren from?",
+    "overheard_tilda_bram_1": "Why does Tilda burn her lamp all night?"
+  },
+  "notes": [
+    "Nails before the new moon appear three ways: an anonymous keg order (heart2 hint), Tilda's order (overheard_bram_marcus_3 hint) and Edmund's four-times-a-year purchases (heart5 clue). If Tilda should not be the named buyer, swap 'Tilda's order' for 'Big order'.",
+    "bram_heart4 clue makes the repaired hoe Edmund's, left at the forge last fall. Variant text only; no item or flag change. Check it does not clash with LORE.md.",
+    "Skipped bram_heart10.thanks (cozy text uses {if}; a variant would erase the choice branch)."
+  ]
+}

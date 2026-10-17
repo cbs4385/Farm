@@ -62,8 +62,8 @@ def lint_file(path: Path, en: dict, own: dict, scenes: dict) -> dict:
         out["errors"].append((where, msg))
 
     def check_text(where, kind, text, cond):
-        if re.search(r"\{(if|else|/if)\b", text):
-            err(where, "no {if} markup inside a variant (the compiler builds the chain)")
+        if re.search(r"\{if (?:[^}]*)horror", text):
+            err(where, "a variant may carry the line's own {if flag/choice ...} branches, never a horror condition")
         for sev, msg in LL.lint_text(who, kind, text):
             (err if sev == "error" else out["warnings"].append)(where, msg) if sev == "error" else out["warnings"].append((where, msg))
         if mild_only(cond) and MILD_BANNED.search(text):

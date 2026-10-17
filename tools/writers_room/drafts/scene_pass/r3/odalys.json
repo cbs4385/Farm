@@ -1,0 +1,100 @@
+{
+  "villager": "odalys",
+  "variants": {
+    "event.odalys_heart2.1": [
+      { "when": "horror:2 && var:dread>=60", "text": "Fast. Too fast. ...Breathe with me. In. Out. Nothing in this room needs you frightened.", "why": "frightened: the joke goes; the doctor gets gentler, which unsettles more" },
+      { "when": "horror:1 && var:dread>=30", "text": "Strong, but quick. You've been sleeping badly. Most of the village has, lately.", "why": "uneasy: she notices the player's nights and the village's" }
+    ],
+    "event.odalys_heart2.2": [
+      { "when": "horror:1 && var:lore>=1", "text": "Two salads. Eat them sitting down, at a table, in daylight. Indoors by dark on the new moon. Doctor's orders.", "why": "hint: a custom slipped into the prescription as if it were medicine" }
+    ],
+    "event.odalys_heart2.4": [
+      { "when": "horror:2 && var:dread>=60", "text": "Half of Wetherell eats standing up. Tonight you eat sitting down, with the lamp lit. I'll check tomorrow.", "why": "replaces 'You were next', which would read as a threat to a frightened player" }
+    ],
+    "event.odalys_heart5.3": [
+      { "when": "horror:2 && var:lore>=5 && hearts:odalys>=6", "text": "Edmund's page ends on the fourth night of fall. He chose that. I let him. Some pages I keep closed.", "why": "revelation (full): Edmund's choice and her part in it, with no ritual imagery" },
+      { "when": "horror:1 && var:lore>=3 && hearts:odalys>=4", "text": "Edmund has a page in here too. He followed every instruction, even the last one. I wrote down that he was brave.", "why": "clue: Edmund chosen, a cost; echoes 'affairs in order' without repeating it" },
+      { "when": "horror:1 && var:dread>=30", "text": "Edmund has a page in here too. The last entry is from the fall. I haven't turned to it since.", "why": "uneasy: a closed page the player can wonder about" }
+    ],
+    "event.odalys_heart5.2": [
+      { "when": "horror:2 && var:dread>=60", "text": "Use it well. And sleep. What you hear at night is not yours to carry. I carry it.", "why": "frightened: the leader's protectiveness shows; hurt, not sinister" }
+    ],
+    "dlg.story.pie.talk.r2b": [
+      { "when": "horror:1 && var:dread>=30", "text": "An empty plate and a crumb on your sleeve. Eating on the road again. Go home; the lamps are lit early.", "why": "uneasy: the lamps-lit-early sign, framed as a doctor's nag" }
+    ],
+    "event.odalys_heart8.intro": [
+      { "when": "horror:2 && var:dread>=60", "text": "Sit. I closed early. You look as though you haven't slept either. Soup first. Questions after, if you must.", "why": "frightened: she knows the player has questions and offers soup before them" },
+      { "when": "horror:1 && var:dread>=30", "text": "Sit. I closed early. The nights have been long for everyone. Soup, and company. I've been short of both.", "why": "uneasy: long nights, shared" }
+    ],
+    "dlg.odalys.office.0": [
+      { "when": "horror:2 && var:lore>=5 && hearts:odalys>=6", "text": "I tell everyone to rest. Four nights a year, I keep the whole village asleep instead. Tonight is not one. Be gentle.", "why": "revelation (full): what she keeps asleep, said as a doctor's joke that is not one" },
+      { "when": "horror:1 && var:lore>=3 && hearts:odalys>=4", "text": "I tell everyone to rest. Four nights a year, I can't. This is one of the other nights. Be gentle.", "why": "clue: a duty on fixed nights, echoing the almanac's four dates" }
+    ],
+    "dlg.odalys.office.r2": [
+      { "when": "horror:2 && var:dread>=30", "text": "A prescription. For me. 'Come back anyway.' ...I will. Every time. That much I can promise you.", "why": "uneasy full: the promise is too exact; she means nights the player does not know about" }
+    ],
+    "dlg.odalys.birthday.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "You stayed. Most people hurry home this time of year. I have no protocol for this. What now?", "why": "uneasy: the village hurries home; she notices the player did not" }
+    ],
+    "dlg.odalys.birthday.r0": [
+      { "when": "horror:2 && var:dread>=60", "text": "...Thank you. You look tired, [player]. Today, let me do the worrying. Consider it my present to myself.", "why": "frightened: a Keeper's gentleness, turned toward the player" }
+    ],
+    "event.overheard_elara_odalys_1.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "No. One cozy per stool. Take the spare home before dark. That is also policy.", "why": "uneasy: home before dark, slipped in as clinic policy" }
+    ],
+    "event.overheard_elara_odalys_2.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "...The best soup all year. Save me a bowl. I'll be out late tonight. Don't wait up.", "why": "uneasy: a Keeper abroad after dark, overheard" }
+    ],
+    "event.overheard_elara_odalys_3.l2": [
+      { "when": "horror:1 && var:lore>=1", "text": "It's very soft, Elara. ...After the new moon I'll sleep a week. Until then, ten minutes.", "why": "hint: her sleep is scheduled around the new moon" }
+    ],
+    "event.overheard_odalys_ione_1.l3": [
+      { "when": "horror:1 && var:dread>=30", "text": "Patients keep odd hours. Lately, so does everyone. ...Agreed. Call it a draw.", "why": "uneasy: the whole village is up at night" }
+    ],
+    "event.overheard_odalys_ione_2.l1": [
+      { "when": "horror:1 && var:dread>=30", "text": "Ione. I prescribe you a nap. Fifteen minutes. You've been reading by lamplight far too late.", "why": "uneasy: lamps lit late, a small shared noticing" }
+    ],
+    "event.overheard_odalys_ione_3.l3": [
+      { "when": "horror:1 && var:lore>=1", "text": "If Hazel reorganized nothing, it's a verified remedy. She's been watching me again. Pass the cup.", "why": "hint: the Keepers' leader knows the resister watches her; a person to ask" }
+    ],
+    "event.overheard_marcus_odalys_1.l3": [
+      { "when": "horror:1 && var:dread>=30", "text": "Measure twice, bend the knees once. And nothing alone after dark. That one's mine too.", "why": "uneasy: echoes Marcus's own tell back at him, as a doctor" }
+    ],
+    "event.overheard_marcus_odalys_2.l2": [
+      { "when": "horror:1 && var:lore>=1", "text": "I don't sit on that bench. It faces the wood. I've never had the time.", "why": "hint: the real reason, then the cozy excuse as cover" }
+    ],
+    "event.overheard_marcus_odalys_3.l3": [
+      { "when": "horror:1 && var:lore>=3 && hearts:odalys>=4", "text": "I did say that. You listened. Four nights a year, that matters more than my averages.", "why": "clue: the two Keepers' shared duty, overheard between friends" }
+    ]
+  },
+  "adds": [
+    { "scene": "odalys_heart2", "after": "event.odalys_heart2.1", "when": "horror:2 && var:lore>=3 && hearts:odalys>=4",
+      "text": "Your great-uncle's pulse was like this. Steady to the end. I checked it every season.", "emote": null, "expression": "thinking", "why": "clue: she was Edmund's doctor right up to 'the end'; a thing to ask about" },
+    { "scene": "odalys_heart5", "after": "event.odalys_heart5.3", "when": "horror:1 && var:lore>=3 && hearts:odalys>=4",
+      "text": "Don't ask which page. I know a great many things. I choose which to say.", "emote": "ellipsis", "expression": null, "why": "her signature tell, covering what she just let slip" }
+  ],
+  "cuts": [
+    { "scene": "odalys_heart2", "key": "event.odalys_heart2.3", "when": "horror:2 && var:dread>=60", "why": "the seed-bag joke falls flat in a strained room; the frightened variant of .1 fills the space" }
+  ],
+  "threads": {
+    "odalys_heart2": "Why does the doctor prescribe being indoors by dark on the new moon, and why did she check Edmund's pulse every season?",
+    "odalys_heart5": "What is on the last page of Edmund's entry, and why will Dr. Penn not turn to it?",
+    "story_pie_payoff": "Why are the lamps lit early, and why does the doctor want the player home?",
+    "odalys_heart8": "Which four nights a year can Dr. Penn not rest, and what does she keep asleep on them?",
+    "odalys_birthday": "Why does everyone hurry home in winter, and why is the doctor surprised someone stayed?",
+    "overheard_elara_odalys_1": "Why is 'home before dark' clinic policy?",
+    "overheard_elara_odalys_2": "Where does Dr. Penn go late at night?",
+    "overheard_elara_odalys_3": "Why can the doctor not sleep properly until after the new moon?",
+    "overheard_odalys_ione_1": "What keeps the whole village up at night?",
+    "overheard_odalys_ione_2": "Who else is awake reading by lamplight, and what are they looking for?",
+    "overheard_odalys_ione_3": "Why is Hazel watching Dr. Penn?",
+    "overheard_marcus_odalys_1": "Why should no one be alone after dark?",
+    "overheard_marcus_odalys_2": "Why will the doctor not sit facing the wood?",
+    "overheard_marcus_odalys_3": "What do Marcus and Dr. Penn share on four nights a year?"
+  },
+  "notes": [
+    "heart8 and birthday 'after' lines carry {if} branches, so I left them unvaried (a variant cannot hold branch markup).",
+    "The heart2 cut removes .3 only at frightened full; .4 (the last line) is varied rather than cut, because 'You were next' reads as a threat to a frightened player.",
+    "Revelation lines (heart5.3, office.0) use no ritual words: 'the fourth night of fall' and 'keep the whole village asleep' carry it."
+  ]
+}

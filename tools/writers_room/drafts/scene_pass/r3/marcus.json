@@ -1,0 +1,131 @@
+{
+  "villager": "marcus",
+  "variants": {
+    "event.marcus_heart2.1": [
+      { "when": "horror:2 && var:dread>=60", "text": "Measure once. Twice. ...Three times. Three times. Easy, now. Rest your end on the bench.", "why": "Frightened: the count stammers (short repeat) and he takes the weight off the player's shaking hands." },
+      { "when": "horror:1 && var:dread>=30", "text": "Measure once. Twice. ...Three times, my father said. You look short on sleep. Holding helps.", "why": "Uneasy: he notices the player's tiredness and gives them a job, the Keeper's gentleness." }
+    ],
+    "event.marcus_heart2.2": [
+      { "when": "horror:2 && var:dread>=60", "text": "Take these. Leftovers from the big jobs. Go home with them now, friend. Before the light goes.", "why": "Frightened: the gift becomes a reason to send the player home before dark; care that is too exact." }
+    ],
+    "event.marcus_heart5.4": [
+      { "when": "horror:2 && var:lore>=5 && hearts:marcus>=6", "text": "Edmund's cellar door. He wouldn't let me oil it. He wanted to hear us coming, at the end.", "why": "Revelation: 'us' and 'at the end' let slip that the Keepers came for Edmund, without a single ritual word." },
+      { "when": "horror:2 && var:dread>=60", "text": "Edmund had a door that never opened. His cellar. He wouldn't let me oil it. ...Don't you oil it either.", "why": "Frightened: a protective instruction the player cannot yet explain; sends them to the cellar door." },
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "Edmund's cellar door. He wouldn't let me oil it. A door that squeaks tells you who's keeping watch.", "why": "Clue: 'keeping watch' names a duty and ties Edmund to it." },
+      { "when": "horror:1 && var:dread>=30", "text": "Edmund had a door that never opened. His cellar. He wouldn't let me oil it. If it squeaks at night, that's the cold.", "why": "Uneasy: a kind cover that tells the player the door squeaks at night." }
+    ],
+    "event.marcus_heart5.2": [
+      { "when": "horror:2 && var:dread>=60", "text": "Keep your tools sharp, friend. The bag is for your fields. And keep a lamp lit. Humor me.", "why": "Frightened: he trades the joke for a lamp, echoing Tilda's; gentler, which frightens more." }
+    ],
+    "event.hall_dance.0": [
+      { "when": "horror:2 && var:dread>=60", "text": "I checked the roof once. Twice. Three. Three times. It is finished. It will hold. Whatever comes.", "why": "Frightened: the count slips and 'whatever comes' makes the roof a shelter, not a project." },
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "I checked the roof three times. It is finished. One thing in this village I don't have to keep watch over.", "why": "Clue: there are other things he keeps watch over." },
+      { "when": "horror:1 && var:dread>=30", "text": "I checked the roof once. Twice. ...Three times. It is finished. Stay until the lamps go out. Everyone's here.", "why": "Uneasy: 'everyone's here' is a headcount; the Keeper is relieved the whole village is under one roof." }
+    ],
+    "event.hall_dance.11": [
+      { "when": "horror:2 && var:dread>=60", "text": "The ladder can wait one night. One dance. Then I walk you home. Not alone tonight.", "why": "Frightened: the Keeper's tell, 'not alone after dark', in the happiest scene of his arc." }
+    ],
+    "event.story_pie_payoff.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "[player]. A word, quietly. You know the way to the clinic? The lit road, mind. Not the wood path.", "why": "Uneasy: an exact route for a short errand; names the wood path as something to avoid." }
+    ],
+    "dlg.story.pie.talk.0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "One slice of my pie. Her door. No name. She carries more than she lets on. Pie helps.", "why": "Clue: Dr. Penn carries a weight; points the player at the Keepers' leader." }
+    ],
+    "dlg.story.pie.talk.1": [
+      { "when": "horror:2 && var:dread>=60", "text": "Well? You can say no. You look like you need a slice yourself. Take two.", "why": "Frightened: the joke softens into feeding the player." }
+    ],
+    "event.story_whistler_marcus.intro": [
+      { "when": "horror:2 && var:dread>=60", "text": "Ah. You've found me. I whistle so you know where I am. You should be home. I'll walk you.", "why": "Frightened: the whistle becomes a signal in the dark; he escorts." },
+      { "when": "horror:1 && var:dread>=30", "text": "Ah. You've found me. I whistle when the grain runs true. Also after dark. Keeps the evening friendly.", "why": "Uneasy: whistling to keep the dark at bay." }
+    ],
+    "dlg.story.whistler.marcus.0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "It's an old Wetherell tune. Four notes. My grandfather hit one wrong. On purpose, I think now.", "why": "Clue: echoes Edmund's four notes; a wrong note kept deliberately is a question to chase (Piper)." }
+    ],
+    "event.story_pumpkin_marcus.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "You've caught me. A practice lantern. Lanterns want faces this time of year. I never asked whose pumpkin.", "why": "Uneasy: a lit face for the dark as a village habit, ties to lamps lit early." }
+    ],
+    "event.story_pumpkin_marcus.after": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "It goes back with a face carved in. Tilda will light it on her step. She keeps a lamp for everyone.", "why": "Clue: Tilda's lamp is a watch, not a habit." }
+    ],
+    "event.marcus_heart8.intro": [
+      { "when": "horror:2 && var:dread>=60", "text": "Come in. Sit by the stove first. You've seen the barn I carved at nine. Now see the roof plan.", "why": "Frightened: warmth before business; the player is visibly shaken." }
+    ],
+    "dlg.marcus.roof.1": [
+      { "when": "horror:2 && var:lore>=5 && hearts:marcus>=6", "text": "Six winters, nearly fixed. Some things you never finish. You only keep them asleep. ...What would you do?", "why": "Revelation: the roof talk slides into what the Keepers keep asleep, then he covers by asking about the roof." },
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "Six winters, nearly fixed. I keep other things longer than that. Heavier, too. ...What would you do?", "why": "Clue: a duty he has kept for years." }
+    ],
+    "dlg.marcus.roof.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "Pitch, rafters, shingles. Drawn nine times. Every time it looks right. Every time I'm afraid it won't hold. You know the feeling.", "why": "Uneasy: he recognizes the player's fear as his own." }
+    ],
+    "event.marcus_birthday.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "It's my birthday. I planed a plank for it, like every year. Sit, if you like. You look like you need sitting.", "why": "Uneasy: notices the player's tiredness." }
+    ],
+    "dlg.marcus.birthday.r0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "Thank you. I'll write that on the beam, small. Edmund's name is up there too. Same size.", "why": "Clue: a beam of names, Edmund's among them, quietly memorialized." }
+    ],
+    "event.overheard_marcus_dorian_1.l3": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "Straight. That's the whole job. Like your counting. You never skip one.", "why": "Clue: Marcus knows Dorian counts (the trees); two Keepers sharing a duty in a plank." }
+    ],
+    "event.overheard_marcus_dorian_2.l3": [
+      { "when": "horror:1 && var:lore>=1", "text": "You came in late again. I nearly got worried. Then I didn't. Best hour of the week.", "why": "Hint: Dorian keeps late hours, and Marcus waits up." }
+    ],
+    "event.overheard_marcus_dorian_3.l3": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "That's all a door is for. Closing on purpose. Bar it on the fourth night.", "why": "Clue: names the new-moon night (day 4); Dorian's 'I'll leave it open' turns uneasy." }
+    ],
+    "event.overheard_marcus_dorian_4.l3": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "Facing the owl, and the trees behind it. You can count them from bed now.", "why": "Clue: echoes Dorian counting the trees; the window watches the wood." }
+    ],
+    "event.overheard_bram_marcus_1.l4": [
+      { "when": "horror:1 && var:lore>=1", "text": "Good. Hand me the clamp. Wednesday, same bench. Unless it's the fourth. Then I'm early to bed.", "why": "Hint: a Keeper excusing himself from the day-4 evening to an unaware friend." }
+    ],
+    "event.overheard_marcus_odalys_2.l3": [
+      { "when": "horror:1 && var:lore>=3 && hearts:marcus>=4", "text": "That's why it worked loose. You carry this whole village, Doctor. Five minutes would do it good.", "why": "Clue: he names the weight Penn carries; care too exact." }
+    ],
+    "event.overheard_marcus_odalys_3.l2": [
+      { "when": "horror:1 && var:lore>=1", "text": "Better. I rest it Wednesdays. And after the new moon. The doctor told me to.", "why": "Hint: the new moon is hard on his back, and the doctor knows why." }
+    ]
+  },
+  "adds": [
+    { "scene": "marcus_heart2", "after": "event.marcus_heart2.2", "when": "horror:1 && var:lore>=1",
+      "text": "One more thing. Home before dark on the new moon. My father's rule. Now it's mine.", "emote": null, "expression": "neutral",
+      "why": "Hint-tier custom, passed on as a carpenter passes on a rule." },
+    { "scene": "marcus_heart5", "after": "event.marcus_heart5.3", "when": "horror:1 && var:lore>=1",
+      "text": "...Glued shut. Good. Some doors should stay that way.", "emote": "ellipsis", "expression": "thinking",
+      "why": "He checks the toy's shut doors after mentioning the cellar; points back at Edmund's door." },
+    { "scene": "hall_dance", "after": "event.hall_dance.0", "when": "horror:2 && var:lore>=3 && hearts:marcus>=4",
+      "text": "...Everyone under one roof. Good. I counted.", "emote": "ellipsis", "expression": null,
+      "why": "The Keeper's headcount; makes the player wonder who he worries is missing." },
+    { "scene": "story_whistler_marcus", "after": "event.story_whistler_marcus.after", "when": "horror:1 && var:lore>=1",
+      "text": "Getting dark. I'll whistle you as far as the store. Tilda's lamp takes it from there.", "emote": null, "expression": null,
+      "why": "Hint: Keepers hand the player along in the dark, one to the next." }
+  ],
+  "cuts": [
+    { "scene": "marcus_heart2", "key": "event.marcus_heart2.3", "when": "horror:2 && var:dread>=60",
+      "why": "'Yours stayed put' is false (and unkind) when the player's hands shake; the frightened variant of .1 already took the weight." }
+  ],
+  "threads": {
+    "marcus_heart2": "Why does Marcus keep a rule about the new moon, and whose rule was it first?",
+    "marcus_heart5": "What did Edmund want to hear through a door that squeaked?",
+    "hall_dance": "If one roof is the thing Marcus need not watch, what does he watch the rest of the time?",
+    "story_pie_payoff": "What does Dr. Penn carry that a slice of pie is meant to ease?",
+    "story_whistler_marcus": "Why does a family tune keep a wrong note on purpose, and why does it sound like Edmund's?",
+    "story_pumpkin_marcus": "Why does every doorstep want a lit face this time of year?",
+    "marcus_heart8": "What has Marcus kept longer and heavier than a roof?",
+    "marcus_birthday": "Why is Edmund's name on Marcus's beam?",
+    "overheard_marcus_dorian_1": "What is Dorian counting, and why must he never skip one?",
+    "overheard_marcus_dorian_2": "Where does Dorian go that he comes home late?",
+    "overheard_marcus_dorian_3": "What happens on the fourth night that a door should be barred?",
+    "overheard_marcus_dorian_4": "Why does Dorian need to see the trees from his bed?",
+    "overheard_bram_marcus_1": "Why does Marcus go to bed early on the fourth, when Bram doesn't?",
+    "overheard_bram_marcus_2": "None: left plain on purpose, a quiet scene for contrast.",
+    "overheard_bram_marcus_3": "None: left plain on purpose, a comic scene for contrast.",
+    "overheard_marcus_odalys_1": "None: left plain on purpose; the knees joke stays a joke.",
+    "overheard_marcus_odalys_2": "What is the whole village that the doctor carries?",
+    "overheard_marcus_odalys_3": "What does the new moon do to Marcus's back?"
+  },
+  "notes": [
+    "Cut of event.marcus_heart2.3 pairs with the frightened variant of event.marcus_heart2.1; keep them together.",
+    "Left the {if}-branched .after lines (pie, roof, birthday) and all choice labels untouched to preserve branching and choice meaning.",
+    "heart5 revelation variant implies the Keepers came for Edmund; full-only, no ritual words."
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "villager": "ione",
+  "variants": {
+    "event.ione_heart2.1": [
+      { "when": "horror:1 && var:dread>=30", "text": "A chart of the coast. Every cove drawn by hand. ...You look tired, [player]. Sit while you look; it isn't going anywhere.", "why": "uneasy: she notices the player before the map; plain human care" }
+    ],
+    "event.ione_heart2.4": [
+      { "when": "horror:2 && var:dread>=60", "text": "There's a cove at the edge, where the ink gives out. ...Someone stopped drawing there. I'd rather think they ran out of ink.", "why": "frightened: the cozy wish curdles into a guess she won't finish" },
+      { "when": "horror:1 && var:lore>=1", "text": "There's a cove at the very edge, where the ink gives out. The wood comes right down to the water there. Odd, for a coast.", "why": "hint: a place to go; the wood reaching the sea, noticed, not explained" }
+    ],
+    "event.ione_heart5.1": [
+      { "when": "horror:1 && var:dread>=30", "text": "Would you walk the beach with me one evening? Sea air is good for a tired face. I'm told the tide doesn't mind either way.", "why": "uneasy: the invitation becomes partly for the player's sake" }
+    ],
+    "event.ione_heart5.4": [
+      { "when": "horror:1 && var:lore>=1", "text": "Evenings, then. I've circled three low tides. None on a new moon. Everyone's home early then; I've never asked why.", "why": "hint: the new-moon custom, seen from outside by someone who never questioned it" }
+    ],
+    "event.reading_night.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "Every chair, one lamp, and a pot of tea nobody asked for. I lit the lamp early. This is my calm face. Does it work?", "why": "uneasy: lamps lit early (ladder) worn as nerves; drops the chair-count markup safely" }
+    ],
+    "event.reading_night.4": [
+      { "when": "horror:2 && var:dread>=60", "text": "A snowdrop, for the lamp. ...Every chair taken, and nobody wants to walk home yet. Stay, all of you. I'll make more tea.", "why": "frightened: the room is a refuge; she makes it one without asking why" },
+      { "when": "horror:1 && var:lore>=1", "text": "A snowdrop, for the lamp. ...Every chair taken. When you go, go together. The lane's darker than it used to be.", "why": "hint: a small rule she has started keeping without knowing its reason" }
+    ],
+    "event.festival_winter_lanterns.3": [
+      { "when": "horror:2 && var:dread>=60", "text": "That's the bell. Let them go. ...They're all drifting toward the wood. Every one. It must be the wind. It must be.", "why": "frightened: short repeated fragment; the wish she meant for the sea is taken" },
+      { "when": "horror:1 && var:dread>=30", "text": "That's the bell. Together now, and slowly. Let them go. ...Mine is drifting toward the wood. I'd meant it for the sea.", "why": "uneasy: the same image as cozy, turned inland" },
+      { "when": "horror:1 && var:lore>=1", "text": "That's the bell. Let them go. ...Tilda counted the lanterns twice before the bell. She never counts anything twice.", "why": "hint: a Keeper's too-exact care, noticed by someone who only finds it odd" }
+    ],
+    "dlg.ione.shelf.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "At the back of the library stands a tall shelf. Every book has a slip tucked inside. No names. Its window faces the wood.", "why": "uneasy narration: one placed detail, nothing stated" }
+    ],
+    "dlg.ione.shelf.1": [
+      { "when": "horror:1 && var:lore>=3 && hearts:ione>=4", "text": "Books set aside for people who never came. The newest has waited since last fall. It was for Edmund. What would you do?", "why": "clue: Edmund's book, set aside the fall he died; the player is the one who can take it" }
+    ],
+    "dlg.ione.shelf.r1": [
+      { "when": "horror:2 && var:dread>=60", "text": "Aloud? Nobody has ever read these to anyone. Go slowly. ...Your hands are shaking. I'll hold the page steady.", "why": "frightened: she notices the player's hands and stays practical" }
+    ],
+    "event.ione_birthday.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "It's my birthday. The fuss is a new book I don't open until noon. Come in. You look as if you need a fuss too.", "why": "uneasy: the birthday turns toward the player's tiredness" }
+    ],
+    "dlg.ione.birthday.0": [
+      { "when": "horror:1 && var:lore>=1", "text": "The new book can wait. Hazel says I mustn't walk to the sea alone this winter. She won't say why. What shall we do?", "why": "hint: Hazel's warning reaches the player secondhand; Ione's winter sea is quietly fenced" }
+    ],
+    "dlg.ione.birthday.r1": [
+      { "when": "horror:2 && var:dread>=60", "text": "The first page, aloud. Nobody's read to me since I was small. ...Read slowly. You keep glancing at the window.", "why": "frightened: closing her eyes would be wrong now; she watches the player instead" }
+    ],
+    "event.ione_courtship.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "I've read hundreds of love stories, and none told me how to ask. Things feel uncertain lately, so plainly: would you court me?", "why": "uneasy: the season's strangeness makes her braver, not darker" }
+    ],
+    "dlg.ione.courtship.0": [
+      { "when": "horror:2 && var:dread>=60", "text": "What do you say? Take your time. ...You look as if you haven't slept. Sit first. I'll pretend to shelve something.", "why": "frightened: the question waits on the player's wellbeing" }
+    ],
+    "event.ione_courtship2.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "You asked me to wait. The question sat by the desk bell all through a long, strange season. It held up. Would you court me?", "why": "uneasy: names the season's strangeness only as weather of the heart" }
+    ],
+    "dlg.ione.partners.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "I've set the rest of the day aside for you. You look tired. How shall we spend it, gently?", "why": "uneasy: one word of care added" }
+    ],
+    "dlg.ione.partners.r2": [
+      { "when": "horror:1 && var:lore>=3 && hearts:ione>=4", "text": "The shore, with you. Home before the lamps, though. Everyone is, lately, and nobody tells me why.", "why": "clue-tier noticing: the village's hours, from someone left out of them" }
+    ],
+    "event.overheard_hazel_ione_1.l2": [
+      { "when": "horror:1 && var:lore>=3 && hearts:ione>=4", "text": "You found it. Edmund's copy, margins and all. The library's quiet is yours. I only dust it.", "why": "clue: points at the almanac with Edmund's margins without repeating the thread line" }
+    ],
+    "event.overheard_hazel_ione_1.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "Agreed. Back to the tea. Someone ought to light the lamps. It's darker than it should be.", "why": "uneasy: lamps lit early, as a small complaint" }
+    ],
+    "event.overheard_hazel_ione_2.l3": [
+      { "when": "horror:1 && var:dread>=30", "text": "I don't much like endings lately either. But seven years on the last chapter?", "why": "uneasy: keeps the question Hazel answers; one shadowed clause" }
+    ],
+    "event.overheard_hazel_ione_3.l3": [
+      { "when": "horror:1 && var:dread>=30", "text": "You didn't say a word. I heard it anyway. The window's warm after lunch. It faces away from the wood.", "why": "uneasy: she chose the window on purpose and does not say why" }
+    ],
+    "event.overheard_odalys_ione_1.l2": [
+      { "when": "horror:1 && var:lore>=1", "text": "Dr. Penn. Your clinic was dark at supper and lit at midnight. A new moon, too. I noticed.", "why": "hint: the leader's night hours, seen by an unaware neighbor; Penn's reply still fits" }
+    ],
+    "event.overheard_odalys_ione_1.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "Then we'll both go home on time. Before dark, anyway. Everyone seems to, lately.", "why": "uneasy: the village's early hours noticed" }
+    ],
+    "event.overheard_odalys_ione_2.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "Done. The first chapter is two pages. Sleep well, Dr. Penn. You look as if you haven't.", "why": "uneasy: the Keeper's tiredness seen with plain kindness" }
+    ],
+    "event.overheard_odalys_ione_3.l2": [
+      { "when": "horror:1 && var:dread>=30", "text": "It's the calm kind. Even the stove stopped ticking. Everything's been very quiet lately. Even the birds.", "why": "uneasy: birds quieter (ladder) slipped into a tea remark" }
+    ],
+    "event.overheard_odalys_ione_3.l4": [
+      { "when": "horror:2 && var:dread>=60", "text": "Always. Here. It's gone a little cold. That's the slow... the slow part working.", "why": "frightened: a short stammer, the only distortion she gets" }
+    ]
+  },
+  "adds": [
+    { "scene": "ione_heart2", "after": "event.ione_heart2.3", "when": "horror:1 && var:lore>=3 && hearts:ione>=4",
+      "text": "The almanac was Edmund's. His margins run all year, then stop in the fall. Like this ink.", "emote": "ellipsis", "expression": "thinking",
+      "why": "clue: ties the chart to Edmund's stopped margins; a thing to ask Hazel about" },
+    { "scene": "ione_heart5", "after": "event.ione_heart5.0", "when": "horror:2 && var:dread>=60",
+      "text": "Actually, it can wait a moment. Sit down first. You look as if you haven't slept.", "emote": null, "expression": "thinking",
+      "why": "frightened: fills the silence left by cutting the lost-slip joke" }
+  ],
+  "cuts": [
+    { "scene": "ione_heart5", "key": "event.ione_heart5.3", "when": "horror:2 && var:dread>=60", "why": "the flustered lost-slip joke reads wrong when the player is frightened; the add replaces it with care" }
+  ],
+  "threads": {
+    "ione_heart2": "Why does the wood come down to the sea at the cove where the ink gives out, and why did Edmund's margins stop?",
+    "ione_heart5": "Why is everyone home early on the new moon, and why has Ione never asked?",
+    "reading_night": "Why does nobody want to walk home alone anymore?",
+    "festival_winter_lanterns": "Why did the lanterns drift toward the wood, and why did Tilda count them twice?",
+    "ione_heart8": "What did Ione set aside for Edmund, and why did he never come for it?",
+    "ione_birthday": "What does Hazel know about the sea this winter that she won't tell Ione?",
+    "ione_courtship": "What has made this season feel so uncertain that even Ione asks plainly?",
+    "ione_courtship2": "What was strange about the season the question waited through?",
+    "ione_partners": "Why is everyone home before the lamps, and who decided it?",
+    "overheard_hazel_ione_1": "What is in the margins of Edmund's almanac?",
+    "overheard_hazel_ione_2": "Why have endings started to feel bad?",
+    "overheard_hazel_ione_3": "Why did Ione pick the window that faces away from the wood?",
+    "overheard_odalys_ione_1": "Who was the clinic lit for at midnight on the new moon?",
+    "overheard_odalys_ione_2": "What keeps Dr. Penn awake?",
+    "overheard_odalys_ione_3": "Why have the birds gone quiet?"
+  },
+  "notes": [
+    "Ione is unaware: no ritual vocabulary at any level, no revelation-tier lines; her clues are only things she noticed (Edmund's margins, the set-aside book, new-moon hours, Tilda's counting, Penn's lamp).",
+    "dlg.ione.shelf.1 clue invents one small fact: a book set aside for Edmund that waited since last fall. Consistent with the bible (a book set aside for every visitor) and with Edmund dying last fall; flag if Edmund was never a library visitor.",
+    "dlg.ione.birthday.0 hint has Hazel warning Ione off the winter sea; Hazel's writer should know so her lines can echo or not contradict it."
+  ]
+}

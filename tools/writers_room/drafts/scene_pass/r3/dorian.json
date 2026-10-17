@@ -1,0 +1,49 @@
+{
+  "villager": "dorian",
+  "variants": {
+    "event.dorian_heart2.1": [
+      { "when": "horror:2 && var:dread>=60", "text": "A fox. By the fern. Don't move. She's listening too. Not to us.", "why": "frightened: the fox attends to something else; the player is not the thing being judged" },
+      { "when": "horror:1 && var:dread>=30", "text": "A fox. By the fern. Don't move. She keeps facing the wood.", "why": "uneasy: animals face the wood (ladder), told as plain observation" }
+    ],
+    "event.dorian_heart2.4": [
+      { "when": "horror:2 && var:lore>=3 && hearts:dorian>=4", "text": "There's another place. Further in. Not yet. Never after dark.", "why": "clue at full: the too-exact rule attached to the deeper place" },
+      { "when": "horror:1 && var:lore>=1", "text": "There's another place. Further in. Not yet. Not on a new moon.", "why": "hint: an odd custom tied to the moon; a night the player can stay awake for" }
+    ]
+  },
+  "adds": [
+    { "scene": "dorian_heart2", "after": "event.dorian_heart2.1", "when": "horror:2 && var:dread>=60",
+      "text": "...She's gone. Toward the wood. Stand close. Like a tree.", "emote": "ellipsis", "expression": "thinking",
+      "why": "replaces the cut 'she stayed' beat: the fox leaves the way everything leaves now; Dorian gets gentler" },
+    { "scene": "dorian_heart5", "after": "event.dorian_heart5.3", "when": "horror:2 && var:dread>=60",
+      "text": "...You stand the way he did. Don't. Please.", "emote": "ellipsis", "expression": "sad",
+      "why": "frightened: Dorian sees Edmund in the player and cannot bear it; protective, not sinister" },
+    { "scene": "story_notes_dorian", "after": "event.story_notes_dorian.intro", "when": "horror:1 && var:lore>=1",
+      "text": "Most say good morning. A few say stay in tonight.", "emote": null, "expression": "embarrassed",
+      "why": "hint: the anonymous notes double as warnings on certain nights; a curious player can go read them" }
+  ],
+  "cuts": [
+    { "scene": "dorian_heart2", "key": "event.dorian_heart2.3", "when": "horror:2 && var:dread>=60",
+      "why": "the fox does not stay for a frightened player; the add after .1 fills the beat" }
+  ],
+  "threads": {
+    "dorian_heart2": "What is the other place further in, and why never on a new moon?",
+    "dorian_heart5": "How far did Edmund get counting the trees, and where does the count end?",
+    "reading_night": "Why does Dorian want the lamp kept burning so late?",
+    "story_notes_dorian": "What do Dorian's other notes say on the nights he tells people to stay in?",
+    "story_scarecrows": "Where have the crows gone this fall, and why won't they sit facing the wood?",
+    "story_pumpkin_dorian": "Why is the morning fog heavy enough that the mushrooms need a roof?",
+    "dorian_heart8": "What are the numbered trees on the back pages of Dorian's notebook?",
+    "dorian_birthday": "Why does Dorian stop every walk at forty trees?",
+    "dorian_courtship": "Which quiet place will Dorian never show the player?",
+    "dorian_courtship2": "What were the trees keeping count of while Dorian waited?",
+    "dorian_partners": "What does the twine charm keep, and who are the others who would know it?",
+    "overheard_marcus_dorian_1": "What are Marcus and Dorian both counting?",
+    "overheard_marcus_dorian_2": "Why do the two lodgers finish early on certain nights?",
+    "overheard_marcus_dorian_3": "Why would Dorian want a door that bolts from outside?",
+    "overheard_marcus_dorian_4": "Why does Dorian want to keep count of the trees from his bed?",
+    "overheard_dorian_hazel_1": "Where has Hazel been walking, and why does Dorian care?",
+    "overheard_dorian_hazel_2": "What are the counts in Dorian's margins, and will Hazel read them?",
+    "overheard_dorian_hazel_3": "Is the forest really closer to the library than it was?"
+  },
+  "notes": []
+}

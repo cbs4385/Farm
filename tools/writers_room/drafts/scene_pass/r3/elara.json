@@ -1,0 +1,252 @@
+{
+  "villager": "elara",
+  "variants": {
+    "event.elara_heart2.1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "That's a farm blister. Bandage on. ...Your hand is shaking. Sit a minute. I'll do the talking, you do the sitting.",
+        "why": "Frightened: the joke gives way to plain care; she treats it like anyone who looks unwell."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "That's a farm blister. I see ten a week. Bandage on. Your hands are cold, though. Are you sleeping?",
+        "why": "Uneasy: she notices the tiredness, asks, keeps it light."
+      }
+    ],
+    "event.elara_heart2.3": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Oh! That paper behind the kettle? A map. Of places I haven't been. Yet! The woods aren't on it. Nobody goes there.",
+        "why": "Hint: the woods as an ordinary village blank spot she has never questioned."
+      }
+    ],
+    "event.elara_heart5.1": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's a mitten with two thumbs, so it fits either hand. You've looked cold lately. Wear it anyway. Wear it twice.",
+        "why": "Uneasy: the gift becomes quiet care for a player who seems off."
+      }
+    ],
+    "event.elara_heart5.3": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Someday I'll show you my list. When you're feeling better. It'll keep. So will I.",
+        "why": "Frightened: the doodle joke would land wrong; she trades it for a promise."
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:elara>=4",
+        "text": "Someday I'll show you my list. Dr. Penn crossed one place off it once. Harrow Wood. She said, 'Not that one.'",
+        "why": "Clue: a Keeper's too-exact care, seen from outside. Elara thinks it was a joke; the player may not."
+      }
+    ],
+    "event.past_the_point.2": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "The boat leaks, politely. Felix pulls the oars. Behind them the wood sits closer to the shore than it should. Elara does not look back.",
+        "why": "Uneasy, full: the woods seem closer, seen only from the water."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The boat leaks, politely. Felix pulls the oars. Elara holds her hat down. On shore, the fog sits on the treeline and does not lift.",
+        "why": "Uneasy, mild: fog that will not lift, nothing named."
+      }
+    ],
+    "event.past_the_point.horizon": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The shore's just a line now. The wood's a darker line behind it. I feel small and glad. Mostly glad.",
+        "why": "Her best moment, with one honest shadow in it."
+      }
+    ],
+    "dlg.past_point.talk.r2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Straight out! Where the shore can't follow. ...I'll hold the sandwich tin. It's very steadying. Medically.",
+        "why": "Frightened: she reads the player's choice as wanting to get away, and goes along gently."
+      }
+    ],
+    "dlg.elara.garden.visit.1": [
+      {
+        "when": "horror:1",
+        "text": "Edmund brought me comfrey every spring, tied with twine. Last fall he came by just to sit a while. I've missed him. Oh, rambling on your step.",
+        "why": "Day two, before any lore: Edmund's last fall in one human detail. A question, no answer."
+      }
+    ],
+    "dlg.elara.garden.visit.2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Could I ask a favor? The clinic garden is bare. Three dandelions and three wild garlic, please. Field ones, not by the forest gate. Dr. Penn is fussy!",
+        "why": "Hint: Penn's rule about the gate, relayed as fussiness. A place to go and look."
+      }
+    ],
+    "dlg.elara.list.1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:elara>=4",
+        "text": "Places I've never been. Forty-one of them. Dr. Penn counted them once, very slowly. Then she went quiet. ...Well? Say something!",
+        "why": "Clue: the number lands on Penn, not on Elara. Echoes Dorian's count without stating it."
+      }
+    ],
+    "dlg.elara.list.r0": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Together! The sea, from a boat. Far from the trees, for a whole day. I'm circling it. I'm already packing!",
+        "why": "Uneasy: she offers the player somewhere else to be, without saying why."
+      }
+    ],
+    "event.elara_heart8.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Come see! It lives behind the kettle. You look like you need somewhere else to think about. Don't laugh. Or do. Please do.",
+        "why": "Frightened: the reveal becomes her remedy for the player."
+      }
+    ],
+    "event.elara_birthday.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "It's my birthday! ...You look worn through. Sit. Cake first, questions never. The hat has its own hat, look!",
+        "why": "Frightened: she leads with care, then pulls the player back toward the silly hat."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's my birthday! I knitted myself a hat, and the hat has its own hat! You look tired. Come in, sit down!",
+        "why": "Uneasy: one small noticing inside the party."
+      }
+    ],
+    "event.elara_courtship.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Here's a scarf. It's warm, and you've looked cold lately. The last row is a question: would you court me? It's in red. Very serious!",
+        "why": "Uneasy: the scarf as comfort as well as question; the question itself is unchanged."
+      }
+    ],
+    "dlg.elara.courtship.r2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Think! Take all the time you need! Just come by in daylight. Everyone says so. I'll add a row a day.",
+        "why": "Hint: she has absorbed the village custom without asking why."
+      }
+    ],
+    "event.elara_courtship2.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "The scarf grew. A row a day. Some nights two, when I couldn't sleep. The last row still asks. Would you court me?",
+        "why": "Frightened: the village's sleeplessness reaches her too, told plainly."
+      }
+    ],
+    "dlg.elara.partners.0": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Dr. Penn gave me the afternoon off! She said 'go' twice and 'home by dark' once. How shall we spend it?",
+        "why": "Hint: Penn's exactness, passed on without comment."
+      }
+    ],
+    "dlg.elara.partners.r2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The beach at sunset! A blanket and three snacks. We'll walk home by Tilda's lamp. The blanket is ours.",
+        "why": "Uneasy: the evening walk gets a safe light to come home by."
+      }
+    ],
+    "event.overheard_elara_odalys_1.l3": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "You like it! It has a spare, for laundry day. And you closed early on the fourth again!",
+        "why": "Hint: the clinic shut on the fourth; Penn's 'No' now reads as a dodge."
+      }
+    ],
+    "event.overheard_elara_odalys_2.l1": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Soup for everyone! Seven vegetables, one a surprise! I used rainwater. The well tastes like a key.",
+        "why": "Uneasy, full: wells tasting of iron, put in her own homely terms."
+      }
+    ],
+    "event.overheard_elara_odalys_3.l1": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Dr. Penn, you were out till all hours on the fourth. I counted. So I knitted you a sleeping mask!",
+        "why": "Hint: a Keeper abroad on the ritual night, noticed as overwork."
+      }
+    ],
+    "event.overheard_felix_elara_1.l4": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I knew you'd love it! Next one's bigger. Felix, where did the gulls go? It's so quiet.",
+        "why": "Uneasy: birds quieter, asked of the one person who would know."
+      }
+    ],
+    "event.overheard_felix_elara_2.l4": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Too late! I told the whole waiting room! It's full lately. Nobody's sleeping through the night.",
+        "why": "Uneasy, full: the sleepless village, as a nurse sees it."
+      }
+    ],
+    "event.overheard_felix_elara_3.l4": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "I won't! Nineteen. Twenty. ...The fish are all facing the shore. Toward the trees. Do fish do that?",
+        "why": "Frightened, full: animals facing the wood; the count falters."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I won't! Nineteen! Twenty! The fish are all facing one way today. Listening, I bet.",
+        "why": "Uneasy, mild: same image, no direction named."
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "elara_heart2",
+      "after": "event.elara_heart2.2",
+      "when": "horror:1 && var:dread>=30",
+      "text": "And sleep tonight. Curtains shut, lamp on, tea in reach. Nurse's orders, the nice kind.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "Practical, ordinary comfort for a player who looks unwell."
+    },
+    {
+      "scene": "elara_heart5",
+      "after": "event.elara_heart5.0",
+      "when": "horror:2 && var:dread>=60",
+      "text": "...Oh. You're pale. Sit first. The present can wait thirty seconds.",
+      "emote": "sweat",
+      "expression": "sad",
+      "why": "Frightened: she stops her own surprise to look after the player."
+    },
+    {
+      "scene": "past_the_point",
+      "after": "event.past_the_point.3",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Felix, the birds stopped when we passed the point. Do birds take breaks?",
+      "emote": "question",
+      "expression": "thinking",
+      "why": "The unaware villager's puzzled aside; Felix's next line still closes the scene."
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "elara_heart2": "Why is the one place nobody goes the one place missing from a map of everywhere?",
+    "elara_heart5": "Why did Dr. Penn cross Harrow Wood off a list of places Elara only dreams of visiting?",
+    "past_the_point": "What does the wood look like from the water, and why did the birds go quiet at the point?",
+    "elara_garden_visit": "What made Edmund stop bringing comfrey and start coming by just to sit, the fall he died?",
+    "elara_heart8": "Why did forty-one make Dr. Penn go quiet?",
+    "elara_birthday": "If even Elara can see how worn the player is, what is keeping them up?",
+    "elara_courtship": "Why does everyone, even Elara, say to come by in daylight?",
+    "elara_courtship2": "What is keeping the whole village, Elara included, awake at night?",
+    "elara_partners": "Why does a doctor giving an afternoon off add 'home by dark'?",
+    "overheard_elara_odalys_1": "Why does the clinic close early on the fourth?",
+    "overheard_elara_odalys_2": "Why does the well water taste of iron?",
+    "overheard_elara_odalys_3": "Where was Dr. Penn until all hours on the fourth?",
+    "overheard_felix_elara_1": "Where did the gulls go?",
+    "overheard_felix_elara_2": "Why is no one in Wetherell sleeping through the night?",
+    "overheard_felix_elara_3": "What are the fish facing, and why the trees?"
+  },
+  "notes": [
+    "The cozy list has forty-one places, the same number as Dorian's forty-one trees. I used it at clue tier (Penn counts them and goes quiet); Elara never links the two. If the match was an accident, cut dlg.elara.list.1's variant.",
+    "New canon-adjacent detail: Penn once crossed Harrow Wood off Elara's list ('Not that one'). Penn's persona should agree, or the Director should cut it.",
+    "Garden visit variant n1 is gated only on horror:1 because the scene plays on spring 2 of year 1, before any lore or dread can build.",
+    "The .after lines (heart8, birthday, courtship, partners) are {if}-branched, so I left them alone.",
+    "Planned cut of event.elara_heart5.3 at dread>=60 was illegal (last line), so it became a frightened variant instead."
+  ]
+}
