@@ -1,0 +1,63 @@
+{
+  "villager": "odalys",
+  "lines": {
+    "event.odalys_heart2.0": { "text": "Sit. No, stand. Hold still, [player]. You walked in without a single complaint, which is suspicious in itself.", "why": "greeting tic undercut; she is checking the player, not scolding" },
+    "event.odalys_heart2.1": { "text": "Strong and steady. All that digging is good for something besides the turnips.", "why": "keeps the compliment, lands on a farm word" },
+    "event.odalys_heart2.2": { "text": "Two salads. Eat them sitting down, at a table, in daylight. Doctor's orders.", "why": "matches the item given; the prescription bit with the catchphrase" },
+    "event.odalys_heart5.0": { "text": "Sit. This is my notebook of remedies. Every cure that ever worked in Wetherell, and several that only worked on Marcus.", "why": "specific object, gentle jab at her obedient patient" },
+    "event.odalys_heart5.1": { "text": "I copied one out for you. The forager's plate: hedge greens, mushrooms, a little salt, eaten outdoors.", "why": "names the recipe she teaches" },
+    "event.odalys_heart5.2": { "text": "Use it well. If it works, write it in the margin. I like to know what helps.", "why": "invites the player into her record; her want to help" },
+    "dlg.story.pie.talk.r0b": { "text": "A stranger with excellent taste and sawdust on the note. ...It's rather good. Tell him nothing.", "why": "she sees through the anonymity and keeps the feud alive" },
+    "dlg.story.pie.talk.r1b": { "text": "Someone added cinnamon. It's better now. I resent that, professionally.", "why": "deadpan embarrassment, sets up Marcus's 'Cheek' note" },
+    "dlg.story.pie.talk.r2b": { "text": "An empty plate and a crumb on your sleeve. I'll bill Marcus for one pie. You, for the crumb.", "why": "teases the situation, ends on the funniest word" },
+    "event.odalys_heart8.intro": { "text": "Sit. I closed the clinic early today. I'm taking my own prescription: soup, and company. I've been short of both.", "why": "fixes the 'tonight' clash with a 9-17 trigger; admits loneliness sideways" },
+    "dlg.odalys.office.0": { "text": "I tell everyone to rest. I have never once done it on a weekday. This is unfamiliar. Be gentle.", "why": "specific, vulnerable, still formal" },
+    "dlg.odalys.office.1": { "text": "So, [player]. Your professional opinion? I'll be taking notes.", "why": "turns the consult around" },
+    "dlg.odalys.office.c0": { "text": "Insist that she rests tonight.", "why": "kind and firm" },
+    "dlg.odalys.office.c1": { "text": "Pull up a chair and share the soup.", "why": "warm, companionable" },
+    "dlg.odalys.office.c2": { "text": "Write her a prescription of your own.", "why": "playful, turns her bit on her" },
+    "dlg.odalys.office.r0": { "text": "You insist. ...Very well. Under protest, with soup, and in front of a witness.", "why": "gives in with dignity" },
+    "dlg.odalys.office.r1": { "text": "Two spoons, one pot. That's the entire treatment. You diagnosed me faster than I would have.", "why": "concrete image, quiet admission" },
+    "dlg.odalys.office.r2": { "text": "A prescription. For me. 'Come back anyway.' ...I've never been given orders I wanted to follow.", "why": "the gift lands as feeling, not quip" },
+    "event.odalys_heart8.after": { "text": "{if choice:office.insist}You insisted I rest. I filed it under 'Unreasonable'. Then I slept nine hours. Elara is unbearable about it.{else}{if choice:office.soup}We finished the pot. I've written it up: 'Treatment successful. Repeat weekly.' That last part was not a question.{else}Your prescription is pinned above my desk. 'Come back anyway.' I intend to comply. Doctor's orders.{/if}{/if}", "why": "each branch shows the choice took, and each asks for more" },
+    "event.odalys_birthday.intro": { "text": "Sit. It's my birthday. I observe it with soup. That is an invitation, not an order. Mostly.", "why": "tighter; the hedge goes last" },
+    "dlg.odalys.birthday.c0": { "text": "Wish her a happy birthday.", "why": "unchanged meaning; kept plain and warm" },
+    "dlg.odalys.birthday.c1": { "text": "Pull up a chair for the soup.", "why": "companionable" },
+    "dlg.odalys.birthday.c2": { "text": "Prescribe her an afternoon nap.", "why": "playful" },
+    "dlg.odalys.birthday.r0": { "text": "...Thank you. Most people wish me well by not needing me today. This is better.", "why": "subtext: she is rarely celebrated, only consulted" },
+    "dlg.odalys.birthday.r1": { "text": "Then pass your bowl. Leek and potato, and an irresponsible amount of pepper. It's my birthday.", "why": "specific soup, small indulgence" },
+    "dlg.odalys.birthday.r2": { "text": "A nap, prescribed by a farmer. ...I'll comply. My patients will be told it was an emergency.", "why": "deadpan surrender" },
+    "event.odalys_birthday.after": { "text": "{if choice:bday.odalys.wish}It went in the file labeled 'Unexpected'. That file was empty last winter. It isn't now.{else}{if choice:bday.odalys.soup}Shared soup. Elara made me write 'Successful' in red ink. She brought the ink.{else}I napped twenty minutes. The clinic survived. Elara says nothing happened. She said it very quickly.{/if}{/if}", "why": "each branch callbacks the choice and leaves a small question" },
+    "event.overheard_elara_odalys_1.l2": { "text": "Elara. The stool is wearing a cozy. ...It suits it. Leave it on.", "why": "deadpan concession to Elara's joke" },
+    "event.overheard_elara_odalys_1.l4": { "text": "No. One cozy per stool. That is clinic policy, as of now.", "why": "the frown that is really a smile" },
+    "event.overheard_elara_odalys_2.l2": { "text": "Elara. I accept the soup. I need to know the surprise first. Professionally.", "why": "suspicion as care" },
+    "event.overheard_elara_odalys_2.l4": { "text": "...It's the best soup I've had all year. Save me a bowl. Don't tell the turnip.", "why": "warmth, then plays along with Elara's joke" },
+    "event.overheard_elara_odalys_3.l2": { "text": "Elara. It's very soft. ...Ten minutes after lunch. Do not mistake that for a habit.", "why": "accepts while guarding her pride" },
+    "event.overheard_elara_odalys_3.l4": { "text": "That was good care, Elara. Wake me for emergencies only. Splinters are not emergencies.", "why": "warm first, joke at Marcus's expense second" },
+    "event.overheard_odalys_ione_1.l1": { "text": "Ione. Your lamps were still lit an hour past closing.", "why": "specific observation, concern disguised as report" },
+    "event.overheard_odalys_ione_1.l3": { "text": "Patients keep odd hours. Books do not. ...Very well. Call it a draw.", "why": "defends herself, then concedes" },
+    "event.overheard_odalys_ione_2.l1": { "text": "Ione. I prescribe you a nap. Ten minutes. I've already written it down.", "why": "the prescription bit, with paperwork" },
+    "event.overheard_odalys_ione_2.l3": { "text": "...Chapter one, then the nap. I'll return the book by hand. Your returns box is sticky again.", "why": "accepts the trade; village callback" }
+  },
+  "adds": [
+    { "scene": "odalys_heart2", "after": "event.odalys_heart2.1", "text": "When did you last eat sitting down? Bread over a seed bag does not count.", "emote": null, "expression": "thinking", "why": "she checks whether the player looks after themselves" },
+    { "scene": "odalys_heart2", "after": "event.odalys_heart2.2", "text": "Marcus is the only patient who comes when I call. I'm working on the rest of the village.", "emote": null, "expression": null, "why": "ends on her want, a village that rests" },
+    { "scene": "odalys_heart5", "after": "event.odalys_heart5.1", "text": "Edmund has a page in here too. He followed every instruction. The same way he put his affairs in order.", "emote": null, "expression": "thinking", "why": "her sanctioned Edmund thread, said with respect, not explained" }
+  ],
+  "cuts": [],
+  "threads": {
+    "odalys_heart2": "Who else in the village is avoiding Dr. Penn's checkups?",
+    "odalys_heart5": "What did Edmund's page in the remedy notebook say?",
+    "odalys_heart8": "Will the doctor really keep resting, and with whom?",
+    "odalys_birthday": "What else is in Dr. Penn's file labeled 'Unexpected'?",
+    "overheard_elara_odalys_1": "Will the stool keep its cozy, and what will Elara knit next?",
+    "overheard_elara_odalys_2": "Does Dr. Penn ever get her bowl, and what did the turnip hide?",
+    "overheard_elara_odalys_3": "Does Dr. Penn actually take the ten-minute nap?",
+    "overheard_odalys_ione_1": "Who will go home first: the doctor or the librarian?",
+    "overheard_odalys_ione_2": "Which book did Ione prescribe, and will Dr. Penn finish chapter one?"
+  },
+  "notes": [
+    "odalys_heart8: the trigger is hour 9-17 but the old intro said 'tonight'; I changed it to 'closed the clinic early today'. The bible's 'rare quiet evening' would need the trigger moved to evening.",
+    "odalys_heart2: the old line called the gift 'a tonic' but the effect gives two salads; the line now names salads."
+  ]
+}
