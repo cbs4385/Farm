@@ -1,0 +1,195 @@
+{
+  "villager": "tilda",
+  "variants": {
+    "event.tilda_heart5.0": [
+      { "when": "horror:2 && var:dread>=60", "text": "Sit, [player]. Right down. You look like you haven't slept in a week. I baked a dozen scones. Eat two.", "why": "frightened: the joke goes, the care gets exact and gentle" },
+      { "when": "horror:1 && var:dread>=30", "text": "Sit a moment, [player]. You look tired around the eyes. I baked a dozen scones for a village that buys six.", "why": "uneasy: she notices the player's tiredness first" }
+    ],
+    "event.tilda_heart5.3": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "Nobody sits in a shop. They lean, they pay, the bell goes twice. You sat. ...Edmund sat there too. Same chair.", "expression": "embarrassed", "why": "clue: the chair was Edmund's; a person to ask about" }
+    ],
+    "event.tilda_heart5.4": [
+      { "when": "horror:2 && var:dread>=60", "text": "Same chair on Thursday? Come by daylight. I'll bake fewer scones. That's a lie, but a kind one.", "why": "frightened: a daylight rule slipped into the sign-off" }
+    ],
+    "event.tilda_heart2.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "Oh, [player]! Just the account I wanted. Come in out of the fog. I've something to hand over.", "why": "uneasy: the morning fog that will not lift" }
+    ],
+    "event.tilda_heart2.1": [
+      { "when": "horror:2 && var:dread>=60", "text": "My mother's cauliflower gratin. Warm food, eaten early, and you sleep through. Don't thank me. Bring me a cauliflower someday.", "why": "frightened: feeding as protection, too exact" }
+    ],
+    "event.tilda_heart2.2": [
+      { "when": "horror:1 && var:lore>=1", "text": "She wrote down one recipe in her whole life. Everything else she kept by heart. We were raised to keep things.", "why": "hint: a family of keepers, a custom of not writing down" }
+    ],
+    "event.hall_dance.3": [
+      { "when": "horror:2 && var:dread>=60", "text": "Every name in this room, in the good chalk. All here. ...All here. Good. Nobody asked for credit, so I'm giving it.", "why": "frightened: she counts heads; the repeat is the distortion" },
+      { "when": "horror:1 && var:dread>=30", "text": "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name. I counted twice.", "why": "uneasy: care too exact" }
+    ],
+    "event.hall_dance.10": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood. You've given it enough.", "why": "clue: 'wood' tips toward Harrow Wood; Marcus has given something" }
+    ],
+    "dlg.story.notes.tilda.1": [
+      { "when": "horror:1 && var:dread>=30", "text": "...Well. Now you know who's been doing it. Daylight only, mind. Nobody wants a knock after dark.", "why": "uneasy: a rule about the dark, said like shop policy" }
+    ],
+    "dlg.story.notes.tilda.r2": [
+      { "when": "horror:2 && var:dread>=60", "text": "A note, for me? ...You've been sleeping badly, haven't you. I'm keeping it. And keeping an eye on you.", "expression": "happy", "why": "frightened: Keeper gentleness that frightens more" }
+    ],
+    "event.story_notes_tilda.after": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "Signing a kindness is just sending a bill. Some of us keep the other account unsigned. ...Two more doors. Don't follow me.", "why": "clue: a second, unsigned account; something kept" }
+    ],
+    "dlg.story.scarecrow.talk.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "Mine is smiling. The birds have gone quiet this fall anyway. Still, a cheerful face never hurt a field.", "why": "uneasy: birds quieter" }
+    ],
+    "dlg.story.pumpkin.dorian.1": [
+      { "when": "horror:1 && var:dread>=30", "text": "Dorian. Is that my prize pumpkin? I've been blaming the goats all week, and they're nervous enough already!", "why": "uneasy: animals skittish, no harm shown" }
+    ],
+    "dlg.story.pumpkin.dorian.r0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "Kindly, then. He's on the slate for a pie. ...And he keeps better count than anyone. Of trees, mostly.", "expression": "thinking", "why": "clue: echoes Dorian counting the trees" }
+    ],
+    "dlg.story.pumpkin.marcus.1": [
+      { "when": "horror:1 && var:dread>=30", "text": "Marcus! Is that my prize pumpkin? I blamed the goats. They won't go near the back field lately, either.", "why": "uneasy: animals avoid the wood side" }
+    ],
+    "dlg.story.pumpkin.marcus.r0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "Kindly. Fine. But he owes me a pie, and it'll be exact. He measures everything twice. Doors especially.", "expression": "thinking", "why": "clue: echoes the cellar door Edmund would not let Marcus oil" }
+    ],
+    "dlg.story.pumpkin.marcus.r2": [
+      { "when": "horror:2 && var:dread>=60", "text": "You and Marcus take the ends. I'll walk ahead. It's a face in a pumpkin, [player], nothing more. Breathe.", "expression": "happy", "why": "frightened: the carved face lands wrong; she steadies the player" }
+    ],
+    "dlg.story.pumpkin.felix.1": [
+      { "when": "horror:1 && var:dread>=30", "text": "Felix. Is that my prize pumpkin? I blamed the goats! Everyone's jumpy this week, and now you!", "why": "uneasy: village-wide nerves" }
+    ],
+    "dlg.story.pumpkin.felix.r2": [
+      { "when": "horror:2 && var:dread>=60", "text": "You take the heavy end. Felix carries the excuses. I'll walk right beside you, [player]. Slowly.", "expression": "happy", "why": "frightened: very gentle, joke trimmed" }
+    ],
+    "event.festival_winter_lanterns.0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "Lanterns up, everyone. Wait for the bell. One wish each. Some of us wish the same thing every year, and it keeps.", "why": "clue: a yearly wish that is a duty" },
+      { "when": "horror:1 && var:dread>=30", "text": "Lanterns up, everyone. Not lit yet. Wait for the bell. Felix, I mean you. And none over the trees, please.", "why": "uneasy: the wood mentioned as a custom" }
+    ],
+    "event.tilda_heart4.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "Come around the counter. Nobody comes back here but me. Mind the cat. It's watched the back door all week.", "why": "uneasy: an animal facing the wood" }
+    ],
+    "dlg.tilda.slate.0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "This is the slate. Every small kindness in Wetherell, in chalk. The back is older debts. We don't turn it over.", "why": "clue: an object to chase, the back of the slate" }
+    ],
+    "dlg.tilda.slate.r2": [
+      { "when": "horror:2 && var:dread>=60", "text": "A promise. I'll write it small and hold it large. Now sit. You're pale, and the kettle's on.", "why": "frightened: gentler, practical" }
+    ],
+    "event.tilda_heart6.intro": [
+      { "when": "horror:1 && var:dread>=30", "text": "Turn the sign to Closed, would you? Just for an hour. Draw the blind on the wood side, too. Your chair's free.", "why": "uneasy: a small household rule about the wood" }
+    ],
+    "dlg.tilda.hours.0": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "I count the stock at closing time. Four nights a year, I count people instead. Lately the street comes out short.", "expression": "thinking", "why": "clue: four nights a year, echoing the almanac dates" }
+    ],
+    "dlg.tilda.hours.1": [
+      { "when": "horror:2 && var:lore>=5 && hearts:tilda>=6", "text": "A few of us keep something asleep in that wood. It costs. Last fall it cost Edmund. I wrote your letter anyway. What do you think?", "why": "revelation (full): her clue scene; she confesses and asks; choices still answer 'stay or not'" },
+      { "when": "horror:1 && var:dread>=30", "text": "I tell myself Wetherell isn't shrinking. Then the lamps go out early, house by house. What do you think?", "why": "uneasy: lamps lit early, then dark" }
+    ],
+    "dlg.tilda.hours.r0": [
+      { "when": "horror:2 && var:dread>=60", "text": "Staying. ...Then stay near a lamp, on the dark nights. I'd like that on the slate in your handwriting.", "why": "frightened: the promise gets a condition" }
+    ],
+    "event.tilda_heart6.after": [
+      { "when": "horror:2 && var:dread>=30", "text": "Said out loud, it weighs less. For both of us, I think. Turn the sign back, would you? And home before dark.", "why": "uneasy full: a Keeper's too-exact care closes the scene" }
+    ],
+    "dlg.tilda.card.0": [
+      { "when": "horror:1 && var:dread>=30", "text": "Behind the flour sacks, in a very old tin, lies a recipe card in faded ink. The tin is colder than the room.", "why": "uneasy narration: one wrong detail" }
+    ],
+    "dlg.tilda.card.1": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "My mother's pumpkin pie. On the back, four dates a year, in her hand. I've never baked it. What if I get it wrong?", "why": "clue: the same four nights Edmund marked" }
+    ],
+    "dlg.tilda.card.r1": [
+      { "when": "horror:1 && var:lore>=1", "text": "Safe. It's been kept safe for forty years. Keeping things is what this family does.", "why": "hint: 'keeping' as a family trade" }
+    ],
+    "event.tilda_heart10.intro": [
+      { "when": "horror:2 && var:dread>=60", "text": "Close your eyes. ...No, you're shaking. Keep them open, then. I've done something to the front of the shop.", "why": "frightened: she will not ask a frightened player to close their eyes" }
+    ],
+    "event.tilda_heart10.give": [
+      { "when": "horror:2 && var:lore>=5 && hearts:tilda>=6", "text": "Pumpkin pie, still warm. That's your farm on my sign, in paint. Supplier. Not kept in reserve, not on any list. I made sure.", "why": "revelation: the farm was the bargain; she has taken it off the list" }
+    ],
+    "event.tilda_friend.ask": [
+      { "when": "horror:1 && var:dread>=30", "text": "Saturday stocktake, and the window's three sunflowers short. Something bright, please. The fog's sat on the street all morning.", "why": "uneasy: fog at noon" }
+    ],
+    "event.tilda_friend.success": [
+      { "when": "horror:1 && var:dread>=30", "text": "Three sunflowers! The window looks like noon, and we needed one. You're on the slate, under 'saved the display.'", "why": "uneasy: the brightness is needed, not just pretty" }
+    ],
+    "event.tilda_birthday.intro": [
+      { "when": "horror:1 && var:lore>=1", "text": "It's my birthday. I don't make a fuss, I make a large pie. Come in, and whatever you do, don't turn the slate over.", "why": "hint: points at the back of the slate" }
+    ],
+    "dlg.tilda.birthday.r2": [
+      { "when": "horror:2 && var:dread>=60", "text": "You'd mind it? That's the best present. Take the stool, keep the lamp lit. The cat will keep you company.", "expression": "happy", "why": "frightened: she leaves the player the lamp and the cat" }
+    ],
+    "event.overheard_tilda_felix_1.l3": [
+      { "when": "horror:1 && var:dread>=30", "text": "It's been in a bucket since dawn. It hasn't grown. Neither has anyone's catch, lately.", "why": "uneasy: the sea gone quiet, said in passing" }
+    ],
+    "event.overheard_tilda_felix_2.l4": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "Soup, a blanket, and 'Thin Ice' on the slate. Some warnings people walk past. I still write them.", "why": "clue: she writes warnings people ignore" }
+    ],
+    "event.overheard_tilda_felix_3.l4": [
+      { "when": "horror:1 && var:dread>=30", "text": "The pond always knows. Sit down, Felix. Tea for two, and the lamp on early.", "why": "uneasy: lamps lit early" }
+    ],
+    "event.overheard_tilda_felix_4.l4": [
+      { "when": "horror:2 && var:dread>=60", "text": "To old friends, dear. Eat up, Felix. ...And walk home with someone tonight.", "why": "frightened: an oddly exact instruction to an unaware friend" }
+    ],
+    "event.overheard_tilda_wren_1.l3": [
+      { "when": "horror:1 && var:lore>=1", "text": "Flattery earns a ribbon. Imitation earns a bill. Copying the back earns a quiet word.", "why": "hint: both keep a back side; Wren's reply still lands on 'ribbon'" }
+    ],
+    "event.overheard_tilda_wren_3.l1": [
+      { "when": "horror:2 && var:lore>=3 && hearts:tilda>=4", "text": "Six days at that counter. Save me a seat near the door? I may need to leave early.", "why": "clue: Keepers leaving early, between two Keepers" }
+    ],
+    "event.overheard_tilda_wren_3.l3": [
+      { "when": "horror:1 && var:lore>=1", "text": "One cup. Then back to the slate. No moon this week. I'll want my lamp.", "why": "hint: the new moon as a custom" }
+    ],
+    "event.overheard_tilda_juno_1.l2": [
+      { "when": "horror:1 && var:dread>=30", "text": "Three clasps is two months of bread. The hinge is a tip. A bolt next, if you've one spare.", "why": "uneasy: she wants a bolt for her door" }
+    ],
+    "event.overheard_tilda_juno_3.l2": [
+      { "when": "horror:2 && var:lore>=3 && hearts:tilda>=4", "text": "Open one here and I'll stock your first shelf. Go farther, and... I'd understand. I'd post pie.", "why": "clue: the shopkeeper who fears a shrinking village half wants Juno away" }
+    ],
+    "event.overheard_tilda_bram_1.l1": [
+      { "when": "horror:1 && var:dread>=30", "text": "Bram. There's a pie crust on your bench. For the hinges, the shutters, and the brighter lamp.", "why": "uneasy: shutters and a brighter lamp" }
+    ]
+  },
+  "adds": [
+    { "scene": "tilda_heart5", "after": "event.tilda_heart5.2", "when": "horror:2 && var:dread>=30", "text": "And be home before the lamps tonight. Humor a shopkeeper. I like my accounts all in.", "emote": "ellipsis", "expression": "thinking", "why": "the thing a Keeper does not quite say" },
+    { "scene": "tilda_heart2", "after": "event.tilda_heart2.2", "when": "horror:1 && var:lore>=1", "text": "She kept a lamp on after closing, too. Some habits come with the shop.", "emote": "ellipsis", "expression": null, "why": "the lamp as inheritance" },
+    { "scene": "hall_dance", "after": "event.hall_dance.10", "when": "horror:1 && var:dread>=30", "text": "...Doors open, lamps lit. And nobody walks home alone tonight. That's not advice.", "emote": "ellipsis", "expression": null, "why": "care too exact at the happiest moment" },
+    { "scene": "story_scarecrows", "after": "event.story_scarecrows.intro", "when": "horror:1 && var:lore>=1", "text": "Both face the field, mind. Never the wood. That's tradition.", "emote": null, "expression": null, "why": "hint: an odd custom" },
+    { "scene": "festival_winter_lanterns", "after": "event.festival_winter_lanterns.0", "when": "horror:2 && var:dread>=30", "text": "...Mine's going up, not over the trees. Good. Hot cider in the shop after. Lamp's on.", "emote": "ellipsis", "expression": null, "why": "she watches where her lantern drifts" }
+  ],
+  "cuts": [
+    { "scene": "tilda_heart5", "key": "event.tilda_heart5.1", "when": "horror:2 && var:dread>=60", "why": "the Felix butter joke falls flat when the player is frightened; the added line fills the space" }
+  ],
+  "threads": {
+    "tilda_heart5": "Whose chair was it before yours, and why does she want every account home before the lamps?",
+    "tilda_heart2": "What else did Tilda's mother keep by heart, and why the lamp?",
+    "hall_dance": "What has Marcus given the wood, and why does Tilda count every head?",
+    "story_notes_tilda": "What is the other account Tilda keeps unsigned?",
+    "story_scarecrows": "Why must a scarecrow never face the wood?",
+    "story_pumpkin_dorian": "What is Dorian counting among the trees?",
+    "story_pumpkin_marcus": "Which door does Marcus measure twice?",
+    "story_pumpkin_felix": "Why is the whole village jumpy this week?",
+    "festival_winter_lanterns": "What does Tilda wish for every year, and why not over the trees?",
+    "tilda_heart4": "What is written on the back of the slate?",
+    "tilda_heart6": "What does Tilda count four nights a year, and what did it cost Edmund?",
+    "tilda_heart8": "Why are the same four dates on her mother's recipe card?",
+    "tilda_heart10": "What list was the farm on before Tilda painted it on her sign?",
+    "tilda_friend": "Why won't the fog lift from the street?",
+    "tilda_birthday": "Why must the slate never be turned over?",
+    "overheard_tilda_felix_1": "Why has nobody's catch grown lately?",
+    "overheard_tilda_felix_2": "What warnings does Tilda still write that people walk past?",
+    "overheard_tilda_felix_3": "Why are the lamps lit early?",
+    "overheard_tilda_felix_4": "Why must Felix not walk home alone tonight?",
+    "overheard_tilda_wren_1": "What is on the back of Wren's chalkboard?",
+    "overheard_tilda_wren_2": "What news do two shopkeepers trade when nobody's near?",
+    "overheard_tilda_wren_3": "Where does Tilda go when she leaves the saloon early on a moonless night?",
+    "overheard_tilda_juno_1": "Why does Tilda want a bolt for her door?",
+    "overheard_tilda_juno_2": "Who else has Tilda quietly made room for over the years?",
+    "overheard_tilda_juno_3": "Why would the woman who fears an empty village tell Juno to go?",
+    "overheard_tilda_bram_1": "Why does the store need shutters and a brighter lamp?"
+  },
+  "notes": [
+    "Some variants carry an 'expression' field to keep the cozy beat's portrait; drop it if the compiler takes expression from the beat only.",
+    "dlg.tilda.hours.1 revelation (full, lore>=5, hearts>=6) is Tilda's confession; I treat heart 6 as her clue scene. The choices ('I'm staying' etc.) still answer it. Confirm with LORE.md that Tilda may name Edmund's cost here.",
+    "The back of the slate (heart4 clue, birthday hint, Wren overheard hint) is a new object to chase; it needs a payoff clue somewhere (Hazel or a Tilda later scene).",
+    "No variants on lines with {if} markup (scarecrows.after, heart4.after, heart8.after, heart10.thanks, birthday.after) to keep choice branching intact.",
+    "Overheard variants kept to 20 words or fewer; overheard_tilda_wren_2 and juno_2 left plain for contrast."
+  ]
+}

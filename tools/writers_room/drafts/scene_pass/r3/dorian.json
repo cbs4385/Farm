@@ -2,28 +2,349 @@
   "villager": "dorian",
   "variants": {
     "event.dorian_heart2.1": [
-      { "when": "horror:2 && var:dread>=60", "text": "A fox. By the fern. Don't move. She's listening too. Not to us.", "why": "frightened: the fox attends to something else; the player is not the thing being judged" },
-      { "when": "horror:1 && var:dread>=30", "text": "A fox. By the fern. Don't move. She keeps facing the wood.", "why": "uneasy: animals face the wood (ladder), told as plain observation" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "A fox. By the fern. Don't move. She's listening too. Not to us.",
+        "why": "frightened: the fox attends to something else; the player is not the thing being judged"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A fox. By the fern. Don't move. She keeps facing the wood.",
+        "why": "uneasy: animals face the wood (ladder), told as plain observation"
+      }
     ],
     "event.dorian_heart2.4": [
-      { "when": "horror:2 && var:lore>=3 && hearts:dorian>=4", "text": "There's another place. Further in. Not yet. Never after dark.", "why": "clue at full: the too-exact rule attached to the deeper place" },
-      { "when": "horror:1 && var:lore>=1", "text": "There's another place. Further in. Not yet. Not on a new moon.", "why": "hint: an odd custom tied to the moon; a night the player can stay awake for" }
+      {
+        "when": "horror:2 && var:lore>=3 && hearts:dorian>=4",
+        "text": "There's another place. Further in. Not yet. Never after dark.",
+        "why": "clue at full: the too-exact rule attached to the deeper place"
+      },
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "There's another place. Further in. Not yet. Not on a new moon.",
+        "why": "hint: an odd custom tied to the moon; a night the player can stay awake for"
+      }
+    ],
+    "event.dorian_heart5.1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "I've never shown anyone. Edmund found it. He wasn't looking for mushrooms.",
+        "why": "clue: Edmund came here for another reason"
+      }
+    ],
+    "event.dorian_heart5.3": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:dorian>=6",
+        "text": "He was counting the trees. Forty-one, then the way in. I know how far he got.",
+        "why": "revelation: Dorian knew where Edmund went; hurt admission, echoes the thread without repeating it"
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "He was counting the trees. I never asked. I think I knew.",
+        "why": "clue: a duty half-confessed"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "He was counting the trees. I count them too. Habit.",
+        "why": "uneasy: the Keeper tell is exactness"
+      }
+    ],
+    "event.dorian_heart5.2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Keep it to yourself. The truffle is yours. Yours. Go home before dusk.",
+        "why": "frightened: one repeated word (distortion) and too-exact care"
+      }
+    ],
+    "event.reading_night.2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "A snowdrop. Pressed. For the lamp. ...Sit near it. You look cold.",
+        "why": "frightened: Keeper turns gentle, and notices the player"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A snowdrop. Pressed. For the lamp. Keep it lit tonight. Late.",
+        "why": "uneasy: lamps lit early / care that is too exact"
+      }
+    ],
+    "dlg.story.notes.dorian.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "A folded note sits half under the door. Dorian's hand is still on it. It shakes.",
+        "why": "frightened: the note writer is afraid too"
+      }
+    ],
+    "event.story_notes_dorian.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Three more doors. Before dark. Always before dark. Go home, [player].",
+        "why": "frightened: repeated phrase, protective"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Three more doors before dark. Not after. Don't follow.",
+        "why": "uneasy: the deadline is the tell"
+      }
+    ],
+    "dlg.story.scarecrow.talk.1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Mine says nothing. It faces the wood. Crows won't go near it.",
+        "why": "frightened: animals avoid the wood"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Mine says nothing. Crows hate that. There are fewer this fall anyway.",
+        "why": "uneasy: birds quieter"
+      }
+    ],
+    "dlg.story.scarecrow.talk.r3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The crows. ...Barely came. Quiet fall. A tie, then. Take one.",
+        "why": "uneasy: the crows did not show; choice still means a tie"
+      }
+    ],
+    "dlg.story.pumpkin.dorian.2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "...Borrowed. The fog's been heavy. Mushrooms needed a roof. It was coming back.",
+        "why": "hint: longer morning fog"
+      }
+    ],
+    "event.story_pumpkin_dorian.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Next fall I'll grow my own. ...You look tired. Pumpkins can wait.",
+        "why": "frightened: comedy yields to gentleness"
+      }
+    ],
+    "dlg.dorian.notebook.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Dorian takes a worn notebook from his coat. Its pages smell of warm earth.",
+        "why": "frightened: warm ground (ladder)"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Dorian takes a small, worn notebook from his coat. He glances at the trees first.",
+        "why": "uneasy: watching the wood"
+      }
+    ],
+    "dlg.dorian.notebook.1": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:dorian>=6",
+        "text": "Mushrooms. Drawn. Hundreds. The last pages are the clearing. Not those.",
+        "why": "revelation tier: the clearing is drawn, and withheld"
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "Mushrooms. Drawn. Hundreds. Some pages are trees, numbered. Skip those.",
+        "why": "clue: the count lives in the notebook"
+      }
+    ],
+    "dlg.dorian.notebook.r1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "One. Take the small brown one, under the fern. Keep it near you. Nights.",
+        "why": "frightened: gift becomes a keepsake against something"
+      }
+    ],
+    "event.dorian_birthday.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "...My birthday. Marcus told people. Stay a minute. Not long. The wood's closer this year.",
+        "why": "frightened: the woods seem closer"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...It's my birthday. Marcus told people. Stay a minute. Not long. Leave before dusk.",
+        "why": "uneasy: too-exact care"
+      }
+    ],
+    "dlg.dorian.birthday.c1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Offer a slow walk, near the path.",
+        "why": "frightened: same choice, the player stays close to the path"
+      }
+    ],
+    "dlg.dorian.birthday.r1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "Good. The moss is thick there. We'll stop at forty. Not further.",
+        "why": "clue: the count has an end he will not pass with the player"
+      }
+    ],
+    "event.dorian_courtship.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...I've been quiet a long time. One thing, then. I won't take it back. Will you court me? Slowly. Here. In daylight.",
+        "why": "uneasy: daylight is the tell"
+      }
+    ],
+    "dlg.dorian.courtship.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "What do you say? ...Take your time. You're safe here.",
+        "why": "frightened: gentler, and the reassurance unsettles"
+      }
+    ],
+    "dlg.dorian.courtship.r0": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "...Yes. I wasn't sure. I'll show you the quiet places. Nearly all of them.",
+        "why": "clue: one place he will not show"
+      }
+    ],
+    "event.dorian_courtship2.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...You said wait. I waited. The trees kept count. I'll ask once more. Will you court me? Slowly. Quietly.",
+        "why": "uneasy: counting tell"
+      }
+    ],
+    "event.dorian_partners.intro": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "I made something. Feather, stick, twine. The others would know it. It keeps you. Hold it.",
+        "why": "clue: a Keeper's charm; protective, marks the player as kept"
+      }
+    ],
+    "dlg.dorian.partners.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Today's ours. Only today. I don't plan past days now.",
+        "why": "frightened: hurt, not sinister"
+      }
+    ],
+    "dlg.dorian.partners.r1": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "The forest, then. Past the third tree. Not past the forty-first.",
+        "why": "hint: the count's end"
+      }
+    ],
+    "event.overheard_marcus_dorian_1.l4": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "...You could have. You were counting. So was I.",
+        "why": "hint: both lodgers count; overheard by the player"
+      }
+    ],
+    "event.overheard_marcus_dorian_2.l4": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Me too. Plane, please. We finish early tonight.",
+        "why": "hint: Keepers leave early on certain nights"
+      }
+    ],
+    "event.overheard_marcus_dorian_3.l2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Oak. Good. Heavy. Heavy is good, lately.",
+        "why": "frightened: a door's weight matters now"
+      }
+    ],
+    "event.overheard_marcus_dorian_3.l4": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "...A very good door. Does it bolt? Some nights I'd want it to.",
+        "why": "clue: he fears himself on certain nights; echoes Edmund's cellar door"
+      }
+    ],
+    "event.overheard_marcus_dorian_4.l2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "...Toward the trees? Good. I can keep count from bed.",
+        "why": "hint: counting tell"
+      }
+    ],
+    "event.overheard_marcus_dorian_4.l4": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "The owl will want a name. It hasn't called lately. I'll wait.",
+        "why": "frightened: birds quieter"
+      }
+    ],
+    "event.overheard_dorian_hazel_1.l1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "...Hazel. Wood mud on your boots. Be careful.",
+        "why": "clue: the Keeper sees the resister's footsteps, and warns rather than threatens"
+      }
+    ],
+    "event.overheard_dorian_hazel_1.l3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...Quiet today. Even the jays. Third week now.",
+        "why": "uneasy: birds quieter, counted"
+      }
+    ],
+    "event.overheard_dorian_hazel_2.l3": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "...They'd like that. Don't read my margins. They're only counts.",
+        "why": "hint: margins echo Edmund's almanac; Hazel will notice"
+      }
+    ],
+    "event.overheard_dorian_hazel_3.l1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "...We could just sit. Not talk. Not about the almanac.",
+        "why": "clue: he knows what she has worked out"
+      }
+    ],
+    "event.overheard_dorian_hazel_3.l3": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "The trees will join us. They're nearer already. Don't count them.",
+        "why": "frightened: the woods seem closer"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Then the trees can join us. They come a little closer each year.",
+        "why": "uneasy: same, plainer"
+      }
     ]
   },
   "adds": [
-    { "scene": "dorian_heart2", "after": "event.dorian_heart2.1", "when": "horror:2 && var:dread>=60",
-      "text": "...She's gone. Toward the wood. Stand close. Like a tree.", "emote": "ellipsis", "expression": "thinking",
-      "why": "replaces the cut 'she stayed' beat: the fox leaves the way everything leaves now; Dorian gets gentler" },
-    { "scene": "dorian_heart5", "after": "event.dorian_heart5.3", "when": "horror:2 && var:dread>=60",
-      "text": "...You stand the way he did. Don't. Please.", "emote": "ellipsis", "expression": "sad",
-      "why": "frightened: Dorian sees Edmund in the player and cannot bear it; protective, not sinister" },
-    { "scene": "story_notes_dorian", "after": "event.story_notes_dorian.intro", "when": "horror:1 && var:lore>=1",
-      "text": "Most say good morning. A few say stay in tonight.", "emote": null, "expression": "embarrassed",
-      "why": "hint: the anonymous notes double as warnings on certain nights; a curious player can go read them" }
+    {
+      "scene": "dorian_heart2",
+      "after": "event.dorian_heart2.1",
+      "when": "horror:2 && var:dread>=60",
+      "text": "...She's gone. Toward the wood. Stand close. Like a tree.",
+      "emote": "ellipsis",
+      "expression": "thinking",
+      "why": "replaces the cut 'she stayed' beat: the fox leaves the way everything leaves now; Dorian gets gentler"
+    },
+    {
+      "scene": "dorian_heart5",
+      "after": "event.dorian_heart5.3",
+      "when": "horror:2 && var:dread>=60",
+      "text": "...You stand the way he did. Don't. Please.",
+      "emote": "ellipsis",
+      "expression": "sad",
+      "why": "frightened: Dorian sees Edmund in the player and cannot bear it; protective, not sinister"
+    },
+    {
+      "scene": "story_notes_dorian",
+      "after": "event.story_notes_dorian.intro",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Most say good morning. A few say stay in tonight.",
+      "emote": null,
+      "expression": "embarrassed",
+      "why": "hint: the anonymous notes double as warnings on certain nights; a curious player can go read them"
+    }
   ],
   "cuts": [
-    { "scene": "dorian_heart2", "key": "event.dorian_heart2.3", "when": "horror:2 && var:dread>=60",
-      "why": "the fox does not stay for a frightened player; the add after .1 fills the beat" }
+    {
+      "scene": "dorian_heart2",
+      "key": "event.dorian_heart2.3",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the fox does not stay for a frightened player; the add after .1 fills the beat"
+    }
   ],
   "threads": {
     "dorian_heart2": "What is the other place further in, and why never on a new moon?",
@@ -45,5 +366,8 @@
     "overheard_dorian_hazel_2": "What are the counts in Dorian's margins, and will Hazel read them?",
     "overheard_dorian_hazel_3": "Is the forest really closer to the library than it was?"
   },
-  "notes": []
+  "notes": [
+    "dlg.dorian.courtship.* keys are shared by dorian_courtship and dorian_courtship2; their variants (n0 frightened, r0 clue) apply in both scenes.",
+    "No variants for the {if}-markup '.after' lines (heart8, birthday, courtship, partners): a single variant would collapse the choice branches."
+  ]
 }
