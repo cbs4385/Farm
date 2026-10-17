@@ -29,7 +29,7 @@ placed: player(3, 2)
   · (elara emote sparkle)
   [elara]: "It's a mitten with two thumbs, so it fits either hand. It's a bit crooked. Wear it anyway."  ✏ `event.elara_heart5.1`
   [elara]: "You keep visiting when nothing hurts. Do you know how rare that is? Here. Cranberries. I can't knit those."  ✏ `event.elara_heart5.2`
-  [elara]: "Someday I'll show you my list. Not today. It's very long, and it has drawings."  ✏ `event.elara_heart5.3`  (expr embarrassed)
+  [elara]: "Someday I'll show you my list. Not today. It has doodles, and the doodles are not good."  ✏ `event.elara_heart5.3`  (expr embarrassed)
   · effects: give:crop.cranberry,2, friend:elara,60, flag:event.elara_heart5
 
 ### past_the_point · "Past the Point" · funny
@@ -47,15 +47,15 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (wren faces up)
   · (move player to (27,6))
   · (player faces up)
-  [felix]: "Mornin', both. Boat's ready. She leaks, but politely. The bailing's the elegant part."
-  [elara]: "I knitted a life jacket! Felix says that isn't how they work. I'm wearing it anyway. Over the real one."  ✏ `event.past_the_point.1`  (emote sparkle, expr happy)
-  [felix]: "Bring both. The tin floats. The life jacket can sit up front and look brave."  (expr happy)
+  [felix]: "There you both are. I promised you the boat. She's ready. The bailing tin is the elegant part."
+  [elara]: "I knitted a life jacket! Felix says that's not how they work. It goes over the real one. Sandwiches are in the tin!"  ✏ `event.past_the_point.1`  (emote sparkle, expr happy)
+  [felix]: "Wear both, then. The knitted one can look brave. The real one can do the floating."  (expr happy)
   ▶ DIALOGUE `past_point.talk` (player-facing graph, plays here):
     n0 [elara]: "My list is longer than the boat, and Felix says one place before breakfast. Which one?"  ✏ `dlg.past_point.talk.0`
        ? "Round the headland. You've drawn it enough." → r0  effects: flag:choice.point.headland, friend:elara,5  ✏ `dlg.past_point.talk.c0`
        ? "The white rocks. Slowly." → r1  effects: flag:choice.point.rocks, friend:elara,5  ✏ `dlg.past_point.talk.c1`
        ? "Straight out, till the shore's a line." → r2  effects: flag:choice.point.horizon, friend:elara,5  ✏ `dlg.past_point.talk.c2`
-    r0 [elara]: "The headland! I've drawn it eleven times from the bench. Never from the water side!"  ✏ `dlg.past_point.talk.r0`
+    r0 [elara]: "The headland! I've drawn it nine times from the bench. Never from the water side!"  ✏ `dlg.past_point.talk.r0`
     r1 [elara]: "The white rocks! I've never been closer than the bench. Row slowly, Felix. I want it to last."  ✏ `dlg.past_point.talk.r1`
     r2 [elara]: "Straight out! I'll hold the sandwich tin. It's very steadying. Medically."  ✏ `dlg.past_point.talk.r2`
   · (fadeout)
@@ -63,13 +63,13 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (camera pan)
   · (lighting warm)
   · (fadein)
-  [narration]: "The boat leaks, politely. Felix bails with one hand and rows with the other. His coffee never spills."  ✏ `event.past_the_point.2`
+  [narration]: "The boat leaks, politely. Felix pulls the oars. Elara holds her hat down with both hands. The headland slides closer."  ✏ `event.past_the_point.2`
   [elara]: "The headland is twice the size the map said! Felix, it's enormous! Best thing I've ever been wrong about!"  ✏ `event.past_the_point.headland`  (expr happy) [only if flag:choice.point.headland]
   [elara]: "The white rocks look like teeth from here. Friendly teeth! Very good gums. May I wave at them?"  ✏ `event.past_the_point.rocks`  (expr happy) [only if flag:choice.point.rocks]
   [elara]: "The shore's just a line now. I didn't know I could feel this small and this glad at once."  ✏ `event.past_the_point.horizon`  (expr happy) [only if flag:choice.point.horizon]
-  [wren]: "Don't mind me. I'm only looking. From the point, the sea looks like it starts somewhere else." [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
-  [narration]: "Elara takes out her list and crosses one place off with a stub of pencil, and smiles at the pencil."  ✏ `event.past_the_point.3`
-  [felix]: "Told you, partner. Dawn's better with two. Better with a list, too. ...Forty-one to go. I'll bring a second bailing tin."  (emote heart)
+  [wren]: "Just looking, that's all. From the point, the sea seems to start somewhere else." [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
+  [narration]: "Elara takes out her list, looks at it, and smiles at the page."  ✏ `event.past_the_point.3`
+  [felix]: "Dawn's better with two. With three, it's an expedition. ...One place crossed off. I'll want a bigger boat for the rest."  (emote heart)
   · (fadeout)
   · (camera reset)
   · (lighting reset)
@@ -120,7 +120,7 @@ placed: player(3, 2)
     r0 [elara]: "Together! The sea, from a boat. I'm circling it. I'm packing a sandwich. I'm already packing!"  ✏ `dlg.elara.list.r0`   (expr happy)
     r1 [elara]: "A new one! Forty-two! I'll draw it a tiny boat. You've made my whole week. Don't tell Dr. Penn."  ✏ `dlg.elara.list.r1`   (expr happy)
     r2 [elara]: "You promise? ...I'm writing that down. In ink. And I'll knit you a sock for the journey. Just the one, for luck."  ✏ `dlg.elara.list.r2`   (expr happy)
-  [elara]: "{if choice:list.pick}We picked one. The sea, from a boat. Circled twice, then once more in pen. Felix has a boat, you know.{else}{if choice:list.add}You added a place. It's in the margin: 'Somewhere [player] suggests.' It's already my favorite.{else}You promised. I'm holding you to it. Gently. With a very long scarf.{/if}{/if}"  ✏ `event.elara_heart8.after`
+  [elara]: "{if choice:list.pick}We picked one. The sea, from a boat. Circled twice, then once more in pen. Felix has a boat, you know.{else}{if choice:list.add}You added a place. It's in the margin: 'Somewhere [player] suggests.' It's already my favorite.{else}You promised. I'm holding you to it. Gently, like a stitch you don't pull too tight.{/if}{/if}"  ✏ `event.elara_heart8.after`
   · effects: flag:event.elara_heart8
   · effects: friend:elara,70
 
@@ -142,8 +142,8 @@ placed: player(3, 2)
        ? "Beach day. Bring the hat's hat." → r2  effects: friend:elara,10, flag:choice.bday.elara.beach  ✏ `dlg.elara.birthday.c2`
     r0 [elara]: "Thank you! I'm knitting that into my scarf. Every word. In red."  ✏ `dlg.elara.birthday.r0`   (expr happy)
     r1 [elara]: "You noticed the small hat! Nobody notices the small hat! I'm so happy I might need a lie-down!"  ✏ `dlg.elara.birthday.r1`   (expr happy)
-    r2 [elara]: "The beach! On my birthday! Yes! Dr. Penn can mind the plant. I'll pack a sandwich and a very long scarf!"  ✏ `dlg.elara.birthday.r2`   (expr happy)
-  [elara]: "{if choice:bday.elara.wish}It's in the scarf now. Row nine hundred, in red, right under 'Felix waved'.{else}{if choice:bday.elara.hat}The hat's hat stays on. Dr. Penn pretended not to see it. She smiled at the wall.{else}The beach was perfect. I'm still sandy. I watched one boat the whole way out.{/if}{/if}"  ✏ `event.elara_birthday.after`
+    r2 [elara]: "The beach! On my birthday! Yes! Dr. Penn can mind the plant. I'm bringing the hat's hat, and a towel!"  ✏ `dlg.elara.birthday.r2`   (expr happy)
+  [elara]: "{if choice:bday.elara.wish}It's in the scarf now. Row nine hundred, in red, right under 'Felix waved'.{else}{if choice:bday.elara.hat}The hat's hat stays on. Dr. Penn pretended not to see it. She smiled at the wall.{else}The beach was perfect. I'm still sandy. I found a shell shaped like a place I've never been.{/if}{/if}"  ✏ `event.elara_birthday.after`
   · effects: flag:event.elara_birthday
   · effects: mark:birthday.elara, friend:elara,30, give:product.wool,1, mail:elara_bday_thanks
 
@@ -153,7 +153,7 @@ plays when: `hearts:elara>=8 && flag:event.elara_heart8 && !flag:partners.elara 
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
-  [elara]: "I knitted a very long scarf, and the last row is a question. Would you court me? It's red. Red means very serious!"  ✏ `event.elara_courtship.intro`
+  [elara]: "Here's a scarf. Mind the end, it trails. The last row is a question: would you court me? It's in red. Red means very serious!"  ✏ `event.elara_courtship.intro`
   · (move player to (3,2))
   · (player faces up)
   · (elara wave (background))
@@ -199,7 +199,7 @@ plays when: `hearts:elara>=10 && flag:choice.courtship.elara.yes && !flag:partne
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(3, 2)
   · (elara faces down)
-  [elara]: "Hello! I made you a hat! It has a smaller hat on it! And that one has a tiniest hat! Hats all the way down!"  ✏ `event.elara_partners.intro`
+  [elara]: "Hello! I made you a hat. It looked lonely, so it got a smaller hat. Then that one did too. I stopped at three!"  ✏ `event.elara_partners.intro`
   · (move player to (3,2))
   · (player faces up)
   · (elara wave (background))
@@ -230,7 +230,7 @@ placed: elara(24, 18), odalys(26, 18)
   · (odalys shrug (background))
   · (odalys emote sparkle)
   · (elara point (background))
-  [elara]: "You like it! A cozy for the stool, and next, a smaller cozy for the cozy!"  ✏ `event.overheard_elara_odalys_1.l3`
+  [elara]: "You like it! Good, because it has a spare. For laundry day!"  ✏ `event.overheard_elara_odalys_1.l3`
   [odalys]: "No. One cozy per stool. That is clinic policy, as of now."
   · effects: flag:event.overheard_elara_odalys_1
 
@@ -244,7 +244,7 @@ placed: elara(24, 18), odalys(26, 18)
   · (elara faces right)
   · (odalys faces left)
   [elara]: "Soup for the whole clinic! Seven vegetables! One of them is a surprise!"  ✏ `event.overheard_elara_odalys_2.l1`
-  [odalys]: "Elara. I accept the soup. I need to know the surprise first. Professionally."
+  [odalys]: "I accept the soup. I need to know the surprise first. Professionally."
   · (odalys shrug (background))
   · (odalys emote sparkle)
   · (elara wave (background))
@@ -262,12 +262,12 @@ placed: elara(24, 18), odalys(26, 18)
   · (elara faces right)
   · (odalys faces left)
   [elara]: "Dr. Penn, eleven hours yesterday. I counted. So I knitted you a sleeping mask! Lavender!"  ✏ `event.overheard_elara_odalys_3.l1`
-  [odalys]: "Elara. It's very soft. ...Ten minutes after lunch. Do not mistake that for a habit."
+  [odalys]: "It's very soft, Elara. ...Ten minutes after lunch. Do not mistake that for a habit."
   · (odalys point (background))
   · (odalys emote sparkle)
   · (elara shrug (background))
   [elara]: "Ten minutes is a perfect nap! I'll mind the desk. I'll answer nothing, kindly!"  ✏ `event.overheard_elara_odalys_3.l3`
-  [odalys]: "That was good care, Elara. Wake me for emergencies only. Splinters are not emergencies."
+  [odalys]: "Good care. Wake me for emergencies only. Splinters are not emergencies."
   · effects: flag:event.overheard_elara_odalys_3
 
 ### overheard_felix_elara_1 · "The Scarf Net" · funny
@@ -297,7 +297,7 @@ placed: felix(24, 18), elara(26, 18)
   · (place elara to (26,18))
   · (felix faces right)
   · (elara faces left)
-  [felix]: "It was this big. Bigger. Bigger every time I tell it."
+  [felix]: "Three feet, nose to tail. Last spring it was two. It grows in the telling."
   [elara]: "I made a scarf that big! Same size exactly! They'd be friends!"  ✏ `event.overheard_felix_elara_2.l2`
   · (elara shrug (background))
   · (elara emote sweat)

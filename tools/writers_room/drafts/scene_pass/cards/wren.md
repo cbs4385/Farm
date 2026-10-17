@@ -60,16 +60,16 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  ✏ `event.hall_dance.2`  (expr happy)
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
-  [piper]: "First verse, then I step off. I'm perfectly calm. My bow hand hasn't heard."  (emote sweat)
-  · (music piper_theme)
+  [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
+  · (music saloon)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."  ✏ `event.hall_dance.6`
   [bram]: "Hm. Hm-hm. Hm. I sing it in my own language."  (emote note)
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."  ✏ `event.hall_dance.9`
-  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's for the ladder."
-  [marcus]: "One coin. One dance. I measured this floor for it. Twice."
+  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
+  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
@@ -98,7 +98,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   · (wren faces down)
   · (move player to (6,2))
   · (player faces up)
-  [ione]: "Four chairs, one lamp, and a pot of tea nobody asked for. This is my calm face. Does it work?"
+  [ione]: "{if flag:met.wren && hearts:wren>=3}Five{else}Four{/if} chairs, one lamp, and a pot of tea nobody asked for. This is my calm face. Does it work?"
   [hazel]: "(It doesn't.) I brought something. It's in my sleeve. I haven't decided if it comes out."  (expr embarrassed)
   ▶ DIALOGUE `reading.hazel` (player-facing graph, plays here):
     n0 [hazel]: "(Nobody has to hear it.) What would you do? ...If you were me, I mean."
@@ -110,7 +110,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
     r2 [hazel]: "Ione first. (Thank you.) I'm not leaving. I'm only sitting very still."
   [hazel]: "The lamp does not mind the dark. It keeps it company. ...That's the last of the eleven. (The rest were warming up.)"  (expr thinking) [only if flag:choice.reading.poem]
   [ione]: "I'll copy that out by hand, Hazel. Not for a shelf. For the desk drawer, where the good things go." [only if flag:choice.reading.poem]
-  [narration]: "Ione reads two pages about the winter sea. Hazel turns toward the lamp and stays very still." [only if flag:choice.reading.borrowed]
+  [narration]: "Hazel reads two borrowed pages about the winter sea, quietly, all the way through. Her sleeve stays shut." [only if flag:choice.reading.borrowed]
   [narration]: "Ione reads first, an old page about birds in fall. Hazel says nothing, and does not leave." [only if flag:choice.reading.listen]
   · (spawn prop forage.snowdrop at (5,3))
   [dorian]: "A snowdrop. Pressed. It kept my place since winter. For the lamp."
@@ -136,15 +136,15 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (wren faces up)
   · (move player to (27,6))
   · (player faces up)
-  [felix]: "Mornin', both. Boat's ready. She leaks, but politely. The bailing's the elegant part."
-  [elara]: "I knitted a life jacket! Felix says that isn't how they work. I'm wearing it anyway. Over the real one."  (emote sparkle, expr happy)
-  [felix]: "Bring both. The tin floats. The life jacket can sit up front and look brave."  (expr happy)
+  [felix]: "There you both are. I promised you the boat. She's ready. The bailing tin is the elegant part."
+  [elara]: "I knitted a life jacket! Felix says that's not how they work. It goes over the real one. Sandwiches are in the tin!"  (emote sparkle, expr happy)
+  [felix]: "Wear both, then. The knitted one can look brave. The real one can do the floating."  (expr happy)
   ▶ DIALOGUE `past_point.talk` (player-facing graph, plays here):
     n0 [elara]: "My list is longer than the boat, and Felix says one place before breakfast. Which one?"
        ? "Round the headland. You've drawn it enough." → r0  effects: flag:choice.point.headland, friend:elara,5
        ? "The white rocks. Slowly." → r1  effects: flag:choice.point.rocks, friend:elara,5
        ? "Straight out, till the shore's a line." → r2  effects: flag:choice.point.horizon, friend:elara,5
-    r0 [elara]: "The headland! I've drawn it eleven times from the bench. Never from the water side!"
+    r0 [elara]: "The headland! I've drawn it nine times from the bench. Never from the water side!"
     r1 [elara]: "The white rocks! I've never been closer than the bench. Row slowly, Felix. I want it to last."
     r2 [elara]: "Straight out! I'll hold the sandwich tin. It's very steadying. Medically."
   · (fadeout)
@@ -152,13 +152,13 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (camera pan)
   · (lighting warm)
   · (fadein)
-  [narration]: "The boat leaks, politely. Felix bails with one hand and rows with the other. His coffee never spills."
+  [narration]: "The boat leaks, politely. Felix pulls the oars. Elara holds her hat down with both hands. The headland slides closer."
   [elara]: "The headland is twice the size the map said! Felix, it's enormous! Best thing I've ever been wrong about!"  (expr happy) [only if flag:choice.point.headland]
   [elara]: "The white rocks look like teeth from here. Friendly teeth! Very good gums. May I wave at them?"  (expr happy) [only if flag:choice.point.rocks]
   [elara]: "The shore's just a line now. I didn't know I could feel this small and this glad at once."  (expr happy) [only if flag:choice.point.horizon]
-  [wren]: "Don't mind me. I'm only looking. From the point, the sea looks like it starts somewhere else."  ✏ `event.past_the_point.wren` [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
-  [narration]: "Elara takes out her list and crosses one place off with a stub of pencil, and smiles at the pencil."
-  [felix]: "Told you, partner. Dawn's better with two. Better with a list, too. ...Forty-one to go. I'll bring a second bailing tin."  (emote heart)
+  [wren]: "Just looking, that's all. From the point, the sea seems to start somewhere else."  ✏ `event.past_the_point.wren` [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
+  [narration]: "Elara takes out her list, looks at it, and smiles at the page."
+  [felix]: "Dawn's better with two. With three, it's an expedition. ...One place crossed off. I'll want a bigger boat for the rest."  (emote heart)
   · (fadeout)
   · (camera reset)
   · (lighting reset)
@@ -174,7 +174,7 @@ placed: wren(25, 18), player(25, 17)
   · (place wren to (25,18))
   · (wren faces down)
   · (spawn prop prop.cat at (26,18))
-  [wren]: "Don't move. A cat has chosen your boots. Eight years I've lived here, and it's never once chosen mine."  ✏ `event.story_cat.intro`
+  [wren]: "Don't move. A cat has chosen your boots. Years I've lived here, and it's never once chosen mine."  ✏ `event.story_cat.intro`
   · (move player to (25,17))
   · (player faces up)
   · (wren emote heart)
@@ -330,9 +330,9 @@ placed: player(9, 6)
        ? "Sing something badly." → r1  effects: friend:wren,10, flag:choice.bday.wren.sing  ✏ `dlg.wren.birthday.c1`
        ? "Give her a quiet hug." → r2  effects: friend:wren,10, flag:choice.bday.wren.hug  ✏ `dlg.wren.birthday.c2`
     r0 [wren]: "To me! Oh, the best toast I've had all year, and I wrote the other ones."  ✏ `dlg.wren.birthday.r0`   (expr happy)
-    r1 [wren]: "That was dreadful. Do it again. Louder. The stool is crying."  ✏ `dlg.wren.birthday.r1`   (expr happy)
+    r1 [wren]: "That was dreadful. Do it again, louder. The glasses are rattling in protest."  ✏ `dlg.wren.birthday.r1`   (expr happy)
     r2 [wren]: "Oh. ...Oh, you're a menace. A kind one. Sit down before I embarrass us both."  ✏ `dlg.wren.birthday.r2`   (expr happy)
-  [wren]: "{if choice:bday.wren.glass}A toast, and a good one. I'll tell it for years, with improvements.{else}{if choice:bday.wren.sing}Your song's the new house anthem. Nobody asked. It's permanent.{else}A hug. Eight years in Wetherell, and that's the best gift on the shelf.{/if}{/if}"  ✏ `event.wren_birthday.after`
+  [wren]: "{if choice:bday.wren.glass}A toast, and a good one. I'll be telling it for years, longer each time.{else}{if choice:bday.wren.sing}Your song's the new house anthem. Nobody asked. It's permanent.{else}A hug. Of everything on the shelf tonight, that's the best gift.{/if}{/if}"  ✏ `event.wren_birthday.after`
   · effects: flag:event.wren_birthday
   · effects: mark:birthday.wren, friend:wren,30, give:artisan.pickles,2, mail:wren_bday_thanks
 
@@ -354,7 +354,7 @@ placed: player(9, 6)
        ? "Can we wait a while?" → r2  effects: friend:wren,5, flag:choice.courtship.wren.later  ✏ `dlg.wren.courtship.c2`
     r0 [wren]: "Court. Oh. Yes. Properly, with walks and terrible poems. I'll write the first one tonight and burn it."  ✏ `dlg.wren.courtship.r0`   (expr happy)
     r1 [wren]: "Friends. Yes. The best kind. You keep the good stool, and I keep talking too much. I'm relieved. Mostly."  ✏ `dlg.wren.courtship.r1`   (expr happy)
-    r2 [wren]: "Wait. Fair. I've waited eight years for a decent stool. I can wait for the right moment."  ✏ `dlg.wren.courtship.r2`   (expr thinking)
+    r2 [wren]: "Wait. Fair. I'm a bartender. Waiting is half the job, and I'm good at the other half."  ✏ `dlg.wren.courtship.r2`   (expr thinking)
   [wren]: "{if flag:choice.courtship.wren.yes}Walks, then. And poems. You're stuck with me, and I'm stuck with the stool.{else}{if flag:choice.courtship.wren.friends}The best of friends. It's on my chalkboard now, in capital letters.{else}Whenever you like. I'll be on the stage, being patient. It's a new look.{/if}{/if}"  ✏ `event.wren_courtship.after`
   · effects: flag:event.wren_courtship
   · effects: flag:courtship.asked.wren
@@ -365,7 +365,7 @@ plays when: `hearts:wren>=10 && flag:choice.courtship.wren.later && !flag:event.
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(9, 6)
   · (wren faces down)
-  [wren]: "Sit. Last time you asked me to wait, and I did. I'm very good at waiting now. I still like you. More, actually."  ✏ `event.wren_courtship2.intro`
+  [wren]: "Last time you said wait, so I waited. Patiently, which surprised everyone. I still like you. More, actually."  ✏ `event.wren_courtship2.intro`
   · (move player to (9,6))
   · (player faces up)
   · (wren wave (background))
@@ -377,8 +377,8 @@ placed: player(9, 6)
        ? "Can we wait a while?" → r2  effects: friend:wren,5, flag:choice.courtship.wren.later  ✏ `dlg.wren.courtship.c2`
     r0 [wren]: "Court. Oh. Yes. Properly, with walks and terrible poems. I'll write the first one tonight and burn it."  ✏ `dlg.wren.courtship.r0`   (expr happy)
     r1 [wren]: "Friends. Yes. The best kind. You keep the good stool, and I keep talking too much. I'm relieved. Mostly."  ✏ `dlg.wren.courtship.r1`   (expr happy)
-    r2 [wren]: "Wait. Fair. I've waited eight years for a decent stool. I can wait for the right moment."  ✏ `dlg.wren.courtship.r2`   (expr thinking)
-  [wren]: "{if flag:choice.courtship.wren.yes}Walks, then. And poems. You're stuck with me, and I'm stuck with the stool.{else}{if flag:choice.courtship.wren.friends}The best of friends. It's on my chalkboard now, in capital letters.{else}Still waiting, then. I'm getting rather good at it. Don't tell anyone.{/if}{/if}"  ✏ `event.wren_courtship2.after`
+    r2 [wren]: "Wait. Fair. I'm a bartender. Waiting is half the job, and I'm good at the other half."  ✏ `dlg.wren.courtship.r2`   (expr thinking)
+  [wren]: "{if flag:choice.courtship.wren.yes}Walks, then. And poems. You're stuck with me, and I'm stuck with the stool.{else}{if flag:choice.courtship.wren.friends}The best of friends. It's on my chalkboard now, in capital letters.{else}Still waiting, then. I'll keep the question behind the bar, next to the bag.{/if}{/if}"  ✏ `event.wren_courtship2.after`
   · effects: flag:event.wren_courtship2
   · effects: flag:courtship.asked.wren, flag:event.wren_courtship2.done
 
@@ -388,7 +388,7 @@ plays when: `hearts:wren>=10 && flag:choice.courtship.wren.yes && !flag:partners
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(9, 6)
   · (wren faces down)
-  [wren]: "Evening, my darling pickle-eater. I wrote you a song. It's terrible. It's mine. Sit and be sung at."  ✏ `event.wren_partners.intro`
+  [wren]: "Evening, love. I wrote you a song. It's terrible. It's mine. Sit and be sung at."  ✏ `event.wren_partners.intro`
   · (move player to (9,6))
   · (player faces up)
   · (wren wave (background))
@@ -401,7 +401,7 @@ placed: player(9, 6)
     r0 [wren]: "Every verse! Oh, you angel. I'll sing the bridge twice, because it's my favorite."  ✏ `dlg.wren.partners.r0`   (expr happy)
     r1 [wren]: "Dance! In the saloon! The floor's sticky and I don't care. Hold on."  ✏ `dlg.wren.partners.r1`   (expr happy)
     r2 [wren]: "A walk home. Past the store, past Tilda's lamp, past all my old excuses. Lead on."  ✏ `dlg.wren.partners.r2`   (expr happy)
-  [wren]: "{if choice:courtship.wren.song}The song's finished now. It has your name in the second verse and an extra chorus.{else}{if choice:courtship.wren.dance}We danced. Nobody looked. Everybody looked. I loved it.{else}The bag under my bar is empty. I unpacked it this morning. You were the reason, quietly.{/if}{/if}"  ✏ `event.wren_partners.after`
+  [wren]: "{if choice:courtship.wren.song}The song's finished now. Your name's in the bridge. That's why I sang it twice.{else}{if choice:courtship.wren.dance}We danced. Nobody looked. Everybody looked. I loved it.{else}The bag under my bar is empty. I unpacked it this morning. You were the reason, quietly.{/if}{/if}"  ✏ `event.wren_partners.after`
   · effects: flag:event.wren_partners
   · effects: flag:partners.wren, friend:wren,50
 
@@ -433,7 +433,7 @@ placed: wren(24, 18), piper(26, 18)
   · (wren faces right)
   · (piper faces left)
   [wren]: "I wrote a verse. It's for the saloon. It's about you, and I'm sorry."  ✏ `event.overheard_wren_piper_2.l1`
-  [piper]: "Wren! You wrote a verse? Read it! No, sing it! I'll pretend I'm not crying."
+  [piper]: "Wren! You wrote a verse? Read it! No, sing it! No, read it slowly!"
   · (piper shrug (background))
   · (piper emote note)
   · (wren wave (background))
@@ -455,8 +455,8 @@ placed: wren(24, 18), piper(26, 18)
   · (piper point (background))
   · (piper emote note)
   · (wren shrug (background))
-  [wren]: "That's the best verse you've ever said out loud. Write it down. In pencil, before I improve it."  ✏ `event.overheard_wren_piper_3.l3`
-  [piper]: "Pencil it is. Hazel will only fix the scansion anyway. Save me the last glass."
+  [wren]: "That's the best verse you've ever said out loud. Write it down, in pencil. Ink makes you shy."  ✏ `event.overheard_wren_piper_3.l3`
+  [piper]: "Pencil it is. Somebody keeps fixing my pencil anyway. Save me the last glass."
   · effects: flag:event.overheard_wren_piper_3
 
 ### overheard_wren_piper_4 · "The Headliner" · wholesome
@@ -473,7 +473,7 @@ placed: wren(24, 18), piper(26, 18)
   · (piper wave (background))
   · (piper emote note)
   · (wren wave (background))
-  [wren]: "Do both. Cry first. Song after. The stool will survive."  ✏ `event.overheard_wren_piper_4.l3`
+  [wren]: "Do both. Cry first, song after. I'll sell handkerchiefs at the door."  ✏ `event.overheard_wren_piper_4.l3`
   [piper]: "Deal! ...Actually, make it a duet. Your stage, your song too."
   · effects: flag:event.overheard_wren_piper_4
 

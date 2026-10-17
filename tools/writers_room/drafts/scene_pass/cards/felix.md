@@ -13,7 +13,7 @@ placed: player(11, 10)
   · (player faces up)
   · (felix emote note)
   [felix]: "Feel that? Don't reel yet. Let it run. It's deciding about you."  ✏ `event.felix_heart2.1`
-  [felix]: "Now! Up, easy. ...A tuna. First try. Took me eleven summers."  ✏ `event.felix_heart2.3`  (emote exclaim, expr surprised)
+  [felix]: "Now! Up, easy. ...A tuna. First try. Took me nine summers."  ✏ `event.felix_heart2.3`  (emote exclaim, expr surprised)
   [felix]: "Keep it. You earned it. I'm on this rock at six most days. ...Just saying where the rock is."  ✏ `event.felix_heart2.2`
   · effects: give:fish.tuna,1, friend:felix,40, flag:event.felix_heart2
 
@@ -23,7 +23,7 @@ plays when: `hearts:felix>=5 && !weekday:thu && hour>=6 && hour<14 && flag:event
 beats may be ADDED or CUT in this scene
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Mornin'. Every fisher has a lucky charm. Mine's sat through forty years of dawns."  ✏ `event.felix_heart5.0`
+  [felix]: "Every fisher has a lucky charm. Mine's sat through forty years of dawns."  ✏ `event.felix_heart5.0`
   · (move player to (11,10))
   · (player faces up)
   · (felix emote note)
@@ -47,15 +47,15 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (wren faces up)
   · (move player to (27,6))
   · (player faces up)
-  [felix]: "Mornin', both. Boat's ready. She leaks, but politely. The bailing's the elegant part."  ✏ `event.past_the_point.0`
-  [elara]: "I knitted a life jacket! Felix says that isn't how they work. I'm wearing it anyway. Over the real one."  (emote sparkle, expr happy)
-  [felix]: "Bring both. The tin floats. The life jacket can sit up front and look brave."  ✏ `event.past_the_point.5`  (expr happy)
+  [felix]: "There you both are. I promised you the boat. She's ready. The bailing tin is the elegant part."  ✏ `event.past_the_point.0`
+  [elara]: "I knitted a life jacket! Felix says that's not how they work. It goes over the real one. Sandwiches are in the tin!"  (emote sparkle, expr happy)
+  [felix]: "Wear both, then. The knitted one can look brave. The real one can do the floating."  ✏ `event.past_the_point.5`  (expr happy)
   ▶ DIALOGUE `past_point.talk` (player-facing graph, plays here):
     n0 [elara]: "My list is longer than the boat, and Felix says one place before breakfast. Which one?"
        ? "Round the headland. You've drawn it enough." → r0  effects: flag:choice.point.headland, friend:elara,5
        ? "The white rocks. Slowly." → r1  effects: flag:choice.point.rocks, friend:elara,5
        ? "Straight out, till the shore's a line." → r2  effects: flag:choice.point.horizon, friend:elara,5
-    r0 [elara]: "The headland! I've drawn it eleven times from the bench. Never from the water side!"
+    r0 [elara]: "The headland! I've drawn it nine times from the bench. Never from the water side!"
     r1 [elara]: "The white rocks! I've never been closer than the bench. Row slowly, Felix. I want it to last."
     r2 [elara]: "Straight out! I'll hold the sandwich tin. It's very steadying. Medically."
   · (fadeout)
@@ -63,13 +63,13 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (camera pan)
   · (lighting warm)
   · (fadein)
-  [narration]: "The boat leaks, politely. Felix bails with one hand and rows with the other. His coffee never spills."
+  [narration]: "The boat leaks, politely. Felix pulls the oars. Elara holds her hat down with both hands. The headland slides closer."
   [elara]: "The headland is twice the size the map said! Felix, it's enormous! Best thing I've ever been wrong about!"  (expr happy) [only if flag:choice.point.headland]
   [elara]: "The white rocks look like teeth from here. Friendly teeth! Very good gums. May I wave at them?"  (expr happy) [only if flag:choice.point.rocks]
   [elara]: "The shore's just a line now. I didn't know I could feel this small and this glad at once."  (expr happy) [only if flag:choice.point.horizon]
-  [wren]: "Don't mind me. I'm only looking. From the point, the sea looks like it starts somewhere else." [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
-  [narration]: "Elara takes out her list and crosses one place off with a stub of pencil, and smiles at the pencil."
-  [felix]: "Told you, partner. Dawn's better with two. Better with a list, too. ...Forty-one to go. I'll bring a second bailing tin."  ✏ `event.past_the_point.4`  (emote heart)
+  [wren]: "Just looking, that's all. From the point, the sea seems to start somewhere else." [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
+  [narration]: "Elara takes out her list, looks at it, and smiles at the page."
+  [felix]: "Dawn's better with two. With three, it's an expedition. ...One place crossed off. I'll want a bigger boat for the rest."  ✏ `event.past_the_point.4`  (emote heart)
   · (fadeout)
   · (camera reset)
   · (lighting reset)
@@ -89,15 +89,15 @@ placed: felix(25, 18), player(25, 17)
   · (player faces up)
   · (felix emote sweat)
   ▶ DIALOGUE `story.whistler.felix` (player-facing graph, plays here):
-    n0 [felix]: "I only whistle when I'm happy. Lately that's most evenings. The fish have noticed."  ✏ `dlg.story.whistler.felix.0`   (→ n1)
+    n0 [felix]: "I only whistle when I'm happy. Lately that's most evenings. Couldn't tell you why. ...Well. I could."  ✏ `dlg.story.whistler.felix.0`   (→ n1)
     n1 [felix]: "...Well? Say something. The quiet's worse."  ✏ `dlg.story.whistler.felix.1`
        ? "Call out a friendly hello." → r0  effects: flag:choice.whistler.felix.hello  ✏ `dlg.story.whistler.felix.c0`
        ? "Whistle the wrong note back." → r1  effects: flag:choice.whistler.felix.back, friend:felix,10  ✏ `dlg.story.whistler.felix.c1`
        ? "Say nothing. Just listen." → r2  effects: flag:choice.whistler.felix.listen, friend:felix,10  ✏ `dlg.story.whistler.felix.c2`
     r0 [felix]: "Hello. Yes. Hello back. Very sensible, given the circumstances."  ✏ `dlg.story.whistler.felix.r0`
-    r1 [felix]: "You got the wrong note exactly right. I'm moved. Also mortified. Mostly mortified."  ✏ `dlg.story.whistler.felix.r1`   (expr embarrassed)
+    r1 [felix]: "You got the wrong note exactly right. Nobody's ever whistled back. ...I've gone red. It's the sunset."  ✏ `dlg.story.whistler.felix.r1`   (expr embarrassed)
     r2 [felix]: "You listened. The whole tune. Nobody's done that but the pond. ...I may whistle again. Quietly."  ✏ `dlg.story.whistler.felix.r2`   (expr happy)
-  [felix]: "Same hour tomorrow, I'll be whistling by the pond. You can pretend you were passing."  ✏ `event.story_whistler_felix.after`
+  [felix]: "Same hour tomorrow, same lane, same tune. You can pretend you were passing."  ✏ `event.story_whistler_felix.after`
   · effects: flag:event.story_whistler_felix, friend:felix,30, flag:storydone.mystery_whistler
 
 ### story_pumpkin_felix · "The Missing Pumpkin" · funny
@@ -115,15 +115,15 @@ placed: felix(25, 18), player(25, 17)
   · (felix shrug (background))
   ▶ DIALOGUE `story.pumpkin.felix` (player-facing graph, plays here):
     n0 [narration]: "Behind the store, Felix stands beside a very large pumpkin, wearing a very guilty face."  ✏ `dlg.story.pumpkin.felix.0`   (→ n1)
-    n1 [tilda]: "Felix. Is that my prize pumpkin? You don't even like vegetables!"   (→ n2)
-    n2 [felix]: "...It might be. The goats were very understanding about it."  ✏ `dlg.story.pumpkin.felix.2`
+    n1 [tilda]: "Felix. Is that my prize pumpkin? I blamed the goats! You don't even like vegetables!"   (→ n2)
+    n2 [felix]: "...It might be. In my defense, I didn't eat it. I only admired it."  ✏ `dlg.story.pumpkin.felix.2`
        ? "Let Felix off kindly." → r0  effects: flag:choice.pumpkin.felix.kind, friend:felix,10  ✏ `dlg.story.pumpkin.felix.c0`
        ? "Ask for a proper apology." → r1  effects: flag:choice.pumpkin.felix.apology  ✏ `dlg.story.pumpkin.felix.c1`
        ? "Offer to carry the heavy end." → r2  effects: flag:choice.pumpkin.felix.help, friend:tilda,10  ✏ `dlg.story.pumpkin.felix.c2`
     r0 [tilda]: "Kindly. Fine. He owes me a pie, and if there's a fish in it, I'll know."   (expr thinking)
     r1 [felix]: "An apology. Yes. I'm sorry, Tilda. Truly. ...And sorry to you, pumpkin."  ✏ `dlg.story.pumpkin.felix.r1`   (emote sweat)
     r2 [tilda]: "You take the heavy end. Felix can carry the excuses. They weigh more."   (expr happy)
-  [felix]: "Back it goes, with the photograph. Tilda can frame it. The carp still hasn't forgiven anyone."  ✏ `event.story_pumpkin_felix.after`
+  [felix]: "Back it goes. Beside it, my biggest carp looked like bait. I'll not be telling that story."  ✏ `event.story_pumpkin_felix.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_pumpkin_felix, friend:felix,30, friend:tilda,20, flag:storydone.missing_pumpkin
 
@@ -163,7 +163,7 @@ plays when: `hearts:felix>=8 && flag:event.felix_heart5 && !weekday:thu && hour>
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Mornin'. The pond, and a line that's tugging. I've had a feeling all week. Hold the net. Don't breathe."  ✏ `event.felix_heart8.intro`
+  [felix]: "The pond, and a line that's tugging. I've had a feeling all week. Hold the net. Don't breathe."  ✏ `event.felix_heart8.intro`
   · (move player to (11,10))
   · (player faces up)
   · (felix wave (background))
@@ -197,10 +197,10 @@ placed: player(11, 10)
        ? "Wish him a happy birthday." → r0  effects: friend:felix,10, flag:choice.bday.felix.wish  ✏ `dlg.felix.birthday.c0`
        ? "Ask for the fish story." → r1  effects: friend:felix,10, flag:choice.bday.felix.story  ✏ `dlg.felix.birthday.c1`
        ? "Offer to fish with him." → r2  effects: friend:felix,10, flag:choice.bday.felix.fish  ✏ `dlg.felix.birthday.c2`
-    r0 [felix]: "Thank you. I'll tell the fish. They won't care, but I'll feel taller."  ✏ `dlg.felix.birthday.r0`   (expr happy)
+    r0 [felix]: "Kind of you. I'll tell the fish. They won't care, but I'll feel taller."  ✏ `dlg.felix.birthday.r0`   (expr happy)
     r1 [felix]: "Sit, then. It was dawn, it was this big, and it was smirking at me."  ✏ `dlg.felix.birthday.r1`   (expr happy)
     r2 [felix]: "Dawn tomorrow. Bring a line. I'll bring the good rock."  ✏ `dlg.felix.birthday.r2`   (expr happy)
-  [felix]: "{if choice:bday.felix.wish}The fish know it's my birthday. They're pretending they don't. Rude, but traditional.{else}{if choice:bday.felix.story}The story's longer now. I added a hand. And you, at the end, holding the net.{else}Dawn, the pond, and two lines. Best present I've had in forty years.{/if}{/if}"  ✏ `event.felix_birthday.after`
+  [felix]: "{if choice:bday.felix.wish}Two well-wishers before noon. Tilda, then you. Record year. I'll chalk it on her slate.{else}{if choice:bday.felix.story}The story's longer now. I added a hand. And you, at the end, holding the net.{else}Tomorrow, then, off the good rock. Best present I've had. Don't tell Tilda. She brought pie.{/if}{/if}"  ✏ `event.felix_birthday.after`
   · effects: flag:event.felix_birthday
   · effects: mark:birthday.felix, friend:felix,30, give:fish.carp,1, mail:felix_bday_thanks
 
@@ -220,10 +220,10 @@ placed: player(11, 10)
        ? "Yes. I'd like that." → r0  effects: friend:felix,20, flag:choice.courtship.felix.yes  ✏ `dlg.felix.courtship.c0`
        ? "I'd rather we stayed friends." → r1  effects: friend:felix,15, flag:choice.courtship.felix.friends  ✏ `dlg.felix.courtship.c1`
        ? "Give me a little time." → r2  effects: friend:felix,5, flag:choice.courtship.felix.later  ✏ `dlg.felix.courtship.c2`
-    r0 [felix]: "Yes! Oh. Best catch of my life, and I wasn't even holding a rod. Dawn tomorrow. The good rock."  ✏ `dlg.felix.courtship.r0`   (expr happy)
+    r0 [felix]: "Yes! Oh. Best catch of my life, and I wasn't even holding a rod."  ✏ `dlg.felix.courtship.r0`   (expr happy)
     r1 [felix]: "Friends. That's a fine thing. The best dawn partners are friends. I'm glad. I'll be a bit quiet today."  ✏ `dlg.felix.courtship.r1`   (expr happy)
     r2 [felix]: "A little time. Good. Fish take time. So does the rest of it."  ✏ `dlg.felix.courtship.r2`   (expr thinking)
-  [felix]: "{if flag:choice.courtship.felix.yes}Dawn, the pond, two lines. I'll bring the thermos. You bring yourself. That's plenty.{else}{if flag:choice.courtship.felix.friends}Friends, then. Still my dawn partner. The rock has room for two.{else}Time, then. The pond's patient. So am I. Mostly.{/if}{/if}"  ✏ `event.felix_courtship.after`
+  [felix]: "{if flag:choice.courtship.felix.yes}Tomorrow, then. The good rock, two lines. I'll bring the thermos. You bring yourself. That's plenty.{else}{if flag:choice.courtship.felix.friends}I'll still save you half the rock. That doesn't change. Rocks are loyal like that.{else}I'll ask again some dawn. You'll know it's coming. I'll go very quiet beforehand.{/if}{/if}"  ✏ `event.felix_courtship.after`
   · effects: flag:event.felix_courtship
   · effects: flag:courtship.asked.felix
 
@@ -233,7 +233,7 @@ plays when: `hearts:felix>=10 && flag:choice.courtship.felix.later && !flag:even
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Well. Right. Second cast. You asked for time, and I gave it. Would you court me? Still slowly."  ✏ `event.felix_courtship2.intro`
+  [felix]: "Second cast, then. You asked for time, and I gave it. Would you court me? Still slowly."  ✏ `event.felix_courtship2.intro`
   · (move player to (11,10))
   · (player faces up)
   · (felix wave (background))
@@ -243,10 +243,10 @@ placed: player(11, 10)
        ? "Yes. I'd like that." → r0  effects: friend:felix,20, flag:choice.courtship.felix.yes  ✏ `dlg.felix.courtship.c0`
        ? "I'd rather we stayed friends." → r1  effects: friend:felix,15, flag:choice.courtship.felix.friends  ✏ `dlg.felix.courtship.c1`
        ? "Give me a little time." → r2  effects: friend:felix,5, flag:choice.courtship.felix.later  ✏ `dlg.felix.courtship.c2`
-    r0 [felix]: "Yes! Oh. Best catch of my life, and I wasn't even holding a rod. Dawn tomorrow. The good rock."  ✏ `dlg.felix.courtship.r0`   (expr happy)
+    r0 [felix]: "Yes! Oh. Best catch of my life, and I wasn't even holding a rod."  ✏ `dlg.felix.courtship.r0`   (expr happy)
     r1 [felix]: "Friends. That's a fine thing. The best dawn partners are friends. I'm glad. I'll be a bit quiet today."  ✏ `dlg.felix.courtship.r1`   (expr happy)
     r2 [felix]: "A little time. Good. Fish take time. So does the rest of it."  ✏ `dlg.felix.courtship.r2`   (expr thinking)
-  [felix]: "{if flag:choice.courtship.felix.yes}Dawn, the pond, two lines. Worth the wait. I'll bring the thermos.{else}{if flag:choice.courtship.felix.friends}Friends, then. Still my dawn partner. The rock has room for two.{else}More time, then. I've waited forty years for a partner. I can wait a season.{/if}{/if}"  ✏ `event.felix_courtship2.after`
+  [felix]: "{if flag:choice.courtship.felix.yes}Worth the wait. Every tide of it. Tomorrow I bring the thermos and, for once, two cups.{else}{if flag:choice.courtship.felix.friends}The rock still has room for two. Rocks don't hold grudges. Neither do I.{else}More time, then. I've waited forty years for a partner. I can wait a season.{/if}{/if}"  ✏ `event.felix_courtship2.after`
   · effects: flag:event.felix_courtship2
   · effects: flag:courtship.asked.felix, flag:event.felix_courtship2.done
 
@@ -268,9 +268,9 @@ placed: player(11, 10)
        ? "Fish together at dawn." → r1  effects: friend:felix,10, flag:choice.courtship.felix.fish  ✏ `dlg.felix.partners.c1`
        ? "Watch the sunrise with him." → r2  effects: friend:felix,10, flag:choice.courtship.felix.sun  ✏ `dlg.felix.partners.c2`
     r0 [felix]: "Hear it? That's the sea. It's saying something. I think it's saying your name. It could be 'hello'."  ✏ `dlg.felix.partners.r0`   (expr happy)
-    r1 [felix]: "Two lines and the good rock. You hold the rod. I'll hold the thermos. Finest morning there is."  ✏ `dlg.felix.partners.r1`   (expr happy)
-    r2 [felix]: "The sun comes up. We don't say much. The fish don't mind. Neither do I."  ✏ `dlg.felix.partners.r2`   (expr happy)
-  [felix]: "{if choice:courtship.felix.shell}The shell sits on my shelf, by the best hook. It still says your name. Or 'hello'.{else}{if choice:courtship.felix.fish}Two lines, one very small fish. Best catch in years. We threw it back.{else}The sunrise was quiet. So were we. Longest conversation I've ever had.{/if}{/if}"  ✏ `event.felix_partners.after`
+    r1 [felix]: "You take the rod. I'll take the thermos. Finest arrangement on the coast."  ✏ `dlg.felix.partners.r1`   (expr happy)
+    r2 [felix]: "The sun comes up. We don't say much. That's the whole plan."  ✏ `dlg.felix.partners.r2`   (expr happy)
+  [felix]: "{if choice:courtship.felix.shell}The shell sits on my shelf, by the best hook. It still says your name. Or 'hello'.{else}{if choice:courtship.felix.fish}One very small fish, all morning. We threw it back. I've already made it bigger.{else}The sunrise was quiet. So were we. Longest conversation I've ever had.{/if}{/if}"  ✏ `event.felix_partners.after`
   · effects: flag:event.felix_partners
   · (remove prop scene_prop)
   · effects: flag:partners.felix, friend:felix,50
@@ -325,7 +325,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (tilda point (background))
   · (tilda emote ellipsis)
   · (felix shrug (background))
-  [felix]: "It was this big. Bigger, since I chalked it. Don't tell the pond."  ✏ `event.overheard_tilda_felix_3.l3`
+  [felix]: "I chalked it life-size. Then I added a hand. Don't tell the pond."  ✏ `event.overheard_tilda_felix_3.l3`
   [tilda]: "The pond always knows. Sit down, Felix. I've made tea for two again."
   · effects: flag:event.overheard_tilda_felix_3
 
@@ -374,7 +374,7 @@ placed: felix(24, 18), elara(26, 18)
   · (place elara to (26,18))
   · (felix faces right)
   · (elara faces left)
-  [felix]: "It was this big. Bigger. Bigger every time I tell it."  ✏ `event.overheard_felix_elara_2.l1`
+  [felix]: "Three feet, nose to tail. Last spring it was two. It grows in the telling."  ✏ `event.overheard_felix_elara_2.l1`
   [elara]: "I made a scarf that big! Same size exactly! They'd be friends!"
   · (elara shrug (background))
   · (elara emote sweat)

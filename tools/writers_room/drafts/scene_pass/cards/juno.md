@@ -24,7 +24,7 @@ plays when: `hearts:juno>=5 && !weekday:mon && hour>=9 && hour<17 && flag:event.
 beats may be ADDED or CUT in this scene
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay, I finished it! Eleven evenings. Bram fixed one rivet, and I pretended not to see."  ✏ `event.juno_heart5.0`
+  [juno]: "I finished it! I finished it! Eleven evenings. Bram fixed one rivet, and I pretended not to see."  ✏ `event.juno_heart5.0`
   · (move player to (2,2))
   · (player faces up)
   · (juno emote sparkle)
@@ -59,7 +59,7 @@ placed: juno(2, 2), bram(6, 3), player(4, 2)
   · (remove prop piece)
   · (bram faces down)
   [bram]: "Juno. {pause=0.4}I'm proud of you."  (emote heart)
-  [juno]: "...He said it. Out loud, with a witness. I need to sit. The empty shop next door has a bench. I've measured it. Twice."  ✏ `event.next_door.5`  (expr embarrassed)
+  [juno]: "...He said it. Out loud, with a witness. I need to sit. The sign hook next door is still empty. The sign's drawn. It's under the coal."  ✏ `event.next_door.5`  (expr embarrassed)
   · effects: flag:event.next_door, friend:juno,40, friend:bram,40
 
 ### hall_dance · "Opening Night" · wholesome
@@ -90,16 +90,16 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  (expr happy)
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
-  [piper]: "First verse, then I step off. I'm perfectly calm. My bow hand hasn't heard."  (emote sweat)
-  · (music piper_theme)
+  [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
+  · (music saloon)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
   [bram]: "Hm. Hm-hm. Hm. I sing it in my own language."  (emote note)
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  ✏ `event.hall_dance.8`  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
-  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's for the ladder."
-  [marcus]: "One coin. One dance. I measured this floor for it. Twice."
+  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
+  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
@@ -133,7 +133,7 @@ placed: juno(25, 18), player(25, 17)
     r0 [juno]: "...You smiled. Okay. That's a lot of kindness for one face to hold."  ✏ `dlg.story.notes.juno.r0`   (expr embarrassed)
     r1 [juno]: "Oh. Oh no, that's the whole reward. I'm going to go be flustered behind the rain barrel."  ✏ `dlg.story.notes.juno.r1`   (expr happy)
     r2 [juno]: "A note? For me? ...I'm keeping it. In a drawer I'm inventing right now. Label pending."  ✏ `dlg.story.notes.juno.r2`   (expr happy)
-  [juno]: "Don't tell Bram. He's had six. He keeps every one in his apron pocket. He thinks they're from Tilda."  ✏ `event.story_notes_juno.after`
+  [juno]: "Bram's had six. He keeps every one in his apron pocket. He thinks they're from Tilda. Let him."  ✏ `event.story_notes_juno.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_notes_juno, friend:juno,40, flag:storydone.anonymous_notes
 
@@ -157,9 +157,9 @@ placed: piper(25, 18), player(25, 17)
        ? "The forge band, honestly." → r1  effects: flag:choice.band.juno
        ? "Both, together. Loudly." → r2  effects: flag:choice.band.both, friend:piper,10, friend:juno,10
     r0 [piper]: "Justice! And good taste! Juno, you were wonderful. Just less fiddle."   (expr happy)
-    r1 [juno]: "Okay, okay, okay! We won! Bram, we won! ...Bram? He's hitting the thing. Twice!"  ✏ `dlg.story.band.talk.r1`   (expr happy)
+    r1 [juno]: "We won! Bram, we won! ...Bram? He's hitting the thing. Twice!"  ✏ `dlg.story.band.talk.r1`   (expr happy)
     r2 [piper]: "Together? ...That's either genius or a noise complaint. Bram, one hit. Make it count."   (emote note)
-  [piper]: "{if choice:band.piper}The fiddle wins! Juno took it beautifully. She's already forging a louder anvil.{else}{if choice:band.juno}The forge band wins! I'm thrilled. I'm furious. I'm writing a song about both.{else}A joint set! Fiddle, anvils, and one crowd clapping on every beat. That's a chorus.{/if}{/if}"
+  [piper]: "{if choice:band.piper}The fiddle wins! Juno took it beautifully. She's already forging a louder anvil.{else}{if choice:band.juno}The forge band wins! I'm thrilled. I'm furious. I'm writing a song about both.{else}A joint set! Fiddle, anvils, and a whole square clapping on the beat. Mostly on the beat.{/if}{/if}"
   [piper]: "And Bram tapped his foot on the second verse. I saw it. He'll deny it until spring."  (emote note, expr happy)
   · effects: flag:event.story_band_battle, friend:piper,20, friend:juno,20, flag:storydone.competing_band
 
@@ -169,7 +169,7 @@ plays when: `hearts:juno>=4 && flag:event.juno_heart2 && !weekday:mon && hour>=9
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay, don't move! Stay right there. I have a surprise, and it's very sticky."  ✏ `event.juno_heart4.setup`
+  [juno]: "Freeze! Right there. Don't move. I have a surprise, and it's very sticky."  ✏ `event.juno_heart4.setup`
   · (move player to (2,2))
   · (player faces up)
   · (juno jiggle (background))
@@ -185,7 +185,7 @@ placed: player(2, 2)
     r0 [juno]: "Accepted! You're officially a fixture. I'll sweep around you and dust you on Fridays."  ✏ `dlg.juno.label.r0`   (expr happy)
     r1 [juno]: "Relabel me? Brilliant. Here's the pencil. ...'Apprentice (Chaotic)'. Fair. Stick it right here."  ✏ `dlg.juno.label.r1`   (expr happy)
     r2 [juno]: "You... ate it. You ate my label. ...I'm labeling this moment 'Do Not Repeat'. Please repeat it."  ✏ `dlg.juno.label.r2`   (emote sweat)
-  [juno]: "{if choice:label.accept}A label that stays! Next I'm doing the whole village. The hall roof gets 'Nearly (Fixed)'.{else}{if choice:label.relabel}'Apprentice (Chaotic)', on my forehead, all day. Bram read it and nodded. Twice.{else}Nobody's ever eaten a label! I'm thrilled. I'm a little worried. I'm making a drawer that says 'Not Food'.{/if}{/if}"  ✏ `event.juno_heart4.reaction`
+  [juno]: "{if choice:label.accept}A label that stays! Next I'm doing the whole village. The hall roof gets 'Nearly (Fixed)'.{else}{if choice:label.relabel}'Apprentice (Chaotic)', on my forehead, all day. Bram read it and moved the tongs out of my reach.{else}Nobody's ever eaten a label! I'm thrilled. I'm a little worried. I'm making a drawer that says 'Not Food'.{/if}{/if}"  ✏ `event.juno_heart4.reaction`
   · effects: flag:event.juno_heart4
   · effects: friend:juno,50
 
@@ -209,7 +209,7 @@ placed: player(2, 2)
        ? "Let's fix the bend together." → r1  effects: friend:juno,15, flag:choice.strike.together  ✏ `dlg.juno.strike.c1`
        ? "Laugh about it with her." → r2  effects: friend:juno,10, flag:choice.strike.laugh  ✏ `dlg.juno.strike.c2`
     r0 [juno]: "Keep it. Yes. Even crooked. ...Especially crooked."  ✏ `dlg.juno.strike.r0`   (expr happy)
-    r1 [juno]: "Together? Okay! You hold the tongs, I tap the bend. Okay, okay, okay, go!"  ✏ `dlg.juno.strike.r1`   (expr happy)
+    r1 [juno]: "Together? You hold the tongs, like the first day. I tap the bend. Ready? Go!"  ✏ `dlg.juno.strike.r1`   (expr happy)
     r2 [juno]: "It's very funny! A horseshoe for a three-legged horse. A very proud three-legged horse."  ✏ `dlg.juno.strike.r2`   (expr happy)
   · (juno expression neutral)
   [juno]: "It's still crooked. It's also still mine. That's new. ...Don't tell Bram yet. I have to pick the right day."  ✏ `event.juno_heart6.after`
@@ -225,7 +225,7 @@ plays when: `hearts:juno>=8 && flag:event.juno_heart6 && !weekday:mon && hour>=9
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay. I'm showing Bram the horseshoe. Now, before I lose my nerve. Stand next to me? I sweat less with company."  ✏ `event.juno_heart8.intro`
+  [juno]: "Okay, okay, okay. Today's the right day. I'm showing Bram the horseshoe. Stand next to me? I sweat less with company."  ✏ `event.juno_heart8.intro`
   · (move player to (2,2))
   · (player faces up)
   · (juno wave (background))
@@ -249,7 +249,7 @@ plays when: `hearts:juno>=10 && flag:event.juno_heart8 && !weekday:mon && hour>=
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay. Hold out your hand. I made a mark. My own. I stamped it on something before I told a single person."  ✏ `event.juno_heart10.intro`
+  [juno]: "Hold out your hand. Both hands. I made a mark, my own, and I stamped it before I told a single person."  ✏ `event.juno_heart10.intro`
   · (move player to (2,2))
   · (player faces up)
   · (spawn prop resource.copperbar at (2,3))
@@ -258,7 +258,7 @@ placed: player(2, 2)
   · (sfx coin)
   · effects: give:resource.copperbar,1, flag:event.juno_heart10
   · (remove prop heirloom)
-  [juno]: "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Once! Next door has an empty sign hook.{else}Bram saw the mark and said 'Hm.' I'm framing it. The 'Hm.' Next door has an empty sign hook.{/if}"  ✏ `event.juno_heart10.thanks`
+  [juno]: "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Once! Next door has an empty sign hook.{else}Bram saw the mark and said 'Hm.' The good 'Hm.' I'd know. Next door has an empty sign hook.{/if}"  ✏ `event.juno_heart10.thanks`
   · effects: friend:juno,80
 
 ### juno_friend · "The Swimming Pool" · funny
@@ -267,7 +267,7 @@ plays when: `hearts:juno>=3 && weekday:thu && !weekday:mon && hour>=9 && hour<17
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay, quick! Come see the swimming pool. It's a bucket. Wren named it. I made the sign."  ✏ `event.juno_friend.intro`
+  [juno]: "Quick, quick! Come see the swimming pool. It's a bucket. Wren named it. I made the sign."  ✏ `event.juno_friend.intro`
   · (move player to (2,2))
   · (player faces up)
   · (juno emote sparkle)
@@ -293,10 +293,10 @@ placed: player(2, 2)
        ? "Wish her a happy birthday." → r0  effects: friend:juno,10, flag:choice.bday.juno.wish  ✏ `dlg.juno.birthday.c0`
        ? "'Cake (Birthday)'? Really?" → r1  effects: friend:juno,10, flag:choice.bday.juno.tease  ✏ `dlg.juno.birthday.c1`
        ? "Slip her a tiny gift." → r2  effects: friend:juno,10, flag:choice.bday.juno.gift  ✏ `dlg.juno.birthday.c2`
-    r0 [juno]: "Thank you! I'm framing that. The words. Don't tell Bram I frame words."  ✏ `dlg.juno.birthday.r0`   (expr happy)
+    r0 [juno]: "Thank you! I'm framing that. The actual words. I'll need a very thin frame."  ✏ `dlg.juno.birthday.r0`   (expr happy)
     r1 [juno]: "It's a perfectly good label! ...Okay, it's too good. I'm going red. That's the forge."  ✏ `dlg.juno.birthday.r1`   (expr embarrassed)
     r2 [juno]: "A gift! For me! On purpose! I'm going to cry on a clasp. Again."  ✏ `dlg.juno.birthday.r2`   (expr happy)
-  [juno]: "{if choice:bday.juno.wish}It's framed now, next to the first clasp that ever closed. Click is very proud.{else}{if choice:bday.juno.tease}The cake label stays. Bram added a second one underneath. It says 'Eat'.{else}A gift, from you, on my birthday. It's on the anvil. Everything else in here orbits it now.{/if}{/if}"  ✏ `event.juno_birthday.after`
+  [juno]: "{if choice:bday.juno.wish}It's framed now, next to the first clasp that ever closed. Click is very proud.{else}{if choice:bday.juno.tease}The cake label stays. I'm adding a second one: 'Yes, Really'. Bram saw and backed away slowly.{else}A gift, from you, on my birthday. It's on the anvil. Everything else in here orbits it now.{/if}{/if}"  ✏ `event.juno_birthday.after`
   · effects: flag:event.juno_birthday
   · effects: mark:birthday.juno, friend:juno,30, give:resource.copperbar,2, mail:juno_bday_thanks
 
@@ -316,10 +316,10 @@ placed: player(2, 2)
        ? "Yes! Read me the list." → r0  effects: friend:juno,20, flag:choice.courtship.juno.yes  ✏ `dlg.juno.courtship.c0`
        ? "I'd rather we stayed friends." → r1  effects: friend:juno,15, flag:choice.courtship.juno.friends  ✏ `dlg.juno.courtship.c1`
        ? "Can I think about it?" → r2  effects: friend:juno,5, flag:choice.courtship.juno.later  ✏ `dlg.juno.courtship.c2`
-    r0 [juno]: "Yes? YES. Okay. I need a minute, and also a hammer. Courting! You and me!"  ✏ `dlg.juno.courtship.r0`   (expr happy)
+    r0 [juno]: "Yes? YES. Okay. Item one is your muddy hat. I can't read item two. My hands are shaking. Courting!"  ✏ `dlg.juno.courtship.r0`   (expr happy)
     r1 [juno]: "Friends! Oh. Okay! Good! The best kind! ...I'll label it 'Friends (Very Good)'. Thank you for saying it straight."  ✏ `dlg.juno.courtship.r1`   (expr happy)
     r2 [juno]: "Think! Yes! Take your time! I'll be right here, polishing one clasp very slowly, not watching the door."  ✏ `dlg.juno.courtship.r2`   (expr thinking)
-  [juno]: "{if flag:choice.courtship.juno.yes}Courting! Bram says I'm vibrating. I am. The tongs are vibrating. Thank you!{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. I'll start item forty-one. It's 'patient'.{/if}{/if}"  ✏ `event.juno_courtship.after`
+  [juno]: "{if flag:choice.courtship.juno.yes}Bram says I'm vibrating. I am. The tongs are too. Item two is your laugh, by the way.{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. I'll start item forty-one. It's 'patient'.{/if}{/if}"  ✏ `event.juno_courtship.after`
   · effects: flag:event.juno_courtship
   · effects: flag:courtship.asked.juno
 
@@ -329,7 +329,7 @@ plays when: `hearts:juno>=10 && flag:choice.courtship.juno.later && !flag:event.
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Okay, okay, okay. The list has forty-one items now. Forty-one is 'patient'. I've been so patient! So. Would you court me?"  ✏ `event.juno_courtship2.intro`
+  [juno]: "The list has forty-one items now. Forty-one is 'patient'. I've been so patient! So. Would you court me?"  ✏ `event.juno_courtship2.intro`
   · (move player to (2,2))
   · (player faces up)
   · (juno wave (background))
@@ -339,10 +339,10 @@ placed: player(2, 2)
        ? "Yes! Read me the list." → r0  effects: friend:juno,20, flag:choice.courtship.juno.yes  ✏ `dlg.juno.courtship.c0`
        ? "I'd rather we stayed friends." → r1  effects: friend:juno,15, flag:choice.courtship.juno.friends  ✏ `dlg.juno.courtship.c1`
        ? "Can I think about it?" → r2  effects: friend:juno,5, flag:choice.courtship.juno.later  ✏ `dlg.juno.courtship.c2`
-    r0 [juno]: "Yes? YES. Okay. I need a minute, and also a hammer. Courting! You and me!"  ✏ `dlg.juno.courtship.r0`   (expr happy)
+    r0 [juno]: "Yes? YES. Okay. Item one is your muddy hat. I can't read item two. My hands are shaking. Courting!"  ✏ `dlg.juno.courtship.r0`   (expr happy)
     r1 [juno]: "Friends! Oh. Okay! Good! The best kind! ...I'll label it 'Friends (Very Good)'. Thank you for saying it straight."  ✏ `dlg.juno.courtship.r1`   (expr happy)
     r2 [juno]: "Think! Yes! Take your time! I'll be right here, polishing one clasp very slowly, not watching the door."  ✏ `dlg.juno.courtship.r2`   (expr thinking)
-  [juno]: "{if flag:choice.courtship.juno.yes}Courting! Finally! Bram says I'm vibrating. I am. Thank you!{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. Item forty-two is 'still patient'. It's underlined.{/if}{/if}"  ✏ `event.juno_courtship2.after`
+  [juno]: "{if flag:choice.courtship.juno.yes}Finally! Bram says I'm vibrating. I am. I'm crossing out 'patient'. It was never my best item.{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. Item forty-two is 'still patient'. It's underlined.{/if}{/if}"  ✏ `event.juno_courtship2.after`
   · effects: flag:event.juno_courtship2
   · effects: flag:courtship.asked.juno, flag:event.juno_courtship2.done
 
@@ -359,7 +359,7 @@ placed: player(2, 2)
   · (spawn prop prop.anvil at (3,2))
   · (juno emote heart)
   ▶ DIALOGUE `juno.partners` (player-facing graph, plays here):
-    n0 [juno]: "Okay, okay, okay. Forge is banked, evening's free. What are we doing?"  ✏ `dlg.juno.partners.0`
+    n0 [juno]: "Bram banked the forge and shooed me out. The afternoon's ours. What are we doing?"  ✏ `dlg.juno.partners.0`
        ? "Admire the tiny anvil." → r0  effects: friend:juno,10, flag:choice.courtship.juno.anvil  ✏ `dlg.juno.partners.c0`
        ? "Take her to the beach." → r1  effects: friend:juno,10, flag:choice.courtship.juno.beach  ✏ `dlg.juno.partners.c1`
        ? "Hold her hand at the forge." → r2  effects: friend:juno,10, flag:choice.courtship.juno.hand  ✏ `dlg.juno.partners.c2`
@@ -529,7 +529,7 @@ placed: tilda(24, 18), juno(26, 18)
   · (juno shrug (background))
   · (juno emote heart)
   · (tilda point (background))
-  [tilda]: "I know. I moved the sack there the week you started."
+  [tilda]: "I know. I put the sack there your first week, years ago. Nobody's moved it since."
   [juno]: "Years? Tilda, that's going on my slate. Under 'Owed (Forever)'."  ✏ `event.overheard_tilda_juno_2.l4`
   · effects: flag:event.overheard_tilda_juno_2
 

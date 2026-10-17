@@ -8,7 +8,7 @@ plays when: `hearts:dorian>=2 && hour>=8 && hour<17`
 beats may be ADDED or CUT in this scene
 placed: player(19, 11)
   · (dorian faces down)
-  [dorian]: "Shh. Slowly. Stand where I am. Look."  ✏ `event.dorian_heart2.0`
+  [dorian]: "Shh. Stand where I am. Look."  ✏ `event.dorian_heart2.0`
   · (move player to (19,11))
   · (player faces up)
   · (dorian emote ellipsis)
@@ -50,7 +50,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   · (wren faces down)
   · (move player to (6,2))
   · (player faces up)
-  [ione]: "Four chairs, one lamp, and a pot of tea nobody asked for. This is my calm face. Does it work?"
+  [ione]: "{if flag:met.wren && hearts:wren>=3}Five{else}Four{/if} chairs, one lamp, and a pot of tea nobody asked for. This is my calm face. Does it work?"
   [hazel]: "(It doesn't.) I brought something. It's in my sleeve. I haven't decided if it comes out."  (expr embarrassed)
   ▶ DIALOGUE `reading.hazel` (player-facing graph, plays here):
     n0 [hazel]: "(Nobody has to hear it.) What would you do? ...If you were me, I mean."
@@ -62,7 +62,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
     r2 [hazel]: "Ione first. (Thank you.) I'm not leaving. I'm only sitting very still."
   [hazel]: "The lamp does not mind the dark. It keeps it company. ...That's the last of the eleven. (The rest were warming up.)"  (expr thinking) [only if flag:choice.reading.poem]
   [ione]: "I'll copy that out by hand, Hazel. Not for a shelf. For the desk drawer, where the good things go." [only if flag:choice.reading.poem]
-  [narration]: "Ione reads two pages about the winter sea. Hazel turns toward the lamp and stays very still." [only if flag:choice.reading.borrowed]
+  [narration]: "Hazel reads two borrowed pages about the winter sea, quietly, all the way through. Her sleeve stays shut." [only if flag:choice.reading.borrowed]
   [narration]: "Ione reads first, an old page about birds in fall. Hazel says nothing, and does not leave." [only if flag:choice.reading.listen]
   · (spawn prop forage.snowdrop at (5,3))
   [dorian]: "A snowdrop. Pressed. It kept my place since winter. For the lamp."  ✏ `event.reading_night.2`
@@ -93,9 +93,9 @@ placed: dorian(25, 18), player(25, 17)
        ? "Thank him." → r1  effects: flag:choice.notes.dorian.thanks, friend:dorian,10  ✏ `dlg.story.notes.dorian.c1`
        ? "Slip a note back under his door." → r2  effects: flag:choice.notes.dorian.note, friend:dorian,15  ✏ `dlg.story.notes.dorian.c2`
     r0 [dorian]: "...A smile. No words. You speak my language."  ✏ `dlg.story.notes.dorian.r0`   (expr embarrassed)
-    r1 [dorian]: "Oh. You're welcome. I'll go be flustered behind a tree."  ✏ `dlg.story.notes.dorian.r1`   (expr happy)
-    r2 [dorian]: "A note. For me. ...I'll read it in the forest. Twice."  ✏ `dlg.story.notes.dorian.r2`   (expr happy)
-  [dorian]: "Paper says what my face won't. Three more doors before dark. Don't follow."  ✏ `event.story_notes_dorian.after`
+    r1 [dorian]: "You're welcome. I'll go be flustered behind a tree."  ✏ `dlg.story.notes.dorian.r1`   (expr happy)
+    r2 [dorian]: "For me? ...I'll read it in the forest. Twice."  ✏ `dlg.story.notes.dorian.r2`   (expr happy)
+  [dorian]: "Three more doors before dark. Don't follow. Don't guess."  ✏ `event.story_notes_dorian.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_notes_dorian, friend:dorian,40, flag:storydone.anonymous_notes
 
@@ -144,14 +144,14 @@ placed: dorian(25, 18), player(25, 17)
   ▶ DIALOGUE `story.pumpkin.dorian` (player-facing graph, plays here):
     n0 [narration]: "Behind the store sits a very large pumpkin. Dorian wears a very guilty face."  ✏ `dlg.story.pumpkin.dorian.0`   (→ n1)
     n1 [tilda]: "Dorian. Is that my prize pumpkin? I've been blaming the goats all week, out loud!"   (→ n2)
-    n2 [dorian]: "...Borrowed. For spores. It was coming back. Eventually."  ✏ `dlg.story.pumpkin.dorian.2`
+    n2 [dorian]: "...Borrowed. The mushrooms needed a roof. It was coming back."  ✏ `dlg.story.pumpkin.dorian.2`
        ? "Let him off gently." → r0  effects: flag:choice.pumpkin.dorian.kind, friend:dorian,10  ✏ `dlg.story.pumpkin.dorian.c0`
        ? "Ask for a proper apology." → r1  effects: flag:choice.pumpkin.dorian.apology  ✏ `dlg.story.pumpkin.dorian.c1`
        ? "Grab the heavy end. Carry it back." → r2  effects: flag:choice.pumpkin.dorian.help, friend:tilda,10  ✏ `dlg.story.pumpkin.dorian.c2`
     r0 [tilda]: "Kindly, then. But he's on the slate for a pie. Mushrooms optional."   (expr thinking)
     r1 [dorian]: "Sorry, Tilda. Truly. ...Sorry, pumpkin. You were very patient."  ✏ `dlg.story.pumpkin.dorian.r1`   (emote sweat)
     r2 [tilda]: "You take the heavy end, Dorian takes the guilt. I'll carry the conversation."   (expr happy)
-  [dorian]: "It goes back tonight. Mushroom stew inside. Tilda may forgive me. The goats won't."  ✏ `event.story_pumpkin_dorian.after`
+  [dorian]: "Next fall I'll grow my own. Tilda may forgive me. The pumpkin won't."  ✏ `event.story_pumpkin_dorian.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_pumpkin_dorian, friend:dorian,30, friend:tilda,20, flag:storydone.missing_pumpkin
 
@@ -161,7 +161,7 @@ plays when: `hearts:dorian>=8 && flag:event.dorian_heart5 && hour>=8 && hour<17`
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(19, 11)
   · (dorian faces down)
-  [dorian]: "...Sit. The log. I'll show you something. Don't speak yet."  ✏ `event.dorian_heart8.intro`
+  [dorian]: "Sit. The log. I'll show you something. Don't speak yet."  ✏ `event.dorian_heart8.intro`
   · (move player to (19,11))
   · (player faces up)
   · (dorian wave (background))
@@ -172,10 +172,10 @@ placed: player(19, 11)
        ? "Tell him they're lovely." → r0  effects: friend:dorian,10, flag:choice.notebook.praise  ✏ `dlg.dorian.notebook.c0`
        ? "Ask to keep one." → r1  effects: friend:dorian,15, flag:choice.notebook.ask  ✏ `dlg.dorian.notebook.c1`
        ? "Draw one back. Give it a face." → r2  effects: friend:dorian,10, flag:choice.notebook.draw  ✏ `dlg.dorian.notebook.c2`
-    r0 [dorian]: "...Lovely. Nobody's said that. I'll write it in the margin."  ✏ `dlg.dorian.notebook.r0`   (expr happy)
+    r0 [dorian]: "Lovely. First time for that word. It goes in the margin."  ✏ `dlg.dorian.notebook.r0`   (expr happy)
     r1 [dorian]: "One. Take the small brown one, under the fern. It's me, mostly."  ✏ `dlg.dorian.notebook.r1`   (expr happy)
     r2 [dorian]: "It has a face. Mushrooms don't. ...This one does now. I love it."  ✏ `dlg.dorian.notebook.r2`   (expr happy)
-  [dorian]: "{if choice:notebook.praise}You said lovely. I'll draw you a tiny one. Check your step tomorrow.{else}{if choice:notebook.ask}The brown one's yours. Don't lose it. I'll miss it. A little.{else}Your mushroom lives in the notebook now. Page one. Crooked. Perfect.{/if}{/if}"  ✏ `event.dorian_heart8.after`
+  [dorian]: "{if choice:notebook.praise}You said lovely. The next page is yours. I'll draw you as a mushroom.{else}{if choice:notebook.ask}The brown one's yours. Don't lose it. I'll miss it. A little.{else}Your mushroom lives in the notebook now. Page one. Crooked. Perfect.{/if}{/if}"  ✏ `event.dorian_heart8.after`
   · effects: flag:event.dorian_heart8
   · effects: friend:dorian,70
 
@@ -196,9 +196,9 @@ placed: player(19, 11)
        ? "Offer a slow walk in the forest." → r1  effects: friend:dorian,10, flag:choice.bday.dorian.walk  ✏ `dlg.dorian.birthday.c1`
        ? "Hand him a perfect pinecone." → r2  effects: friend:dorian,10, flag:choice.bday.dorian.cone  ✏ `dlg.dorian.birthday.c2`
     r0 [dorian]: "...Thank you. Said quietly. That's the right size."  ✏ `dlg.dorian.birthday.r0`   (expr happy)
-    r1 [dorian]: "A walk. Slowly. There's a spot where the moss is thick."  ✏ `dlg.dorian.birthday.r1`   (expr happy)
-    r2 [dorian]: "A pinecone. Closed tight. ...It's the best one. I'm keeping it."  ✏ `dlg.dorian.birthday.r2`   (expr embarrassed)
-  [dorian]: "{if choice:bday.dorian.wish}Quiet words. I kept them. They fit in a pocket.{else}{if choice:bday.dorian.walk}We walked. Said little. Good birthday. Marcus can stop asking.{else}The pinecone's on my shelf. Best one. Not the forest. You.{/if}{/if}"  ✏ `event.dorian_birthday.after`
+    r1 [dorian]: "Good. There's a spot where the moss is thick."  ✏ `dlg.dorian.birthday.r1`   (expr happy)
+    r2 [dorian]: "Closed tight. Perfect. ...I'm keeping it."  ✏ `dlg.dorian.birthday.r2`   (expr embarrassed)
+  [dorian]: "{if choice:bday.dorian.wish}Quiet words. I kept them. They fit in a pocket.{else}{if choice:bday.dorian.walk}We walked. Said little. Good birthday. Marcus can stop asking.{else}The pinecone's on my shelf. Not from the forest. From you.{/if}{/if}"  ✏ `event.dorian_birthday.after`
   · effects: flag:event.dorian_birthday
   · effects: mark:birthday.dorian, friend:dorian,30, give:forage.mushroom,2, mail:dorian_bday_thanks
 
@@ -218,10 +218,10 @@ placed: player(19, 11)
        ? "Yes. I'd like that." → r0  effects: friend:dorian,20, flag:choice.courtship.dorian.yes  ✏ `dlg.dorian.courtship.c0`
        ? "I'd rather we stayed friends." → r1  effects: friend:dorian,15, flag:choice.courtship.dorian.friends  ✏ `dlg.dorian.courtship.c1`
        ? "Can we wait a while?" → r2  effects: friend:dorian,5, flag:choice.courtship.dorian.later  ✏ `dlg.dorian.courtship.c2`
-    r0 [dorian]: "...Yes. I wasn't sure. I'll show you the quiet places. All of them. Slowly."  ✏ `dlg.dorian.courtship.r0`   (expr happy)
+    r0 [dorian]: "...Yes. I wasn't sure. I'll show you the quiet places. All of them."  ✏ `dlg.dorian.courtship.r0`   (expr happy)
     r1 [dorian]: "Friends. ...Good. That's a lot, for me. You said it gently."  ✏ `dlg.dorian.courtship.r1`   (expr happy)
     r2 [dorian]: "Wait. Yes. I'm good at waiting. Ask any oak."  ✏ `dlg.dorian.courtship.r2`   (expr thinking)
-  [dorian]: "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. After, maybe.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. I'll keep it somewhere mossy.{else}Take your time. I'll be in the forest. Not hiding. Waiting.{/if}{/if}"  ✏ `event.dorian_courtship.after`
+  [dorian]: "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. After, maybe.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. I'll keep it somewhere mossy.{else}Take your time. I'll be where the moss is. Not hiding.{/if}{/if}"  ✏ `event.dorian_courtship.after`
   · effects: flag:event.dorian_courtship
   · effects: flag:courtship.asked.dorian
 
@@ -241,10 +241,10 @@ placed: player(19, 11)
        ? "Yes. I'd like that." → r0  effects: friend:dorian,20, flag:choice.courtship.dorian.yes  ✏ `dlg.dorian.courtship.c0`
        ? "I'd rather we stayed friends." → r1  effects: friend:dorian,15, flag:choice.courtship.dorian.friends  ✏ `dlg.dorian.courtship.c1`
        ? "Can we wait a while?" → r2  effects: friend:dorian,5, flag:choice.courtship.dorian.later  ✏ `dlg.dorian.courtship.c2`
-    r0 [dorian]: "...Yes. I wasn't sure. I'll show you the quiet places. All of them. Slowly."  ✏ `dlg.dorian.courtship.r0`   (expr happy)
+    r0 [dorian]: "...Yes. I wasn't sure. I'll show you the quiet places. All of them."  ✏ `dlg.dorian.courtship.r0`   (expr happy)
     r1 [dorian]: "Friends. ...Good. That's a lot, for me. You said it gently."  ✏ `dlg.dorian.courtship.r1`   (expr happy)
     r2 [dorian]: "Wait. Yes. I'm good at waiting. Ask any oak."  ✏ `dlg.dorian.courtship.r2`   (expr thinking)
-  [dorian]: "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. After, maybe.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. I'll keep it somewhere mossy.{else}Still waiting, then. The oak's patient. So am I. Mostly.{/if}{/if}"  ✏ `event.dorian_courtship2.after`
+  [dorian]: "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. After, maybe.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. I'll keep it somewhere mossy.{else}Longer, then. The oak's patient. I'm learning from it.{/if}{/if}"  ✏ `event.dorian_courtship2.after`
   · effects: flag:event.dorian_courtship2
   · effects: flag:courtship.asked.dorian, flag:event.dorian_courtship2.done
 
@@ -254,18 +254,18 @@ plays when: `hearts:dorian>=10 && flag:choice.courtship.dorian.yes && !flag:part
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(19, 11)
   · (dorian faces down)
-  [dorian]: "...I made something. A feather, a stick, some twine. It isn't much. Sit. Hold it."  ✏ `event.dorian_partners.intro`
+  [dorian]: "I made something. A feather, a stick, some twine. It isn't much. Hold it."  ✏ `event.dorian_partners.intro`
   · (move player to (19,11))
   · (player faces up)
   · (dorian wave (background))
   · (dorian emote heart)
   ▶ DIALOGUE `dorian.partners` (player-facing graph, plays here):
-    n0 [dorian]: "...An evening. Ours. I didn't plan past this."  ✏ `dlg.dorian.partners.0`
+    n0 [dorian]: "Today's ours. I didn't plan past this."  ✏ `dlg.dorian.partners.0`
        ? "Hold the feather carefully." → r0  effects: friend:dorian,10, flag:choice.courtship.dorian.feather  ✏ `dlg.dorian.partners.c0`
        ? "Walk the forest with him." → r1  effects: friend:dorian,10, flag:choice.courtship.dorian.walk  ✏ `dlg.dorian.partners.c1`
        ? "Sit. Say nothing. Together." → r2  effects: friend:dorian,10, flag:choice.courtship.dorian.sit  ✏ `dlg.dorian.partners.c2`
     r0 [dorian]: "Soft, isn't it. I found it the day we met. Kept it. For later."  ✏ `dlg.dorian.partners.r0`   (expr happy)
-    r1 [dorian]: "The forest, then. I'll show you the old oak. Best listener I know."  ✏ `dlg.dorian.partners.r1`   (expr happy)
+    r1 [dorian]: "The forest, then. Past the third tree this time. The old oak listens."  ✏ `dlg.dorian.partners.r1`   (expr happy)
     r2 [dorian]: "...Yes. This. We never needed words. Still don't."  ✏ `dlg.dorian.partners.r2`   (expr happy)
   [dorian]: "{if choice:courtship.dorian.feather}The feather lives by my notebook now. Two good things. Three, with you.{else}{if choice:courtship.dorian.walk}We walked until the light went amber. I said six words. All good ones.{else}An hour beside you. Best thing I own. Don't tell the trees.{/if}{/if}"  ✏ `event.dorian_partners.after`
   · effects: flag:event.dorian_partners
@@ -281,7 +281,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (marcus faces right)
   · (dorian faces left)
   [marcus]: "Dorian. Hold the end. No, the other end. ...There."
-  [dorian]: "...Straight. Like a birch."  ✏ `event.overheard_marcus_dorian_1.l2`
+  [dorian]: "Straight. Like a birch."  ✏ `event.overheard_marcus_dorian_1.l2`
   · (dorian shrug (background))
   · (dorian emote ellipsis)
   · (marcus point (background))
@@ -304,7 +304,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (dorian emote ellipsis)
   · (marcus wave (background))
   [marcus]: "I nearly got worried. Then I didn't. Best hour of the week."
-  [dorian]: "...Me too. Plane, please. That's my words for the week."  ✏ `event.overheard_marcus_dorian_2.l4`
+  [dorian]: "Me too. Plane, please. That's my words for the week."  ✏ `event.overheard_marcus_dorian_2.l4`
   · effects: flag:event.overheard_marcus_dorian_2
 
 ### overheard_marcus_dorian_3 · "The Forest Door" · wholesome
@@ -317,7 +317,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (marcus faces right)
   · (dorian faces left)
   [marcus]: "I hung a new door on your room. Oak. Heavier than it looks, like most things."
-  [dorian]: "...Oak. Good. First door I'd close on purpose."  ✏ `event.overheard_marcus_dorian_3.l2`
+  [dorian]: "Oak. Good. First door I'd close on purpose."  ✏ `event.overheard_marcus_dorian_3.l2`
   · (dorian point (background))
   · (dorian emote ellipsis)
   · (marcus shrug (background))
@@ -340,7 +340,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (dorian emote ellipsis)
   · (marcus wave (background))
   [marcus]: "Facing the owl. You two can finally be introduced."
-  [dorian]: "...The owl will want a name. I'll wait till it tells me."  ✏ `event.overheard_marcus_dorian_4.l4`
+  [dorian]: "The owl will want a name. I'll wait till it tells me."  ✏ `event.overheard_marcus_dorian_4.l4`
   · effects: flag:event.overheard_marcus_dorian_4
 
 ### overheard_dorian_hazel_1 · "The Quiet Bench" · wholesome
@@ -353,12 +353,12 @@ placed: dorian(24, 18), hazel(26, 18)
   · (dorian faces right)
   · (hazel faces left)
   [dorian]: "...Hazel."  ✏ `event.overheard_dorian_hazel_1.l1`
-  [hazel]: "Dorian. Good morning. (The bench has room. Sit, if you like.)"
+  [hazel]: "Dorian. Hello. (The bench has room. Sit, if you like.)"
   · (hazel shrug (background))
   · (hazel emote ellipsis)
   · (dorian point (background))
   [dorian]: "...Quiet today. Even the jays."  ✏ `event.overheard_dorian_hazel_1.l3`
-  [hazel]: "(The best kind.) Stay as long as you like. I brought two books."
+  [hazel]: "(The best kind.) I brought two books. One is for not reading."
   · effects: flag:event.overheard_dorian_hazel_1
 
 ### overheard_dorian_hazel_2 · "Forage and Book" · wholesome
@@ -370,7 +370,7 @@ placed: dorian(24, 18), hazel(26, 18)
   · (place hazel to (26,18))
   · (dorian faces right)
   · (hazel faces left)
-  [dorian]: "...Old mushroom guide. I pressed leaves in it. Years of them."  ✏ `event.overheard_dorian_hazel_2.l1`
+  [dorian]: "Old mushroom guide. I pressed leaves in it. Years of them."  ✏ `event.overheard_dorian_hazel_2.l1`
   [hazel]: "Pressed leaves? May I borrow it? (They'll make better bookmarks than receipts.)"
   · (hazel shrug (background))
   · (hazel emote ellipsis)
@@ -393,6 +393,6 @@ placed: dorian(24, 18), hazel(26, 18)
   · (hazel point (background))
   · (hazel emote ellipsis)
   · (dorian shrug (background))
-  [dorian]: "...Then the trees can join us. They're good at it."  ✏ `event.overheard_dorian_hazel_3.l3`
+  [dorian]: "Then the trees can join us. They're good at it."  ✏ `event.overheard_dorian_hazel_3.l3`
   [hazel]: "(They always come.) I'll save the window seat. You bring the quiet."
   · effects: flag:event.overheard_dorian_hazel_3

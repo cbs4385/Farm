@@ -2795,7 +2795,7 @@
     {
      "i": 24,
      "type": "stage",
-     "text": "music piper_theme"
+     "text": "music saloon"
     },
     {
      "i": 25,
@@ -4487,6 +4487,10 @@
     "player": [
      25,
      17
+    ],
+    "tilda": [
+     24,
+     18
     ]
    },
    "beats": [
@@ -4536,11 +4540,21 @@
     },
     {
      "i": 8,
+     "type": "stage",
+     "text": "place tilda to (24,18)"
+    },
+    {
+     "i": 9,
+     "type": "stage",
+     "text": "tilda faces right"
+    },
+    {
+     "i": 10,
      "type": "dialogue",
      "dialogue": "story.pumpkin.marcus"
     },
     {
-     "i": 9,
+     "i": 11,
      "type": "say",
      "speaker": "marcus",
      "key": "event.story_pumpkin_marcus.after",
@@ -4549,12 +4563,12 @@
      "condition": null
     },
     {
-     "i": 10,
+     "i": 12,
      "type": "stage",
      "text": "remove prop story_prop_0"
     },
     {
-     "i": 11,
+     "i": 13,
      "type": "effects",
      "effects": [
       "flag:event.story_pumpkin_marcus",
@@ -5929,7 +5943,7 @@
     {
      "i": 7,
      "type": "stage",
-     "text": "music hazel_theme"
+     "text": "music library"
     },
     {
      "i": 8,
@@ -7918,7 +7932,7 @@
     {
      "i": 7,
      "type": "stage",
-     "text": "music piper_theme"
+     "text": "music saloon"
     },
     {
      "i": 8,
@@ -7928,7 +7942,7 @@
     {
      "i": 9,
      "type": "stage",
-     "text": "sfx coin"
+     "text": "sfx bell"
     },
     {
      "i": 10,
@@ -7954,20 +7968,47 @@
      "i": 14,
      "type": "say",
      "speaker": "piper",
+     "key": "event.piper_heart10.req_ballad",
+     "emote": null,
+     "expression": null,
+     "condition": "flag:choice.request.ballad"
+    },
+    {
+     "i": 15,
+     "type": "say",
+     "speaker": "piper",
+     "key": "event.piper_heart10.req_jig",
+     "emote": null,
+     "expression": null,
+     "condition": "flag:choice.request.jig"
+    },
+    {
+     "i": 16,
+     "type": "say",
+     "speaker": "piper",
+     "key": "event.piper_heart10.req_parsnip",
+     "emote": null,
+     "expression": null,
+     "condition": "flag:choice.request.parsnip"
+    },
+    {
+     "i": 17,
+     "type": "say",
+     "speaker": "piper",
      "key": "event.piper_heart10.outro",
      "emote": null,
      "expression": null,
      "condition": null
     },
     {
-     "i": 15,
+     "i": 18,
      "type": "effects",
      "effects": [
       "flag:event.piper_heart10"
      ]
     },
     {
-     "i": 16,
+     "i": 19,
      "type": "effects",
      "effects": [
       "friend:piper,80"
@@ -26565,6 +26606,30 @@
    "dialogue": null
   },
   "event.piper_heart10.intro": {
+   "owner": "piper",
+   "kind": "say",
+   "scenes": [
+    "piper_heart10"
+   ],
+   "dialogue": null
+  },
+  "event.piper_heart10.req_ballad": {
+   "owner": "piper",
+   "kind": "say",
+   "scenes": [
+    "piper_heart10"
+   ],
+   "dialogue": null
+  },
+  "event.piper_heart10.req_jig": {
+   "owner": "piper",
+   "kind": "say",
+   "scenes": [
+    "piper_heart10"
+   ],
+   "dialogue": null
+  },
+  "event.piper_heart10.req_parsnip": {
    "owner": "piper",
    "kind": "say",
    "scenes": [

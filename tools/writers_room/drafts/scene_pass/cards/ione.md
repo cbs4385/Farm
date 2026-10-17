@@ -51,7 +51,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   · (wren faces down)
   · (move player to (6,2))
   · (player faces up)
-  [ione]: "Four chairs, one lamp, and a pot of tea nobody asked for. This is my calm face. Does it work?"  ✏ `event.reading_night.0`
+  [ione]: "{if flag:met.wren && hearts:wren>=3}Five{else}Four{/if} chairs, one lamp, and a pot of tea nobody asked for. This is my calm face. Does it work?"  ✏ `event.reading_night.0`
   [hazel]: "(It doesn't.) I brought something. It's in my sleeve. I haven't decided if it comes out."  (expr embarrassed)
   ▶ DIALOGUE `reading.hazel` (player-facing graph, plays here):
     n0 [hazel]: "(Nobody has to hear it.) What would you do? ...If you were me, I mean."
@@ -63,7 +63,7 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
     r2 [hazel]: "Ione first. (Thank you.) I'm not leaving. I'm only sitting very still."
   [hazel]: "The lamp does not mind the dark. It keeps it company. ...That's the last of the eleven. (The rest were warming up.)"  (expr thinking) [only if flag:choice.reading.poem]
   [ione]: "I'll copy that out by hand, Hazel. Not for a shelf. For the desk drawer, where the good things go."  ✏ `event.reading_night.poem_after` [only if flag:choice.reading.poem]
-  [narration]: "Ione reads two pages about the winter sea. Hazel turns toward the lamp and stays very still." [only if flag:choice.reading.borrowed]
+  [narration]: "Hazel reads two borrowed pages about the winter sea, quietly, all the way through. Her sleeve stays shut." [only if flag:choice.reading.borrowed]
   [narration]: "Ione reads first, an old page about birds in fall. Hazel says nothing, and does not leave." [only if flag:choice.reading.listen]
   · (spawn prop forage.snowdrop at (5,3))
   [dorian]: "A snowdrop. Pressed. It kept my place since winter. For the lamp."
@@ -145,9 +145,9 @@ placed: player(7, 4)
        ? "Read the first page to her." → r1  effects: friend:ione,10, flag:choice.bday.ione.read  ✏ `dlg.ione.birthday.c1`
        ? "Give her a bookmark. A slightly crooked one." → r2  effects: friend:ione,10, flag:choice.bday.ione.mark  ✏ `dlg.ione.birthday.c2`
     r0 [ione]: "Thank you. I'll keep that between two good pages, where I'll come across it often."  ✏ `dlg.ione.birthday.r0`   (expr happy)
-    r1 [ione]: "The first page, aloud. Nobody's read to me since I was small. Slowly, please."  ✏ `dlg.ione.birthday.r1`   (expr happy)
+    r1 [ione]: "The first page, aloud. Nobody's read to me since I was small. I'll close my eyes, if you don't mind."  ✏ `dlg.ione.birthday.r1`   (expr happy)
     r2 [ione]: "A bookmark. From you. It's crooked. So is my favorite book. They'll get along."  ✏ `dlg.ione.birthday.r2`   (expr happy)
-  [ione]: "{if choice:bday.ione.wish}It's tucked between two good pages now. I'll come across it all winter.{else}{if choice:bday.ione.read}A birthday with someone reading to me. The books heard. They're being very discreet.{else}The bookmark's holding a very good place. I'd been using a tea label.{/if}{/if}"  ✏ `event.ione_birthday.after`
+  [ione]: "{if choice:bday.ione.wish}Noon came and went, and I never opened the new book. I was too busy being wished well.{else}{if choice:bday.ione.read}Someone read to me on my birthday. I've put it in the ledger, under returned with interest.{else}The bookmark's holding a very good place. I'd been using a tea label.{/if}{/if}"  ✏ `event.ione_birthday.after`
   · effects: flag:event.ione_birthday
   · effects: mark:birthday.ione, friend:ione,30, give:forage.seashell,1, mail:ione_bday_thanks
 
@@ -157,7 +157,7 @@ plays when: `hearts:ione>=8 && flag:event.ione_heart8 && !flag:partners.ione && 
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (ione faces down)
-  [ione]: "I've read hundreds of love stories, and not one told me how to ask this. So, plainly: would you court me? I rewrote that eleven times."  ✏ `event.ione_courtship.intro`
+  [ione]: "I've read hundreds of love stories, and not one told me how to ask this. So, plainly: would you court me? I rewrote that fourteen times."  ✏ `event.ione_courtship.intro`
   · (move player to (7,4))
   · (player faces up)
   · (ione wave (background))
@@ -180,7 +180,7 @@ plays when: `hearts:ione>=10 && flag:choice.courtship.ione.later && !flag:event.
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (ione faces down)
-  [ione]: "You asked me to wait, so I did. I reread the question instead, many times. It held up. Would you court me?"  ✏ `event.ione_courtship2.intro`
+  [ione]: "You asked me to wait. The question sat by the desk bell all this while. It held up. Would you court me?"  ✏ `event.ione_courtship2.intro`
   · (move player to (7,4))
   · (player faces up)
   · (ione wave (background))
@@ -203,7 +203,7 @@ plays when: `hearts:ione>=10 && flag:choice.courtship.ione.yes && !flag:partners
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (ione faces down)
-  [ione]: "Come in, and sit. I wrote you a letter. It runs four pages. I'll read it, and you'll pretend not to blush."  ✏ `event.ione_partners.intro`
+  [ione]: "Sit, please. I wrote you a letter. It runs four pages. I'll read it, and you'll pretend not to blush."  ✏ `event.ione_partners.intro`
   · (move player to (7,4))
   · (player faces up)
   · (ione wave (background))
@@ -216,7 +216,7 @@ placed: player(7, 4)
     r0 [ione]: "Every word. Thank you. ...I'm the one blushing, and I wrote it."  ✏ `dlg.ione.partners.r0`   (expr embarrassed)
     r1 [ione]: "You read, and the books lean in. They've missed being listened to. ...So had I."  ✏ `dlg.ione.partners.r1`   (expr happy)
     r2 [ione]: "The shore, with you. I'll bring a book and not open it. From a librarian, that's devotion."  ✏ `dlg.ione.partners.r2`   (expr happy)
-  [ione]: "{if choice:courtship.ione.letter}The letter's in my favorite book now, marking the best page. Both are yours, eventually.{else}{if choice:courtship.ione.read}Your voice, my library. The books haven't said a word since. I think they approve.{else}The shore was bright. I forgot the book entirely. ...I'd like to see it in winter. With you.{/if}{/if}"  ✏ `event.ione_partners.after`
+  [ione]: "{if choice:courtship.ione.letter}The letter's in my favorite book now, marking the best page. Both are yours, eventually.{else}{if choice:courtship.ione.read}Your voice, my library. I've marked the spot where you stood. Nobody else may stand there. Hazel may.{else}The shore was bright. I forgot the book entirely. ...I'd like to see it in winter. With you.{/if}{/if}"  ✏ `event.ione_partners.after`
   · effects: flag:event.ione_partners
   · effects: flag:partners.ione, friend:ione,50
 
@@ -229,12 +229,12 @@ placed: hazel(24, 18), ione(26, 18)
   · (place ione to (26,18))
   · (hazel faces right)
   · (ione faces left)
-  [hazel]: "Third shelf, left. The mysteries are back in order. (Someone sorted them by color.)"
+  [hazel]: "The spring almanac. Third shelf, left, behind the mysteries. (Someone sorted those by color.)"
   [ione]: "You found it. I'd looked for a week. The library's quiet is really yours. I only dust it."  ✏ `event.overheard_hazel_ione_1.l2`
   · (ione shrug (background))
   · (ione emote ellipsis)
   · (hazel point (background))
-  [hazel]: "(Then we split it. You sweep. I shelve.)"
+  [hazel]: "Then we split it. You dust, I shelve. (The quiet stays undivided.)"
   [ione]: "Agreed. Back to the tea, then. I'll even stir quietly."  ✏ `event.overheard_hazel_ione_1.l4`
   · effects: flag:event.overheard_hazel_ione_1
 
@@ -253,7 +253,7 @@ placed: ione(24, 18), hazel(26, 18)
   · (hazel emote ellipsis)
   · (ione wave (background))
   [ione]: "You've been on the last chapter for seven years?"  ✏ `event.overheard_hazel_ione_2.l3`
-  [hazel]: "One a year, yes. (I fine myself eleven cents each time.)"
+  [hazel]: "Once a year, yes. (I fine myself four cents a time. I'm up to twenty-eight.)"
   · effects: flag:event.overheard_hazel_ione_2
 
 ### overheard_hazel_ione_3 · "The Reading Chair" · wholesome
@@ -266,7 +266,7 @@ placed: ione(24, 18), hazel(26, 18)
   · (ione faces right)
   · (hazel faces left)
   [ione]: "I put a chair by the window. It has a cushion. It's for whoever needs it."  ✏ `event.overheard_hazel_ione_3.l1`
-  [hazel]: "(It's for me.) Thank you. (I won't say so aloud.) ...I just did."
+  [hazel]: "Oh. (It's for me.) ...I'm not going to say anything. It would only echo."
   · (hazel point (background))
   · (hazel emote ellipsis)
   · (ione shrug (background))
@@ -284,11 +284,11 @@ placed: odalys(24, 18), ione(26, 18)
   · (odalys faces right)
   · (ione faces left)
   [odalys]: "Ione. Your lamps were still lit an hour past closing."
-  [ione]: "Dr. Penn. The clinic stayed open two. I could see your lamp."  ✏ `event.overheard_odalys_ione_1.l2`
+  [ione]: "Dr. Penn. Your clinic stayed lit two hours past. I could see your lamp from my desk."  ✏ `event.overheard_odalys_ione_1.l2`
   · (ione shrug (background))
   · (ione emote ellipsis)
   · (odalys point (background))
-  [odalys]: "Patients keep odd hours. Books do not. ...Very well. Call it a draw."
+  [odalys]: "Patients keep odd hours. Books do not. ...Agreed. Call it a draw."
   [ione]: "Then we'll both go home on time. Starting tomorrow."  ✏ `event.overheard_odalys_ione_1.l4`
   · effects: flag:event.overheard_odalys_ione_1
 
@@ -301,7 +301,7 @@ placed: odalys(24, 18), ione(26, 18)
   · (place ione to (26,18))
   · (odalys faces right)
   · (ione faces left)
-  [odalys]: "Ione. I prescribe you a nap. Ten minutes. I've already written it down."
+  [odalys]: "Ione. I prescribe you a nap. Fifteen minutes. I've already written it down."
   [ione]: "And I prescribe you a novel, Dr. Penn. One chapter. Equally non-negotiable."  ✏ `event.overheard_odalys_ione_2.l2`
   · (ione shrug (background))
   · (ione emote ellipsis)
@@ -320,10 +320,10 @@ placed: odalys(24, 18), ione(26, 18)
   · (odalys faces right)
   · (ione faces left)
   [odalys]: "The tea, Ione. I've been told to drink it slowly, so I shall. Under observation."
-  [ione]: "It's the calm kind. Hazel had three cups and reorganized nothing all afternoon."  ✏ `event.overheard_odalys_ione_3.l2`
+  [ione]: "It's the calm kind. Even the library stove stopped ticking once the pot was on it."  ✏ `event.overheard_odalys_ione_3.l2`
   · (ione point (background))
   · (ione emote ellipsis)
   · (odalys shrug (background))
-  [odalys]: "If the stove approves, it's a verified remedy. Pass the cup."
+  [odalys]: "If Hazel reorganized nothing, it's a verified remedy. Pass the cup."
   [ione]: "Always. Here. It's gone a little cold. That's the slow part working."  ✏ `event.overheard_odalys_ione_3.l4`
   · effects: flag:event.overheard_odalys_ione_3

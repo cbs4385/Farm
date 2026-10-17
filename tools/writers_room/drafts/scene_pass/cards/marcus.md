@@ -61,16 +61,16 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  (expr happy)
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
-  [piper]: "First verse, then I step off. I'm perfectly calm. My bow hand hasn't heard."  (emote sweat)
-  · (music piper_theme)
+  [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
+  · (music saloon)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
   [bram]: "Hm. Hm-hm. Hm. I sing it in my own language."  (emote note)
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
-  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's for the ladder."
-  [marcus]: "One coin. One dance. I measured this floor for it. Twice."  ✏ `event.hall_dance.11`
+  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
+  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."  ✏ `event.hall_dance.11`
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
@@ -125,7 +125,7 @@ placed: marcus(25, 18), player(25, 17)
        ? "Say hello, like a normal neighbor." → r0  effects: flag:choice.whistler.marcus.hello  ✏ `dlg.story.whistler.marcus.c0`
        ? "Whistle the wrong note back." → r1  effects: flag:choice.whistler.marcus.back, friend:marcus,10  ✏ `dlg.story.whistler.marcus.c1`
        ? "Say nothing. Wait for the encore." → r2  effects: flag:choice.whistler.marcus.listen, friend:marcus,10  ✏ `dlg.story.whistler.marcus.c2`
-    r0 [marcus]: "Hello. Yes. Hello. Thank you for the normal approach. It's rarer than you'd think."  ✏ `dlg.story.whistler.marcus.r0`
+    r0 [marcus]: "Hello. Yes. Hello. A normal approach. It's rarer than you'd think."  ✏ `dlg.story.whistler.marcus.r0`
     r1 [marcus]: "You got the wrong note exactly right. I'm moved. Also mortified."  ✏ `dlg.story.whistler.marcus.r1`   (expr embarrassed)
     r2 [marcus]: "You listened. All of it. ...Grandfather would have liked you. I may whistle again. Quietly."  ✏ `dlg.story.whistler.marcus.r2`   (expr happy)
   [marcus]: "A wrong note is only wrong if you apologize for it. Wednesdays, I whistle on the bench. Bram pretends not to hear."  ✏ `event.story_whistler_marcus.after`
@@ -135,17 +135,19 @@ placed: marcus(25, 18), player(25, 17)
 event · storyline_events2.json · map Village · priority 7
 plays when: `storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0`
 beats may be ADDED or CUT in this scene
-placed: marcus(25, 18), player(25, 17)
+placed: marcus(25, 18), player(25, 17), tilda(24, 18)
   · (place marcus to (25,18))
   · (marcus faces down)
   · (spawn prop prop.pumpkin at (26,18))
-  [marcus]: "Ah. You've found out. A practice lantern. I measured the face twice. Never asked whose pumpkin."  ✏ `event.story_pumpkin_marcus.intro`
+  [marcus]: "You've caught me. A practice lantern. I measured the face. I never asked whose pumpkin."  ✏ `event.story_pumpkin_marcus.intro`
   · (move player to (25,17))
   · (player faces up)
   · (marcus emote sweat)
   · (marcus shrug (background))
+  · (place tilda to (24,18))
+  · (tilda faces right)
   ▶ DIALOGUE `story.pumpkin.marcus` (player-facing graph, plays here):
-    n0 [narration]: "Behind the store, Marcus stands beside a very large pumpkin with a very guilty face."  ✏ `dlg.story.pumpkin.marcus.0`   (→ n1)
+    n0 [narration]: "Tilda comes around the corner, stops, and stares at the pumpkin's new face."  ✏ `dlg.story.pumpkin.marcus.0`   (→ n1)
     n1 [tilda]: "Marcus! Is that my prize pumpkin? I blamed the goats. I apologized to a goat."   (→ n2)
     n2 [marcus]: "...It might be. It has a nose now."  ✏ `dlg.story.pumpkin.marcus.2`
        ? "Let him off gently." → r0  effects: flag:choice.pumpkin.marcus.kind, friend:marcus,10  ✏ `dlg.story.pumpkin.marcus.c0`
@@ -154,7 +156,7 @@ placed: marcus(25, 18), player(25, 17)
     r0 [tilda]: "Kindly. Fine. But he owes me a pie, and I've seen him measure. It'll be exact."   (expr thinking)
     r1 [marcus]: "An apology. Yes. I'm sorry, Tilda. Truly. And sorry to you, pumpkin. You deserved a plan."  ✏ `dlg.story.pumpkin.marcus.r1`   (emote sweat)
     r2 [tilda]: "You and Marcus take the ends. I'll walk ahead and tell everyone it was the goats."   (expr happy)
-  [marcus]: "It goes back with a face carved in. Tilda calls it an improvement. I've stopped trying not to smile."  ✏ `event.story_pumpkin_marcus.after`
+  [marcus]: "It goes back with a face carved in. Tilda calls it an improvement. Next year, I ask first. Probably."  ✏ `event.story_pumpkin_marcus.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_pumpkin_marcus, friend:marcus,30, friend:tilda,20, flag:storydone.missing_pumpkin
 
@@ -164,7 +166,7 @@ plays when: `hearts:marcus>=8 && flag:event.marcus_heart5 && !weekday:wed && hou
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (marcus faces down)
-  [marcus]: "Come in. I want you to see the roof plan. Not many have. I measure twice. You look once."  ✏ `event.marcus_heart8.intro`
+  [marcus]: "Come in. You've seen the barn I carved at nine. Now see the roof plan. Not many have."  ✏ `event.marcus_heart8.intro`
   · (move player to (6,3))
   · (player faces up)
   · (marcus wave (background))
@@ -177,7 +179,7 @@ placed: player(6, 3)
        ? "I'll hold the ladder. I'm good at holding." → r2  effects: friend:marcus,10, flag:choice.roof.ladder  ✏ `dlg.marcus.roof.c2`
     r0 [marcus]: "Measure with me. Yes. You take the end of the tape. Once. Twice. ...Three times."  ✏ `dlg.marcus.roof.r0`   (expr happy)
     r1 [marcus]: "A new pitch. I'd stopped asking that question. ...Show me the angle. Slowly."  ✏ `dlg.marcus.roof.r1`
-    r2 [marcus]: "The ladder. Plain, steady, necessary. Best offer I've had in six winters."  ✏ `dlg.marcus.roof.r2`   (expr happy)
+    r2 [marcus]: "The ladder. Plain, steady, necessary. Best offer anyone's made that roof."  ✏ `dlg.marcus.roof.r2`   (expr happy)
   [marcus]: "{if choice:roof.measure}You measured with me. Three times, the last under your breath. First time I haven't been alone with it.{else}{if choice:roof.design}A steeper pitch. I'd never have tried it. I'll draw it tonight. Not nine times. Perhaps four.{else}You held the ladder. That's half of any building. The roof's still nearly fixed. Less nearly, now.{/if}{/if}"  ✏ `event.marcus_heart8.after`
   · effects: flag:event.marcus_heart8
   · effects: friend:marcus,70
@@ -198,8 +200,8 @@ placed: player(6, 3)
        ? "Happy birthday, Marcus." → r0  effects: friend:marcus,10, flag:choice.bday.marcus.wish  ✏ `dlg.marcus.birthday.c0`
        ? "That's a beautiful plank." → r1  effects: friend:marcus,10, flag:choice.bday.marcus.plank  ✏ `dlg.marcus.birthday.c1`
        ? "Need someone on the other end?" → r2  effects: friend:marcus,10, flag:choice.bday.marcus.hold  ✏ `dlg.marcus.birthday.c2`
-    r0 [marcus]: "Thank you. I'll write it on the beam, small. Measure twice, thank twice."  ✏ `dlg.marcus.birthday.r0`   (expr happy)
-    r1 [marcus]: "Oak. Straight grain, no knots. Thank you for noticing. Most people see a board."  ✏ `dlg.marcus.birthday.r1`   (expr happy)
+    r0 [marcus]: "Thank you. I'll write that on the beam, small, where only I'll look."  ✏ `dlg.marcus.birthday.r0`   (expr happy)
+    r1 [marcus]: "Oak. Straight grain, no knots. Most people see a board. You saw the grain."  ✏ `dlg.marcus.birthday.r1`   (expr happy)
     r2 [marcus]: "The other end. Yes. A second pair of hands is the best present there is."  ✏ `dlg.marcus.birthday.r2`   (expr happy)
   [marcus]: "{if choice:bday.marcus.wish}It's on the beam now, in small letters. That beam will outlast us both.{else}{if choice:bday.marcus.plank}You noticed the plank. Nobody notices. It's going up over the door.{else}Two hands on one plank. A quiet birthday. A good one.{/if}{/if}"  ✏ `event.marcus_birthday.after`
   · effects: flag:event.marcus_birthday
@@ -215,7 +217,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (marcus faces right)
   · (dorian faces left)
   [marcus]: "Dorian. Hold the end. No, the other end. ...There."  ✏ `event.overheard_marcus_dorian_1.l1`
-  [dorian]: "...Straight. Like a birch."
+  [dorian]: "Straight. Like a birch."
   · (dorian shrug (background))
   · (dorian emote ellipsis)
   · (marcus point (background))
@@ -238,7 +240,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (dorian emote ellipsis)
   · (marcus wave (background))
   [marcus]: "I nearly got worried. Then I didn't. Best hour of the week."  ✏ `event.overheard_marcus_dorian_2.l3`
-  [dorian]: "...Me too. Plane, please. That's my words for the week."
+  [dorian]: "Me too. Plane, please. That's my words for the week."
   · effects: flag:event.overheard_marcus_dorian_2
 
 ### overheard_marcus_dorian_3 · "The Forest Door" · wholesome
@@ -251,7 +253,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (marcus faces right)
   · (dorian faces left)
   [marcus]: "I hung a new door on your room. Oak. Heavier than it looks, like most things."  ✏ `event.overheard_marcus_dorian_3.l1`
-  [dorian]: "...Oak. Good. First door I'd close on purpose."
+  [dorian]: "Oak. Good. First door I'd close on purpose."
   · (dorian point (background))
   · (dorian emote ellipsis)
   · (marcus shrug (background))
@@ -274,7 +276,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (dorian emote ellipsis)
   · (marcus wave (background))
   [marcus]: "Facing the owl. You two can finally be introduced."  ✏ `event.overheard_marcus_dorian_4.l3`
-  [dorian]: "...The owl will want a name. I'll wait till it tells me."
+  [dorian]: "The owl will want a name. I'll wait till it tells me."
   · effects: flag:event.overheard_marcus_dorian_4
 
 ### overheard_bram_marcus_1 · "The Two Trades" · funny
@@ -305,7 +307,7 @@ placed: bram(24, 18), marcus(26, 18)
   · (bram faces right)
   · (marcus faces left)
   [bram]: "Hm. Handle for the big hammer?"
-  [marcus]: "Made you one. Oak. Measured your grip twice while you weren't looking."  ✏ `event.overheard_bram_marcus_2.l2`
+  [marcus]: "Made you one. Oak. Measured your grip while you weren't looking."  ✏ `event.overheard_bram_marcus_2.l2`
   · (marcus shrug (background))
   · (marcus emote ellipsis)
   · (bram wave (background))
@@ -323,7 +325,7 @@ placed: bram(24, 18), marcus(26, 18)
   · (bram faces right)
   · (marcus faces left)
   [bram]: "Hm. A hundred nails today."
-  [marcus]: "A hundred and four. All straight. Counted twice."  ✏ `event.overheard_bram_marcus_3.l2`
+  [marcus]: "A hundred and four. All straight. I counted."  ✏ `event.overheard_bram_marcus_3.l2`
   · (marcus point (background))
   · (marcus emote ellipsis)
   · (bram shrug (background))
@@ -345,7 +347,7 @@ placed: odalys(24, 18), marcus(26, 18)
   · (marcus shrug (background))
   · (marcus emote exclaim)
   · (odalys point (background))
-  [odalys]: "Measure twice, bend the knees once. That one isn't carpentry. Doctor's orders."
+  [odalys]: "Measure twice, bend the knees once. That one isn't carpentry. It's mine."
   [marcus]: "Knees. Noted. Twice."  ✏ `event.overheard_marcus_odalys_1.l4`
   · effects: flag:event.overheard_marcus_odalys_1
 

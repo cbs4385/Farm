@@ -15,7 +15,7 @@ placed: player(6, 2)
   [odalys]: "Strong and steady. All that digging is good for something besides the turnips."  ✏ `event.odalys_heart2.1`
   [odalys]: "When did you last eat sitting down? Bread over a seed bag does not count."  ✏ `event.odalys_heart2.3`  (expr thinking)
   [odalys]: "Two salads. Eat them sitting down, at a table, in daylight. Doctor's orders."  ✏ `event.odalys_heart2.2`
-  [odalys]: "Marcus is the only patient who comes when I call. I'm working on the rest of the village."  ✏ `event.odalys_heart2.4`
+  [odalys]: "Half of Wetherell eats standing up. I'm working through them one patient at a time. You were next."  ✏ `event.odalys_heart2.4`
   · effects: give:food.salad,2, friend:odalys,40, flag:event.odalys_heart2
 
 ### odalys_heart5 · "The Remedy Notebook" · wholesome
@@ -24,7 +24,7 @@ plays when: `hearts:odalys>=5 && !weekday:sat && hour>=9 && hour<17 && flag:even
 beats may be ADDED or CUT in this scene
 placed: player(6, 2)
   · (odalys faces down)
-  [odalys]: "Sit. This is my notebook of remedies. Every cure that ever worked in Wetherell, and several that only worked on Marcus."  ✏ `event.odalys_heart5.0`
+  [odalys]: "This is my notebook of remedies. Every cure that ever worked in Wetherell, and several that only worked on Marcus."  ✏ `event.odalys_heart5.0`
   · (move player to (6,2))
   · (player faces up)
   · (odalys emote ellipsis)
@@ -76,10 +76,10 @@ placed: player(6, 2)
        ? "Insist that she rests tonight." → r0  effects: friend:odalys,10, flag:choice.office.insist  ✏ `dlg.odalys.office.c0`
        ? "Pull up a chair and share the soup." → r1  effects: friend:odalys,15, flag:choice.office.soup  ✏ `dlg.odalys.office.c1`
        ? "Write her a prescription of your own." → r2  effects: friend:odalys,10, flag:choice.office.write  ✏ `dlg.odalys.office.c2`
-    r0 [odalys]: "You insist. ...Very well. Under protest, with soup, and in front of a witness."  ✏ `dlg.odalys.office.r0`
+    r0 [odalys]: "You insist. ...Accepted. Under protest, with soup, and in front of a witness."  ✏ `dlg.odalys.office.r0`
     r1 [odalys]: "Two spoons, one pot. That's the entire treatment. You diagnosed me faster than I would have."  ✏ `dlg.odalys.office.r1`   (expr happy)
     r2 [odalys]: "A prescription. For me. 'Come back anyway.' ...I've never been given orders I wanted to follow."  ✏ `dlg.odalys.office.r2`   (expr happy)
-  [odalys]: "{if choice:office.insist}You insisted I rest. I filed it under 'Unreasonable'. Then I slept nine hours. Elara is unbearable about it.{else}{if choice:office.soup}We finished the pot. I've written it up: 'Treatment successful. Repeat weekly.' That last part was not a question.{else}Your prescription is pinned above my desk. 'Come back anyway.' I intend to comply. Doctor's orders.{/if}{/if}"  ✏ `event.odalys_heart8.after`
+  [odalys]: "{if choice:office.insist}You insisted I rest. I objected for a full minute. Then I slept nine hours. Elara is unbearable about it.{else}{if choice:office.soup}We finished the pot. I've written it up: 'Treatment successful. Repeat weekly.' That last part was not a question.{else}Your prescription is pinned above my desk. 'Come back anyway.' I intend to comply. Doctor's orders.{/if}{/if}"  ✏ `event.odalys_heart8.after`
   · effects: flag:event.odalys_heart8
   · effects: friend:odalys,70
 
@@ -89,7 +89,7 @@ plays when: `hearts:odalys>=2 && birthday.in:odalys==0 && unseen:birthday.odalys
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 2)
   · (odalys faces down)
-  [odalys]: "Sit. It's my birthday. I observe it with soup. That is an invitation, not an order. Mostly."  ✏ `event.odalys_birthday.intro`
+  [odalys]: "It's my birthday. I observe it with soup. That is an invitation, not an order. Mostly."  ✏ `event.odalys_birthday.intro`
   · (move player to (6,2))
   · (player faces up)
   · (odalys wave (background))
@@ -101,8 +101,8 @@ placed: player(6, 2)
        ? "Prescribe her an afternoon nap." → r2  effects: friend:odalys,10, flag:choice.bday.odalys.nap  ✏ `dlg.odalys.birthday.c2`
     r0 [odalys]: "...Thank you. Most people wish me well by not needing me today. This is better."  ✏ `dlg.odalys.birthday.r0`   (expr happy)
     r1 [odalys]: "Then pass your bowl. Leek and potato, and an irresponsible amount of pepper. It's my birthday."  ✏ `dlg.odalys.birthday.r1`   (expr happy)
-    r2 [odalys]: "A nap, prescribed by a farmer. ...I'll comply. My patients will be told it was an emergency."  ✏ `dlg.odalys.birthday.r2`   (expr happy)
-  [odalys]: "{if choice:bday.odalys.wish}It went in the file labeled 'Unexpected'. That file was empty last winter. It isn't now.{else}{if choice:bday.odalys.soup}Shared soup. Elara made me write 'Successful' in red ink. She brought the ink.{else}I napped twenty minutes. The clinic survived. Elara says nothing happened. She said it very quickly.{/if}{/if}"  ✏ `event.odalys_birthday.after`
+    r2 [odalys]: "A nap, prescribed by a farmer. ...Very well. My patients will be told it was an emergency."  ✏ `dlg.odalys.birthday.r2`   (expr happy)
+  [odalys]: "{if choice:bday.odalys.wish}It went in the file labeled 'Unexpected'. That file was empty last winter. It isn't now.{else}{if choice:bday.odalys.soup}Shared soup. Elara says I smiled twice. She's counting, and she's wrong. It was three.{else}I napped twenty minutes. The clinic survived. Elara says nothing happened. She said it very quickly.{/if}{/if}"  ✏ `event.odalys_birthday.after`
   · effects: flag:event.odalys_birthday
   · effects: mark:birthday.odalys, friend:odalys,30, give:artisan.juice,1, mail:odalys_bday_thanks
 
@@ -120,7 +120,7 @@ placed: elara(24, 18), odalys(26, 18)
   · (odalys shrug (background))
   · (odalys emote sparkle)
   · (elara point (background))
-  [elara]: "You like it! A cozy for the stool, and next, a smaller cozy for the cozy!"
+  [elara]: "You like it! Good, because it has a spare. For laundry day!"
   [odalys]: "No. One cozy per stool. That is clinic policy, as of now."  ✏ `event.overheard_elara_odalys_1.l4`
   · effects: flag:event.overheard_elara_odalys_1
 
@@ -134,7 +134,7 @@ placed: elara(24, 18), odalys(26, 18)
   · (elara faces right)
   · (odalys faces left)
   [elara]: "Soup for the whole clinic! Seven vegetables! One of them is a surprise!"
-  [odalys]: "Elara. I accept the soup. I need to know the surprise first. Professionally."  ✏ `event.overheard_elara_odalys_2.l2`
+  [odalys]: "I accept the soup. I need to know the surprise first. Professionally."  ✏ `event.overheard_elara_odalys_2.l2`
   · (odalys shrug (background))
   · (odalys emote sparkle)
   · (elara wave (background))
@@ -152,12 +152,12 @@ placed: elara(24, 18), odalys(26, 18)
   · (elara faces right)
   · (odalys faces left)
   [elara]: "Dr. Penn, eleven hours yesterday. I counted. So I knitted you a sleeping mask! Lavender!"
-  [odalys]: "Elara. It's very soft. ...Ten minutes after lunch. Do not mistake that for a habit."  ✏ `event.overheard_elara_odalys_3.l2`
+  [odalys]: "It's very soft, Elara. ...Ten minutes after lunch. Do not mistake that for a habit."  ✏ `event.overheard_elara_odalys_3.l2`
   · (odalys point (background))
   · (odalys emote sparkle)
   · (elara shrug (background))
   [elara]: "Ten minutes is a perfect nap! I'll mind the desk. I'll answer nothing, kindly!"
-  [odalys]: "That was good care, Elara. Wake me for emergencies only. Splinters are not emergencies."  ✏ `event.overheard_elara_odalys_3.l4`
+  [odalys]: "Good care. Wake me for emergencies only. Splinters are not emergencies."  ✏ `event.overheard_elara_odalys_3.l4`
   · effects: flag:event.overheard_elara_odalys_3
 
 ### overheard_odalys_ione_1 · "Late Lamps" · wholesome
@@ -170,11 +170,11 @@ placed: odalys(24, 18), ione(26, 18)
   · (odalys faces right)
   · (ione faces left)
   [odalys]: "Ione. Your lamps were still lit an hour past closing."  ✏ `event.overheard_odalys_ione_1.l1`
-  [ione]: "Dr. Penn. The clinic stayed open two. I could see your lamp."
+  [ione]: "Dr. Penn. Your clinic stayed lit two hours past. I could see your lamp from my desk."
   · (ione shrug (background))
   · (ione emote ellipsis)
   · (odalys point (background))
-  [odalys]: "Patients keep odd hours. Books do not. ...Very well. Call it a draw."  ✏ `event.overheard_odalys_ione_1.l3`
+  [odalys]: "Patients keep odd hours. Books do not. ...Agreed. Call it a draw."  ✏ `event.overheard_odalys_ione_1.l3`
   [ione]: "Then we'll both go home on time. Starting tomorrow."
   · effects: flag:event.overheard_odalys_ione_1
 
@@ -187,7 +187,7 @@ placed: odalys(24, 18), ione(26, 18)
   · (place ione to (26,18))
   · (odalys faces right)
   · (ione faces left)
-  [odalys]: "Ione. I prescribe you a nap. Ten minutes. I've already written it down."  ✏ `event.overheard_odalys_ione_2.l1`
+  [odalys]: "Ione. I prescribe you a nap. Fifteen minutes. I've already written it down."  ✏ `event.overheard_odalys_ione_2.l1`
   [ione]: "And I prescribe you a novel, Dr. Penn. One chapter. Equally non-negotiable."
   · (ione shrug (background))
   · (ione emote ellipsis)
@@ -206,11 +206,11 @@ placed: odalys(24, 18), ione(26, 18)
   · (odalys faces right)
   · (ione faces left)
   [odalys]: "The tea, Ione. I've been told to drink it slowly, so I shall. Under observation."  ✏ `event.overheard_odalys_ione_3.l1`
-  [ione]: "It's the calm kind. Hazel had three cups and reorganized nothing all afternoon."
+  [ione]: "It's the calm kind. Even the library stove stopped ticking once the pot was on it."
   · (ione point (background))
   · (ione emote ellipsis)
   · (odalys shrug (background))
-  [odalys]: "If the stove approves, it's a verified remedy. Pass the cup."  ✏ `event.overheard_odalys_ione_3.l3`
+  [odalys]: "If Hazel reorganized nothing, it's a verified remedy. Pass the cup."  ✏ `event.overheard_odalys_ione_3.l3`
   [ione]: "Always. Here. It's gone a little cold. That's the slow part working."
   · effects: flag:event.overheard_odalys_ione_3
 
@@ -228,7 +228,7 @@ placed: odalys(24, 18), marcus(26, 18)
   · (marcus shrug (background))
   · (marcus emote exclaim)
   · (odalys point (background))
-  [odalys]: "Measure twice, bend the knees once. That one isn't carpentry. Doctor's orders."  ✏ `event.overheard_marcus_odalys_1.l3`
+  [odalys]: "Measure twice, bend the knees once. That one isn't carpentry. It's mine."  ✏ `event.overheard_marcus_odalys_1.l3`
   [marcus]: "Knees. Noted. Twice."
   · effects: flag:event.overheard_marcus_odalys_1
 

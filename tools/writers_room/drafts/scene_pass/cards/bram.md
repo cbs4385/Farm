@@ -24,7 +24,7 @@ plays when: `hearts:bram>=5 && !weekday:mon && hour>=9 && hour<17`
 beats may be ADDED or CUT in this scene
 placed: player(6, 3)
   · (bram faces down)
-  [bram]: "Hm. Wait. I don't say things often. Today I'm saying one."  ✏ `event.bram_heart5.0`
+  [bram]: "Wait. I don't say things often. Today I'm saying one."  ✏ `event.bram_heart5.0`
   · (move player to (6,3))
   · (player faces up)
   · (bram emote ellipsis)
@@ -59,7 +59,7 @@ placed: juno(2, 2), bram(6, 3), player(4, 2)
   · (remove prop piece)
   · (bram faces down)
   [bram]: "Juno. {pause=0.4}I'm proud of you."  ✏ `event.next_door.4`  (emote heart)
-  [juno]: "...He said it. Out loud, with a witness. I need to sit. The empty shop next door has a bench. I've measured it. Twice."  (expr embarrassed)
+  [juno]: "...He said it. Out loud, with a witness. I need to sit. The sign hook next door is still empty. The sign's drawn. It's under the coal."  (expr embarrassed)
   · effects: flag:event.next_door, friend:juno,40, friend:bram,40
 
 ### hall_dance · "Opening Night" · wholesome
@@ -90,16 +90,16 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  (expr happy)
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
-  [piper]: "First verse, then I step off. I'm perfectly calm. My bow hand hasn't heard."  (emote sweat)
-  · (music piper_theme)
+  [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
+  · (music saloon)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
   [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
   [bram]: "Hm. Hm-hm. Hm. I sing it in my own language."  ✏ `event.hall_dance.7`  (emote note)
   [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
   [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
-  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's for the ladder."
-  [marcus]: "One coin. One dance. I measured this floor for it. Twice."
+  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood."
+  [marcus]: "The ladder can wait one night. One dance. I built this floor to take it."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
@@ -123,15 +123,15 @@ placed: bram(25, 18), player(25, 17)
   · (player faces up)
   · (bram emote ellipsis)
   ▶ DIALOGUE `story.whistler.bram` (player-facing graph, plays here):
-    n0 [bram]: "Hm. I whistle. Don't tell Wren. She'd count the notes as words."  ✏ `dlg.story.whistler.bram.0`   (→ n1)
+    n0 [bram]: "I whistle. Don't tell Wren. She'd count the notes as words."  ✏ `dlg.story.whistler.bram.0`   (→ n1)
     n1 [bram]: "...Well?"  ✏ `dlg.story.whistler.bram.1`
        ? "Wave and say a cheerful hello." → r0  effects: flag:choice.whistler.bram.hello  ✏ `dlg.story.whistler.bram.c0`
        ? "Whistle the wrong note back." → r1  effects: flag:choice.whistler.bram.back, friend:bram,10  ✏ `dlg.story.whistler.bram.c1`
        ? "Say nothing. Just listen." → r2  effects: flag:choice.whistler.bram.listen, friend:bram,10  ✏ `dlg.story.whistler.bram.c2`
-    r0 [bram]: "Hm. Hello. Yes. We'll both say that was the kettle."  ✏ `dlg.story.whistler.bram.r0`
+    r0 [bram]: "Hm. Hello. Yes. We'll blame the wind. It owes me."  ✏ `dlg.story.whistler.bram.r0`
     r1 [bram]: "Hm? ...That's my wrong note. Twenty years. Nobody's ever caught it."  ✏ `dlg.story.whistler.bram.r1`   (expr embarrassed)
     r2 [bram]: "...Hm. You listened. All of it. Most people leave before the end."  ✏ `dlg.story.whistler.bram.r2`   (expr happy)
-  [bram]: "Hm. My teacher whistled that tune. Got the note wrong too. I kept it."  ✏ `event.story_whistler_bram.after`
+  [bram]: "My teacher whistled that tune. Same wrong note. I kept it."  ✏ `event.story_whistler_bram.after`
   · effects: flag:event.story_whistler_bram, friend:bram,30, flag:storydone.mystery_whistler
 
 ### story_band_battle · "Battle of the Bands" · funny
@@ -154,9 +154,9 @@ placed: piper(25, 18), player(25, 17)
        ? "The forge band, honestly." → r1  effects: flag:choice.band.juno
        ? "Both, together. Loudly." → r2  effects: flag:choice.band.both, friend:piper,10, friend:juno,10
     r0 [piper]: "Justice! And good taste! Juno, you were wonderful. Just less fiddle."   (expr happy)
-    r1 [juno]: "Okay, okay, okay! We won! Bram, we won! ...Bram? He's hitting the thing. Twice!"   (expr happy)
+    r1 [juno]: "We won! Bram, we won! ...Bram? He's hitting the thing. Twice!"   (expr happy)
     r2 [piper]: "Together? ...That's either genius or a noise complaint. Bram, one hit. Make it count."   (emote note)
-  [piper]: "{if choice:band.piper}The fiddle wins! Juno took it beautifully. She's already forging a louder anvil.{else}{if choice:band.juno}The forge band wins! I'm thrilled. I'm furious. I'm writing a song about both.{else}A joint set! Fiddle, anvils, and one crowd clapping on every beat. That's a chorus.{/if}{/if}"
+  [piper]: "{if choice:band.piper}The fiddle wins! Juno took it beautifully. She's already forging a louder anvil.{else}{if choice:band.juno}The forge band wins! I'm thrilled. I'm furious. I'm writing a song about both.{else}A joint set! Fiddle, anvils, and a whole square clapping on the beat. Mostly on the beat.{/if}{/if}"
   [piper]: "And Bram tapped his foot on the second verse. I saw it. He'll deny it until spring."  (emote note, expr happy)
   · effects: flag:event.story_band_battle, friend:piper,20, friend:juno,20, flag:storydone.competing_band
 
@@ -179,7 +179,7 @@ placed: player(6, 3)
     r0 [bram]: "Don't grip. Hold. ...Hm. Like that."  ✏ `dlg.bram.repair.r0`
     r1 [bram]: "Square on. Again. ...Hm. The iron believed you."  ✏ `dlg.bram.repair.r1`   (expr happy)
     r2 [bram]: "Hm. Watch the edge, not me. Juno watches me. Bad habit."  ✏ `dlg.bram.repair.r2`
-  [bram]: "Hm. It'll hold. Juno would've used half the strikes. Don't tell her."  ✏ `event.bram_heart4.after`
+  [bram]: "It'll hold. Juno would've used half the strikes. Don't tell her."  ✏ `event.bram_heart4.after`
   · effects: flag:event.bram_heart4
   · effects: friend:bram,50
 
@@ -197,7 +197,7 @@ placed: player(6, 3)
   · (camera focus on bram)
   · (bram expression thinking)
   ▶ DIALOGUE `bram.long` (player-facing graph, plays here):
-    n0 [bram]: "I worked alone for years, told myself I liked it, and lied. Then you kept sitting down. I wrote my teacher thirty letters. Sent none."  ✏ `dlg.bram.long.0`   (expr thinking)
+    n0 [bram]: "I worked alone for years, told myself I liked it, lied, and then you kept sitting down. I wrote my teacher thirty letters. Sent none."  ✏ `dlg.bram.long.0`   (expr thinking)
        ? "Say nothing. Nod." → r0  effects: friend:bram,15, flag:choice.bram.long.nod  ✏ `dlg.bram.long.c0`
        ? "Tell him you're glad he said it." → r1  effects: friend:bram,10, flag:choice.bram.long.glad  ✏ `dlg.bram.long.c1`
        ? "Answer with one word." → r2  effects: friend:bram,10, flag:choice.bram.long.word  ✏ `dlg.bram.long.c2`
@@ -205,7 +205,7 @@ placed: player(6, 3)
     r1 [bram]: "Glad. Hm. Good word. I'll keep it."  ✏ `dlg.bram.long.r1`   (expr happy)
     r2 [bram]: "One word. ...Hm. That's all I ever wanted back."  ✏ `dlg.bram.long.r2`
   · (bram expression neutral)
-  [bram]: "Hm. That's all of it. The letters stay in the drawer. For now."  ✏ `event.bram_heart6.after`
+  [bram]: "That's all of it. The letters stay in the drawer. For now."  ✏ `event.bram_heart6.after`
   · (camera reset)
   · (lighting reset)
   · (letterbox off)
@@ -231,7 +231,7 @@ placed: player(6, 3)
     r0 [bram]: "Wonderful. Hm. Crooked and wonderful. Both true. I can say both."  ✏ `dlg.bram.juno.r0`
     r1 [bram]: "Hm. Tease. I can do that. Teasing's just praise with a dent."  ✏ `dlg.bram.juno.r1`   (expr happy)
     r2 [bram]: "...Hm. Me. My first shoe was crooked the same way."  ✏ `dlg.bram.juno.r2`   (expr sad)
-  [bram]: "Hm. I'll tell her. Today. Or near today."  ✏ `event.bram_heart8.after`
+  [bram]: "I'll tell her. Today. Or near today."  ✏ `event.bram_heart8.after`
   · effects: flag:event.bram_heart8
   · effects: friend:bram,70
 
@@ -241,7 +241,7 @@ plays when: `hearts:bram>=10 && flag:event.bram_heart8 && !weekday:mon && hour>=
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
-  [bram]: "Hm. Hold out your hands. Don't speak. It's easier."  ✏ `event.bram_heart10.intro`
+  [bram]: "Hm. Stand still. Don't speak. It's easier."  ✏ `event.bram_heart10.intro`
   · (move player to (6,3))
   · (player faces up)
   · (spawn prop resource.goldbar at (6,4))
@@ -250,7 +250,7 @@ placed: player(6, 3)
   · (sfx coin)
   · effects: give:resource.goldbar,1, flag:event.bram_heart10
   · (remove prop heirloom)
-  [bram]: "{if choice:bram.juno.ask}You asked me what I see. Hm. I see a friend. Rare metal.{else}...Hm. Saved it nine winters. Didn't know who for. Now I do.{/if}"  ✏ `event.bram_heart10.thanks`
+  [bram]: "{if choice:bram.juno.ask}You asked what I see. I see a friend, [player]. Rare metal.{else}...Hm. Saved it nine winters. Didn't know who for. Now I do. [player].{/if}"  ✏ `event.bram_heart10.thanks`
   · effects: friend:bram,80
 
 ### bram_friend · "The Bench" · wholesome
@@ -259,13 +259,13 @@ plays when: `hearts:bram>=3 && weekday:wed && !weekday:mon && hour>=9 && hour<17
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (bram faces down)
-  [bram]: "Hm. Wednesday. Marcus's day off. His half of the bench is free."  ✏ `event.bram_friend.intro`
+  [bram]: "Hm. Wednesday. Marcus comes for lunch. Late today. Take his half."  ✏ `event.bram_friend.intro`
   · (move player to (6,3))
   · (player faces up)
   · (bram emote ellipsis)
   · (bram nod)
   [bram]: "Bread's yours. Cheese is mine. Silence we split."  ✏ `event.bram_friend.doing`
-  [bram]: "Hm. Good lunch. Don't tell Marcus. He thinks the bench is his."  ✏ `event.bram_friend.wrap`
+  [bram]: "Good lunch. Marcus will find crumbs on his half. He'll count them. Twice."  ✏ `event.bram_friend.wrap`
   · effects: flag:event.bram_friend
   · effects: friend:bram,15
 
@@ -287,8 +287,8 @@ placed: player(6, 3)
        ? "Sit on the bench with him." → r2  effects: friend:bram,10, flag:choice.bday.bram.bench  ✏ `dlg.bram.birthday.c2`
     r0 [bram]: "A good year. Hm. I'll forge one. Slowly."  ✏ `dlg.bram.birthday.r0`   (expr happy)
     r1 [bram]: "...Hm. For me? It goes on the shelf. Next to the card."  ✏ `dlg.bram.birthday.r1`   (expr happy)
-    r2 [bram]: "Hm. Sit. Left side's warmer. I checked."  ✏ `dlg.bram.birthday.r2`   (expr happy)
-  [bram]: "{if choice:bday.bram.wish}Hm. A good year starts with iron. Here. One bar. Don't argue.{else}{if choice:bday.bram.gift}Hm. Your turn. Iron. One bar. Fair trade.{else}Best birthday in years. Hm. Here. Iron. Don't make it a thing.{/if}{/if}"  ✏ `event.bram_birthday.after`
+    r2 [bram]: "Hm. Left side. It's warmer. I checked."  ✏ `dlg.bram.birthday.r2`   (expr happy)
+  [bram]: "{if choice:bday.bram.wish}Here. One bar. A good year needs something to start on.{else}{if choice:bday.bram.gift}Your turn. Iron. One bar. Fair trade.{else}Best birthday in years. Here. Iron. Don't make it a thing.{/if}{/if}"  ✏ `event.bram_birthday.after`
   · effects: flag:event.bram_birthday
   · effects: mark:birthday.bram, friend:bram,30, give:resource.ironbar,1, mail:bram_bday_thanks
 
@@ -392,7 +392,7 @@ placed: bram(24, 18), marcus(26, 18)
   · (bram faces right)
   · (marcus faces left)
   [bram]: "Hm. Handle for the big hammer?"  ✏ `event.overheard_bram_marcus_2.l1`
-  [marcus]: "Made you one. Oak. Measured your grip twice while you weren't looking."
+  [marcus]: "Made you one. Oak. Measured your grip while you weren't looking."
   · (marcus shrug (background))
   · (marcus emote ellipsis)
   · (bram wave (background))
@@ -410,7 +410,7 @@ placed: bram(24, 18), marcus(26, 18)
   · (bram faces right)
   · (marcus faces left)
   [bram]: "Hm. A hundred nails today."  ✏ `event.overheard_bram_marcus_3.l1`
-  [marcus]: "A hundred and four. All straight. Counted twice."
+  [marcus]: "A hundred and four. All straight. I counted."
   · (marcus point (background))
   · (marcus emote ellipsis)
   · (bram shrug (background))
