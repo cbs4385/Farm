@@ -28,9 +28,9 @@ n1 dorian: ...So. Now you know who.
   ? Slip a note back under his door. => r2 | flag:choice.notes.dorian.note | friend:dorian,15
 r0 dorian: ...A smile. No words. You speak my language.
   expr embarrassed
-r1 dorian: Oh. You're welcome. I'll go be flustered behind a tree.
+r1 dorian: You're welcome. I'll go be flustered behind a tree.
   expr happy
-r2 dorian: A note. For me. ...I'll read it in the forest. Twice.
+r2 dorian: For me? ...I'll read it in the forest. Twice.
   expr happy
 
 dialogue story.notes.juno
@@ -50,7 +50,7 @@ r2 juno: A note? For me? ...I'm keeping it. In a drawer I'm inventing right now.
 dialogue story.notes.tilda
 n0 -: Tilda slides a folded note under a door and straightens up. Neither of you moves.
   next n1
-n1 tilda: ...Well. Now you know who's been doing it. Not a word to Wren.
+n1 tilda: ...Well. Now you know who's been doing it. Wren mustn't find out. She'd want a cut.
   ? Say nothing. Just smile. => r0 | flag:choice.notes.tilda.smile
   ? Thank her for the notes. => r1 | flag:choice.notes.tilda.thanks | friend:tilda,10
   ? Slip a note back. Unsigned, obviously. => r2 | flag:choice.notes.tilda.note | friend:tilda,15
@@ -94,13 +94,13 @@ r3 dorian: The crows. ...They sat on both. Equally. A tie, then. Take one.
   expr thinking
 
 dialogue story.whistler.bram
-n0 bram: Hm. I whistle. Don't tell Wren. She'd count the notes as words.
+n0 bram: I whistle. Don't tell Wren. She'd count the notes as words.
   next n1
 n1 bram: ...Well?
   ? Wave and say a cheerful hello. => r0 | flag:choice.whistler.bram.hello
   ? Whistle the wrong note back. => r1 | flag:choice.whistler.bram.back | friend:bram,10
   ? Say nothing. Just listen. => r2 | flag:choice.whistler.bram.listen | friend:bram,10
-r0 bram: Hm. Hello. Yes. We'll both say that was the kettle.
+r0 bram: Hm. Hello. Yes. We'll blame the wind. It owes me.
 r1 bram: Hm? ...That's my wrong note. Twenty years. Nobody's ever caught it.
   expr embarrassed
 r2 bram: ...Hm. You listened. All of it. Most people leave before the end.
@@ -113,21 +113,21 @@ n1 marcus: ...Well? Go on. Everybody has an opinion about the note.
   ? Say hello, like a normal neighbor. => r0 | flag:choice.whistler.marcus.hello
   ? Whistle the wrong note back. => r1 | flag:choice.whistler.marcus.back | friend:marcus,10
   ? Say nothing. Wait for the encore. => r2 | flag:choice.whistler.marcus.listen | friend:marcus,10
-r0 marcus: Hello. Yes. Hello. Thank you for the normal approach. It's rarer than you'd think.
+r0 marcus: Hello. Yes. Hello. A normal approach. It's rarer than you'd think.
 r1 marcus: You got the wrong note exactly right. I'm moved. Also mortified.
   expr embarrassed
 r2 marcus: You listened. All of it. ...Grandfather would have liked you. I may whistle again. Quietly.
   expr happy
 
 dialogue story.whistler.felix
-n0 felix: I only whistle when I'm happy. Lately that's most evenings. The fish have noticed.
+n0 felix: I only whistle when I'm happy. Lately that's most evenings. Couldn't tell you why. ...Well. I could.
   next n1
 n1 felix: ...Well? Say something. The quiet's worse.
   ? Call out a friendly hello. => r0 | flag:choice.whistler.felix.hello
   ? Whistle the wrong note back. => r1 | flag:choice.whistler.felix.back | friend:felix,10
   ? Say nothing. Just listen. => r2 | flag:choice.whistler.felix.listen | friend:felix,10
 r0 felix: Hello. Yes. Hello back. Very sensible, given the circumstances.
-r1 felix: You got the wrong note exactly right. I'm moved. Also mortified. Mostly mortified.
+r1 felix: You got the wrong note exactly right. Nobody's ever whistled back. ...I've gone red. It's the sunset.
   expr embarrassed
 r2 felix: You listened. The whole tune. Nobody's done that but the pond. ...I may whistle again. Quietly.
   expr happy

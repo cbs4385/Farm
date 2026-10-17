@@ -1,0 +1,45 @@
+{
+  "villager": "tilda",
+  "lines": {
+    "event.hall_dance.10": { "text": "Into the hall box, every coin. Except one. Marcus, that one's yours. Spend it on something that isn't wood.", "why": "hands Marcus the coin so his 'One coin. One dance.' answers her directly" },
+    "event.tilda_heart6.intro": { "text": "Turn the sign to Closed, would you? Just for an hour. I do the books when it's quiet. Your chair's free.", "why": "calls back the chair from heart 5" },
+    "dlg.tilda.hours.1": { "text": "I tell myself Wetherell isn't shrinking. Then the bell goes four times before lunch. What do you think?", "why": "drops 'twice', which heart 5 already uses for the bell" },
+    "dlg.tilda.hours.r1": { "text": "Together. Now that's a plan I'd stock. Bring ideas. I'll bring the tea, and the good cups.", "why": "heart 5 already ends on Thursday; no second day promise" },
+    "event.tilda_heart8.intro": { "text": "Yearly stocktake, and I need strong arms. Shift the flour? There's a tin back there I've been carefully not looking at.", "why": "separates it from Stocktake Saturday; echoes heart 2's 'I haven't looked'" },
+    "event.tilda_heart10.give": { "text": "Pumpkin pie, still warm. Take it. And yes, that's your farm on my sign. Supplier. In paint, not chalk.", "why": "no longer claims the card's first pie, which the keep and bake branches contradict" },
+    "event.tilda_heart10.thanks": { "text": "{if choice:card.share}I copied the recipe for every kitchen, and put your name at the bottom. In chalk, so it can grow.{else}{if choice:card.bake}That Saturday you stood by the oven so I couldn't back out. This is the second one. Easier.{else}The card's still in its tin, where it's happiest. This one's from memory. Close enough to count.{/if}{/if}", "why": "each branch now remembers heart 8's choice exactly" },
+    "dlg.tilda.birthday.r0": { "text": "Oh. Well. That goes at the top of the slate, where I'll see it first thing every morning.", "why": "'capitals' was wallpaper; it belongs to the Felix thin-ice joke" },
+    "event.tilda_birthday.after": { "text": "{if choice:bday.tilda.wish}Top of the slate. It reads very well from the street.{else}{if choice:bday.tilda.flower}The flower's in the window. Half the village asked who sent it. I said an account in good standing.{else}An hour off! I read a whole chapter upstairs. The shop survived. I'm slightly offended.{/if}{/if}", "why": "drops the repeated 'capitals'" },
+    "dlg.story.notes.tilda.1": { "text": "...Well. Now you know who's been doing it. Wren mustn't find out. She'd want a cut.", "why": "heart 6 already closes on 'not a word to Felix'" },
+    "dlg.story.pumpkin.felix.1": { "text": "Felix. Is that my prize pumpkin? I blamed the goats! You don't even like vegetables!", "why": "sets up Felix's 'the goats were very understanding'" },
+    "event.overheard_tilda_juno_2.l3": { "text": "I know. I put the sack there your first week, years ago. Nobody's moved it since.", "why": "Juno's reply says 'Years?', so the line now gives her the years" }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "tilda_heart5": "Will the player come back to the same chair on Thursday?",
+    "tilda_heart2": "Where is the one recipe her mother wrote down, and why hasn't she looked?",
+    "story_notes_tilda": "Which two doors get a note before closing?",
+    "story_scarecrows": "The rematch next fall.",
+    "tilda_heart4": "What the player's slate entry will come to mean; you have to come back.",
+    "tilda_heart6": "Whether the street really is coming up short, and why Felix mustn't know.",
+    "tilda_heart8": "Will she bake it, keep it, or share it, and what her mother would say.",
+    "tilda_heart10": "The farm is on the sign; what comes next for a listed supplier.",
+    "tilda_friend": "What the finished window will draw in.",
+    "tilda_birthday": "Who else saw the slate, and what it says.",
+    "festival_winter_lanterns": "What everyone wished (Ione's drifts toward the sea).",
+    "overheard_tilda_felix_1": "Felix's 'story' surcharge.",
+    "overheard_tilda_felix_3": "Tea for two, again: who usually takes the second cup?",
+    "overheard_tilda_wren_1": "The ribbon on the good stool.",
+    "overheard_tilda_wren_3": "Tilda at the saloon at seven.",
+    "overheard_tilda_juno_2": "The flour sack nobody has moved.",
+    "overheard_tilda_bram_1": "The even slate between them."
+  },
+  "notes": [
+    "Felix's story_pumpkin_felix.after says 'with the photograph': no camera exists in the game. Suggest 'with the carp's apology' or similar (Felix's line).",
+    "Bram/Juno: the story_notes_juno fact (Bram thinks Tilda wrote Juno's six notes) fits me: I am a note writer too, so the mix-up is believable. I accept it; I will not deny or confirm in my lines.",
+    "hall_dance: Wren now says six winters and the closing narration has two separate dances; my lines carry no number. My .10 now gives Marcus the coin, which his 'One coin. One dance.' picks up.",
+    "tilda_heart10 still gives only the pie; no line promises the two-note bell. It remains a candidate for a later gift.",
+    "Lantern festival is day 25 with the bell; running fact says winter lanterns hang on the first of the month. Hanging versus releasing reads fine, but the Director may want to confirm."
+  ]
+}

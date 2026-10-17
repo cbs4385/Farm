@@ -7,7 +7,7 @@ n0 wren: Now. Between us, I expect a toast. What's it going to be?
   ? Give her a quiet hug. => r2 | friend:wren,10 | flag:choice.bday.wren.hug
 r0 wren: To me! Oh, the best toast I've had all year, and I wrote the other ones.
   expr happy
-r1 wren: That was dreadful. Do it again. Louder. The stool is crying.
+r1 wren: That was dreadful. Do it again, louder. The glasses are rattling in protest.
   expr happy
 r2 wren: Oh. ...Oh, you're a menace. A kind one. Sit down before I embarrass us both.
   expr happy
@@ -33,7 +33,7 @@ r0 bram: A good year. Hm. I'll forge one. Slowly.
   expr happy
 r1 bram: ...Hm. For me? It goes on the shelf. Next to the card.
   expr happy
-r2 bram: Hm. Sit. Left side's warmer. I checked.
+r2 bram: Hm. Left side. It's warmer. I checked.
   expr happy
 
 dialogue tilda.birthday
@@ -41,7 +41,7 @@ n0 tilda: You looked at the slate. I saw. Go on, then. What do you say?
   ? Happy birthday, Tilda. => r0 | friend:tilda,10 | flag:choice.bday.tilda.wish
   ? Give her a flower. => r1 | friend:tilda,10 | flag:choice.bday.tilda.flower
   ? Mind the shop. Go read. => r2 | friend:tilda,10 | flag:choice.bday.tilda.mind
-r0 tilda: Oh. Well. That goes at the top of the slate, in capitals, where I'll see it every morning.
+r0 tilda: Oh. Well. That goes at the top of the slate, where I'll see it first thing every morning.
   expr happy
 r1 tilda: A flower, in my shop! It goes in the window, beside the good pumpkin.
   expr happy
@@ -53,7 +53,7 @@ n0 juno: So? What's the plan? There's a plan, right? Tell me there's a plan!
   ? Wish her a happy birthday. => r0 | friend:juno,10 | flag:choice.bday.juno.wish
   ? 'Cake (Birthday)'? Really? => r1 | friend:juno,10 | flag:choice.bday.juno.tease
   ? Slip her a tiny gift. => r2 | friend:juno,10 | flag:choice.bday.juno.gift
-r0 juno: Thank you! I'm framing that. The words. Don't tell Bram I frame words.
+r0 juno: Thank you! I'm framing that. The actual words. I'll need a very thin frame.
   expr happy
 r1 juno: It's a perfectly good label! ...Okay, it's too good. I'm going red. That's the forge.
   expr embarrassed
@@ -65,7 +65,7 @@ n0 piper: Front row's yours. Now give me your best line!
   ? Wish her a happy birthday. => r0 | friend:piper,10 | flag:choice.bday.piper.wish
   ? Sing her song back to her. => r1 | friend:piper,10 | flag:choice.bday.piper.sing
   ? Ask what the next song is. => r2 | friend:piper,10 | flag:choice.bday.piper.ask
-r0 piper: Happy birthday to me, from you! That's a chorus. It's going in the encore.
+r0 piper: Happy birthday to me, from you! Short, sweet, and in tune. It's going in the encore.
   expr happy
 r1 piper: You sang my song! Back to me! ...I'm keeping your key. It's mine now.
   expr happy
@@ -77,9 +77,9 @@ n0 marcus: The bench holds two. What do you say?
   ? Happy birthday, Marcus. => r0 | friend:marcus,10 | flag:choice.bday.marcus.wish
   ? That's a beautiful plank. => r1 | friend:marcus,10 | flag:choice.bday.marcus.plank
   ? Need someone on the other end? => r2 | friend:marcus,10 | flag:choice.bday.marcus.hold
-r0 marcus: Thank you. I'll write it on the beam, small. Measure twice, thank twice.
+r0 marcus: Thank you. I'll write that on the beam, small, where only I'll look.
   expr happy
-r1 marcus: Oak. Straight grain, no knots. Thank you for noticing. Most people see a board.
+r1 marcus: Oak. Straight grain, no knots. Most people see a board. You saw the grain.
   expr happy
 r2 marcus: The other end. Yes. A second pair of hands is the best present there is.
   expr happy
@@ -93,7 +93,7 @@ r0 odalys: ...Thank you. Most people wish me well by not needing me today. This 
   expr happy
 r1 odalys: Then pass your bowl. Leek and potato, and an irresponsible amount of pepper. It's my birthday.
   expr happy
-r2 odalys: A nap, prescribed by a farmer. ...I'll comply. My patients will be told it was an emergency.
+r2 odalys: A nap, prescribed by a farmer. ...Very well. My patients will be told it was an emergency.
   expr happy
 
 dialogue felix.birthday
@@ -101,7 +101,7 @@ n0 felix: The story can wait. What's the word?
   ? Wish him a happy birthday. => r0 | friend:felix,10 | flag:choice.bday.felix.wish
   ? Ask for the fish story. => r1 | friend:felix,10 | flag:choice.bday.felix.story
   ? Offer to fish with him. => r2 | friend:felix,10 | flag:choice.bday.felix.fish
-r0 felix: Thank you. I'll tell the fish. They won't care, but I'll feel taller.
+r0 felix: Kind of you. I'll tell the fish. They won't care, but I'll feel taller.
   expr happy
 r1 felix: Sit, then. It was dawn, it was this big, and it was smirking at me.
   expr happy
@@ -115,9 +115,9 @@ n0 dorian: ...You stayed. What now?
   ? Hand him a perfect pinecone. => r2 | friend:dorian,10 | flag:choice.bday.dorian.cone
 r0 dorian: ...Thank you. Said quietly. That's the right size.
   expr happy
-r1 dorian: A walk. Slowly. There's a spot where the moss is thick.
+r1 dorian: Good. There's a spot where the moss is thick.
   expr happy
-r2 dorian: A pinecone. Closed tight. ...It's the best one. I'm keeping it.
+r2 dorian: Closed tight. Perfect. ...I'm keeping it.
   expr embarrassed
 
 dialogue elara.birthday
@@ -129,7 +129,7 @@ r0 elara: Thank you! I'm knitting that into my scarf. Every word. In red.
   expr happy
 r1 elara: You noticed the small hat! Nobody notices the small hat! I'm so happy I might need a lie-down!
   expr happy
-r2 elara: The beach! On my birthday! Yes! Dr. Penn can mind the plant. I'll pack a sandwich and a very long scarf!
+r2 elara: The beach! On my birthday! Yes! Dr. Penn can mind the plant. I'm bringing the hat's hat, and a towel!
   expr happy
 
 dialogue ione.birthday
@@ -139,7 +139,7 @@ n0 ione: The new book can wait. It's very patient. What shall we do?
   ? Give her a bookmark. A slightly crooked one. => r2 | friend:ione,10 | flag:choice.bday.ione.mark
 r0 ione: Thank you. I'll keep that between two good pages, where I'll come across it often.
   expr happy
-r1 ione: The first page, aloud. Nobody's read to me since I was small. Slowly, please.
+r1 ione: The first page, aloud. Nobody's read to me since I was small. I'll close my eyes, if you don't mind.
   expr happy
 r2 ione: A bookmark. From you. It's crooked. So is my favorite book. They'll get along.
   expr happy

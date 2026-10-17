@@ -1,0 +1,111 @@
+{
+  "villager": "hazel",
+  "lines": {
+    "event.hazel_heart6.after": {
+      "text": "I checked your face just now. It stayed kind. (I'll answer Ione by Friday. Thursday, if I'm brave.)",
+      "why": "drops the second 'Slowly' (wren_hazel_2 owns it) and leaves a day attached"
+    },
+    "dlg.hazel.hiding.0": {
+      "text": "The festival wants someone to read aloud. Ione said my name. (I've been back here an hour.) Is that strange?",
+      "why": "'since ten' broke when the scene plays at nine"
+    },
+    "event.hazel_heart8.intro": {
+      "text": "Would you hear a thing I wrote? (I tried it on the gray cat. It left at line three.)",
+      "why": "'Just you' belongs to heart 10; the cat is the returns-box cat"
+    },
+    "event.hazel_heart10.outro": {
+      "text": "{if choice:hazel.rehearsal.critique}I cut the middle. (You were right. It breathes now.) The new line is about you. (It may hang on a lantern this winter. May.){else}I kept the lamp. And I added you, third line from the end. (It may hang on a lantern this winter. May.){/if}",
+      "why": "both branches no longer echo heart 8's 'What did you hear'; thread to the winter lantern from the bible"
+    },
+    "event.hazel_friend.fallback": {
+      "text": "Come back with blackberries? (No hurry. It has waited this long. One more day won't show.)",
+      "why": "the ask already said forty-one years; no second count"
+    },
+    "event.hazel_friend.success": {
+      "text": "Perfect. One tart, then a knock on the borrower's door. (He may not forgive the library. He will eat.)",
+      "why": "'his door' had no referent; now the borrower is named as such"
+    },
+    "event.hazel_birthday.after": {
+      "text": "{if choice:bday.hazel.wish}I wrote them in the margin of today. (In ink. I never use ink.){else}{if choice:bday.hazel.read}My favorite line, in your voice. (The keeper will sound like you now. I don't mind.){else}A shared silence. The quietest birthday I've had. (Next year, again, please.){/if}{/if}",
+      "why": "wish branch no longer repeats r0's 'two words'; read branch gives 'sounds truer' back to partners"
+    },
+    "event.hazel_courtship.intro": {
+      "text": "May I ask something plainly? Would you like to court me? (I had a longer version. It had an index.)",
+      "why": "'Four drafts' repeated heart 5's draft count; 'footnote' belongs to r1"
+    },
+    "event.hazel_partners.intro": {
+      "text": "A page. One page, not a book. I wrote it for us. Please sit and read it with me.",
+      "why": "no longer opens like heart 5 ('I wrote you something')"
+    },
+    "dlg.hazel.partners.0": {
+      "text": "The afternoon is ours. (Ione insisted. She's gone to dust something far away.) How shall we spend it?",
+      "why": "'(You came.)' made no sense mid-scene and echoed the birthday; sets up Ione walking past twice"
+    },
+    "event.reading_night.borrowed": {
+      "text": "Hazel reads two borrowed pages about the winter sea, quietly, all the way through. Her sleeve stays shut.",
+      "why": "the choice is Hazel reading something borrowed; the old narration had Ione read"
+    },
+    "event.overheard_hazel_ione_1.l1": {
+      "text": "The spring almanac. Third shelf, left, behind the mysteries. (Someone sorted those by color.)",
+      "why": "Ione answers 'You found it', so Hazel now names what she found"
+    },
+    "event.overheard_hazel_ione_1.l3": {
+      "text": "Then we split it. You dust, I shelve. (The quiet stays undivided.)",
+      "why": "repeats Ione's 'dust' instead of 'sweep'; no longer all aside"
+    },
+    "event.overheard_hazel_ione_2.l4": {
+      "text": "Once a year, yes. (I fine myself four cents a time. I'm up to twenty-eight.)",
+      "why": "'eleven' was wallpaper; the sum is precise"
+    },
+    "event.overheard_hazel_ione_3.l2": {
+      "text": "Oh. (It's for me.) ...I'm not going to say anything. It would only echo.",
+      "why": "Ione replies 'You didn't say a word'; the old line said thank you aloud"
+    },
+    "event.overheard_dorian_hazel_1.l2": {
+      "text": "Dorian. Hello. (The bench has room. Sit, if you like.)",
+      "why": "'Good morning' broke in a 9-19 scene"
+    },
+    "event.overheard_dorian_hazel_1.l4": {
+      "text": "(The best kind.) I brought two books. One is for not reading.",
+      "why": "no longer repeats 'as you like' from l2"
+    },
+    "event.overheard_hazel_piper_3.l4": {
+      "text": "(Not my name.) Just play it. Loudly. (It was always meant to be loud.)",
+      "why": "piper_2 already ends at the back behind a book"
+    }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "hazel_heart2": "Who pencilled the first frost three days early beside the snowdrop, and why does she keep only one chair?",
+    "hazel_heart5": "What is wrong with line four, and will she ever read the poem aloud?",
+    "hazel_heart4": "Return date: whenever; what will she recommend back?",
+    "hazel_heart6": "Will she answer Ione about the festival reading by Friday?",
+    "hazel_heart8": "Two listeners, perhaps: who will the second be?",
+    "hazel_heart10": "Will the poem hang on a winter lantern?",
+    "hazel_friend": "Who is the borrower forty-one years overdue, and will he forgive the library?",
+    "hazel_birthday": "A margin, a keeper's voice, or next year's silence: she keeps what the player gave.",
+    "hazel_courtship": "The second chair for the nook, or the place the shelf keeps.",
+    "hazel_courtship2": "The second chair arrives tomorrow.",
+    "hazel_partners": "The page with the player's name in pencil, the walk, or Ione walking past twice.",
+    "reading_night": "What stayed in Hazel's sleeve, if she did not read it?",
+    "overheard_hazel_ione_1": "Who sorted the mysteries by color?",
+    "overheard_hazel_ione_2": "Which very long book has she been finishing for seven years?",
+    "overheard_hazel_ione_3": "The window chair is hers now; will she ever say thank you aloud?",
+    "overheard_dorian_hazel_1": "What is the book for not reading?",
+    "overheard_dorian_hazel_2": "The maple leaf from the library step, added to Dorian's guide.",
+    "overheard_dorian_hazel_3": "The window seat, saved for two silences.",
+    "overheard_wren_hazel_1": "Hazel writes down all three versions of Wren's stories.",
+    "overheard_wren_hazel_2": "One line at the corner stool, possibly by spring.",
+    "overheard_wren_hazel_3": "Which line will she read Wren?",
+    "overheard_hazel_piper_1": "Who is fixing Piper's rhymes in neat pencil?",
+    "overheard_hazel_piper_2": "Hazel has been listening every Thursday.",
+    "overheard_hazel_piper_3": "The verse in the fiddle case stays unsigned."
+  },
+  "notes": [
+    "Still open from R1: hazel_heart10 cues music hazel_theme (not a valid cue, plays silent; suggest 'library') and sfx coin during the reading (suggest 'pageturn').",
+    "hazel_heart10 staging: 'hazel dance' during a quiet private reading is out of character; suggest anim sway.",
+    "reading_night.borrowed narration now has Hazel reading (it is her choice c1); the Director should check Ione's following line still fits the borrowed branch (it does: Ione's copy line is poem-only).",
+    "hazel_heart10 and hazel_heart6 now point at the winter lanterns and a Friday answer to Ione; the festival_winter_lanterns scene could pay the lantern off later with a heart-10 conditional (not in my lines)."
+  ]
+}

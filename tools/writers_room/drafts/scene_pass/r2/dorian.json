@@ -1,0 +1,53 @@
+{
+  "villager": "dorian",
+  "lines": {
+    "event.dorian_heart2.0": { "text": "Shh. Stand where I am. Look.", "why": "drops 'Slowly', which had become wallpaper across five scenes" },
+    "dlg.story.notes.dorian.r1": { "text": "You're welcome. I'll go be flustered behind a tree.", "why": "the scene's intro already opens on 'Oh.'" },
+    "dlg.story.notes.dorian.r2": { "text": "For me? ...I'll read it in the forest. Twice.", "why": "breaks the 'A <noun>.' opener shape repeated across scenes" },
+    "event.story_notes_dorian.after": { "text": "Three more doors before dark. Don't follow. Don't guess.", "why": "intro already said paper beats faces; the close is now only the thread" },
+    "dlg.story.pumpkin.dorian.2": { "text": "...Borrowed. The mushrooms needed a roof. It was coming back.", "why": "intro already says 'for spores'; this answers Tilda, not the player" },
+    "event.story_pumpkin_dorian.after": { "text": "Next fall I'll grow my own. Tilda may forgive me. The goats won't.", "why": "'goes back tonight' clashed with the carry-it-back branch; now works for all three" },
+    "event.dorian_heart8.intro": { "text": "Sit. The log. I'll show you something. Don't speak yet.", "why": "fewer leading ellipses; the nerves are in the orders" },
+    "dlg.dorian.notebook.r0": { "text": "Lovely. First time for that word. It goes in the margin.", "why": "n1 already says 'Nobody's seen them'; avoids a second 'Nobody's'" },
+    "event.dorian_heart8.after": { "text": "{if choice:notebook.praise}You said lovely. The next page is yours. I'll draw you as a mushroom.{else}{if choice:notebook.ask}The brown one's yours. Don't lose it. I'll miss it. A little.{else}Your mushroom lives in the notebook now. Page one. Crooked. Perfect.{/if}{/if}", "why": "praise branch no longer promises a step gift the game does not deliver; leaves 'which mushroom am I?'" },
+    "dlg.dorian.birthday.r1": { "text": "Good. There's a spot where the moss is thick.", "why": "breaks the 'A <noun>.' opener shared with r2 and other scenes" },
+    "dlg.dorian.birthday.r2": { "text": "Closed tight. Perfect. ...I'm keeping it.", "why": "'best one' was said twice in this scene" },
+    "event.dorian_birthday.after": { "text": "{if choice:bday.dorian.wish}Quiet words. I kept them. They fit in a pocket.{else}{if choice:bday.dorian.walk}We walked. Said little. Good birthday. Marcus can stop asking.{else}The pinecone's on my shelf. Not from the forest. From you.{/if}{/if}", "why": "cone branch drops the repeated 'Best one'; the catchphrase turn stays" },
+    "dlg.dorian.courtship.r0": { "text": "...Yes. I wasn't sure. I'll show you the quiet places. All of them.", "why": "'Slowly' was in both intros already" },
+    "event.dorian_courtship.after": { "text": "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. After, maybe.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. I'll keep it somewhere mossy.{else}Take your time. I'll be where the moss is. Not hiding.{/if}{/if}", "why": "wait branch no longer says 'waiting' right after r2 did" },
+    "event.dorian_courtship2.after": { "text": "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. After, maybe.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. I'll keep it somewhere mossy.{else}Longer, then. The oak's patient. I'm learning from it.{/if}{/if}", "why": "cuts a fourth 'Mostly'; the second wait still admits effort" },
+    "event.dorian_partners.intro": { "text": "I made something. A feather, a stick, some twine. It isn't much. Hold it.", "why": "'Sit.' already opens heart 8; fewer leading ellipses" },
+    "dlg.dorian.partners.0": { "text": "Today's ours. I didn't plan past this.", "why": "scene plays 8 to 17, so 'evening' was wrong" },
+    "dlg.dorian.partners.r1": { "text": "The forest, then. Past the third tree this time. The old oak listens.", "why": "remembers the courtship promise, certain by the scene's yes-flag" },
+    "event.overheard_marcus_dorian_1.l2": { "text": "Straight. Like a birch.", "why": "leading ellipsis thinned so it stays a signature" },
+    "event.overheard_marcus_dorian_2.l4": { "text": "Me too. Plane, please. That's my words for the week.", "why": "leading ellipsis thinned" },
+    "event.overheard_marcus_dorian_3.l2": { "text": "Oak. Good. First door I'd close on purpose.", "why": "leading ellipsis thinned" },
+    "event.overheard_marcus_dorian_4.l4": { "text": "The owl will want a name. I'll wait till it tells me.", "why": "leading ellipsis thinned" },
+    "event.overheard_dorian_hazel_2.l1": { "text": "Old mushroom guide. I pressed leaves in it. Years of them.", "why": "leading ellipsis thinned" },
+    "event.overheard_dorian_hazel_3.l3": { "text": "Then the trees can join us. They're good at it.", "why": "leading ellipsis thinned" }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "dorian_heart2": "Where is the other place further in, and when is 'not yet' over?",
+    "dorian_heart5": "Edmund was counting the trees here; how far did he get, and why count them?",
+    "story_notes_dorian": "Three more doors before dark: who else gets Dorian's notes?",
+    "story_pumpkin_dorian": "What was growing in the pumpkin, and will Dorian grow his own next fall?",
+    "dorian_heart8": "Praise: which mushroom will he draw the player as? Otherwise the notebook now holds something of the player's.",
+    "dorian_birthday": "The shelf where Dorian keeps the things he's given.",
+    "dorian_courtship": "The walk tomorrow, and what he says after the third tree.",
+    "dorian_courtship2": "The walk tomorrow, or how long the oak teaches him to wait.",
+    "dorian_partners": "The shelf by the notebook, and what lies past the third tree.",
+    "overheard_marcus_dorian_1": "Marcus leaves words for Dorian on purpose; how long has he done that?",
+    "overheard_marcus_dorian_2": "Two men who spend a week's words on a plane: what are they building?",
+    "overheard_marcus_dorian_3": "A door Dorian will leave open, mostly: when does he close it?",
+    "overheard_marcus_dorian_4": "The owl outside the new window, still without a name."
+  },
+  "notes": [
+    "Round 1 notes naming Dorian (pumpkin third-person close) were already fixed in R1; the R2 close now also works for the 'carry it back' branch, where 'goes back tonight' had contradicted Tilda's r2.",
+    "Variety pass: leading '...' was on ~20 lines and 'Slowly'/'Mostly'/'Best one' repeated across scenes; thinned so they stay signatures. 'Mostly' now only in overheard_marcus_dorian_3 and notebook r1.",
+    "heart8 praise branch promised a gift on the step tomorrow; no effect delivers one, so it now promises a drawing in the notebook instead.",
+    "For Hazel: overheard_dorian_hazel_1 has 'Good morning' but the scene plays 9 to 19; consider a time-neutral greeting.",
+    "For Ione: reading_night closing line repeats 'A snowdrop, for the lamp' right after Dorian says it; intentional echo is fine, but she may want her own words."
+  ]
+}

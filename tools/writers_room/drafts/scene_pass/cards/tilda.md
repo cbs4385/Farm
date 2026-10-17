@@ -1,6 +1,6 @@
 # Scene cards for tilda
 
-26 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 48 spoken lines in scenes, 37 dialogue lines and 19 player choice labels.
+26 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 51 spoken lines in scenes, 37 dialogue lines and 19 player choice labels.
 
 ### tilda_heart5 · "Too Many Scones" · funny
 event · npc_roster_core.json · map GeneralStore · priority 6
@@ -8,12 +8,14 @@ plays when: `hearts:tilda>=5 && !weekday:sun && hour>=9 && hour<17`
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Sit a moment, [player]. I made too many scones."  ✏ `event.tilda_heart5.0`
+  [tilda]: "Sit a moment, [player]. I baked a dozen scones for a village that buys six."  ✏ `event.tilda_heart5.0`
   · (move player to (7,4))
   · (player faces up)
   · (tilda emote ellipsis)
-  [tilda]: "I've never had a neighbor who ate my cooking without flinching."  ✏ `event.tilda_heart5.1`
-  [tilda]: "Take a few home."  ✏ `event.tilda_heart5.2`
+  [tilda]: "You're eating it without flinching. Felix flinches. He says it's the butter. It isn't the butter."  ✏ `event.tilda_heart5.1`
+  [tilda]: "Nobody sits in a shop. They lean, they pay, the bell goes twice. You sat."  ✏ `event.tilda_heart5.3`  (expr embarrassed)
+  [tilda]: "Take the mashed potato home, too. I made that for nobody in particular either."  ✏ `event.tilda_heart5.2`
+  [tilda]: "Same chair on Thursday? I'll bake fewer scones. That's a lie, but a polite one."  ✏ `event.tilda_heart5.4`  (expr happy)
   · effects: give:food.mashed_potato,2, friend:tilda,60, flag:event.tilda_heart5
 
 ### tilda_heart2 · "Mother's Gratin" · wholesome
@@ -22,11 +24,12 @@ plays when: `hearts:tilda>=2 && !weekday:sun && hour>=9 && hour<17`
 beats may be ADDED or CUT in this scene
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Oh, [player]! Just the person I wanted to see."  ✏ `event.tilda_heart2.0`
+  [tilda]: "Oh, [player]! Just the account I wanted. Come here, I've something to hand over."  ✏ `event.tilda_heart2.0`
   · (move player to (7,4))
   · (player faces up)
   · (tilda emote ellipsis)
-  [tilda]: "Here, a recipe my mother taught me. Cauliflower gratin. You've earned it."  ✏ `event.tilda_heart2.1`
+  [tilda]: "My mother's cauliflower gratin. She taught it by hand, never wrote it down. Don't thank me. Bring me a cauliflower someday."  ✏ `event.tilda_heart2.1`
+  [tilda]: "She wrote down one recipe in her whole life. I know roughly where it is. I haven't looked."  ✏ `event.tilda_heart2.2`  (emote ellipsis, expr thinking)
   · effects: learn:cook_gratin, friend:tilda,50, flag:event.tilda_heart2
 
 ### hall_dance · "Opening Night" · wholesome
@@ -50,29 +53,29 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (juno faces down)
   · (move player to (7,2))
   · (player faces up)
-  [marcus]: "I checked the roof once more. Then twice. It is finished."
+  [marcus]: "I checked the roof once. Twice. ...Three times, my father said. It is finished. Not nearly. Finished."
   · (marcus emote sparkle)
-  [wren]: "Look at this room! Full, and the porch is full too. Somebody count the porch, I've lost track of my own party."  (emote sparkle)
+  [wren]: "Look at this room! Full, and the porch is full too. Somebody count the porch. I need a number for the story."  (emote sparkle)
   · (spawn prop artisan.wine at (7,3))
-  [wren]: "[player]. I said I'd open it on the night. This is the night. You're first at the bar."  (expr happy)
+  [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  (expr happy)
   · (remove prop wine)
-  [tilda]: "The roof's done, the hall's open, and nobody asked for credit. I'm writing it on the slate anyway."  ✏ `event.hall_dance.3`
-  [piper]: "First verse, then I step off. I'm calm. I'm holding this fiddle like a hot loaf."  (emote sweat)
+  [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."  ✏ `event.hall_dance.3`
+  [piper]: "First verse, then I step off. I'm perfectly calm. My bow hand hasn't heard."  (emote sweat)
   · (music piper_theme)
   [piper]: "{if choice:chorus.home}Home, home, wherever the lamp is on.{else}{if choice:chorus.road}The road goes on, and the road comes home.{else}There's always room, there's always room.{/if}{/if}"  (emote note)
   · (piper sway (background))
-  [narration]: "The whole hall sings the chorus. Piper has stopped playing, and nobody minds."
-  [bram]: "Hm. Hm-hm. I know the tune. Say nothing."  (emote note)
-  [juno]: "The hall door hangs on hinges I made. My mark's on every pin, and it swings like it's showing off!"  (expr happy)
-  [wren]: "The roof pool is closed. Seven winters of coins, and Tilda had the right year."
-  [tilda]: "Into the hall box it goes. Marcus, take one coin for the ladder."  ✏ `event.hall_dance.10`
-  [marcus]: "Hm. One coin. One dance. Nobody tell the ladder."
+  [narration]: "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her."
+  [bram]: "Hm. Hm-hm. Hm. I sing it in my own language."  (emote note)
+  [juno]: "Those door hinges are mine. My mark's on every pin. Listen to it swing. It's showing off, and I'm letting it!"  (expr happy)
+  [wren]: "The roof pool is closed! Six winters of coins, and Tilda picked the right year. I'm demanding a recount."
+  [tilda]: "Into the hall box, every coin. Except one. Marcus, that one's for the ladder."  ✏ `event.hall_dance.10`
+  [marcus]: "One coin. One dance. I measured this floor for it. Twice."
   · (marcus dance (background))
   · (tilda dance (background))
   · (wren emote heart)
   · (juno emote note)
   · (wait 2.5s)
-  [narration]: "Marcus takes his one dance, and Tilda lets him lead. The lamps burn low, and nobody goes home."
+  [narration]: "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low, and nobody goes home."
   · (music stop)
   · (lighting reset)
   · (letterbox off)
@@ -86,21 +89,21 @@ placed: tilda(25, 18), player(25, 17)
   · (place tilda to (25,18))
   · (tilda faces down)
   · (spawn prop prop.note at (26,18))
-  [tilda]: "Ah. Caught. I tuck them in with the change. A kind word weighs nothing."  ✏ `event.story_notes_tilda.intro`
+  [tilda]: "Oh. Oh, it's you. Stand there a moment and look innocent with me."  ✏ `event.story_notes_tilda.intro`
   · (move player to (25,17))
   · (player faces up)
   · (tilda emote sparkle)
   · (tilda shrug (background))
   ▶ DIALOGUE `story.notes.tilda` (player-facing graph, plays here):
-    n0 [narration]: "You catch Tilda slipping a folded note under a door. Neither of you moves."  ✏ `dlg.story.notes.tilda.0`   (→ n1)
-    n1 [tilda]: "...Well. Now you know."  ✏ `dlg.story.notes.tilda.1`
+    n0 [narration]: "Tilda slides a folded note under a door and straightens up. Neither of you moves."  ✏ `dlg.story.notes.tilda.0`   (→ n1)
+    n1 [tilda]: "...Well. Now you know who's been doing it. Not a word to Wren."  ✏ `dlg.story.notes.tilda.1`
        ? "Say nothing. Just smile." → r0  effects: flag:choice.notes.tilda.smile  ✏ `dlg.story.notes.tilda.c0`
-       ? "Say thank you." → r1  effects: flag:choice.notes.tilda.thanks, friend:tilda,10  ✏ `dlg.story.notes.tilda.c1`
-       ? "Leave a note back." → r2  effects: flag:choice.notes.tilda.note, friend:tilda,15  ✏ `dlg.story.notes.tilda.c2`
-    r0 [tilda]: "...You smiled. That's a lot of kindness for one smile."  ✏ `dlg.story.notes.tilda.r0`   (expr embarrassed)
-    r1 [tilda]: "Oh. Thank you. That's the whole reward. I'll go and be flustered somewhere."  ✏ `dlg.story.notes.tilda.r1`   (expr happy)
+       ? "Thank her for the notes." → r1  effects: flag:choice.notes.tilda.thanks, friend:tilda,10  ✏ `dlg.story.notes.tilda.c1`
+       ? "Slip a note back. Unsigned, obviously." → r2  effects: flag:choice.notes.tilda.note, friend:tilda,15  ✏ `dlg.story.notes.tilda.c2`
+    r0 [tilda]: "...A smile. No chalk, no receipt. That's the hardest kind to put on a slate."  ✏ `dlg.story.notes.tilda.r0`   (expr embarrassed)
+    r1 [tilda]: "Don't thank me, I'd rather you owed me. ...Oh, now I'm flustered. I'll go rearrange something."  ✏ `dlg.story.notes.tilda.r1`   (expr happy)
     r2 [tilda]: "A note, for me? ...I'm keeping it. In a drawer I've just invented."  ✏ `dlg.story.notes.tilda.r2`   (expr happy)
-  [tilda]: "I don't mean to be mysterious. It's just that signing them felt like showing off."  ✏ `event.story_notes_tilda.after`
+  [tilda]: "Signing a kindness is just sending a bill. ...Two more doors before closing. Don't follow me."  ✏ `event.story_notes_tilda.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_notes_tilda, friend:tilda,40, flag:storydone.anonymous_notes
 
@@ -112,24 +115,24 @@ placed: tilda(25, 18), player(25, 17)
   · (place tilda to (25,18))
   · (tilda faces down)
   · (spawn prop prop.scarecrow at (26,18))
-  [tilda]: "[player]! Just in time. You are my judge. Please be fair, which means pick mine."  ✏ `event.story_scarecrows.intro`
+  [tilda]: "[player]! You're judging. Be completely fair, by which I mean pick mine."  ✏ `event.story_scarecrows.intro`
   · (move player to (25,17))
   · (player faces up)
   · (tilda emote exclaim)
   · (tilda point (background))
   ▶ DIALOGUE `story.scarecrow.talk` (player-facing graph, plays here):
-    n0 [tilda]: "Mine has a smile. Smiles scare crows. That is simply known."  ✏ `dlg.story.scarecrow.talk.0`   (→ n1)
-    n1 [dorian]: "Mine is quiet. Quiet is unsettling. I did my research."   (→ n2)
-    n2 [tilda]: "Well? Which scarecrow rules the fields?"  ✏ `dlg.story.scarecrow.talk.2`
-       ? "Tilda's." → r0  effects: flag:choice.scarecrow.tilda  ✏ `dlg.story.scarecrow.talk.c0`
-       ? "Dorian's." → r1  effects: flag:choice.scarecrow.dorian  ✏ `dlg.story.scarecrow.talk.c1`
-       ? "A tie." → r2  effects: flag:choice.scarecrow.tie  ✏ `dlg.story.scarecrow.talk.c2`
-       ? "Ask the crows." → r3  effects: flag:choice.scarecrow.crows  ✏ `dlg.story.scarecrow.talk.c3`
-    r0 [tilda]: "Ha! A person of taste. Take this one home. It's the runner-up. It's still excellent."  ✏ `dlg.story.scarecrow.talk.r0`   (expr happy)
-    r1 [dorian]: "...Oh. Thank you. Take the runner-up. It's very quiet company."   (expr happy)
-    r2 [tilda]: "A tie. You coward. Take one anyway. Both of us will be wounded."  ✏ `dlg.story.scarecrow.talk.r2`   (emote sweat)
-    r3 [dorian]: "The crows? ...Brave. They landed on both. A tie, then. Take this."   (expr thinking)
-  [tilda]: "{if choice:scarecrow.tilda}I won. I'm not smug. I'm radiant.{else}{if choice:scarecrow.dorian}He won. I'll say it once. Never again.{else}{if choice:scarecrow.tie}A tie. I'm not speaking to you, with love.{else}The crows chose. Wisely. They're furious with both of us.{/if}{/if}{/if}"  ✏ `event.story_scarecrows.after`
+    n0 [tilda]: "Mine is smiling. Crows can't stand a cheerful face. That's simply known."  ✏ `dlg.story.scarecrow.talk.0`   (→ n1)
+    n1 [dorian]: "Mine says nothing. Crows hate that. I watched them for a week."   (→ n2)
+    n2 [tilda]: "Well? Whose scarecrow is guarding the fields this fall?"  ✏ `dlg.story.scarecrow.talk.2`
+       ? "Tilda's, obviously." → r0  effects: flag:choice.scarecrow.tilda  ✏ `dlg.story.scarecrow.talk.c0`
+       ? "Dorian's. Sorry, Tilda." → r1  effects: flag:choice.scarecrow.dorian  ✏ `dlg.story.scarecrow.talk.c1`
+       ? "It's a tie." → r2  effects: flag:choice.scarecrow.tie  ✏ `dlg.story.scarecrow.talk.c2`
+       ? "Let the crows decide." → r3  effects: flag:choice.scarecrow.crows  ✏ `dlg.story.scarecrow.talk.c3`
+    r0 [tilda]: "Ha! Taste! Take the runner-up home. It'll stand in your field being thoughtful at the crows."  ✏ `dlg.story.scarecrow.talk.r0`   (expr happy)
+    r1 [dorian]: "...Mine. Oh. Take the runner-up home. It doesn't talk either."   (expr happy)
+    r2 [tilda]: "A tie. Coward. Take one anyway, and we'll both be wounded together."  ✏ `dlg.story.scarecrow.talk.r2`   (emote sweat)
+    r3 [dorian]: "The crows. ...They sat on both. Equally. A tie, then. Take one."   (expr thinking)
+  [tilda]: "{if choice:scarecrow.tilda}I won. I'm not smug. I'm radiant. Rematch next fall.{else}{if choice:scarecrow.dorian}He won. I'll say it once, quietly. Rematch next fall.{else}{if choice:scarecrow.tie}A tie. I'm not speaking to you, with love. Rematch next fall.{else}The crows chose both. Wise birds. They're on the slate for diplomacy.{/if}{/if}{/if}"  ✏ `event.story_scarecrows.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_scarecrows, give:machine.scarecrow,1, friend:tilda,20, friend:dorian,20, flag:storydone.rival_scarecrows
 
@@ -141,22 +144,22 @@ placed: dorian(25, 18), player(25, 17)
   · (place dorian to (25,18))
   · (dorian faces down)
   · (spawn prop prop.pumpkin at (26,18))
-  [dorian]: "...The pumpkin was perfect for a mushroom experiment. I meant to ask. I forgot to ask."
+  [dorian]: "...It was the right size. For spores. I meant to ask. Then I didn't."
   · (move player to (25,17))
   · (player faces up)
   · (dorian emote sweat)
   · (dorian shrug (background))
   ▶ DIALOGUE `story.pumpkin.dorian` (player-facing graph, plays here):
-    n0 [narration]: "You find Dorian behind the store, with a very large pumpkin and a very guilty face."   (→ n1)
-    n1 [tilda]: "Is that my prize pumpkin? The one the whole village has been blaming the goats for?"  ✏ `dlg.story.pumpkin.dorian.1`   (→ n2)
-    n2 [dorian]: "...It was for scale. Next to the carp."
-       ? "Let them off kindly." → r0  effects: flag:choice.pumpkin.dorian.kind, friend:dorian,10
-       ? "Insist on a proper apology." → r1  effects: flag:choice.pumpkin.dorian.apology
-       ? "Offer to help carry it back." → r2  effects: flag:choice.pumpkin.dorian.help, friend:tilda,10
-    r0 [tilda]: "Kindly? Fine. Kindly. But he's on the slate for a pie."  ✏ `dlg.story.pumpkin.dorian.r0`   (expr thinking)
-    r1 [dorian]: "An apology. Yes. Very sorry. Truly. Pumpkin, I'm also sorry to you."   (emote sweat)
-    r2 [tilda]: "You carry the heavy end. I'll supervise. We'll call it civic duty."  ✏ `dlg.story.pumpkin.dorian.r2`   (expr happy)
-  [dorian]: "He's returning it with a mushroom stew inside. Tilda forgives him on the spot. The pumpkin does not."
+    n0 [narration]: "Behind the store sits a very large pumpkin. Dorian wears a very guilty face."   (→ n1)
+    n1 [tilda]: "Dorian. Is that my prize pumpkin? I've been blaming the goats all week, out loud!"  ✏ `dlg.story.pumpkin.dorian.1`   (→ n2)
+    n2 [dorian]: "...Borrowed. For spores. It was coming back. Eventually."
+       ? "Let him off gently." → r0  effects: flag:choice.pumpkin.dorian.kind, friend:dorian,10
+       ? "Ask for a proper apology." → r1  effects: flag:choice.pumpkin.dorian.apology
+       ? "Grab the heavy end. Carry it back." → r2  effects: flag:choice.pumpkin.dorian.help, friend:tilda,10
+    r0 [tilda]: "Kindly, then. But he's on the slate for a pie. Mushrooms optional."  ✏ `dlg.story.pumpkin.dorian.r0`   (expr thinking)
+    r1 [dorian]: "Sorry, Tilda. Truly. ...Sorry, pumpkin. You were very patient."   (emote sweat)
+    r2 [tilda]: "You take the heavy end, Dorian takes the guilt. I'll carry the conversation."  ✏ `dlg.story.pumpkin.dorian.r2`   (expr happy)
+  [dorian]: "It goes back tonight. Mushroom stew inside. Tilda may forgive me. The goats won't."
   · (remove prop story_prop_0)
   · effects: flag:event.story_pumpkin_dorian, friend:dorian,30, friend:tilda,20, flag:storydone.missing_pumpkin
 
@@ -168,22 +171,22 @@ placed: marcus(25, 18), player(25, 17)
   · (place marcus to (25,18))
   · (marcus faces down)
   · (spawn prop prop.pumpkin at (26,18))
-  [marcus]: "Ah. You've found out. I was carving a practice lantern. A very large practice lantern."
+  [marcus]: "Ah. You've found out. A practice lantern. I measured the face twice. Never asked whose pumpkin."
   · (move player to (25,17))
   · (player faces up)
   · (marcus emote sweat)
   · (marcus shrug (background))
   ▶ DIALOGUE `story.pumpkin.marcus` (player-facing graph, plays here):
-    n0 [narration]: "You find Marcus behind the store, with a very large pumpkin and a very guilty face."   (→ n1)
-    n1 [tilda]: "Is that my prize pumpkin? The one the whole village has been blaming the goats for?"  ✏ `dlg.story.pumpkin.marcus.1`   (→ n2)
-    n2 [marcus]: "...It might be."
-       ? "Let them off kindly." → r0  effects: flag:choice.pumpkin.marcus.kind, friend:marcus,10
-       ? "Insist on a proper apology." → r1  effects: flag:choice.pumpkin.marcus.apology
-       ? "Offer to help carry it back." → r2  effects: flag:choice.pumpkin.marcus.help, friend:tilda,10
-    r0 [tilda]: "Kindly? Fine. Kindly. But he's on the slate for a pie."  ✏ `dlg.story.pumpkin.marcus.r0`   (expr thinking)
-    r1 [marcus]: "An apology. Yes. Very sorry. Truly. Pumpkin, I'm also sorry to you."   (emote sweat)
-    r2 [tilda]: "You carry the heavy end. I'll supervise. We'll call it civic duty."  ✏ `dlg.story.pumpkin.marcus.r2`   (expr happy)
-  [marcus]: "He's returning it with a face carved in. Tilda says it's an improvement. Marcus will not stop smiling."
+    n0 [narration]: "Behind the store, Marcus stands beside a very large pumpkin with a very guilty face."   (→ n1)
+    n1 [tilda]: "Marcus! Is that my prize pumpkin? I blamed the goats. I apologized to a goat."  ✏ `dlg.story.pumpkin.marcus.1`   (→ n2)
+    n2 [marcus]: "...It might be. It has a nose now."
+       ? "Let him off gently." → r0  effects: flag:choice.pumpkin.marcus.kind, friend:marcus,10
+       ? "He owes a proper apology." → r1  effects: flag:choice.pumpkin.marcus.apology
+       ? "Help carry the evidence back." → r2  effects: flag:choice.pumpkin.marcus.help, friend:tilda,10
+    r0 [tilda]: "Kindly. Fine. But he owes me a pie, and I've seen him measure. It'll be exact."  ✏ `dlg.story.pumpkin.marcus.r0`   (expr thinking)
+    r1 [marcus]: "An apology. Yes. I'm sorry, Tilda. Truly. And sorry to you, pumpkin. You deserved a plan."   (emote sweat)
+    r2 [tilda]: "You and Marcus take the ends. I'll walk ahead and tell everyone it was the goats."  ✏ `dlg.story.pumpkin.marcus.r2`   (expr happy)
+  [marcus]: "It goes back with a face carved in. Tilda calls it an improvement. I've stopped trying not to smile."
   · (remove prop story_prop_0)
   · effects: flag:event.story_pumpkin_marcus, friend:marcus,30, friend:tilda,20, flag:storydone.missing_pumpkin
 
@@ -195,22 +198,22 @@ placed: felix(25, 18), player(25, 17)
   · (place felix to (25,18))
   · (felix faces down)
   · (spawn prop prop.pumpkin at (26,18))
-  [felix]: "Oh no. Don't tell the fish. I wanted a picture of it next to the biggest carp. For comparison."
+  [felix]: "Ah. Caught. I only borrowed it. I wanted it beside my biggest carp. For scale."
   · (move player to (25,17))
   · (player faces up)
   · (felix emote sweat)
   · (felix shrug (background))
   ▶ DIALOGUE `story.pumpkin.felix` (player-facing graph, plays here):
-    n0 [narration]: "You find Felix behind the store, with a very large pumpkin and a very guilty face."   (→ n1)
-    n1 [tilda]: "Is that my prize pumpkin? The one the whole village has been blaming the goats for?"  ✏ `dlg.story.pumpkin.felix.1`   (→ n2)
-    n2 [felix]: "...It might be."
-       ? "Let them off kindly." → r0  effects: flag:choice.pumpkin.felix.kind, friend:felix,10
-       ? "Insist on a proper apology." → r1  effects: flag:choice.pumpkin.felix.apology
-       ? "Offer to help carry it back." → r2  effects: flag:choice.pumpkin.felix.help, friend:tilda,10
-    r0 [tilda]: "Kindly? Fine. Kindly. But he's on the slate for a pie."  ✏ `dlg.story.pumpkin.felix.r0`   (expr thinking)
-    r1 [felix]: "An apology. Yes. Very sorry. Truly. Pumpkin, I'm also sorry to you."   (emote sweat)
-    r2 [tilda]: "You carry the heavy end. I'll supervise. We'll call it civic duty."  ✏ `dlg.story.pumpkin.felix.r2`   (expr happy)
-  [felix]: "He's returning it with a photograph. Tilda frames it. The carp has not forgiven anyone."
+    n0 [narration]: "Behind the store, Felix stands beside a very large pumpkin, wearing a very guilty face."   (→ n1)
+    n1 [tilda]: "Felix. Is that my prize pumpkin? You don't even like vegetables!"  ✏ `dlg.story.pumpkin.felix.1`   (→ n2)
+    n2 [felix]: "...It might be. The goats were very understanding about it."
+       ? "Let Felix off kindly." → r0  effects: flag:choice.pumpkin.felix.kind, friend:felix,10
+       ? "Ask for a proper apology." → r1  effects: flag:choice.pumpkin.felix.apology
+       ? "Offer to carry the heavy end." → r2  effects: flag:choice.pumpkin.felix.help, friend:tilda,10
+    r0 [tilda]: "Kindly. Fine. He owes me a pie, and if there's a fish in it, I'll know."  ✏ `dlg.story.pumpkin.felix.r0`   (expr thinking)
+    r1 [felix]: "An apology. Yes. I'm sorry, Tilda. Truly. ...And sorry to you, pumpkin."   (emote sweat)
+    r2 [tilda]: "You take the heavy end. Felix can carry the excuses. They weigh more."  ✏ `dlg.story.pumpkin.felix.r2`   (expr happy)
+  [felix]: "Back it goes, with the photograph. Tilda can frame it. The carp still hasn't forgiven anyone."
   · (remove prop story_prop_0)
   · effects: flag:event.story_pumpkin_felix, friend:felix,30, friend:tilda,20, flag:storydone.missing_pumpkin
 
@@ -231,12 +234,12 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
   · (spawn prop prop.lantern at (24,17))
   · (spawn prop prop.lantern at (26,17))
   · (spawn prop prop.lantern at (27,17))
-  [tilda]: "Everyone has a lantern, dear. Hold it up. Don't light it yet. Wait for the bell."  ✏ `event.festival_winter_lanterns.0`
-  [hazel]: "(One lantern each.) (A small light, and a small wish.) Please keep yours private."
+  [tilda]: "Lanterns up, everyone. Not lit yet. Wait for the bell. Felix, I mean you."  ✏ `event.festival_winter_lanterns.0`
+  [hazel]: "One lantern, one wish. Please keep yours folded up. (Last winter four people said theirs aloud.)"
   · (hazel emote sparkle)
   · (sfx lantern)
-  [felix]: "It's this big. The wish, I mean. I'll say no more. The lantern will do the telling."
-  [ione]: "Now. Together, and slowly. Let them go. The dark will do the rest."
+  [felix]: "My wish is this big. Last winter it was this big. Wishes grow, like fish."
+  [ione]: "That's the bell. Together now, and slowly. Let them go. ...Mine is drifting toward the sea. I didn't steer it."
   · (ione emote heart)
   · (remove prop story_prop_3)
   · (remove prop story_prop_2)
@@ -250,21 +253,21 @@ plays when: `hearts:tilda>=4 && flag:event.tilda_heart2 && !weekday:sun && hour>
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Come around the counter. I want you to see something. Mind the cat."  ✏ `event.tilda_heart4.intro`
+  [tilda]: "Come around the counter. Nobody comes back here but me. Mind the cat, it's on duty."  ✏ `event.tilda_heart4.intro`
   · (move player to (7,4))
   · (player faces up)
   · (tilda wave (background))
   · (tilda emote ellipsis)
   ▶ DIALOGUE `tilda.slate` (player-facing graph, plays here):
-    n0 [tilda]: "This is the slate. Every small kindness in Wetherell, in chalk. Look. Marcus is two planks ahead of Odalys."  ✏ `dlg.tilda.slate.0`   (→ n1)
-    n1 [tilda]: "There's room under your name. What would you like me to write?"  ✏ `dlg.tilda.slate.1`
-       ? "A thank-you." → r0  effects: friend:tilda,10, flag:choice.slate.thanks  ✏ `dlg.tilda.slate.c0`
-       ? "A joke." → r1  effects: friend:tilda,10, flag:choice.slate.joke  ✏ `dlg.tilda.slate.c1`
-       ? "A promise." → r2  effects: friend:tilda,15, flag:choice.slate.promise  ✏ `dlg.tilda.slate.c2`
-    r0 [tilda]: "A thank-you. Plain, honest and very hard to cash. My favorite currency."  ✏ `dlg.tilda.slate.r0`   (expr happy)
-    r1 [tilda]: "A joke! On my slate! ...Oh, that's good. I'm laughing in a shop. Don't tell anyone."  ✏ `dlg.tilda.slate.r1`   (expr happy)
-    r2 [tilda]: "A promise. I'll write it small and keep it large."  ✏ `dlg.tilda.slate.r2`
-  [tilda]: "{if choice:slate.thanks}A thank-you. In chalk. It looks very well on a slate.{else}{if choice:slate.joke}A joke on the slate! Nobody's ever dared. I'll leave it up.{else}A promise. I'll hold you to it. I hold everyone to everything, kindly.{/if}{/if}"  ✏ `event.tilda_heart4.after`
+    n0 [tilda]: "This is the slate. Every small kindness in Wetherell, in chalk. Marcus is two planks ahead of Odalys. She doesn't know yet."  ✏ `dlg.tilda.slate.0`   (→ n1)
+    n1 [tilda]: "And this blank bit is yours. What shall I write under your name?"  ✏ `dlg.tilda.slate.1`
+       ? "A thank-you, in big letters." → r0  effects: friend:tilda,10, flag:choice.slate.thanks  ✏ `dlg.tilda.slate.c0`
+       ? "A joke. A good one." → r1  effects: friend:tilda,10, flag:choice.slate.joke  ✏ `dlg.tilda.slate.c1`
+       ? "A promise. I'll keep it." → r2  effects: friend:tilda,15, flag:choice.slate.promise  ✏ `dlg.tilda.slate.c2`
+    r0 [tilda]: "A thank-you. Hard to cash, and I'll never spend it. My favorite currency."  ✏ `dlg.tilda.slate.r0`   (expr happy)
+    r1 [tilda]: "A joke! On my slate! ...Oh, that's good. Don't tell anyone I laughed in the shop."  ✏ `dlg.tilda.slate.r1`   (expr happy)
+    r2 [tilda]: "A promise. I'll write it small. I'll hold it large."  ✏ `dlg.tilda.slate.r2`
+  [tilda]: "{if choice:slate.thanks}A thank-you, in chalk. I'll never wipe it, so don't make me.{else}{if choice:slate.joke}A joke on the slate. Nobody's dared. Wren will be furious she didn't think of it.{else}A promise. I hold everyone to everything, kindly. Mostly kindly.{/if}{/if} Now you're on it, you have to come back."  ✏ `event.tilda_heart4.after`
   · effects: flag:event.tilda_heart4
   · effects: friend:tilda,50
 
@@ -274,7 +277,7 @@ plays when: `hearts:tilda>=6 && flag:event.tilda_heart5 && flag:event.tilda_hear
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Turn the sign to Closed, would you? I do the books when it's quiet. Sit."  ✏ `event.tilda_heart6.intro`
+  [tilda]: "Turn the sign to Closed, would you? Just for an hour. I do the books when it's quiet. Sit."  ✏ `event.tilda_heart6.intro`
   · (move player to (7,4))
   · (player faces up)
   · (letterbox on)
@@ -282,16 +285,16 @@ placed: player(7, 4)
   · (camera focus on tilda)
   · (tilda expression thinking)
   ▶ DIALOGUE `tilda.hours` (player-facing graph, plays here):
-    n0 [tilda]: "I count the stock every night. And every night the street is quieter than it was. It's an odd thing for a shopkeeper to notice."  ✏ `dlg.tilda.hours.0`   (→ n1; expr thinking)
-    n1 [tilda]: "I tell myself the village isn't shrinking. Then I count again. What do you think?"  ✏ `dlg.tilda.hours.1`
-       ? "It isn't shrinking." → r0  effects: friend:tilda,10, flag:choice.hours.reassure  ✏ `dlg.tilda.hours.c0`
+    n0 [tilda]: "I count the stock at closing time. Lately the count comes out right and the street comes out short."  ✏ `dlg.tilda.hours.0`   (→ n1; expr thinking)
+    n1 [tilda]: "I tell myself Wetherell isn't shrinking. Then the bell rings twice a day instead of twenty. What do you think?"  ✏ `dlg.tilda.hours.1`
+       ? "It isn't shrinking. I'm staying." → r0  effects: friend:tilda,10, flag:choice.hours.reassure  ✏ `dlg.tilda.hours.c0`
        ? "Let's fill the shop together." → r1  effects: friend:tilda,15, flag:choice.hours.plan  ✏ `dlg.tilda.hours.c1`
        ? "Count again, then. Gently." → r2  effects: friend:tilda,10, flag:choice.hours.joke  ✏ `dlg.tilda.hours.c2`
-    r0 [tilda]: "It isn't. ...Say it again, slower. I'd like to put it on the slate in your handwriting."  ✏ `dlg.tilda.hours.r0`
-    r1 [tilda]: "Together. Now that's a plan I'd stock. Bring ideas. And tea."  ✏ `dlg.tilda.hours.r1`   (expr happy)
-    r2 [tilda]: "Gently. Yes. Recounting with kindness. I'll try that, and the cat can supervise."  ✏ `dlg.tilda.hours.r2`
+    r0 [tilda]: "Staying. ...Say it once more, slower. I'd like it on the slate in your handwriting."  ✏ `dlg.tilda.hours.r0`
+    r1 [tilda]: "Together. Now that's a plan I'd stock. Bring ideas on Thursday. I'll bring the tea."  ✏ `dlg.tilda.hours.r1`   (expr happy)
+    r2 [tilda]: "Gently. Recounting with kindness. I'll try it. The cat can check my sums."  ✏ `dlg.tilda.hours.r2`
   · (tilda expression neutral)
-  [tilda]: "Thank you for letting me say it out loud. It weighs less than it did. Mind the step on the way out."  ✏ `event.tilda_heart6.after`
+  [tilda]: "Said out loud, it weighs less. Turn the sign back, would you? And not a word to Felix. He'd worry, then bring fish."  ✏ `event.tilda_heart6.after`
   · (camera reset)
   · (lighting reset)
   · (letterbox off)
@@ -304,21 +307,21 @@ plays when: `hearts:tilda>=8 && flag:event.tilda_heart6 && !weekday:sun && hour>
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Stocktake day. Help me move the flour? There's something behind the shelf I've never had the nerve to look at."  ✏ `event.tilda_heart8.intro`
+  [tilda]: "Stocktake day. Help me shift the flour? There's a tin behind that shelf I've been not looking at for years."  ✏ `event.tilda_heart8.intro`
   · (move player to (7,4))
   · (player faces up)
   · (tilda wave (background))
   · (tilda emote ellipsis)
   ▶ DIALOGUE `tilda.card` (player-facing graph, plays here):
     n0 [narration]: "Behind the flour sacks, in a very old tin, lies a recipe card in faded ink."  ✏ `dlg.tilda.card.0`   (→ n1)
-    n1 [tilda]: "My mother's pumpkin pie. I've never baked from it. I was afraid I'd get it wrong. What should I do?"  ✏ `dlg.tilda.card.1`
-       ? "Bake it." → r0  effects: friend:tilda,10, flag:choice.card.bake  ✏ `dlg.tilda.card.c0`
-       ? "Keep it safe." → r1  effects: friend:tilda,10, flag:choice.card.keep  ✏ `dlg.tilda.card.c1`
-       ? "Share it with the village." → r2  effects: friend:tilda,15, flag:choice.card.share  ✏ `dlg.tilda.card.c2`
-    r0 [tilda]: "Bake it. Yes. With you in the kitchen, so I can't back out."  ✏ `dlg.tilda.card.r0`   (expr happy)
+    n1 [tilda]: "My mother's pumpkin pie. The only thing she ever wrote down. I've never baked it. What if I get it wrong?"  ✏ `dlg.tilda.card.1`
+       ? "Bake it. I'll stand right there." → r0  effects: friend:tilda,10, flag:choice.card.bake  ✏ `dlg.tilda.card.c0`
+       ? "Keep it safe. It's enough." → r1  effects: friend:tilda,10, flag:choice.card.keep  ✏ `dlg.tilda.card.c1`
+       ? "Share it. The pie feud can cope." → r2  effects: friend:tilda,15, flag:choice.card.share  ✏ `dlg.tilda.card.c2`
+    r0 [tilda]: "Bake it. Yes. With you by the oven, so I can't back out."  ✏ `dlg.tilda.card.r0`   (expr happy)
     r1 [tilda]: "Safe. It's been safe for forty years. That's not a bad record."  ✏ `dlg.tilda.card.r1`
-    r2 [tilda]: "The whole village. ...The pie feud would hate that. I love it."  ✏ `dlg.tilda.card.r2`   (expr happy)
-  [tilda]: "{if choice:card.bake}Baking from it, then. Flour, butter and my mother's handwriting. I'll need a bigger oven and a smaller heart.{else}{if choice:card.keep}Keep it safe. A card doesn't need to be a pie to matter.{else}Sharing it. I'll write it out for the whole village. Mother would have scolded me, then smiled.{/if}{/if}"  ✏ `event.tilda_heart8.after`
+    r2 [tilda]: "The whole village. ...The pie feud will be livid. I love it."  ✏ `dlg.tilda.card.r2`   (expr happy)
+  [tilda]: "{if choice:card.bake}Flour, butter, and her handwriting. Saturday, before opening. Don't be late, or I'll lose my nerve.{else}{if choice:card.keep}Safe, then. A card doesn't need to be a pie to matter. Back in the tin.{else}Sharing it, then. A copy for every kitchen. Mother would have scolded me, then smiled.{/if}{/if}"  ✏ `event.tilda_heart8.after`
   · effects: flag:event.tilda_heart8
   · effects: friend:tilda,70
 
@@ -328,16 +331,16 @@ plays when: `hearts:tilda>=10 && flag:event.tilda_heart8 && !weekday:sun && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Close your eyes. No, really. I've done something on the front of the shop and I'm too nervous to watch."  ✏ `event.tilda_heart10.intro`
+  [tilda]: "Close your eyes. No, really. I've done something to the front of the shop and I can't watch you see it."  ✏ `event.tilda_heart10.intro`
   · (move player to (7,4))
   · (player faces up)
   · (spawn prop food.pumpkin_pie at (7,5))
   · (tilda emote heart)
-  [tilda]: "I baked it from her card. Take it. It's the first one. The sign outside says you're a supplier, and so you are."  ✏ `event.tilda_heart10.give`
+  [tilda]: "From her card, the very first one. Take it. And yes, that's your farm on my sign. Supplier. In paint, not chalk."  ✏ `event.tilda_heart10.give`
   · (sfx coin)
   · effects: give:food.pumpkin_pie,1, flag:event.tilda_heart10
   · (remove prop heirloom)
-  [tilda]: "{if choice:card.share}I copied the recipe for the whole village, and put your name at the bottom, in chalk.{else}{if choice:card.bake}The pie came out right. It tasted like June, and my mother, and you.{else}The card's still safe. The pie's yours. Both are the best things in the shop.{/if}{/if}"  ✏ `event.tilda_heart10.thanks`
+  [tilda]: "{if choice:card.share}I copied the recipe for every kitchen, and put your name at the bottom. In chalk, so it can grow.{else}{if choice:card.bake}The pie came out right. It tasted like June, and my mother, and you.{else}The card's still in its tin. The pie's yours. Both are the best stock I've got.{/if}{/if}"  ✏ `event.tilda_heart10.thanks`
   · effects: friend:tilda,80
 
 ### tilda_friend · "Stocktake Saturday" · funny
@@ -346,12 +349,12 @@ plays when: `!flag:event.tilda_friend && hearts:tilda>=3 && weekday:sat && !week
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "Saturday stocktake, and I'm three sunflowers short of finishing the window. Do you have any?"  ✏ `event.tilda_friend.ask`
+  [tilda]: "Saturday stocktake, and the window's three sunflowers short of finished. Have you any?"  ✏ `event.tilda_friend.ask`
   · (move player to (7,4))
   · (player faces up)
   · (tilda emote question)
-  [tilda]: "Three sunflowers, if you find them? The window's half dressed and very embarrassed."  ✏ `event.tilda_friend.fallback`
-  [tilda]: "Three sunflowers! The window's finished. It looks like noon. Thank you, dear. I'll put it on the slate."  ✏ `event.tilda_friend.success`
+  [tilda]: "Three sunflowers, if you find them. The window's half dressed and mortified."  ✏ `event.tilda_friend.fallback`
+  [tilda]: "Three sunflowers! The window looks like noon. You're on the slate, under 'saved the display.'"  ✏ `event.tilda_friend.success`
   · effects: flag:event.tilda_friend
   · effects: friend:tilda,15
 
@@ -361,20 +364,20 @@ plays when: `hearts:tilda>=2 && birthday.in:tilda==0 && unseen:birthday.tilda &&
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(7, 4)
   · (tilda faces down)
-  [tilda]: "It's my birthday. I don't make a fuss, I make a large pie. Come in, dear, and do not look at the slate."  ✏ `event.tilda_birthday.intro`
+  [tilda]: "It's my birthday. I don't make a fuss, I make a large pie. Come in, and whatever you do, don't read the slate."  ✏ `event.tilda_birthday.intro`
   · (move player to (7,4))
   · (player faces up)
   · (tilda wave (background))
   · (tilda emote heart)
   ▶ DIALOGUE `tilda.birthday` (player-facing graph, plays here):
     n0 [tilda]: "You looked at the slate. I saw. Go on, then. What do you say?"  ✏ `dlg.tilda.birthday.0`
-       ? "Wish her a happy birthday." → r0  effects: friend:tilda,10, flag:choice.bday.tilda.wish  ✏ `dlg.tilda.birthday.c0`
-       ? "Bring her a flower." → r1  effects: friend:tilda,10, flag:choice.bday.tilda.flower  ✏ `dlg.tilda.birthday.c1`
-       ? "Offer to mind the shop for an hour." → r2  effects: friend:tilda,10, flag:choice.bday.tilda.mind  ✏ `dlg.tilda.birthday.c2`
-    r0 [tilda]: "Thank you. I'll put it on the slate in capital letters, where I can see it."  ✏ `dlg.tilda.birthday.r0`   (expr happy)
-    r1 [tilda]: "A flower, in my shop! It goes in the window, beside the good pumpkin. Thank you."  ✏ `dlg.tilda.birthday.r1`   (expr happy)
-    r2 [tilda]: "You'd mind it? Oh, that's the best present. Take the stool. Mind the cat."  ✏ `dlg.tilda.birthday.r2`   (expr happy)
-  [tilda]: "{if choice:bday.tilda.wish}Capital letters, on the slate. It looks very well from the street.{else}{if choice:bday.tilda.flower}The flower's in the window. Half the village asked who sent it. I said a friend.{else}An hour off. I read a chapter. It was marvelous. The shop was fine.{/if}{/if}"  ✏ `event.tilda_birthday.after`
+       ? "Happy birthday, Tilda." → r0  effects: friend:tilda,10, flag:choice.bday.tilda.wish  ✏ `dlg.tilda.birthday.c0`
+       ? "Give her a flower." → r1  effects: friend:tilda,10, flag:choice.bday.tilda.flower  ✏ `dlg.tilda.birthday.c1`
+       ? "Mind the shop. Go read." → r2  effects: friend:tilda,10, flag:choice.bday.tilda.mind  ✏ `dlg.tilda.birthday.c2`
+    r0 [tilda]: "Oh. Well. That goes at the top of the slate, in capitals, where I'll see it every morning."  ✏ `dlg.tilda.birthday.r0`   (expr happy)
+    r1 [tilda]: "A flower, in my shop! It goes in the window, beside the good pumpkin."  ✏ `dlg.tilda.birthday.r1`   (expr happy)
+    r2 [tilda]: "You'd mind it? That's the best present. Take the stool. The cat bites coins, not customers."  ✏ `dlg.tilda.birthday.r2`   (expr happy)
+  [tilda]: "{if choice:bday.tilda.wish}Capitals, on the slate. It reads very well from the street.{else}{if choice:bday.tilda.flower}The flower's in the window. Half the village asked who sent it. I said an account in good standing.{else}An hour off! I read a whole chapter upstairs. The shop survived. I'm slightly offended.{/if}{/if}"  ✏ `event.tilda_birthday.after`
   · effects: flag:event.tilda_birthday
   · effects: mark:birthday.tilda, friend:tilda,30, give:food.pumpkin_pie,1, mail:tilda_bday_thanks
 
@@ -387,13 +390,13 @@ placed: tilda(24, 18), felix(26, 18)
   · (place felix to (26,18))
   · (tilda faces right)
   · (felix faces left)
-  [tilda]: "Felix. Your carp is eight coins. Last week it was six."  ✏ `event.overheard_tilda_felix_1.l1`
-  [felix]: "It's a bigger carp. It's grown. It's grown in the stall, overnight, out of pride."
+  [tilda]: "Felix. Your carp is eight coins today. On Monday it was six."  ✏ `event.overheard_tilda_felix_1.l1`
+  [felix]: "It's a bigger carp. It grew. In the stall, overnight, out of pride."
   · (felix shrug (background))
   · (felix emote ellipsis)
   · (tilda point (background))
-  [tilda]: "It's been in your bucket since dawn. It hasn't grown. You've inflated it."  ✏ `event.overheard_tilda_felix_1.l3`
-  [felix]: "Fine. Six. But I'm adding a story to the price. It's a good story."
+  [tilda]: "It's been in a bucket since dawn. It hasn't grown. Your prices have."  ✏ `event.overheard_tilda_felix_1.l3`
+  [felix]: "Fine. Six. The story's two more. It's a very good story."
   · effects: flag:event.overheard_tilda_felix_1
 
 ### overheard_tilda_felix_2 · "The Oldest Friend" · wholesome
@@ -405,13 +408,13 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda. You remember the winter the pond froze, and I fell in?"
-  [tilda]: "I remember the winter you fell in, and also the winter you fell in again."  ✏ `event.overheard_tilda_felix_2.l2`
+  [felix]: "Tilda. Remember the winter the pond froze, and I fell in?"
+  [tilda]: "I remember the winter you fell in. And the Tuesday you fell in again."  ✏ `event.overheard_tilda_felix_2.l2`
   · (tilda shrug (background))
   · (tilda emote ellipsis)
   · (felix wave (background))
-  [felix]: "It was the same winter. It was a long one. You brought me soup."
-  [tilda]: "I brought you soup, and a blanket, and I chalked 'Thin Ice' on the slate. You ignored the slate."  ✏ `event.overheard_tilda_felix_2.l4`
+  [felix]: "Same winter. A long one. You brought me soup. ...Both times."
+  [tilda]: "Soup, a blanket, and 'Thin Ice' on the slate in capitals. You walked straight past it."  ✏ `event.overheard_tilda_felix_2.l4`
   · effects: flag:event.overheard_tilda_felix_2
 
 ### overheard_tilda_felix_3 · "Slate and Line" · wholesome
@@ -423,13 +426,13 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda. I wrote the first fish of the year on your slate. In capital letters."
-  [tilda]: "Oh, Felix. It's a very good fish. I'll leave it up until the spring thaw."  ✏ `event.overheard_tilda_felix_3.l2`
+  [felix]: "Tilda. I chalked the year's first fish on your slate. Capital letters."
+  [tilda]: "Oh, Felix. A very good fish. It stays up until the thaw."  ✏ `event.overheard_tilda_felix_3.l2`
   · (tilda point (background))
   · (tilda emote ellipsis)
   · (felix shrug (background))
-  [felix]: "It was this big. Bigger, since I began. Don't tell the pond."
-  [tilda]: "The pond knows, dear. The pond always knows. Sit. I'll put the kettle on."  ✏ `event.overheard_tilda_felix_3.l4`
+  [felix]: "It was this big. Bigger, since I chalked it. Don't tell the pond."
+  [tilda]: "The pond always knows. Sit down, Felix. I've made tea for two again."  ✏ `event.overheard_tilda_felix_3.l4`
   · effects: flag:event.overheard_tilda_felix_3
 
 ### overheard_tilda_felix_4 · "The Last Pie" · wholesome
@@ -441,13 +444,13 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda, I brought a pie. For once. A fish pie. Don't judge."
-  [tilda]: "Felix, I'll judge it kindly. And salt it."  ✏ `event.overheard_tilda_felix_4.l2`
+  [felix]: "Tilda. I brought a pie, for once. A fish pie. Don't judge it."
+  [tilda]: "I'll judge it kindly, Felix. Then I'll salt it."  ✏ `event.overheard_tilda_felix_4.l2`
   · (tilda wave (background))
   · (tilda emote ellipsis)
   · (felix wave (background))
-  [felix]: "It's a fair sentence. Pass the fork."
-  [tilda]: "To an old friend, dear. The crust is mine. The fish is the cat's."  ✏ `event.overheard_tilda_felix_4.l4`
+  [felix]: "A fair sentence. Pass the fork. ...And the salt."
+  [tilda]: "To old friends, dear. The crust is mine. The fish goes to the cat."  ✏ `event.overheard_tilda_felix_4.l4`
   · effects: flag:event.overheard_tilda_felix_4
 
 ### overheard_tilda_wren_1 · "Slate and Chalkboard" · funny
@@ -459,12 +462,12 @@ placed: tilda(24, 18), wren(26, 18)
   · (place wren to (26,18))
   · (tilda faces right)
   · (wren faces left)
-  [tilda]: "Wren. Your chalkboard looks like my slate."  ✏ `event.overheard_tilda_wren_1.l1`
+  [tilda]: "Wren. Your chalkboard looks remarkably like my slate."  ✏ `event.overheard_tilda_wren_1.l1`
   [wren]: "Imitation is flattery, Tilda, with better lighting."
   · (wren shrug (background))
   · (wren emote note)
   · (tilda point (background))
-  [tilda]: "Flattery earns a ribbon, dear."  ✏ `event.overheard_tilda_wren_1.l3`
+  [tilda]: "Flattery earns a ribbon. Imitation earns a bill."  ✏ `event.overheard_tilda_wren_1.l3`
   [wren]: "A ribbon! Pin it to the stool."
   · effects: flag:event.overheard_tilda_wren_1
 
@@ -477,12 +480,12 @@ placed: tilda(24, 18), wren(26, 18)
   · (place wren to (26,18))
   · (tilda faces right)
   · (wren faces left)
-  [tilda]: "I heard something. About a certain cat."  ✏ `event.overheard_tilda_wren_2.l1`
-  [wren]: "I heard it first, my darling. Three days ago."
+  [tilda]: "I've heard something. About a certain cat, and a certain windowsill."  ✏ `event.overheard_tilda_wren_2.l1`
+  [wren]: "I heard it first. Three days ago. It's grown since."
   · (wren shrug (background))
   · (wren emote note)
   · (tilda wave (background))
-  [tilda]: "Then we'll trade. You tell me yours."  ✏ `event.overheard_tilda_wren_2.l3`
+  [tilda]: "Then we'll trade. Yours first. I have a reputation to protect."  ✏ `event.overheard_tilda_wren_2.l3`
   [wren]: "Mine's better. It has a pickle in it."
   · effects: flag:event.overheard_tilda_wren_2
 
@@ -495,12 +498,12 @@ placed: tilda(24, 18), wren(26, 18)
   · (place wren to (26,18))
   · (tilda faces right)
   · (wren faces left)
-  [tilda]: "Wren, I've stood behind that counter eight hours a day all week. Save me a seat tonight?"  ✏ `event.overheard_tilda_wren_3.l1`
-  [wren]: "Tilda, you've earned the good chair. Come at six. Cider's on me."
+  [tilda]: "Six days at that counter this week. Save me a seat later?"  ✏ `event.overheard_tilda_wren_3.l1`
+  [wren]: "You've earned the good stool, Tilda. Come at seven. Cider's on me."
   · (wren point (background))
   · (wren emote note)
   · (tilda shrug (background))
-  [tilda]: "Just one cup. Then the slate."  ✏ `event.overheard_tilda_wren_3.l3`
+  [tilda]: "One cup. Then back to the slate."  ✏ `event.overheard_tilda_wren_3.l3`
   [wren]: "The slate will wait. It's good at that."
   · effects: flag:event.overheard_tilda_wren_3
 
@@ -513,13 +516,13 @@ placed: juno(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (juno faces right)
   · (tilda faces left)
-  [juno]: "Tilda, I'm paying my slate! Three clasps and a hinge with a smiley face."
-  [tilda]: "That's two months of bread, and the hinge is a tip. I'll put it on the slate."  ✏ `event.overheard_tilda_juno_1.l2`
+  [juno]: "Tilda! Slate payment! Three clasps and one hinge with a smiley face stamped on."
+  [tilda]: "Three clasps is two months of bread. The hinge is a tip. I'll put it on the slate."  ✏ `event.overheard_tilda_juno_1.l2`
   · (tilda shrug (background))
   · (tilda emote sweat)
   · (juno wave (background))
-  [juno]: "Is the smiley face worth extra?"
-  [tilda]: "The smiley face is priceless. That's why I'm not charging for it."  ✏ `event.overheard_tilda_juno_1.l4`
+  [juno]: "Is the smiley face worth extra? It took me an hour."
+  [tilda]: "The smiley face is priceless. That's why I can't charge for it."  ✏ `event.overheard_tilda_juno_1.l4`
   · effects: flag:event.overheard_tilda_juno_1
 
 ### overheard_tilda_juno_2 · "The Flour Sack" · wholesome
@@ -531,13 +534,13 @@ placed: tilda(24, 18), juno(26, 18)
   · (place juno to (26,18))
   · (tilda faces right)
   · (juno faces left)
-  [tilda]: "You've grown, Juno. When you first came in, you couldn't reach the jar of hooks."  ✏ `event.overheard_tilda_juno_2.l1`
-  [juno]: "I still can't. I stand on the flour sack now!"
+  [tilda]: "You've grown, Juno. You used to stand under the jar of hooks and glare at it."  ✏ `event.overheard_tilda_juno_2.l1`
+  [juno]: "I still can't! I stand on the flour sack now."
   · (juno shrug (background))
   · (juno emote heart)
   · (tilda point (background))
-  [tilda]: "I know. I moved it there for you. Years ago."  ✏ `event.overheard_tilda_juno_2.l3`
-  [juno]: "Tilda! You've been on my slate the whole time."
+  [tilda]: "I know. I moved the sack there the week you started."  ✏ `event.overheard_tilda_juno_2.l3`
+  [juno]: "Years? Tilda, that's going on my slate. Under 'Owed (Forever)'."
   · effects: flag:event.overheard_tilda_juno_2
 
 ### overheard_tilda_juno_3 · "Next Door" · wholesome
@@ -549,13 +552,13 @@ placed: juno(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (juno faces right)
   · (tilda faces left)
-  [juno]: "Tilda... if I ever had my own forge, somewhere small, would you still feed me?"
-  [tilda]: "Open a forge in Wetherell and I'll stock your first anvil. Go farther, and I'll post you pie."  ✏ `event.overheard_tilda_juno_3.l2`
+  [juno]: "Tilda... if I ever had my own forge, a small one, would you still feed me?"
+  [tilda]: "Open one in Wetherell and I'll stock your first shelf. Go farther, and I'll post you pie."  ✏ `event.overheard_tilda_juno_3.l2`
   · (tilda point (background))
   · (tilda emote ellipsis)
   · (juno shrug (background))
-  [juno]: "In Wetherell. Definitely. Next door to Bram, probably."
-  [tilda]: "Good. The street could use the noise."  ✏ `event.overheard_tilda_juno_3.l4`
+  [juno]: "In Wetherell. Definitely. Next door to Bram. Probably. Okay, definitely."
+  [tilda]: "Good. This street could use more noise."  ✏ `event.overheard_tilda_juno_3.l4`
   · effects: flag:event.overheard_tilda_juno_3
 
 ### overheard_tilda_bram_1 · "The Even Slate" · wholesome
@@ -567,11 +570,11 @@ placed: tilda(24, 18), bram(26, 18)
   · (place bram to (26,18))
   · (tilda faces right)
   · (bram faces left)
-  [tilda]: "Bram. There's a crust on your bench. For the hinges, the lamp, and the shelf you fixed unasked."  ✏ `event.overheard_tilda_bram_1.l1`
-  [bram]: "Hm. Didn't need one."
+  [tilda]: "Bram. There's a pie crust on your bench. For the hinges, the lamp, and the shelf."  ✏ `event.overheard_tilda_bram_1.l1`
+  [bram]: "Hm. Hinges were squeaking. Bothered me. That's all."
   · (bram shrug (background))
   · (bram emote ellipsis)
   · (tilda point (background))
-  [tilda]: "You never say thank you. I never say it back. That's how the slate stays even."  ✏ `event.overheard_tilda_bram_1.l3`
+  [tilda]: "You never say thank you. I never say you're welcome. That's how the slate stays even."  ✏ `event.overheard_tilda_bram_1.l3`
   [bram]: "...Hm. Even. Good."
   · effects: flag:event.overheard_tilda_bram_1

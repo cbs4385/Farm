@@ -1,0 +1,72 @@
+{
+  "villager": "piper",
+  "lines": {
+    "event.hall_dance.4": {
+      "text": "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard.",
+      "why": "remembers heart 10 instead of repeating its intro word for word"
+    },
+    "event.piper_heart10.outro": {
+      "text": "{if choice:chorus.home}They sang 'home' without me. All of them. I played one verse and put the bow down. ...So that's what quiet sounds like.{else}{if choice:chorus.road}They took the road and walked it without me. I stood there with my bow down. Best seat I've ever had.{else}The room sang itself back to the room. Even the good stool joined in. I only had to stand there.{/if}{/if}",
+      "why": "matches the intro (she plays the first verse); road branch no longer echoes heart 6's 'not so bad'"
+    },
+    "event.piper_birthday.intro": {
+      "text": "My birthday! I wrote myself a song. It's a very modest masterpiece. You'll want a good seat.",
+      "why": "no longer says 'front row' right before the shipped 'Front row's yours'"
+    },
+    "dlg.piper.birthday.r0": {
+      "text": "Happy birthday to me, from you! Short, sweet, and in tune. It's going in the encore.",
+      "why": "'That's a chorus' was used four times; kept it for rarer beats"
+    },
+    "event.piper_birthday.after": {
+      "text": "{if choice:bday.piper.wish}Your wish made the encore. I rhymed 'birthday' with 'worth the day'. Don't check.{else}{if choice:bday.piper.sing}My song, your voice, and the room clapped for you. I'm only a tiny bit jealous.{else}A song's coming with your name in it. Don't ask when. It will rhyme. Eventually.{/if}{/if}",
+      "why": "wish branch no longer repeats r0's encore line or the squint tic"
+    },
+    "event.story_band_battle.after": {
+      "text": "{if choice:band.piper}The fiddle wins! Juno took it beautifully. She's already forging a louder anvil.{else}{if choice:band.juno}The forge band wins! I'm thrilled. I'm furious. I'm writing a song about both.{else}A joint set! Fiddle, anvils, and a whole square clapping on the beat. Mostly on the beat.{/if}{/if}",
+      "why": "drops a fourth 'That's a chorus'"
+    },
+    "event.piper_courtship2.after": {
+      "text": "{if flag:choice.courtship.piper.yes}Finally! That love song's been in the case since you said 'a verse or two'. Tonight it comes out.{else}{if flag:choice.courtship.piper.friends}Friends, then. Good. Some songs are better as duets. I'm keeping the second verse anyway.{else}Still a verse or two? Then the last line stays blank. Some songs end better late.{/if}{/if}",
+      "why": "remembers the first answer; no second 'You'll hear it Friday'"
+    },
+    "event.piper_partners.intro": {
+      "text": "Hey, you. Front row. I wrote you a song, and it's the first one I haven't hidden behind a joke. Mostly.",
+      "why": "'Clap anyway' was already heart 5's joke"
+    },
+    "event.overheard_wren_piper_2.l2": {
+      "text": "Wren! You wrote a verse? Read it! No, sing it! No, read it slowly!",
+      "why": "saves the crying joke for 'The Headliner', where Wren answers it"
+    },
+    "event.overheard_wren_piper_3.l4": {
+      "text": "Pencil it is. Somebody keeps fixing my pencil anyway. Save me the last glass.",
+      "why": "can play before Pencil Rhymes, so she no longer names Hazel; leaves the lyric thread instead"
+    }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "piper_heart2": "The second chord, Friday: what she teaches next.",
+    "piper_heart5": "Four notes she hums alone and does not know the source of.",
+    "piper_heart4": "She wrote the request down; what will she do with it?",
+    "piper_heart6": "She went up; will she ever get the song they sing without her?",
+    "piper_heart8": "A chorus waiting for a room to sing it without her.",
+    "piper_heart10": "The village knows the song; what does Piper write next, now she can rest?",
+    "piper_friend": "Verse five of the parsnip ballad is about the player.",
+    "piper_birthday": "A song with the player's name, coming 'eventually'.",
+    "piper_courtship": "The love song (Friday), the friendship duet, or the open last line.",
+    "piper_courtship2": "The love song finally out of the case, or the last line still blank.",
+    "piper_partners": "The player's name in the bridge.",
+    "story_umbrella": "Who keeps hanging the umbrella up so neatly?",
+    "story_band_battle": "Bram tapped his foot and will deny it until spring.",
+    "overheard_wren_piper_3": "Someone keeps correcting Piper's pencil lyrics.",
+    "overheard_wren_piper_4": "A duet on Wren's stage: Wren singing her own song.",
+    "overheard_hazel_piper_1": "Hazel denies fixing the rhymes.",
+    "overheard_hazel_piper_3": "Hazel's verse, played without her name."
+  },
+  "notes": [
+    "piper_heart10: heart 4 promises the request comes back. The outro branches only on chorus; please honor choice.request.* in heart 10 (e.g. a short opening tag line) as the r2 brief says.",
+    "hall_dance and piper_heart10 cue music 'piper_theme', which is not in the music cue list; both will play silent. heart10 also plays sfx 'coin' during the song; 'bell' or nothing fits better.",
+    "overheard_hazel_piper_2: Hazel says she watches Piper 'every Thursday' at the library's back corner; Piper's schedule puts her at the beach mornings and saloon evenings. Hazel may want to check it.",
+    "'That's a chorus' now appears in piper_friend.wrap and overheard_piper_juno_2.l3 only; 'if you squint' in piper_friend.doing and piper_heart8 r1 only."
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "villager": "ione",
+  "lines": {
+    "event.ione_courtship.intro": { "text": "I've read hundreds of love stories, and not one told me how to ask this. So, plainly: would you court me? I rewrote that fourteen times.", "why": "eleven is Hazel's number (eleven lines, eleven cents); give Ione her own" },
+    "event.ione_courtship2.intro": { "text": "You asked me to wait. The question sat by the desk bell all this while. It held up. Would you court me?", "why": "remembers where she promised to keep it in the first ask" },
+    "event.ione_partners.intro": { "text": "Sit, please. I wrote you a letter. It runs four pages. I'll read it, and you'll pretend not to blush.", "why": "heart 8 already opens on 'Come'; vary the opening word" },
+    "event.ione_partners.after": { "text": "{if choice:courtship.ione.letter}The letter's in my favorite book now, marking the best page. Both are yours, eventually.{else}{if choice:courtship.ione.read}Your voice, my library. I've marked the spot where you stood. Nobody else may stand there. Hazel may.{else}The shore was bright. I forgot the book entirely. ...I'd like to see it in winter. With you.{/if}{/if}", "why": "r1 already has books listening; the read branch now ends on a joke of its own" },
+    "event.ione_birthday.after": { "text": "{if choice:bday.ione.wish}Noon came and went, and I never opened the new book. I was too busy being wished well.{else}{if choice:bday.ione.read}Someone read to me on my birthday. I've put it in the ledger, under returned with interest.{else}The bookmark's holding a very good place. I'd been using a tea label.{/if}{/if}", "why": "wish branch no longer repeats r0 and calls back the noon book; read branch drops the third 'books are listening' tic" },
+    "dlg.ione.birthday.r1": { "text": "The first page, aloud. Nobody's read to me since I was small. I'll close my eyes, if you don't mind.", "why": "'Slowly, please' was already the shelf scene's line" },
+    "event.overheard_odalys_ione_1.l2": { "text": "Dr. Penn. Your clinic stayed lit two hours past. I could see your lamp from my desk.", "why": "'stayed open two' read as a typo; now the count answers hers plainly" },
+    "event.overheard_odalys_ione_3.l2": { "text": "It's the calm kind. Even the library stove stopped ticking once the pot was on it.", "why": "Odalys answers 'If the stove approves'; my line now gives her the stove" }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "ione_heart2": "Who drew the coast chart and meant to come back for the shells, and what is the cove where the ink gives out like in winter?",
+    "ione_heart5": "Three low tides circled in ink: which evening will the beach walk be?",
+    "reading_night": "Who is the fifth chair for, next time, with the door left open?",
+    "festival_winter_lanterns": "Why does Ione's lantern always drift toward the sea?",
+    "ione_heart8": "Who will the set-aside book reach, who reads the note, or what the shelf was listening for.",
+    "ione_birthday": "Which crooked favorite book, which ledger, which page: small things the player can ask about next visit.",
+    "ione_courtship": "The first page of a new book, read aloud, Sunday: what book has she chosen?",
+    "ione_courtship2": "If still not yet, the question goes back by the desk bell.",
+    "ione_partners": "The sea in winter, with her; or the best page her letter now marks.",
+    "overheard_hazel_ione_1": "Who sorted the mysteries by color?",
+    "overheard_hazel_ione_2": "What is the seven-years-overdue book Hazel keeps finishing?",
+    "overheard_hazel_ione_3": "The lump in the window chair's cushion, and whether Hazel takes the seat after lunch.",
+    "overheard_odalys_ione_1": "Will either of them actually go home on time tomorrow?",
+    "overheard_odalys_ione_2": "Which book has a two-page first chapter?",
+    "overheard_odalys_ione_3": "Does slow cold tea count as a remedy?"
+  },
+  "notes": [
+    "No R1 note names Ione's lines beyond my own; both of mine (courtship2 intro, partners 'rest of the day') stand.",
+    "overheard_odalys_ione_3: Odalys's 'If the stove approves' had no setup after R1; I fixed my side by giving the library a stove. Odalys's writer may want to check it reads right.",
+    "Eleven was used by Hazel twice (poem lines, fines); Ione's courtship rewrite count is now fourteen."
+  ]
+}

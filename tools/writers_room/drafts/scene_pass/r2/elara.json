@@ -1,0 +1,37 @@
+{
+  "villager": "elara",
+  "lines": {
+    "event.elara_heart5.3": { "text": "Someday I'll show you my list. Not today. It has doodles, and the doodles are not good.", "why": "drops 'very long', which three other scenes already lean on" },
+    "event.past_the_point.1": { "text": "I knitted a life jacket! Felix says that's not how they work. It goes over the real one. Sandwiches are in the tin!", "why": "sets up the tin Felix's next line mentions" },
+    "dlg.past_point.talk.r0": { "text": "The headland! I've drawn it nine times from the bench. Never from the water side!", "why": "'eleven' already belongs to Dr. Penn's hours; a different number avoids the echo" },
+    "event.elara_heart8.after": { "text": "{if choice:list.pick}We picked one. The sea, from a boat. Circled twice, then once more in pen. Felix has a boat, you know.{else}{if choice:list.add}You added a place. It's in the margin: 'Somewhere [player] suggests.' It's already my favorite.{else}You promised. I'm holding you to it. Gently, like a stitch you don't pull too tight.{/if}{/if}", "why": "promise branch no longer reuses the 'very long scarf' tag" },
+    "dlg.elara.birthday.r2": { "text": "The beach! On my birthday! Yes! Dr. Penn can mind the plant. I'm bringing the hat's hat, and a towel!", "why": "no third packed sandwich or very long scarf; calls back the hat's hat" },
+    "event.elara_birthday.after": { "text": "{if choice:bday.elara.wish}It's in the scarf now. Row nine hundred, in red, right under 'Felix waved'.{else}{if choice:bday.elara.hat}The hat's hat stays on. Dr. Penn pretended not to see it. She smiled at the wall.{else}The beach was perfect. I'm still sandy. I found a shell shaped like a place I've never been.{/if}{/if}", "why": "beach branch now points at the list, not a boat, so it no longer ends the same way as partners" },
+    "event.elara_courtship.intro": { "text": "Here's a scarf. Mind the end, it trails. The last row is a question: would you court me? It's in red. Red means very serious!", "why": "no longer opens with 'I knitted', the same as heart 5" },
+    "event.elara_partners.intro": { "text": "Hello! I made you a hat. It looked lonely, so it got a smaller hat. Then that one did too. I stopped at three!", "why": "drops the borrowed 'all the way down' idiom; a different hat joke from the birthday's" },
+    "event.overheard_elara_odalys_1.l3": { "text": "You like it! Good, because it has a spare. For laundry day!", "why": "drops a third nested-item joke (cozy for the cozy); Penn's 'one cozy per stool' still answers it" }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "elara_heart2": "What's on the map behind the kettle, and where has she never been?",
+    "elara_heart5": "The list she won't show yet, doodles and all.",
+    "past_the_point": "One place crossed off; which is next, and will the player be in the boat for it?",
+    "elara_garden_visit": "Edmund brought her comfrey every spring; what else did he grow and give away?",
+    "elara_heart8": "Which place comes first, and Felix has a boat.",
+    "elara_birthday": "A shell, a scarf row or a hat's hat: small proof that the list is starting to move.",
+    "elara_courtship": "A scarf with a question in it; the answer, or the wait, sits behind the kettle next to the list.",
+    "elara_courtship2": "The waited-for answer, knitted in.",
+    "elara_partners": "Someday one of the boats is theirs.",
+    "overheard_elara_odalys_1": "Dr. Penn has a soft spot and a policy.",
+    "overheard_elara_odalys_2": "The turnip's secret, kept from the turnip.",
+    "overheard_elara_odalys_3": "Will Dr. Penn really nap?",
+    "overheard_felix_elara_1": "A net big enough for the boat.",
+    "overheard_felix_elara_3": "Felix's quiet dawn, now with counting."
+  },
+  "notes": [
+    "past_the_point (Felix's last line): 'Forty-one to go' is right only if heart 8 took the 'add' branch (42 minus 1). On pick/promise it is forty. Suggest Felix say 'Forty-odd to go' or 'The rest to go'.",
+    "past_the_point narration .2 and .3 (bailing, coffee, crossing a place off with a pencil) describe actions the engine cannot show; kept from Round 1 since it reads as text over a fade, but the Director may want to check this against the narration rule.",
+    "elara_courtship2 'later' branch: courtship2 sets .done, so a second 'think' ends the arc with no further ask. The line works either way; flag only if a third ask is intended."
+  ]
+}

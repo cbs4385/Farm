@@ -17,12 +17,12 @@ dialogue tilda.hours
 n0 tilda: I count the stock at closing time. Lately the count comes out right and the street comes out short.
   expr thinking
   next n1
-n1 tilda: I tell myself Wetherell isn't shrinking. Then the bell rings twice a day instead of twenty. What do you think?
+n1 tilda: I tell myself Wetherell isn't shrinking. Then the bell goes four times before lunch. What do you think?
   ? It isn't shrinking. I'm staying. => r0 | friend:tilda,10 | flag:choice.hours.reassure
   ? Let's fill the shop together. => r1 | friend:tilda,15 | flag:choice.hours.plan
   ? Count again, then. Gently. => r2 | friend:tilda,10 | flag:choice.hours.joke
 r0 tilda: Staying. ...Say it once more, slower. I'd like it on the slate in your handwriting.
-r1 tilda: Together. Now that's a plan I'd stock. Bring ideas on Thursday. I'll bring the tea.
+r1 tilda: Together. Now that's a plan I'd stock. Bring ideas. I'll bring the tea, and the good cups.
   expr happy
 r2 tilda: Gently. Recounting with kindness. I'll try it. The cat can check my sums.
 
@@ -61,7 +61,7 @@ n1 juno: So. Keep it, or the barrel? Quick, before my arm decides.
   ? Laugh about it with her. => r2 | friend:juno,10 | flag:choice.strike.laugh
 r0 juno: Keep it. Yes. Even crooked. ...Especially crooked.
   expr happy
-r1 juno: Together? Okay! You hold the tongs, I tap the bend. Okay, okay, okay, go!
+r1 juno: Together? You hold the tongs, like the first day. I tap the bend. Ready? Go!
   expr happy
 r2 juno: It's very funny! A horseshoe for a three-legged horse. A very proud three-legged horse.
   expr happy

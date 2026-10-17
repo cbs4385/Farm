@@ -1,0 +1,37 @@
+{
+  "villager": "odalys",
+  "lines": {
+    "event.odalys_heart2.4": { "text": "Half of Wetherell eats standing up. I'm working through them one patient at a time. You were next.", "why": "drops the 'only patient' Marcus joke that overheard_marcus_odalys_3 now owns; leaves her want, a village that rests" },
+    "event.odalys_heart5.0": { "text": "This is my notebook of remedies. Every cure that ever worked in Wetherell, and several that only worked on Marcus.", "why": "four clinic scenes opened on 'Sit.'; the tic stays in heart 2 and heart 8 only" },
+    "event.odalys_heart8.after": { "text": "{if choice:office.insist}You insisted I rest. I objected for a full minute. Then I slept nine hours. Elara is unbearable about it.{else}{if choice:office.soup}We finished the pot. I've written it up: 'Treatment successful. Repeat weekly.' That last part was not a question.{else}Your prescription is pinned above my desk. 'Come back anyway.' I intend to comply. Doctor's orders.{/if}{/if}", "why": "insist branch no longer repeats the birthday's 'filed under' joke" },
+    "dlg.odalys.office.r0": { "text": "You insist. ...Accepted. Under protest, with soup, and in front of a witness.", "why": "'Very well' was used in three scenes" },
+    "event.odalys_birthday.intro": { "text": "It's my birthday. I observe it with soup. That is an invitation, not an order. Mostly.", "why": "varies the 'Sit.' opener across clinic scenes" },
+    "dlg.odalys.birthday.r2": { "text": "A nap, prescribed by a farmer. ...Very well. My patients will be told it was an emergency.", "why": "'I'll comply' is saved for the heart 8 payoff" },
+    "event.odalys_birthday.after": { "text": "{if choice:bday.odalys.wish}It went in the file labeled 'Unexpected'. That file was empty last winter. It isn't now.{else}{if choice:bday.odalys.soup}Shared soup. Elara says I smiled twice. She's counting, and she's wrong. It was three.{else}I napped twenty minutes. The clinic survived. Elara says nothing happened. She said it very quickly.{/if}{/if}", "why": "soup branch no longer duplicates heart 8's written-up 'successful' joke" },
+    "event.overheard_elara_odalys_2.l2": { "text": "I accept the soup. I need to know the surprise first. Professionally.", "why": "three Elara scenes in a row opened on 'Elara.'" },
+    "event.overheard_elara_odalys_3.l2": { "text": "It's very soft, Elara. ...Ten minutes after lunch. Do not mistake that for a habit.", "why": "varies the name-first opener" },
+    "event.overheard_elara_odalys_3.l4": { "text": "Good care. Wake me for emergencies only. Splinters are not emergencies.", "why": "her name was already in l2" },
+    "event.overheard_odalys_ione_1.l3": { "text": "Patients keep odd hours. Books do not. ...Agreed. Call it a draw.", "why": "'Very well' overused across scenes" },
+    "event.overheard_odalys_ione_2.l1": { "text": "Ione. I prescribe you a nap. Fifteen minutes. I've already written it down.", "why": "Elara's scene already has the ten-minute nap" },
+    "event.overheard_odalys_ione_3.l3": { "text": "If Hazel reorganized nothing, it's a verified remedy. Pass the cup.", "why": "'the stove' answered nothing; now answers Ione's Hazel line" },
+    "event.overheard_marcus_odalys_1.l3": { "text": "Measure twice, bend the knees once. That one isn't carpentry. It's mine.", "why": "'Doctor's orders' was in three scenes; kept for heart 2 and heart 8" }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "odalys_heart2": "Who else in Wetherell is she working through, and does she ever put herself on the list?",
+    "odalys_heart5": "Edmund has a page in her notebook, and he put his affairs in order: what was on it?",
+    "odalys_heart8": "Will she really keep the weekly appointment she has just prescribed herself?",
+    "odalys_birthday": "The 'Unexpected' file, or Elara's count, or the nap: Dr. Penn is learning to rest, slowly.",
+    "overheard_elara_odalys_1": "The stool has a cozy; how far will Elara push clinic policy?",
+    "overheard_elara_odalys_2": "Elara's next disguised vegetable, and the bowl saved for later.",
+    "overheard_elara_odalys_3": "Will the ten-minute nap become the habit she says it is not?",
+    "overheard_marcus_odalys_2": "The bench outside the clinic, and whether Elara finds out she sat on it.",
+    "overheard_marcus_odalys_3": "Marcus is building her a chair for Saturdays."
+  },
+  "notes": [
+    "odalys_heart8 still plays 9-17 while the bible calls it a 'rare quiet evening'; the intro says she closed early today. Director: move the trigger to evening or keep as is.",
+    "Heart-10 note: I have no heart 10, and heart 5 gives a recipe, not the notebook; no line promises the notebook.",
+    "overheard_marcus_odalys_3 and overheard_marcus_odalys_2: Marcus is lead in _2 and has the last line in _3; threads listed for both since they continue my rest arc."
+  ]
+}

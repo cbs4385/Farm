@@ -1,0 +1,39 @@
+{
+  "villager": "wren",
+  "lines": {
+    "event.past_the_point.wren": { "text": "Just looking, that's all. From the point, the sea seems to start somewhere else.", "why": "no longer opens like the reading-night line ('Don't mind me')" },
+    "event.story_cat.intro": { "text": "Don't move. A cat has chosen your boots. Years I've lived here, and it's never once chosen mine.", "why": "saves 'eight years' for the bag, where it lands" },
+    "dlg.wren.birthday.r1": { "text": "That was dreadful. Do it again, louder. The glasses are rattling in protest.", "why": "a drink image instead of yet another stool joke" },
+    "event.wren_birthday.after": { "text": "{if choice:bday.wren.glass}A toast, and a good one. I'll be telling it for years, longer each time.{else}{if choice:bday.wren.sing}Your song's the new house anthem. Nobody asked. It's permanent.{else}A hug. Of everything on the shelf tonight, that's the best gift.{/if}{/if}", "why": "drops the fourth 'eight years' and the 'improvements' tic" },
+    "dlg.wren.courtship.r2": { "text": "Wait. Fair. I'm a bartender. Waiting is half the job, and I'm good at the other half.", "why": "stool was in three courtship lines; this one is hers alone" },
+    "event.wren_courtship2.intro": { "text": "Last time you said wait, so I waited. Patiently, which surprised everyone. I still like you. More, actually.", "why": "no longer opens 'Sit.' like the first ask, and stops repeating 'good at waiting' from its own close" },
+    "event.wren_courtship2.after": { "text": "{if flag:choice.courtship.wren.yes}Walks, then. And poems. You're stuck with me, and I'm stuck with the stool.{else}{if flag:choice.courtship.wren.friends}The best of friends. It's on my chalkboard now, in capital letters.{else}Still waiting, then. I'll keep the question behind the bar, next to the bag.{/if}{/if}", "why": "second wait ends on a callback to the bag (heart 8 is required), not on a repeated joke" },
+    "event.wren_partners.intro": { "text": "Evening, love. I wrote you a song. It's terrible. It's mine. Sit and be sung at.", "why": "'pickle-eater' assumed the birthday scene, which is not certain; pickles were wallpaper" },
+    "event.wren_partners.after": { "text": "{if choice:courtship.wren.song}The song's finished now. Your name's in the bridge. That's why I sang it twice.{else}{if choice:courtship.wren.dance}We danced. Nobody looked. Everybody looked. I loved it.{else}The bag under my bar is empty. I unpacked it this morning. You were the reason, quietly.{/if}{/if}", "why": "pays off r0's bridge, and no longer clashes with heart 10's 'second verse has a map'" },
+    "event.overheard_wren_piper_3.l3": { "text": "That's the best verse you've ever said out loud. Write it down, in pencil. Ink makes you shy.", "why": "keeps Piper's 'Pencil it is'; cuts one of six 'improve' lines" },
+    "event.overheard_wren_piper_4.l3": { "text": "Do both. Cry first, song after. I'll sell handkerchiefs at the door.", "why": "stool joke swapped for Wren's habit of selling to her own events" }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "wren_heart2": "When will Wren be brave enough to cook real food? (Heart 6.)",
+    "wren_heart5": "What happens in the saloon at four o'clock, the quiet she has timed?",
+    "wren_heart4": "Does a second verse of the bath song exist, and is it really worse?",
+    "wren_heart6": "The dish goes on the chalkboard Friday under the player's name.",
+    "wren_heart8": "The bag is still packed; what will she do with the answer?",
+    "wren_heart10": "The song carried the bag choice; the sea or the stay is still ahead.",
+    "wren_friend": "Bring a rumor next Friday.",
+    "wren_birthday": "How long will the toast, song or hug story grow?",
+    "story_cat": "The cat now has a sixth name, or a winner, and the village will argue.",
+    "wren_courtship": "Walks and terrible poems, a friendship in chalk, or a question still waiting.",
+    "wren_courtship2": "The question waits behind the bar, next to the bag.",
+    "wren_partners": "The bag is unpacked, or the song is finished: Wren has chosen to stay.",
+    "hall_dance": "Someone still has to count the porch for Wren's story."
+  },
+  "notes": [
+    "overheard_tilda_wren_3: card already reads 'Come at seven' and hall_dance.9 already reads 'Six winters'; both brief items are done, nothing to change.",
+    "reading_night: Wren is placed in the scene even when her line's condition (met.wren && hearts:wren>=3) is false, so she stands there silent. Also Ione opens with 'Four chairs' but five people are present; Ione's close says 'every chair taken'. Ione or the Director should reconcile.",
+    "Variety: cut repeats of 'eight years' (now only bag.1, the shipped-tone source), 'stool' and 'improve' across scenes; 'Between us' stays in three lines (birthday.0, bram_1, hazel_3) as the signature.",
+    "wren_heart4 still diverges from the bible (own song instead of introducing Piper); left as Round 1 noted."
+  ]
+}

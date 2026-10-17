@@ -11,7 +11,7 @@ n1 marcus: Six winters, it's been nearly fixed. ...What would you do?
 r0 marcus: Measure with me. Yes. You take the end of the tape. Once. Twice. ...Three times.
   expr happy
 r1 marcus: A new pitch. I'd stopped asking that question. ...Show me the angle. Slowly.
-r2 marcus: The ladder. Plain, steady, necessary. Best offer I've had in six winters.
+r2 marcus: The ladder. Plain, steady, necessary. Best offer anyone's made that roof.
   expr happy
 
 dialogue odalys.office
@@ -22,7 +22,7 @@ n1 odalys: So, [player]. Your professional opinion? I'll be taking notes.
   ? Insist that she rests tonight. => r0 | friend:odalys,10 | flag:choice.office.insist
   ? Pull up a chair and share the soup. => r1 | friend:odalys,15 | flag:choice.office.soup
   ? Write her a prescription of your own. => r2 | friend:odalys,10 | flag:choice.office.write
-r0 odalys: You insist. ...Very well. Under protest, with soup, and in front of a witness.
+r0 odalys: You insist. ...Accepted. Under protest, with soup, and in front of a witness.
 r1 odalys: Two spoons, one pot. That's the entire treatment. You diagnosed me faster than I would have.
   expr happy
 r2 odalys: A prescription. For me. 'Come back anyway.' ...I've never been given orders I wanted to follow.
@@ -49,7 +49,7 @@ n1 dorian: Mushrooms. Drawn. Hundreds. Nobody's seen them. ...Be gentle.
   ? Tell him they're lovely. => r0 | friend:dorian,10 | flag:choice.notebook.praise
   ? Ask to keep one. => r1 | friend:dorian,15 | flag:choice.notebook.ask
   ? Draw one back. Give it a face. => r2 | friend:dorian,10 | flag:choice.notebook.draw
-r0 dorian: ...Lovely. Nobody's said that. I'll write it in the margin.
+r0 dorian: Lovely. First time for that word. It goes in the margin.
   expr happy
 r1 dorian: One. Take the small brown one, under the fern. It's me, mostly.
   expr happy

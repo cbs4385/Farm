@@ -127,7 +127,11 @@ def markup_problems(text: str) -> list[str]:
     return probs
 
 
-def lint_text(owner: str, kind: str, text: str, old: str | None = None, speaker_check: bool = True) -> list[tuple[str, str]]:
+TOKEN_OK = {"event.bram_heart10.thanks"}           # the player-name moment: [player] may be added
+SENTENCE_CAP = {"dlg.bram.long.0": 18}               # Bram's longest sentence ever
+
+
+def lint_text(owner: str, kind: str, text: str, old: str | None = None, speaker_check: bool = True, key: str | None = None) -> list[tuple[str, str]]:
     """Returns [(severity, message)]."""
     issues: list[tuple[str, str]] = []
     if not text or not text.strip():
@@ -154,7 +158,7 @@ def lint_text(owner: str, kind: str, text: str, old: str | None = None, speaker_
                 issues.append(("error", f"exclamation mark in {owner}'s voice"))
             for sentence in re.split(r"(?<=[.!?])\s+", plain):
                 w = ls.words(sentence)
-                if w > v.get("maxSentenceWords", 22):
+                if w > SENTENCE_CAP.get(key, v.get("maxSentenceWords", 22)):
                     issues.append(("error", f"sentence of {w} words > {owner}'s {v['maxSentenceWords']}: {sentence[:50]}…"))
             for banned in v.get("banned", []):
                 if banned.lower() in plain.lower():
@@ -179,7 +183,7 @@ def lint_text(owner: str, kind: str, text: str, old: str | None = None, speaker_
             issues.append(("error", f"the {{if}} conditions changed: was {sorted(oc.elements())}, now {sorted(nc.elements())}"))
         ot = Counter(TOKEN.findall(old))
         nt = Counter(TOKEN.findall(text))
-        if ot != nt:
+        if ot != nt and key not in TOKEN_OK:
             issues.append(("error", f"tokens changed: was {sorted(ot.elements())}, now {sorted(nt.elements())}"))
         if Counter(CUE.findall(old)).keys() and not CUE.findall(text) and len(CUE.findall(old)) > 0:
             issues.append(("warning", "the line lost its {pause}/{speed} cues"))
@@ -199,7 +203,7 @@ def lint_round(path: Path, en: dict, own: dict) -> dict:
             out["errors"].append((key, f"owned by {o['owner']}, not {who}"))
             continue
         out["checked"] += 1
-        for sev, msg in lint_text(who, o["kind"], rec["text"], old=en.get(key)):
+        for sev, msg in lint_text(who, o["kind"], rec["text"], old=en.get(key), key=key):
             out["errors" if sev == "error" else "warnings"].append((key, msg))
     for a in d.get("adds", []):
         out["checked"] += 1

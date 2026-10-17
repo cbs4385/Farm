@@ -13,7 +13,7 @@ n3 piper: Well? Who owns the square tonight? Take your time. Pick the fiddle.
   ? Both, together. Loudly. => r2 | flag:choice.band.both | friend:piper,10 | friend:juno,10
 r0 piper: Justice! And good taste! Juno, you were wonderful. Just less fiddle.
   expr happy
-r1 juno: Okay, okay, okay! We won! Bram, we won! ...Bram? He's hitting the thing. Twice!
+r1 juno: We won! Bram, we won! ...Bram? He's hitting the thing. Twice!
   expr happy
 r2 piper: Together? ...That's either genius or a noise complaint. Bram, one hit. Make it count.
   emote note
@@ -23,7 +23,7 @@ n0 -: Behind the store sits a very large pumpkin. Dorian wears a very guilty fac
   next n1
 n1 tilda: Dorian. Is that my prize pumpkin? I've been blaming the goats all week, out loud!
   next n2
-n2 dorian: ...Borrowed. For spores. It was coming back. Eventually.
+n2 dorian: ...Borrowed. The mushrooms needed a roof. It was coming back.
   ? Let him off gently. => r0 | flag:choice.pumpkin.dorian.kind | friend:dorian,10
   ? Ask for a proper apology. => r1 | flag:choice.pumpkin.dorian.apology
   ? Grab the heavy end. Carry it back. => r2 | flag:choice.pumpkin.dorian.help | friend:tilda,10
@@ -35,7 +35,7 @@ r2 tilda: You take the heavy end, Dorian takes the guilt. I'll carry the convers
   expr happy
 
 dialogue story.pumpkin.marcus
-n0 -: Behind the store, Marcus stands beside a very large pumpkin with a very guilty face.
+n0 -: Tilda comes around the corner, stops, and stares at the pumpkin's new face.
   next n1
 n1 tilda: Marcus! Is that my prize pumpkin? I blamed the goats. I apologized to a goat.
   next n2
@@ -53,9 +53,9 @@ r2 tilda: You and Marcus take the ends. I'll walk ahead and tell everyone it was
 dialogue story.pumpkin.felix
 n0 -: Behind the store, Felix stands beside a very large pumpkin, wearing a very guilty face.
   next n1
-n1 tilda: Felix. Is that my prize pumpkin? You don't even like vegetables!
+n1 tilda: Felix. Is that my prize pumpkin? I blamed the goats! You don't even like vegetables!
   next n2
-n2 felix: ...It might be. The goats were very understanding about it.
+n2 felix: ...It might be. In my defense, I didn't eat it. I only admired it.
   ? Let Felix off kindly. => r0 | flag:choice.pumpkin.felix.kind | friend:felix,10
   ? Ask for a proper apology. => r1 | flag:choice.pumpkin.felix.apology
   ? Offer to carry the heavy end. => r2 | flag:choice.pumpkin.felix.help | friend:tilda,10

@@ -1,0 +1,46 @@
+{
+  "villager": "juno",
+  "lines": {
+    "event.next_door.5": { "text": "...He said it. Out loud, with a witness. I need to sit. The sign hook next door is still empty. The sign's drawn. It's under the coal.", "why": "drops Marcus's 'measured it. Twice' shape; calls back the heart 2 sketches under the coal" },
+    "event.story_notes_juno.after": { "text": "Bram's had six. He keeps every one in his apron pocket. He thinks they're from Tilda. Let him.", "why": "third 'Don't tell Bram' cut; same fact, now a private conspiracy" },
+    "dlg.juno.birthday.r0": { "text": "Thank you! I'm framing that. The actual words. I'll need a very thin frame.", "why": "drops a repeated 'Don't tell Bram'; frame still pays off in the wish branch" },
+    "event.juno_birthday.after": { "text": "{if choice:bday.juno.wish}It's framed now, next to the first clasp that ever closed. Click is very proud.{else}{if choice:bday.juno.tease}The cake label stays. I'm adding a second one: 'Yes, Really'. Bram saw and backed away slowly.{else}A gift, from you, on my birthday. It's on the anvil. Everything else in here orbits it now.{/if}{/if}", "why": "tease branch no longer spends Bram's 'Eat' label, which is the payoff of overheard_juno_bram_2" },
+    "event.juno_heart4.setup": { "text": "Freeze! Right there. Don't move. I have a surprise, and it's very sticky.", "why": "'Okay, okay, okay' thinned to a signature" },
+    "event.juno_heart4.reaction": { "text": "{if choice:label.accept}A label that stays! Next I'm doing the whole village. The hall roof gets 'Nearly (Fixed)'.{else}{if choice:label.relabel}'Apprentice (Chaotic)', on my forehead, all day. Bram read it and moved the tongs out of my reach.{else}Nobody's ever eaten a label! I'm thrilled. I'm a little worried. I'm making a drawer that says 'Not Food'.{/if}{/if}", "why": "Bram's 'nodded. Twice.' undercut heart 10, where one nod is the event" },
+    "event.juno_heart5.0": { "text": "I finished it! I finished it! Eleven evenings. Bram fixed one rivet, and I pretended not to see.", "why": "tic thinned; excitement carried by repetition instead" },
+    "dlg.juno.strike.r1": { "text": "Together? You hold the tongs, like the first day. I tap the bend. Ready? Go!", "why": "calls back heart 2's tongs; tic removed" },
+    "event.juno_heart8.intro": { "text": "Okay, okay, okay. Today's the right day. I'm showing Bram the horseshoe. Stand next to me? I sweat less with company.", "why": "answers heart 6's 'I have to pick the right day'" },
+    "event.juno_heart10.intro": { "text": "Hold out your hand. Both hands. I made a mark, my own, and I stamped it before I told a single person.", "why": "heart 8, heart 10 and next_door all opened 'Okay, okay, okay'" },
+    "event.juno_heart10.thanks": { "text": "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Once! Next door has an empty sign hook.{else}Bram saw the mark and said 'Hm.' The good 'Hm.' I'd know. Next door has an empty sign hook.{/if}", "why": "framing joke belonged to the birthday; now remembers heart 8's two kinds of 'Hm'" },
+    "event.juno_friend.intro": { "text": "Quick, quick! Come see the swimming pool. It's a bucket. Wren named it. I made the sign.", "why": "tic thinned" },
+    "event.juno_courtship2.intro": { "text": "The list has forty-one items now. Forty-one is 'patient'. I've been so patient! So. Would you court me?", "why": "tic thinned; the list carries the callback" },
+    "dlg.juno.courtship.r0": { "text": "Yes? YES. Okay. Item one is your muddy hat. I can't read item two. My hands are shaking. Courting!", "why": "the choice asks for the list; now she starts reading it" },
+    "event.juno_courtship.after": { "text": "{if flag:choice.courtship.juno.yes}Bram says I'm vibrating. I am. The tongs are too. Item two is your laugh, by the way.{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. I'll start item forty-one. It's 'patient'.{/if}{/if}", "why": "no longer repeats r0's 'Courting!' or closes on 'Thank you'; leaves thirty-eight items unread" },
+    "event.juno_courtship2.after": { "text": "{if flag:choice.courtship.juno.yes}Finally! Bram says I'm vibrating. I am. I'm crossing out 'patient'. It was never my best item.{else}{if flag:choice.courtship.juno.friends}Friends, labeled, on the shelf next to the first clasp. That's the good shelf.{else}Take your time. Item forty-two is 'still patient'. It's underlined.{/if}{/if}", "why": "drops the 'Thank you' close; remembers item forty-one" },
+    "dlg.juno.partners.0": { "text": "Bram banked the forge and shooed me out. The afternoon's ours. What are we doing?", "why": "scene plays 9 to 17, so not 'evening'; tic thinned" },
+    "dlg.story.band.talk.r1": { "text": "We won! Bram, we won! ...Bram? He's hitting the thing. Twice!", "why": "tic thinned" }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "juno_heart2": "Juno's sketches of her own mark, hidden under the coal.",
+    "juno_heart5": "What her own pattern will be, now that the sword is still Bram's.",
+    "next_door": "The empty shop next door and the sign she has already drawn.",
+    "story_notes_juno": "Bram's apron pocket of six notes he credits to Tilda.",
+    "juno_heart4": "Who or what Juno labels next.",
+    "juno_heart6": "Which day Juno will pick to show Bram the horseshoe.",
+    "juno_heart8": "What Bram will finally say about the crooked horseshoe.",
+    "juno_heart10": "The empty sign hook next door.",
+    "juno_friend": "Thursday swim day at the bucket.",
+    "juno_birthday": "What else in the forge gets framed or labeled.",
+    "juno_courtship": "The rest of the forty-item list, still unread.",
+    "juno_courtship2": "The list, still growing.",
+    "juno_partners": "Bram smiling at the coal: how he really feels about the two of them."
+  },
+  "notes": [
+    "Tic pass: 'Okay, okay, okay' cut from 8 scene openings; it now opens 5 of 25 scenes (heart2, heart8, next_door, birthday, courtship).",
+    "Bram: story_notes_juno.after still states six notes in his apron that he thinks are Tilda's; it is his to accept or veto.",
+    "overheard_juno_bram_2 (Bram writes 'Eat' on her cake) is no longer told in advance by the birthday tease branch, so it plays fresh in any order.",
+    "Marcus's hall_dance line 'I measured this floor for it. Twice.' now owns the measuring joke; I gave it up in next_door."
+  ]
+}

@@ -50,7 +50,7 @@ r2 hazel: Thank you for saying so. (Most people pretend.) I'll find something sh
 
 
 dialogue hazel.hiding
-n0 hazel: The festival wants someone to read aloud. Ione said my name. (I've been back here since ten.) Is that strange?
+n0 hazel: The festival wants someone to read aloud. Ione said my name. (I've been back here an hour.) Is that strange?
   expr thinking
   ? Ask what she hears back here. => r0 | friend:hazel,10 | flag:choice.hazel.hiding.ask
   ? Sit down beside her, quietly. => r1 | friend:hazel,15 | flag:choice.hazel.hiding.wait
@@ -85,7 +85,7 @@ r2 bram: Hm. Watch the edge, not me. Juno watches me. Bad habit.
 
 
 dialogue bram.long
-n0 bram: I worked alone for years, told myself I liked it, and lied. Then you kept sitting down. I wrote my teacher thirty letters. Sent none.
+n0 bram: I worked alone for years, told myself I liked it, lied, and then you kept sitting down. I wrote my teacher thirty letters. Sent none.
   expr thinking
   ? Say nothing. Nod. => r0 | friend:bram,15 | flag:choice.bram.long.nod
   ? Tell him you're glad he said it. => r1 | friend:bram,10 | flag:choice.bram.long.glad
