@@ -1,0 +1,70 @@
+{
+  "villager": "piper",
+  "lines": {
+    "event.piper_heart8.intro": {
+      "text": "Pull a chair up by the stage. I'm writing a new one, and not alone this time. Alone is how you end up rhyming 'parsnip'.",
+      "why": "heart5.0 already opens with 'Sit.'; two scenes opened on the same word"
+    },
+    "event.overheard_piper_juno_2.l1": {
+      "text": "I wrote a song to your hammer's rhythm, Juno! Don't stop!",
+      "why": "all three juno overheards opened with 'Juno'; juno_1 keeps the address"
+    },
+    "event.overheard_piper_juno_3.l1": {
+      "text": "Did you build me a tiny stage, Juno? Out of a crate?",
+      "why": "third 'Juno' opener in the chain; moved the name inside"
+    },
+    "event.overheard_piper_juno_3.l3": {
+      "text": "Then it gets my best set! Best seat's yours, Juno. Sit!",
+      "why": "'Front row's yours' is my phrase for the player (birthday, partners); giving it to Juno diluted it"
+    },
+    "event.overheard_hazel_piper_3.l1": {
+      "text": "Write me one verse, Hazel. Just one. Your words, my tune.",
+      "why": "hazel_1 already opens with 'Hazel!'; Hazel's reply still lands unchanged"
+    },
+    "event.piper_courtship.after": {
+      "text": "{if flag:choice.courtship.piper.yes}A love song, rhymed and bridged. You'll hear it Friday. It's unbearable. You'll love it.{else}{if flag:choice.courtship.piper.friends}The best duet going, then. Wren will still charge us both for the good stool.{else}Take your time. I'll hum while I wait. Quietly. Mostly.{/if}{/if}",
+      "why": "friends and later branches opened on the same word as r1/r2 directly before them"
+    },
+    "event.piper_courtship2.after": {
+      "text": "{if flag:choice.courtship.piper.yes}Finally! That love song's been in the case since you said 'a verse or two'. Tonight it comes out.{else}{if flag:choice.courtship.piper.friends}A duet, then. Some songs are better that way. I'm keeping the second verse anyway.{else}Still a verse or two? Then the last line stays blank. Some songs end better late.{/if}{/if}",
+      "why": "friends branch opened 'Friends' right after the shared r1 line opening 'Friends'"
+    },
+    "event.piper_partners.after": {
+      "text": "{if choice:courtship.piper.song}Your name's in the bridge. The bridge is the best part. That's not an accident.{else}{if choice:courtship.piper.duet}We sang the chorus together, and the room came in behind us. I forgot to play for a bar. Worth it.{else}Under the stars, I hummed. You hummed back. Best accompaniment I've ever had.{/if}{/if}",
+      "why": "walk branch repeated r2's 'A walk home' opener back to back"
+    },
+    "event.piper_birthday.after": {
+      "text": "{if choice:bday.piper.wish}Your wish made the encore. I rhymed 'birthday' with 'worth the day'. Don't check.{else}{if choice:bday.piper.sing}My song in your voice. The room clapped for you, and I liked that better. Don't tell the fiddle.{else}A song's coming with your name in it. Don't ask when. It will rhyme. Eventually.{/if}{/if}",
+      "why": "'stood there, grinning like a lantern' collided with my shipped heart-10 lamp-post line"
+    }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "piper_heart2": "Friday, chord two — the honest one — is waiting.",
+    "piper_heart5": "The song ends on four notes she never wrote and can't place.",
+    "piper_heart4": "She wrote the request down and says it matters later.",
+    "piper_heart6": "She wants a song they sing without her; the nerves only got smaller.",
+    "piper_heart8": "The new song still needs a room to sing it without her.",
+    "piper_heart10": "The village owns the song now; what she writes next is open.",
+    "piper_friend": "Verse five, next Friday, is about the player.",
+    "piper_birthday": "A song with the player's name in it is coming, on a musician's schedule.",
+    "piper_courtship": "The love song stays in the case until the answer changes.",
+    "piper_courtship2": "The last line of the coward's song stays blank, on purpose.",
+    "piper_partners": "The player's name sits in the bridge, and the bridge is the best part.",
+    "story_umbrella": "Someone keeps hanging the umbrella up neatly and folds the ribbon.",
+    "story_band_battle": "Bram tapped his foot on the second verse and will deny it until spring.",
+    "overheard_wren_piper_1": "The bridge is going up a key, out of spite.",
+    "overheard_wren_piper_2": "Wren can write a verse; Piper will open with it, credit in tiny letters.",
+    "overheard_wren_piper_3": "Someone fixes Piper's rhymes in pencil, and she has stopped asking who.",
+    "overheard_wren_piper_4": "The headline night needs Wren's second verse first."
+  },
+  "notes": [
+    "piper_heart4 left untouched per the Round 2 directive; note its r0/after pairs each echo the request word ('A ballad' / 'A ballad') — I read that echo as deliberate (she repeats the request as she accepts it) and did not fix it.",
+    "heart10 req_* lines confirmed in sync with heart4: 'don't ask why yet' is word for word; 'it matters later' and 'play it back someday' appear as reported speech ('said it mattered later', 'I'd play your request back someday'). No edit needed; if the Director wants literal quotes, heart10 must change, not heart4.",
+    "hall_dance chorus 'wherever the lamp is on' leans on Tilda's lamp; please confirm Tilda's Round 2 keeps the lamp canon.",
+    "story_umbrella staging spawns 'prop.umbrella' but removes 'story_prop_0' — prop id mismatch for the Director, not a text issue.",
+    "overheard_hazel_piper_3: I only moved my opener; Hazel's '(I can't.) ...I already did.' and the rosin hinge are untouched and still land.",
+    "heart8 r-lines echo the player's chosen word into the after line ('Home.' / ''Home' in the chorus.') — deliberate, per 'repeat a word the other person said'; left as is."
+  ]
+}

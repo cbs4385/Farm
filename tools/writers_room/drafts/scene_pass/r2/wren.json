@@ -1,0 +1,53 @@
+{
+  "villager": "wren",
+  "lines": {
+    "event.wren_heart4.setup": {
+      "text": "Up, up, no sitting yet. Tonight I'm trying something, and I need a witness. Possibly an accomplice. Definitely a crowd.",
+      "why": "three scenes opened with 'Don't'; the doubled word is her shipped tic, and 'Stay' is reserved for the bag reply"
+    },
+    "event.reading_night.3": {
+      "text": "Ignore me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds.",
+      "why": "second 'Don't' opener gone; story_cat keeps the only one"
+    },
+    "event.wren_friend.intro": {
+      "text": "Friday means bingo. Not numbers, rumors. Take a card, cross off anything you've heard twice.",
+      "why": "five intros commanded 'sit'; thinned to three so the tic stays a signature"
+    },
+    "event.wren_birthday.intro": {
+      "text": "My birthday! You knew, because I lit a very small flare. Be festive. Have a pickle from the good jar.",
+      "why": "drops another 'sit' and avoids a new 'It's' opener collision with heart5"
+    },
+    "event.hall_dance.12": {
+      "text": "Marcus takes his one dance, and Tilda, two steps away, takes her own. The lamps burn low, and nobody goes home.",
+      "why": "staging rule: no two people dancing together; 'beside him' read as a couple"
+    }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "wren_heart2": "The day Wren cooks actual food, the player tastes first — a threat with a date pending.",
+    "wren_heart5": "The eleven-second echo she timed, and why the room must fill before four.",
+    "wren_heart4": "The second verse is worse, and the player is now in it.",
+    "wren_heart6": "Friday the dish hits the chalkboard, with the player's name on the blame.",
+    "wren_heart8": "The bag stays packed under the bar; the one story she will not improve.",
+    "wren_heart10": "The map in the second verse has the sea in it, and she is not leaving yet.",
+    "wren_friend": "Bring a rumor next Friday; Wren improves it free of charge.",
+    "wren_birthday": "The toast will be retold for years, longer each time.",
+    "wren_courtship": "A terrible poem written tonight and burned; the retelling will have a thunderstorm.",
+    "wren_courtship2": "The question lives behind the bar, next to the bag.",
+    "wren_partners": "The bag is unpacked at last; what Wren does with her mornings now.",
+    "story_cat": "By tonight the cat's name will be a better story; catch Wren improving it.",
+    "hall_dance": "Nobody goes home, and Marcus owes one coin to something that isn't wood.",
+    "overheard_tilda_wren_1": "Whether a ribbon or a bill arrives at the saloon first.",
+    "overheard_tilda_wren_2": "Which rumor wins the trade — the one with the pickle in it.",
+    "overheard_tilda_wren_3": "Seven o'clock, the good stool, and whether Tilda really stops at one cup.",
+    "overheard_wren_hazel_3": "The one line Hazel read aloud, which Wren still has not heard."
+  },
+  "notes": [
+    "Directed item done before this pass: overheard_tilda_wren_3.l2 already reads 'Come at seven' in the applied text (matches Tilda's schedule); no change. Tilda's 'Six days at that counter' is her count of workdays, not an hour, and should stay.",
+    "Ledger check passed: story_cat n1/r0/after agree with Tilda's four Ledger renames (slate, rent, audits); no edits needed.",
+    "Marcus's hall_dance request is honored by build order: my pool line (hall_dance.9) plays after his 'Finished', and 'Six winters of coins' matches his marcus_heart8 pool naming.",
+    "Standing r1 flag, restated for the record: wren_heart4 as built has Wren singing her own worst song; the bible says she volunteers the player to introduce Piper. Text is written to the build; bible or scene needs a Director decision.",
+    "dlg.wren.bag.r1 keeps its 'Stay.' echo untouched on purpose; heart 10's chorus branch quotes that exact word, so I moved the opener collision out of heart 4 instead."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "villager": "elara",
+  "lines": {
+    "event.past_the_point.1": {
+      "text": "Felix explained floating to me very kindly, so I knitted a life jacket! It goes over the real one. For morale!",
+      "why": "no longer opens 'I knitted' like elara_heart5.0; Felix's kindness lands first"
+    },
+    "event.elara_heart8.intro": {
+      "text": "Shut the door a minute! Remember the shy list behind the kettle? The doodles are brave now. Don't laugh. ...Laugh a little.",
+      "why": "pays off heart5's 'when the doodles are braver' (heart5 flag is required, so the player saw it)"
+    },
+    "event.elara_courtship.intro": {
+      "text": "Made you a scarf. Mind the end, it trails. The last row took all my nerve. It's a question: would you court me? In red. Red means very serious!",
+      "why": "drops 'nine tries' so r0's 'nine feet' is the scene's only nine; three scenes carried nines"
+    },
+    "event.elara_partners.intro": {
+      "text": "Hat delivery! It looked lonely, so it got a smaller hat. So did that one. Somebody had to stop me. Nobody did. There are three!",
+      "why": "varies the opener (heart5 and this both began 'I ...'); three hats stay as the escalation of the birthday bit"
+    }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "elara_heart2": "There is a map behind the kettle, of everywhere she hasn't been — yet.",
+    "elara_heart5": "The map has a friend now, a list; she'll show it when the doodles are braver.",
+    "elara_heart8": "One place is circled in pen — and Felix owns a boat; she's just saying it near you.",
+    "past_the_point": "One pencil stroke through forty-odd places, and Felix wants a bigger boat for the rest.",
+    "elara_garden_visit": "Three dandelions and three wild garlic — and Edmund's comfrey, tied with the same green twine every spring.",
+    "elara_birthday": "The scarf keeps every kind word in red rows — row nine hundred and counting.",
+    "elara_courtship": "The scarf grows a row a day, behind the kettle, next to the list, until the player answers.",
+    "elara_courtship2": "The scarf reaches the door now; it is warm and patient, and so is she.",
+    "elara_partners": "They counted boats at sunset — someday one of them is theirs.",
+    "overheard_felix_elara_1": "A boat-sized knit is coming; Felix's boat looked cold.",
+    "overheard_felix_elara_2": "The whole waiting room already knows the fish and the scarf are friends.",
+    "overheard_felix_elara_3": "Dawn knitting at the beach is becoming a habit; the fish never interrupt."
+  },
+  "notes": [
+    "Kept 'Eleven hours' in overheard_elara_odalys_3.l1 as directed; Dr. Penn's correction to twelve stands.",
+    "Hinge words untouched: 'surprise' (overheard_elara_odalys_2.l1) and 'friends' (overheard_felix_elara_2.l2); event.past_the_point.3's pencil stroke kept for Felix's 'one place off the list'.",
+    "past_the_point staging uses '(sfx click)' — not in the sfx vocabulary; suggest 'clink' or, if it exists, the needle-click asset (it would be very me).",
+    "elara_heart2 beat keys play .0 .1 .2 .4 .3; kept per mechanics, but worth renumbering before another pass (same issue Felix flagged in felix_heart2).",
+    "Birthday's hat-and-smaller-hat and partners' three hats are kept as one escalating bit, not a duplicate; partners never names the birthday scene since it isn't guaranteed seen."
+  ]
+}

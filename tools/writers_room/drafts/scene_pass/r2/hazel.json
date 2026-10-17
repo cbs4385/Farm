@@ -1,0 +1,65 @@
+{
+  "villager": "hazel",
+  "lines": {
+    "event.overheard_hazel_piper_1.l2": {
+      "text": "(Gently, please. The square can hear you.) ...Also, it wasn't me.",
+      "why": "two scenes opened on 'Shh'; heart2 keeps it, this one deflects locally instead"
+    },
+    "event.overheard_hazel_ione_3.l2": {
+      "text": "(Green. My favorite. You knew.) I'm saying nothing. Loudly.",
+      "why": "fourth 'Oh.' opener across scenes; the fluster tic stays rare in heart4, heart6, partners"
+    },
+    "event.overheard_dorian_hazel_2.l4": {
+      "text": "Settled. I'll return it with one leaf more. (Maple. From the library step.)",
+      "why": "'Then we X' duplicated overheard_hazel_ione_1.l3's closer shape"
+    },
+    "event.overheard_wren_hazel_3.l1": {
+      "text": "I read a poem aloud. To one person. (I survived. So did the poem.)",
+      "why": "'checked twice' doubled reading_night's 'counted twice'; poem-survival is the truer joke"
+    },
+    "dlg.hazel.swap.r2": {
+      "text": "Honest. (Most people pretend.) I'll start you on the heron book. It's short and forgiving.",
+      "why": "one of three 'Thank you for saying' shapes; now repeats the player's own word"
+    },
+    "dlg.hazel.rehearsal.r1": {
+      "text": "The middle. (Lines five through eight. I knew.) Even the cat only hinted.",
+      "why": "second 'Thank you for saying' cut (courtship keeps the last one); pays off the gray cat leaving at line three"
+    }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "hazel_heart2": "Who penciled the frost guess in the eighty-one-year almanac, and why that page is taken.",
+    "hazel_heart5": "What line four of the poem says, and who else will ever read it.",
+    "hazel_heart4": "What book Hazel will recommend back once she has read the player's half.",
+    "hazel_heart6": "Whether Hazel answers Ione by Thursday or Friday, and what she answers.",
+    "hazel_heart8": "Who the second listener will be when she reads 'to more than one'.",
+    "hazel_heart10": "Whether the poem really hangs on a lantern this winter.",
+    "hazel_friend": "Whether the forty-one-year borrower forgives the library once the tart is eaten.",
+    "hazel_birthday": "Whether next year's birthday gets the same quiet, as requested.",
+    "hazel_courtship": "The second chair arriving in the one-chair nook.",
+    "hazel_courtship2": "What the nook looks like with two chairs in it.",
+    "hazel_partners": "What Hazel's forest notes, mostly about the player, will become.",
+    "reading_night": "Ione's promise of one more chair and an open door, next time.",
+    "overheard_hazel_ione_2": "Which book Hazel has kept seven years, and whether the last chapter ever ends.",
+    "overheard_hazel_ione_3": "The window chair after lunch, once the cushion's lump is quietly fixed.",
+    "overheard_dorian_hazel_1": "What a book 'for not reading' is for.",
+    "overheard_dorian_hazel_2": "The mushroom guide coming back with one maple leaf more.",
+    "overheard_dorian_hazel_3": "The window seat facing the forest, saved for two silences.",
+    "overheard_wren_hazel_1": "Which of Wren's three versions ends up in Hazel's notes as true.",
+    "overheard_wren_hazel_2": "One line aloud, possibly by spring, on the corner stool.",
+    "overheard_wren_hazel_3": "Which line Hazel finally reads Wren, now that they are inconveniently friends.",
+    "overheard_hazel_piper_1": "Who keeps fixing Piper's rhymes in neat pencil.",
+    "overheard_hazel_piper_2": "What Hazel does every Thursday behind the very large book.",
+    "overheard_hazel_piper_3": "Whose name the best verse Piper owns will never carry."
+  },
+  "notes": [
+    "VETOED by lint (condition added to a line): the festival_winter_lanterns.1 heart10-poem branch. The lantern payoff for hazel_heart10 needs a Director slot (a conditional added line or daily-talk) in a later pass.",
+    "festival_winter_lanterns.1 now carries an {if flag:event.hazel_heart10} branch paying off heart10's lantern promise; the else branch is word-for-word unchanged. If adding an inline condition is out of bounds, veto it and the payoff needs a slot elsewhere.",
+    "Rosin brush acknowledged: piper_heart6.after and overheard_hazel_piper_3 share the fiddle-case corner; I changed nothing there and neither of us names it. Enjoyed.",
+    "Dorian's 'pressed leaves' hinge is intact: my l2 still opens on his words; only the scene's closing l4 was reworded.",
+    "Standing from r1: the bible's heart 8 (farm animals) still disagrees with the built library scene; bible update pending.",
+    "Standing from r1: the forty-one-year borrower stays a living stranger; never merge with Edmund's forty years.",
+    "Request to Ione stands: reading_night ends on her 'one more chair, and the door left open'; a later library scene should pay it off."
+  ]
+}

@@ -1,6 +1,6 @@
 # Scene cards for hazel
 
-25 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 58 spoken lines in scenes, 28 dialogue lines and 21 player choice labels.
+25 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 59 spoken lines in scenes, 28 dialogue lines and 21 player choice labels.
 
 ### hazel_heart2 · "Come Look at This" · wholesome
 event · npc_roster.json · map Library · priority 6
@@ -8,14 +8,15 @@ plays when: `(hearts:hazel>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:ev
 beats may be ADDED or CUT in this scene
 placed: player(4, 4)
   · (hazel faces down)
-  [hazel]: "Shh. Back here, behind Natural History. (Nobody comes this far. That's the point.)"  ✏ `event.hazel_heart2.0`
+  [hazel]: "Shh. Back here, behind Natural History. (Two visitors a year come this far. Both are me.)"  ✏ `event.hazel_heart2.0`
   · (move player to (4,4))
   · (player faces up)
   · (hazel emote ellipsis)
-  [hazel]: "A snowdrop, pressed in an almanac eighty-one years ago. Page two hundred and four."  ✏ `event.hazel_heart2.1`
-  [hazel]: "Someone wrote the first frost beside it, in pencil. They were three days early."  ✏ `event.hazel_heart2.3`  (expr thinking)
-  [hazel]: "This is the reading nook. One chair. (I've never needed two.)"  ✏ `event.hazel_heart2.2`
-  [hazel]: "Here. A fresh one, for you. (Please don't press it in a cookbook.)"  ✏ `event.hazel_heart2.4`  (expr happy)
+  [hazel]: "An almanac, eighty-one years old. Page two hundred and four: a snowdrop, still white."  ✏ `event.hazel_heart2.1`
+  [hazel]: "Beside it, in pencil: the first frost, guessed. They missed by three days. (I checked.)"  ✏ `event.hazel_heart2.3`  (expr thinking)
+  [hazel]: "The reading nook. One chair. (I counted the people I'd show it to. You're the list.)"  ✏ `event.hazel_heart2.2`
+  [hazel]: "You may use it when I'm shelving. (I'll hear the pages. That's enough company.)"  ✏ `event.hazel_heart2.5`  (expr happy)
+  [hazel]: "A fresh snowdrop, for you. Press it somewhere worthy. (Not the almanac. That page is taken.)"  ✏ `event.hazel_heart2.4`  (expr happy)
   · effects: give:forage.snowdrop,1, friend:hazel,40, flag:event.hazel_heart2
 
 ### hazel_heart5 · "A Small Poem" · wholesome
@@ -24,13 +25,13 @@ plays when: `(hearts:hazel>=5 && !weekday:sat && hour>=9 && hour<17 && flag:even
 beats may be ADDED or CUT in this scene
 placed: player(4, 4)
   · (hazel faces down)
-  [hazel]: "I wrote you something. (Five drafts. Four are on the floor.)"  ✏ `event.hazel_heart5.0`
+  [hazel]: "I wrote you something. (Draft five. The first four are under the desk, ashamed.)"  ✏ `event.hazel_heart5.0`
   · (move player to (4,4))
   · (player faces up)
   · (hazel emote ellipsis)
-  [hazel]: "It's a small poem. Six lines. If you laugh, laugh at line four. It's the weak one."  ✏ `event.hazel_heart5.1`
+  [hazel]: "A small poem. Six lines. If you must laugh, laugh at line four. (It knows.)"  ✏ `event.hazel_heart5.1`
   [hazel]: "Read it to yourself. Please. (Not aloud. I'm not there yet.)"  ✏ `event.hazel_heart5.3`  (emote sweat, expr embarrassed)
-  [hazel]: "You read to the end. (I watched.) Nobody's done that before."  ✏ `event.hazel_heart5.2`
+  [hazel]: "You read all six lines. (I watched. Rude of me. I don't regret it.)"  ✏ `event.hazel_heart5.2`
   [hazel]: "Blackberry jam. Two jars. A bribe, for your silence about line four."  ✏ `event.hazel_heart5.4`  (expr happy)
   · effects: give:artisan.jam,2, friend:hazel,60, flag:event.hazel_heart5
 
@@ -52,23 +53,23 @@ placed: ione(6, 4), hazel(8, 5), dorian(4, 4), wren(7, 3), player(6, 2)
   · (move player to (6,2))
   · (player faces up)
   [ione]: "{if flag:met.wren && hearts:wren>=3}Five{else}Four{/if} chairs, one lamp, and a pot of tea nobody asked for. This is my calm face. Does it work?"
-  [hazel]: "(It doesn't.) I brought something. It's in my sleeve. I haven't decided if it comes out."  ✏ `event.reading_night.1`  (expr embarrassed)
+  [hazel]: "(It doesn't.) There's a poem in my sleeve. (It's been there three days. Deciding.)"  ✏ `event.reading_night.1`  (expr embarrassed)
   ▶ DIALOGUE `reading.hazel` (player-facing graph, plays here):
     n0 [hazel]: "(Nobody has to hear it.) What would you do? ...If you were me, I mean."  ✏ `dlg.reading.hazel.0`
        ? "Read yours. We're all listening." → r0  effects: flag:choice.reading.poem, friend:hazel,10  ✏ `dlg.reading.hazel.c0`
        ? "Read something borrowed tonight." → r1  effects: flag:choice.reading.borrowed, friend:hazel,10  ✏ `dlg.reading.hazel.c1`
        ? "Listen first. Ione's face needs the practice." → r2  effects: flag:choice.reading.listen, friend:hazel,10  ✏ `dlg.reading.hazel.c2`
     r0 [hazel]: "(Fine.) A short one. Eleven lines. (I counted twice. It's still eleven.)"  ✏ `dlg.reading.hazel.r0`
-    r1 [hazel]: "Someone else's, then. Kinder to the room. (Mine stays in my sleeve.)"  ✏ `dlg.reading.hazel.r1`
+    r1 [hazel]: "Borrowed, then. Kinder to the room. (Mine keeps my sleeve warm another night.)"  ✏ `dlg.reading.hazel.r1`
     r2 [hazel]: "Ione first. (Thank you.) I'm not leaving. I'm only sitting very still."  ✏ `dlg.reading.hazel.r2`
   [hazel]: "The lamp does not mind the dark. It keeps it company. ...That's the last of the eleven. (The rest were warming up.)"  ✏ `event.reading_night.poem`  (expr thinking) [only if flag:choice.reading.poem]
   [ione]: "I'll copy that out by hand, Hazel. Not for a shelf. For the desk drawer, where the good things go." [only if flag:choice.reading.poem]
   [narration]: "Hazel reads two borrowed pages about the winter sea, quietly, all the way through. Her sleeve stays shut."  ✏ `event.reading_night.borrowed` [only if flag:choice.reading.borrowed]
   [narration]: "Ione reads first, an old page about birds in fall. Hazel says nothing, and does not leave."  ✏ `event.reading_night.listen` [only if flag:choice.reading.listen]
   · (spawn prop forage.snowdrop at (5,3))
-  [dorian]: "A snowdrop. Pressed. It kept my place since winter. For the lamp."
-  [wren]: "Don't mind me, I only tell stories. Somebody has to write them down. Otherwise I improve them until nobody recognizes them." [only if flag:met.wren && hearts:wren>=3]
-  [ione]: "A snowdrop, for the lamp. ...Every chair taken. Next time I'll set out a fifth and leave the door open."  (expr happy)
+  [dorian]: "A snowdrop. Pressed since winter. It kept my place. Now it keeps the lamp."
+  [wren]: "Don't mind me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds." [only if flag:met.wren && hearts:wren>=3]
+  [ione]: "A snowdrop, for the lamp. ...Every chair taken. Next time, one more chair, and the door left open."  (expr happy)
   · (remove prop flower)
   · (lighting reset)
   · (letterbox off)
@@ -92,7 +93,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
   · (spawn prop prop.lantern at (26,17))
   · (spawn prop prop.lantern at (27,17))
   [tilda]: "Lanterns up, everyone. Not lit yet. Wait for the bell. Felix, I mean you."
-  [hazel]: "One lantern, one wish. Please keep yours folded up. (Last winter four people said theirs aloud.)"  ✏ `event.festival_winter_lanterns.1`
+  [hazel]: "One lantern, one wish. Fold it small. (Spoken wishes don't rise. I've charted this.)"  ✏ `event.festival_winter_lanterns.1`
   · (hazel emote sparkle)
   · (sfx lantern)
   [felix]: "My wish is this big. Last winter it was this big. Wishes grow, like fish."
@@ -110,7 +111,7 @@ plays when: `(hearts:hazel>=4 && flag:event.hazel_heart2 && !weekday:sat && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
-  [hazel]: "I'd like to swap something. A book for a book. (Or a book for anything.) Is that odd?"  ✏ `event.hazel_heart4.intro`
+  [hazel]: "I'd like to trade. A book for a book. (Or for anything. I'm flexible about your half.)"  ✏ `event.hazel_heart4.intro`
   · (move player to (4,4))
   · (player faces up)
   · (hazel wave (background))
@@ -122,8 +123,8 @@ placed: player(4, 4)
        ? "Honestly? I don't read much." → r2  effects: friend:hazel,10, flag:choice.hazel.swap.honest  ✏ `dlg.hazel.swap.c2`
     r0 [hazel]: "Oh. (It's a both-hands book.) I'll read it twice. Once for the story, once for you."  ✏ `dlg.hazel.swap.r0`   (expr happy)
     r1 [hazel]: "A recipe. (A book without a spine.) I'll shelve it under Fiction until I bake it."  ✏ `dlg.hazel.swap.r1`
-    r2 [hazel]: "Thank you for saying so. (Most people pretend.) I'll find something short. There's a heron in it."  ✏ `dlg.hazel.swap.r2`
-  [hazel]: "I'll look after it. (I always do.) Return date: whenever. I've never written that before."  ✏ `event.hazel_heart4.after`
+    r2 [hazel]: "Thank you for saying so. (Most people pretend.) I'll start you on the heron book. It's short and forgiving."  ✏ `dlg.hazel.swap.r2`
+  [hazel]: "I'll look after it. Return date: whenever. (There is no stamp for whenever. I may need to carve one.)"  ✏ `event.hazel_heart4.after`
   · effects: flag:event.hazel_heart4
   · effects: friend:hazel,50
 
@@ -141,7 +142,7 @@ placed: player(4, 4)
   · (camera focus on hazel)
   · (hazel expression thinking)
   ▶ DIALOGUE `hazel.hiding` (player-facing graph, plays here):
-    n0 [hazel]: "The festival wants someone to read aloud. Ione said my name. (I've been back here an hour.) Is that strange?"  ✏ `dlg.hazel.hiding.0`   (expr thinking)
+    n0 [hazel]: "The festival wants a reader. Ione said my name. (An hour ago. I've alphabetized the hour away.)"  ✏ `dlg.hazel.hiding.0`   (expr thinking)
        ? "Ask what she hears back here." → r0  effects: friend:hazel,10, flag:choice.hazel.hiding.ask  ✏ `dlg.hazel.hiding.c0`
        ? "Sit down beside her, quietly." → r1  effects: friend:hazel,15, flag:choice.hazel.hiding.wait  ✏ `dlg.hazel.hiding.c1`
        ? "Joke that she could hide in a book." → r2  effects: friend:hazel,5, flag:choice.hazel.hiding.joke  ✏ `dlg.hazel.hiding.c2`
@@ -212,7 +213,7 @@ placed: player(4, 4)
   · (move player to (4,4))
   · (player faces up)
   · (hazel emote question)
-  [hazel]: "Come back with blackberries? (No hurry. It has waited this long. One more day won't show.)"  ✏ `event.hazel_friend.fallback`
+  [hazel]: "Blackberries, when you can. (It's waited forty-one years. One more day won't show.)"  ✏ `event.hazel_friend.fallback`
   [hazel]: "Perfect. One tart, then a knock on the borrower's door. (He may not forgive the library. He will eat.)"  ✏ `event.hazel_friend.success`
   · effects: flag:event.hazel_friend
   · effects: friend:hazel,15
@@ -223,7 +224,7 @@ plays when: `hearts:hazel>=2 && birthday.in:hazel==0 && unseen:birthday.hazel &&
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(4, 4)
   · (hazel faces down)
-  [hazel]: "It's my birthday. (I wasn't going to say. Ione told the cake.) It's very small. Please sit."  ✏ `event.hazel_birthday.intro`
+  [hazel]: "It's my birthday. (I kept it quiet. The cake betrayed me.) Please sit. There's enough for two."  ✏ `event.hazel_birthday.intro`
   · (move player to (4,4))
   · (player faces up)
   · (hazel wave (background))
@@ -318,13 +319,13 @@ placed: hazel(24, 18), ione(26, 18)
   · (place ione to (26,18))
   · (hazel faces right)
   · (ione faces left)
-  [hazel]: "The spring almanac. Third shelf, left, behind the mysteries. (Someone sorted those by color.)"  ✏ `event.overheard_hazel_ione_1.l1`
+  [hazel]: "Your spring almanac. Behind the mysteries, third shelf. (Someone sorted those by color. I'm coping.)"  ✏ `event.overheard_hazel_ione_1.l1`
   [ione]: "You found it. I'd looked for a week. The library's quiet is really yours. I only dust it."
   · (ione shrug (background))
   · (ione emote ellipsis)
   · (hazel point (background))
   [hazel]: "Then we split it. You dust, I shelve. (The quiet stays undivided.)"  ✏ `event.overheard_hazel_ione_1.l3`
-  [ione]: "Agreed. Back to the tea, then. I'll even stir quietly."
+  [ione]: "Agreed. Tea, then. I'll stir it quietly, out of respect."
   · effects: flag:event.overheard_hazel_ione_1
 
 ### overheard_hazel_ione_2 · "The Overdue Notice" · funny
@@ -336,7 +337,7 @@ placed: ione(24, 18), hazel(26, 18)
   · (place hazel to (26,18))
   · (ione faces right)
   · (hazel faces left)
-  [ione]: "There's a book on the desk seven years overdue. The card has your name on it, Hazel."
+  [ione]: "Seven years overdue, this one on the desk. The card says Hazel. I'm not scolding. I'm admiring."
   [hazel]: "It's a very long book. (I'm on the last chapter. Again.)"  ✏ `event.overheard_hazel_ione_2.l2`
   · (hazel shrug (background))
   · (hazel emote ellipsis)
@@ -354,8 +355,8 @@ placed: ione(24, 18), hazel(26, 18)
   · (place hazel to (26,18))
   · (ione faces right)
   · (hazel faces left)
-  [ione]: "I put a chair by the window. It has a cushion. It's for whoever needs it."
-  [hazel]: "Oh. (It's for me.) ...I'm not going to say anything. It would only echo."  ✏ `event.overheard_hazel_ione_3.l2`
+  [ione]: "I put a chair by the window. It has a cushion. It's for nobody in particular."
+  [hazel]: "Oh. (Green. My favorite. You knew.) I'm saying nothing. Loudly."  ✏ `event.overheard_hazel_ione_3.l2`
   · (hazel point (background))
   · (hazel emote ellipsis)
   · (ione shrug (background))
@@ -373,11 +374,11 @@ placed: dorian(24, 18), hazel(26, 18)
   · (dorian faces right)
   · (hazel faces left)
   [dorian]: "...Hazel."
-  [hazel]: "Dorian. Hello. (The bench has room. Sit, if you like.)"  ✏ `event.overheard_dorian_hazel_1.l2`
+  [hazel]: "Dorian. (A whole word today. Chatty.) The bench has room, if you like."  ✏ `event.overheard_dorian_hazel_1.l2`
   · (hazel shrug (background))
   · (hazel emote ellipsis)
   · (dorian point (background))
-  [dorian]: "...Quiet today. Even the jays."
+  [dorian]: "...Quiet today. Even the jays are reading."
   [hazel]: "(The best kind.) I brought two books. One is for not reading."  ✏ `event.overheard_dorian_hazel_1.l4`
   · effects: flag:event.overheard_dorian_hazel_1
 
@@ -390,8 +391,8 @@ placed: dorian(24, 18), hazel(26, 18)
   · (place hazel to (26,18))
   · (dorian faces right)
   · (hazel faces left)
-  [dorian]: "Old mushroom guide. I pressed leaves in it. Years of them."
-  [hazel]: "Pressed leaves? May I borrow it? (They'll make better bookmarks than receipts.)"  ✏ `event.overheard_dorian_hazel_2.l2`
+  [dorian]: "My old mushroom guide. Pressed leaves inside. Nine falls of them."
+  [hazel]: "Pressed leaves. May I borrow it? (This year's found bookmarks: two receipts, a sock, one apology.)"  ✏ `event.overheard_dorian_hazel_2.l2`
   · (hazel shrug (background))
   · (hazel emote ellipsis)
   · (dorian wave (background))
@@ -413,7 +414,7 @@ placed: dorian(24, 18), hazel(26, 18)
   · (hazel point (background))
   · (hazel emote ellipsis)
   · (dorian shrug (background))
-  [dorian]: "Then the trees can join us. They're good at it."
+  [dorian]: "Then the trees can come too. They invented not talking."
   [hazel]: "(They always come.) I'll save the window seat. You bring the quiet."  ✏ `event.overheard_dorian_hazel_3.l4`
   · effects: flag:event.overheard_dorian_hazel_3
 
@@ -432,7 +433,7 @@ placed: wren(24, 18), hazel(26, 18)
   · (hazel emote sweat)
   · (wren point (background))
   [wren]: "And which one's true? Careful. I'm attached to the forge."
-  [hazel]: "The clasp. (The rest is yours.) I wrote all three versions down."  ✏ `event.overheard_wren_hazel_1.l4`
+  [hazel]: "The clasp. (I wrote down all three versions. Yours are gaining.)"  ✏ `event.overheard_wren_hazel_1.l4`
   · effects: flag:event.overheard_wren_hazel_1
 
 ### overheard_wren_hazel_2 · "The Corner Stool" · wholesome
@@ -444,7 +445,7 @@ placed: wren(24, 18), hazel(26, 18)
   · (place hazel to (26,18))
   · (wren faces right)
   · (hazel faces left)
-  [wren]: "Years of scribbling at my bar. Will you ever read me any of it?"
+  [wren]: "Three winters of scribbling at my bar, Hazel. Do I ever get to hear a line?"
   [hazel]: "(No.) ...One line. Maybe. Not today, and not at the bar."  ✏ `event.overheard_wren_hazel_2.l2`
   · (hazel shrug (background))
   · (hazel emote ellipsis)
@@ -485,7 +486,7 @@ placed: piper(24, 18), hazel(26, 18)
   · (hazel shrug (background))
   · (hazel emote exclaim)
   · (piper point (background))
-  [piper]: "It was you! 'Moon' doesn't rhyme with 'spoon' now. It rhymes with 'soon'. It's better!"
+  [piper]: "It was you! 'Spoon' is out, 'soon' is in, and the line's better. The best rhyme and it isn't mine!"
   [hazel]: "(It always wanted 'soon'.) You're welcome. ...I mean, whoever it was."  ✏ `event.overheard_hazel_piper_1.l4`
   · effects: flag:event.overheard_hazel_piper_1
 
@@ -503,7 +504,7 @@ placed: piper(24, 18), hazel(26, 18)
   · (hazel point (background))
   · (hazel emote question)
   · (piper shrug (background))
-  [piper]: "...Oh! That's it! Where did you learn songs, Hazel?"
+  [piper]: "...'Really' is gone. It scans! Hazel, where did you learn songs?"
   [hazel]: "(Books.) And you. Every Thursday, back corner, behind a very large book."  ✏ `event.overheard_hazel_piper_2.l4`
   · effects: flag:event.overheard_hazel_piper_2
 

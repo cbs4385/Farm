@@ -8,13 +8,13 @@ plays when: `(hearts:marcus>=2 && !weekday:wed && hour>=9 && hour<17) && !flag:e
 beats may be ADDED or CUT in this scene
 placed: player(6, 3)
   · (marcus faces down)
-  [marcus]: "Hold this end a moment, [player]. Don't level it. Just hold it."  ✏ `event.marcus_heart2.0`
+  [marcus]: "Take the far end, [player]. Don't level it. Don't fix it. Just hold."  ✏ `event.marcus_heart2.0`
   · (move player to (6,3))
   · (player faces up)
   · (marcus emote ellipsis)
-  [marcus]: "Measure once. Twice. ...Three times, my father said. Level as a lake."  ✏ `event.marcus_heart2.1`
-  [marcus]: "Most hands drift. Yours stayed put. That's rarer than good oak."  ✏ `event.marcus_heart2.3`  (expr happy)
-  [marcus]: "Take these. Leftovers from the big jobs. None long enough for the hall roof. I checked."  ✏ `event.marcus_heart2.2`
+  [marcus]: "Measure once. Twice. ...Three times, my father said. Level as a lake in August."  ✏ `event.marcus_heart2.1`
+  [marcus]: "Most hands drift after a minute. Yours didn't. I was counting."  ✏ `event.marcus_heart2.3`  (expr happy)
+  [marcus]: "Here. Leftovers from good jobs. Every one an inch short of the hall roof. I keep checking."  ✏ `event.marcus_heart2.2`
   · effects: give:resource.wood,40, friend:marcus,40, flag:event.marcus_heart2
 
 ### marcus_heart5 · "The Boyhood Carving" · wholesome
@@ -23,14 +23,14 @@ plays when: `(hearts:marcus>=5 && !weekday:wed && hour>=9 && hour<17 && flag:eve
 beats may be ADDED or CUT in this scene
 placed: player(6, 3)
   · (marcus faces down)
-  [marcus]: "I carved this when I was nine. A barn, about the size of a fist."  ✏ `event.marcus_heart5.0`
+  [marcus]: "I carved this the winter I was nine. A barn, about the size of a fist."  ✏ `event.marcus_heart5.0`
   · (move player to (6,3))
   · (player faces up)
   · (marcus emote ellipsis)
-  [marcus]: "Silly, perhaps. The doors don't open. I glued them shut in a hurry. I want you to have it."  ✏ `event.marcus_heart5.1`
-  [marcus]: "Edmund had a door that never opened, too. His cellar. He wouldn't let me oil it."  ✏ `event.marcus_heart5.4`  (expr neutral)
-  [marcus]: "My father said a thing done fast stays done wrong. He kept it on his shelf anyway."  ✏ `event.marcus_heart5.3`  (expr thinking)
-  [marcus]: "Keep your tools sharp, friend. The bag is for your fields. Some things are allowed to hurry."  ✏ `event.marcus_heart5.2`
+  [marcus]: "Silly, perhaps. The doors don't open. I glued them in a hurry and the hurry won. I want you to have it."  ✏ `event.marcus_heart5.1`
+  [marcus]: "Edmund had a door like that. The cellar. I offered to oil the hinge every spring. He always said next spring."  ✏ `event.marcus_heart5.4`  (expr neutral)
+  [marcus]: "My father said fast work stays wrong. He kept that barn on his shelf anyway. Eye level."  ✏ `event.marcus_heart5.3`  (expr thinking)
+  [marcus]: "The bag is for your fields. Crops are the one thing I allow to hurry."  ✏ `event.marcus_heart5.2`
   · effects: give:fertilizer.speed,3, give:prop.carving, friend:marcus,60, flag:event.marcus_heart5
 
 ### hall_dance · "Opening Night" · wholesome
@@ -58,7 +58,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (marcus emote sparkle)
   [wren]: "Look at this room! Full, and the porch is full too. Somebody count the porch. I need a number for the story."  (emote sparkle)
   · (spawn prop artisan.wine at (7,3))
-  [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  (expr happy)
+  [wren]: "[player]. I saved this bottle for a night the hall was full. First glass is yours. Poured before the doors, so nobody could argue."  (expr happy)
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
   [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
@@ -89,20 +89,20 @@ beats may be ADDED or CUT in this scene
 placed: marcus(25, 18), player(25, 17)
   · (place marcus to (25,18))
   · (marcus faces down)
-  [marcus]: "[player]. A word, quietly. You know the way to the clinic, don't you?"  ✏ `event.story_pie_payoff.intro`
+  [marcus]: "[player]. A word, quietly. You walk past the clinic most days, don't you?"  ✏ `event.story_pie_payoff.intro`
   · (move player to (25,17))
   · (player faces up)
   · (marcus emote exclaim)
   ▶ DIALOGUE `story.pie.talk` (player-facing graph, plays here):
     n0 [marcus]: "One slice of my pie. Her door. No name. If she asks, a stranger with excellent taste."  ✏ `dlg.story.pie.talk.0`   (→ n1)
-    n1 [marcus]: "Well? You can say no. I'll just stand here holding it."  ✏ `dlg.story.pie.talk.1`
+    n1 [marcus]: "You can say no. The pie and I will just stand here. We're patient."  ✏ `dlg.story.pie.talk.1`
        ? "Deliver it, no tricks." → r0  effects: flag:choice.pie.honest  ✏ `dlg.story.pie.talk.c0`
        ? "I'll improve it on the way." → r1  effects: flag:choice.pie.improve  ✏ `dlg.story.pie.talk.c1`
        ? "It might not survive the walk." → r2  effects: flag:choice.pie.eat  ✏ `dlg.story.pie.talk.c2`
     r0 [narration]: "You leave the slice on Odalys's step. She reads the note, sighs, and takes a bite."  ✏ `dlg.story.pie.talk.r0`   (→ r0b)
     r0b [odalys]: "A stranger with excellent taste and sawdust on the note. ...It's rather good. Tell him nothing."   (expr thinking)
     r1 [narration]: "You add a pinch of cinnamon on the way. Odalys tastes it, then frowns at it for a long time."  ✏ `dlg.story.pie.talk.r1`   (→ r1b)
-    r1b [odalys]: "Someone added cinnamon. It's better now. I resent that, professionally."   (expr embarrassed)
+    r1b [odalys]: "Cinnamon, added late and not by the baker. It's better now. I resent the improvement, professionally."   (expr embarrassed)
     r2 [narration]: "You eat the slice on the road. It is excellent. Two bakers will hear about this."  ✏ `dlg.story.pie.talk.r2`   (→ r2b)
     r2b [odalys]: "An empty plate and a crumb on your sleeve. I'll bill Marcus for one pie. You, for the crumb."
   [marcus]: "{if choice:pie.honest}'Rather good.' She said 'rather good.' Don't repeat it. I'll repeat it enough.{else}{if choice:pie.improve}She sent a note back: 'Cinnamon? Cheek.' Best review I've ever had.{else}You ate it. Fair. Now she's baking a second, and so am I. Ambitiously.{/if}{/if}"  ✏ `event.story_pie_payoff.after`
@@ -120,7 +120,7 @@ placed: marcus(25, 18), player(25, 17)
   · (player faces up)
   · (marcus emote note)
   ▶ DIALOGUE `story.whistler.marcus` (player-facing graph, plays here):
-    n0 [marcus]: "It's a family tune. My grandfather hit one note wrong, and we've all kept it since."  ✏ `dlg.story.whistler.marcus.0`   (→ n1)
+    n0 [marcus]: "A family tune. Grandfather hit one note wrong at my father's wedding. We've kept it wrong ever since."  ✏ `dlg.story.whistler.marcus.0`   (→ n1)
     n1 [marcus]: "...Well? Go on. Everybody has an opinion about the note."  ✏ `dlg.story.whistler.marcus.1`
        ? "Say hello, like a normal neighbor." → r0  effects: flag:choice.whistler.marcus.hello  ✏ `dlg.story.whistler.marcus.c0`
        ? "Whistle the wrong note back." → r1  effects: flag:choice.whistler.marcus.back, friend:marcus,10  ✏ `dlg.story.whistler.marcus.c1`
@@ -139,7 +139,7 @@ placed: marcus(25, 18), player(25, 17), tilda(24, 18)
   · (place marcus to (25,18))
   · (marcus faces down)
   · (spawn prop prop.pumpkin at (26,18))
-  [marcus]: "You've caught me. A practice lantern. I measured the face. I never asked whose pumpkin."  ✏ `event.story_pumpkin_marcus.intro`
+  [marcus]: "Caught. It's a practice lantern. I measured the face twice. I asked whose pumpkin zero times."  ✏ `event.story_pumpkin_marcus.intro`
   · (move player to (25,17))
   · (player faces up)
   · (marcus emote sweat)
@@ -166,14 +166,14 @@ plays when: `(hearts:marcus>=8 && flag:event.marcus_heart5 && !weekday:wed && ho
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (marcus faces down)
-  [marcus]: "Come in. You've seen the barn I carved at nine. Now see the roof plan. Not many have."  ✏ `event.marcus_heart8.intro`
+  [marcus]: "Come in. You've seen my worst joint, the glued doors. Time you saw the roof plan. Nobody has."  ✏ `event.marcus_heart8.intro`
   · (move player to (6,3))
   · (player faces up)
   · (marcus wave (background))
   · (marcus emote ellipsis)
   ▶ DIALOGUE `marcus.roof` (player-facing graph, plays here):
     n0 [marcus]: "Pitch, rafters, shingles. Drawn nine times. Every time it looks right. Every time I'm afraid it won't hold."  ✏ `dlg.marcus.roof.0`   (→ n1; expr thinking)
-    n1 [marcus]: "Six winters, it's been nearly fixed. ...What would you do?"  ✏ `dlg.marcus.roof.1`
+    n1 [marcus]: "Six winters of nearly. The village runs a pool on me. ...What would you do?"  ✏ `dlg.marcus.roof.1`
        ? "Measure it with you, properly." → r0  effects: friend:marcus,15, flag:choice.roof.measure  ✏ `dlg.marcus.roof.c0`
        ? "Try a different pitch." → r1  effects: friend:marcus,10, flag:choice.roof.design  ✏ `dlg.marcus.roof.c1`
        ? "I'll hold the ladder. I'm good at holding." → r2  effects: friend:marcus,10, flag:choice.roof.ladder  ✏ `dlg.marcus.roof.c2`
@@ -190,7 +190,7 @@ plays when: `hearts:marcus>=2 && birthday.in:marcus==0 && unseen:birthday.marcus
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(6, 3)
   · (marcus faces down)
-  [marcus]: "It's my birthday. I planed a plank for it, like every year. A straight board. Sit, if you like."  ✏ `event.marcus_birthday.intro`
+  [marcus]: "My birthday. Every year I plane one plank for it, slow, no customer waiting. Sit, if you like."  ✏ `event.marcus_birthday.intro`
   · (move player to (6,3))
   · (player faces up)
   · (marcus wave (background))
@@ -222,7 +222,7 @@ placed: marcus(24, 18), dorian(26, 18)
   · (dorian emote ellipsis)
   · (marcus point (background))
   [marcus]: "Straight. That's the whole job. I couldn't have said it shorter."  ✏ `event.overheard_marcus_dorian_1.l3`
-  [dorian]: "...You could have. You left it for me."
+  [dorian]: "...You could have. You saved it for me."
   · effects: flag:event.overheard_marcus_dorian_1
 
 ### overheard_marcus_dorian_2 · "Sawdust Silence" · funny
@@ -312,7 +312,7 @@ placed: bram(24, 18), marcus(26, 18)
   · (marcus emote ellipsis)
   · (bram wave (background))
   [bram]: "...Hm. Fits like I grew it."
-  [marcus]: "Good. A handle should vanish in the hand."  ✏ `event.overheard_bram_marcus_2.l4`
+  [marcus]: "Then it's right. A handle should vanish in the hand."  ✏ `event.overheard_bram_marcus_2.l4`
   · effects: flag:event.overheard_bram_marcus_2
 
 ### overheard_bram_marcus_3 · "Quiet Competition" · funny
@@ -342,7 +342,7 @@ placed: odalys(24, 18), marcus(26, 18)
   · (place marcus to (26,18))
   · (odalys faces right)
   · (marcus faces left)
-  [odalys]: "Marcus. You lifted that beam alone. I watched from the clinic window and wrote it down."
+  [odalys]: "Marcus. You lifted that beam alone. I saw it from the clinic window. It's in your file."
   [marcus]: "I measured it twice first."  ✏ `event.overheard_marcus_odalys_1.l2`
   · (marcus shrug (background))
   · (marcus emote exclaim)
@@ -366,7 +366,7 @@ placed: marcus(24, 18), odalys(26, 18)
   · (odalys emote ellipsis)
   · (marcus point (background))
   [marcus]: "That's why it worked loose. Nobody sits on it. Five minutes would do it good."  ✏ `event.overheard_marcus_odalys_2.l3`
-  [odalys]: "...Five minutes, then. It's a good bench. Elara is not to hear about this."
+  [odalys]: "...Five minutes, then. Strictly for the bench's health. Elara is not to hear of this."
   · effects: flag:event.overheard_marcus_odalys_2
 
 ### overheard_marcus_odalys_3 · "Doctor's Own Orders" · wholesome

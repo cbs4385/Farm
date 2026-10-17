@@ -1,6 +1,6 @@
 # Scene cards for felix
 
-18 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 40 spoken lines in scenes, 25 dialogue lines and 18 player choice labels.
+18 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 41 spoken lines in scenes, 25 dialogue lines and 18 player choice labels.
 
 ### felix_heart2 · "Hold the Line" · funny
 event · npc_roster.json · map Beach · priority 6
@@ -8,13 +8,14 @@ plays when: `(hearts:felix>=2 && !weekday:thu && hour>=6 && hour<14) && !flag:ev
 beats may be ADDED or CUT in this scene
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Mornin'. Take the rod. Both hands. Hold the line, [player]."  ✏ `event.felix_heart2.0`
+  [felix]: "Mornin'. Take the rod. Both hands. There's one down there with your name on it, [player]."  ✏ `event.felix_heart2.0`
   · (move player to (11,10))
   · (player faces up)
   · (felix emote note)
   [felix]: "Feel that? Don't reel yet. Let it run. It's deciding about you."  ✏ `event.felix_heart2.1`
   [felix]: "Now! Up, easy. ...A tuna. First try. Took me nine summers."  ✏ `event.felix_heart2.3`  (emote exclaim, expr surprised)
-  [felix]: "Keep it. You earned it. I'm on this rock at six most days. ...Just saying where the rock is."  ✏ `event.felix_heart2.2`
+  [felix]: "You should've seen the other one. There's always another one. That's what gets a fisher up before the sun."  ✏ `event.felix_heart2.4`  (expr thinking)
+  [felix]: "Keep it. You earned it. This rock, six most days. ...I'm not asking. I'm saying where the rock is."  ✏ `event.felix_heart2.2`
   · effects: give:fish.tuna,1, friend:felix,40, flag:event.felix_heart2
 
 ### felix_heart5 · "The Lucky Charm" · wholesome
@@ -23,7 +24,7 @@ plays when: `(hearts:felix>=5 && !weekday:thu && hour>=6 && hour<14 && flag:even
 beats may be ADDED or CUT in this scene
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Every fisher has a lucky charm. Mine's sat through forty years of dawns."  ✏ `event.felix_heart5.0`
+  [felix]: "Every fisher carries a lucky charm. Mine's been through forty years of dawns and one pocket."  ✏ `event.felix_heart5.0`
   · (move player to (11,10))
   · (player faces up)
   · (felix emote note)
@@ -47,16 +48,16 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (wren faces up)
   · (move player to (27,6))
   · (player faces up)
-  [felix]: "There you both are. I promised you the boat. She's ready. The bailing tin is the elegant part."  ✏ `event.past_the_point.0`
-  [elara]: "I knitted a life jacket! Felix says that's not how they work. It goes over the real one. Sandwiches are in the tin!"  (emote sparkle, expr happy)
+  [felix]: "There you are. The boat I promised. She floats. I checked twice. The bailing tin is the elegant part."  ✏ `event.past_the_point.0`
+  [elara]: "I knitted a life jacket! Felix explained floating to me very kindly. It goes over the real one. For morale!"  (emote sparkle, expr happy)
   [felix]: "Wear both, then. The knitted one can look brave. The real one can do the floating."  ✏ `event.past_the_point.5`  (expr happy)
   ▶ DIALOGUE `past_point.talk` (player-facing graph, plays here):
-    n0 [elara]: "My list is longer than the boat, and Felix says one place before breakfast. Which one?"
-       ? "Round the headland. You've drawn it enough." → r0  effects: flag:choice.point.headland, friend:elara,5
+    n0 [elara]: "A whole list, and Felix says one place before breakfast. You choose. My hands are full of sandwiches."
+       ? "Round the headland. You've drawn it nine times." → r0  effects: flag:choice.point.headland, friend:elara,5
        ? "The white rocks. Slowly." → r1  effects: flag:choice.point.rocks, friend:elara,5
        ? "Straight out, till the shore's a line." → r2  effects: flag:choice.point.horizon, friend:elara,5
-    r0 [elara]: "The headland! I've drawn it nine times from the bench. Never from the water side!"
-    r1 [elara]: "The white rocks! I've never been closer than the bench. Row slowly, Felix. I want it to last."
+    r0 [elara]: "Round the headland! Nine drawings from the bench, and today it finally has to look at me!"
+    r1 [elara]: "Slowly, yes! I've only ever waved at the white rocks from the bench. Felix, row like we're early."
     r2 [elara]: "Straight out! I'll hold the sandwich tin. It's very steadying. Medically."
   · (fadeout)
   · (sfx click)
@@ -64,12 +65,12 @@ placed: felix(26, 5), elara(25, 6), wren(32, 7), player(27, 6)
   · (lighting warm)
   · (fadein)
   [narration]: "The boat leaks, politely. Felix pulls the oars. Elara holds her hat down with both hands. The headland slides closer."
-  [elara]: "The headland is twice the size the map said! Felix, it's enormous! Best thing I've ever been wrong about!"  (expr happy) [only if flag:choice.point.headland]
-  [elara]: "The white rocks look like teeth from here. Friendly teeth! Very good gums. May I wave at them?"  (expr happy) [only if flag:choice.point.rocks]
-  [elara]: "The shore's just a line now. I didn't know I could feel this small and this glad at once."  (expr happy) [only if flag:choice.point.horizon]
-  [wren]: "Just looking, that's all. From the point, the sea seems to start somewhere else." [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
-  [narration]: "Elara takes out her list, looks at it, and smiles at the page."
-  [felix]: "Dawn's better with two. With three, it's an expedition. ...One place crossed off. I'll want a bigger boat for the rest."  ✏ `event.past_the_point.4`  (emote heart)
+  [elara]: "My map made it thumb-sized! Felix, it's enormous! Best thing I've ever been wrong about!"  (expr happy) [only if flag:choice.point.headland]
+  [elara]: "Look, the white rocks are teeth from here! Friendly teeth. Excellent gums. May I wave at them?"  (expr happy) [only if flag:choice.point.rocks]
+  [elara]: "Shore's just a line now. I didn't know a person could feel this small and this glad at once."  (expr happy) [only if flag:choice.point.horizon]
+  [wren]: "I open at noon. That leaves me mornings, and I've started spending them here. The sea starts somewhere else. I'm checking where." [only if flag:choice.wren.bag.go && flag:met.wren && hearts:wren>=8]
+  [narration]: "Elara unrolls her list against her knees. One pencil stroke. The first line through anything, ever."
+  [felix]: "Dawn's better with two. Three makes it an expedition. ...One place off the list. For the rest, I'll want a bigger boat."  ✏ `event.past_the_point.4`  (emote heart)
   · (fadeout)
   · (camera reset)
   · (lighting reset)
@@ -94,7 +95,7 @@ placed: felix(25, 18), player(25, 17)
        ? "Call out a friendly hello." → r0  effects: flag:choice.whistler.felix.hello  ✏ `dlg.story.whistler.felix.c0`
        ? "Whistle the wrong note back." → r1  effects: flag:choice.whistler.felix.back, friend:felix,10  ✏ `dlg.story.whistler.felix.c1`
        ? "Say nothing. Just listen." → r2  effects: flag:choice.whistler.felix.listen, friend:felix,10  ✏ `dlg.story.whistler.felix.c2`
-    r0 [felix]: "Hello. Yes. Hello back. Very sensible, given the circumstances."  ✏ `dlg.story.whistler.felix.r0`
+    r0 [felix]: "Hello. Yes. Hello back. ...The tune and I were braced for worse."  ✏ `dlg.story.whistler.felix.r0`
     r1 [felix]: "You got the wrong note exactly right. Nobody's ever whistled back. ...I've gone red. It's the sunset."  ✏ `dlg.story.whistler.felix.r1`   (expr embarrassed)
     r2 [felix]: "You listened. The whole tune. Nobody's done that but the pond. ...I may whistle again. Quietly."  ✏ `dlg.story.whistler.felix.r2`   (expr happy)
   [felix]: "Same hour tomorrow, same lane, same tune. You can pretend you were passing."  ✏ `event.story_whistler_felix.after`
@@ -145,7 +146,7 @@ placed: hazel(23, 18), ione(24, 18), tilda(26, 18), felix(27, 18)
   · (spawn prop prop.lantern at (26,17))
   · (spawn prop prop.lantern at (27,17))
   [tilda]: "Lanterns up, everyone. Not lit yet. Wait for the bell. Felix, I mean you."
-  [hazel]: "One lantern, one wish. Please keep yours folded up. (Last winter four people said theirs aloud.)"
+  [hazel]: "One lantern, one wish. Fold it small. (Spoken wishes don't rise. I've charted this.)"
   · (hazel emote sparkle)
   · (sfx lantern)
   [felix]: "My wish is this big. Last winter it was this big. Wishes grow, like fish."  ✏ `event.festival_winter_lanterns.2`
@@ -163,7 +164,7 @@ plays when: `(hearts:felix>=8 && flag:event.felix_heart5 && !weekday:thu && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "The pond, and a line that's tugging. I've had a feeling all week. Hold the net. Don't breathe."  ✏ `event.felix_heart8.intro`
+  [felix]: "Quiet, now. All week I've had a feeling. It's on the line this minute. Take the net. Don't breathe."  ✏ `event.felix_heart8.intro`
   · (move player to (11,10))
   · (player faces up)
   · (felix wave (background))
@@ -187,7 +188,7 @@ plays when: `hearts:felix>=2 && birthday.in:felix==0 && unseen:birthday.felix &&
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "It's my birthday. Tilda says no fishing today. She brought a pie. I brought a story. It's about a fish."  ✏ `event.felix_birthday.intro`
+  [felix]: "My birthday. Tilda outlawed fishing till noon. She brought a pie. I brought a story. It's about a fish."  ✏ `event.felix_birthday.intro`
   · (move player to (11,10))
   · (player faces up)
   · (felix wave (background))
@@ -210,7 +211,7 @@ plays when: `(hearts:felix>=8 && flag:event.felix_heart8 && !flag:partners.felix
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Well. Right. I've held a line through a gale. This is harder. Would you court me? Slowly, like the tide."  ✏ `event.felix_courtship.intro`
+  [felix]: "Mornin'. No. Not just mornin'. I've held a line through a gale and this is harder. Would you court me? Slowly, like the tide."  ✏ `event.felix_courtship.intro`
   · (move player to (11,10))
   · (player faces up)
   · (felix wave (background))
@@ -233,7 +234,7 @@ plays when: `hearts:felix>=10 && flag:choice.courtship.felix.later && !flag:even
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 10)
   · (felix faces down)
-  [felix]: "Second cast, then. You asked for time, and I gave it. Would you court me? Still slowly."  ✏ `event.felix_courtship2.intro`
+  [felix]: "Second cast. Same bait, same hope. Would you court me? Still slowly."  ✏ `event.felix_courtship2.intro`
   · (move player to (11,10))
   · (player faces up)
   · (felix wave (background))
@@ -302,7 +303,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (felix faces right)
   · (tilda faces left)
-  [felix]: "Tilda. Remember the winter the pond froze, and I fell in?"  ✏ `event.overheard_tilda_felix_2.l1`
+  [felix]: "Tilda. Remember the winter the pond froze, and I went out to test it?"  ✏ `event.overheard_tilda_felix_2.l1`
   [tilda]: "I remember the winter you fell in. And the Tuesday you fell in again."
   · (tilda shrug (background))
   · (tilda emote ellipsis)
@@ -344,7 +345,7 @@ placed: felix(24, 18), tilda(26, 18)
   · (tilda emote ellipsis)
   · (felix wave (background))
   [felix]: "A fair sentence. Pass the fork. ...And the salt."  ✏ `event.overheard_tilda_felix_4.l3`
-  [tilda]: "To old friends, dear. The crust is mine. The fish goes to the cat."
+  [tilda]: "To old friends, dear. The crust is mine. The fish goes to Ledger."
   · effects: flag:event.overheard_tilda_felix_4
 
 ### overheard_felix_elara_1 · "The Scarf Net" · funny
@@ -357,12 +358,12 @@ placed: felix(24, 18), elara(26, 18)
   · (felix faces right)
   · (elara faces left)
   [felix]: "Elara. A fish doesn't want a cozy net. It wants to be free."  ✏ `event.overheard_felix_elara_1.l1`
-  [elara]: "Then it's a very loose net! Free and comfortable! Everybody wins!"
+  [elara]: "Free and warm aren't enemies, Felix! It's a very loose knit! The fish can leave whenever!"
   · (elara shrug (background))
   · (elara emote sweat)
   · (felix point (background))
-  [felix]: "...It does look warm. Give it here. For science."  ✏ `event.overheard_felix_elara_1.l3`
-  [elara]: "I knew you'd love it! Next one's bigger. Big enough for the boat!"
+  [felix]: "...It does look warm. Hand it over. Strictly for the fish."  ✏ `event.overheard_felix_elara_1.l3`
+  [elara]: "For science! Of course! The next one's bigger. Boat-sized. Your boat looked cold, Felix!"
   · effects: flag:event.overheard_felix_elara_1
 
 ### overheard_felix_elara_2 · "Big Fish, Big Scarf" · funny
@@ -375,7 +376,7 @@ placed: felix(24, 18), elara(26, 18)
   · (felix faces right)
   · (elara faces left)
   [felix]: "Three feet, nose to tail. Last spring it was two. It grows in the telling."  ✏ `event.overheard_felix_elara_2.l1`
-  [elara]: "I made a scarf that big! Same size exactly! They'd be friends!"
+  [elara]: "Three feet! My longest scarf is three feet, nose to tail! They could be friends!"
   · (elara shrug (background))
   · (elara emote sweat)
   · (felix wave (background))
@@ -393,7 +394,7 @@ placed: felix(24, 18), elara(26, 18)
   · (felix faces right)
   · (elara faces left)
   [felix]: "Dawn's quiet, yes. Until you count stitches out loud."  ✏ `event.overheard_felix_elara_3.l1`
-  [elara]: "Seventeen, eighteen! It isn't counting, it's a rhythm!"
+  [elara]: "Seventeen, eighteen! That's not counting, that's a sea shanty for wool!"
   · (elara point (background))
   · (elara emote sweat)
   · (felix shrug (background))

@@ -1,6 +1,6 @@
 # Scene cards for piper
 
-24 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 57 spoken lines in scenes, 34 dialogue lines and 24 player choice labels.
+24 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 59 spoken lines in scenes, 34 dialogue lines and 24 player choice labels.
 
 ### piper_heart2 · "Learn a Chord" · funny
 event · npc_roster.json · map Saloon · priority 6
@@ -12,9 +12,10 @@ placed: player(11, 6)
   · (move player to (11,6))
   · (player faces up)
   · (piper emote note)
-  [piper]: "Thumb there, two fingers there, now pull. ...There. You're a musician now. That's the whole secret."  ✏ `event.piper_heart2.1`
+  [piper]: "Thumb there, two fingers there, now pull. ...There. Hear that? That's a D. It forgives everything."  ✏ `event.piper_heart2.1`
+  [piper]: "Again. ...Once more. There, you've got it. The fiddle likes you. Don't be flattered. It's a shameless flirt."  ✏ `event.piper_heart2.4`  (expr surprised)
   [piper]: "That chord took me a week. You took a minute. I'm fine. I'm completely fine about it."  ✏ `event.piper_heart2.3`  (emote sweat, expr embarrassed)
-  [piper]: "Here, a sunflower for your first gig. Don't quit the farm. Come back Friday, and I'll teach you the second chord."  ✏ `event.piper_heart2.2`
+  [piper]: "Here, a sunflower for your first gig. Don't quit the farm. Friday, chord two. It's the honest one."  ✏ `event.piper_heart2.2`
   · effects: give:crop.sunflower,1, friend:piper,40, flag:event.piper_heart2
 
 ### piper_heart5 · "A Song for You" · wholesome
@@ -27,9 +28,10 @@ placed: player(11, 6)
   · (move player to (11,6))
   · (player faces up)
   · (piper emote note)
-  [piper]: "First time out of the case. Elara hasn't heard it yet, and she hears everything first."  ✏ `event.piper_heart5.1`
-  [piper]: "If it's bad, clap anyway. If it's good, clap louder. I'm flexible."  ✏ `event.piper_heart5.3`  (expr happy)
-  [piper]: "It ends on four notes I hum when nobody's around. I don't know where I got them. I keep meaning to find out."  ✏ `event.piper_heart5.2`
+  [piper]: "First time out of the case. Even Elara hasn't heard it, and her needles always get the first verse."  ✏ `event.piper_heart5.1`
+  [piper]: "I skipped the skeleton too. Tuesdays I play new songs to the clinic skeleton. It never claps. Very honest audience."  ✏ `event.piper_heart5.4`  (expr embarrassed)
+  [piper]: "If it's bad, clap anyway. If it's good, don't clap. Hum it tomorrow where I can hear."  ✏ `event.piper_heart5.3`  (expr happy)
+  [piper]: "It ends on four notes I hum when nobody's around. I never wrote them. They were just... in my hands."  ✏ `event.piper_heart5.2`
   · effects: give:artisan.jam,2, friend:piper,60, flag:event.piper_heart5
 
 ### hall_dance · "Opening Night" · wholesome
@@ -57,7 +59,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (marcus emote sparkle)
   [wren]: "Look at this room! Full, and the porch is full too. Somebody count the porch. I need a number for the story."  (emote sparkle)
   · (spawn prop artisan.wine at (7,3))
-  [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  (expr happy)
+  [wren]: "[player]. I saved this bottle for a night the hall was full. First glass is yours. Poured before the doors, so nobody could argue."  (expr happy)
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
   [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  ✏ `event.hall_dance.4`  (emote sweat)
@@ -96,14 +98,14 @@ placed: piper(25, 18), player(25, 17)
   · (piper point (background))
   ▶ DIALOGUE `story.umbrella.talk` (player-facing graph, plays here):
     n0 [narration]: "A large red umbrella hangs open on the fence post, dripping with great dignity. Piper points at it."  ✏ `dlg.story.umbrella.talk.0`   (→ n1)
-    n1 [piper]: "Third time it's wandered off. It always turns up drier than I do. What do we do?"  ✏ `dlg.story.umbrella.talk.1`
+    n1 [piper]: "Third escape this season. It always turns up hung neatly, drier than I am. What do we do?"  ✏ `dlg.story.umbrella.talk.1`
        ? "Give it back to her." → r0  effects: flag:choice.umbrella.return  ✏ `dlg.story.umbrella.talk.c0`
        ? "Leave it on the fence." → r1  effects: flag:choice.umbrella.hang  ✏ `dlg.story.umbrella.talk.c1`
        ? "Keep it. It suits me." → r2  effects: flag:choice.umbrella.keep  ✏ `dlg.story.umbrella.talk.c2`
     r0 [piper]: "Reunited! I'd write it a song, but it would wander off mid-verse."  ✏ `dlg.story.umbrella.talk.r0`   (expr happy)
-    r1 [piper]: "Leave it? ...Yes. A little red landmark. Somebody out in this rain needs it more."  ✏ `dlg.story.umbrella.talk.r1`
+    r1 [piper]: "Leave it? ...All right. Red reads loud in the rain, and somebody out there needs loud."  ✏ `dlg.story.umbrella.talk.r1`
     r2 [piper]: "You're keeping it? That's theft with excellent manners. ...It does suit you."  ✏ `dlg.story.umbrella.talk.r2`   (emote sweat)
-  [piper]: "{if choice:umbrella.return}Back where it belongs. But someone keeps hanging it up so neatly. Who tidies a stranger's umbrella?{else}{if choice:umbrella.hang}A landmark. I'll look for it every rain. And whoever keeps hanging it there, I'll catch them humming.{else}Shared custody. I accept, under protest. Bring it Fridays so it hears me play.{/if}{/if}"  ✏ `event.story_umbrella.after`
+  [piper]: "{if choice:umbrella.return}Back where it belongs. But someone keeps hanging it up so neatly. Who tidies a stranger's umbrella?{else}{if choice:umbrella.hang}A landmark. I'll check it every rain. And I'll find out who hangs it so neatly. They fold the ribbon.{else}Shared custody. I accept, under protest. Bring it Fridays so it hears me play.{/if}{/if}"  ✏ `event.story_umbrella.after`
   · (remove prop story_prop_0)
   · effects: flag:event.story_umbrella, friend:piper,30, flag:storydone.lost_umbrella
 
@@ -139,7 +141,7 @@ plays when: `(hearts:piper>=4 && flag:event.piper_heart2 && !weekday:tue && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
-  [piper]: "Last set, and I'm out of ideas. You pick. Anything. I'll play it like I wrote it."  ✏ `event.piper_heart4.intro`
+  [piper]: "Last set tonight, and it's yours. Request anything. For once I'll even play it."  ✏ `event.piper_heart4.intro`
   · (move player to (11,6))
   · (player faces up)
   · (piper wave (background))
@@ -170,16 +172,16 @@ placed: player(11, 6)
   · (camera focus on piper)
   · (piper expression thinking)
   ▶ DIALOGUE `piper.fright` (player-facing graph, plays here):
-    n0 [piper]: "I can play for a hundred people and never blink. Tonight I think they'll finally notice. I'm not as good as I say."  ✏ `dlg.piper.fright.0`   (→ n1; expr sad)
+    n0 [piper]: "A hundred people, no blinking, every Friday. Tonight they'll notice the trick. The playing's real. The rest is volume."  ✏ `dlg.piper.fright.0`   (→ n1; expr sad)
     n1 [piper]: "So. What do I do with that?"  ✏ `dlg.piper.fright.1`
        ? "Talk it through with her." → r0  effects: friend:piper,10, flag:choice.fright.talk  ✏ `dlg.piper.fright.c0`
        ? "Sit beside her, quietly." → r1  effects: friend:piper,15, flag:choice.fright.sit  ✏ `dlg.piper.fright.c1`
        ? "Drum along on a bucket." → r2  effects: friend:piper,10, flag:choice.fright.bucket  ✏ `dlg.piper.fright.c2`
     r0 [piper]: "Talk. Okay. I'm scared of quiet. Of being a good player and a forgettable writer. There. It's on the barrel now."  ✏ `dlg.piper.fright.r0`
-    r1 [piper]: "...You didn't fill it. Nobody ever leaves the quiet alone around me. It's not so bad, shared."  ✏ `dlg.piper.fright.r1`   (expr happy)
+    r1 [piper]: "...You didn't fill it. I always fill it. That's the job, I thought. ...Quiet's not so loud with two."  ✏ `dlg.piper.fright.r1`   (expr happy)
     r2 [piper]: "A bucket? You're drumming on a bucket? ...Okay. Okay! In four. One, two, three..."  ✏ `dlg.piper.fright.r2`   (expr happy)
   · (piper expression neutral)
-  [piper]: "The nerves are still here, just smaller. They fit in the fiddle case. Someday I want a song they sing without me. Tonight, I'll go up."  ✏ `event.piper_heart6.after`
+  [piper]: "The nerves are coming upstairs with me, just smaller. They fit in the fiddle case, next to the rosin. Someday I want a song they sing without me. Tonight, I'll settle for the stairs."  ✏ `event.piper_heart6.after`
   · (camera reset)
   · (lighting reset)
   · (letterbox off)
@@ -192,7 +194,7 @@ plays when: `(hearts:piper>=8 && flag:event.piper_heart6 && !weekday:tue && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
-  [piper]: "Sit by the stage. I'm writing a song, and I need you on every line. It's the only way it'll be good."  ✏ `event.piper_heart8.intro`
+  [piper]: "Sit by the stage. I'm writing a new one, and I'm not doing it alone this time. Alone is how you end up rhyming 'parsnip'."  ✏ `event.piper_heart8.intro`
   · (move player to (11,6))
   · (player faces up)
   · (piper wave (background))
@@ -202,8 +204,8 @@ placed: player(11, 6)
        ? "Home." → r0  effects: friend:piper,15, flag:choice.chorus.home  ✏ `dlg.piper.chorus.c0`
        ? "The road." → r1  effects: friend:piper,10, flag:choice.chorus.road  ✏ `dlg.piper.chorus.c1`
        ? "This room." → r2  effects: friend:piper,10, flag:choice.chorus.room  ✏ `dlg.piper.chorus.c2`
-    r0 [piper]: "Home. ...Oh. That's it. I've been missing that word for three months. It was right here."  ✏ `dlg.piper.chorus.r0`   (expr happy)
-    r1 [piper]: "The road. Wide and honest. It rhymes with 'code', if you squint."  ✏ `dlg.piper.chorus.r1`
+    r0 [piper]: "Home. ...Oh. Three months I've been circling that word. It just walked in and sat down."  ✏ `dlg.piper.chorus.r0`   (expr happy)
+    r1 [piper]: "The road. Wide and honest, and it rhymes with 'showed'. Too neatly. I don't trust a clean rhyme."  ✏ `dlg.piper.chorus.r1`
     r2 [piper]: "This room! A song about the saloon. The good stool is going to be unbearable."  ✏ `dlg.piper.chorus.r2`   (expr happy)
   [piper]: "{if choice:chorus.home}'Home' in the chorus. Of course. Now it needs a room full of people to sing it without me.{else}{if choice:chorus.road}'The road' in the chorus. Wanderers love a road. Now it needs a room to sing it without me.{else}'This room' in the chorus. Cheeky and right. Now the room has to sing it without me.{/if}{/if}"  ✏ `event.piper_heart8.after`
   · effects: flag:event.piper_heart8
@@ -228,9 +230,9 @@ placed: player(11, 6)
   · (camera reset)
   · (lighting reset)
   · (letterbox off)
-  [piper]: "You asked for a ballad at the harvest. I saved the sad middle for tonight. Hear it hold? That's what you ordered."  ✏ `event.piper_heart10.req_ballad` [only if flag:choice.request.ballad]
-  [piper]: "You asked for a jig that night. Tonight's has one in the last verse. Watch the floor. It remembers."  ✏ `event.piper_heart10.req_jig` [only if flag:choice.request.jig]
-  [piper]: "You asked for the parsnip song once. There's a parsnip in the second verse. Nobody's caught it. Don't tell."  ✏ `event.piper_heart10.req_parsnip` [only if flag:choice.request.parsnip]
+  [piper]: "You asked for a ballad once. I wrote it down and said it mattered later. This is later. The sad middle is yours."  ✏ `event.piper_heart10.req_ballad` [only if flag:choice.request.ballad]
+  [piper]: "You asked for a jig once. I said don't ask why yet. The last verse is why. Watch the floor."  ✏ `event.piper_heart10.req_jig` [only if flag:choice.request.jig]
+  [piper]: "I said I'd play your request back someday. Listen to the second verse. There's a parsnip in it. Nobody's ever caught it."  ✏ `event.piper_heart10.req_parsnip` [only if flag:choice.request.parsnip]
   [piper]: "{if choice:chorus.home}They sang 'home' without me. All of them. I played one verse and put the bow down. ...So that's what quiet sounds like.{else}{if choice:chorus.road}They took the road and walked it without me. I stood there with my bow down. Best seat I've ever had.{else}The room sang itself back to the room. Even the good stool joined in. I only had to stand there.{/if}{/if}"  ✏ `event.piper_heart10.outro`
   · effects: flag:event.piper_heart10
   · effects: friend:piper,80
@@ -241,12 +243,12 @@ plays when: `(hearts:piper>=3 && weekday:fri && !weekday:tue && hour>=18 && hour
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
-  [piper]: "Friday! Come hear the parsnip ballad. Four verses, and one's about the gray cat. It hasn't approved its verse."  ✏ `event.piper_friend.intro`
+  [piper]: "Friday! The parsnip ballad, all four verses. One's about the gray cat. I call it Sharp. It has notes."  ✏ `event.piper_friend.intro`
   · (move player to (11,6))
   · (player faces up)
   · (piper emote note)
   · (piper sway)
-  [piper]: "'Oh parsnip, pale and patient root...' Wait. It rhymes with 'boot'. If you squint. I'm very close."  ✏ `event.piper_friend.doing`
+  [piper]: "'Oh parsnip, pale and patient root...' and then 'pulled up early, absolute.' It rhymes if you squint. Squint harder."  ✏ `event.piper_friend.doing`
   [piper]: "That's a chorus! A bad one. Mine. Come back next Friday. Verse five is about you."  ✏ `event.piper_friend.wrap`
   · effects: flag:event.piper_friend
   · effects: friend:piper,15
@@ -257,7 +259,7 @@ plays when: `hearts:piper>=2 && birthday.in:piper==0 && unseen:birthday.piper &&
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(11, 6)
   · (piper faces down)
-  [piper]: "My birthday! I wrote myself a song. It's a very modest masterpiece. You'll want a good seat."  ✏ `event.piper_birthday.intro`
+  [piper]: "My birthday! I wrote myself a song, since I know exactly what I like. It's a modest masterpiece."  ✏ `event.piper_birthday.intro`
   · (move player to (11,6))
   · (player faces up)
   · (piper wave (background))
@@ -270,7 +272,7 @@ placed: player(11, 6)
     r0 [piper]: "Happy birthday to me, from you! Short, sweet, and in tune. It's going in the encore."  ✏ `dlg.piper.birthday.r0`   (expr happy)
     r1 [piper]: "You sang my song! Back to me! ...I'm keeping your key. It's mine now."  ✏ `dlg.piper.birthday.r1`   (expr happy)
     r2 [piper]: "The next one's yours. It isn't finished. It's a birthday present on a musician's schedule."  ✏ `dlg.piper.birthday.r2`   (expr happy)
-  [piper]: "{if choice:bday.piper.wish}Your wish made the encore. I rhymed 'birthday' with 'worth the day'. Don't check.{else}{if choice:bday.piper.sing}My song, your voice, and the room clapped for you. I'm only a tiny bit jealous.{else}A song's coming with your name in it. Don't ask when. It will rhyme. Eventually.{/if}{/if}"  ✏ `event.piper_birthday.after`
+  [piper]: "{if choice:bday.piper.wish}Your wish made the encore. I rhymed 'birthday' with 'worth the day'. Don't check.{else}{if choice:bday.piper.sing}My song in your voice. The room clapped for you, and I just stood there, grinning like a lantern.{else}A song's coming with your name in it. Don't ask when. It will rhyme. Eventually.{/if}{/if}"  ✏ `event.piper_birthday.after`
   · effects: flag:event.piper_birthday
   · effects: mark:birthday.piper, friend:piper,30, give:artisan.juice,2, mail:piper_bday_thanks
 
@@ -339,7 +341,7 @@ placed: player(11, 6)
     r0 [piper]: "Every note? Oh, you star. If I wobble on the high part, blame the lamps."  ✏ `dlg.piper.partners.r0`   (expr happy)
     r1 [piper]: "A duet! You know the words! ...I wrote them yesterday. How do you know the words?"  ✏ `dlg.piper.partners.r1`   (expr happy)
     r2 [piper]: "A walk home after. The night's quiet. I'm loud. Let's see who wins."  ✏ `dlg.piper.partners.r2`   (expr happy)
-  [piper]: "{if choice:courtship.piper.song}Your name's in the bridge. The bridge is the best part. That's not an accident.{else}{if choice:courtship.piper.duet}We sang the chorus together, and the room joined in. I nearly forgot the bridge.{else}A walk home under the stars. I hummed. You hummed back. Best accompaniment I've ever had.{/if}{/if}"  ✏ `event.piper_partners.after`
+  [piper]: "{if choice:courtship.piper.song}Your name's in the bridge. The bridge is the best part. That's not an accident.{else}{if choice:courtship.piper.duet}We sang the chorus together, and the room came in behind us. I forgot to play for a bar. Worth it.{else}A walk home under the stars. I hummed. You hummed back. Best accompaniment I've ever had.{/if}{/if}"  ✏ `event.piper_partners.after`
   · effects: flag:event.piper_partners
   · effects: flag:partners.piper, friend:piper,50
 
@@ -388,13 +390,13 @@ placed: wren(24, 18), piper(26, 18)
   · (place piper to (26,18))
   · (wren faces right)
   · (piper faces left)
-  [wren]: "Today's last song, Piper. The room will be tired. So will I. Make it a soft one."
+  [wren]: "Last song tonight, Piper. The room's tired and so am I. Something soft, with no chorus to argue about."
   [piper]: "Soft, I can do. No words. Just a hum for you, the stool and the last of the sun."  ✏ `event.overheard_wren_piper_3.l2`
   · (piper point (background))
   · (piper emote note)
   · (wren shrug (background))
   [wren]: "That's the best verse you've ever said out loud. Write it down, in pencil. Ink makes you shy."
-  [piper]: "Pencil it is. Somebody keeps fixing my pencil anyway. Save me the last glass."  ✏ `event.overheard_wren_piper_3.l4`
+  [piper]: "Pencil, then. Whoever fixes my rhymes can fix that one too. Save me the last glass."  ✏ `event.overheard_wren_piper_3.l4`
   · effects: flag:event.overheard_wren_piper_3
 
 ### overheard_wren_piper_4 · "The Headliner" · wholesome
@@ -412,7 +414,7 @@ placed: wren(24, 18), piper(26, 18)
   · (piper emote note)
   · (wren wave (background))
   [wren]: "Do both. Cry first, song after. I'll sell handkerchiefs at the door."
-  [piper]: "Deal! ...Actually, make it a duet. Your stage, your song too."  ✏ `event.overheard_wren_piper_4.l4`
+  [piper]: "Deal! ...Make it a duet. You wrote one verse already. Write the second."  ✏ `event.overheard_wren_piper_4.l4`
   · effects: flag:event.overheard_wren_piper_4
 
 ### overheard_piper_juno_1 · "Volume Control" · funny
@@ -429,7 +431,7 @@ placed: piper(24, 18), juno(26, 18)
   · (juno shrug (background))
   · (juno emote note)
   · (piper point (background))
-  [piper]: "I felt it in my teeth! Through the whole stage!"  ✏ `event.overheard_piper_juno_1.l3`
+  [piper]: "My slow verse has a backbeat now! I felt it in my teeth!"  ✏ `event.overheard_piper_juno_1.l3`
   [juno]: "Then the anvil has a fan! Tell your teeth I said thanks!"
   · effects: flag:event.overheard_piper_juno_1
 
@@ -483,7 +485,7 @@ placed: piper(24, 18), hazel(26, 18)
   · (hazel shrug (background))
   · (hazel emote exclaim)
   · (piper point (background))
-  [piper]: "It was you! 'Moon' doesn't rhyme with 'spoon' now. It rhymes with 'soon'. It's better!"  ✏ `event.overheard_hazel_piper_1.l3`
+  [piper]: "It was you! 'Spoon' is out, 'soon' is in, and the line's better. The best rhyme and it isn't mine!"  ✏ `event.overheard_hazel_piper_1.l3`
   [hazel]: "(It always wanted 'soon'.) You're welcome. ...I mean, whoever it was."
   · effects: flag:event.overheard_hazel_piper_1
 
@@ -501,7 +503,7 @@ placed: piper(24, 18), hazel(26, 18)
   · (hazel point (background))
   · (hazel emote question)
   · (piper shrug (background))
-  [piper]: "...Oh! That's it! Where did you learn songs, Hazel?"  ✏ `event.overheard_hazel_piper_2.l3`
+  [piper]: "...'Really' is gone. It scans! Hazel, where did you learn songs?"  ✏ `event.overheard_hazel_piper_2.l3`
   [hazel]: "(Books.) And you. Every Thursday, back corner, behind a very large book."
   · effects: flag:event.overheard_hazel_piper_2
 

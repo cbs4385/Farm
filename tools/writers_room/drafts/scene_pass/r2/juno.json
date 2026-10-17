@@ -1,0 +1,72 @@
+{
+  "villager": "juno",
+  "lines": {
+    "event.juno_heart8.intro": {
+      "text": "Today's the day. The right one. I checked twice. I'm showing Bram the horseshoe. Stand next to me? I sweat less with company.",
+      "why": "variety pass: the triple-okay opened five scenes; keeps heart 6's 'right day' callback"
+    },
+    "event.juno_birthday.intro": {
+      "text": "My birthday! I'm not nervous! I labeled the cake 'Cake (Birthday)', in case of confusion. Come in!",
+      "why": "drops the triple-okay opener; nerves still show without the tic"
+    },
+    "event.juno_courtship.intro": {
+      "text": "Deep breath. Mine, not yours. I made a list. 'Reasons I Like the Farmer.' Forty items. I'd read it, but I'd faint. So. Would you court me?",
+      "why": "drops the triple-okay opener; the tic now belongs to heart 2 and next_door only"
+    },
+    "event.juno_heart5.2": {
+      "text": "Don't lose it! ...It's still Bram's pattern. Every line. Mine's still under the coal bin, getting braver.",
+      "why": "heart 2 and heart 5 ended on the same shape; now heart 5 calls back the thirty sketches instead"
+    },
+    "event.story_notes_juno.intro": {
+      "text": "You saw nothing! ...You saw everything. Fine. Encouragement leaks out of me. I can't plug it.",
+      "why": "'Don't look / okay, you looked' repeated heart 6's 'Don't come in / okay, come in' shape; heart 6 keeps it"
+    },
+    "event.juno_heart10.thanks": {
+      "text": "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Once! Next door has an empty sign hook.{else}Bram saw the mark and said 'Hm.' Then he said it again, quieter. That's a speech. Next door has an empty sign hook.{/if}",
+      "why": "else branch repeated heart 8's two-kinds-of-Hm joke; new tail, same meaning and thread"
+    },
+    "event.overheard_juno_bram_2.l1": {
+      "text": "There's a second label on my cake. It just says 'Eat'. Bram. Confess.",
+      "why": "all four Bram overheards opened with his name; varied, funniest word last"
+    },
+    "event.overheard_juno_bram_3.l1": {
+      "text": "I'm on your bench again, Bram. I fixed its wobbly leg myself. The joint's crooked. Don't look.",
+      "why": "opener variety across the Bram overheard set; content unchanged"
+    },
+    "event.overheard_juno_bram_4.l1": {
+      "text": "Someday I'll have my own forge, Bram. A tiny one. Maybe next door.",
+      "why": "opener variety; keeps the next-door thread word for word"
+    },
+    "event.overheard_tilda_juno_3.l1": {
+      "text": "If I ever had my own forge, Tilda... a small one... would you still feed me?",
+      "why": "both Tilda overheards opened with her name; the conditional also sits earlier than bram_4's 'someday'"
+    }
+  },
+  "adds": [],
+  "cuts": [],
+  "threads": {
+    "juno_heart2": "Thirty sketches under the coal bin, and one of them is her mark — which one?",
+    "juno_heart5": "The sword is Bram's pattern; her own design is still under the coal bin, getting braver.",
+    "juno_heart4": "She is going to label the whole village next, starting with the hall roof.",
+    "juno_heart6": "Bram doesn't know about the horseshoe yet; she has to pick the right day.",
+    "juno_heart8": "Bram still hasn't put the horseshoe down — what will he finally say?",
+    "juno_heart10": "Next door has an empty sign hook.",
+    "next_door": "The sign for her own forge is drawn and under the coal, with everything she's not ready for.",
+    "juno_friend": "Thursdays are swim day at the bucket, and a lane is open.",
+    "juno_birthday": "Whatever the player gave or said now lives on the anvil or in a very thin frame.",
+    "juno_courtship": "The list keeps growing; item two is the player's laugh, or item forty-one is 'patient'.",
+    "juno_courtship2": "'Patient' gets crossed out, or item forty-two is 'still patient', underlined.",
+    "juno_partners": "The tiny anvil does nothing, perfectly, from her bench.",
+    "story_notes_juno": "Bram keeps six of her notes in his apron and thinks Tilda wrote them; let him.",
+    "overheard_piper_juno_1": "The anvil has a fan; Piper's teeth have an opinion.",
+    "overheard_piper_juno_2": "'Song (Forge)' will be hammered all week.",
+    "overheard_piper_juno_3": "She can't choose between hammering and watching, so it's always both."
+  },
+  "notes": [
+    "next_door spawns prop resource.copperbar while my line calls it a hinge; if a hinge prop icon exists, the Director should swap it (mechanics, not touched).",
+    "Still awaiting Bram's verdict on story_notes_juno (six notes in his apron, thinks Tilda wrote them); my .after line stands unless he vetoes.",
+    "The Edmund brass-key seed ('a box he'd lost the lock to') still needs a daily-talk or letter slot; none of my scenes can take it without doubling threads.",
+    "Variety pass done: 'Okay, okay, okay' now opens only juno_heart2 and next_door among scenes; shipped daily lines keep the signature.",
+    "hall_dance checked: my line has no winter count and no paired dancing; no change needed."
+  ]
+}

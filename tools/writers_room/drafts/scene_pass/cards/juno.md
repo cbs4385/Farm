@@ -1,6 +1,6 @@
 # Scene cards for juno
 
-25 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 56 spoken lines in scenes, 36 dialogue lines and 23 player choice labels.
+25 scenes. Your lines are marked ✏ with their text key; everything else is context. You own 58 spoken lines in scenes, 36 dialogue lines and 23 player choice labels.
 
 ### juno_heart2 · "Hold the Tongs" · funny
 event · npc_roster.json · map Blacksmith · priority 6
@@ -14,8 +14,9 @@ placed: player(2, 2)
   · (juno emote sparkle)
   [juno]: "See that color? Cherry going to straw. That's the moment. Bram calls it 'now'. I call it 'NOW!'"  ✏ `event.juno_heart2.1`
   [juno]: "Quench it! ...Hear that hiss? That's the bar saying thank you. Or ow. Same word, in iron."  ✏ `event.juno_heart2.3`  (expr happy)
+  [juno]: "Bram taught me the hiss trick my first week. I screamed. Professionally."  ✏ `event.juno_heart2.5`  (expr embarrassed)
   [juno]: "Here. Your first bars. Two, because one looked lonely."  ✏ `event.juno_heart2.2`
-  [juno]: "Bram's mark is on every bar in here. Mine's still a sketch. A lot of sketches. They live under the coal."  ✏ `event.juno_heart2.4`  (expr thinking)
+  [juno]: "Bram's mark is on every bar in here. Mine is thirty sketches under the coal bin. One of them is right. I haven't met it yet."  ✏ `event.juno_heart2.4`  (expr thinking)
   · effects: give:resource.copperbar,2, friend:juno,40, flag:event.juno_heart2
 
 ### juno_heart5 · "Finally Finished" · wholesome
@@ -29,8 +30,9 @@ placed: player(2, 2)
   · (player faces up)
   · (juno emote sparkle)
   [juno]: "A steel sword. For the mines, or the weeds, or looking very serious on your porch. It's yours."  ✏ `event.juno_heart5.1`
-  [juno]: "I polished the flat until I could see my own nose in it. Nine times. Ten."  ✏ `event.juno_heart5.3`  (expr embarrassed)
-  [juno]: "Don't lose it! ...It's still Bram's pattern, though. The next one won't be. I just don't know what it is yet."  ✏ `event.juno_heart5.2`
+  [juno]: "Swing it once? Here, where I can see. ...There. That's the sound. That's the exact sound I drew."  ✏ `event.juno_heart5.4`  (emote sparkle, expr happy)
+  [juno]: "I polished the flat until it showed my nose. Then my whole face. Then Bram behind me, nodding at it."  ✏ `event.juno_heart5.3`  (expr embarrassed)
+  [juno]: "Don't lose it! ...It's still Bram's pattern. Every line. The next one will be mine, once I find out what mine looks like."  ✏ `event.juno_heart5.2`
   · effects: give:tool.sword_steel,1, friend:juno,60, flag:event.juno_heart5
 
 ### next_door · "Next Door" · wholesome
@@ -59,7 +61,7 @@ placed: juno(2, 2), bram(6, 3), player(4, 2)
   · (remove prop piece)
   · (bram faces down)
   [bram]: "Juno. {pause=0.4}I'm proud of you."  (emote heart)
-  [juno]: "...He said it. Out loud, with a witness. I need to sit. The sign hook next door is still empty. The sign's drawn. It's under the coal."  ✏ `event.next_door.5`  (expr embarrassed)
+  [juno]: "...He said it. Out loud, with a witness. I need to sit on something official. The sign for next door is already drawn. It's under the coal, with everything else I'm not ready for."  ✏ `event.next_door.5`  (expr embarrassed)
   · effects: flag:event.next_door, friend:juno,40, friend:bram,40
 
 ### hall_dance · "Opening Night" · wholesome
@@ -87,7 +89,7 @@ placed: marcus(8, 6), tilda(5, 5), wren(7, 5), piper(6, 4), bram(9, 5), juno(8, 
   · (marcus emote sparkle)
   [wren]: "Look at this room! Full, and the porch is full too. Somebody count the porch. I need a number for the story."  (emote sparkle)
   · (spawn prop artisan.wine at (7,3))
-  [wren]: "[player]. I said I'd open it on the night, and this is the night. First glass is yours. I poured it before the doors."  (expr happy)
+  [wren]: "[player]. I saved this bottle for a night the hall was full. First glass is yours. Poured before the doors, so nobody could argue."  (expr happy)
   · (remove prop wine)
   [tilda]: "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room."
   [piper]: "Same song, bigger room. One verse, then I step off again. My bow hand still hasn't heard."  (emote sweat)
@@ -126,7 +128,7 @@ placed: juno(25, 18), player(25, 17)
   · (juno shrug (background))
   ▶ DIALOGUE `story.notes.juno` (player-facing graph, plays here):
     n0 [narration]: "Juno has a folded note halfway under a door. She stops. So do you."  ✏ `dlg.story.notes.juno.0`   (→ n1)
-    n1 [juno]: "...So. Now you know. All of them were me. Mostly in pencil."  ✏ `dlg.story.notes.juno.1`
+    n1 [juno]: "...So. Now you know. Fifty-one notes, all me. Pencil, so anyone can pretend they don't know."  ✏ `dlg.story.notes.juno.1`
        ? "Say nothing. Just smile." → r0  effects: flag:choice.notes.juno.smile  ✏ `dlg.story.notes.juno.c0`
        ? "Thank her for them." → r1  effects: flag:choice.notes.juno.thanks, friend:juno,10  ✏ `dlg.story.notes.juno.c1`
        ? "Write her one back." → r2  effects: flag:choice.notes.juno.note, friend:juno,15  ✏ `dlg.story.notes.juno.c2`
@@ -176,7 +178,7 @@ placed: player(2, 2)
   · (sfx click)
   · (camera shake)
   · (player emote exclaim)
-  [juno]: "Done! You're labeled! 'Guest (Excellent)'. Spelled right and everything. I'm so proud."  ✏ `event.juno_heart4.prank`
+  [juno]: "Done! You're labeled! 'Guest (Excellent)'. I agonized over the parentheses. They're correct."  ✏ `event.juno_heart4.prank`
   ▶ DIALOGUE `juno.label` (player-facing graph, plays here):
     n0 [juno]: "So? Say something. Any answer except 'Hm.' I get enough of that at work."  ✏ `dlg.juno.label.0`
        ? "Wear it proudly." → r0  effects: friend:juno,10, flag:choice.label.accept  ✏ `dlg.juno.label.c0`
@@ -249,12 +251,12 @@ plays when: `(hearts:juno>=10 && flag:event.juno_heart8 && !weekday:mon && hour>
 text-only scene: rewrite lines, do not add or cut beats
 placed: player(2, 2)
   · (juno faces down)
-  [juno]: "Hold out your hand. Both hands. I made a mark, my own, and I stamped it before I told a single person."  ✏ `event.juno_heart10.intro`
+  [juno]: "Hold out your hands. Both. I cut my own mark last night. A little anvil with a J hiding in it. You're first."  ✏ `event.juno_heart10.intro`
   · (move player to (2,2))
   · (player faces up)
   · (spawn prop resource.copperbar at (2,3))
   · (juno emote heart)
-  [juno]: "First thing with my mark on it. A tiny copper bar. {if quest:juno_gold=done}Copper on purpose: your gold went into the die. {/if}It's small. It's the biggest thing I've made."  ✏ `event.juno_heart10.give`
+  [juno]: "First piece with my mark. A copper bar. {if quest:juno_gold=done}Copper on purpose: your gold went into the die. {/if}It weighs nothing. It's the heaviest thing I've ever handed anyone."  ✏ `event.juno_heart10.give`
   · (sfx coin)
   · effects: give:resource.copperbar,1, flag:event.juno_heart10
   · (remove prop heirloom)
@@ -386,7 +388,7 @@ placed: juno(24, 18), bram(26, 18)
   · (bram emote sweat)
   · (juno point (background))
   [juno]: "That's what labels are for! So everyone else knows too!"  ✏ `event.overheard_juno_bram_1.l3`
-  [bram]: "Then peel the one off my apron. I know I'm Bram."
+  [bram]: "Then peel the one off my apron. I'm Bram. Mostly."
   · effects: flag:event.overheard_juno_bram_1
 
 ### overheard_juno_bram_2 · "The Second Label" · wholesome
@@ -435,7 +437,7 @@ placed: juno(24, 18), bram(26, 18)
   · (juno faces right)
   · (bram faces left)
   [juno]: "Bram. Someday I'll have my own forge. A tiny one. Maybe next door."  ✏ `event.overheard_juno_bram_4.l1`
-  [bram]: "Good. Make it next door. I'll visit. Daily."
+  [bram]: "Good. Make it next door. I measured the wall. I'll visit. Daily."
   · (bram wave (background))
   · (bram emote sweat)
   · (juno wave (background))
@@ -457,7 +459,7 @@ placed: piper(24, 18), juno(26, 18)
   · (juno shrug (background))
   · (juno emote note)
   · (piper point (background))
-  [piper]: "I felt it in my teeth! Through the whole stage!"
+  [piper]: "My slow verse has a backbeat now! I felt it in my teeth!"
   [juno]: "Then the anvil has a fan! Tell your teeth I said thanks!"  ✏ `event.overheard_piper_juno_1.l4`
   · effects: flag:event.overheard_piper_juno_1
 
@@ -506,7 +508,7 @@ placed: juno(24, 18), tilda(26, 18)
   · (place tilda to (26,18))
   · (juno faces right)
   · (tilda faces left)
-  [juno]: "Tilda! Slate payment! Three clasps and one hinge with a smiley face stamped on."  ✏ `event.overheard_tilda_juno_1.l1`
+  [juno]: "Tilda! Slate payment! Three clasps, one hinge, one smiley face. Stamped, not drawn."  ✏ `event.overheard_tilda_juno_1.l1`
   [tilda]: "Three clasps is two months of bread. The hinge is a tip. I'll put it on the slate."
   · (tilda shrug (background))
   · (tilda emote sweat)
