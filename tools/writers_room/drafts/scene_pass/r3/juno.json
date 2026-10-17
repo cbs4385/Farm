@@ -2,139 +2,379 @@
   "villager": "juno",
   "variants": {
     "event.juno_heart2.1": [
-      { "when": "horror:2 && var:dread>=60", "text": "See that color? It should be cherry. It keeps going gray at the edges. ...Okay. We wait for it. Hold steady. Both hands.", "why": "frightened: the forge itself misbehaves; Juno stays practical and keeps the player's hands busy" },
-      { "when": "horror:1 && var:dread>=30", "text": "See that color? Cherry going to straw. Slow today. The iron's been cold all morning. Bram says damp. I still say 'NOW!'", "why": "uneasy: cold iron, an ordinary excuse she half believes" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "See that color? It should be cherry. It keeps going gray at the edges. ...Okay. We wait for it. Hold steady. Both hands.",
+        "why": "frightened: the forge itself misbehaves; Juno stays practical and keeps the player's hands busy"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "See that color? Cherry going to straw. Slow today. The iron's been cold all morning. Bram says damp. I still say 'NOW!'",
+        "why": "uneasy: cold iron, an ordinary excuse she half believes"
+      }
     ],
     "event.juno_heart2.4": [
-      { "when": "horror:1 && var:lore>=1", "text": "Bram's mark is on every bar in here. Mine's still a sketch. Funny: your great-uncle once asked for a piece with no mark at all.", "why": "hint: echoes the brass key without naming it; why would anyone want it unsigned?" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Bram's mark is on every bar in here. Mine's still a sketch. Funny: your great-uncle once asked for a piece with no mark at all.",
+        "why": "hint: echoes the brass key without naming it; why would anyone want it unsigned?"
+      }
     ],
     "event.juno_heart5.1": [
-      { "when": "horror:2 && var:dread>=60", "text": "A steel sword. For the mines, or the weeds. ...Keep it by your door, maybe. No reason. It's yours.", "why": "frightened: the joke about the porch drops; she just wants the player safer" },
-      { "when": "horror:1 && var:dread>=30", "text": "A steel sword. For the mines, or the weeds, or the walk home. Everyone's walking home early lately. It's yours.", "why": "uneasy: notices the village's early nights, explains nothing" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "A steel sword. For the mines, or the weeds. ...Keep it by your door, maybe. No reason. It's yours.",
+        "why": "frightened: the joke about the porch drops; she just wants the player safer"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A steel sword. For the mines, or the weeds, or the walk home. Everyone's walking home early lately. It's yours.",
+        "why": "uneasy: notices the village's early nights, explains nothing"
+      }
     ],
     "event.juno_heart5.2": [
-      { "when": "horror:1 && var:lore>=3 && hearts:juno>=4", "text": "Don't lose it! ...Your great-uncle wanted a sword once. Then he changed his mind and asked for a tiny key instead.", "why": "clue: what made Edmund trade a weapon for a key?" }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:juno>=4",
+        "text": "Don't lose it! ...Your great-uncle wanted a sword once. Then he changed his mind and asked for a tiny key instead.",
+        "why": "clue: what made Edmund trade a weapon for a key?"
+      }
     ],
     "event.next_door.0": [
-      { "when": "horror:1 && var:dread>=30", "text": "Okay, okay, okay. Eyes shut. ...No, keep them open, actually. You look like you've had enough dark. Now!", "why": "uneasy: the surprise ritual bends around the player's nerves" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Okay, okay, okay. Eyes shut. ...No, keep them open, actually. You look like you've had enough dark. Now!",
+        "why": "uneasy: the surprise ritual bends around the player's nerves"
+      }
     ],
     "event.next_door.1": [
-      { "when": "horror:2 && var:dread>=60", "text": "My own piece, with my own mark. A plain hinge. ...It's still warm, see? Something warm that's yours. I love it more than breakfast!", "why": "frightened: she offers warmth as comfort without knowing why it is needed" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "My own piece, with my own mark. A plain hinge. ...It's still warm, see? Something warm that's yours. I love it more than breakfast!",
+        "why": "frightened: she offers warmth as comfort without knowing why it is needed"
+      }
     ],
     "event.hall_dance.8": [
-      { "when": "horror:2 && var:dread>=60", "text": "Those door hinges are mine. Listen to them swing. ...Stand by me, near the lamps. Everyone's here. Nobody's going anywhere tonight.", "why": "frightened: the celebration holds; she keeps the player inside the light" },
-      { "when": "horror:1 && var:dread>=30", "text": "Those door hinges are mine, my mark on every pin. Tilda keeps shutting the woods-side door. I keep opening it. Let it show off!", "why": "uneasy: a Keeper's too-exact care, seen by someone who thinks it is fussiness" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Those door hinges are mine. Listen to them swing. ...Stand by me, near the lamps. Everyone's here. Nobody's going anywhere tonight.",
+        "why": "frightened: the celebration holds; she keeps the player inside the light"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Those door hinges are mine, my mark on every pin. Tilda keeps shutting the woods-side door. I keep opening it. Let it show off!",
+        "why": "uneasy: a Keeper's too-exact care, seen by someone who thinks it is fussiness"
+      }
     ],
     "event.story_notes_juno.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "Don't look! ...Okay, you looked. Fine. Encouragement leaks out of me. Lately everyone looks like they need some. You most.", "why": "uneasy: the village is tired and she has noticed" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Don't look! ...Okay, you looked. Fine. Encouragement leaks out of me. Lately everyone looks like they need some. You most.",
+        "why": "uneasy: the village is tired and she has noticed"
+      }
     ],
     "dlg.story.notes.juno.0": [
-      { "when": "horror:2 && var:dread>=60", "text": "Juno has a folded note halfway under a door. She stops. So do you. Past the square, a dog barks and barks at the trees.", "why": "frightened: the world ladder (dogs and the wood) at the edge of a warm moment" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Juno has a folded note halfway under a door. She stops. So do you. Past the square, a dog barks and barks at the trees.",
+        "why": "frightened: the world ladder (dogs and the wood) at the edge of a warm moment"
+      }
     ],
     "event.story_notes_juno.after": [
-      { "when": "horror:1 && var:lore>=1", "text": "Bram's had six. He keeps every one in his apron pocket. Dr. Penn got one too. She read it at her window, facing the woods.", "why": "hint: a Keeper's habit noticed as a curiosity" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Bram's had six. He keeps every one in his apron pocket. Dr. Penn got one too. She read it at her window, facing the woods.",
+        "why": "hint: a Keeper's habit noticed as a curiosity"
+      }
     ],
     "dlg.story.band.talk.1": [
-      { "when": "horror:1 && var:dread>=30", "text": "Exhibit B: three anvils, the wash bucket, and Bram, hitting one thing once. The anvils ring flat tonight. I tuned them twice!", "why": "uneasy: the music is slightly off, the human version of the hum" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Exhibit B: three anvils, the wash bucket, and Bram, hitting one thing once. The anvils ring flat tonight. I tuned them twice!",
+        "why": "uneasy: the music is slightly off, the human version of the hum"
+      }
     ],
     "dlg.story.band.talk.r1": [
-      { "when": "horror:2 && var:dread>=60", "text": "We won! Bram, we won! ...Bram? He stopped. Everyone's looking at the trees. Okay! Clap louder, everyone!", "why": "frightened: the square turns toward the wood; Juno fills the silence on purpose" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "We won! Bram, we won! ...Bram? He stopped. Everyone's looking at the trees. Okay! Clap louder, everyone!",
+        "why": "frightened: the square turns toward the wood; Juno fills the silence on purpose"
+      }
     ],
     "event.juno_heart4.setup": [
-      { "when": "horror:2 && var:dread>=60", "text": "Freeze! Right there. Don't move. Don't move. ...Sorry, that came out wrong. It's a sticky surprise, that's all.", "why": "frightened: allowed distortion (a repeated phrase) she catches and softens" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Freeze! Right there. Don't move. Don't move. ...Sorry, that came out wrong. It's a sticky surprise, that's all.",
+        "why": "frightened: allowed distortion (a repeated phrase) she catches and softens"
+      }
     ],
     "event.juno_heart4.prank": [
-      { "when": "horror:1 && var:dread>=30", "text": "Done! You're labeled! 'Guest (Excellent)'. I nearly wrote 'Guest (Tired)'. You look tired. Spelled right and everything.", "why": "uneasy: the joke still lands, with a kind glance at the player" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Done! You're labeled! 'Guest (Excellent)'. I nearly wrote 'Guest (Tired)'. You look tired. Spelled right and everything.",
+        "why": "uneasy: the joke still lands, with a kind glance at the player"
+      }
     ],
     "dlg.juno.label.r0": [
-      { "when": "horror:1 && var:lore>=1", "text": "Accepted! You're a fixture now. Next I'm labeling the whole village. Except the forest gate. Nobody will let me near the forest gate.", "why": "hint: points at the gate without explaining it" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Accepted! You're a fixture now. Next I'm labeling the whole village. Except the forest gate. Nobody will let me near the forest gate.",
+        "why": "hint: points at the gate without explaining it"
+      }
     ],
     "event.juno_heart6.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "Don't come in. Okay, come in. Shut the door, the cold keeps getting in. I made something, it's crooked, and the quench barrel is looking at it.", "why": "uneasy: cold where the forge should be warmest" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Don't come in. Okay, come in. Shut the door, the cold keeps getting in. I made something, it's crooked, and the quench barrel is looking at it.",
+        "why": "uneasy: cold where the forge should be warmest"
+      }
     ],
     "dlg.juno.strike.0": [
-      { "when": "horror:2 && var:dread>=60", "text": "My first piece that isn't a copy. A little horseshoe. Lopsided. ...It came out of the fire cold. Iron isn't supposed to do that.", "why": "frightened: the one thing she trusts behaves wrongly; she says so plainly" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "My first piece that isn't a copy. A little horseshoe. Lopsided. ...It came out of the fire cold. Iron isn't supposed to do that.",
+        "why": "frightened: the one thing she trusts behaves wrongly; she says so plainly"
+      }
     ],
     "event.juno_heart6.after": [
-      { "when": "horror:1 && var:lore>=1", "text": "It's still crooked. It's still mine. ...I forged it on the fourth night of the season. The fire sulked the whole time. Don't tell Bram yet.", "why": "hint: the same nights every season; a curious player checks the calendar" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "It's still crooked. It's still mine. ...I forged it on the fourth night of the season. The fire sulked the whole time. Don't tell Bram yet.",
+        "why": "hint: the same nights every season; a curious player checks the calendar"
+      }
     ],
     "event.juno_heart8.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "Okay, okay, okay. Today's the right day. I'm showing Bram the horseshoe. Stand next to me? We both look like we didn't sleep.", "why": "uneasy: shared tiredness, warmth intact" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Okay, okay, okay. Today's the right day. I'm showing Bram the horseshoe. Stand next to me? We both look like we didn't sleep.",
+        "why": "uneasy: shared tiredness, warmth intact"
+      }
     ],
     "dlg.juno.shoe.c0": [
-      { "when": "horror:2 && var:dread>=60", "text": "Wait with her. Don't look at the window.", "why": "frightened: same choice (wait), the player's own unease leaks into it" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Wait with her. Don't look at the window.",
+        "why": "frightened: same choice (wait), the player's own unease leaks into it"
+      }
     ],
     "dlg.juno.shoe.r0": [
-      { "when": "horror:2 && var:dread>=60", "text": "...Okay. Quiet's good. Everyone is so quiet. So quiet. ...No. Good quiet. This is the good kind. Stay.", "why": "frightened: a short repeated-word stammer, then she chooses the warm reading" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "...Okay. Quiet's good. Everyone is so quiet. So quiet. ...No. Good quiet. This is the good kind. Stay.",
+        "why": "frightened: a short repeated-word stammer, then she chooses the warm reading"
+      }
     ],
     "event.juno_heart10.intro": [
-      { "when": "horror:1 && var:lore>=3 && hearts:juno>=4", "text": "Hold out your hand. Both hands. The last tiny thing I made for a Fenn was a key. This one has my mark on it.", "why": "clue: ties the heirloom to Edmund's key; where is that key now?" },
-      { "when": "horror:1 && var:dread>=30", "text": "Hold out your hand. Both hands. They're like ice! I made a mark, my own, and I stamped it before I told a single person.", "why": "uneasy: she notices the player is cold" }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:juno>=4",
+        "text": "Hold out your hand. Both hands. The last tiny thing I made for a Fenn was a key. This one has my mark on it.",
+        "why": "clue: ties the heirloom to Edmund's key; where is that key now?"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Hold out your hand. Both hands. They're like ice! I made a mark, my own, and I stamped it before I told a single person.",
+        "why": "uneasy: she notices the player is cold"
+      }
     ],
     "event.juno_friend.doing": [
-      { "when": "horror:1 && var:dread>=30", "text": "See? 'Swimming Pool (Official)'. Quench won't go near it lately. Just sits on the roof facing the woods. Quench has opinions now.", "why": "uneasy: animals face the wood, told as cat gossip" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "See? 'Swimming Pool (Official)'. Quench won't go near it lately. Just sits on the roof facing the woods. Quench has opinions now.",
+        "why": "uneasy: animals face the wood, told as cat gossip"
+      }
     ],
     "event.juno_friend.wrap": [
-      { "when": "horror:2 && var:dread>=60", "text": "Best pool in Wetherell. Only pool. Still a bucket. ...Come by on Thursdays anyway? It's nice, having you where I can see you.", "why": "frightened: the invitation becomes a check-in" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Best pool in Wetherell. Only pool. Still a bucket. ...Come by on Thursdays anyway? It's nice, having you where I can see you.",
+        "why": "frightened: the invitation becomes a check-in"
+      }
     ],
     "event.juno_birthday.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "Okay, okay, okay, it's my birthday and I'm not nervous! I labeled the cake 'Cake (Birthday)'. Come in, quick, the fog's coming down early!", "why": "uneasy: the long fog, mentioned in passing" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Okay, okay, okay, it's my birthday and I'm not nervous! I labeled the cake 'Cake (Birthday)'. Come in, quick, the fog's coming down early!",
+        "why": "uneasy: the long fog, mentioned in passing"
+      }
     ],
     "dlg.juno.birthday.0": [
-      { "when": "horror:2 && var:dread>=60", "text": "So? What's the plan? There's a plan, right? ...You don't need one. Just stay for cake. Stay a while.", "why": "frightened: her shipped excitement line softens into an invitation to rest" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "So? What's the plan? There's a plan, right? ...You don't need one. Just stay for cake. Stay a while.",
+        "why": "frightened: her shipped excitement line softens into an invitation to rest"
+      }
     ],
     "event.juno_courtship.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "Okay, okay, okay. I made a list. 'Reasons I Like the Farmer.' Forty items. I wrote it on nights I couldn't sleep. So. Would you court me?", "why": "uneasy: nobody sleeps well; same question" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Okay, okay, okay. I made a list. 'Reasons I Like the Farmer.' Forty items. I wrote it on nights I couldn't sleep. So. Would you court me?",
+        "why": "uneasy: nobody sleeps well; same question"
+      }
     ],
     "dlg.juno.courtship.r2": [
-      { "when": "horror:2 && var:dread>=60", "text": "Think! Yes! Take your time! I'll be right here, keeping the fire high, not watching the door. Come back before dark, okay?", "why": "frightened: same answer (later); her care shows" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Think! Yes! Take your time! I'll be right here, keeping the fire high, not watching the door. Come back before dark, okay?",
+        "why": "frightened: same answer (later); her care shows"
+      }
     ],
     "event.juno_courtship2.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "The list has forty-one items now. Forty-one is 'patient'. I've been patient through a lot of long nights! So. Would you court me?", "why": "uneasy: the long nights, same question" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The list has forty-one items now. Forty-one is 'patient'. I've been patient through a lot of long nights! So. Would you court me?",
+        "why": "uneasy: the long nights, same question"
+      }
     ],
     "dlg.juno.partners.0": [
-      { "when": "horror:1 && var:dread>=30", "text": "Bram banked the forge early and shooed me out. He does that on the dark nights now. The afternoon's ours. What are we doing?", "why": "uneasy: an unaware man's habit changing too; nobody explains" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Bram banked the forge early and shooed me out. He does that on the dark nights now. The afternoon's ours. What are we doing?",
+        "why": "uneasy: an unaware man's habit changing too; nobody explains"
+      }
     ],
     "dlg.juno.partners.r1": [
-      { "when": "horror:1 && var:lore>=1", "text": "The beach! With sand! Far from the trees! I'll bring a clasp for luck, and a sandwich. Not for the clasp.", "why": "hint: she prefers the shore without saying why" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "The beach! With sand! Far from the trees! I'll bring a clasp for luck, and a sandwich. Not for the clasp.",
+        "why": "hint: she prefers the shore without saying why"
+      }
     ],
     "event.overheard_juno_bram_1.l3": [
-      { "when": "horror:1 && var:dread>=30", "text": "That's what labels are for! I labeled the back door 'Shut (After Dark)'. Tilda's idea!", "why": "uneasy: a Keeper's rule repeated as a label" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "That's what labels are for! I labeled the back door 'Shut (After Dark)'. Tilda's idea!",
+        "why": "uneasy: a Keeper's rule repeated as a label"
+      }
     ],
     "event.overheard_juno_bram_2.l3": [
-      { "when": "horror:2 && var:dread>=60", "text": "That's the nicest label anyone's made me! ...Make one for the farmer. They look worn.", "why": "frightened: the village talks about the player kindly behind their back" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "That's the nicest label anyone's made me! ...Make one for the farmer. They look worn.",
+        "why": "frightened: the village talks about the player kindly behind their back"
+      }
     ],
     "event.overheard_juno_bram_3.l1": [
-      { "when": "horror:1 && var:lore>=1", "text": "Bram! Fixed your bench. Crooked joint, don't look. Marcus ordered nails again, day four. Who builds on day four?", "why": "hint: a Keeper's errand on the ritual day, keeps the crooked joint for Bram's reply" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Bram! Fixed your bench. Crooked joint, don't look. Marcus ordered nails again, day four. Who builds on day four?",
+        "why": "hint: a Keeper's errand on the ritual day, keeps the crooked joint for Bram's reply"
+      }
     ],
     "event.overheard_juno_bram_4.l3": [
-      { "when": "horror:1 && var:dread>=30", "text": "You would? Daily? Even when the nights get long? Even the crooked bench?", "why": "uneasy: a small shadow on a sure promise" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "You would? Daily? Even when the nights get long? Even the crooked bench?",
+        "why": "uneasy: a small shadow on a sure promise"
+      }
     ],
     "event.overheard_piper_juno_1.l2": [
-      { "when": "horror:1 && var:dread>=30", "text": "Quieter? Piper, it's a forge! ...Though the anvil keeps ringing after I stop. Is that you?", "why": "uneasy: the hum, heard as a ringing" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Quieter? Piper, it's a forge! ...Though the anvil keeps ringing after I stop. Is that you?",
+        "why": "uneasy: the hum, heard as a ringing"
+      }
     ],
     "event.overheard_piper_juno_2.l4": [
-      { "when": "horror:1 && var:lore>=1", "text": "That's a hit! 'Song (Forge)'! ...That bit you hum at the end, the four notes. Where's it from?", "why": "hint: points at Edmund's four notes without answering" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "That's a hit! 'Song (Forge)'! ...That bit you hum at the end, the four notes. Where's it from?",
+        "why": "hint: points at Edmund's four notes without answering"
+      }
     ],
     "event.overheard_tilda_juno_1.l3": [
-      { "when": "horror:1 && var:lore>=1", "text": "Is the smiley face worth extra? It took an hour. Why'd you close early last new moon?", "why": "hint: Tilda's answer stays the same, so it reads as a dodge" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Is the smiley face worth extra? It took an hour. Why'd you close early last new moon?",
+        "why": "hint: Tilda's answer stays the same, so it reads as a dodge"
+      }
     ],
     "event.overheard_tilda_juno_3.l3": [
-      { "when": "horror:1 && var:dread>=30", "text": "In Wetherell. Definitely. Next door to Bram, with good thick doors. Okay, definitely.", "why": "uneasy: even her dream forge wants a sturdy door" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "In Wetherell. Definitely. Next door to Bram, with good thick doors. Okay, definitely.",
+        "why": "uneasy: even her dream forge wants a sturdy door"
+      }
+    ],
+    "event.juno_heart4.reaction": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "{if choice:label.accept}A label that stays! Next I'm doing the whole village. The hall roof gets 'Nearly (Fixed)'. The forest gate gets nothing. Tilda took my pencil.{else}{if choice:label.relabel}'Apprentice (Chaotic)', on my forehead, all day. Bram moved the tongs out of reach. Dr. Penn read it and looked at the woods.{else}Nobody's ever eaten a label! I'm thrilled. I'm a little worried. I'm making a drawer that says 'Not Food'. Quench sniffed it and stared at the trees.{/if}{/if}",
+        "why": "hint: every branch brushes the wood; a Keeper takes the pencil before the gate gets a label"
+      }
+    ],
+    "event.juno_heart8.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if choice:shoe.wait}You waited. He's holding it now. He turned it over twice. The forge went so quiet I heard the coal settle. It's the best quiet.{else}{if choice:shoe.praise}You said wonderful, and he's frowning at it like he agrees. ...You're shaking a little. Stand by the fire. That's how Bram says yes.{else}One last tap on the bend. It rang longer than it should. It's better, and it's still mine. He hasn't put it down.{/if}{/if}",
+        "why": "frightened: the moment holds; each branch carries one wrong note and Juno's care"
+      }
+    ],
+    "event.juno_heart10.thanks": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:shoe.wait}Bram saw the mark. He waited, like you did, then nodded once. Next door has an empty sign hook. Come see it in daylight.{else}Bram saw the mark and said the good 'Hm.' I'd know. Next door has an empty sign hook. Come see it in daylight.{/if}",
+        "why": "uneasy: the invitation quietly prefers daylight"
+      }
+    ],
+    "event.juno_birthday.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:bday.juno.wish}It's framed now, next to the first clasp that ever closed. Click is very proud. You look tired. Take some cake home.{else}{if choice:bday.juno.tease}The cake label stays. I'm adding 'Yes, Really'. Bram backed away slowly. Tilda still sent me home before dark. On my birthday!{else}A gift, from you, on my birthday. It's on the anvil. Everything in here orbits it now. Even Quench stopped staring at the woods.{/if}{/if}",
+        "why": "uneasy: tiredness, a Keeper's curfew, the cat and the wood"
+      }
+    ],
+    "event.juno_partners.after": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "{if choice:courtship.juno.anvil}The tiny anvil's on my bench. Most important tool I own. It rings by itself sometimes, on dark nights. Still does nothing. Perfectly.{else}{if choice:courtship.juno.beach}The beach was perfect. I got sand in a clasp. It crunches. And the woods looked small from there. I liked that.{else}Hands, at the forge. Bram pretended not to see. Then he smiled at the coal. Nobody looked at the window once. I saw.{/if}{/if}",
+        "why": "hint: the hum as a ringing anvil; the wood seen from the shore"
+      }
     ]
   },
   "adds": [
-    { "scene": "juno_heart2", "after": "event.juno_heart2.3", "when": "horror:2 && var:dread>=60",
-      "text": "...You've gone pale. Sit on the bucket a second. Forges do that to people. Stand where it's warm.", "emote": "sweat", "expression": "neutral", "why": "the unaware villager as ordinary human comfort" },
-    { "scene": "juno_heart5", "after": "event.juno_heart5.0", "when": "horror:1 && var:dread>=30",
-      "text": "Eleven evenings, and I left before dark every one. Tilda's lamp tells me when. Don't ask me why I listen to a lamp.", "emote": null, "expression": "thinking", "why": "a Keeper's tell seen from the outside as a quirk" },
-    { "scene": "next_door", "after": "event.next_door.1", "when": "horror:1 && var:lore>=3 && hearts:juno>=4",
-      "text": "First mark I ever left off was on your great-uncle's key. He asked for it plain. Nothing to say who made it. I still wonder why.", "emote": "ellipsis", "expression": "thinking", "why": "clue: echoes the key thread at her proudest moment" },
-    { "scene": "story_notes_juno", "after": "event.story_notes_juno.intro", "when": "horror:2 && var:dread>=60",
-      "text": "...I already wrote you one. It just says 'Sleep'. You look like you haven't.", "emote": "ellipsis", "expression": "sad", "why": "frightened: encouragement turned toward the player's state" }
+    {
+      "scene": "juno_heart2",
+      "after": "event.juno_heart2.3",
+      "when": "horror:2 && var:dread>=60",
+      "text": "...You've gone pale. Sit on the bucket a second. Forges do that to people. Stand where it's warm.",
+      "emote": "sweat",
+      "expression": "neutral",
+      "why": "the unaware villager as ordinary human comfort"
+    },
+    {
+      "scene": "juno_heart5",
+      "after": "event.juno_heart5.0",
+      "when": "horror:1 && var:dread>=30",
+      "text": "Eleven evenings, and I left before dark every one. Tilda's lamp tells me when. Don't ask me why I listen to a lamp.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "a Keeper's tell seen from the outside as a quirk"
+    },
+    {
+      "scene": "next_door",
+      "after": "event.next_door.1",
+      "when": "horror:1 && var:lore>=3 && hearts:juno>=4",
+      "text": "First mark I ever left off was on your great-uncle's key. He asked for it plain. Nothing to say who made it. I still wonder why.",
+      "emote": "ellipsis",
+      "expression": "thinking",
+      "why": "clue: echoes the key thread at her proudest moment"
+    },
+    {
+      "scene": "story_notes_juno",
+      "after": "event.story_notes_juno.intro",
+      "when": "horror:2 && var:dread>=60",
+      "text": "...I already wrote you one. It just says 'Sleep'. You look like you haven't.",
+      "emote": "ellipsis",
+      "expression": "sad",
+      "why": "frightened: encouragement turned toward the player's state"
+    }
   ],
   "cuts": [
-    { "scene": "juno_heart2", "key": "event.juno_heart2.3", "when": "horror:2 && var:dread>=60", "why": "the 'thank you or ow' joke falls flat on a frightened player; the added line about looking pale fills the beat" }
+    {
+      "scene": "juno_heart2",
+      "key": "event.juno_heart2.3",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the 'thank you or ow' joke falls flat on a frightened player; the added line about looking pale fills the beat"
+    }
   ],
   "threads": {
     "juno_heart2": "Why does the forge's iron run cold on some days, and why did Edmund want a piece with no maker's mark?",
@@ -166,6 +406,7 @@
   "notes": [
     "Small inventions to confirm against LORE.md: Edmund asked for the key unmarked/plain (heart2 hint, next_door add); Edmund first wanted a sword, then the key (heart5 clue); the Community Hall has a 'woods-side door' Tilda keeps shut (hall_dance); Juno's back-door label 'Shut (After Dark)' is Tilda's idea; Marcus ordering nails on day four; Bram banking early on dark nights (Bram is unaware, so it reads as habit, no explanation).",
     "Lines with {if} branches (heart4.reaction, heart8.after, heart10.give/thanks, birthday.after, courtship/courtship2.after, partners.after) are left without variants so the branches survive.",
-    "Juno never explains anything; all clue-tier text is things she saw or made, never a theory."
+    "Juno never explains anything; all clue-tier text is things she saw or made, never a theory.",
+    "3b: added branched variants for heart4.reaction, heart8.after, heart10.thanks, birthday.after, partners.after; heart10.give, courtship.after and courtship2.after stay plain (tender payoffs, contrast)."
   ]
 }

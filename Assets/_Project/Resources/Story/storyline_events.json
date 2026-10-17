@@ -5,7 +5,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:pie_feud && (hearts:marcus>=3 || hearts:odalys>=3) && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(storyline:pie_feud && (hearts:marcus>=3 || hearts:odalys>=3) && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pie_payoff",
       "titleKey": "memory.story_pie_payoff",
       "tag": "funny",
       "steps": [
@@ -68,7 +68,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "flag:notes.began && storyline:anonymous_notes.dorian && hearts:dorian>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(flag:notes.began && storyline:anonymous_notes.dorian && hearts:dorian>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_notes_dorian",
       "titleKey": "memory.story_notes_dorian",
       "tag": "wholesome",
       "steps": [
@@ -148,7 +148,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "flag:notes.began && storyline:anonymous_notes.juno && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(flag:notes.began && storyline:anonymous_notes.juno && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_notes_juno",
       "titleKey": "memory.story_notes_juno",
       "tag": "wholesome",
       "steps": [
@@ -228,7 +228,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "flag:notes.began && storyline:anonymous_notes.tilda && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(flag:notes.began && storyline:anonymous_notes.tilda && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_notes_tilda",
       "titleKey": "memory.story_notes_tilda",
       "tag": "wholesome",
       "steps": [
@@ -308,7 +308,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:lost_umbrella && weather:rain && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(storyline:lost_umbrella && weather:rain && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_umbrella",
       "titleKey": "memory.story_umbrella",
       "tag": "funny",
       "steps": [
@@ -388,7 +388,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:rival_scarecrows && season:fall && weekday:sat && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(storyline:rival_scarecrows && season:fall && weekday:sat && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_scarecrows",
       "titleKey": "memory.story_scarecrows",
       "tag": "funny",
       "steps": [
@@ -470,7 +470,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:mystery_whistler.bram && hour>=18 && hour<21 && !festival.in:==0",
+      "condition": "(storyline:mystery_whistler.bram && hour>=18 && hour<21 && !festival.in:==0) && !flag:event.story_whistler_bram",
       "titleKey": "memory.story_whistler_bram",
       "tag": "funny",
       "steps": [
@@ -532,7 +532,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:mystery_whistler.marcus && hour>=18 && hour<21 && !festival.in:==0",
+      "condition": "(storyline:mystery_whistler.marcus && hour>=18 && hour<21 && !festival.in:==0) && !flag:event.story_whistler_marcus",
       "titleKey": "memory.story_whistler_marcus",
       "tag": "funny",
       "steps": [
@@ -594,7 +594,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:mystery_whistler.felix && hour>=18 && hour<21 && !festival.in:==0",
+      "condition": "(storyline:mystery_whistler.felix && hour>=18 && hour<21 && !festival.in:==0) && !flag:event.story_whistler_felix",
       "titleKey": "memory.story_whistler_felix",
       "tag": "funny",
       "steps": [

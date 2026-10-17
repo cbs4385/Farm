@@ -143,6 +143,18 @@
     "event.overheard_tilda_juno_3.l2": [
       { "when": "horror:2 && var:lore>=3 && hearts:tilda>=4", "text": "Open one here and I'll stock your first shelf. Go farther, and... I'd understand. I'd post pie.", "why": "clue: the shopkeeper who fears a shrinking village half wants Juno away" }
     ],
+    "event.story_scarecrows.after": [
+      { "when": "horror:1 && var:dread>=30", "text": "{if choice:scarecrow.tilda}I won. I'm not smug. I'm radiant. Rematch next fall, if the crows come back.{else}{if choice:scarecrow.dorian}He won. I'll say it once, quietly. His never blinks. Rematch next fall.{else}{if choice:scarecrow.tie}A tie. I'm not speaking to you, with love. Rematch next fall.{else}The crows chose both, the few that came. Wise birds. They're on the slate for diplomacy.{/if}{/if}{/if}", "why": "uneasy: the birds are thinning; Dorian's scarecrow never blinks" }
+    ],
+    "event.tilda_heart4.after": [
+      { "when": "horror:2 && var:dread>=60", "text": "{if choice:slate.thanks}A thank-you, in chalk. I'll never wipe it.{else}{if choice:slate.joke}A joke on the slate. Good. We need one this season.{else}A promise. I'll hold you to it, gently. Very gently.{/if}{/if} Now you're on it. You come back. Every night, you come back.", "why": "frightened: the cozy 'you have to come back' turns into a count; repeat as distortion" }
+    ],
+    "event.tilda_heart8.after": [
+      { "when": "horror:1 && var:lore>=3 && hearts:tilda>=4", "text": "{if choice:card.bake}Flour, butter, and her handwriting. Saturday, before opening. In daylight, mind. Don't be late.{else}{if choice:card.keep}Safe, then. Back in the tin, lid on tight. Some things stay where they're put.{else}Sharing it, then. A copy for every kitchen. The front only. The back stays with me.{/if}{/if}", "why": "clue: the back of the card (the four dates) is kept from the village" }
+    ],
+    "event.tilda_heart10.thanks": [
+      { "when": "horror:2 && var:lore>=5 && hearts:tilda>=6", "text": "{if choice:card.share}I copied the recipe for every kitchen, with your name at the bottom. That's the only list you're on now. I saw to it.{else}{if choice:card.bake}That Saturday you stood by the oven so I couldn't back out. I owed you more than a pie. This settles some of it.{else}The card's in its tin, the back unread. This one's from memory. Some things I'd rather you never had to learn.{/if}{/if}", "why": "revelation: she has taken the farm off the other list; pairs with the heart10.give variant" }
+    ],
     "event.overheard_tilda_bram_1.l1": [
       { "when": "horror:1 && var:dread>=30", "text": "Bram. There's a pie crust on your bench. For the hinges, the shutters, and the brighter lamp.", "why": "uneasy: shutters and a brighter lamp" }
     ]
@@ -189,7 +201,7 @@
     "Some variants carry an 'expression' field to keep the cozy beat's portrait; drop it if the compiler takes expression from the beat only.",
     "dlg.tilda.hours.1 revelation (full, lore>=5, hearts>=6) is Tilda's confession; I treat heart 6 as her clue scene. The choices ('I'm staying' etc.) still answer it. Confirm with LORE.md that Tilda may name Edmund's cost here.",
     "The back of the slate (heart4 clue, birthday hint, Wren overheard hint) is a new object to chase; it needs a payoff clue somewhere (Hazel or a Tilda later scene).",
-    "No variants on lines with {if} markup (scarecrows.after, heart4.after, heart8.after, heart10.thanks, birthday.after) to keep choice branching intact.",
+    "Round 3b: branched variants added for scarecrows.after, heart4.after, heart8.after and heart10.thanks (every cozy branch kept); birthday.after left plain.",
     "Overheard variants kept to 20 words or fewer; overheard_tilda_wren_2 and juno_2 left plain for contrast."
   ]
 }

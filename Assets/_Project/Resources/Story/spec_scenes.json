@@ -17,7 +17,7 @@
       "trigger": "map",
       "map": "Blacksmith",
       "priority": 6,
-      "condition": "flag:event.juno_heart10 && flag:event.bram_heart10 && hearts:juno>=10 && hearts:bram>=10 && !weekday:mon && hour>=9 && hour<17 && !festival.in:==0",
+      "condition": "(flag:event.juno_heart10 && flag:event.bram_heart10 && hearts:juno>=10 && hearts:bram>=10 && !weekday:mon && hour>=9 && hour<17 && !festival.in:==0) && !flag:event.next_door",
       "titleKey": "memory.next_door",
       "tag": "wholesome",
       "steps": [
@@ -131,7 +131,7 @@
       "map": "CommunityHall",
       "priority": 8,
       "recheck": true,
-      "condition": "flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0",
+      "condition": "(flag:hall.restored && flag:hall.roof && quest:wren_full_house=done && flag:event.piper_heart10 && flag:event.juno_heart10 && hour>=18 && hour<23 && !festival.in:==0) && !flag:event.hall_dance",
       "titleKey": "memory.hall_dance",
       "tag": "wholesome",
       "steps": [
@@ -386,7 +386,7 @@
       "map": "Library",
       "priority": 7,
       "recheck": true,
-      "condition": "flag:choice.reading.yes && flag:event.hazel_heart10 && flag:event.ione_heart8 && flag:met.dorian && hour>=17 && hour<21 && !weekday:sat && !festival.in:==0",
+      "condition": "(flag:choice.reading.yes && flag:event.hazel_heart10 && flag:event.ione_heart8 && flag:met.dorian && hour>=17 && hour<21 && !weekday:sat && !festival.in:==0) && !flag:event.reading_night",
       "titleKey": "memory.reading_night",
       "tag": "wholesome",
       "steps": [

@@ -193,6 +193,27 @@
         "text": "I won't! Nineteen! Twenty! The fish are all facing one way today. Listening, I bet.",
         "why": "Uneasy, mild: same image, no direction named."
       }
+    ],
+    "event.elara_heart8.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:list.pick}We picked one. The sea, from a boat. Circled twice. Felix has a boat, you know. Far out is good for thinking.{else}{if choice:list.add}You added a place. It's in the margin: 'Somewhere [player] suggests.' Somewhere quiet, I hope. You need quiet.{else}You promised. I'm holding you to it. Gently. You look like you could use gentle.{/if}{/if}",
+        "why": "Uneasy: each branch keeps its meaning and adds one small, practical noticing."
+      }
+    ],
+    "event.elara_courtship2.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if flag:choice.courtship.elara.yes}Courting! The scarf's long enough for two. Wear it home. Wear it to sleep, if you're sleeping.{else}{if flag:choice.courtship.elara.friends}Friends, then. I'll knit it in blue, so it's calm. You look like you need calm.{else}Still thinking? That's all right. The scarf will keep. So will I. Come by in daylight.{/if}{/if}",
+        "why": "Frightened: warmth turns toward rest and safety; every answer keeps its meaning."
+      }
+    ],
+    "event.elara_partners.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:courtship.elara.hat}The hat lives on my shelf now, with its smaller hats. You wore it all evening. You looked warmer.{else}{if choice:courtship.elara.knit}Our row is the middle of the scarf. Your hands were cold, so it's crooked. It's my favorite part.{else}The sunset was pink. We counted boats. The gulls never came. Someday one of the boats is ours.{/if}{/if}",
+        "why": "Uneasy: one shadow per branch (cold hands, absent gulls) inside the happiest scene."
+      }
     ]
   },
   "adds": [
@@ -246,7 +267,7 @@
     "The cozy list has forty-one places, the same number as Dorian's forty-one trees. I used it at clue tier (Penn counts them and goes quiet); Elara never links the two. If the match was an accident, cut dlg.elara.list.1's variant.",
     "New canon-adjacent detail: Penn once crossed Harrow Wood off Elara's list ('Not that one'). Penn's persona should agree, or the Director should cut it.",
     "Garden visit variant n1 is gated only on horror:1 because the scene plays on spring 2 of year 1, before any lore or dread can build.",
-    "The .after lines (heart8, birthday, courtship, partners) are {if}-branched, so I left them alone.",
-    "Planned cut of event.elara_heart5.3 at dread>=60 was illegal (last line), so it became a frightened variant instead."
+    "Planned cut of event.elara_heart5.3 at dread>=60 was illegal (last line), so it became a frightened variant instead.",
+    "Round 3b: branched variants added for heart8.after, courtship2.after and partners.after. birthday.after and courtship.after stay plain on purpose, for contrast."
   ]
 }

@@ -344,7 +344,7 @@
       "trigger": "map",
       "map": "GeneralStore",
       "priority": 5,
-      "condition": "hearts:tilda>=2 && !weekday:sun && hour>=9 && hour<17",
+      "condition": "(hearts:tilda>=2 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart2",
       "steps": [
         {
           "type": "face",

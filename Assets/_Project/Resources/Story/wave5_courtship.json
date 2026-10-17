@@ -20,7 +20,8 @@
       "event": {
         "titleKey": "memory.wren_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:wren>=8 && flag:event.wren_heart8 && !flag:partners.wren && !flag:choice.courtship.wren.friends && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=12 && hour<24) && !flag:event.wren_courtship"
       }
     },
     {
@@ -68,7 +69,8 @@
       "event": {
         "titleKey": "memory.wren_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:wren>=10 && flag:choice.courtship.wren.yes && !flag:partners.wren && !weekday:tue && hour>=12 && hour<24) && !flag:event.wren_partners"
       }
     },
     {
@@ -91,7 +93,8 @@
       "event": {
         "titleKey": "memory.hazel_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:hazel>=8 && flag:event.hazel_heart8 && !flag:partners.hazel && !flag:choice.courtship.hazel.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_courtship"
       }
     },
     {
@@ -139,7 +142,8 @@
       "event": {
         "titleKey": "memory.hazel_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:hazel>=10 && flag:choice.courtship.hazel.yes && !flag:partners.hazel && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_partners"
       }
     },
     {
@@ -162,7 +166,8 @@
       "event": {
         "titleKey": "memory.juno_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:juno>=8 && flag:event.juno_heart8 && !flag:partners.juno && !flag:choice.courtship.juno.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_courtship"
       }
     },
     {
@@ -214,7 +219,8 @@
       "event": {
         "titleKey": "memory.juno_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:juno>=10 && flag:choice.courtship.juno.yes && !flag:partners.juno && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_partners"
       }
     },
     {
@@ -237,7 +243,8 @@
       "event": {
         "titleKey": "memory.piper_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:piper>=8 && flag:event.piper_heart8 && !flag:partners.piper && !flag:choice.courtship.piper.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_courtship"
       }
     },
     {
@@ -285,7 +292,8 @@
       "event": {
         "titleKey": "memory.piper_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:piper>=10 && flag:choice.courtship.piper.yes && !flag:partners.piper && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_partners"
       }
     },
     {
@@ -308,7 +316,8 @@
       "event": {
         "titleKey": "memory.felix_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:felix>=8 && flag:event.felix_heart8 && !flag:partners.felix && !flag:choice.courtship.felix.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && !weekday:thu && hour>=6 && hour<14) && !flag:event.felix_courtship"
       }
     },
     {
@@ -359,7 +368,8 @@
       "event": {
         "titleKey": "memory.felix_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:felix>=10 && flag:choice.courtship.felix.yes && !flag:partners.felix && !weekday:thu && hour>=6 && hour<14) && !flag:event.felix_partners"
       }
     },
     {
@@ -382,7 +392,8 @@
       "event": {
         "titleKey": "memory.dorian_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:dorian>=8 && flag:event.dorian_heart8 && !flag:partners.dorian && !flag:choice.courtship.dorian.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.elara.yes && !flag:choice.courtship.ione.yes && hour>=8 && hour<17) && !flag:event.dorian_courtship"
       }
     },
     {
@@ -431,7 +442,8 @@
       "event": {
         "titleKey": "memory.dorian_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:dorian>=10 && flag:choice.courtship.dorian.yes && !flag:partners.dorian && hour>=8 && hour<17) && !flag:event.dorian_partners"
       }
     },
     {
@@ -454,7 +466,8 @@
       "event": {
         "titleKey": "memory.elara_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:elara>=8 && flag:event.elara_heart8 && !flag:partners.elara && !flag:choice.courtship.elara.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.ione.yes && !weekday:sat && hour>=9 && hour<17) && !flag:event.elara_courtship"
       }
     },
     {
@@ -503,7 +516,8 @@
       "event": {
         "titleKey": "memory.elara_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:elara>=10 && flag:choice.courtship.elara.yes && !flag:partners.elara && !weekday:sat && hour>=9 && hour<17) && !flag:event.elara_partners"
       }
     },
     {
@@ -526,7 +540,8 @@
       "event": {
         "titleKey": "memory.ione_courtship",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:ione>=8 && flag:event.ione_heart8 && !flag:partners.ione && !flag:choice.courtship.ione.friends && !flag:choice.courtship.wren.yes && !flag:choice.courtship.hazel.yes && !flag:choice.courtship.juno.yes && !flag:choice.courtship.piper.yes && !flag:choice.courtship.felix.yes && !flag:choice.courtship.dorian.yes && !flag:choice.courtship.elara.yes && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_courtship"
       }
     },
     {
@@ -574,7 +589,8 @@
       "event": {
         "titleKey": "memory.ione_partners",
         "priority": 8,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:ione>=10 && flag:choice.courtship.ione.yes && !flag:partners.ione && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_partners"
       }
     }
   ]

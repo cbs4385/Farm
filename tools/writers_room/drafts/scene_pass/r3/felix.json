@@ -63,6 +63,15 @@
     "dlg.felix.big.r1": [
       { "when": "horror:1 && var:dread>=30", "text": "Let it go? ...Right. A good fish deserves a long life. Off it goes, toward the wood bank. We keep the story.", "why": "uneasy: the release keeps its meaning; the direction is odd" }
     ],
+    "event.felix_heart8.after": [
+      { "when": "horror:1 && var:lore>=1", "text": "{if choice:big.net}Netted. It was this big. By Friday it'll be this big. Odd, though. It kept looking at the trees.{else}{if choice:big.release}Gone home. Straight for the wood bank. Same dawn next year, we said. We've an understanding.{else}Eleven inches. Honest inches. Faced the trees the whole time. I'm devastated. And proud.{/if}{/if}", "why": "hint in every branch: the fish faces the wood; each choice's payoff kept" }
+    ],
+    "event.felix_birthday.after": [
+      { "when": "horror:2 && var:dread>=60", "text": "{if choice:bday.felix.wish}Two well-wishers before noon. Tilda, then you. You looked pale saying it. Sit a while.{else}{if choice:bday.felix.story}The story's longer now. I added you at the end, holding the net. Safe and dry. That's the ending.{else}Tomorrow, then, off the good rock. Best present I've had. Come early. Dawns are easier with company.{/if}{/if}", "why": "frightened: each branch ends on plain care for the player" }
+    ],
+    "event.felix_partners.after": [
+      { "when": "horror:1 && var:dread>=30", "text": "{if choice:courtship.felix.shell}The shell sits on my shelf, by the best hook. It hums at night, lately. Still says your name, though.{else}{if choice:courtship.felix.fish}One very small fish, all morning. The fog never lifted. We threw it back. I've already made it bigger.{else}The sun came late through the fog. We waited anyway. Longest conversation I've ever had.{/if}{/if}", "why": "uneasy: the hum and the fog that stays, with the warmth intact" }
+    ],
     "event.felix_birthday.intro": [
       { "when": "horror:1 && var:dread>=30", "text": "It's my birthday. Tilda says no fishing today. She brought a pie. You look tired. Sit. I brought a story about a fish.", "why": "uneasy: he notices the player's tiredness on his own day" }
     ],
@@ -141,7 +150,7 @@
   },
   "notes": [
     "felix_heart5 add invents a small Edmund detail (sat on Felix's rock at dawn watching the tree line). It echoes 'counting the trees' without duplicating it; strike it if LORE.md says Edmund never came to the beach.",
-    "No variants on the {if}-branched .after lines (felix_heart8, birthday, courtship, courtship2, partners): a variant can't carry the branch markup and would erase the choice payoff. If the compiler supports choice atoms in 'when', I can write per-branch variants.",
+    "Round 3b: branched .after variants added for felix_heart8, felix_birthday and felix_partners (all branches kept). felix_courtship.after and felix_courtship2.after left plain on purpose: the answer to a proposal should stay clean.",
     "overheard_tilda_felix_4.l1 variant uses day==4 so it plays only on the new-moon day (store closes early). Felix only asks; he never explains.",
     "Choice labels left alone on purpose, so the meaning of every choice stays the same."
   ]

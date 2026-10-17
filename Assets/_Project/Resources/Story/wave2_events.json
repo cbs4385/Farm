@@ -20,7 +20,8 @@
       "event": {
         "titleKey": "memory.tilda_heart4",
         "priority": 7,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:tilda>=4 && flag:event.tilda_heart2 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart4"
       }
     },
     {
@@ -42,7 +43,8 @@
       "event": {
         "titleKey": "memory.tilda_heart6",
         "priority": 7,
-        "tag": "surprise"
+        "tag": "surprise",
+        "condition": "(hearts:tilda>=6 && flag:event.tilda_heart5 && flag:event.tilda_heart4 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart6"
       }
     },
     {
@@ -65,7 +67,8 @@
       "event": {
         "titleKey": "memory.tilda_heart8",
         "priority": 7,
-        "tag": "surprise"
+        "tag": "surprise",
+        "condition": "(hearts:tilda>=8 && flag:event.tilda_heart6 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart8"
       }
     },
     {
@@ -90,7 +93,8 @@
       "event": {
         "titleKey": "memory.tilda_heart10",
         "priority": 7,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:tilda>=10 && flag:event.tilda_heart8 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart10"
       }
     },
     {
@@ -136,7 +140,8 @@
       "event": {
         "titleKey": "memory.juno_heart4",
         "priority": 7,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(hearts:juno>=4 && flag:event.juno_heart2 && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_heart4"
       }
     },
     {
@@ -158,7 +163,8 @@
       "event": {
         "titleKey": "memory.juno_heart6",
         "priority": 7,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:juno>=6 && flag:event.juno_heart5 && flag:event.juno_heart4 && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_heart6"
       }
     },
     {
@@ -181,7 +187,8 @@
       "event": {
         "titleKey": "memory.juno_heart8",
         "priority": 7,
-        "tag": "surprise"
+        "tag": "surprise",
+        "condition": "(hearts:juno>=8 && flag:event.juno_heart6 && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_heart8"
       }
     },
     {
@@ -206,7 +213,8 @@
       "event": {
         "titleKey": "memory.juno_heart10",
         "priority": 7,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:juno>=10 && flag:event.juno_heart8 && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_heart10"
       }
     },
     {
@@ -230,7 +238,8 @@
       "event": {
         "titleKey": "memory.juno_friend",
         "priority": 7,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(hearts:juno>=3 && weekday:thu && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_friend"
       }
     },
     {
@@ -253,7 +262,8 @@
       "event": {
         "titleKey": "memory.piper_heart4",
         "priority": 7,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(hearts:piper>=4 && flag:event.piper_heart2 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart4"
       }
     },
     {
@@ -275,7 +285,8 @@
       "event": {
         "titleKey": "memory.piper_heart6",
         "priority": 7,
-        "tag": "surprise"
+        "tag": "surprise",
+        "condition": "(hearts:piper>=6 && flag:event.piper_heart5 && flag:event.piper_heart4 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart6"
       }
     },
     {
@@ -298,7 +309,8 @@
       "event": {
         "titleKey": "memory.piper_heart8",
         "priority": 7,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(hearts:piper>=8 && flag:event.piper_heart6 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart8"
       }
     },
     {
@@ -438,7 +450,8 @@
               "friend:piper,80"
             ]
           }
-        ]
+        ],
+        "condition": "(hearts:piper>=10 && flag:event.piper_heart8 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart10"
       }
     },
     {
@@ -462,7 +475,8 @@
       "event": {
         "titleKey": "memory.piper_friend",
         "priority": 7,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(hearts:piper>=3 && weekday:fri && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_friend"
       }
     }
   ]

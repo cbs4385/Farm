@@ -2,133 +2,368 @@
   "villager": "piper",
   "variants": {
     "event.piper_heart2.1": [
-      { "when": "horror:2 && var:dread>=60", "text": "Thumb there, two fingers, now pull. ...Your hands are shaking. That's fine. Shaking is just vibrato. Keep going.", "why": "frightened: she reads the player's state and turns it into a kind musical joke" },
-      { "when": "horror:1 && var:dread>=30", "text": "Thumb there, two fingers there, now pull. ...There. You're a musician now. You look tired, though. Long night?", "why": "uneasy: an ordinary friend noticing the player is worn" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Thumb there, two fingers, now pull. ...Your hands are shaking. That's fine. Shaking is just vibrato. Keep going.",
+        "why": "frightened: she reads the player's state and turns it into a kind musical joke"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Thumb there, two fingers there, now pull. ...There. You're a musician now. You look tired, though. Long night?",
+        "why": "uneasy: an ordinary friend noticing the player is worn"
+      }
     ],
     "event.piper_heart2.2": [
-      { "when": "horror:2 && var:dread>=60", "text": "Here, a sunflower for your first gig. Cheapest sun there is. Come back Friday, early, while it's still light.", "why": "frightened: the cheerful sign-off becomes a kind 'come while it's light'" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Here, a sunflower for your first gig. Cheapest sun there is. Come back Friday, early, while it's still light.",
+        "why": "frightened: the cheerful sign-off becomes a kind 'come while it's light'"
+      }
     ],
     "event.piper_heart5.2": [
-      { "when": "horror:2 && var:dread>=60", "text": "It usually ends on four old notes. ...Not tonight. You look like you need a happier ending. I'll find one.", "why": "frightened: she drops the strange ending for the player's sake without knowing why it matters" },
-      { "when": "horror:1 && var:lore>=3 && hearts:piper>=4", "text": "It ends on four notes. Old Mr. Fenn hummed them at the bar. Nobody taught me. I just woke up knowing them.", "why": "clue: ties the notes to Edmund; unaware, no explanation" },
-      { "when": "horror:2 && var:dread>=30", "text": "It ends on four notes I hum when nobody's around. Lately somebody finishes them for me. I keep meaning to find out who.", "why": "uneasy full: the hum answered, echoing the thread without repeating it" },
-      { "when": "horror:1 && var:dread>=30", "text": "It ends on four notes I hum when nobody's around. They stick like burrs. I keep meaning to find out where they're from.", "why": "uneasy mild: the notes as a small itch" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "It usually ends on four old notes. ...Not tonight. You look like you need a happier ending. I'll find one.",
+        "why": "frightened: she drops the strange ending for the player's sake without knowing why it matters"
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:piper>=4",
+        "text": "It ends on four notes. Old Mr. Fenn hummed them at the bar. Nobody taught me. I just woke up knowing them.",
+        "why": "clue: ties the notes to Edmund; unaware, no explanation"
+      },
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "It ends on four notes I hum when nobody's around. Lately somebody finishes them for me. I keep meaning to find out who.",
+        "why": "uneasy full: the hum answered, echoing the thread without repeating it"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It ends on four notes I hum when nobody's around. They stick like burrs. I keep meaning to find out where they're from.",
+        "why": "uneasy mild: the notes as a small itch"
+      }
     ],
     "event.hall_dance.4": [
-      { "when": "horror:2 && var:dread>=60", "text": "Same song, bigger room. Stay up front, [player]. It's warmer by the stage, and I play better with you close.", "why": "frightened: practical warmth, keeps the player near" },
-      { "when": "horror:1 && var:dread>=30", "text": "Same song, bigger room. One verse, then I step off. Somebody's humming already, and I haven't started. Nice!", "why": "uneasy: the room is ahead of her; she takes it as a compliment" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Same song, bigger room. Stay up front, [player]. It's warmer by the stage, and I play better with you close.",
+        "why": "frightened: practical warmth, keeps the player near"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Same song, bigger room. One verse, then I step off. Somebody's humming already, and I haven't started. Nice!",
+        "why": "uneasy: the room is ahead of her; she takes it as a compliment"
+      }
     ],
     "dlg.story.umbrella.talk.1": [
-      { "when": "horror:2 && var:dread>=30", "text": "Third time it's wandered off. It always turns up drier than me, handle pointed at the woods. What do we do?", "why": "uneasy full: a small wrongness, played as umbrella comedy" }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Third time it's wandered off. It always turns up drier than me, handle pointed at the woods. What do we do?",
+        "why": "uneasy full: a small wrongness, played as umbrella comedy"
+      }
     ],
     "dlg.story.umbrella.talk.r1": [
-      { "when": "horror:2 && var:dread>=60", "text": "Leave it? ...Yes. A little red landmark. Anyone out late needs something bright to walk toward.", "why": "frightened: the landmark becomes a light to walk home by" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Leave it? ...Yes. A little red landmark. Anyone out late needs something bright to walk toward.",
+        "why": "frightened: the landmark becomes a light to walk home by"
+      }
     ],
     "event.story_band_battle.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "Two bands, one square, one very polite war. Judge quickly, [player]. Folks are heading in early tonight. Honest means fiddle.", "why": "uneasy: the square emptying early, noticed and shrugged off" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Two bands, one square, one very polite war. Judge quickly, [player]. Folks are heading in early tonight. Honest means fiddle.",
+        "why": "uneasy: the square emptying early, noticed and shrugged off"
+      }
     ],
     "dlg.story.band.talk.0": [
-      { "when": "horror:2 && var:dread>=60", "text": "Exhibit A: one fiddle, one voice, and every lamp I could borrow. Stand by the light. Try not to swoon.", "why": "frightened: she has quietly made the square brighter" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Exhibit A: one fiddle, one voice, and every lamp I could borrow. Stand by the light. Try not to swoon.",
+        "why": "frightened: she has quietly made the square brighter"
+      }
     ],
     "event.piper_heart4.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Last set, and the room's half empty. You pick. Something bright, maybe? I'll play it like I wrote it.", "why": "frightened: nudges toward cheer for the player" },
-      { "when": "horror:1 && var:dread>=30", "text": "Last set, and everyone's gone home early again. You pick. Anything. I'll play it like I wrote it.", "why": "uneasy: the early-emptying room" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Last set, and the room's half empty. You pick. Something bright, maybe? I'll play it like I wrote it.",
+        "why": "frightened: nudges toward cheer for the player"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Last set, and everyone's gone home early again. You pick. Anything. I'll play it like I wrote it.",
+        "why": "uneasy: the early-emptying room"
+      }
     ],
     "dlg.piper.request.r0": [
-      { "when": "horror:2 && var:dread>=60", "text": "A ballad. Sad in the middle, happy at the end. I'll lean hard on the happy end tonight. Gather round.", "why": "frightened: same choice, gentler delivery" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "A ballad. Sad in the middle, happy at the end. I'll lean hard on the happy end tonight. Gather round.",
+        "why": "frightened: same choice, gentler delivery"
+      }
     ],
     "event.piper_heart6.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Down here. The cellar. ...You look worse than I feel, and I'm hiding among barrels. Sit. They're very supportive.", "why": "frightened: her stage fright yields to concern for the player" },
-      { "when": "horror:1 && var:dread>=30", "text": "Down here. The cellar. It's so quiet down here, and I hate quiet. The barrels are supportive, though.", "why": "uneasy: her fear of silence given a little weight" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Down here. The cellar. ...You look worse than I feel, and I'm hiding among barrels. Sit. They're very supportive.",
+        "why": "frightened: her stage fright yields to concern for the player"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Down here. The cellar. It's so quiet down here, and I hate quiet. The barrels are supportive, though.",
+        "why": "uneasy: her fear of silence given a little weight"
+      }
     ],
     "dlg.piper.fright.r1": [
-      { "when": "horror:2 && var:dread>=30", "text": "...You didn't fill it. The quiet's been heavy lately. Not with you here. It's not so bad, shared.", "why": "uneasy full: the village silence is felt, shared, survived" }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "...You didn't fill it. The quiet's been heavy lately. Not with you here. It's not so bad, shared.",
+        "why": "uneasy full: the village silence is felt, shared, survived"
+      }
     ],
     "event.piper_heart6.after": [
-      { "when": "horror:1 && var:lore>=3 && hearts:piper>=4", "text": "The nerves fit in the fiddle case now. Those four old notes don't. They hum along down here. Tonight, I'll go up anyway.", "why": "clue: the notes follow her into the cellar; unexplained" }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:piper>=4",
+        "text": "The nerves fit in the fiddle case now. Those four old notes don't. They hum along down here. Tonight, I'll go up anyway.",
+        "why": "clue: the notes follow her into the cellar; unexplained"
+      }
     ],
     "dlg.piper.chorus.0": [
-      { "when": "horror:2 && var:dread>=30", "text": "The verse is about someone arriving at an old farm. The chorus is about where they end up. What is it?", "why": "uneasy full: the song leans toward Edmund's farm and its open ending" }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "The verse is about someone arriving at an old farm. The chorus is about where they end up. What is it?",
+        "why": "uneasy full: the song leans toward Edmund's farm and its open ending"
+      }
     ],
     "dlg.piper.chorus.r0": [
-      { "when": "horror:2 && var:dread>=60", "text": "Home. ...Oh. That's it. A word to hold on to. You look like you could use one tonight.", "why": "frightened: same choice, offered back as comfort" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Home. ...Oh. That's it. A word to hold on to. You look like you could use one tonight.",
+        "why": "frightened: same choice, offered back as comfort"
+      }
     ],
     "event.piper_heart10.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Tonight we play the song we wrote. Stay where I can see you. After the first verse, I step off.", "why": "frightened: she keeps the player in sight" },
-      { "when": "horror:2 && var:dread>=30", "text": "Tonight we play our song. I start it, then step off. If the room hums something else underneath, just keep singing.", "why": "uneasy full: the four notes under the chorus, unnamed" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Tonight we play the song we wrote. Stay where I can see you. After the first verse, I step off.",
+        "why": "frightened: she keeps the player in sight"
+      },
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Tonight we play our song. I start it, then step off. If the room hums something else underneath, just keep singing.",
+        "why": "uneasy full: the four notes under the chorus, unnamed"
+      }
     ],
     "event.piper_friend.doing": [
-      { "when": "horror:2 && var:dread>=60", "text": "'Oh parsnip, pale and patient root...' You're not laughing. That's okay. It rhymes with 'boot'. I'll keep going.", "why": "frightened: the joke falls flat and she stays kind" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "'Oh parsnip, pale and patient root...' You're not laughing. That's okay. It rhymes with 'boot'. I'll keep going.",
+        "why": "frightened: the joke falls flat and she stays kind"
+      }
     ],
     "event.piper_friend.wrap": [
-      { "when": "horror:1 && var:dread>=30", "text": "That's a chorus! A bad one. Mine. Get some sleep, then come back Friday. Verse five is about you.", "why": "uneasy: an ordinary friend's 'get some sleep'" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "That's a chorus! A bad one. Mine. Get some sleep, then come back Friday. Verse five is about you.",
+        "why": "uneasy: an ordinary friend's 'get some sleep'"
+      }
     ],
     "event.piper_birthday.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "My birthday! I wrote myself a song. You look worn out, so take the good seat. It's a modest masterpiece.", "why": "uneasy: gives the player the good seat" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "My birthday! I wrote myself a song. You look worn out, so take the good seat. It's a modest masterpiece.",
+        "why": "uneasy: gives the player the good seat"
+      }
     ],
     "event.piper_courtship.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "So. A love song and a coward's song. You've had a long week, so here's the coward's. Would you court me? It scans if you say yes.", "why": "frightened: softer, aware of the player's state" }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "So. A love song and a coward's song. You've had a long week, so here's the coward's. Would you court me? It scans if you say yes.",
+        "why": "frightened: softer, aware of the player's state"
+      }
     ],
     "event.piper_courtship2.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "Me again. The coward's song has a second verse now. You look tired, so I'll keep it short. Still scans if you say yes.", "why": "uneasy: brevity as kindness" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Me again. The coward's song has a second verse now. You look tired, so I'll keep it short. Still scans if you say yes.",
+        "why": "uneasy: brevity as kindness"
+      }
     ],
     "dlg.piper.partners.r2": [
-      { "when": "horror:1 && var:lore>=3 && hearts:piper>=4", "text": "A walk home after. I'll hum, you hum. Just not those four old notes. Out there, the dark joins in.", "why": "clue: the notes answered at night, outdoors" },
-      { "when": "horror:1 && var:dread>=30", "text": "A walk home after. The nights are too quiet lately. Good thing I'm loud. I'll hum the whole way.", "why": "uneasy: she fills the quiet on purpose" }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:piper>=4",
+        "text": "A walk home after. I'll hum, you hum. Just not those four old notes. Out there, the dark joins in.",
+        "why": "clue: the notes answered at night, outdoors"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A walk home after. The nights are too quiet lately. Good thing I'm loud. I'll hum the whole way.",
+        "why": "uneasy: she fills the quiet on purpose"
+      }
     ],
     "event.overheard_wren_piper_1.l2": [
-      { "when": "horror:2 && var:dread>=30", "text": "I'm not flat, the stool's tilted! Or the room is. Everything leans funny lately!", "why": "uneasy full: shadows lean wrong, as stool comedy" }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "I'm not flat, the stool's tilted! Or the room is. Everything leans funny lately!",
+        "why": "uneasy full: shadows lean wrong, as stool comedy"
+      }
     ],
     "event.overheard_wren_piper_2.l4": [
-      { "when": "horror:2 && var:lore>=1", "text": "It's perfect. I'm stealing it. ...Wren, why'd you go pale on 'awake'?", "why": "hint: a Keeper flinches at her own word; Piper only notices" }
+      {
+        "when": "horror:2 && var:lore>=1",
+        "text": "It's perfect. I'm stealing it. ...Wren, why'd you go pale on 'awake'?",
+        "why": "hint: a Keeper flinches at her own word; Piper only notices"
+      }
     ],
     "event.overheard_wren_piper_3.l4": [
-      { "when": "horror:1 && var:lore>=1", "text": "Pencil it is. Closing early tonight? You always do, this night of the season.", "why": "hint: the saloon closes early on the same night each season" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Pencil it is. Closing early tonight? You always do, this night of the season.",
+        "why": "hint: the saloon closes early on the same night each season"
+      }
     ],
     "event.overheard_wren_piper_4.l4": [
-      { "when": "horror:2 && var:dread>=30", "text": "Deal! Make it a duet. And Wren? Sleep. You look like you've been up all month.", "why": "uneasy full: a Keeper's tiredness, seen by a friend" }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Deal! Make it a duet. And Wren? Sleep. You look like you've been up all month.",
+        "why": "uneasy full: a Keeper's tiredness, seen by a friend"
+      }
     ],
     "event.overheard_piper_juno_1.l3": [
-      { "when": "horror:2 && var:dread>=30", "text": "I felt it in my teeth! ...You stopped. So why is something still humming?", "why": "uneasy full: the low hum, under the forge joke" }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "I felt it in my teeth! ...You stopped. So why is something still humming?",
+        "why": "uneasy full: the low hum, under the forge joke"
+      }
     ],
     "event.overheard_piper_juno_2.l3": [
-      { "when": "horror:2 && var:dread>=30", "text": "One, two, clang! That's a chorus! ...Juno, is your fire meant to go blue?", "why": "uneasy full: the forge fire burns blue-ish, noticed not explained" }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "One, two, clang! That's a chorus! ...Juno, is your fire meant to go blue?",
+        "why": "uneasy full: the forge fire burns blue-ish, noticed not explained"
+      }
     ],
     "event.overheard_piper_juno_3.l3": [
-      { "when": "horror:1 && var:dread>=30", "text": "Then it gets my best set! Front row's yours, Juno. Face it toward the square.", "why": "uneasy: she turns the stage away from the woods without saying why" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Then it gets my best set! Front row's yours, Juno. Face it toward the square.",
+        "why": "uneasy: she turns the stage away from the woods without saying why"
+      }
     ],
     "event.overheard_hazel_piper_1.l3": [
-      { "when": "horror:1 && var:lore>=1", "text": "It was you! 'Moon' rhymes with 'soon' now. You circled every new moon too. Why?", "why": "hint: Hazel's date-counting leaks into the songbook" }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "It was you! 'Moon' rhymes with 'soon' now. You circled every new moon too. Why?",
+        "why": "hint: Hazel's date-counting leaks into the songbook"
+      }
     ],
     "event.overheard_hazel_piper_2.l3": [
-      { "when": "horror:1 && var:dread>=30", "text": "...Oh! That's it! Hazel, you look tired. Is the library keeping you up?", "why": "uneasy: Hazel's own fear, seen as tiredness" }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...Oh! That's it! Hazel, you look tired. Is the library keeping you up?",
+        "why": "uneasy: Hazel's own fear, seen as tiredness"
+      }
     ],
     "event.overheard_hazel_piper_3.l3": [
-      { "when": "horror:1 && var:lore>=3 && hearts:piper>=4", "text": "That's where it came from? It ends on my four notes. I never told you those.", "why": "clue: Hazel knows the notes; Piper is puzzled, not suspicious" }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:piper>=4",
+        "text": "That's where it came from? It ends on my four notes. I never told you those.",
+        "why": "clue: Hazel knows the notes; Piper is puzzled, not suspicious"
+      }
+    ],
+    "event.story_umbrella.after": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "{if choice:umbrella.return}Back where it belongs. But someone keeps hanging it up so neatly, always facing the woods. Who tidies a stranger's umbrella?{else}{if choice:umbrella.hang}A landmark. I'll look for it every rain. And whoever hangs it there after dark, I'll catch them humming.{else}Shared custody. I accept, under protest. Bring it Fridays, and walk home under it before dark.{/if}{/if}",
+        "why": "uneasy full: the tidier works after dark and faces the woods; every branch keeps its choice"
+      }
+    ],
+    "event.piper_heart8.after": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "{if choice:chorus.home}'Home' in the chorus. Of course. Old Mr. Fenn's farm is yours now, so it fits. Now it needs a room to sing it.{else}{if choice:chorus.road}'The road' in the chorus. Roads lead out, too. Good to know. Now it needs a room to sing it without me.{else}'This room' in the chorus. Cheeky and right. Bright, warm, full of people. Now the room has to sing it without me.{/if}{/if}",
+        "why": "uneasy full: each chorus word leans toward safety or a way out"
+      }
+    ],
+    "event.piper_heart10.outro": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:piper>=4",
+        "text": "{if choice:chorus.home}They sang 'home' without me. All of them. Then four old notes, under it, that I never wrote. ...So that's what quiet sounds like.{else}{if choice:chorus.road}They took the road without me. Somebody added four old notes at the end. I stood there with my bow down.{else}The room sang itself back to the room, and four old notes besides. Even the good stool joined in. I only stood there.{/if}{/if}",
+        "why": "clue: the village knows Edmund's notes; Piper hears it and cannot place it"
+      },
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if choice:chorus.home}They sang 'home' without me. All of them. You too. Hold on to that word tonight. It's yours.{else}{if choice:chorus.road}They took the road and walked it without me. Walk it home tonight, [player]. Lamps all the way.{else}The room sang itself back to the room. Stay in it a while. It's the warmest room I know.{/if}{/if}",
+        "why": "frightened: the triumph becomes comfort for a shaken player"
+      }
+    ],
+    "event.piper_partners.after": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:piper>=4",
+        "text": "{if choice:courtship.piper.song}Your name's in the bridge. The bridge is the best part. That's not an accident.{else}{if choice:courtship.piper.duet}We sang the chorus together, and the room joined in. I nearly forgot the bridge.{else}A walk home under the stars. I hummed. You hummed back. Then the woods did. Let's walk faster next time.{/if}{/if}",
+        "why": "clue: only the walk-home branch changes; the dark answers the notes"
+      }
     ]
   },
   "adds": [
-    { "scene": "piper_heart2", "after": "event.piper_heart2.0", "when": "horror:1 && var:lore>=1",
-      "text": "Quiet in here tonight. New moon soon, and the room always thins out. More stool for us!", "emote": null, "expression": null,
-      "why": "hint: the saloon empties around the new moon" },
-    { "scene": "piper_heart5", "after": "event.piper_heart5.2", "when": "horror:2 && var:dread>=30",
-      "text": "...Did you hear that? The last note. Somebody finished it for me.", "emote": "question", "expression": "surprised",
-      "why": "uneasy full: the hum answered, in the room, for the player to hear" },
-    { "scene": "hall_dance", "after": "event.hall_dance.5", "when": "horror:2 && var:lore>=3 && hearts:piper>=4",
-      "text": "...They're humming four old notes under it. All of them. I never wrote those in.", "emote": "question", "expression": "thinking",
-      "why": "clue: the whole village knows Edmund's notes; Piper does not know why" },
-    { "scene": "story_umbrella", "after": "event.story_umbrella.intro", "when": "horror:1 && var:lore>=1",
-      "text": "Last time it was hooked on the forest gate. Gate shut tight, umbrella wide open. Somebody's got a sense of humor.", "emote": null, "expression": null,
-      "why": "hint: points at the gate that stays shut" },
-    { "scene": "story_band_battle", "after": "event.story_band_battle.after", "when": "horror:1 && var:lore>=1",
-      "text": "Funny. Tilda, Marcus and the doctor slipped off before the last tune. Same night every season.", "emote": "question", "expression": null,
-      "why": "hint: a pattern of Keepers leaving early, noticed and left unexplained" }
+    {
+      "scene": "piper_heart2",
+      "after": "event.piper_heart2.0",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Quiet in here tonight. New moon soon, and the room always thins out. More stool for us!",
+      "emote": null,
+      "expression": null,
+      "why": "hint: the saloon empties around the new moon"
+    },
+    {
+      "scene": "piper_heart5",
+      "after": "event.piper_heart5.2",
+      "when": "horror:2 && var:dread>=30",
+      "text": "...Did you hear that? The last note. Somebody finished it for me.",
+      "emote": "question",
+      "expression": "surprised",
+      "why": "uneasy full: the hum answered, in the room, for the player to hear"
+    },
+    {
+      "scene": "hall_dance",
+      "after": "event.hall_dance.5",
+      "when": "horror:2 && var:lore>=3 && hearts:piper>=4",
+      "text": "...They're humming four old notes under it. All of them. I never wrote those in.",
+      "emote": "question",
+      "expression": "thinking",
+      "why": "clue: the whole village knows Edmund's notes; Piper does not know why"
+    },
+    {
+      "scene": "story_umbrella",
+      "after": "event.story_umbrella.intro",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Last time it was hooked on the forest gate. Gate shut tight, umbrella wide open. Somebody's got a sense of humor.",
+      "emote": null,
+      "expression": null,
+      "why": "hint: points at the gate that stays shut"
+    },
+    {
+      "scene": "story_band_battle",
+      "after": "event.story_band_battle.after",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Funny. Tilda, Marcus and the doctor slipped off before the last tune. Same night every season.",
+      "emote": "question",
+      "expression": null,
+      "why": "hint: a pattern of Keepers leaving early, noticed and left unexplained"
+    }
   ],
   "cuts": [
-    { "scene": "piper_heart2", "key": "event.piper_heart2.3", "when": "horror:2 && var:dread>=60",
-      "why": "the 'I'm completely fine' joke is too brittle next to a shaken player" },
-    { "scene": "piper_heart5", "key": "event.piper_heart5.3", "when": "horror:2 && var:dread>=60",
-      "why": "the clap-anyway bit falls flat when the player is frightened; the scene goes straight to the ending" }
+    {
+      "scene": "piper_heart2",
+      "key": "event.piper_heart2.3",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the 'I'm completely fine' joke is too brittle next to a shaken player"
+    },
+    {
+      "scene": "piper_heart5",
+      "key": "event.piper_heart5.3",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the clap-anyway bit falls flat when the player is frightened; the scene goes straight to the ending"
+    }
   ],
   "threads": {
     "piper_heart2": "Why does the saloon empty out around the new moon?",

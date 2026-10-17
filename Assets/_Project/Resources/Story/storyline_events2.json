@@ -5,7 +5,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:competing_band && hearts:piper>=2 && hearts:juno>=2 && hour>=17 && hour<21 && !festival.in:==0",
+      "condition": "(storyline:competing_band && hearts:piper>=2 && hearts:juno>=2 && hour>=17 && hour<21 && !festival.in:==0) && !flag:event.story_band_battle",
       "titleKey": "memory.story_band_battle",
       "tag": "funny",
       "steps": [
@@ -75,7 +75,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:missing_pumpkin.dorian && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(storyline:missing_pumpkin.dorian && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_dorian",
       "titleKey": "memory.story_pumpkin_dorian",
       "tag": "funny",
       "steps": [
@@ -156,7 +156,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(storyline:missing_pumpkin.marcus && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_marcus",
       "titleKey": "memory.story_pumpkin_marcus",
       "tag": "funny",
       "steps": [
@@ -248,7 +248,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:missing_pumpkin.felix && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(storyline:missing_pumpkin.felix && hearts:tilda>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_pumpkin_felix",
       "titleKey": "memory.story_pumpkin_felix",
       "tag": "funny",
       "steps": [
@@ -329,7 +329,7 @@
       "trigger": "map",
       "map": "Village",
       "priority": 7,
-      "condition": "storyline:five_names_cat && hearts:wren>=2 && hour>=9 && hour<19 && !festival.in:==0",
+      "condition": "(storyline:five_names_cat && hearts:wren>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.story_cat",
       "titleKey": "memory.story_cat",
       "tag": "wholesome",
       "steps": [

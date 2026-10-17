@@ -35,6 +35,16 @@
     "dlg.ione.shelf.r1": [
       { "when": "horror:2 && var:dread>=60", "text": "Aloud? Nobody has ever read these to anyone. Go slowly. ...Your hands are shaking. I'll hold the page steady.", "why": "frightened: she notices the player's hands and stays practical" }
     ],
+    "event.ione_heart8.after": [
+      { "when": "horror:2 && var:dread>=60", "text": "{if choice:shelf.take}The first set-aside book to leave the shelf. It's in the ledger. Take it somewhere bright, and tell me once they've read it.{else}{if choice:shelf.read}You read one aloud. The shelf went so quiet. The whole street went... quiet. Read me another, please.{else}I won't move your note. I won't read it. ...Stay a little, though. The shelf feels less alone with you here.{/if}{/if}", "why": "frightened: each branch keeps its meaning; the listening shelf becomes a hush she wants filled" },
+      { "when": "horror:1 && var:dread>=30", "text": "{if choice:shelf.take}The first set-aside book ever to leave the shelf. It's in the ledger. Tell me who it went to, once they've read it.{else}{if choice:shelf.read}You read one aloud. The shelf has never been so quiet. I'll turn the lamp up, I think.{else}I won't move your note. I won't even read it. ...I'll keep the shelf where I can see it.{/if}{/if}", "why": "uneasy: the same three outcomes, a small reach for light in two of them" }
+    ],
+    "event.ione_birthday.after": [
+      { "when": "horror:1 && var:dread>=30", "text": "{if choice:bday.ione.wish}Noon came and went, and I never opened the new book. For an hour everything felt ordinary. I needed that.{else}{if choice:bday.ione.read}Someone read to me on my birthday. It's in the ledger, under returned with interest. You read the dark parts gently.{else}The bookmark's holding a very good place. I'd been using a tea label. Things want holding lately.{/if}{/if}", "why": "uneasy: the birthday as a small refuge; branches keep their gifts" }
+    ],
+    "event.ione_partners.after": [
+      { "when": "horror:1 && var:lore>=1", "text": "{if choice:courtship.ione.letter}The letter's in my favorite book now, marking the best page. Both are yours, eventually.{else}{if choice:courtship.ione.read}Your voice, my library. I've marked the spot where you stood. Nobody else may stand there. Hazel may.{else}The shore was bright. I forgot the book entirely. ...Hazel says not the sea in winter. I'd still like to see it. With you.{/if}{/if}", "why": "hint: only the shore branch changes; echoes Hazel's winter-sea warning from the birthday" }
+    ],
     "event.ione_birthday.intro": [
       { "when": "horror:1 && var:dread>=30", "text": "It's my birthday. The fuss is a new book I don't open until noon. Come in. You look as if you need a fuss too.", "why": "uneasy: the birthday turns toward the player's tiredness" }
     ],

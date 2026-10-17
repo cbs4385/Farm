@@ -169,7 +169,7 @@
       "id": "elara_garden_visit",
       "trigger": "map",
       "map": "Farm",
-      "condition": "year==1 && season:spring && day==2 && hour>=8 && hour<18",
+      "condition": "(year==1 && season:spring && day==2 && hour>=8 && hour<18) && !flag:event.elara_garden_visit",
       "once": true,
       "recheck": true,
       "priority": 50,

@@ -3746,7 +3746,7 @@
       "trigger": "map",
       "map": "Carpenter",
       "priority": 6,
-      "condition": "hearts:marcus>=2 && !weekday:wed && hour>=9 && hour<17",
+      "condition": "(hearts:marcus>=2 && !weekday:wed && hour>=9 && hour<17) && !flag:event.marcus_heart2",
       "steps": [
         {
           "type": "face",
@@ -3809,7 +3809,7 @@
       "trigger": "map",
       "map": "Carpenter",
       "priority": 7,
-      "condition": "hearts:marcus>=5 && !weekday:wed && hour>=9 && hour<17 && flag:event.marcus_heart2",
+      "condition": "(hearts:marcus>=5 && !weekday:wed && hour>=9 && hour<17 && flag:event.marcus_heart2) && !flag:event.marcus_heart5",
       "steps": [
         {
           "type": "face",
@@ -3879,7 +3879,7 @@
       "trigger": "map",
       "map": "Clinic",
       "priority": 6,
-      "condition": "hearts:odalys>=2 && !weekday:sat && hour>=9 && hour<17",
+      "condition": "(hearts:odalys>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.odalys_heart2",
       "steps": [
         {
           "type": "face",
@@ -3947,7 +3947,7 @@
       "trigger": "map",
       "map": "Clinic",
       "priority": 7,
-      "condition": "hearts:odalys>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.odalys_heart2",
+      "condition": "(hearts:odalys>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.odalys_heart2) && !flag:event.odalys_heart5",
       "steps": [
         {
           "type": "face",
@@ -4010,7 +4010,7 @@
       "trigger": "map",
       "map": "Saloon",
       "priority": 6,
-      "condition": "hearts:wren>=2 && !weekday:tue && hour>=12 && hour<24",
+      "condition": "(hearts:wren>=2 && !weekday:tue && hour>=12 && hour<24) && !flag:event.wren_heart2",
       "steps": [
         {
           "type": "face",
@@ -4073,7 +4073,7 @@
       "trigger": "map",
       "map": "Saloon",
       "priority": 7,
-      "condition": "hearts:wren>=5 && !weekday:tue && hour>=12 && hour<24 && flag:event.wren_heart2",
+      "condition": "(hearts:wren>=5 && !weekday:tue && hour>=12 && hour<24 && flag:event.wren_heart2) && !flag:event.wren_heart5",
       "steps": [
         {
           "type": "face",
@@ -4136,7 +4136,7 @@
       "trigger": "map",
       "map": "Beach",
       "priority": 6,
-      "condition": "hearts:felix>=2 && !weekday:thu && hour>=6 && hour<14",
+      "condition": "(hearts:felix>=2 && !weekday:thu && hour>=6 && hour<14) && !flag:event.felix_heart2",
       "steps": [
         {
           "type": "face",
@@ -4200,7 +4200,7 @@
       "trigger": "map",
       "map": "Beach",
       "priority": 7,
-      "condition": "hearts:felix>=5 && !weekday:thu && hour>=6 && hour<14 && flag:event.felix_heart2",
+      "condition": "(hearts:felix>=5 && !weekday:thu && hour>=6 && hour<14 && flag:event.felix_heart2) && !flag:event.felix_heart5",
       "steps": [
         {
           "type": "face",
@@ -4264,7 +4264,7 @@
       "trigger": "map",
       "map": "Blacksmith",
       "priority": 6,
-      "condition": "hearts:juno>=2 && !weekday:mon && hour>=9 && hour<17",
+      "condition": "(hearts:juno>=2 && !weekday:mon && hour>=9 && hour<17) && !flag:event.juno_heart2",
       "steps": [
         {
           "type": "face",
@@ -4333,7 +4333,7 @@
       "trigger": "map",
       "map": "Blacksmith",
       "priority": 7,
-      "condition": "hearts:juno>=5 && !weekday:mon && hour>=9 && hour<17 && flag:event.juno_heart2",
+      "condition": "(hearts:juno>=5 && !weekday:mon && hour>=9 && hour<17 && flag:event.juno_heart2) && !flag:event.juno_heart5",
       "steps": [
         {
           "type": "face",
@@ -4396,7 +4396,7 @@
       "trigger": "map",
       "map": "Library",
       "priority": 6,
-      "condition": "hearts:hazel>=2 && !weekday:sat && hour>=9 && hour<17",
+      "condition": "(hearts:hazel>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.hazel_heart2",
       "steps": [
         {
           "type": "face",
@@ -4465,7 +4465,7 @@
       "trigger": "map",
       "map": "Library",
       "priority": 7,
-      "condition": "hearts:hazel>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.hazel_heart2",
+      "condition": "(hearts:hazel>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.hazel_heart2) && !flag:event.hazel_heart5",
       "steps": [
         {
           "type": "face",
@@ -4535,7 +4535,7 @@
       "trigger": "map",
       "map": "Saloon",
       "priority": 6,
-      "condition": "hearts:piper>=2 && !weekday:tue && hour>=18 && hour<24",
+      "condition": "(hearts:piper>=2 && !weekday:tue && hour>=18 && hour<24) && !flag:event.piper_heart2",
       "steps": [
         {
           "type": "face",
@@ -4599,7 +4599,7 @@
       "trigger": "map",
       "map": "Saloon",
       "priority": 7,
-      "condition": "hearts:piper>=5 && !weekday:tue && hour>=18 && hour<24 && flag:event.piper_heart2",
+      "condition": "(hearts:piper>=5 && !weekday:tue && hour>=18 && hour<24 && flag:event.piper_heart2) && !flag:event.piper_heart5",
       "steps": [
         {
           "type": "face",
@@ -4662,7 +4662,7 @@
       "trigger": "map",
       "map": "Forest",
       "priority": 6,
-      "condition": "hearts:dorian>=2 && hour>=8 && hour<17",
+      "condition": "(hearts:dorian>=2 && hour>=8 && hour<17) && !flag:event.dorian_heart2",
       "steps": [
         {
           "type": "face",
@@ -4731,7 +4731,7 @@
       "trigger": "map",
       "map": "Forest",
       "priority": 7,
-      "condition": "hearts:dorian>=5 && hour>=8 && hour<17 && flag:event.dorian_heart2",
+      "condition": "(hearts:dorian>=5 && hour>=8 && hour<17 && flag:event.dorian_heart2) && !flag:event.dorian_heart5",
       "steps": [
         {
           "type": "face",
@@ -4794,7 +4794,7 @@
       "trigger": "map",
       "map": "Clinic",
       "priority": 6,
-      "condition": "hearts:elara>=2 && !weekday:sat && hour>=9 && hour<17",
+      "condition": "(hearts:elara>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.elara_heart2",
       "steps": [
         {
           "type": "face",
@@ -4857,7 +4857,7 @@
       "trigger": "map",
       "map": "Clinic",
       "priority": 7,
-      "condition": "hearts:elara>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.elara_heart2",
+      "condition": "(hearts:elara>=5 && !weekday:sat && hour>=9 && hour<17 && flag:event.elara_heart2) && !flag:event.elara_heart5",
       "steps": [
         {
           "type": "face",

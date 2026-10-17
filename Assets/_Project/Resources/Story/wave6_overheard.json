@@ -22,7 +22,8 @@
       "event": {
         "titleKey": "memory.overheard_juno_bram_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.juno && flag:met.bram && hearts:juno>=2 && hearts:bram>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_juno_bram_1"
       }
     },
     {
@@ -47,7 +48,8 @@
       "event": {
         "titleKey": "memory.overheard_juno_bram_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.juno && flag:met.bram && hearts:juno>=4 && hearts:bram>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_1) && !flag:event.overheard_juno_bram_2"
       }
     },
     {
@@ -72,7 +74,8 @@
       "event": {
         "titleKey": "memory.overheard_juno_bram_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.juno && flag:met.bram && hearts:juno>=6 && hearts:bram>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_2) && !flag:event.overheard_juno_bram_3"
       }
     },
     {
@@ -97,7 +100,8 @@
       "event": {
         "titleKey": "memory.overheard_juno_bram_4",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.juno && flag:met.bram && hearts:juno>=8 && hearts:bram>=8 && flag:event.juno_heart10 && flag:event.bram_heart10 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_juno_bram_3) && !flag:event.overheard_juno_bram_4"
       }
     },
     {
@@ -122,7 +126,8 @@
       "event": {
         "titleKey": "memory.overheard_hazel_ione_1",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.hazel && flag:met.ione && hearts:hazel>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_hazel_ione_1"
       }
     },
     {
@@ -147,7 +152,8 @@
       "event": {
         "titleKey": "memory.overheard_hazel_ione_2",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.hazel && flag:met.ione && hearts:hazel>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_1) && !flag:event.overheard_hazel_ione_2"
       }
     },
     {
@@ -172,7 +178,8 @@
       "event": {
         "titleKey": "memory.overheard_hazel_ione_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.hazel && flag:met.ione && hearts:hazel>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_ione_2) && !flag:event.overheard_hazel_ione_3"
       }
     },
     {
@@ -197,7 +204,8 @@
       "event": {
         "titleKey": "memory.overheard_elara_odalys_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.elara && flag:met.odalys && hearts:elara>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_elara_odalys_1"
       }
     },
     {
@@ -222,7 +230,8 @@
       "event": {
         "titleKey": "memory.overheard_elara_odalys_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.elara && flag:met.odalys && hearts:elara>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_1) && !flag:event.overheard_elara_odalys_2"
       }
     },
     {
@@ -247,7 +256,8 @@
       "event": {
         "titleKey": "memory.overheard_elara_odalys_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.elara && flag:met.odalys && hearts:elara>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_elara_odalys_2) && !flag:event.overheard_elara_odalys_3"
       }
     },
     {
@@ -272,7 +282,8 @@
       "event": {
         "titleKey": "memory.overheard_marcus_dorian_1",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.marcus && flag:met.dorian && hearts:marcus>=2 && hearts:dorian>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_marcus_dorian_1"
       }
     },
     {
@@ -297,7 +308,8 @@
       "event": {
         "titleKey": "memory.overheard_marcus_dorian_2",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.marcus && flag:met.dorian && hearts:marcus>=4 && hearts:dorian>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_1) && !flag:event.overheard_marcus_dorian_2"
       }
     },
     {
@@ -322,7 +334,8 @@
       "event": {
         "titleKey": "memory.overheard_marcus_dorian_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.marcus && flag:met.dorian && hearts:marcus>=6 && hearts:dorian>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_2) && !flag:event.overheard_marcus_dorian_3"
       }
     },
     {
@@ -347,7 +360,8 @@
       "event": {
         "titleKey": "memory.overheard_marcus_dorian_4",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.marcus && flag:met.dorian && hearts:marcus>=8 && hearts:dorian>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_dorian_3) && !flag:event.overheard_marcus_dorian_4"
       }
     },
     {
@@ -372,7 +386,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_piper_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.wren && flag:met.piper && hearts:wren>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_wren_piper_1"
       }
     },
     {
@@ -397,7 +412,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_piper_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.wren && flag:met.piper && hearts:wren>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_1) && !flag:event.overheard_wren_piper_2"
       }
     },
     {
@@ -422,7 +438,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_piper_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.wren && flag:met.piper && hearts:wren>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_2) && !flag:event.overheard_wren_piper_3"
       }
     },
     {
@@ -447,7 +464,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_piper_4",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.wren && flag:met.piper && hearts:wren>=8 && hearts:piper>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_piper_3) && !flag:event.overheard_wren_piper_4"
       }
     },
     {
@@ -472,7 +490,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_felix_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.tilda && flag:met.felix && hearts:tilda>=2 && hearts:felix>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_felix_1"
       }
     },
     {
@@ -497,7 +516,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_felix_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.tilda && flag:met.felix && hearts:tilda>=4 && hearts:felix>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_1) && !flag:event.overheard_tilda_felix_2"
       }
     },
     {
@@ -522,7 +542,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_felix_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.tilda && flag:met.felix && hearts:tilda>=6 && hearts:felix>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_2) && !flag:event.overheard_tilda_felix_3"
       }
     },
     {
@@ -547,7 +568,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_felix_4",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.tilda && flag:met.felix && hearts:tilda>=8 && hearts:felix>=8 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_felix_3) && !flag:event.overheard_tilda_felix_4"
       }
     },
     {
@@ -572,7 +594,8 @@
       "event": {
         "titleKey": "memory.overheard_bram_marcus_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.bram && flag:met.marcus && hearts:bram>=2 && hearts:marcus>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_bram_marcus_1"
       }
     },
     {
@@ -622,7 +645,8 @@
       "event": {
         "titleKey": "memory.overheard_bram_marcus_3",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.bram && flag:met.marcus && hearts:bram>=6 && hearts:marcus>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_bram_marcus_2) && !flag:event.overheard_bram_marcus_3"
       }
     },
     {
@@ -647,7 +671,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_wren_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.tilda && flag:met.wren && hearts:tilda>=2 && hearts:wren>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_wren_1"
       }
     },
     {
@@ -672,7 +697,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_wren_2",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.tilda && flag:met.wren && hearts:tilda>=4 && hearts:wren>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_wren_1) && !flag:event.overheard_tilda_wren_2"
       }
     },
     {
@@ -697,7 +723,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_wren_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.tilda && flag:met.wren && hearts:tilda>=6 && hearts:wren>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_wren_2) && !flag:event.overheard_tilda_wren_3"
       }
     },
     {
@@ -722,7 +749,8 @@
       "event": {
         "titleKey": "memory.overheard_piper_juno_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.piper && flag:met.juno && hearts:piper>=2 && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_piper_juno_1"
       }
     },
     {
@@ -747,7 +775,8 @@
       "event": {
         "titleKey": "memory.overheard_piper_juno_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.piper && flag:met.juno && hearts:piper>=4 && hearts:juno>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_piper_juno_1) && !flag:event.overheard_piper_juno_2"
       }
     },
     {
@@ -772,7 +801,8 @@
       "event": {
         "titleKey": "memory.overheard_piper_juno_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.piper && flag:met.juno && hearts:piper>=6 && hearts:juno>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_piper_juno_2) && !flag:event.overheard_piper_juno_3"
       }
     },
     {
@@ -797,7 +827,8 @@
       "event": {
         "titleKey": "memory.overheard_dorian_hazel_1",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.dorian && flag:met.hazel && hearts:dorian>=2 && hearts:hazel>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_dorian_hazel_1"
       }
     },
     {
@@ -822,7 +853,8 @@
       "event": {
         "titleKey": "memory.overheard_dorian_hazel_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.dorian && flag:met.hazel && hearts:dorian>=4 && hearts:hazel>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_dorian_hazel_1) && !flag:event.overheard_dorian_hazel_2"
       }
     },
     {
@@ -847,7 +879,8 @@
       "event": {
         "titleKey": "memory.overheard_dorian_hazel_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.dorian && flag:met.hazel && hearts:dorian>=6 && hearts:hazel>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_dorian_hazel_2) && !flag:event.overheard_dorian_hazel_3"
       }
     },
     {
@@ -872,7 +905,8 @@
       "event": {
         "titleKey": "memory.overheard_felix_elara_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.felix && flag:met.elara && hearts:felix>=2 && hearts:elara>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_felix_elara_1"
       }
     },
     {
@@ -897,7 +931,8 @@
       "event": {
         "titleKey": "memory.overheard_felix_elara_2",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.felix && flag:met.elara && hearts:felix>=4 && hearts:elara>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_1) && !flag:event.overheard_felix_elara_2"
       }
     },
     {
@@ -922,7 +957,8 @@
       "event": {
         "titleKey": "memory.overheard_felix_elara_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.felix && flag:met.elara && hearts:felix>=6 && hearts:elara>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_felix_elara_2) && !flag:event.overheard_felix_elara_3"
       }
     },
     {
@@ -947,7 +983,8 @@
       "event": {
         "titleKey": "memory.overheard_odalys_ione_1",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.odalys && flag:met.ione && hearts:odalys>=2 && hearts:ione>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_odalys_ione_1"
       }
     },
     {
@@ -972,7 +1009,8 @@
       "event": {
         "titleKey": "memory.overheard_odalys_ione_2",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.odalys && flag:met.ione && hearts:odalys>=4 && hearts:ione>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_1) && !flag:event.overheard_odalys_ione_2"
       }
     },
     {
@@ -997,7 +1035,8 @@
       "event": {
         "titleKey": "memory.overheard_odalys_ione_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.odalys && flag:met.ione && hearts:odalys>=6 && hearts:ione>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_odalys_ione_2) && !flag:event.overheard_odalys_ione_3"
       }
     },
     {
@@ -1022,7 +1061,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_bram_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.wren && flag:met.bram && hearts:wren>=2 && hearts:bram>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_wren_bram_1"
       }
     },
     {
@@ -1047,7 +1087,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_bram_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.wren && flag:met.bram && hearts:wren>=4 && hearts:bram>=4 && flag:event.bram_heart6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_bram_1) && !flag:event.overheard_wren_bram_2"
       }
     },
     {
@@ -1072,7 +1113,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_bram_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.wren && flag:met.bram && hearts:wren>=6 && hearts:bram>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_bram_2 && flag:event.wren_heart8) && !flag:event.overheard_wren_bram_3"
       }
     },
     {
@@ -1097,7 +1139,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_hazel_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.wren && flag:met.hazel && hearts:wren>=2 && hearts:hazel>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_wren_hazel_1"
       }
     },
     {
@@ -1122,7 +1165,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_hazel_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.wren && flag:met.hazel && hearts:wren>=4 && hearts:hazel>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_hazel_1) && !flag:event.overheard_wren_hazel_2"
       }
     },
     {
@@ -1147,7 +1191,8 @@
       "event": {
         "titleKey": "memory.overheard_wren_hazel_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.wren && flag:met.hazel && hearts:wren>=6 && hearts:hazel>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_wren_hazel_2 && flag:event.hazel_heart8) && !flag:event.overheard_wren_hazel_3"
       }
     },
     {
@@ -1172,7 +1217,8 @@
       "event": {
         "titleKey": "memory.overheard_hazel_piper_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.hazel && flag:met.piper && hearts:hazel>=2 && hearts:piper>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_hazel_piper_1"
       }
     },
     {
@@ -1197,7 +1243,8 @@
       "event": {
         "titleKey": "memory.overheard_hazel_piper_2",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.hazel && flag:met.piper && hearts:hazel>=4 && hearts:piper>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_1) && !flag:event.overheard_hazel_piper_2"
       }
     },
     {
@@ -1222,7 +1269,8 @@
       "event": {
         "titleKey": "memory.overheard_hazel_piper_3",
         "priority": 5,
-        "tag": "surprise"
+        "tag": "surprise",
+        "condition": "(flag:met.hazel && flag:met.piper && hearts:hazel>=6 && hearts:piper>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_hazel_piper_2 && flag:event.piper_heart8) && !flag:event.overheard_hazel_piper_3"
       }
     },
     {
@@ -1247,7 +1295,8 @@
       "event": {
         "titleKey": "memory.overheard_marcus_odalys_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.marcus && flag:met.odalys && hearts:marcus>=2 && hearts:odalys>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_marcus_odalys_1"
       }
     },
     {
@@ -1272,7 +1321,8 @@
       "event": {
         "titleKey": "memory.overheard_marcus_odalys_2",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.marcus && flag:met.odalys && hearts:marcus>=4 && hearts:odalys>=4 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_1) && !flag:event.overheard_marcus_odalys_2"
       }
     },
     {
@@ -1297,7 +1347,8 @@
       "event": {
         "titleKey": "memory.overheard_marcus_odalys_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.marcus && flag:met.odalys && hearts:marcus>=6 && hearts:odalys>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_marcus_odalys_2) && !flag:event.overheard_marcus_odalys_3"
       }
     },
     {
@@ -1322,7 +1373,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_juno_1",
         "priority": 5,
-        "tag": "funny"
+        "tag": "funny",
+        "condition": "(flag:met.tilda && flag:met.juno && hearts:tilda>=2 && hearts:juno>=2 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_juno_1"
       }
     },
     {
@@ -1372,7 +1424,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_juno_3",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.tilda && flag:met.juno && hearts:tilda>=6 && hearts:juno>=6 && hour>=9 && hour<19 && !festival.in:==0 && flag:event.overheard_tilda_juno_2 && flag:event.juno_heart6) && !flag:event.overheard_tilda_juno_3"
       }
     },
     {
@@ -1397,7 +1450,8 @@
       "event": {
         "titleKey": "memory.overheard_tilda_bram_1",
         "priority": 5,
-        "tag": "wholesome"
+        "tag": "wholesome",
+        "condition": "(flag:met.tilda && flag:met.bram && hearts:tilda>=3 && hearts:bram>=3 && hour>=9 && hour<19 && !festival.in:==0) && !flag:event.overheard_tilda_bram_1"
       }
     }
   ]

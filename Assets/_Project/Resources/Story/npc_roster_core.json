@@ -5,7 +5,7 @@
       "trigger": "map",
       "map": "GeneralStore",
       "priority": 6,
-      "condition": "hearts:tilda>=5 && !weekday:sun && hour>=9 && hour<17",
+      "condition": "(hearts:tilda>=5 && !weekday:sun && hour>=9 && hour<17) && !flag:event.tilda_heart5",
       "steps": [
         {
           "type": "face",
@@ -74,7 +74,7 @@
       "trigger": "map",
       "map": "Blacksmith",
       "priority": 6,
-      "condition": "hearts:bram>=2 && !weekday:mon && hour>=9 && hour<17",
+      "condition": "(hearts:bram>=2 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart2",
       "steps": [
         {
           "type": "face",
@@ -142,7 +142,7 @@
       "trigger": "map",
       "map": "Blacksmith",
       "priority": 6,
-      "condition": "hearts:bram>=5 && !weekday:mon && hour>=9 && hour<17",
+      "condition": "(hearts:bram>=5 && !weekday:mon && hour>=9 && hour<17) && !flag:event.bram_heart5",
       "steps": [
         {
           "type": "face",
@@ -205,7 +205,7 @@
       "trigger": "map",
       "map": "Library",
       "priority": 6,
-      "condition": "hearts:ione>=2 && !weekday:sat && hour>=9 && hour<17",
+      "condition": "(hearts:ione>=2 && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_heart2",
       "steps": [
         {
           "type": "face",
@@ -273,7 +273,7 @@
       "trigger": "map",
       "map": "Library",
       "priority": 6,
-      "condition": "hearts:ione>=5 && !weekday:sat && hour>=9 && hour<17",
+      "condition": "(hearts:ione>=5 && !weekday:sat && hour>=9 && hour<17) && !flag:event.ione_heart5",
       "steps": [
         {
           "type": "face",

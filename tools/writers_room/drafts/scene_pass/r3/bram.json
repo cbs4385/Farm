@@ -55,6 +55,12 @@
     "event.bram_heart10.intro": [
       { "when": "horror:1 && var:dread>=30", "text": "Hm. Stand still. Breathe. Don't speak. It's easier.", "why": "One word added: he steadies the player before the gift." }
     ],
+    "event.bram_heart10.thanks": [
+      { "when": "horror:1 && var:dread>=30", "text": "{if choice:bram.juno.ask}You asked what I see. A friend, [player]. Tired. Still rare metal.{else}...Hm. Saved it nine winters. For you. Keep it near. Sleep. [player].{/if}", "why": "Both branches kept; he names the player's tiredness and gives the gold as something steady to hold." }
+    ],
+    "event.bram_birthday.after": [
+      { "when": "horror:1 && var:dread>=30", "text": "{if choice:bday.bram.wish}Here. One bar. A good year starts with a good night's sleep.{else}{if choice:bday.bram.gift}Your turn. Iron. One bar. Keep it by your door.{else}Best birthday in years. Here. Iron. Walk home before dark.{/if}{/if}", "why": "All three branches kept, same gift; each ends in plain, practical care for a frightened friend." }
+    ],
     "event.bram_friend.intro": [
       { "when": "horror:1 && var:lore>=1", "text": "Hm. Wednesday. Marcus is late. Third time this month. Up all night, he says.", "why": "Hint: a Keeper abroad at odd hours, reported as a friend's bad sleep." }
     ],
@@ -140,6 +146,6 @@
   "notes": [
     "Nails before the new moon appear three ways: an anonymous keg order (heart2 hint), Tilda's order (overheard_bram_marcus_3 hint) and Edmund's four-times-a-year purchases (heart5 clue). If Tilda should not be the named buyer, swap 'Tilda's order' for 'Big order'.",
     "bram_heart4 clue makes the repaired hoe Edmund's, left at the forge last fall. Variant text only; no item or flag change. Check it does not clash with LORE.md.",
-    "Skipped bram_heart10.thanks (cozy text uses {if}; a variant would erase the choice branch)."
+    "Round 3b: heart10.thanks and birthday.after now have uneasy variants with every cozy branch kept."
   ]
 }

@@ -1,0 +1,536 @@
+{
+  "villager": "hazel",
+  "variants": {
+    "event.hazel_heart2.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Shh. Back here, away from the windows. (Nobody comes this far. That's the point.)",
+        "why": "frightened: she steers the player away from the glass; the cozy joke survives as cover"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Shh. Back here, behind Natural History. (You look tired. Nobody comes this far.)",
+        "why": "uneasy: she notices the player's tiredness before her own shyness"
+      }
+    ],
+    "event.hazel_heart2.3": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Someone wrote the first frost beside it, in pencil. And a date in fall. (The fourth. It's in every almanac here.)",
+        "why": "hint: a thing noticed; the fourth is the night a curious player can stay awake for"
+      }
+    ],
+    "event.hazel_heart2.4": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Here. A fresh one, for you. (Snowdrops come up through frost. Stubborn things. Be one.)",
+        "why": "frightened: the gift becomes encouragement; warmth intact"
+      }
+    ],
+    "event.hazel_heart5.1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "It's a small poem. Six lines. Line four kept, kept turning toward the woods. (I crossed it out twice.)",
+        "why": "frightened: short stammer distortion; the weak line is now the frightening one"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's a small poem. Six lines. (Line four is about the woods. I didn't mean it to be.)",
+        "why": "uneasy: the woods slip into her writing uninvited"
+      }
+    ],
+    "event.hazel_heart5.3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Read it to yourself. Please. (Not aloud. Not in here. Some rooms listen.)",
+        "why": "uneasy: her fear of reading aloud picks up a second reason"
+      }
+    ],
+    "event.reading_night.1": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "(It doesn't.) Something's in my sleeve. It may stay there. (I took the chair by the door.)",
+        "why": "uneasy: she has seated herself for an exit in a room with two Keepers"
+      }
+    ],
+    "event.reading_night.poem": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "The lamp does not mind the dark. It keeps it company. ...It keeps. It keeps. That's the last of the eleven.",
+        "why": "frightened: the poem snags on 'keeps'; short repeat only"
+      }
+    ],
+    "dlg.reading.hazel.r2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Ione first. (Thank you.) I'm not leaving. (Not before Wren does. I like to see who leaves early.)",
+        "why": "hint: she watches which Keeper leaves early; same choice meaning"
+      }
+    ],
+    "event.festival_winter_lanterns.1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "One lantern, one wish. Please keep yours folded up. (Mine is one word long. Please let it count.)",
+        "why": "frightened: the joke about wishes said aloud gives way to her own small plea"
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "One lantern, one wish. Keep yours folded up. (Count them as they rise. Five always drift toward the wood.)",
+        "why": "clue: five lanterns, five Keepers, never named; mild-safe"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "One lantern, one wish. Please keep yours folded up. (Mine is folded twice. It's a large wish.)",
+        "why": "uneasy: a wish too big to say, warmly shadowed"
+      }
+    ],
+    "event.hazel_heart4.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I'd like to swap something. A book for a book. (You look like you need a light one.) Is that odd?",
+        "why": "uneasy: she reads the player's tiredness"
+      }
+    ],
+    "event.hazel_heart4.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "I'll look after it. (I always do.) And you. Return date: whenever. Just... come back.",
+        "why": "frightened: the return date becomes a plea that the player be all right"
+      },
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "I'll look after it. Return date: whenever. (Except the fourth. Please don't be out on the fourth.)",
+        "why": "hint: a rule, home on the fourth"
+      }
+    ],
+    "event.hazel_heart6.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Could you come to the back? Past Geography. (I'm not hiding. I'm... I am hiding a little.)",
+        "why": "frightened: the cozy joke breaks into the truth"
+      }
+    ],
+    "dlg.hazel.hiding.0": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "The festival wants a reader. Ione said my name. (So did Dr. Penn. She was very kind about it.) Is that strange?",
+        "why": "clue: the leader's too-exact care lands on the one who knows; Hazel's fear of being known"
+      }
+    ],
+    "dlg.hazel.hiding.r0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Pages turning. And a hum, under the floor. (It isn't the pipes. I checked. Twice.)",
+        "why": "frightened: the low hum, felt not explained"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Pages turning, two rooms away. (Lately, something under the floor. Humming. Probably pipes.)",
+        "why": "uneasy: the hum, explained away"
+      }
+    ],
+    "event.hazel_heart6.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I checked your face just now. It stayed kind. (It also looked tired.) I'll answer Ione by Friday.",
+        "why": "uneasy: she gives back the attention the player gave her"
+      }
+    ],
+    "dlg.hazel.rehearsal.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "...and so the lamp burned lower, and nobody, nobody minded. (That's the end.) What did you hear?",
+        "why": "frightened: one repeated word, nothing more"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...and so the lamp burned lower, and nobody minded. (It got darker as I wrote it.) What did you hear?",
+        "why": "uneasy: the poem darkened without her permission"
+      }
+    ],
+    "dlg.hazel.rehearsal.r2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "The lamp is a bit much. It stays. (Tilda leaves hers lit all night. For whoever's still out. Who is?)",
+        "why": "hint: a Keeper's tell turned into a question the player can chase"
+      }
+    ],
+    "event.hazel_heart8.after": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "One day I'll read it properly. To more than one. (Not on a new moon. Half the listeners would be out.)",
+        "why": "clue: the same people are away the same night"
+      }
+    ],
+    "event.hazel_heart10.intro": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:hazel>=6",
+        "text": "I'll read it for you. Just you. (After, I'll read you the other page. The one about Edmund.)",
+        "why": "revelation hook: she has written down what happened to Edmund"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I'll read it for you. Just you. (I closed the shutters. The shelves don't count. Neither does the wood.)",
+        "why": "uneasy: she shuts out the window side before reading"
+      }
+    ],
+    "event.hazel_friend.ask": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Do you have blackberries? (A book is overdue by forty-one years. Dorian counts forty-one trees. I dislike coincidences.)",
+        "why": "hint: her number meets Dorian's counted trees"
+      }
+    ],
+    "event.hazel_friend.fallback": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Come back with blackberries? (No hurry. Not after dark, though. Daylight is fine.)",
+        "why": "frightened: the joke about waiting becomes care"
+      }
+    ],
+    "event.hazel_friend.success": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Perfect. One tart, then a knock on the borrower's door. (Before dark. His street goes quiet early now.)",
+        "why": "uneasy: hushed evenings, lamps lit early"
+      }
+    ],
+    "event.hazel_birthday.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's my birthday. (Ione told the cake.) It's very small. Please sit. (You look like you should.)",
+        "why": "uneasy: on her own day she looks after the player"
+      }
+    ],
+    "dlg.hazel.birthday.r0": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Two words, said kindly. (I counted. I count other things too, lately.) I'll keep them.",
+        "why": "hint: her counting has turned to something besides words"
+      }
+    ],
+    "dlg.hazel.birthday.r2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "(Nobody is singing.) Please stay until the cake is gone. (And a little after. It gets dark early.)",
+        "why": "frightened: she asks the player to stay, not to be cheered"
+      }
+    ],
+    "event.hazel_courtship.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "May I ask something plainly? Would you like to court me? (I cut the index. Things feel short lately.)",
+        "why": "frightened: urgency instead of fuss"
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "May I ask plainly? Would you like to court me? (I'd like someone to know where I am at night.)",
+        "why": "clue: the resister's fear made into a reason for love"
+      }
+    ],
+    "dlg.hazel.courtship.r0": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:hazel>=6",
+        "text": "Yes. (That's the whole sentence.) Then you should know what I know. Tomorrow, in the nook.",
+        "why": "revelation hook: the yes opens her evidence to the player"
+      }
+    ],
+    "dlg.hazel.courtship.r2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Time. Of course. Books wait on shelves for years. (I'd rather not wait years. Not this year.)",
+        "why": "uneasy: something makes this year feel short"
+      }
+    ],
+    "event.hazel_courtship2.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I asked before. You asked for time. (I waited as long as I could. Longer felt unwise.) Would you like to court me?",
+        "why": "uneasy: the wait felt risky, not only long"
+      }
+    ],
+    "event.hazel_partners.intro": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "A page, not a book. I wrote it for us. (My notes are on the back. Read those too.) Please sit.",
+        "why": "clue: she trusts the player with her records"
+      }
+    ],
+    "dlg.hazel.partners.c2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Walk with her to the forest, by daylight.",
+        "why": "uneasy: same choice, a shadow on it"
+      }
+    ],
+    "dlg.hazel.partners.r2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "The forest. With you. (Only the edge. Only by daylight. I'll hold your sleeve.)",
+        "why": "frightened: she goes anyway, with conditions"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The forest. With you. (The birds aren't loud lately. I've been counting.) Let's go anyway.",
+        "why": "uneasy: birds quieter, counted"
+      }
+    ],
+    "event.overheard_hazel_ione_1.l1": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "The spring almanac. Third shelf, left. (Someone dog-eared the fourth. I'd like a word with them.)",
+        "why": "hint: the fourth marked by someone else; still a fine joke"
+      }
+    ],
+    "event.overheard_hazel_ione_1.l3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Then we split it. You dust, I shelve. (I'll lock up. You go home before dark.)",
+        "why": "uneasy: care between the two unaware-and-aware librarians"
+      }
+    ],
+    "event.overheard_hazel_ione_2.l2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "It's a very long book. (I keep stopping before the ending. Lately I'd rather not know it.)",
+        "why": "frightened: the running joke turns into avoidance"
+      }
+    ],
+    "event.overheard_hazel_ione_2.l4": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Once a year, yes. (Four cents a time. Four is a busy number in this village.)",
+        "why": "hint: four, again"
+      }
+    ],
+    "event.overheard_hazel_ione_3.l2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Oh. (It's for me.) ...Does the window face the wood? (I'd rather it didn't.)",
+        "why": "frightened: the gift is welcome; the view is not"
+      }
+    ],
+    "event.overheard_hazel_ione_3.l4": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "After lunch, then. (Before the fog comes in. It's been staying later.)",
+        "why": "uneasy: fog lingers; she plans around it"
+      }
+    ],
+    "event.overheard_dorian_hazel_1.l2": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "Dorian. Hello. (Sit, if you like.) You look tired. (So did Marcus. Same morning.)",
+        "why": "clue: two lodgers, one late night; evidence, not accusation"
+      }
+    ],
+    "event.overheard_dorian_hazel_1.l4": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "(Quieter than last month.) I counted the jays. Nine fewer. I brought two books anyway.",
+        "why": "uneasy: birds quieter, in her exact numbers"
+      }
+    ],
+    "event.overheard_dorian_hazel_2.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Pressed leaves? May I borrow it? (It saves me a walk in the woods. I've stopped walking there.)",
+        "why": "uneasy: she avoids the wood without saying why"
+      }
+    ],
+    "event.overheard_dorian_hazel_2.l4": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "Then we agree. (Kept. You say that word carefully.) I'll return it with one leaf more.",
+        "why": "clue: she notices a Keeper's word and lets him know she noticed"
+      }
+    ],
+    "event.overheard_dorian_hazel_3.l2": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:hazel>=6",
+        "text": "We could. (The window faces the forest. You'd know what's in it.) ...Sit anyway.",
+        "why": "revelation tier: she tells a Keeper she knows, and stays kind"
+      }
+    ],
+    "event.overheard_dorian_hazel_3.l4": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "(They come closer. They come closer.) ...I'll take the seat facing the door. You bring the quiet.",
+        "why": "frightened: short repeat; the woods seem closer"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "(They seem closer lately.) I'll save the window seat. You bring the quiet.",
+        "why": "uneasy: the woods seem closer"
+      }
+    ],
+    "event.overheard_wren_hazel_1.l4": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "The clasp. I write everything down. (Even that you closed early on the fourth.)",
+        "why": "hint: a Keeper's early night, noted"
+      }
+    ],
+    "event.overheard_wren_hazel_2.l4": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "(I'll think about it.) That means yes. Possibly by spring. (Let's all get to spring.)",
+        "why": "frightened: the joke about slowness becomes a wish"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "(I'll think about it.) That means yes. Slowly. And not after dark.",
+        "why": "uneasy: the bar at night is off her list"
+      }
+    ],
+    "event.overheard_wren_hazel_3.l1": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I read a poem aloud. To one person. (I survived. Lately that feels worth checking.)",
+        "why": "uneasy: the joke carries more weight"
+      }
+    ],
+    "event.overheard_wren_hazel_3.l3": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:hazel>=6",
+        "text": "(Ask me again when we're friends.) ...We are. (That's inconvenient, Wren. For both of us.)",
+        "why": "revelation tier: the resister and a Keeper are friends anyway"
+      }
+    ],
+    "event.overheard_hazel_piper_1.l2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "(Shh.) It wasn't me. ...Also, your humming. Four notes. Where did you learn those?",
+        "why": "hint: echoes Edmund's four notes; Piper is unaware"
+      }
+    ],
+    "event.overheard_hazel_piper_2.l4": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "(Books.) And you. Every Thursday. (You've been playing quieter lately. I noticed.)",
+        "why": "uneasy: Piper's song loses volume"
+      }
+    ],
+    "event.overheard_hazel_piper_3.l4": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "(Not my name.) Just play it. Loud. Loud. (Drown out the night a little.)",
+        "why": "frightened: short repeat; loudness as defense"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "(Not my name.) Just play it. Loudly. (Louder than the hum at night, please.)",
+        "why": "uneasy: the low hum at night"
+      }
+    ],
+    "event.hazel_heart10.outro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:hazel.rehearsal.critique}I cut the middle. (You were right. It breathes now.) The new line is about you. (It may hang on a lantern. If winter is kind.){else}I kept the lamp. And I added you, third line from the end. (It may hang on a lantern. If winter is kind.){/if}",
+        "why": "uneasy: the lantern hope gains a condition; both branches kept"
+      }
+    ],
+    "event.hazel_birthday.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if choice:bday.hazel.wish}I wrote them in the margin of today. (In ink. Some days should be permanent.){else}{if choice:bday.hazel.read}My favorite line, in your voice. (The keeper kept his light on. So will I.){else}A shared silence. The good kind. (Not the kind outside.) Next year, again, please.{/if}{/if}",
+        "why": "frightened: each keepsake becomes something to hold onto"
+      }
+    ],
+    "event.hazel_courtship.after": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "{if flag:choice.courtship.hazel.yes}A courtship, then. A slow one. (A second chair for the nook. And my notes, when you're ready.){else}{if flag:choice.courtship.hazel.friends}Friends. (The best kind of margin note.) I'm glad. Friends can still be told things. I'll tell you.{else}Take the time you need. (The shelf keeps your place.) Just don't spend it out after dark.{/if}{/if}",
+        "why": "clue: every answer keeps Hazel's evidence open to the player"
+      }
+    ],
+    "event.hazel_courtship2.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if flag:choice.courtship.hazel.yes}A courtship, then. Worth the wait. (The second chair goes in the nook tomorrow. Facing the door.){else}{if flag:choice.courtship.hazel.friends}Friends, then. A good ending. (Not every book needs a sequel.) Walk home before dark, friend.{else}More time. (The shelf still has your place.) I'll be at the desk. Until dusk, anyway.{/if}{/if}",
+        "why": "uneasy: dark and doors shade each answer"
+      }
+    ],
+    "event.hazel_partners.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if choice:courtship.hazel.read}The page is pinned above the desk. Your name is at the bottom. (In ink now. I want it to last.){else}{if choice:courtship.hazel.hand}Your hand and mine, over the desk. I didn't let go first. (I'm not going to.){else}The forest was too quiet. You were quiet too. (I held on. We came back. Both of us.){/if}{/if}",
+        "why": "frightened: permanence and holding on; pencil becomes ink"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "hazel_heart2",
+      "after": "event.hazel_heart2.3",
+      "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+      "text": "Four dates a year in these margins. Always the same nights. Not frost. (I checked against frost.)",
+      "emote": null,
+      "expression": "thinking",
+      "why": "clue: echoes the almanac thread in new words"
+    },
+    {
+      "scene": "hazel_heart5",
+      "after": "event.hazel_heart5.2",
+      "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+      "text": "(I didn't only write poems this year.) I kept a list. The same five lamps go dark, four nights a year.",
+      "emote": "ellipsis",
+      "expression": null,
+      "why": "clue: five people, four nights, no names"
+    },
+    {
+      "scene": "reading_night",
+      "after": "event.reading_night.2",
+      "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+      "text": "(Kept since winter. Some people here keep things very carefully.)",
+      "emote": null,
+      "expression": "thinking",
+      "why": "clue: an aside on the Keeper's word, in front of two Keepers"
+    },
+    {
+      "scene": "festival_winter_lanterns",
+      "after": "event.festival_winter_lanterns.3",
+      "when": "horror:1 && var:lore>=1",
+      "text": "(Tilda's went up first. It always does. Straight toward the wood.)",
+      "emote": "ellipsis",
+      "expression": null,
+      "why": "hint: a Keeper's lantern noticed; the scene's last image tilts toward the wood"
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "hazel_heart2": "Why is one fall date pencilled into every almanac in Wetherell?",
+    "hazel_heart5": "Whose five lamps go dark, and on which four nights?",
+    "reading_night": "Why does Hazel sit by the door and watch who leaves first?",
+    "festival_winter_lanterns": "Why do some lanterns always drift toward the wood, and whose goes up first?",
+    "hazel_heart4": "What happens on the fourth that Hazel doesn't want you out for?",
+    "hazel_heart6": "What hums under the library floor, and why is Dr. Penn so kind to Hazel?",
+    "hazel_heart8": "Who is still out on the nights Tilda's lamp burns until dawn?",
+    "hazel_heart10": "What has Hazel written about Edmund that she will read only to you?",
+    "hazel_friend": "Why does the overdue book's forty-one match the trees Dorian counts?",
+    "hazel_birthday": "What else has Hazel started counting?",
+    "hazel_courtship": "Why does Hazel want someone to know where she is at night?",
+    "hazel_courtship2": "Why did waiting any longer feel unwise to Hazel?",
+    "hazel_partners": "What has Hazel written on the back of the page?",
+    "overheard_hazel_ione_1": "Who dog-eared the fourth in the library's almanac?",
+    "overheard_hazel_ione_2": "Why is four such a busy number in Wetherell?",
+    "overheard_hazel_ione_3": "Why won't Hazel sit facing the wood?",
+    "overheard_dorian_hazel_1": "Why were Dorian and Marcus tired on the same morning?",
+    "overheard_dorian_hazel_2": "Why does Dorian say 'kept' so carefully?",
+    "overheard_dorian_hazel_3": "What does Dorian know about the forest outside the library window?",
+    "overheard_wren_hazel_1": "Why does the saloon close early on the fourth?",
+    "overheard_wren_hazel_2": "What does Hazel fear might stop them all reaching spring?",
+    "overheard_wren_hazel_3": "Why is Hazel and Wren's friendship inconvenient for both of them?",
+    "overheard_hazel_piper_1": "Where did Piper learn the four notes she hums?",
+    "overheard_hazel_piper_2": "Why has Piper's playing gone quieter?",
+    "overheard_hazel_piper_3": "What is the hum at night that Hazel wants drowned out?"
+  },
+  "notes": [
+    "No cuts: Hazel's editable scenes are short and every line carries the gift or the dialogue setup; frightened states are handled by variants instead.",
+    "Round 3b: branched lines (heart10.outro, birthday.after, courtship.after, courtship2.after, partners.after) now have variants that keep every {if} branch.",
+    "'The fourth' (day 4 of each season) recurs as Hazel's hint motif; it never names the ritual and is mild-safe.",
+    "dlg.hazel.courtship.r0/r2 are shared by hazel_courtship and hazel_courtship2; their variants apply in both scenes.",
+    "dlg.hazel.hiding.0 (clue) has Dr. Penn also suggesting Hazel as reader: a new small fact, no flag; drop it if Penn's lines elsewhere contradict.",
+    "Revelation-tier lines (heart10.intro, courtship.r0, dorian_3.l2, wren_3.l3) are hooks, not explanations, and are full-only."
+  ]
+}

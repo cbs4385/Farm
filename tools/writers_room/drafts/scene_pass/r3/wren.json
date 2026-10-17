@@ -2,160 +2,447 @@
   "villager": "wren",
   "variants": {
     "event.wren_heart2.0": [
-      { "when": "horror:2 && var:dread>=60", "text": "There you are. Sit. You look like you haven't slept, and I'm inventing a drink. ...It's warm. Start with warm.", "why": "Frightened: the Keeper gets gentler; the joke is dropped for care." },
-      { "when": "horror:1 && var:dread>=30", "text": "You're just in time. You look tired, friend, and I'm inventing a drink. Warm first. Jokes after.", "why": "Uneasy: she notices the player's tiredness before the bit." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "There you are. Sit. You look like you haven't slept, and I'm inventing a drink. ...It's warm. Start with warm.",
+        "why": "Frightened: the Keeper gets gentler; the joke is dropped for care."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "You're just in time. You look tired, friend, and I'm inventing a drink. Warm first. Jokes after.",
+        "why": "Uneasy: she notices the player's tiredness before the bit."
+      }
     ],
     "event.wren_heart5.3": [
-      { "when": "horror:2 && var:dread>=30", "text": "It's the quiet hours I mind. Lately the room hums after closing, low, like a held note. I've stopped timing it.", "why": "World sign (the hum) through her own fear of the empty room." },
-      { "when": "horror:1 && var:dread>=30", "text": "It's the quiet hours I mind. Lately the quiet hums. I've stopped timing it.", "why": "Mild version of the same noticing." }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "It's the quiet hours I mind. Lately the room hums after closing, low, like a held note. I've stopped timing it.",
+        "why": "World sign (the hum) through her own fear of the empty room."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's the quiet hours I mind. Lately the quiet hums. I've stopped timing it.",
+        "why": "Mild version of the same noticing."
+      }
     ],
     "event.wren_heart5.2": [
-      { "when": "horror:2 && var:dread>=60", "text": "Take a bottle. Take the lit road, not the forest path, and go before dark. ...That was meant to be a joke. It came out wrong.", "why": "Too-exact care; the joke lands a second late and fails." },
-      { "when": "horror:1 && var:dread>=30", "text": "Take a bottle for the road. The lit road, not the forest path. Come back soon. I'll count you in.", "why": "Keeper's exact directions, warmth intact." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Take a bottle. Take the lit road, not the forest path, and go before dark. ...That was meant to be a joke. It came out wrong.",
+        "why": "Too-exact care; the joke lands a second late and fails."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Take a bottle for the road. The lit road, not the forest path. Come back soon. I'll count you in.",
+        "why": "Keeper's exact directions, warmth intact."
+      }
     ],
     "event.hall_dance.1": [
-      { "when": "horror:2 && var:dread>=60", "text": "Look at this room. Full. Somebody count the porch. ...I need the number. Not for the story. I just need it.", "why": "Counting heads stops being a bit; she needs everyone accounted for." },
-      { "when": "horror:1 && var:dread>=30", "text": "Look at this room! Full, porch and all. Somebody count heads. I like knowing everyone's in.", "why": "Uneasy: the head count tilts toward care." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Look at this room. Full. Somebody count the porch. ...I need the number. Not for the story. I just need it.",
+        "why": "Counting heads stops being a bit; she needs everyone accounted for."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Look at this room! Full, porch and all. Somebody count heads. I like knowing everyone's in.",
+        "why": "Uneasy: the head count tilts toward care."
+      }
     ],
     "event.hall_dance.6": [
-      { "when": "horror:2 && var:dread>=30", "text": "The whole hall takes the chorus. Piper stops playing, and the song goes on without her. Under it, very low, something hums along.", "why": "The hum joins the village song; mood only." },
-      { "when": "horror:1 && var:dread>=30", "text": "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her, longer than it should.", "why": "Mild: a song that will not end." }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "The whole hall takes the chorus. Piper stops playing, and the song goes on without her. Under it, very low, something hums along.",
+        "why": "The hum joins the village song; mood only."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The whole hall takes the chorus. Piper stops playing and sways, and the song goes on without her, longer than it should.",
+        "why": "Mild: a song that will not end."
+      }
     ],
     "event.hall_dance.12": [
-      { "when": "horror:2 && var:dread>=30", "text": "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low. Nobody goes home, and nobody looks at the windows.", "why": "The warm ending, with the village not looking outside." }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Marcus takes his one dance, and Tilda takes hers beside him. The lamps burn low. Nobody goes home, and nobody looks at the windows.",
+        "why": "The warm ending, with the village not looking outside."
+      }
     ],
     "event.reading_night.3": [
-      { "when": "horror:2 && var:dread>=60", "text": "Don't mind me. I'll tell a short one tonight, a happy one, with the lamp on. Everybody likes those.", "why": "Frightened: she offers the player the gentlest story she has." },
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Don't mind me, I only tell stories. Hazel writes the true ones down. Somebody should. ...The funny ones, I mean. Obviously.", "why": "Clue: the Keeper knows Hazel is recording the truth; the cover lands late." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Don't mind me. I'll tell a short one tonight, a happy one, with the lamp on. Everybody likes those.",
+        "why": "Frightened: she offers the player the gentlest story she has."
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Don't mind me, I only tell stories. Hazel writes the true ones down. Somebody should. ...The funny ones, I mean. Obviously.",
+        "why": "Clue: the Keeper knows Hazel is recording the truth; the cover lands late."
+      }
     ],
     "event.past_the_point.wren": [
-      { "when": "horror:2 && var:dread>=60", "text": "Just looking. Mornings are safe. From the point, the sea seems to start somewhere far from the woods.", "why": "Frightened: the sea as the place the woods do not reach." },
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Just looking. I can't go far while I'm needed here. From the point, the sea seems to start somewhere else.", "why": "Clue: a duty holds her, which is why the bag never leaves." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Just looking. Mornings are safe. From the point, the sea seems to start somewhere far from the woods.",
+        "why": "Frightened: the sea as the place the woods do not reach."
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Just looking. I can't go far while I'm needed here. From the point, the sea seems to start somewhere else.",
+        "why": "Clue: a duty holds her, which is why the bag never leaves."
+      }
     ],
     "event.story_cat.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Don't move. A cat has chosen your boots. Good. Stay with it a minute. It hasn't sat still in days.", "why": "Frightened: she wants the player to have the comfort, not the joke." },
-      { "when": "horror:1 && var:dread>=30", "text": "Don't move. A cat has chosen your boots. It's been staring at the woods all week. Now it's staring at you. Progress.", "why": "Animals face the wood; the joke still lands." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Don't move. A cat has chosen your boots. Good. Stay with it a minute. It hasn't sat still in days.",
+        "why": "Frightened: she wants the player to have the comfort, not the joke."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Don't move. A cat has chosen your boots. It's been staring at the woods all week. Now it's staring at you. Progress.",
+        "why": "Animals face the wood; the joke still lands."
+      }
     ],
     "dlg.story.cat.talk.0": [
-      { "when": "horror:1 && var:dread>=30", "text": "A small gray cat sits on your boots, perfectly satisfied, with its back very firmly to the woods.", "why": "The cat chose the player and turned from the wood." }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A small gray cat sits on your boots, perfectly satisfied, with its back very firmly to the woods.",
+        "why": "The cat chose the player and turned from the wood."
+      }
     ],
     "event.wren_heart4.setup": [
-      { "when": "horror:2 && var:dread>=60", "text": "Don't sit yet. You look like a long night. I'm trying something loud. Loud helps.", "why": "Frightened: the prank becomes a remedy." },
-      { "when": "horror:1 && var:dread>=30", "text": "Don't sit yet. I'm trying something new, and you look like you need cheering. Possibly an accomplice.", "why": "Uneasy: she aims the act at the player's mood." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Don't sit yet. You look like a long night. I'm trying something loud. Loud helps.",
+        "why": "Frightened: the prank becomes a remedy."
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Don't sit yet. I'm trying something new, and you look like you need cheering. Possibly an accomplice.",
+        "why": "Uneasy: she aims the act at the player's mood."
+      }
     ],
     "event.wren_heart4.reaction": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Terrible, wasn't it? I wrote it in the bath. ...I sing it on the quiet nights too. Keeps the room company.", "why": "Clue: the quiet nights have someone keeping watch through them." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Terrible, wasn't it? I wrote it in the bath. ...I sing it on the quiet nights too. Keeps the room company.",
+        "why": "Clue: the quiet nights have someone keeping watch through them."
+      }
     ],
     "event.wren_heart6.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Come into the back. It's warm, and the windows face the sea. You taste, I stir, and nobody has to be alone.", "why": "Frightened: she brings the player away from the woodside windows." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Come into the back. It's warm, and the windows face the sea. You taste, I stir, and nobody has to be alone.",
+        "why": "Frightened: she brings the player away from the woodside windows."
+      }
     ],
     "event.wren_heart6.after": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "It goes on the chalkboard Friday. On the fourth, I cook for someone else. ...Pies. Very private pies. Don't ask the pies.", "why": "Clue: she prepares something on the new-moon night, covered with a late joke." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "It goes on the chalkboard Friday. On the fourth, I cook for someone else. ...Pies. Very private pies. Don't ask the pies.",
+        "why": "Clue: she prepares something on the new-moon night, covered with a late joke."
+      }
     ],
     "event.wren_heart8.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Close the door. Both of them. Sit. You look like I feel, so no jokes tonight. From either of us.", "why": "Frightened: the confession scene opens already gentle." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Close the door. Both of them. Sit. You look like I feel, so no jokes tonight. From either of us.",
+        "why": "Frightened: the confession scene opens already gentle."
+      }
     ],
     "dlg.wren.bag.0": [
-      { "when": "horror:2 && var:lore>=5 && hearts:wren>=6", "text": "There's a bag under my bar. Packed for emergencies. Not for leaving. For the night the fourth goes wrong, so I can get people out.", "why": "Revelation: the bag's second meaning; the new-moon night can fail." },
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "There's a bag under my bar. Packed since the day I arrived. Some years it's for leaving. Some years, for helping other people leave.", "why": "Clue: the emergency may not be hers." }
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:wren>=6",
+        "text": "There's a bag under my bar. Packed for emergencies. Not for leaving. For the night the fourth goes wrong, so I can get people out.",
+        "why": "Revelation: the bag's second meaning; the new-moon night can fail."
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "There's a bag under my bar. Packed since the day I arrived. Some years it's for leaving. Some years, for helping other people leave.",
+        "why": "Clue: the emergency may not be hers."
+      }
     ],
     "dlg.wren.bag.1": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "I came to rest for one season. Then I was asked to stay and help keep something. Eight years. So. Go, stay, or leave it?", "why": "Clue: a duty, not drift, kept her; the choice keeps its meaning." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "I came to rest for one season. Then I was asked to stay and help keep something. Eight years. So. Go, stay, or leave it?",
+        "why": "Clue: a duty, not drift, kept her; the choice keeps its meaning."
+      }
     ],
     "event.wren_heart8.after": [
-      { "when": "horror:2 && var:dread>=60", "text": "There. I said it, and the bag weighs less. You've had enough to carry lately. Let me carry this one.", "why": "Frightened: she takes weight off the player." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "There. I said it, and the bag weighs less. You've had enough to carry lately. Let me carry this one.",
+        "why": "Frightened: she takes weight off the player."
+      }
     ],
     "event.wren_heart10.intro": [
-      { "when": "horror:2 && var:lore>=5 && hearts:wren>=6", "text": "Tonight I'm performing. One song, one listener. Four nights a year I keep quiet so something else can sleep. Tonight I won't. Sit.", "why": "Revelation: what the quiet nights are for, given as a gift." },
-      { "when": "horror:2 && var:dread>=30", "text": "Tonight I'm performing. One song, one listener, loud enough that nothing else gets heard. Sit there. Yes, you.", "why": "Uneasy: the song is a wall against the hum." }
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:wren>=6",
+        "text": "Tonight I'm performing. One song, one listener. Four nights a year I keep quiet so something else can sleep. Tonight I won't. Sit.",
+        "why": "Revelation: what the quiet nights are for, given as a gift."
+      },
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Tonight I'm performing. One song, one listener, loud enough that nothing else gets heard. Sit there. Yes, you.",
+        "why": "Uneasy: the song is a wall against the hum."
+      }
     ],
     "event.wren_friend.doing": [
-      { "when": "horror:1 && var:dread>=30", "text": "Square three: Bram said four words. Square four: someone heard humming at night. Cross off three. Four isn't a game.", "why": "A rumor she refuses to improve; the bit breaks protectively." }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Square three: Bram said four words. Square four: someone heard humming at night. Cross off three. Four isn't a game.",
+        "why": "A rumor she refuses to improve; the bit breaks protectively."
+      }
     ],
     "event.wren_friend.wrap": [
-      { "when": "horror:2 && var:dread>=60", "text": "No bingo today. Go home before dark, and bring a rumor next Friday. A small one. A cheerful one.", "why": "Frightened: the sign-off becomes a curfew, gently." },
-      { "when": "horror:1 && var:lore>=1", "text": "No bingo today. Bring a rumor next Friday. Not the fourth, though. Quiet night. Bed early.", "why": "Hint: her one cozy tell, made into a rule." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "No bingo today. Go home before dark, and bring a rumor next Friday. A small one. A cheerful one.",
+        "why": "Frightened: the sign-off becomes a curfew, gently."
+      },
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "No bingo today. Bring a rumor next Friday. Not the fourth, though. Quiet night. Bed early.",
+        "why": "Hint: her one cozy tell, made into a rule."
+      }
     ],
     "event.wren_birthday.intro": [
-      { "when": "horror:1 && var:dread>=30", "text": "It's my birthday, so nobody may look surprised. Or tired. Sit. Have a pickle, I saved the good jar.", "why": "Uneasy: she sees the player's tiredness and forbids it, kindly." }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's my birthday, so nobody may look surprised. Or tired. Sit. Have a pickle, I saved the good jar.",
+        "why": "Uneasy: she sees the player's tiredness and forbids it, kindly."
+      }
     ],
     "dlg.wren.birthday.0": [
-      { "when": "horror:2 && var:dread>=60", "text": "Now. Between us, I expect a toast. A small one. ...Anything will do tonight. You came.", "why": "Frightened: the demand softens into thanks." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Now. Between us, I expect a toast. A small one. ...Anything will do tonight. You came.",
+        "why": "Frightened: the demand softens into thanks."
+      }
     ],
     "event.wren_courtship.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Sit. I rehearsed this, and then the week happened. So, plainly: I like you. A lot. Whatever's wrong, I'm on your side.", "why": "Frightened: the Keeper's promise of protection inside the confession." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Sit. I rehearsed this, and then the week happened. So, plainly: I like you. A lot. Whatever's wrong, I'm on your side.",
+        "why": "Frightened: the Keeper's promise of protection inside the confession."
+      }
     ],
     "dlg.wren.courtship.r2": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Wait. Fair. I'm good at waiting. I've sat up through longer nights than this one, four a year.", "why": "Clue: the four nights a year, as a joke about patience." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Wait. Fair. I'm good at waiting. I've sat up through longer nights than this one, four a year.",
+        "why": "Clue: the four nights a year, as a joke about patience."
+      }
     ],
     "event.wren_courtship2.intro": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Last time you said wait, so I waited. I'm good at keeping things. I kept this. I still like you. More, actually.", "why": "Clue: keeping is her trade." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Last time you said wait, so I waited. I'm good at keeping things. I kept this. I still like you. More, actually.",
+        "why": "Clue: keeping is her trade."
+      }
     ],
     "event.wren_partners.intro": [
-      { "when": "horror:2 && var:dread>=60", "text": "Evening, love. I wrote you a song. It's terrible, and it's mine. Sit close. The nights are long lately.", "why": "Frightened: closeness as shelter." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Evening, love. I wrote you a song. It's terrible, and it's mine. Sit close. The nights are long lately.",
+        "why": "Frightened: closeness as shelter."
+      }
     ],
     "dlg.wren.partners.r2": [
-      { "when": "horror:1 && var:dread>=30", "text": "A walk home. Past Tilda's lamp, the long way round the forest path. I know every lit window. Lead on.", "why": "Uneasy: the walk takes the protective route." }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A walk home. Past Tilda's lamp, the long way round the forest path. I know every lit window. Lead on.",
+        "why": "Uneasy: the walk takes the protective route."
+      }
     ],
     "event.overheard_wren_piper_1.l3": [
-      { "when": "horror:1 && var:dread>=30", "text": "The stool doesn't have opinions. I do. Again, louder. Drown out the hum.", "why": "Overheard: the hum is in the saloon too." }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The stool doesn't have opinions. I do. Again, louder. Drown out the hum.",
+        "why": "Overheard: the hum is in the saloon too."
+      }
     ],
     "event.overheard_wren_piper_2.l3": [
-      { "when": "horror:2 && var:dread>=60", "text": "'Piper sings and the rafters shake, and nobody hears the woods awake.' ...No. The first version. Use the first.", "why": "A slip: the rhyme goes somewhere she did not mean." }
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "'Piper sings and the rafters shake, and nobody hears the woods awake.' ...No. The first version. Use the first.",
+        "why": "A slip: the rhyme goes somewhere she did not mean."
+      }
     ],
     "event.overheard_wren_piper_3.l1": [
-      { "when": "horror:1 && var:lore>=1", "text": "Today's last song, Piper. A soft one. Not Edmund's four notes, though. Humor me.", "why": "Hint: Wren knows the four notes and does not want them sung." }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Today's last song, Piper. A soft one. Not Edmund's four notes, though. Humor me.",
+        "why": "Hint: Wren knows the four notes and does not want them sung."
+      }
     ],
     "event.overheard_wren_piper_4.l1": [
-      { "when": "horror:1 && var:lore>=1", "text": "Piper. Next month, you headline. Any night but the fourth. Saloon's dark the fourth. I bought new chalk.", "why": "Hint: the new-moon closing, scheduled around." }
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Piper. Next month, you headline. Any night but the fourth. Saloon's dark the fourth. I bought new chalk.",
+        "why": "Hint: the new-moon closing, scheduled around."
+      }
     ],
     "event.overheard_tilda_wren_1.l4": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "A ribbon! Pin it to the stool. ...And Tilda? The fourth. Same as always?", "why": "Clue: two Keepers confirm a standing appointment." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "A ribbon! Pin it to the stool. ...And Tilda? The fourth. Same as always?",
+        "why": "Clue: two Keepers confirm a standing appointment."
+      }
     ],
     "event.overheard_tilda_wren_2.l2": [
-      { "when": "horror:1 && var:dread>=30", "text": "I heard it first. The cat won't go near the woods now. That part I didn't improve.", "why": "Uneasy: the one rumor she leaves alone." }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I heard it first. The cat won't go near the woods now. That part I didn't improve.",
+        "why": "Uneasy: the one rumor she leaves alone."
+      }
     ],
     "event.overheard_tilda_wren_3.l2": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "You've earned the good stool, Tilda. Come at seven. Not the fourth. We're both busy the fourth.", "why": "Clue: shared duty on the same night." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "You've earned the good stool, Tilda. Come at seven. Not the fourth. We're both busy the fourth.",
+        "why": "Clue: shared duty on the same night."
+      }
     ],
     "event.overheard_wren_bram_1.l3": [
-      { "when": "horror:1 && var:dread>=30", "text": "That's three. 'Hm' doesn't count. ...You look tired too, Bram. Everybody does lately.", "why": "Uneasy: nobody sleeps through the night." }
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "That's three. 'Hm' doesn't count. ...You look tired too, Bram. Everybody does lately.",
+        "why": "Uneasy: nobody sleeps through the night."
+      }
     ],
     "event.overheard_wren_bram_2.l3": [
-      { "when": "horror:2 && var:dread>=30", "text": "Then let me read it. I'll improve it. ...Or send it, Bram. Don't wait for a better year.", "why": "Uneasy: a Keeper's sudden urgency about time." }
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Then let me read it. I'll improve it. ...Or send it, Bram. Don't wait for a better year.",
+        "why": "Uneasy: a Keeper's sudden urgency about time."
+      }
     ],
     "event.overheard_wren_bram_3.l1": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Bram. If I ever left Wetherell, would you notice? Somebody has to stay. I keep asking who.", "why": "Clue: staying is a duty someone must carry." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Bram. If I ever left Wetherell, would you notice? Somebody has to stay. I keep asking who.",
+        "why": "Clue: staying is a duty someone must carry."
+      }
     ],
     "event.overheard_wren_hazel_1.l3": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "And which one's true? Careful, Hazel. You write everything down. Some things are safer improved.", "why": "Clue: the Keeper warns the resister, out of love." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "And which one's true? Careful, Hazel. You write everything down. Some things are safer improved.",
+        "why": "Clue: the Keeper warns the resister, out of love."
+      }
     ],
     "event.overheard_wren_hazel_2.l1": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Years of scribbling at my bar. Lately you scribble dates. Read me a poem instead?", "why": "Clue: Wren has noticed Hazel's almanac counting." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Years of scribbling at my bar. Lately you scribble dates. Read me a poem instead?",
+        "why": "Clue: Wren has noticed Hazel's almanac counting."
+      }
     ],
     "event.overheard_wren_hazel_3.l4": [
-      { "when": "horror:1 && var:lore>=3 && hearts:wren>=4", "text": "Between us, we always were. Whatever you're counting lately, count me on your side.", "why": "Clue: friendship across the line Hazel does not know Wren stands on." }
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "Between us, we always were. Whatever you're counting lately, count me on your side.",
+        "why": "Clue: friendship across the line Hazel does not know Wren stands on."
+      }
+    ],
+    "event.story_cat.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:cat.ledger}Ledger! Tilda will be unbearable. Keep it in tonight, though. It's been watching the woods.{else}{if choice:cat.quench}Quench! Juno will want a vote. Keep it in tonight, though. It's been watching the woods.{else}{if choice:cat.sharp}Sharp! Piper will write it a song. A soft one. It's been watching the woods.{else}A new name! It purred for you. Keep it close tonight. It's been watching the woods.{/if}{/if}{/if}",
+        "why": "Uneasy: every branch ends on the cat facing the wood, and on Wren wanting it inside."
+      }
+    ],
+    "event.wren_heart10.outro": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:wren>=6",
+        "text": "{if choice:wren.bag.go}I'm not leaving yet. Not while the fourth needs me. But the second verse has a map, and the map has the sea.{else}{if choice:wren.bag.stay}The chorus was the stay. I sang it twice. Staying is what keeps it sleeping. Now you know.{else}The quiet bit in the middle was yours. I keep quiet four nights a year. That one I gave you.{/if}{/if}",
+        "why": "Revelation: each answer to the bag meets the duty."
+      },
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if choice:wren.bag.go}I'm not leaving yet. The second verse has a map in it, and the map goes far from the woods.{else}{if choice:wren.bag.stay}The chorus was the stay. I sang it twice, loud, so nothing else got a word in.{else}The quiet bit in the middle was yours. Rest in it. You haven't been resting.{/if}{/if}",
+        "why": "Frightened: the song as shelter."
+      }
+    ],
+    "event.wren_birthday.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if choice:bday.wren.glass}A toast, and a good one. I'll tell it for years. Promise me you'll be here to hear it.{else}{if choice:bday.wren.sing}Your song's the house anthem now. Sing it walking home. Loudly. Keep the road company.{else}A hug. Of everything on the shelf tonight, that's the best gift. Now go home before dark.{/if}{/if}",
+        "why": "Frightened: each thanks ends in protective care."
+      }
+    ],
+    "event.wren_courtship2.after": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+        "text": "{if flag:choice.courtship.wren.yes}Walks, then. And poems. You're stuck with me, and I'm stuck with the stool.{else}{if flag:choice.courtship.wren.friends}The best of friends. It's on my chalkboard now, in capital letters.{else}Still waiting, then. I'll keep the question behind the bar, with the bag. I keep a lot back there.{/if}{/if}",
+        "why": "Clue in the wait branch only: what else she keeps."
+      }
+    ],
+    "event.wren_partners.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:courtship.wren.song}The song's finished now. Your name's in the bridge. I sang it twice, so it sticks.{else}{if choice:courtship.wren.dance}We danced. Nobody looked. Everybody looked. For one song, nobody watched the windows.{else}The bag under my bar is empty. I unpacked it this morning. Whatever comes, I'm staying where you are.{/if}{/if}",
+        "why": "Uneasy: shelter and staying, warmth intact."
+      }
     ]
   },
   "adds": [
-    { "scene": "wren_heart2", "after": "event.wren_heart2.1", "when": "horror:2 && var:dread>=60",
-      "text": "Don't grade it. Just hold the cup a minute. Warm things help. That isn't a joke, for once.", "emote": null, "expression": "sad",
-      "why": "Fills the gap left by the cut face joke." },
-    { "scene": "wren_heart2", "after": "event.wren_heart2.2", "when": "horror:1 && var:lore>=1",
-      "text": "Oh, and I close early on the new moon. Quiet night. Bed early. You too, if you'd humor me.", "emote": null, "expression": null,
-      "why": "Hint: her one tell, extended to the player." },
-    { "scene": "wren_heart5", "after": "event.wren_heart5.3", "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
-      "text": "Some quiet nights aren't mine. I keep them for the village. ...That sounded grander than it is. It's mostly locking up.", "emote": "ellipsis", "expression": "thinking",
-      "why": "Clue: something kept; covered by a late joke." },
-    { "scene": "hall_dance", "after": "event.hall_dance.2", "when": "horror:2 && var:lore>=3 && hearts:wren>=4",
-      "text": "Drink it slowly. Everyone I love is in one room tonight, and none of them are in the woods. I counted.", "emote": null, "expression": "thinking",
-      "why": "Clue: a Keeper's relief, too exact." },
-    { "scene": "story_cat", "after": "event.story_cat.intro", "when": "horror:1 && var:lore>=1",
-      "text": "Funny thing. It always sleeps on the side of the street away from the woods. Cats have opinions.", "emote": null, "expression": null,
-      "why": "Hint: a thing noticed." }
+    {
+      "scene": "wren_heart2",
+      "after": "event.wren_heart2.1",
+      "when": "horror:2 && var:dread>=60",
+      "text": "Don't grade it. Just hold the cup a minute. Warm things help. That isn't a joke, for once.",
+      "emote": null,
+      "expression": "sad",
+      "why": "Fills the gap left by the cut face joke."
+    },
+    {
+      "scene": "wren_heart2",
+      "after": "event.wren_heart2.2",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Oh, and I close early on the new moon. Quiet night. Bed early. You too, if you'd humor me.",
+      "emote": null,
+      "expression": null,
+      "why": "Hint: her one tell, extended to the player."
+    },
+    {
+      "scene": "wren_heart5",
+      "after": "event.wren_heart5.3",
+      "when": "horror:1 && var:lore>=3 && hearts:wren>=4",
+      "text": "Some quiet nights aren't mine. I keep them for the village. ...That sounded grander than it is. It's mostly locking up.",
+      "emote": "ellipsis",
+      "expression": "thinking",
+      "why": "Clue: something kept; covered by a late joke."
+    },
+    {
+      "scene": "hall_dance",
+      "after": "event.hall_dance.2",
+      "when": "horror:2 && var:lore>=3 && hearts:wren>=4",
+      "text": "Drink it slowly. Everyone I love is in one room tonight, and none of them are in the woods. I counted.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "Clue: a Keeper's relief, too exact."
+    },
+    {
+      "scene": "story_cat",
+      "after": "event.story_cat.intro",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Funny thing. It always sleeps on the side of the street away from the woods. Cats have opinions.",
+      "emote": null,
+      "expression": null,
+      "why": "Hint: a thing noticed."
+    }
   ],
   "cuts": [
-    { "scene": "wren_heart2", "key": "event.wren_heart2.3", "when": "horror:2 && var:dread>=60", "why": "Teasing the player's face is wrong when they are frightened; the add fills the silence." }
+    {
+      "scene": "wren_heart2",
+      "key": "event.wren_heart2.3",
+      "when": "horror:2 && var:dread>=60",
+      "why": "Teasing the player's face is wrong when they are frightened; the add fills the silence."
+    }
   ],
   "threads": {
     "wren_heart2": "Why does the saloon close on the new moon, and why does Wren want you in bed early too?",

@@ -307,6 +307,46 @@
         "text": "Then the trees can join us. They come a little closer each year.",
         "why": "uneasy: same, plainer"
       }
+    ],
+    "event.dorian_heart8.after": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "{if choice:notebook.praise}You said lovely. The next page is yours. Not near the back.{else}{if choice:notebook.ask}The brown one's yours. Don't lose it. It knows the way home.{else}Your mushroom lives in the notebook now. Page one. Far from the back.{/if}{/if}",
+        "why": "clue: the back pages (numbered trees) are kept away from the player in every branch"
+      }
+    ],
+    "event.dorian_birthday.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:bday.dorian.wish}Quiet words. I kept them. I'll need them this winter.{else}{if choice:bday.dorian.walk}We walked. Forty trees. Not one more. Good birthday.{else}The pinecone's on my shelf. Facing the window. Away from the wood.{/if}{/if}",
+        "why": "uneasy: counting and facing away from the wood; warmth intact"
+      }
+    ],
+    "event.dorian_courtship.after": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. Home before the fortieth.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. Friends get told things. Someday.{else}Take your time. Not too much. I'll be where the moss is.{/if}{/if}",
+        "why": "clue: a limit on the walk, a promised telling, time that is short"
+      }
+    ],
+    "event.dorian_courtship2.after": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "{if flag:choice.courtship.dorian.yes}Tomorrow, a walk. No talking until the third tree. Home before the fortieth.{else}{if flag:choice.courtship.dorian.friends}Friends. Good word. Friends get told things. Someday.{else}Longer, then. The oak's patient. Some things aren't.{/if}{/if}",
+        "why": "clue: same as first ask; waiting has a limit"
+      }
+    ],
+    "event.dorian_partners.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{if choice:courtship.dorian.feather}The feather lives by my notebook. It keeps watch. So do I. Sleep.{else}{if choice:courtship.dorian.walk}We walked until the light went amber. Then home. Home.{else}An hour beside you. You stopped shaking. Best thing I own.{/if}{/if}",
+        "why": "frightened: gentle, one repeated word in the walk branch"
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "{if choice:courtship.dorian.feather}The feather lives by my notebook now. It keeps watch. So do I.{else}{if choice:courtship.dorian.walk}We walked until the light went amber. Then home. Never after.{else}An hour beside you. Best thing I own. I'll keep it. I keep things.{/if}{/if}",
+        "why": "clue: Keeper's 'keeping' tell in every branch"
+      }
     ]
   },
   "adds": [
@@ -368,6 +408,6 @@
   },
   "notes": [
     "dlg.dorian.courtship.* keys are shared by dorian_courtship and dorian_courtship2; their variants (n0 frightened, r0 clue) apply in both scenes.",
-    "No variants for the {if}-markup '.after' lines (heart8, birthday, courtship, partners): a single variant would collapse the choice branches."
+    "Round 3b: branched '.after' lines now have variants with every cozy branch kept (heart8, birthday, both courtships, partners)."
   ]
 }

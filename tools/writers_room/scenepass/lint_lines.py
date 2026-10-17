@@ -128,7 +128,7 @@ def markup_problems(text: str) -> list[str]:
 
 
 TOKEN_OK = {"event.bram_heart10.thanks"}           # the player-name moment: [player] may be added
-SENTENCE_CAP = {"dlg.bram.long.0": 18}               # Bram's longest sentence ever
+SENTENCE_CAP = {}               # Bram's longest sentence ever
 
 
 def lint_text(owner: str, kind: str, text: str, old: str | None = None, speaker_check: bool = True, key: str | None = None) -> list[tuple[str, str]]:
