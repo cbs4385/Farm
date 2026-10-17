@@ -1,0 +1,48 @@
+{
+  "villager": "bram",
+  "lines": {
+    "event.bram_heart2.3": { "text": "Hm. Now it listens. Strike. Hear that? No apology in it.", "why": "the ring judged by his own aphorism: bad steel apologizes" },
+    "event.bram_heart5.0": { "text": "Wait. I owe you a sentence. It's been in the works since Tuesday.", "why": "the compliment was drafted like his letters; a weekday makes it true" },
+    "event.bram_heart5.1": { "text": "You keep your tools like friends. Oil, rag, a dry shelf. That's the sentence.", "why": "the drafted sentence lands as itself" },
+    "event.bram_heart5.3": { "text": "My teacher kept his tools like that. Hm. I should write him so.", "why": "'write' not 'tell': seeds the letters before heart 6" },
+    "event.bram_heart5.2": { "text": "Here. Two bars. Look after them. Iron keeps score.", "why": "keeps the hand-over beat the new .1 dropped" },
+    "dlg.story.whistler.bram.r2": { "text": "...Hm. You stayed. All of it. Most people leave before the sad part.", "why": "the tune has a sad part; sets up the teacher line after" },
+    "dlg.bram.repair.0": { "text": "Edmund's old hoe. He never let me near it. Split socket, blade's still good. Hold, strike, or watch?", "why": "a specific tool with a thread: Edmund's stubbornness, mended at last" },
+    "dlg.bram.repair.c2": { "text": "Watch, from behind something.", "why": "last option funniest" },
+    "event.bram_heart8.intro": { "text": "Hm. Juno made something. All hers. Look quick, before I start measuring.", "why": "his real failure mode is critique, not ruin" },
+    "event.bram_heart10.intro": { "text": "Hm. Stand still. No questions. I practiced this part without you in it.", "why": "he rehearsed the gift; bigger than 'it's easier'" },
+    "event.bram_heart10.thanks": { "text": "{if choice:bram.juno.ask}You asked me once what I see. I still look. A friend. Rare metal, [player].{else}...Hm. Saved it nine winters. Didn't know who for. Now I do. [player].{/if}", "why": "both branches now end on the first-ever use of the name" },
+    "event.bram_friend.intro": { "text": "Hm. Wednesday. Marcus is late. A roof somewhere, probably. Take his half.", "why": "why Marcus is late, in Marcus's own habit" },
+    "event.overheard_juno_bram_1.l4": { "text": "Then peel the one off my apron. I'm Bram. Mostly.", "why": "funniest word last" },
+    "event.overheard_juno_bram_4.l2": { "text": "Good. Make it next door. I measured the wall. I'll visit. Daily.", "why": "he already planned her forge; keeps the visit Juno's reply answers" }
+  },
+  "adds": [
+    { "scene": "bram_heart2", "after": "event.bram_heart2.2", "text": "Hm. Come back when something breaks. Something always breaks.", "emote": null, "expression": "neutral", "why": "an invitation disguised as fatalism; the scene ends on a reason to return" }
+  ],
+  "cuts": [],
+  "threads": {
+    "bram_heart2": "Who is the teacher who saw cherry heat from the door, and where is he now?",
+    "bram_heart5": "Bram means to write his teacher that something he kept has lasted; will he send it?",
+    "story_whistler_bram": "The teacher's tune has a sad part and a wrong note Bram keeps on purpose.",
+    "bram_heart4": "Why would Edmund never let Bram near a hoe with a split socket?",
+    "bram_heart6": "Thirty letters in a drawer, unsent 'for now' - what would make him send one?",
+    "bram_heart8": "Will he tell Juno today, or near today?",
+    "bram_heart10": "He saved gold nine winters without knowing who for; what else is he saving?",
+    "bram_friend": "What roof kept Marcus from the Wednesday bench, and will the crumbs be counted?",
+    "bram_birthday": "No other mail: the letter Bram checks for on Fall 4 still has not come.",
+    "overheard_juno_bram_1": "Juno labels everything; the label on Bram's apron stays on.",
+    "overheard_juno_bram_2": "Bram's labels are verbs; what else has he quietly labeled?",
+    "overheard_juno_bram_3": "The bench keeps its one honest mistake, on Bram's orders.",
+    "overheard_juno_bram_4": "The wall next door is already measured for a forge that does not exist yet.",
+    "overheard_wren_bram_1": "Wren's fourth-word bet stands; a fish rides on it.",
+    "overheard_wren_bram_2": "Wren may get to fix the ending of a letter that will not be sent.",
+    "overheard_wren_bram_3": "Bram asked Wren not to go far; neither said why.",
+    "overheard_tilda_bram_1": "The slate between Bram and Tilda stays even, by mutual silence."
+  },
+  "notes": [
+    "bram_heart6 left intact on purpose: dlg.bram.long.0 holds his 12-word lifetime-record sentence; let no later pass pad it.",
+    "bram_heart4 now names the hoe as Edmund's (from the approved Edmund list): the socket gets mended, the stubbornness stays unexplained. Confirm it sits with the farm's starter-tool fiction.",
+    "In overheard_wren_bram_1 the closing 'Hm.' must keep its period; it is the whole punchline of Wren's bet.",
+    "Tooling: this persona session had no Write/Bash/SendMessage, so the file is unsaved and lint unrun; progress pings were impossible."
+  ]
+}

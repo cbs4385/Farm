@@ -1,0 +1,135 @@
+{
+  "villager": "hazel",
+  "lines": {
+    "event.hazel_heart2.0": {
+      "text": "Shh. Back here, behind Natural History. (Two visitors a year come this far. Both are me.)",
+      "why": "funnier census; drops 'That's the point', which duplicated my shipped daily line"
+    },
+    "event.hazel_heart2.1": {
+      "text": "An almanac, eighty-one years old. Page two hundred and four: a snowdrop, still white.",
+      "why": "the miracle lands last: still white"
+    },
+    "event.hazel_heart2.3": {
+      "text": "Beside it, in pencil: the first frost, guessed. They missed by three days. (I checked.)",
+      "why": "'(I checked.)' is me; the unknown pencil hand becomes the thread"
+    },
+    "event.hazel_heart2.2": {
+      "text": "The reading nook. One chair. (I counted the people I'd show it to. You're the list.)",
+      "why": "'You're the list' says the heart without stating it"
+    },
+    "event.hazel_heart2.4": {
+      "text": "A fresh snowdrop, for you. Press it somewhere worthy. (Not the almanac. That page is taken.)",
+      "why": "callback to page two hundred and four closes the scene's loop"
+    },
+    "event.hazel_heart5.0": {
+      "text": "I wrote you something. (Draft five. The first four are under the desk, ashamed.)",
+      "why": "the drafts get a feeling; funniest word last"
+    },
+    "event.hazel_heart5.1": {
+      "text": "A small poem. Six lines. If you must laugh, laugh at line four. (It knows.)",
+      "why": "'(It knows.)' is tighter and sadder than explaining the weak line"
+    },
+    "event.hazel_heart5.2": {
+      "text": "You read all six lines. (I watched. Rude of me. I don't regret it.)",
+      "why": "owns the watching instead of reporting it"
+    },
+    "event.reading_night.1": {
+      "text": "(It doesn't.) There's a poem in my sleeve. (It's been there three days. Deciding.)",
+      "why": "the poem gets the verb; three days is more specific than 'haven't decided'"
+    },
+    "dlg.reading.hazel.r1": {
+      "text": "Borrowed, then. Kinder to the room. (Mine keeps my sleeve warm another night.)",
+      "why": "the sleeve stays a character; 'another night' points forward"
+    },
+    "event.festival_winter_lanterns.1": {
+      "text": "One lantern, one wish. Fold it small. (Spoken wishes don't rise. I've charted this.)",
+      "why": "almanac-flavored superstition; 'charted' is my kind of evidence"
+    },
+    "event.hazel_heart4.intro": {
+      "text": "I'd like to trade. A book for a book. (Or for anything. I'm flexible about your half.)",
+      "why": "the flexibility joke replaces the apologetic 'Is that odd?'"
+    },
+    "dlg.hazel.swap.r2": {
+      "text": "Thank you for saying so. (Most people pretend.) I'll start you on the heron book. It's short and forgiving.",
+      "why": "the heron becomes a real recommendation, not a stray detail"
+    },
+    "event.hazel_heart4.after": {
+      "text": "I'll look after it. Return date: whenever. (There is no stamp for whenever. I may need to carve one.)",
+      "why": "the missing stamp makes 'whenever' concrete and earned"
+    },
+    "dlg.hazel.hiding.0": {
+      "text": "The festival wants a reader. Ione said my name. (An hour ago. I've alphabetized the hour away.)",
+      "why": "the hiding becomes an activity; specific beats 'is that strange?'"
+    },
+    "event.hazel_friend.fallback": {
+      "text": "Blackberries, when you can. (It's waited forty-one years. One more day won't show.)",
+      "why": "repeats the forty-one; I count, so the echo is in character"
+    },
+    "event.hazel_birthday.intro": {
+      "text": "It's my birthday. (I kept it quiet. The cake betrayed me.) Please sit. There's enough for two.",
+      "why": "'the cake betrayed me' is the joke 'Ione told the cake' was reaching for"
+    },
+    "event.overheard_hazel_ione_1.l1": {
+      "text": "Your spring almanac. Behind the mysteries, third shelf. (Someone sorted those by color. I'm coping.)",
+      "why": "'I'm coping' is a whole fine, unissued"
+    },
+    "event.overheard_hazel_ione_3.l2": {
+      "text": "Oh. (Green. My favorite. You knew.) I'm saying nothing. Loudly.",
+      "why": "'saying nothing, loudly' is the thank-you she can manage"
+    },
+    "event.overheard_dorian_hazel_1.l2": {
+      "text": "Dorian. (A whole word today. Chatty.) The bench has room, if you like.",
+      "why": "gentle tease at the silence, not at him; invitation kept"
+    },
+    "event.overheard_dorian_hazel_2.l2": {
+      "text": "Pressed leaves. May I borrow it? (This year's found bookmarks: two receipts, a sock, one apology.)",
+      "why": "the found-bookmark list is truer librarian comedy; the apology points at the anonymous notes"
+    },
+    "event.overheard_wren_hazel_1.l4": {
+      "text": "The clasp. (I wrote down all three versions. Yours are gaining.)",
+      "why": "'yours are gaining' admits she loves the embellishments"
+    }
+  },
+  "adds": [
+    {
+      "scene": "hazel_heart2",
+      "after": "event.hazel_heart2.2",
+      "text": "You may use it when I'm shelving. (I'll hear the pages. That's enough company.)",
+      "emote": null,
+      "expression": "happy",
+      "why": "turns the nook from a secret into a standing invitation; seeds the second chair"
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "hazel_heart2": "Whose pencil guessed the first frost eighty-one years ago, and whether the nook ever needs a second chair.",
+    "hazel_heart5": "What line four actually says, and when Hazel will be ready for aloud.",
+    "hazel_heart4": "Which book Hazel hands back, and what she will make of what you lent her.",
+    "hazel_heart6": "Whether Hazel answers Ione on Thursday, the brave day, or Friday.",
+    "hazel_heart8": "Who the reckless second listener will someday be.",
+    "hazel_heart10": "Whether the poem really hangs on a lantern at the winter festival, and who reads it there.",
+    "hazel_friend": "Who kept a library book for forty-one years, and whether a blackberry tart settles the account.",
+    "hazel_birthday": "What Hazel wrote in the margin of today, in ink she never uses.",
+    "hazel_courtship": "What the longer version with the index would have said.",
+    "hazel_courtship2": "Whether the second chair reaches the nook, or the shelf keeps the place a while longer.",
+    "hazel_partners": "What amendment the penciled name at the bottom of the page is waiting for.",
+    "reading_night": "Whether the sleeve poem ever leaves the sleeve for a bigger room, and Ione's promised fifth chair.",
+    "overheard_hazel_ione_2": "Which book Hazel has reread yearly for seven years, and why she never finishes it.",
+    "overheard_hazel_ione_3": "Whether the lump in the cushion gets fixed before anyone admits the window chair is Hazel's.",
+    "overheard_dorian_hazel_1": "What a book for not reading is for.",
+    "overheard_dorian_hazel_2": "Whose apology was left in a returned book.",
+    "overheard_dorian_hazel_3": "Whether the window seat facing the forest becomes a standing appointment.",
+    "overheard_wren_hazel_1": "What Hazel's notebook of Wren's three versions is for.",
+    "overheard_wren_hazel_2": "One line read aloud at the corner stool, possibly by spring.",
+    "overheard_hazel_piper_1": "Who else's rhymes the neat pencil has quietly improved.",
+    "overheard_hazel_piper_2": "What Hazel does every Thursday behind a very large book.",
+    "overheard_hazel_piper_3": "Whose name the best verse Piper owns will never carry."
+  },
+  "notes": [
+    "Canon: my bible says heart 8 is a rehearsal for the player's farm animals; the built scene is the library with the gray cat. I kept the build (the cat leaving at line three is better), but the bible should be updated to match.",
+    "hazel_courtship and hazel_courtship2 share the dialogue graph hazel.courtship; every key in it serves both scenes, so my keeps there are deliberate and apply to both.",
+    "hazel_friend's forty-one-year borrower gets a knock on a living door, so this mystery must never merge with Edmund Fenn's forty years; players will try to connect the numbers, and the near-miss is better left a coincidence.",
+    "Removed 'That's the point' from heart2.0; it duplicated my shipped daily line word for word.",
+    "Request to Ione: reading_night ends on her fifth chair and open door; I'd love a later library scene to pay that off."
+  ]
+}

@@ -3,7 +3,7 @@
 dialogue story.pie.talk
 n0 marcus: One slice of my pie. Her door. No name. If she asks, a stranger with excellent taste.
   next n1
-n1 marcus: Well? You can say no. I'll just stand here holding it.
+n1 marcus: You can say no. The pie and I will just stand here. We're patient.
   ? Deliver it, no tricks. => r0 | flag:choice.pie.honest
   ? I'll improve it on the way. => r1 | flag:choice.pie.improve
   ? It might not survive the walk. => r2 | flag:choice.pie.eat
@@ -13,7 +13,7 @@ r0b odalys: A stranger with excellent taste and sawdust on the note. ...It's rat
   expr thinking
 r1 -: You add a pinch of cinnamon on the way. Odalys tastes it, then frowns at it for a long time.
   next r1b
-r1b odalys: Someone added cinnamon. It's better now. I resent that, professionally.
+r1b odalys: Cinnamon, added late and not by the baker. It's better now. I resent the improvement, professionally.
   expr embarrassed
 r2 -: You eat the slice on the road. It is excellent. Two bakers will hear about this.
   next r2b
@@ -23,12 +23,12 @@ dialogue story.notes.dorian
 n0 -: A folded note sits half under the door. Dorian's hand is still on it.
   next n1
 n1 dorian: ...So. Now you know who.
-  ? Just smile at him. => r0 | flag:choice.notes.dorian.smile
+  ? Smile. Say nothing. => r0 | flag:choice.notes.dorian.smile
   ? Thank him. => r1 | flag:choice.notes.dorian.thanks | friend:dorian,10
   ? Slip a note back under his door. => r2 | flag:choice.notes.dorian.note | friend:dorian,15
 r0 dorian: ...A smile. No words. You speak my language.
   expr embarrassed
-r1 dorian: You're welcome. I'll go be flustered behind a tree.
+r1 dorian: ...Don't mention it. Truly. Don't. I'll be behind a tree.
   expr happy
 r2 dorian: For me? ...I'll read it in the forest. Twice.
   expr happy
@@ -36,7 +36,7 @@ r2 dorian: For me? ...I'll read it in the forest. Twice.
 dialogue story.notes.juno
 n0 -: Juno has a folded note halfway under a door. She stops. So do you.
   next n1
-n1 juno: ...So. Now you know. All of them were me. Mostly in pencil.
+n1 juno: ...So. Now you know. Fifty-one notes, all me. Pencil, so anyone can pretend they don't know.
   ? Say nothing. Just smile. => r0 | flag:choice.notes.juno.smile
   ? Thank her for them. => r1 | flag:choice.notes.juno.thanks | friend:juno,10
   ? Write her one back. => r2 | flag:choice.notes.juno.note | friend:juno,15
@@ -64,33 +64,33 @@ r2 tilda: A note, for me? ...I'm keeping it. In a drawer I've just invented.
 dialogue story.umbrella.talk
 n0 -: A large red umbrella hangs open on the fence post, dripping with great dignity. Piper points at it.
   next n1
-n1 piper: Third time it's wandered off. It always turns up drier than I do. What do we do?
+n1 piper: Third escape this season. It always turns up hung neatly, drier than I am. What do we do?
   ? Give it back to her. => r0 | flag:choice.umbrella.return
   ? Leave it on the fence. => r1 | flag:choice.umbrella.hang
   ? Keep it. It suits me. => r2 | flag:choice.umbrella.keep
 r0 piper: Reunited! I'd write it a song, but it would wander off mid-verse.
   expr happy
-r1 piper: Leave it? ...Yes. A little red landmark. Somebody out in this rain needs it more.
+r1 piper: Leave it? ...All right. Red reads loud in the rain, and somebody out there needs loud.
 r2 piper: You're keeping it? That's theft with excellent manners. ...It does suit you.
   emote sweat
 
 dialogue story.scarecrow.talk
 n0 tilda: Mine is smiling. Crows can't stand a cheerful face. That's simply known.
   next n1
-n1 dorian: Mine says nothing. Crows hate that. I watched them for a week.
+n1 dorian: Mine just stands there. Silent. Crows hate silence. I took notes.
   next n2
-n2 tilda: Well? Whose scarecrow is guarding the fields this fall?
+n2 tilda: Go on, judge. One scarecrow gets the field. The other guards my rhubarb.
   ? Tilda's, obviously. => r0 | flag:choice.scarecrow.tilda
   ? Dorian's. Sorry, Tilda. => r1 | flag:choice.scarecrow.dorian
   ? It's a tie. => r2 | flag:choice.scarecrow.tie
   ? Let the crows decide. => r3 | flag:choice.scarecrow.crows
 r0 tilda: Ha! Taste! Take the runner-up home. It'll stand in your field being thoughtful at the crows.
   expr happy
-r1 dorian: ...Mine. Oh. Take the runner-up home. It doesn't talk either.
+r1 dorian: ...Mine. Oh. ...Take the runner-up home. We're both embarrassed now.
   expr happy
-r2 tilda: A tie. Coward. Take one anyway, and we'll both be wounded together.
+r2 tilda: A tie. That word costs extra in here. Take one anyway, and we'll both be wounded together.
   emote sweat
-r3 dorian: The crows. ...They sat on both. Equally. A tie, then. Take one.
+r3 dorian: The crows voted already. Four sat on each. A tie. Take one.
   expr thinking
 
 dialogue story.whistler.bram
@@ -103,11 +103,11 @@ n1 bram: ...Well?
 r0 bram: Hm. Hello. Yes. We'll blame the wind. It owes me.
 r1 bram: Hm? ...That's my wrong note. Twenty years. Nobody's ever caught it.
   expr embarrassed
-r2 bram: ...Hm. You listened. All of it. Most people leave before the end.
+r2 bram: ...Hm. You stayed. All of it. Most people leave before the sad part.
   expr happy
 
 dialogue story.whistler.marcus
-n0 marcus: It's a family tune. My grandfather hit one note wrong, and we've all kept it since.
+n0 marcus: A family tune. Grandfather hit one note wrong at my father's wedding. We've kept it wrong ever since.
   next n1
 n1 marcus: ...Well? Go on. Everybody has an opinion about the note.
   ? Say hello, like a normal neighbor. => r0 | flag:choice.whistler.marcus.hello
@@ -126,7 +126,7 @@ n1 felix: ...Well? Say something. The quiet's worse.
   ? Call out a friendly hello. => r0 | flag:choice.whistler.felix.hello
   ? Whistle the wrong note back. => r1 | flag:choice.whistler.felix.back | friend:felix,10
   ? Say nothing. Just listen. => r2 | flag:choice.whistler.felix.listen | friend:felix,10
-r0 felix: Hello. Yes. Hello back. Very sensible, given the circumstances.
+r0 felix: Hello. Yes. Hello back. ...The tune and I were braced for worse.
 r1 felix: You got the wrong note exactly right. Nobody's ever whistled back. ...I've gone red. It's the sunset.
   expr embarrassed
 r2 felix: You listened. The whole tune. Nobody's done that but the pond. ...I may whistle again. Quietly.

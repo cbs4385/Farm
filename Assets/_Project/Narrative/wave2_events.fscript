@@ -3,7 +3,7 @@
 dialogue tilda.slate
 n0 tilda: This is the slate. Every small kindness in Wetherell, in chalk. Marcus is two planks ahead of Odalys. She doesn't know yet.
   next n1
-n1 tilda: And this blank bit is yours. What shall I write under your name?
+n1 tilda: I ruled you a column the day you arrived. It's been waiting. What do I write under your name?
   ? A thank-you, in big letters. => r0 | friend:tilda,10 | flag:choice.slate.thanks
   ? A joke. A good one. => r1 | friend:tilda,10 | flag:choice.slate.joke
   ? A promise. I'll keep it. => r2 | friend:tilda,15 | flag:choice.slate.promise
@@ -17,14 +17,14 @@ dialogue tilda.hours
 n0 tilda: I count the stock at closing time. Lately the count comes out right and the street comes out short.
   expr thinking
   next n1
-n1 tilda: I tell myself Wetherell isn't shrinking. Then the bell goes four times before lunch. What do you think?
+n1 tilda: Wetherell isn't shrinking, I tell myself. Then a whole morning brings two customers, and I can name them both. What do you think?
   ? It isn't shrinking. I'm staying. => r0 | friend:tilda,10 | flag:choice.hours.reassure
   ? Let's fill the shop together. => r1 | friend:tilda,15 | flag:choice.hours.plan
   ? Count again, then. Gently. => r2 | friend:tilda,10 | flag:choice.hours.joke
 r0 tilda: Staying. ...Say it once more, slower. I'd like it on the slate in your handwriting.
 r1 tilda: Together. Now that's a plan I'd stock. Bring ideas. I'll bring the tea, and the good cups.
   expr happy
-r2 tilda: Gently. Recounting with kindness. I'll try it. The cat can check my sums.
+r2 tilda: Gently. Recounting with kindness. I'll try it. Ledger can check my sums.
 
 dialogue tilda.card
 n0 -: Behind the flour sacks, in a very old tin, lies a recipe card in faded ink.
@@ -92,7 +92,7 @@ r2 piper: The parsnip song! You have taste. Questionable, magnificent taste.
   expr happy
 
 dialogue piper.fright
-n0 piper: I can play for a hundred people and never blink. Tonight I think they'll finally notice. I'm not as good as I say.
+n0 piper: A hundred people, no blinking, every Friday. Tonight they'll notice the trick. The playing's real. The rest is volume.
   expr sad
   next n1
 n1 piper: So. What do I do with that?
@@ -100,7 +100,7 @@ n1 piper: So. What do I do with that?
   ? Sit beside her, quietly. => r1 | friend:piper,15 | flag:choice.fright.sit
   ? Drum along on a bucket. => r2 | friend:piper,10 | flag:choice.fright.bucket
 r0 piper: Talk. Okay. I'm scared of quiet. Of being a good player and a forgettable writer. There. It's on the barrel now.
-r1 piper: ...You didn't fill it. Nobody ever leaves the quiet alone around me. It's not so bad, shared.
+r1 piper: ...You didn't fill it. I always fill it. That's the job, I thought. ...Quiet's not so loud with two.
   expr happy
 r2 piper: A bucket? You're drumming on a bucket? ...Okay. Okay! In four. One, two, three...
   expr happy
@@ -110,8 +110,8 @@ n0 piper: The verse is about someone arriving. The chorus is about where they en
   ? Home. => r0 | friend:piper,15 | flag:choice.chorus.home
   ? The road. => r1 | friend:piper,10 | flag:choice.chorus.road
   ? This room. => r2 | friend:piper,10 | flag:choice.chorus.room
-r0 piper: Home. ...Oh. That's it. I've been missing that word for three months. It was right here.
+r0 piper: Home. ...Oh. Three months I've been circling that word. It just walked in and sat down.
   expr happy
-r1 piper: The road. Wide and honest. It rhymes with 'code', if you squint.
+r1 piper: The road. Wide and honest, and it rhymes with 'showed'. Too neatly. I don't trust a clean rhyme.
 r2 piper: This room! A song about the saloon. The good stool is going to be unbearable.
   expr happy

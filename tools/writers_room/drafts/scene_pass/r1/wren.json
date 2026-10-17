@@ -1,0 +1,162 @@
+{
+  "villager": "wren",
+  "lines": {
+    "event.wren_heart2.0": {
+      "text": "You're just in time. I invented a drink at noon, and by two I'd run out of brave regulars.",
+      "why": "specific hours; the escalation lands on 'regulars'"
+    },
+    "event.wren_heart2.3": {
+      "text": "Wait. That's a face. Is that the good kind of face? Blink twice for drinkable.",
+      "why": "the panic gets a concrete, funnier ask"
+    },
+    "event.wren_heart2.2": {
+      "text": "Medium honest. You pass. Take the juice. The day I cook actual food, you're tasting first. That's a threat and a promise.",
+      "why": "repeats the player's assignment back and seeds heart 6"
+    },
+    "event.wren_heart5.1": {
+      "text": "Truth is, noise is only people, stacked up. I collect people. You're top shelf.",
+      "why": "bar image instead of 'piles'; truest word last"
+    },
+    "event.wren_heart5.3": {
+      "text": "It's the quiet hours I mind. An empty room has an echo. Eleven seconds. I've timed it.",
+      "why": "a number makes 'I've timed it' literal"
+    },
+    "event.wren_heart5.2": {
+      "text": "Take a bottle, so the road has company. And come back before four. You've heard why.",
+      "why": "subtext: she won't say 'empty room' twice"
+    },
+    "event.hall_dance.2": {
+      "text": "[player]. I saved this bottle for a night the hall was full. First glass is yours. Poured before the doors, so nobody could argue.",
+      "why": "the bottle was waiting for a full room, her whole want"
+    },
+    "event.reading_night.3": {
+      "text": "Don't mind me, I'm off duty. I came to hear one story I'm not allowed to improve. It's harder than it sounds.",
+      "why": "her bit turned inward; she's practicing listening"
+    },
+    "event.past_the_point.wren": {
+      "text": "I open at noon. That leaves me mornings, and I've started spending them here. The sea starts somewhere else. I'm checking where.",
+      "why": "'go' made her do something: mornings at the point"
+    },
+    "event.story_cat.intro": {
+      "text": "Don't move. The cat has chosen your boots. I've bribed it with cream for years, and it's never once chosen mine.",
+      "why": "bribery is funnier and more her than tenure"
+    },
+    "dlg.story.cat.talk.r0": {
+      "text": "Ledger. Tilda will enter it on the slate with the date. The cat now owes her rent.",
+      "why": "'rent' pays off the landlord narration"
+    },
+    "dlg.story.cat.talk.r1": {
+      "text": "Quench. Juno will stamp it a brass tag by Thursday. By Friday, in my version, it's a crown.",
+      "why": "owns the exaggeration out loud; cleaner escalation"
+    },
+    "event.story_cat.after": {
+      "text": "{if choice:cat.ledger}Settled: Ledger. Tilda will be insufferable. By tonight the cat will be doing her books.{else}{if choice:cat.quench}So, Quench. Juno will demand a vote. By tonight the cat will have won it.{else}{if choice:cat.sharp}Then Sharp it is. Piper will write it a song. By tonight it'll be a waltz.{else}A sixth name! Nobody will believe me, so by tonight the cat will have a title and a tragic past.{/if}{/if}{/if}",
+      "why": "branch openers no longer echo the r-lines; new-name branch escalates further"
+    },
+    "event.wren_heart4.setup": {
+      "text": "Don't sit yet. Tonight I'm trying something, and I need a witness. Possibly an accomplice. Definitely a crowd.",
+      "why": "'a crowd' plants the 'you're the whole crowd' turn"
+    },
+    "event.wren_heart4.prank": {
+      "text": "Quiet, everybody! One night only: the worst song ever written, performed by its deeply sorry author!",
+      "why": "show-bill phrasing; funniest word last"
+    },
+    "event.wren_heart6.intro": {
+      "text": "Come into the back. I warned you this day would come. I'm cooking. You taste, I stir, nobody hears it was me.",
+      "why": "pays off the heart-2 threat-and-promise"
+    },
+    "event.wren_heart6.after": {
+      "text": "It goes on the chalkboard Friday. If anyone asks, you cooked and I supervised the spoon.",
+      "why": "tighter; 'supervised the spoon' is the better alibi"
+    },
+    "dlg.wren.bag.r2": {
+      "text": "...You didn't tell me what to do. Everyone has advice for the one pouring. You just listened.",
+      "why": "ends on 'listened', which heart 10 calls back"
+    },
+    "event.wren_heart10.intro": {
+      "text": "Chairs up, lamps low. One song, one listener, and I've already picked. The good stool. Yes, you.",
+      "why": "good-stool callback; privacy without claiming the door is locked"
+    },
+    "event.wren_heart10.outro": {
+      "text": "{if choice:wren.bag.go}I'm not leaving yet. But the second verse has a map in it, and the map has the sea.{else}{if choice:wren.bag.stay}The chorus was your word. Stay. I sang it twice, in case the first time didn't take.{else}The quiet bar in the middle was yours. You listened once. I owed you some quiet back.{/if}{/if}",
+      "why": "stay branch names the word; 'quiet bar' works twice"
+    },
+    "event.wren_friend.intro": {
+      "text": "Friday means bingo. Not numbers, rumors. Sit down, take a card, cross off anything you've heard twice.",
+      "why": "a playable rule instead of an instruction"
+    },
+    "event.wren_friend.wrap": {
+      "text": "No bingo today. A full card of nonsense, and the best squares were mine. Bring a rumor next Friday. I'll improve it free of charge.",
+      "why": "the catchphrase becomes an offer; clearer hook"
+    },
+    "event.wren_birthday.intro": {
+      "text": "It's my birthday. You knew, because I lit a very small flare. Sit, be festive, have a pickle from the good jar.",
+      "why": "calls back her shipped 'small flare' bark"
+    },
+    "event.wren_courtship.after": {
+      "text": "{if flag:choice.courtship.wren.yes}Walks and poems, then. I'll be telling everyone a better version of this. In mine, there's a thunderstorm.{else}{if flag:choice.courtship.wren.friends}The best of friends. It's on my chalkboard now, in capital letters.{else}Whenever you like. I'll be on the stage, being patient. It's a new look.{/if}{/if}",
+      "why": "yes branch: the embellisher improving her own best story"
+    },
+    "event.wren_courtship2.intro": {
+      "text": "You said wait, so I waited. Patiently. Ask anyone. Don't ask Piper. I still like you. More, actually.",
+      "why": "Piper as unreliable witness beats 'surprised everyone'"
+    },
+    "event.wren_courtship2.after": {
+      "text": "{if flag:choice.courtship.wren.yes}Walks and poems, then. Worth the wait. In tonight's retelling, the wait was nine years and heroic.{else}{if flag:choice.courtship.wren.friends}The best of friends. It's on my chalkboard now, in capital letters.{else}Still waiting, then. I'll keep the question behind the bar, next to the bag.{/if}{/if}",
+      "why": "yes branch now differs from the first ask; embellishes the wait"
+    },
+    "event.overheard_wren_piper_3.l1": {
+      "text": "Last song tonight, Piper. The room's tired and so am I. Something soft, with no chorus to argue about.",
+      "why": "folds in their volume bickering"
+    },
+    "event.overheard_wren_hazel_2.l1": {
+      "text": "Three winters of scribbling at my bar, Hazel. Do I ever get to hear a line?",
+      "why": "a number instead of 'years'; softer ask"
+    }
+  },
+  "adds": [
+    {
+      "scene": "wren_heart2",
+      "after": "event.wren_heart2.1",
+      "text": "No, don't sip it like it owes you money. Commit.",
+      "emote": null,
+      "expression": null,
+      "why": "lets the tasting breathe; one more turn of her nerves"
+    },
+    {
+      "scene": "wren_heart5",
+      "after": "event.wren_heart5.0",
+      "text": "He loses those arguments, by the way. Nobody out-argues a herring.",
+      "emote": null,
+      "expression": "happy",
+      "why": "one last joke before the honest turn, her rhythm"
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "wren_heart2": "The juice is safe; the day Wren cooks actual food is now a promise with the player's name on it.",
+    "wren_heart5": "The four o'clock quiet is still there every afternoon, eleven seconds long, and Wren keeps timing it.",
+    "hall_dance": "Nobody counted the porch, and Wren needs the number before tomorrow's first telling.",
+    "story_cat": "By tonight the cat's new name will have grown; catch Wren's version at the saloon.",
+    "wren_heart4": "The second verse is worse, and Piper hasn't heard about tonight yet.",
+    "wren_heart6": "Friday the dish goes on the chalkboard with the player's name and no mention of Wren.",
+    "wren_heart8": "The bag stays packed under the bar; the one story Wren won't improve now has one listener.",
+    "wren_heart10": "The song is on no chalkboard; whether anyone else ever hears it is Wren's to decide.",
+    "wren_friend": "Next Friday's card wants the player's own rumor, which Wren has publicly promised to improve.",
+    "wren_birthday": "By spring the toast will be twice as good in the retelling, and Wren wrote none of it.",
+    "wren_courtship": "Whatever was answered, the village will hear a better version; the true one stays between the two of them.",
+    "wren_courtship2": "The question lives behind the bar now, next to the bag, for as long as it takes.",
+    "wren_partners": "The trip to see the sea is now a when, not a whether, and someone must mind the bar.",
+    "overheard_tilda_wren_1": "Ribbon or bill, something from Tilda's store is headed for the good stool.",
+    "overheard_tilda_wren_2": "Two versions of the cat-and-windowsill rumor are loose, and both are growing by the day.",
+    "overheard_tilda_wren_3": "Seven o'clock, the good stool, one cup, and nobody believes the one cup.",
+    "overheard_wren_hazel_3": "Hazel owes Wren one line aloud, and the corner stool is reserved for it."
+  },
+  "notes": [
+    "wren_heart4 as built has Wren singing her own worst song; the bible says she volunteers the player to introduce Piper. I wrote to the built scene, but flagging the divergence.",
+    "event.wren_heart10.intro previously implied a locked door while the saloon is open; rewrite keeps the privacy ('chairs up, lamps low') without the contradiction.",
+    "dlg.wren.courtship.* is shared by wren_courtship and wren_courtship2; I deliberately left those nodes unchanged so both scenes stay coherent, and differentiated the two scenes in the .intro/.after keys instead.",
+    "Kept the heart-8 bag dialogue almost intact (shipped-adjacent and strong); only r2 changed so 'listened' lands last, which heart 10's listen branch calls back.",
+    "story_cat.after branch openers no longer repeat the first word of the preceding r-line (Ledger/Ledger, Quench/Quench, Sharp/Sharp)."
+  ]
+}

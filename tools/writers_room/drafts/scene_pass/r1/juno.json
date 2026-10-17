@@ -1,0 +1,85 @@
+{
+  "villager": "juno",
+  "lines": {
+    "event.juno_heart2.4": {
+      "text": "Bram's mark is on every bar in here. Mine is thirty sketches under the coal bin. One of them is right. I haven't met it yet.",
+      "why": "the want gets a number and a hiding place; sharper thread"
+    },
+    "event.juno_heart5.3": {
+      "text": "I polished the flat until it showed my nose. Then my whole face. Then Bram behind me, nodding at it.",
+      "why": "the mirror catches Bram approving; subtext instead of a count"
+    },
+    "event.juno_heart5.2": {
+      "text": "Don't lose it! ...It's still Bram's pattern. Every line. The next one will be mine, once I find out what mine looks like.",
+      "why": "'what mine looks like' names the real search, not just the next project"
+    },
+    "event.next_door.5": {
+      "text": "...He said it. Out loud, with a witness. I need to sit on something official. The sign for next door is already drawn. It's under the coal, with everything else I'm not ready for.",
+      "why": "ties the sign to the heart-2 hiding place; the true word lands last"
+    },
+    "event.juno_heart4.prank": {
+      "text": "Done! You're labeled! 'Guest (Excellent)'. I agonized over the parentheses. They're correct.",
+      "why": "more specific pride; the joke lands on 'correct'"
+    },
+    "dlg.story.notes.juno.1": {
+      "text": "...So. Now you know. Fifty-one notes, all me. Pencil, so anyone can pretend they don't know.",
+      "why": "a count, and pencil becomes deniability: her shyness in one word"
+    },
+    "event.juno_heart10.intro": {
+      "text": "Hold out your hands. Both. I cut my own mark last night. A little anvil with a J hiding in it. You're first.",
+      "why": "the mark gets a shape; 'You're first' says what the scene means"
+    },
+    "event.juno_heart10.give": {
+      "text": "First piece with my mark. A copper bar. {if quest:juno_gold=done}Copper on purpose: your gold went into the die. {/if}It weighs nothing. It's the heaviest thing I've ever handed anyone.",
+      "why": "weight against weight; gold branch kept intact"
+    },
+    "event.overheard_tilda_juno_1.l1": {
+      "text": "Tilda! Slate payment! Three clasps, one hinge, one smiley face. Stamped, not drawn.",
+      "why": "cleaner list; 'stamped, not drawn' is craft pride in four words"
+    }
+  },
+  "adds": [
+    {
+      "scene": "juno_heart2",
+      "after": "event.juno_heart2.3",
+      "text": "Bram taught me the hiss trick my first week. I screamed. Professionally.",
+      "emote": null,
+      "expression": "embarrassed",
+      "why": "her first quench mirrors the player's; one Bram beat in a two-person scene"
+    },
+    {
+      "scene": "juno_heart5",
+      "after": "event.juno_heart5.1",
+      "text": "Swing it once? Here, where I can see. ...There. That's the sound. That's the exact sound I drew.",
+      "emote": "sparkle",
+      "expression": "happy",
+      "why": "pays off her shipped 'I draw it first' line; the player's swing finishes the work"
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "juno_heart2": "Thirty sketches of a maker's mark wait under the coal; which one is hers?",
+    "juno_heart5": "The sword is still Bram's pattern; she does not yet know what a Juno pattern looks like.",
+    "next_door": "The sign for the forge next door is drawn and hiding under the coal; the hook is still empty.",
+    "story_notes_juno": "Bram carries six notes in his apron and thinks they're from Tilda; Juno is letting him.",
+    "juno_heart4": "She's labeling the whole village next; the hall roof is first in line.",
+    "juno_heart6": "The crooked horseshoe stays hidden until 'the right day' to show Bram.",
+    "juno_heart8": "Bram hasn't put the horseshoe down, and the word she's waiting for is still unsaid.",
+    "juno_heart10": "Next door has an empty sign hook.",
+    "juno_friend": "Thursdays are swim day at the bucket; the player has a standing lane.",
+    "juno_birthday": "Your birthday answer now lives next to Click, the first clasp that ever closed.",
+    "juno_courtship": "Forty reasons exist on a list; only item one has been read aloud.",
+    "juno_courtship2": "The list grows by one patient item at a time until the player answers.",
+    "juno_partners": "The tiny anvil rings when tapped with a pin, and it will keep being tested on Bram.",
+    "overheard_piper_juno_1": "The anvil has a fan; Piper's teeth are owed a quieter song.",
+    "overheard_piper_juno_2": "'Song (Forge)' will be hammered at the smithy all week; listen for it.",
+    "overheard_piper_juno_3": "Front row at the crate stage is Juno's; she means to hammer and watch at once.",
+    "overheard_tilda_juno_2": "The flour sack has waited by the hook jar for years; Juno's slate now says 'Owed (Forever)'."
+  },
+  "notes": [
+    "I can carry the Edmund seed (the tiny brass key I made for 'a box he'd lost the lock to'), but none of my scenes could take it without doubling threads; suggest a daily-talk or letter slot for it.",
+    "juno_heart10 now gives the mark a shape: a little anvil with a J in it. If Bram's lines or the next_door sign art describe her mark, align to that.",
+    "The juno.courtship dialogue graph is shared by both courtship scenes, so its lines stay generic enough to fit either ask; the scene-specific intros and afters carry the difference.",
+    "Kept dlg.juno.birthday.0 identical to the shipped line on purpose; most of hearts 4, 6 and 8 survive because they already land, and polishing would only loosen them."
+  ]
+}

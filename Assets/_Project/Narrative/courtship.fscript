@@ -150,7 +150,7 @@ n0 dorian: What do you say?
   ? Yes. I'd like that. => r0 | friend:dorian,20 | flag:choice.courtship.dorian.yes
   ? I'd rather we stayed friends. => r1 | friend:dorian,15 | flag:choice.courtship.dorian.friends
   ? Can we wait a while? => r2 | friend:dorian,5 | flag:choice.courtship.dorian.later
-r0 dorian: ...Yes. I wasn't sure. I'll show you the quiet places. All of them.
+r0 dorian: ...Yes. ...I asked the oak how to say it. It didn't help. All the quiet places are yours.
   expr happy
 r1 dorian: Friends. ...Good. That's a lot, for me. You said it gently.
   expr happy
@@ -175,23 +175,23 @@ addto npc.dorian.talk
 0 flag:partners.dorian => dorian.partners.talk2 cat=reactive tag=wholesome :: I used to love the quiet because it was empty. Now I love it because it's yours too.
 
 dialogue elara.courtship
-n0 elara: Read the last row. Out loud, if you like. ...What do you say?
+n0 elara: Read the last row. Out loud, if you like. I'll just... count stitches. ...What do you say?
   ? Yes! Show me the whole scarf. => r0 | friend:elara,20 | flag:choice.courtship.elara.yes
   ? I'd rather we stayed friends. => r1 | friend:elara,15 | flag:choice.courtship.elara.friends
   ? Let me think. Knit slowly. => r2 | friend:elara,5 | flag:choice.courtship.elara.later
-r0 elara: YES! Oh, my needles are shaking! The scarf is yours! All of it! I measured! It's very long!
+r0 elara: Yes! Oh! My needles are shaking — look, actual shaking! The scarf is yours. All nine feet of it!
   expr happy
 r1 elara: Oh. ...Friends! The best kind! I'll knit you a friend-sized scarf. Same length, more pockets. Thank you for saying it kindly.
   expr happy
-r2 elara: Think! Take all the time you need! I'll add a row a day. The scarf will just... get longer. That's fine!
+r2 elara: Think away! I'll add a row a day meanwhile. The scarf gets longer either way. That's just how scarves are!
   expr thinking
 
 dialogue elara.partners
-n0 elara: Dr. Penn gave me the afternoon off! She said 'go' twice, so I went. How shall we spend it?
+n0 elara: Dr. Penn gave me the afternoon off. She said 'go,' then 'now.' Two whole words! How do we spend them?
   ? Put the hat on. All three. => r0 | friend:elara,10 | flag:choice.courtship.elara.hat
   ? Teach me to knit a row. => r1 | friend:elara,10 | flag:choice.courtship.elara.knit
   ? Beach walk, till the sun goes down. => r2 | friend:elara,10 | flag:choice.courtship.elara.beach
-r0 elara: Oh, you look wonderful! The tiniest hat is crooked. It's perfect. I'm a little teary. Happy teary!
+r0 elara: You look wonderful! The tiniest hat sits crooked. Crooked is my best stitch. I'm a little teary. The happy kind!
   expr happy
 r1 elara: Hold this needle! No, the other end! There! We made a row! It's the best row in Wetherell!
   expr happy
@@ -224,7 +224,7 @@ r0 ione: Every word. Thank you. ...I'm the one blushing, and I wrote it.
   expr embarrassed
 r1 ione: You read, and the books lean in. They've missed being listened to. ...So had I.
   expr happy
-r2 ione: The shore, with you. I'll bring a book and not open it. From a librarian, that's devotion.
+r2 ione: The shore, with you. I won't even bring a book. Hazel will ask who I am.
   expr happy
 
 addto npc.ione.talk

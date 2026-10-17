@@ -1,0 +1,83 @@
+{
+  "villager": "felix",
+  "lines": {
+    "event.felix_heart2.0": {
+      "text": "Mornin'. Take the rod. Both hands. There's one down there with your name on it, [player].",
+      "why": "specific promise instead of instruction; sets up the tuna"
+    },
+    "event.felix_heart2.2": {
+      "text": "Keep it. You earned it. This rock, six most days. ...I'm not asking. I'm saying where the rock is.",
+      "why": "the want (a partner) denied out loud; sharper subtext"
+    },
+    "event.felix_heart5.0": {
+      "text": "Every fisher carries a lucky charm. Mine's been through forty years of dawns and one pocket.",
+      "why": "the pocket makes the charm an object, not a speech"
+    },
+    "event.past_the_point.0": {
+      "text": "There you are. The boat I promised. She floats. I checked twice. The bailing tin is the elegant part.",
+      "why": "pays off the heart5 promise in so many words; shorter beats"
+    },
+    "event.past_the_point.4": {
+      "text": "Dawn's better with two. Three makes it an expedition. ...One place off the list. For the rest, I'll want a bigger boat.",
+      "why": "funniest word last; points at the rest of Elara's list"
+    },
+    "dlg.story.whistler.felix.r0": {
+      "text": "Hello. Yes. Hello back. ...The tune and I were braced for worse.",
+      "why": "his fear of the quiet dawn under the joke, not stiff phrasing"
+    },
+    "event.felix_heart8.intro": {
+      "text": "Quiet, now. All week I've had a feeling. It's on the line this minute. Take the net. Don't breathe.",
+      "why": "cleaner opening; drops the place-name so Beach map and pond lore both survive"
+    },
+    "event.felix_birthday.intro": {
+      "text": "My birthday. Tilda outlawed fishing till noon. She brought a pie. I brought a story. It's about a fish.",
+      "why": "'till noon' reconciles the shipped line where he plans to fish his birthday"
+    },
+    "event.felix_courtship.intro": {
+      "text": "Mornin'. No. Not just mornin'. I've held a line through a gale and this is harder. Would you court me? Slowly, like the tide.",
+      "why": "his own greeting fails him; the nerves are in the false start"
+    },
+    "event.felix_courtship2.intro": {
+      "text": "Second cast. Same bait, same hope. Would you court me? Still slowly.",
+      "why": "shorter; 'same hope' says what a year of patience cost"
+    },
+    "event.overheard_tilda_felix_2.l1": {
+      "text": "Tilda. Remember the winter the pond froze, and I went out to test it?",
+      "why": "'test it' lets Tilda's 'you fell in' land as the correction"
+    },
+    "event.overheard_felix_elara_1.l3": {
+      "text": "...It does look warm. Hand it over. Strictly for the fish.",
+      "why": "'for science' wasn't my mouth; the excuse is now a fisher's"
+    }
+  },
+  "adds": [
+    {
+      "scene": "felix_heart2",
+      "after": "event.felix_heart2.3",
+      "text": "You should've seen the other one. There's always another one. That's what gets a fisher up before the sun.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "plants the catchphrase at first meeting so every later telling pays off"
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "felix_heart2": "The rock at six most days, and whether Felix was asking for company without asking.",
+    "felix_heart5": "The boat that leaks politely: when will he finally show it?",
+    "past_the_point": "The bigger boat Felix wants for the rest of Elara's list.",
+    "story_whistler_felix": "Same lane, same hour tomorrow, and whether the player will 'happen to be passing'.",
+    "story_pumpkin_felix": "The one story Felix refuses to tell, because beside the pumpkin his biggest carp looked like bait.",
+    "felix_heart8": "The fish, or the story of it, will keep growing, and there's a dawn appointment for next year.",
+    "felix_birthday": "Dawn tomorrow off the good rock, and a story now one hand longer.",
+    "felix_courtship": "Half the rock stays saved, whatever the answer was.",
+    "felix_courtship2": "The thermos, and for once, two cups.",
+    "felix_partners": "The shell on the shelf that still says the player's name. Or 'hello'."
+  },
+  "notes": [
+    "felix_heart8: the card puts the scene on the Beach map but the bible and the old intro say the pond. I removed the place-name from the intro so the words fit either; the Director should settle the map.",
+    "felix_heart2: the beat keys play in the order .0 .1 .3 .2. Kept as-is per mechanics, but worth renumbering before another pass trips on it.",
+    "felix_birthday: the shipped line has me planning to fish on my birthday; Tilda's ban now runs 'till noon' so both stay true.",
+    "overheard_tilda_felix_2: my opener is now 'I went out to test it'; Tilda's existing reply lands harder and needs no change from her.",
+    "This thread had no Write/Bash/SendMessage tools; the JSON above is the deliverable and must be saved by the Director, then linted."
+  ]
+}

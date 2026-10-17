@@ -19,11 +19,11 @@ r2 piper: Together? ...That's either genius or a noise complaint. Bram, one hit.
   emote note
 
 dialogue story.pumpkin.dorian
-n0 -: Behind the store sits a very large pumpkin. Dorian wears a very guilty face.
+n0 -: Behind the store, the prize pumpkin. Dorian stands beside it, very still.
   next n1
 n1 tilda: Dorian. Is that my prize pumpkin? I've been blaming the goats all week, out loud!
   next n2
-n2 dorian: ...Borrowed. The mushrooms needed a roof. It was coming back.
+n2 dorian: ...Borrowed. The mushrooms needed a roof. It was coming back. Mostly.
   ? Let him off gently. => r0 | flag:choice.pumpkin.dorian.kind | friend:dorian,10
   ? Ask for a proper apology. => r1 | flag:choice.pumpkin.dorian.apology
   ? Grab the heavy end. Carry it back. => r2 | flag:choice.pumpkin.dorian.help | friend:tilda,10
@@ -76,8 +76,8 @@ n2 wren: So. You're the one it picked. What do you call it?
   ? Quench. Juno's right. => r1 | flag:choice.cat.quench
   ? Sharp. Piper's right. => r2 | flag:choice.cat.sharp
   ? None of those. Something new. => r3 | flag:choice.cat.new | friend:wren,10
-r0 wren: Ledger. Tilda will write that on her slate. In ink. With the date.
-r1 wren: Quench. Juno will make it a brass name tag, and by Friday I'll say she made two.
+r0 wren: Ledger. Tilda will enter it on the slate with the date. The cat now owes her rent.
+r1 wren: Quench. Juno will stamp it a brass tag by Thursday. By Friday, in my version, it's a crown.
 r2 wren: Sharp. Piper will say she was right all along, in a key of her choosing.
 r3 wren: Something new? Go on, then. ...It purred. It has never purred for me. That's the one.
   expr happy

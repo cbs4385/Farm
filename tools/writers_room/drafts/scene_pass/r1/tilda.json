@@ -1,0 +1,95 @@
+{
+  "villager": "tilda",
+  "lines": {
+    "event.tilda_heart2.0": {
+      "text": "Oh, [player]! Just the account I wanted. Come here. This one won't fit in a bag.",
+      "why": "sets up the hand-taught recipe: the one thing the shop cannot bag"
+    },
+    "event.tilda_heart2.2": {
+      "text": "She wrote down one recipe in her whole life. It's somewhere behind the flour sacks. I've never once moved the flour.",
+      "why": "plants the exact spot heart 8 pays off, and why the flour never moves"
+    },
+    "event.tilda_heart4.intro": {
+      "text": "Come around the counter. Nobody comes back here but me. Mind Ledger. It's auditing.",
+      "why": "names the shipped window cat; auditing fits the slate reveal"
+    },
+    "dlg.tilda.slate.1": {
+      "text": "I ruled you a column the day you arrived. It's been waiting. What do I write under your name?",
+      "why": "the blank space was deliberate: she planned on the player staying"
+    },
+    "dlg.tilda.hours.1": {
+      "text": "Wetherell isn't shrinking, I tell myself. Then a whole morning brings two customers, and I can name them both. What do you think?",
+      "why": "naming both customers is smaller and sadder than a bell count; also stops two lines opening on 'I'"
+    },
+    "dlg.tilda.hours.r2": {
+      "text": "Gently. Recounting with kindness. I'll try it. Ledger can check my sums.",
+      "why": "cat name consistency with the shipped window line"
+    },
+    "dlg.story.scarecrow.talk.2": {
+      "text": "Go on, judge. One scarecrow gets the field. The other guards my rhubarb.",
+      "why": "stakes instead of a bare question; funniest word last"
+    },
+    "dlg.story.scarecrow.talk.r2": {
+      "text": "A tie. That word costs extra in here. Take one anyway, and we'll both be wounded together.",
+      "why": "'Coward' teased the player; now the tease lands on the word, not them"
+    },
+    "dlg.tilda.birthday.r1": {
+      "text": "A flower, in my shop! It goes in the window, beside the good parsnips.",
+      "why": "her birthday is Spring 12; a pumpkin in the window was out of season"
+    },
+    "dlg.tilda.birthday.r2": {
+      "text": "You'd mind it? That's the best present. Take the stool. Ledger bites coins, not customers.",
+      "why": "cat name consistency"
+    },
+    "event.tilda_friend.ask": {
+      "text": "Saturday stocktake, and the window needs three sunflowers. I sold mine. Excellent business, terrible planning.",
+      "why": "shopkeeper arithmetic: her own stock betrayed her"
+    },
+    "event.overheard_tilda_wren_1.l1": {
+      "text": "Wren. Your new chalkboard. Lovely frame. Remarkably familiar idea.",
+      "why": "slyer opener; lets Wren's flattery comeback land harder"
+    },
+    "event.overheard_tilda_wren_2.l1": {
+      "text": "I've heard something about a cat, a windowsill, and Marcus's lunch.",
+      "why": "a third ingredient makes the gossip tradable; food gossip stays affectionate"
+    },
+    "event.overheard_tilda_felix_4.l4": {
+      "text": "To old friends, dear. The crust is mine. The fish goes to Ledger.",
+      "why": "cat name consistency; she still will not eat fish"
+    }
+  },
+  "adds": [
+    {
+      "scene": "tilda_heart2",
+      "after": "event.tilda_heart2.1",
+      "text": "I've chalked it already. 'One cauliflower, someday.' The slate takes vague debts, but it takes them seriously.",
+      "emote": null,
+      "expression": "happy",
+      "why": "the bible says heart 2 introduces the slate; a debt means the player comes back"
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "tilda_heart2": "Her mother wrote down exactly one recipe, it is somewhere behind the flour, and Tilda has never moved the flour.",
+    "tilda_heart5": "There is a chair with the player's shape in it on Thursday, and she will not really bake fewer scones.",
+    "story_notes_tilda": "Two more doors get notes before closing, and the player is left wondering whose, and whether they ever got one.",
+    "story_scarecrows": "Rematch next fall, and the runner-up scarecrow now stands in the player's field holding a grudge.",
+    "tilda_heart4": "The player's name is on the slate now, which by Tilda's arithmetic means they have to come back.",
+    "tilda_heart6": "A whole morning can bring two customers she can name, and Felix must never hear about it.",
+    "tilda_heart8": "The pumpkin pie card is out of the tin at last; Saturday, the tin, or the whole village decides what it becomes.",
+    "tilda_heart10": "The farm is on the sign in paint, not chalk, and the player wonders what a supplier owes a shop that believed first.",
+    "tilda_friend": "The window is saved and the slate has a new entry nobody asked her to write.",
+    "tilda_birthday": "Something now sits at the top of the slate where she will read it first thing every morning.",
+    "overheard_tilda_felix_2": "'Thin Ice' is still on the slate in capitals, and Felix still walks straight past it.",
+    "overheard_tilda_felix_3": "Tea for two again: the player wonders how many years she has been making the second cup.",
+    "overheard_tilda_felix_4": "The crust-for-fish treaty stands, and Ledger eats better than either of them.",
+    "overheard_tilda_juno_1": "A smiley-face hinge is priceless, so somewhere in the shop there must be a shelf of things she cannot charge for.",
+    "overheard_tilda_juno_3": "Juno's forge will open next door to Bram, probably, okay, definitely, and Tilda has promised the first shelf."
+  },
+  "notes": [
+    "Fixed dlg.story.scarecrow.talk.r2: 'Coward.' was aimed at the player, which my voice rules forbid; the tease now lands on the word 'tie' instead.",
+    "tilda_heart10: my bible says I hand over the original two-note shop bell at heart 10, but the scene only gives pumpkin pie and plays sfx coin. If mechanics ever reopen, swap the sfx to bell and consider a bell beat; I did not touch items this round.",
+    "dlg.tilda.birthday.r1 said the flower goes 'beside the good pumpkin'; my birthday is Spring 12, so no pumpkin is in season. Now it sits beside the parsnips, which also calls back the planting line.",
+    "I renamed 'the cat' to Ledger in four lines to match the shipped window-cat line; the heart 4 intro, heart 6 recount, birthday stool and fish-pie toast now all agree on who runs audits."
+  ]
+}

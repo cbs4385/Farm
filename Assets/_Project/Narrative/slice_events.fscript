@@ -34,7 +34,7 @@ n1 wren: I came here to rest for one season. That was eight years ago. So tell m
   ? Say nothing. Just listen. => r2 | friend:wren,15 | flag:choice.wren.bag.listen
 r0 wren: Go. Just like that. You say it like it's easy. ...Maybe it is. I'd want a very good map.
 r1 wren: Stay. Oh. That's a nicer word than I expected. I'll keep it in the bag, next to the socks.
-r2 wren: ...You didn't tell me what to do. Everyone has advice for the one behind the bar. You just let me talk.
+r2 wren: ...You didn't tell me what to do. Everyone has advice for the one pouring. You just listened.
   expr sad
 
 
@@ -46,11 +46,11 @@ n0 hazel: What would you lend me? (I'm not choosing for you. I'm leaning slightl
 r0 hazel: Oh. (It's a both-hands book.) I'll read it twice. Once for the story, once for you.
   expr happy
 r1 hazel: A recipe. (A book without a spine.) I'll shelve it under Fiction until I bake it.
-r2 hazel: Thank you for saying so. (Most people pretend.) I'll find something short. There's a heron in it.
+r2 hazel: Thank you for saying so. (Most people pretend.) I'll start you on the heron book. It's short and forgiving.
 
 
 dialogue hazel.hiding
-n0 hazel: The festival wants someone to read aloud. Ione said my name. (I've been back here an hour.) Is that strange?
+n0 hazel: The festival wants a reader. Ione said my name. (An hour ago. I've alphabetized the hour away.)
   expr thinking
   ? Ask what she hears back here. => r0 | friend:hazel,10 | flag:choice.hazel.hiding.ask
   ? Sit down beside her, quietly. => r1 | friend:hazel,15 | flag:choice.hazel.hiding.wait
@@ -74,10 +74,10 @@ r2 hazel: The lamp is a bit much. (It's meant to be.) It stays. It's my only reg
 
 
 dialogue bram.repair
-n0 bram: Old hoe. Split socket, blade's still good. Hold it, strike it, or watch?
+n0 bram: Edmund's old hoe. He never let me near it. Split socket, blade's still good. Hold, strike, or watch?
   ? Hold it steady for him. => r0 | friend:bram,10 | flag:choice.bram.repair.hold
   ? Ask to swing the hammer. => r1 | friend:bram,15 | flag:choice.bram.repair.hammer
-  ? Watch from a safe distance. => r2 | friend:bram,10 | flag:choice.bram.repair.watch
+  ? Watch, from behind something. => r2 | friend:bram,10 | flag:choice.bram.repair.watch
 r0 bram: Don't grip. Hold. ...Hm. Like that.
 r1 bram: Square on. Again. ...Hm. The iron believed you.
   expr happy

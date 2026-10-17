@@ -4,7 +4,7 @@ dialogue marcus.roof
 n0 marcus: Pitch, rafters, shingles. Drawn nine times. Every time it looks right. Every time I'm afraid it won't hold.
   expr thinking
   next n1
-n1 marcus: Six winters, it's been nearly fixed. ...What would you do?
+n1 marcus: Six winters of nearly. The village runs a pool on me. ...What would you do?
   ? Measure it with you, properly. => r0 | friend:marcus,15 | flag:choice.roof.measure
   ? Try a different pitch. => r1 | friend:marcus,10 | flag:choice.roof.design
   ? I'll hold the ladder. I'm good at holding. => r2 | friend:marcus,10 | flag:choice.roof.ladder
@@ -15,15 +15,15 @@ r2 marcus: The ladder. Plain, steady, necessary. Best offer anyone's made that r
   expr happy
 
 dialogue odalys.office
-n0 odalys: I tell everyone to rest. I have never once done it on a weekday. This is unfamiliar. Be gentle.
+n0 odalys: I prescribe rest to everyone. I have never once swallowed the dose myself. This is unfamiliar. Be gentle.
   expr thinking
   next n1
-n1 odalys: So, [player]. Your professional opinion? I'll be taking notes.
-  ? Insist that she rests tonight. => r0 | friend:odalys,10 | flag:choice.office.insist
+n1 odalys: So, [player]. The patient is stubborn, overdue, and out of excuses. Your recommendation?
+  ? Insist she rests tonight, no appeals. => r0 | friend:odalys,10 | flag:choice.office.insist
   ? Pull up a chair and share the soup. => r1 | friend:odalys,15 | flag:choice.office.soup
-  ? Write her a prescription of your own. => r2 | friend:odalys,10 | flag:choice.office.write
+  ? Write her a prescription for once. => r2 | friend:odalys,10 | flag:choice.office.write
 r0 odalys: You insist. ...Accepted. Under protest, with soup, and in front of a witness.
-r1 odalys: Two spoons, one pot. That's the entire treatment. You diagnosed me faster than I would have.
+r1 odalys: Two spoons, one pot. The entire course of treatment. You diagnosed me in one visit. It took me years.
   expr happy
 r2 odalys: A prescription. For me. 'Come back anyway.' ...I've never been given orders I wanted to follow.
   expr happy
@@ -45,7 +45,7 @@ r2 felix: Honestly. Fine. Eleven inches. ...It was this big a moment ago. I blam
 dialogue dorian.notebook
 n0 -: Dorian takes a small, worn notebook from his coat. He holds it shut a long moment.
   next n1
-n1 dorian: Mushrooms. Drawn. Hundreds. Nobody's seen them. ...Be gentle.
+n1 dorian: Mushrooms. Four hundred and twelve. Drawn. Nobody's seen them. ...Be gentle.
   ? Tell him they're lovely. => r0 | friend:dorian,10 | flag:choice.notebook.praise
   ? Ask to keep one. => r1 | friend:dorian,15 | flag:choice.notebook.ask
   ? Draw one back. Give it a face. => r2 | friend:dorian,10 | flag:choice.notebook.draw
@@ -57,29 +57,29 @@ r2 dorian: It has a face. Mushrooms don't. ...This one does now. I love it.
   expr happy
 
 dialogue elara.list
-n0 -: Elara unrolls a paper longer than the desk. It is covered in tiny writing and little doodled boats.
+n0 -: Elara unrolls a paper longer than the desk. Tiny writing, little doodled boats, and one corner worn soft from folding.
   next n1
-n1 elara: Places I've never been. Forty-one of them. Crossed off: none. ...Well? Say something before I roll it back up.
+n1 elara: Forty-one places I've never been. Crossed off: none. I know every one by heart. ...Say something before I roll it back up.
   ? Let's pick one. Together. => r0 | friend:elara,15 | flag:choice.list.pick
-  ? Add one more place to it. => r1 | friend:elara,10 | flag:choice.list.add
+  ? Make it forty-two. => r1 | friend:elara,10 | flag:choice.list.add
   ? Promise to visit. I'll even pack. => r2 | friend:elara,10 | flag:choice.list.promise
-r0 elara: Together! The sea, from a boat. I'm circling it. I'm packing a sandwich. I'm already packing!
+r0 elara: Together! Then it's the sea, from a boat. Circling it now. In pen! Pen means it's happening!
   expr happy
-r1 elara: A new one! Forty-two! I'll draw it a tiny boat. You've made my whole week. Don't tell Dr. Penn.
+r1 elara: Forty-two! I'll draw yours a tiny boat. The best doodle I own. ...It'll still be bad. It gets the spot of honor.
   expr happy
 r2 elara: You promise? ...I'm writing that down. In ink. And I'll knit you a sock for the journey. Just the one, for luck.
   expr happy
 
 dialogue ione.shelf
-n0 -: At the back of the library stands a tall shelf. Every book has a slip of paper tucked inside. Not one slip has a name.
+n0 -: A tall shelf stands at the back, apart from the rest. A slip of paper waits in every book. Each slip holds a date, and nothing else.
   next n1
-n1 ione: Books I set aside for people who never came in. The oldest has waited nine years. I can't reshelve them. What would you do?
+n1 ione: Every book set aside for somebody who never came. The oldest has waited nine years. Reshelving one would be deciding. What would you do?
   ? Take one to someone who should have it. => r0 | friend:ione,15 | flag:choice.shelf.take
   ? Read one aloud, right here. => r1 | friend:ione,10 | flag:choice.shelf.read
   ? Tuck a note in one, for whoever comes. => r2 | friend:ione,10 | flag:choice.shelf.note
 r0 ione: Take one. ...To someone who'll actually read it. Yes. That's all any of them wanted.
   expr happy
-r1 ione: Aloud? Nobody has ever read these to anyone. Go slowly, please. They'll want to keep up.
+r1 ione: Aloud? None of them has ever been heard. Go slowly, please. Nine years is a long time to wait for a voice.
   expr happy
 r2 ione: A note, in a book nobody's opened. Now whoever comes will know someone was expecting them.
   expr happy
