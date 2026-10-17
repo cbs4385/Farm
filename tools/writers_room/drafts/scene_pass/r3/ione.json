@@ -1,0 +1,158 @@
+{
+  "villager": "ione",
+  "variants": {
+    "event.ione_heart2.0": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:ione>=4",
+        "text": "There you are, [player]. The oldest almanac in the room has been keeping something from me. Margins full of a careful hand that stops in the fall. And this, folded inside.",
+        "why": "clue tier; echoes the stopped-margins thread without repeating the clue dialogue"
+      }
+    ],
+    "event.ione_heart2.2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Take them. I meant to make a joke about cataloging. It's gone. Take them anyway. Shells shouldn't wait in the dark of a book.",
+        "why": "frightened band; the joke fails, the gift stays"
+      }
+    ],
+    "event.ione_heart2.3": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Two shells, tucked in the fold. Set aside, you might say. Whoever it was meant to come back. The fold was pressed flat from waiting.",
+        "why": "uneasy full; the waiting gets weight"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Two shells, tucked in the fold. Set aside, you might say. Nobody came back for them. I keep wondering why not.",
+        "why": "uneasy mild; same noticing, no imagery"
+      }
+    ],
+    "event.ione_heart5.1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Would you walk the beach with me one evening? You've had the look of a closed book lately. The sea is good for that. Only if you'd like.",
+        "why": "frightened; unaware mirror, gentler ask, same meaning"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Would you walk the beach with me one evening? You seem tired lately. The tide is a patient listener. Only if you'd like.",
+        "why": "uneasy; small human noticing"
+      }
+    ],
+    "event.reading_night.4": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "A snowdrop, for the lamp. ...Every chair taken, and the dark politely outside. Next time, one more chair, and the door left open.",
+        "why": "uneasy full; keeps snowdrop echo and Hazel's chair-and-door hinge"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A snowdrop, for the lamp. ...Every chair taken. The nights run long lately. Next time, one more chair, and the door left open.",
+        "why": "uneasy mild; hinge intact"
+      }
+    ],
+    "event.festival_winter_lanterns.3": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "That's the bell. Together, slowly. Let them go. ...Mine turned toward the wood. Toward the— the wood. I didn't steer it.",
+        "why": "frightened full; short stammer fragment, lanterns pull woodward"
+      },
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "That's the bell. Together now, and slowly. Let them go. ...Mine is drifting toward the wood. I didn't steer it. The wind did.",
+        "why": "uneasy full; sea becomes wood"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "That's the bell. Together now, and slowly. Let them go. ...They're all going the same way tonight. Nobody picked it.",
+        "why": "uneasy mild; one-way drift, no imagery"
+      }
+    ],
+    "event.ione_heart8.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Come with me, if you have a minute. You look like a book left out in weather. There's a shelf at the back. It helps me, some days. It might help you.",
+        "why": "frightened; unaware comfort, same invitation job"
+      }
+    ],
+    "dlg.ione.shelf.1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:ione>=4",
+        "text": "Every book set aside for somebody who never came. One was for your great-uncle. Set aside in the fall; he never collected it. Reshelving one would be deciding. What would you do?",
+        "why": "clue tier; Edmund's uncollected book, question and choice meaning unchanged"
+      }
+    ],
+    "event.ione_birthday.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's my birthday. The fuss is a new book I don't open until noon. Come in out of the gray. I set something aside for you, too.",
+        "why": "uneasy both levels; shelter note, warmth intact"
+      }
+    ],
+    "event.overheard_hazel_ione_1.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "You found it. A week lost. The quiet's been different lately. Heavier. You keep it better than I do.",
+        "why": "uneasy; unaware notices the quiet change near the resister"
+      }
+    ],
+    "event.overheard_hazel_ione_3.l3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "You didn't say a word. I heard it anyway. The light leaves early now. The window keeps it longest.",
+        "why": "uneasy; shortened days noticed, kindness unchanged"
+      }
+    ],
+    "event.overheard_odalys_ione_1.l2": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Your clinic burned till morning, Thursday. The new moon, I think. I could see it from my desk.",
+        "why": "hint tier; Keeper abroad on a new-moon night, read as ordinary oddness"
+      }
+    ],
+    "event.overheard_odalys_ione_3.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's the calm kind. The quiet has been loud lately, even here. The pot helps. So does company.",
+        "why": "uneasy; librarian paradox, tea scene stays warm"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "reading_night",
+      "after": "event.reading_night.0",
+      "when": "horror:2 && var:dread>=30",
+      "text": "...The lamp held steady all week. I'm mentioning it because it didn't, the week before.",
+      "emote": "ellipsis",
+      "expression": "thinking",
+      "why": "unaware aside; something a curious player can chase"
+    }
+  ],
+  "cuts": [],
+  "threads": {
+    "ione_heart2": "Whose careful hand filled the almanac margins, and why did it stop in the fall?",
+    "ione_heart5": "Why does this village keep such exact count of its tides and its nights?",
+    "reading_night": "Why does leaving the door open after dark feel like an act of courage here?",
+    "festival_winter_lanterns": "Why did every lantern drift toward the wood when the wind came off the sea?",
+    "ione_heart8": "Which book waited for Edmund Fenn, and what date is written on its slip?",
+    "ione_birthday": "Why does a library birthday feel like shelter from something nobody has named?",
+    "ione_courtship": "The library stays a safe room; the question is whether anywhere else still is.",
+    "ione_courtship2": "Waiting feels different in a village that counts its nights so carefully.",
+    "ione_partners": "What will the nameless cove look like in winter, and why does Ione need to see it?",
+    "overheard_hazel_ione_1": "What changed in the library's quiet, and why does Hazel keep it better than Ione?",
+    "overheard_hazel_ione_2": "Nothing; the joke stands untouched as proof the village can still laugh.",
+    "overheard_hazel_ione_3": "Why does the light leave earlier than the almanac says it should?",
+    "overheard_odalys_ione_1": "What keeps the doctor's lamp burning until morning on a new moon?",
+    "overheard_odalys_ione_2": "Nothing; the prescription joke is deliberate plain contrast.",
+    "overheard_odalys_ione_3": "What is making the quiet loud, and why does nobody in Wetherell name it?"
+  },
+  "notes": [
+    "No revelation tier: Ione is unaware; her ceiling is the Edmund clue (uncollected set-aside book, stopped margins), echoing, never repeating, the existing clue dialogues.",
+    "Locked hinges preserved: heart2 .4 and partners walk-branch winter echo untouched; reading_night.4 variants keep 'one more chair, and the door left open' and 'A snowdrop, for the lamp'.",
+    "Lines carrying cozy {if} branches (reading_night.0, all .after lines) deliberately have no variants, so no branch duplication was needed.",
+    "Courtship, courtship2 and partners are left plain on purpose: the romance scenes are the player's safe harbor and the contrast the brief asks for.",
+    "overheard_odalys_ione_1 hint seams with Odalys's cozy reply 'Patients keep odd hours'; if her r3 adds a variant on that line, please seam-check the pair.",
+    "Lint not run from this thread (Read/Grep only); variants hand-checked against ordering, budgets (40 spoken / 20 overheard), no '||', no negated horror, dread>=60 only under horror:2, mild lines free of banned imagery."
+  ]
+}

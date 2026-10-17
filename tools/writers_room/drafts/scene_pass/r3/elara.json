@@ -1,0 +1,129 @@
+{
+  "villager": "elara",
+  "variants": {
+    "event.elara_heart2.1": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A hoe blister, the spring crop. Ten a week come through that door. Hold still. There. ...Your hands are cold. Everyone's are, this week. Strange spring! Wool helps. Wool always helps.",
+        "why": "unaware noticing of a village-wide chill, warmth intact"
+      }
+    ],
+    "event.elara_heart2.3": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Oh! Don't look behind the kettle. ...Fine. It's a map. Everywhere I haven't been yet. Dr. Penn looked at it once and got very quiet. She's usually only quiet at paperwork.",
+        "why": "hint seeding the heart8 Harrow Wood clue via Penn's silence"
+      }
+    ],
+    "event.elara_heart5.3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The map behind the kettle has a friend now. A list. Someday I'll show you. ...You keep watching the door. It's only Dr. Penn's shoes in the hall. I know her footsteps by heart.",
+        "why": "she mirrors the player's unease and comforts it"
+      }
+    ],
+    "event.past_the_point.1": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Felix explained floating very kindly, so I knitted a life jacket! It goes over the real one. For morale! Morale's been scarce on shore lately. Sea air fixes that. Nurse's orders!",
+        "why": "keeps the gag, names the shore's low mood without explaining it"
+      }
+    ],
+    "event.elara_heart8.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Shut the door a minute. ...Actually, shut it properly. There. Remember the shy list behind the kettle? The doodles are brave now. Brave enough for both of us. Don't laugh. ...Laugh a little.",
+        "why": "frightened band; her bravery offered as cover for the player's"
+      }
+    ],
+    "dlg.elara.list.1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:elara>=4",
+        "text": "Forty-one places I've never been. Forty-two, once. Dr. Penn inked one out. Harrow Wood. She pressed hard enough to dent three pages. ...Say something before I roll it back up.",
+        "why": "clue tier: Penn crossed off Harrow Wood; prompt job kept"
+      }
+    ],
+    "event.elara_birthday.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "It's my birthday! And you look like you need it more than I do. New plan: cake, then a nap in the good chair. Both medicinal! Come in, come in!",
+        "why": "frightened band: the party bends to care for the player"
+      }
+    ],
+    "event.elara_courtship.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Made you a scarf. Mind the end, it trails. The last row is a question: would you court me? In red. ...Your hands are shaking worse than my needles. Scarf first. The question keeps. You matter more.",
+        "why": "the ask survives; her gentleness answers the player's dread"
+      }
+    ],
+    "dlg.elara.partners.0": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Dr. Penn gave me the afternoon off. She said 'go,' then 'now,' then 'home before dark.' Five whole words! A record! How do we spend them?",
+        "why": "hint: Penn's too-exact care, the home-before-dark rule, read as fussing"
+      }
+    ],
+    "event.overheard_elara_odalys_3.l1": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Eleven hours yesterday, Dr. Penn. And out again at midnight! I counted. So I knitted you a sleeping mask.",
+        "why": "hint: Penn abroad at midnight; 'Eleven hours' hinge preserved for her 'It was twelve'"
+      }
+    ],
+    "event.overheard_felix_elara_3.l4": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I won't! Nineteen, twenty! The fish are quiet today. Even the gulls went polite. I'll knit louder, then!",
+        "why": "uneasy: the quiet birds, met with knitting; answers Felix's fish line"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "elara_heart2",
+      "after": "event.elara_heart2.2",
+      "when": "horror:2 && var:dread>=60",
+      "text": "You flinched before I touched you. That's not a blister thing. Tea first. The kettle outranks the whole clinic. Sit.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "she sees the player's fear and treats it like any patient; fills the cut joke's beat"
+    },
+    {
+      "scene": "past_the_point",
+      "after": "event.past_the_point.1",
+      "when": "horror:2 && var:dread>=60",
+      "text": "You keep looking back at the shore. The sea's the other way! Here. Sandwich. I prescribe horizon, twice daily.",
+      "emote": null,
+      "expression": "happy",
+      "why": "the frightened player watches the land; she turns them to the open water"
+    }
+  ],
+  "cuts": [
+    {
+      "scene": "elara_heart2",
+      "key": "event.elara_heart2.4",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the Penn banter joke falls flat at frightened; the add after .2 carries the beat"
+    }
+  ],
+  "threads": {
+    "elara_heart2": "Why is every hand in Wetherell cold this spring, and what on Elara's map made Dr. Penn go quiet?",
+    "elara_heart5": "Why has the clinic's nurse learned Dr. Penn's footsteps by heart?",
+    "past_the_point": "Why does leaving the shore feel like being watched from it?",
+    "elara_heart8": "Why did Dr. Penn ink Harrow Wood off a wish list hard enough to dent three pages?",
+    "elara_birthday": "What has been keeping the player, and half the village, from sleeping?",
+    "elara_courtship": "What follows the player's cold hands into the warmest room in the village?",
+    "elara_partners": "Why does Dr. Penn spend her rare extra words on 'home before dark'?",
+    "overheard_elara_odalys_3": "Where does Dr. Penn go at midnight after a twelve-hour day?",
+    "overheard_felix_elara_3": "Why have the fish gone quiet and the gulls polite?"
+  },
+  "notes": [
+    "elara_garden_visit left untouched on purpose: it plays spring 2 year 1, before any dread or lore gate can be true, and the first knock should be pure warmth at every setting.",
+    "No branchy ({if}) lines were varied; all heart8/birthday/courtship/partners 'after' branches stay cozy-only, so no cozy branch meanings are at risk.",
+    "elara_courtship2 shares dlg.elara.courtship.* with elara_courtship; only the courtship intro got a frightened variant, so the shared nodes stay single-sourced.",
+    "Locked hinges untouched or preserved: 'Eleven hours' kept verbatim in the odalys_3 variant, 'surprise', 'friends', and the past_the_point pencil stroke (event.past_the_point.3) not varied.",
+    "The heart8 clue treats Harrow Wood as a former forty-second entry so the shipped 'forty-one places' count stands (and keeps matching Dorian's forty-one trees); if the Director wants it among the forty-one, I will reword.",
+    "As unaware, every slip is reported as ordinary village oddness; nothing is explained, nothing names the woods' business."
+  ]
+}

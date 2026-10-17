@@ -1,0 +1,181 @@
+{
+  "villager": "bram",
+  "variants": {
+    "event.bram_heart2.1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Hm. Fire's burning blue at the edges. Bad coal, likely. Watch the color anyway. Cherry, not yellow.",
+        "why": "unaware oddness (blue fire) while the lesson stands"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Watch the color. Cherry, not yellow. ...You watch the door more than the fire. Hm. Fire first.",
+        "why": "he notices the player's unease, no ritual imagery"
+      }
+    ],
+    "event.bram_heart5.2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Here. Two bars. Look after them. Hm. And yourself. Iron keeps score. So do I.",
+        "why": "same handover, care extended to the player"
+      }
+    ],
+    "event.next_door.2": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:bram>=4",
+        "text": "...Hm. I know this hand. Have for years.",
+        "why": "the six-notes knowing shows obliquely, per r2 ruling"
+      }
+    ],
+    "event.hall_dance.7": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Hm. Hm-hm. ...Hm. Lost it. The room hums louder than me.",
+        "why": "the joke falls flat; brushes Piper's hum thread without repeating it"
+      },
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:bram>=4",
+        "text": "Hm. Hm-hm. Hm. Edmund hummed one like it. Four notes. Never learned the fourth.",
+        "why": "clue echoing the four-notes thread"
+      }
+    ],
+    "event.story_whistler_bram.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "{pause=0.5}...Hm. You. Good. For a breath, I thought nobody was there.",
+        "why": "unaware man doubting his own ears at dusk"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{pause=0.5}...Hm. How long have you been standing there? Quiet feet. Quiet night. Too much of both.",
+        "why": "small noticing, same question kept"
+      }
+    ],
+    "dlg.story.band.talk.2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Hm. One hit. Saving it. The quiet's been too loud lately.",
+        "why": "noise as relief; node and joke intact"
+      }
+    ],
+    "dlg.bram.repair.0": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:bram>=4",
+        "text": "Edmund's old hoe. He never let me near it. Week before he died, he left it at my door. No note. Hold, strike, or watch?",
+        "why": "clue: Edmund knew; same choice offer and meanings"
+      }
+    ],
+    "event.bram_heart4.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "It'll hold. Hm. You look like the hammer caught you. Sit. Forge is warm. No charge for the chair.",
+        "why": "Juno joke yields to tending a frightened player"
+      }
+    ],
+    "event.bram_heart6.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Hm. Sit. Not on the bucket. You look worn through. Good. Company, then. This'll be long. For me.",
+        "why": "frightened player folded into the confession, warmth intact"
+      }
+    ],
+    "event.bram_heart8.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "I'll tell her today. Not near today. Today. Words shouldn't wait on better light.",
+        "why": "strain brings urgency; repetition as mild distortion"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I'll tell her. Today. Hm. Dark comes early lately. Words shouldn't wait.",
+        "why": "same resolve, early-dark noticing, no imagery"
+      }
+    ],
+    "event.bram_heart10.give": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Gold. Soft. Won't rust. Won't fail you. For you. Hm.",
+        "why": "his fear of a tool failing someone, turned gentle"
+      }
+    ],
+    "event.bram_friend.doing": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Bread's yours. Cheese is mine. Hm. The quiet's heavier these days. We'll split that too.",
+        "why": "the shared silence gains weight, warmth intact"
+      }
+    ],
+    "event.bram_birthday.intro": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Birthday. No fuss. Juno made a card, mostly diagrams. No other mail. Village will empty early tonight. It always does, on the fourth.",
+        "why": "hint: his birthday is Fall 4, a date the village keeps; letters ache kept"
+      }
+    ],
+    "event.overheard_bram_marcus_3.l1": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "A hundred nails today. Same big order, every new moon. Nobody says what for.",
+        "why": "nail-order hint from the bible; Marcus's count still answers it"
+      }
+    ],
+    "event.overheard_wren_bram_3.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Yes. You'd be missed.",
+        "why": "dread makes him honest; exactly four words so Wren's count lands"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "bram_heart2",
+      "after": "event.bram_heart2.2",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Hm. One more thing. Iron's sung flat all week. Same coal. Same forge. Flat.",
+      "emote": "ellipsis",
+      "expression": "thinking",
+      "why": "hint echoing his 'good steel sings' line, never explained"
+    },
+    {
+      "scene": "bram_heart5",
+      "after": "event.bram_heart5.1",
+      "when": "horror:2 && var:dread>=60",
+      "text": "Hm. You're not right today. Sit. The forge doesn't ask questions.",
+      "emote": null,
+      "expression": "neutral",
+      "why": "fills the cut teacher aside; plain human comfort"
+    }
+  ],
+  "cuts": [
+    {
+      "scene": "bram_heart5",
+      "key": "event.bram_heart5.3",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the teacher aside yields to tending the player; paired add fills it"
+    }
+  ],
+  "threads": {
+    "bram_heart2": "What made good iron start singing flat, and why won't the blacksmith guess at it?",
+    "bram_heart5": "Why is the forge becoming the place people come to stop shaking?",
+    "next_door": "How much does Bram quietly know that he has chosen never to say?",
+    "hall_dance": "What was the fourth note Edmund hummed, and why does the room seem to know it?",
+    "story_whistler_bram": "What emptied the village evenings so completely that a whistler doubts his own ears?",
+    "story_band_battle": "Why does the whole square feel grateful when something is finally loud?",
+    "bram_heart4": "Why did Edmund leave the hoe he guarded at the forge door the week before he died?",
+    "bram_heart6": "What do thirty unsent letters weigh in a village where everyone leaves things unsaid?",
+    "bram_heart8": "Why does everyone in Wetherell feel the dark arriving earlier than it should?",
+    "bram_heart10": "Why does 'it won't fail you' sound like more than metal talk?",
+    "bram_friend": "When did the village's comfortable silence turn into a weight two friends split?",
+    "bram_birthday": "Why does Wetherell empty out early on the fourth of every season?",
+    "overheard_bram_marcus_3": "Who buys a hundred nails every new moon, and what do they fasten?",
+    "overheard_wren_bram_3": "What makes Wren ask, more and more, whether she would be missed?"
+  },
+  "notes": [
+    "next_door.2 clue carries the six-notes knowing obliquely per the r2 ruling; it holds no horror content, so it reads as pure warmth at mild — flag if a different gate is wanted.",
+    "dlg.bram.repair.0 clue invents how Edmund's hoe reached the forge (left at the door, no note, the week before he died); new canon, consistent with the r2 starter-tool ruling — Director to bless.",
+    "bram_birthday is repeatable, so its fourth-of-the-season hint recurs yearly; intended, since Fall 4 is a ritual date and Bram never explains it.",
+    "overheard_bram_marcus_3 hint plays against Marcus; his unchanged reply now doubles as a Keeper's deflection — no change needed his side, but he should know.",
+    "Untouched for contrast: overheard_juno_bram 1-4, bram_marcus 1-2, wren_bram 1-2, tilda_bram 1; wren_1's closing 'Hm.' stays locked per r2."
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "villager": "hazel",
+  "variants": {
+    "event.hazel_heart2.1": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "An almanac, eighty-one years old. Page two hundred and four: a snowdrop, still white. (The margins know more than the weather. I'm still reading them.)",
+        "why": "hint: the margins thread, echoed not repeated"
+      }
+    ],
+    "event.hazel_heart2.3": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Beside it, in pencil: the first frost, guessed. They missed by three days. (People guessed, back then. Nobody guesses now. I find that odd.)",
+        "why": "resister clocks the village's new exactness"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Beside it, in pencil: the first frost, guessed. They missed by three days. (This year's almanac hedges. Even the weather is keeping quiet.)",
+        "why": "same noticing, weather-only at mild"
+      }
+    ],
+    "event.hazel_heart4.intro": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "I'd like to trade. A book for a book. (An even trade. This village is very exact about trades. I keep the receipts.)",
+        "why": "the bargain's shadow as a trade custom"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I'd like to trade. A book for a book. (Even trades are a custom here. Older than the shelves.)",
+        "why": "custom-only at mild"
+      }
+    ],
+    "dlg.hazel.hiding.r0": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:hazel>=4",
+        "text": "Pages turning, two rooms away. Other people's thoughts, kept. (Kept things are this village's specialty. I shelve one kind.)",
+        "why": "clue tier: something is kept"
+      }
+    ],
+    "event.hazel_heart6.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "I checked your face just now. It stayed kind. (Lately I check everyone's. Some are too calm. I'm charting it.)",
+        "why": "frightened: she charts the Keepers' calm"
+      }
+    ],
+    "event.hazel_heart8.intro": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Would you hear a thing I wrote? (I tried the gray cat. It watches the door now. Everyone's a critic.)",
+        "why": "animals unsettled, joke intact"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Would you hear a thing I wrote? (The gray cat left at line three. It leaves everywhere early, lately.)",
+        "why": "softer animal unease at mild"
+      }
+    ],
+    "event.hazel_heart10.intro": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:hazel>=6",
+        "text": "I'll read it for you. Just you. (Away from the window, please. We both read the same records.)",
+        "why": "revelation tier: shared knowledge, no speech"
+      },
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "I'll read it for you. Just you. (Quietly. Some nights this village listens back. We'll be quieter than it.)",
+        "why": "frightened band, echoes the hum thread"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I'll read it for you. Just you. (The shelves don't count. Lately they're the only audience I trust.)",
+        "why": "trust narrowed, mild-safe"
+      }
+    ],
+    "event.hazel_friend.success": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Perfect. One tart, then a knock on the borrower's door. (Doors open slower this season. A tart is good oil.)",
+        "why": "hushed village; borrower stays a living stranger"
+      }
+    ],
+    "event.hazel_birthday.intro": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "It's my birthday. (I kept it quiet. The year is loud enough.) Please sit. There's enough for two.",
+        "why": "full-only shading; mild birthday stays cozy"
+      }
+    ],
+    "dlg.hazel.partners.r2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "The forest. With you. (The birds there have gone quiet. We'll lend them some noise.)",
+        "why": "wakefulness ladder: birds quieter"
+      }
+    ],
+    "event.hazel_partners.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "{if choice:courtship.hazel.read}The page is pinned above the desk. Your name is at the bottom. In pencil, so it can be amended.{else}{if choice:courtship.hazel.hand}Your hand and mine, over the desk. Ione walked past twice. (She pretended not to notice.){else}The forest was hushed. You were kind to it. (I took notes. Mostly about you.){/if}{/if}",
+        "why": "walk branch matches the quiet-birds variant; other branches unchanged"
+      }
+    ],
+    "event.reading_night.poem": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "The lamp does not mind the dark. It keeps it company. It keeps—it keeps it company. ...That's the eleven. (One line minded the dark. I cut it.)",
+        "why": "allowed short stammer; the poem flinches"
+      }
+    ],
+    "event.festival_winter_lanterns.1": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "One lantern, one wish. Fold it small. (The sky has been attentive lately. Give it something kind.)",
+        "why": "the sky waiting, named gently"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "One lantern, one wish. Fold it small. (The dark is roomier this winter. Wishes have farther to go.)",
+        "why": "mild: mood only, no watcher"
+      }
+    ],
+    "event.overheard_hazel_ione_1.l1": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Your spring almanac. Third shelf. (The old ones all mark the same four nights. Yours should too.)",
+        "why": "hint: four-dates thread, told to its co-keeper"
+      }
+    ],
+    "event.overheard_dorian_hazel_1.l4": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "(The best kind.) Though even the jays going quiet is a kind of loud.",
+        "why": "answers his jays line with the ladder"
+      }
+    ],
+    "event.overheard_dorian_hazel_3.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "We could. (The window faces the forest. Lately the forest faces back. We'll sit anyway.)",
+        "why": "the woods seem closer; sitting anyway is the warmth"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "hazel_heart2",
+      "after": "event.hazel_heart2.2",
+      "when": "horror:2 && var:dread>=30",
+      "text": "(The window faces the wood. I shelve with my back to it. ...Habit.)",
+      "emote": "ellipsis",
+      "expression": "neutral",
+      "why": "a habit the player can wonder about"
+    },
+    {
+      "scene": "hazel_heart5",
+      "after": "event.hazel_heart5.0",
+      "when": "horror:2 && var:dread>=60",
+      "text": "A small poem. Six lines. (Short enough to keep safe. Long enough to mean it.)",
+      "emote": null,
+      "expression": "thinking",
+      "why": "fills the cut joke's silence"
+    },
+    {
+      "scene": "reading_night",
+      "after": "event.reading_night.1",
+      "when": "horror:2 && var:dread>=30",
+      "text": "(Every chair full, every lamp lit. I counted the windows anyway. Twice.)",
+      "emote": "ellipsis",
+      "expression": "thinking",
+      "why": "resister counts even among friends"
+    },
+    {
+      "scene": "festival_winter_lanterns",
+      "after": "event.festival_winter_lanterns.1",
+      "when": "horror:1 && var:lore>=1",
+      "text": "(Four nights a year, every door shuts early. Tonight isn't one. I checked.)",
+      "emote": null,
+      "expression": "thinking",
+      "why": "hint: the four-nights custom; no heart10 payoff"
+    }
+  ],
+  "cuts": [
+    {
+      "scene": "hazel_heart5",
+      "key": "event.hazel_heart5.1",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the laugh-at-line-four joke falls flat at frightened"
+    }
+  ],
+  "threads": {
+    "hazel_heart2": "What else do the almanac margins record besides weather?",
+    "hazel_heart5": "Why does Hazel think a short poem is easier to keep safe?",
+    "hazel_heart4": "Why is Wetherell so exact about even trades?",
+    "hazel_heart6": "Whose faces are too calm, and what pattern is Hazel charting?",
+    "hazel_heart8": "Why do the village animals leave rooms early and watch doors?",
+    "hazel_heart10": "What does Hazel believe listens on some nights, and why does she trust you with it?",
+    "hazel_friend": "Why do doors in Wetherell open slower this season?",
+    "hazel_birthday": "What made this year loud enough that Hazel wanted one quiet day?",
+    "hazel_partners": "Where did the forest birds go?",
+    "reading_night": "Why does Hazel count the windows in a warm, full room?",
+    "festival_winter_lanterns": "Which four nights a year does every door shut early, and why not this one?",
+    "overheard_hazel_ione_1": "Why do all the old almanacs mark the same four nights?",
+    "overheard_dorian_hazel_1": "What silenced the jays?",
+    "overheard_dorian_hazel_3": "What does the library's forest-facing window show at dusk?"
+  },
+  "notes": [
+    "Per the Round 2 ruling, nothing here carries the heart10 lantern payoff; the festival variants and add stay clear of it.",
+    "hazel_friend: the forty-one-year borrower stays a living stranger; the variant touches doors, never Edmund or his numbers.",
+    "Left deliberately plain for contrast: all three Piper overheards (the lyric secret needs no shadow), overheard_wren_hazel_2 and _3 (the catchphrase payoff), overheard_hazel_ione_2 and _3, overheard_dorian_hazel_2 (locked pressed-leaves hinge), both courtship scenes and courtship2.",
+    "event.hazel_partners.after carries the cozy {if} branches unchanged except the walk branch, kept in step with the dlg.hazel.partners.r2 bird variant; if the Director drops one, drop both.",
+    "The revelation-tier heart10 intro implies shared knowledge only; at no tier do I name what is kept or who keeps it.",
+    "Birthday shading is full-only by design; at mild the birthday stays wholly cozy."
+  ]
+}

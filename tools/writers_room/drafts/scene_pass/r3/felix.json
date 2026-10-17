@@ -1,0 +1,144 @@
+{
+  "villager": "felix",
+  "variants": {
+    "event.felix_heart2.4": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "You should've seen the other one. There's always another one. Though lately the pond's been stingy with its mornings. Quiet ones. A fisher notices.",
+        "why": "the quiet-dawn fear surfaces as noticing"
+      }
+    ],
+    "event.felix_heart5.1": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "It was mine. It's yours now. You've the look of thin ice about you lately. Carry the luck. I'll carry the bait.",
+        "why": "the charm becomes comfort for a frightened player"
+      }
+    ],
+    "event.past_the_point.0": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "There you are. The boat I promised. She floats. I checked twice. Odd sea this morning, mind. Flat as a plate, and no smell to it. Tin's the elegant part.",
+        "why": "the sea losing its smell, per the unaware list"
+      }
+    ],
+    "event.story_whistler_felix.after": [
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "Same hour tomorrow, same lane, same tune. Folk here go in early after dark. More lane for us. You can pretend you were passing.",
+        "why": "hint tier: the early-indoors custom, unexplained"
+      }
+    ],
+    "event.festival_winter_lanterns.2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Mine's this big. Last winter it was this big. Wishes grow, like fish. Hope it climbs quick. The sky looks heavy tonight.",
+        "why": "the sky waiting, read as weather"
+      }
+    ],
+    "event.felix_heart8.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Quiet, now. The pond's held its breath all week. Something's down there, deciding. It's on the line this minute. Take the net. Don't breathe.",
+        "why": "echoes heart2's 'deciding'; the pond gets agency"
+      }
+    ],
+    "dlg.felix.big.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Something very large tugs on Felix's line. It might be a fish. It might be the pond, pulling back.",
+        "why": "frightened narration: the bottom becomes a will"
+      }
+    ],
+    "event.felix_birthday.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "My birthday. Tilda outlawed fishing till noon. She brought a pie. I brought a story. It's about a fish. ...The gulls skipped the crumbs this year. First time ever.",
+        "why": "birds quieter, kept as birthday small talk"
+      }
+    ],
+    "event.felix_courtship.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Mornin'. No. Not just mornin'. You've been carrying something heavy, I can see it. I'd like to stand nearer while you carry it. Would you court me? Slowly, like the tide.",
+        "why": "unaware comfort: the ask becomes shelter, same meaning"
+      }
+    ],
+    "dlg.felix.partners.r2": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "The sun comes up. It always has so far. We won't say much. That's the whole plan.",
+        "why": "dry fisher's joke that reads as mood"
+      }
+    ],
+    "event.overheard_tilda_felix_1.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "It's a bigger carp. It grew. In the bucket, overnight. ...I didn't care to watch it happen.",
+        "why": "odd shapes; Tilda's disbelief still lands"
+      }
+    ],
+    "event.overheard_felix_elara_3.l1": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Dawn's too quiet lately. Even the gulls. Count your stitches loud as you like.",
+        "why": "complaint turns invitation; her reply still fits"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "felix_heart2",
+      "after": "event.felix_heart2.3",
+      "when": "horror:2 && var:dread>=60",
+      "text": "...You look wrung out, friend. Sit a spell. The tide doesn't mind company.",
+      "emote": "ellipsis",
+      "expression": "thinking",
+      "why": "fills the silence left by cutting the tall tale"
+    },
+    {
+      "scene": "felix_heart5",
+      "after": "event.felix_heart5.0",
+      "when": "horror:1 && var:lore>=3 && hearts:felix>=4",
+      "text": "Your uncle sat this rock, some dawns. Never cast a line. Just watched the tree line, like it owed him something.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "my one clue: Edmund on the rock, memory not meaning"
+    }
+  ],
+  "cuts": [
+    {
+      "scene": "felix_heart2",
+      "key": "event.felix_heart2.4",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the tall tale falls flat on a frightened player; the add covers the gap"
+    }
+  ],
+  "threads": {
+    "felix_heart2": "Why are the dawns so quiet that even Felix counts them?",
+    "felix_heart5": "What did Edmund watch for in the tree line, from Felix's rock?",
+    "past_the_point": "What makes the sea lie flat and lose its smell some mornings?",
+    "story_whistler_felix": "Why does everyone but Felix go in early after dark?",
+    "story_pumpkin_felix": "None; the pumpkin stays pure comedy for contrast.",
+    "festival_winter_lanterns": "What is the sky full of, that the lanterns climb so slowly?",
+    "felix_heart8": "What is down in the pond, deciding, and what pulls back?",
+    "felix_birthday": "Why did the gulls skip the crumbs this year?",
+    "felix_courtship": "Why does the one person offering plain shelter see nothing wrong at all?",
+    "felix_courtship2": "None; the second ask stays plain so the patience reads true.",
+    "felix_partners": "Has the sun ever considered not coming up?",
+    "overheard_tilda_felix_1": "Did the carp really grow overnight, and why wouldn't Felix watch?",
+    "overheard_tilda_felix_2": "None; old soup and old friendship stay warm for contrast.",
+    "overheard_tilda_felix_3": "None; 'the pond always knows' already carries all the shadow it needs.",
+    "overheard_tilda_felix_4": "None; the pie scene is left whole as comfort.",
+    "overheard_felix_elara_1": "None; plain for contrast.",
+    "overheard_felix_elara_2": "None; the tall tale stays a tall tale.",
+    "overheard_felix_elara_3": "Where did the gulls go at dawn?"
+  },
+  "notes": [
+    "I am unaware: every variant is weather, birds, water, fish; nothing explained, no suspicion. The Edmund rock memory (heart5 add) is my only clue and stays a memory.",
+    "felix_heart8 variants say 'pond', matching shipped dlg.felix.big.0; the Beach-vs-pond map question from r2 is still the Director's to settle.",
+    "Locked hinges untouched: 'test it', 'Don't tell the pond', 'friends', the pencil stroke, elara_2 'tell'.",
+    "The heart2 cut removes the catchphrase only at dread>=60, paired with the comfort add; the uneasy variant of .4 covers dread 30-59.",
+    "overheard_tilda_felix_1 variant keeps the price-justifying job so Tilda's 'Your prices have' still lands."
+  ]
+}

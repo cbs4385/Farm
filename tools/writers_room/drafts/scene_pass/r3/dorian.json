@@ -1,0 +1,203 @@
+{
+  "villager": "dorian",
+  "variants": {
+    "event.dorian_heart2.4": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "There's another place. Deeper in. Not today. Today you stay where I can see you.",
+        "why": "frightened player gets a keeper's gentle boundary"
+      },
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "There's another place. Deeper in. Not yet. Some ground you ask first. I'll ask.",
+        "why": "too-exact care: he asks the ground"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "There's another place. Deeper in. Not yet. The moss is deciding. The whole wood is careful lately.",
+        "why": "mild noticing, no imagery"
+      }
+    ],
+    "event.dorian_heart5.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Step over the root. Not on the moss. ...Breathe. This spot is kind. That's why I keep it.",
+        "why": "gentler at fear; 'keep' carries the second meaning"
+      }
+    ],
+    "event.dorian_heart5.1": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "I've never shown anyone. Edmund found it alone. I didn't mind. I should have.",
+        "why": "regret replaces 'odd'; a keeper's hindsight"
+      }
+    ],
+    "event.dorian_heart5.3": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "He was counting the trees. He got to forty-one. ...Count slower than he did.",
+        "why": "clue tier: the canon forty-one, covered as advice"
+      }
+    ],
+    "event.reading_night.2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "A snowdrop. Pressed since winter. It kept my place. Now it keeps the lamp. The lamp earns it, nights like this.",
+        "why": "keeps Ione's snowdrop-and-lamp echo; adds the night"
+      }
+    ],
+    "event.story_notes_dorian.after": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Three more doors before dark. Before dark matters. Don't follow. Don't guess.",
+        "why": "the exactness tell: he repeats the deadline"
+      }
+    ],
+    "dlg.story.scarecrow.talk.1": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Mine just stands there. Silent. Crows hate silence. Fewer crows this fall. I counted.",
+        "why": "birds-quieter ladder; counting is my tell"
+      }
+    ],
+    "event.story_pumpkin_dorian.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...The inside was the right dark. Safe dark. For spores. Asking needed words. I ran out.",
+        "why": "he grades darkness; same confession, same joke"
+      }
+    ],
+    "event.dorian_heart8.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Sit. The log. ...You look tired. Good. Sitting fixes that. I practiced this part. Don't speak yet.",
+        "why": "gentler first, rehearsal kept"
+      }
+    ],
+    "dlg.dorian.notebook.1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "Mushrooms. Four hundred and twelve. Drawn. Three pages stay shut. Don't ask. ...Be gentle.",
+        "why": "clue: something is kept; count canon untouched"
+      }
+    ],
+    "event.dorian_birthday.intro": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...My birthday. Marcus told the whole saloon. The trees won't mention it. You look worn. Stay a minute. That helps us both.",
+        "why": "his birthday, and he tends the player"
+      }
+    ],
+    "event.dorian_courtship.intro": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "...I practiced this since spring. The trees heard it first. You're safe here. Will you court me? Slowly. Quietly.",
+        "why": "a frightened player hears safety before the question"
+      }
+    ],
+    "dlg.dorian.partners.r1": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:dorian>=6",
+        "text": "The forest, then. Past the third tree. Never past the gate. The oak listens.",
+        "why": "revelation gate: the boundary he keeps, unexplained"
+      }
+    ],
+    "event.overheard_marcus_dorian_1.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Straight. Like a birch. The birches lean, lately.",
+        "why": "ladder item between two Keepers, under 20 words"
+      }
+    ],
+    "event.overheard_marcus_dorian_3.l2": [
+      {
+        "when": "horror:2 && var:dread>=30",
+        "text": "Oak. Good. Heavy. Some nights a door should be heavy.",
+        "why": "full: the weight is the point"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Oak. Good. First door I'd close on purpose. Some nights, firmly.",
+        "why": "mild: same unease, softer"
+      }
+    ],
+    "event.overheard_marcus_dorian_4.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...Toward the trees? Good. I'd rather see them than not.",
+        "why": "the watch window; Marcus's owl line still lands"
+      }
+    ],
+    "event.overheard_dorian_hazel_1.l3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "...Quiet today. The jays left early. I counted them out.",
+        "why": "counting aloud where the pattern-spotter can hear"
+      }
+    ],
+    "event.overheard_dorian_hazel_2.l1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:dorian>=4",
+        "text": "My old mushroom guide. Pressed leaves inside. Eight falls. Edmund pressed the first.",
+        "why": "clue: Edmund kept; 'pressed leaves' hinge intact"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "dorian_heart2",
+      "after": "event.dorian_heart2.2",
+      "when": "horror:1 && var:lore>=1",
+      "text": "One rule. Be out of the deep wood before dark. New moons especially.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "hint tier: the custom, stated as forage advice"
+    },
+    {
+      "scene": "reading_night",
+      "after": "event.reading_night.2",
+      "when": "horror:2 && var:dread>=60",
+      "text": "Sit near the lamp. I checked the dark on the way in. Only dark.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "a Keeper's comfort: he checked; fills the strained room"
+    }
+  ],
+  "cuts": [
+    {
+      "scene": "dorian_heart2",
+      "key": "event.dorian_heart2.3",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the playful fox-rating jars at fear; the .4 frightened variant fills the space"
+    }
+  ],
+  "threads": {
+    "dorian_heart2": "Why does the forager set a before-dark rule, new moons especially, on his own wood?",
+    "dorian_heart5": "Edmund was counting trees toward something, and Dorian knows exactly how far he got.",
+    "reading_night": "Who checks the dark before a reading night, and against what?",
+    "story_notes_dorian": "Why must every note land before dark, and why does he say dark matters?",
+    "story_scarecrows": "The crows are fewer this fall, and only Dorian is counting them.",
+    "story_pumpkin_dorian": "Why does a forager grade darkness into safe and otherwise?",
+    "dorian_heart8": "Three pages of the notebook stay shut; what grows where he will not show?",
+    "dorian_birthday": "Even on his birthday he weighs the player's tiredness, not his own.",
+    "dorian_courtship": "Why does his proposal begin by promising the player is safe?",
+    "dorian_courtship2": "He is very practiced at waiting; what else has he waited years on?",
+    "dorian_partners": "There is a gate in the wood he will not pass, even on their first day together.",
+    "overheard_marcus_dorian_1": "Two quiet men checking whether the trees still stand true.",
+    "overheard_marcus_dorian_2": "What do the village's two quietest men listen for through an hour of silence?",
+    "overheard_marcus_dorian_3": "Why would the man who leaves doors open want one heavy enough to close?",
+    "overheard_marcus_dorian_4": "He wants his window on the trees so the wood is never unwatched.",
+    "overheard_dorian_hazel_1": "Dorian counts the jays out loud where Hazel can hear; habit, or a message?",
+    "overheard_dorian_hazel_2": "Edmund's first pressed leaf is still in the guide; what else of his does Dorian keep?",
+    "overheard_dorian_hazel_3": "Two silences side by side, each measuring what the other knows."
+  },
+  "notes": [
+    "The heart2 cut pairs with the .4 frightened variant; if the cut reads too stark, drop the cut and keep the variant.",
+    "The forty-one clue (heart5 .3) echoes my planted thread without 'then the way in'; the number only.",
+    "Notebook count stays 412, draw branch 413 per the r2 ruling; the clue variant adds shut pages, never a new count.",
+    "Hazel's locked 'pressed leaves' hinge is preserved word-for-word in the od_hazel_2 variant.",
+    "'The gate' appears once, at the strictest gate (partners r1, horror:2, lore>=5, hearts>=6); nowhere milder.",
+    "The reading_night add sits between my snowdrop line and Wren's; Ione's 'A snowdrop, for the lamp' echo is intact.",
+    "No variants touch my {if}-branched .after lines, so no cozy branches needed carrying."
+  ]
+}

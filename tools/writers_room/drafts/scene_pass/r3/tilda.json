@@ -1,0 +1,189 @@
+{
+  "villager": "tilda",
+  "variants": {
+    "event.tilda_heart5.0": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Sit, [player]. Sit first, eat second, talk third. A dozen scones for a village that buys six, and you at my counter looking like a long night. I have the chair and the time.",
+        "why": "frightened band: she gets gentler and feeds the player"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Sit a moment. I baked a dozen scones for a village that buys six, and the street's been quiet all morning. Quiet enough to count.",
+        "why": "uneasy: a Keeper's counting shows through"
+      }
+    ],
+    "event.tilda_heart2.1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:tilda>=4",
+        "text": "My mother's cauliflower gratin. She taught it by hand, never wrote it down. Most of what she gave me has no writing to it. Bring me a cauliflower someday.",
+        "why": "clue: her mother handed down more than recipes"
+      }
+    ],
+    "event.hall_dance.3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Nobody asked for credit for any of this. So I'm giving it, in the good chalk, under every name in this room. I counted the room twice. Everyone's here.",
+        "why": "the Keeper headcount as relief; coin hinge (.10) untouched"
+      }
+    ],
+    "event.story_notes_tilda.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Signing a kindness is just sending a bill. ...Two more doors, then I'll walk you partway home. No arguing. The nights come in fast this time of year.",
+        "why": "frightened: 'don't follow me' becomes walking the player home"
+      },
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Signing a kindness is just sending a bill. ...Two more doors before closing. Then home, both of us. The lamp's on upstairs if you ever need it.",
+        "why": "uneasy: the lamp tell, no imagery"
+      }
+    ],
+    "dlg.story.scarecrow.talk.0": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Mine is smiling. Crows can't stand a cheerful face. Not that there've been many crows this fall. Don't let that sway the judging.",
+        "why": "wakefulness ladder: birds quieter, played as comedy"
+      }
+    ],
+    "event.festival_winter_lanterns.0": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Lanterns up, everyone. Not lit yet. Wait for the bell, and keep hold of your string till it rings. Felix, I mean you.",
+        "why": "care that is too exact: hold the string"
+      }
+    ],
+    "dlg.tilda.slate.0": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:tilda>=4",
+        "text": "This is the slate. Every small kindness in Wetherell, in chalk. There are columns I keep for people who can't collect anymore. I don't wipe those either.",
+        "why": "clue: echoes Edmund without naming him"
+      }
+    ],
+    "dlg.tilda.hours.0": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "I count the stock at closing time. Lately the count comes out right, the street comes out short, and I leave the lamp burning longer.",
+        "why": "uneasy: the lamp burns longer as the street empties"
+      }
+    ],
+    "dlg.tilda.hours.1": [
+      {
+        "when": "horror:2 && var:lore>=5 && hearts:tilda>=6",
+        "text": "Wetherell holds, I tell myself. It costs what it costs, and it holds. ...Forget I said that. What do you think — is it shrinking?",
+        "why": "revelation slip-and-cover; still asks the choice question"
+      }
+    ],
+    "event.tilda_heart6.after": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Said out loud, it weighs less. Yours does too, whatever it is. Leave it on my counter with the rest. Turn the sign back, and take a scone for the walk.",
+        "why": "frightened: Felix joke cut, she tends the player's dread instead"
+      }
+    ],
+    "dlg.tilda.card.1": [
+      {
+        "when": "horror:1 && var:lore>=3 && hearts:tilda>=4",
+        "text": "My mother's pumpkin pie. The only thing she ever wrote down. The rest of what she kept, I keep now, quietly. What if I get it wrong?",
+        "why": "clue: the inheritance was a keeping, not a recipe"
+      }
+    ],
+    "event.tilda_heart10.give": [
+      {
+        "when": "horror:2 && var:dread>=60",
+        "text": "Pumpkin pie, still warm. Eat something, you. And yes, that's your farm on my sign. Supplier. In paint. Paint stays put, whatever else moves.",
+        "why": "frightened: fixing the farm's name is protection; pie and sign kept"
+      }
+    ],
+    "event.overheard_tilda_wren_2.l3": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Then we'll trade. Yours first, and keep it cheerful. The street's been short on cheerful lately.",
+        "why": "two Keepers rationing good news; Wren's reply still lands"
+      }
+    ],
+    "event.overheard_tilda_wren_3.l3": [
+      {
+        "when": "horror:1 && var:lore>=1 && day==4",
+        "text": "One cup. It's the fourth. We both close early on the fourths.",
+        "why": "hint: the fourths as a visible custom, Keeper to Keeper"
+      },
+      {
+        "when": "horror:1 && var:lore>=1",
+        "text": "One cup. Then back to the slate. Some nights the books keep me; you know the ones.",
+        "why": "hint, any day: 'the books' covering the duty"
+      }
+    ],
+    "event.overheard_tilda_juno_3.l2": [
+      {
+        "when": "horror:1 && var:dread>=30",
+        "text": "Open it in Wetherell and I'll stock your first shelf. Stay close. The village does better full.",
+        "why": "her need for a full village gains an edge; Juno's reply holds"
+      }
+    ]
+  },
+  "adds": [
+    {
+      "scene": "tilda_heart5",
+      "after": "event.tilda_heart5.3",
+      "when": "horror:2 && var:dread>=60",
+      "text": "Eat one more. For the walk home. I'm not asking, I'm stocking you.",
+      "emote": null,
+      "expression": "happy",
+      "why": "fills the silence left by cutting .1; gentleness as provisioning"
+    },
+    {
+      "scene": "festival_winter_lanterns",
+      "after": "event.festival_winter_lanterns.0",
+      "when": "horror:1 && var:lore>=1",
+      "text": "Send them seaward. Never toward the wood. The wood keeps what it catches.",
+      "emote": null,
+      "expression": "thinking",
+      "why": "hint-tier custom; reads as lanterns-in-trees to a calm player, agrees with Ione's sea drift"
+    }
+  ],
+  "cuts": [
+    {
+      "scene": "tilda_heart5",
+      "key": "event.tilda_heart5.1",
+      "when": "horror:2 && var:dread>=60",
+      "why": "the Felix-flinches joke falls flat in a strained scene; paired with the add after .3"
+    }
+  ],
+  "threads": {
+    "tilda_heart5": "Why does Tilda feed people like she's provisioning them for something?",
+    "tilda_heart2": "What else did her mother hand down that never got written?",
+    "hall_dance": "Why did Tilda need to count the room twice before she could celebrate it?",
+    "story_notes_tilda": "Who taught Tilda that the village runs on unsigned work done before dark?",
+    "story_scarecrows": "Where have the crows gone this fall?",
+    "story_pumpkin_dorian": "Plays plain at every level; the pumpkin farce is the control group the shadowed scenes read against.",
+    "story_pumpkin_marcus": "Plays plain at every level; same control-group purpose as the other pumpkin branches.",
+    "story_pumpkin_felix": "Plays plain at every level; same control-group purpose as the other pumpkin branches.",
+    "festival_winter_lanterns": "What has the wood kept, besides lanterns?",
+    "tilda_heart4": "Whose columns stopped collecting, and why won't she wipe them?",
+    "tilda_heart6": "What does Tilda believe Wetherell costs, and who pays it?",
+    "tilda_heart8": "If the pie is the only thing her mother wrote down, what was passed on in silence?",
+    "tilda_heart10": "Why does Tilda want the farm's name fixed in paint where the whole village can see it?",
+    "tilda_friend": "Plain on purpose; sunflowers are sunflowers at every level.",
+    "tilda_birthday": "Plain on purpose; her birthday stays safe ground.",
+    "overheard_tilda_felix_1": "Plain on purpose; haggling with Felix is the village at its most ordinary.",
+    "overheard_tilda_felix_2": "Plain on purpose; the soup both times is warmth with no shadow.",
+    "overheard_tilda_felix_3": "Untouched, but 'the pond always knows' rereads once the player learns this village has things that know.",
+    "overheard_tilda_felix_4": "Plain on purpose; old friendship needs no variant.",
+    "overheard_tilda_wren_1": "Plain on purpose; the chalkboard spat stays pure comedy.",
+    "overheard_tilda_wren_2": "Why is the street short on cheerful, and why do the two gossips ration it?",
+    "overheard_tilda_wren_3": "What do Tilda and Wren both do on the fourth of the season?",
+    "overheard_tilda_juno_1": "Plain on purpose; Juno is unaware and her scenes stay sunlit.",
+    "overheard_tilda_juno_2": "Plain on purpose; the flour sack is the slate at its kindest.",
+    "overheard_tilda_juno_3": "Why does Tilda need the village full, beyond business?",
+    "overheard_tilda_bram_1": "Plain on purpose; the even slate is the cozy game's thesis and I won't shade it."
+  },
+  "notes": [
+    "All {if flag/choice} lines (tilda_heart4.after, tilda_heart8.after, tilda_heart10.thanks, story_scarecrows.after, tilda_birthday.after) are deliberately left at cozy text; no variant carries branches.",
+    "overheard_tilda_wren_3 uses day==4 in one variant (ritual-night custom, hint tier); if day is not an accepted variant atom, drop that variant — the second, any-day hint stands alone.",
+    "tilda_heart10.give variant keeps pie and sign; the unpaid two-note-bell handover (r2 standing item) should get the frightened beat instead of 'paint stays put' if mechanics ever add the bell.",
+    "hall_dance: only .3 varied; the coin/'something that isn't wood' hinge into Marcus's reply is untouched per the Round 2 ruling.",
+    "Wren's fixed replies after my wren_2/wren_3/juno_3 variants were checked and still land.",
+    "Lanterns add 'the wood keeps what it catches' agrees with Ione's cozy 'drifting toward the sea' line and never explains itself."
+  ]
+}
