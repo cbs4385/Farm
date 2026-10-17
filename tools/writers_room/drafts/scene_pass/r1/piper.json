@@ -1,0 +1,263 @@
+{
+ "villager": "piper",
+ "lines": {
+  "event.piper_heart2.0": {
+   "text": "[player]! Up here. Learn one chord with me. Just one. It's the friendly one.",
+   "why": "invites, with a promise she will break"
+  },
+  "event.piper_heart2.1": {
+   "text": "Thumb there, two fingers there, now pull. ...There. You're a musician now. That's the whole secret.",
+   "why": "mock-grandeur over one chord"
+  },
+  "event.piper_heart2.2": {
+   "text": "Here, a sunflower for your first gig. Don't quit the farm. Come back Friday, and I'll teach you the second chord.",
+   "why": "gift plus a day-stamped promise"
+  },
+  "event.piper_heart5.0": {
+   "text": "Sit. This one's yours. Nobody requested it, which is how you know it's special.",
+   "why": "a gift disguised as a boast"
+  },
+  "event.piper_heart5.1": {
+   "text": "First time out of the case. Elara hasn't heard it yet, and she hears everything first.",
+   "why": "specific: the song's real first audience"
+  },
+  "event.piper_heart5.2": {
+   "text": "It ends on four notes I hum when nobody's around. I don't know where I got them. I keep meaning to find out.",
+   "why": "leaves the four-notes thread"
+  },
+  "event.hall_dance.4": {
+   "text": "First verse, then I step off. I'm perfectly calm. My bow hand hasn't heard.",
+   "why": "nerves undercut by a joke"
+  },
+  "event.story_umbrella.intro": {
+   "text": "Wait. Stop. Is that my umbrella? On a fence? Being useful without me?",
+   "why": "indignation with a beat"
+  },
+  "dlg.story.umbrella.talk.0": {
+   "text": "A large red umbrella hangs open on the fence post, dripping with great dignity. Piper points at it.",
+   "why": "narration uses only stageable action"
+  },
+  "dlg.story.umbrella.talk.1": {
+   "text": "Third time it's wandered off. It always turns up drier than I do. What do we do?",
+   "why": "specific count, a joke, then the ask"
+  },
+  "dlg.story.umbrella.talk.c0": {
+   "text": "Give it back to her.",
+   "why": "kind"
+  },
+  "dlg.story.umbrella.talk.c1": {
+   "text": "Leave it on the fence.",
+   "why": "practical"
+  },
+  "dlg.story.umbrella.talk.c2": {
+   "text": "Keep it. It suits me.",
+   "why": "playful"
+  },
+  "dlg.story.umbrella.talk.r0": {
+   "text": "Reunited! I'd write it a song, but it would wander off mid-verse.",
+   "why": "joy, then a punchline on the umbrella"
+  },
+  "dlg.story.umbrella.talk.r1": {
+   "text": "Leave it? ...Yes. A little red landmark. Somebody out in this rain needs it more.",
+   "why": "generous turn"
+  },
+  "dlg.story.umbrella.talk.r2": {
+   "text": "You're keeping it? That's theft with excellent manners. ...It does suit you.",
+   "why": "tease aimed at the act, then warmth"
+  },
+  "event.story_umbrella.after": {
+   "text": "{if choice:umbrella.return}Back where it belongs. But someone keeps hanging it up so neatly. Who tidies a stranger's umbrella?{else}{if choice:umbrella.hang}A landmark. I'll look for it every rain. And whoever keeps hanging it there, I'll catch them humming.{else}Shared custody. I accept, under protest. Bring it Fridays so it hears me play.{/if}{/if}",
+   "why": "each branch leaves a small question or a day"
+  },
+  "event.story_band_battle.intro": {
+   "text": "Two bands, one square, one extremely polite war. Judge us, [player]. Be honest. Honest means fiddle.",
+   "why": "rigging the vote openly"
+  },
+  "dlg.story.band.talk.0": {
+   "text": "Exhibit A: one fiddle, one voice, a lifetime of practice. Try not to swoon.",
+   "why": "mock-grandeur"
+  },
+  "dlg.story.band.talk.3": {
+   "text": "Well? Who owns the square tonight? Take your time. Pick the fiddle.",
+   "why": "pressure as a joke"
+  },
+  "dlg.story.band.talk.c0": {
+   "text": "The fiddle, obviously.",
+   "why": "loyal"
+  },
+  "dlg.story.band.talk.c1": {
+   "text": "The forge band, honestly.",
+   "why": "honest"
+  },
+  "dlg.story.band.talk.c2": {
+   "text": "Both, together. Loudly.",
+   "why": "playful"
+  },
+  "dlg.story.band.talk.r0": {
+   "text": "Justice! And good taste! Juno, you were wonderful. Just less fiddle.",
+   "why": "gracious winner, never mocks a musician"
+  },
+  "dlg.story.band.talk.r2": {
+   "text": "Together? ...That's either genius or a noise complaint. Bram, one hit. Make it count.",
+   "why": "takes the dare"
+  },
+  "event.story_band_battle.after": {
+   "text": "{if choice:band.piper}The fiddle wins! Juno took it beautifully. She's already forging a louder anvil.{else}{if choice:band.juno}The forge band wins! I'm thrilled. I'm furious. I'm writing a song about both.{else}A joint set! Fiddle, anvils, and one crowd clapping on every beat. That's a chorus.{/if}{/if}",
+   "why": "each result lands on her own reaction"
+  },
+  "event.piper_heart4.intro": {
+   "text": "Last set, and I'm out of ideas. You pick. Anything. I'll play it like I wrote it.",
+   "why": "hands over the request line"
+  },
+  "dlg.piper.request.0": {
+   "text": "The room's waiting. A ballad, a jig, or my parsnip masterpiece? Choose wisely. Choose parsnips.",
+   "why": "rigged menu"
+  },
+  "dlg.piper.request.c0": {
+   "text": "A ballad, please.",
+   "why": "kind"
+  },
+  "dlg.piper.request.c1": {
+   "text": "A jig! Get them dancing.",
+   "why": "lively"
+  },
+  "dlg.piper.request.c2": {
+   "text": "The parsnip song. Obviously.",
+   "why": "playful"
+  },
+  "dlg.piper.request.r0": {
+   "text": "A ballad. Sad in the middle, happy at the end. Like a good harvest. Gather round.",
+   "why": "sets the mood"
+  },
+  "dlg.piper.request.r1": {
+   "text": "A jig! Mind your boots. The good stool's been waiting all night to dance.",
+   "why": "village fact, energy"
+  },
+  "dlg.piper.request.r2": {
+   "text": "The parsnip song! You have taste. Questionable, magnificent taste.",
+   "why": "flattered by the worst request"
+  },
+  "event.piper_heart4.after": {
+   "text": "{if choice:request.ballad}A ballad, slow, with one high note I'm saving. I'm writing down that you asked. It matters later.{else}{if choice:request.jig}A jig! Feet, take cover. I'm writing your request down. Don't ask why yet.{else}The parsnip song, with feeling and a straight face. I'm keeping this request. Someday I'll play it back.{/if}{/if}",
+   "why": "plants that the request returns at heart 10"
+  },
+  "event.piper_heart6.intro": {
+   "text": "Down here. The cellar. I'm not hiding. I'm resting my nerves among the barrels. They're very supportive.",
+   "why": "denial with a joke"
+  },
+  "dlg.piper.fright.0": {
+   "text": "I can play for a hundred people and never blink. Tonight I think they'll finally notice. I'm not as good as I say.",
+   "why": "the first real confession"
+  },
+  "dlg.piper.fright.1": {
+   "text": "So. What do I do with that?",
+   "why": "short, exposed"
+  },
+  "dlg.piper.fright.c0": {
+   "text": "Talk it through with her.",
+   "why": "kind"
+  },
+  "dlg.piper.fright.c1": {
+   "text": "Sit beside her, quietly.",
+   "why": "shy"
+  },
+  "dlg.piper.fright.c2": {
+   "text": "Drum along on a bucket.",
+   "why": "playful"
+  },
+  "dlg.piper.fright.r0": {
+   "text": "Talk. Okay. I'm scared of quiet. Of being a good player and a forgettable writer. There. It's on the barrel now.",
+   "why": "names the fear plainly"
+  },
+  "dlg.piper.fright.r1": {
+   "text": "...You didn't fill it. Nobody ever leaves the quiet alone around me. It's not so bad, shared.",
+   "why": "the silence she fears, made bearable"
+  },
+  "dlg.piper.fright.r2": {
+   "text": "A bucket? You're drumming on a bucket? ...Okay. Okay! In four. One, two, three...",
+   "why": "laughter breaks the nerves"
+  },
+  "event.piper_heart6.after": {
+   "text": "The nerves are still here, just smaller. They fit in the fiddle case. Someday I want a song they sing without me. Tonight, I'll go up.",
+   "why": "states her want, points at heart 10"
+  },
+  "event.piper_heart8.intro": {
+   "text": "Sit by the stage. I'm writing a song, and I need you on every line. It's the only way it'll be good.",
+   "why": "asks for help, plainly"
+  },
+  "dlg.piper.chorus.r0": {
+   "text": "Home. ...Oh. That's it. I've been missing that word for three months. It was right here.",
+   "why": "the word lands"
+  },
+  "dlg.piper.chorus.r1": {
+   "text": "The road. Wide and honest. It rhymes with 'code', if you squint.",
+   "why": "her running off-rhyme bit"
+  },
+  "dlg.piper.chorus.r2": {
+   "text": "This room! A song about the saloon. The good stool is going to be unbearable.",
+   "why": "village fact as punchline"
+  },
+  "event.piper_heart8.after": {
+   "text": "{if choice:chorus.home}'Home' in the chorus. Of course. Now it needs a room full of people to sing it without me.{else}{if choice:chorus.road}'The road' in the chorus. Wanderers love a road. Now it needs a room to sing it without me.{else}'This room' in the chorus. Cheeky and right. Now the room has to sing it without me.{/if}{/if}",
+   "why": "each branch points at the payoff"
+  },
+  "event.piper_heart10.intro": {
+   "text": "Tonight we play the song we wrote. I'll start it. After the first verse, I step off. Don't let me climb back on.",
+   "why": "nervous plan with a joke"
+  },
+  "event.piper_heart10.outro": {
+   "text": "{if choice:chorus.home}They sang 'home' without me. All of them. I didn't play a note. ...So that's what quiet sounds like.{else}{if choice:chorus.road}They sang the road back to me, every verse. I just stood and listened. Quiet's not so bad.{else}The room sang itself back to the room. Even the good stool joined in. I only had to stand there.{/if}{/if}",
+   "why": "payoff: the silence she feared, now full"
+  },
+  "event.piper_friend.intro": {
+   "text": "Friday! Come hear the parsnip ballad. Four verses, and one's about the gray cat. It hasn't approved its verse.",
+   "why": "specific, a joke on the cat"
+  },
+  "event.piper_friend.doing": {
+   "text": "'Oh parsnip, pale and patient root...' Wait. It rhymes with 'boot'. If you squint. I'm very close.",
+   "why": "off-rhyme bit in action"
+  },
+  "event.piper_friend.wrap": {
+   "text": "That's a chorus! A bad one. Mine. Come back next Friday. Verse five is about you.",
+   "why": "promise with a day"
+  }
+ },
+ "adds": [
+  {
+   "scene": "piper_heart2",
+   "after": "event.piper_heart2.1",
+   "text": "That chord took me a week. You took a minute. I'm fine. I'm completely fine about it.",
+   "emote": "sweat",
+   "expression": "embarrassed",
+   "why": "self-aggrandize then deflate"
+  },
+  {
+   "scene": "piper_heart5",
+   "after": "event.piper_heart5.1",
+   "text": "If it's bad, clap anyway. If it's good, clap louder. I'm flexible.",
+   "emote": null,
+   "expression": "happy",
+   "why": "covers nerves with a joke before playing"
+  },
+  {
+   "scene": "story_band_battle",
+   "after": "event.story_band_battle.after",
+   "text": "And Bram tapped his foot on the second verse. I saw it. He'll deny it until spring.",
+   "emote": "note",
+   "expression": "happy",
+   "why": "leaves the Bram-and-fiddle thread"
+  }
+ ],
+ "cuts": [],
+ "threads": {
+  "piper_heart2": "Piper promised the second chord on a Friday; what comes after one chord?",
+  "piper_heart5": "Where did the four notes Piper hums when she is alone come from?",
+  "story_umbrella": "Who keeps hanging Piper's umbrella so neatly on fences?",
+  "story_band_battle": "Why does Bram tap his foot to Piper's fiddle and deny it?",
+  "piper_heart4": "Why is Piper writing down the player's request?",
+  "piper_heart6": "Will the village ever sing one of Piper's songs without her?",
+  "piper_heart8": "Will the saloon sing the new song back without Piper?",
+  "piper_friend": "What will verse five of the parsnip ballad say about the player?"
+ },
+ "notes": []
+}
