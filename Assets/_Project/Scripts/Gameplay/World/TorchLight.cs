@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Farm.Gameplay
 {
-    // A torch lights a bubble round the player (owner, 2026-10-11: five tiles, a glow that drifts between orange, red and yellow). The light is a FlickerLight (the same one
+    // A torch lights a bubble round the player (owner, 2026-10-11: five tiles, ten since 2026-10-16, a glow that drifts between orange, red and yellow). The light is a FlickerLight (the same one
     // candles and lamps use) on a child of the player. Since 2026-10-12 it is TorchBurn that says when it burns: a carried torch lights itself in the dark and lasts an hour.
     public sealed class TorchLight : MonoBehaviour, IMapBound
     {
-        public const float Radius = 5f;
+        public const float Radius = 10f;          // doubled from five tiles on the owner's word, 2026-10-16
         public const float Intensity = 1.1f;
         public static readonly Color Orange = new Color(1f, 0.55f, 0.15f);
         public static readonly Color Red = new Color(0.95f, 0.22f, 0.1f);

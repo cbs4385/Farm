@@ -217,6 +217,20 @@ namespace Farm.Tests
             }
         }
 
+        [UnityTest]
+        public IEnumerator TheStreetLamps_LightTwiceAsFarAsTheyDid_AfterDusk()
+        {
+            yield return Open(MapIds.Village, minute: 22 * 60);
+            for (var i = 0; i < 40; i++) yield return null;
+            var lights = UnityEngine.Object.FindObjectsByType<UnityEngine.Rendering.Universal.Light2D>(FindObjectsSortMode.None).Where(l => l.name == "LampLight").ToList();
+            Assert.GreaterOrEqual(lights.Count, 10, "the village's lamp posts");
+            foreach (var l in lights)
+            {
+                Assert.AreEqual(9f, l.pointLightOuterRadius, "nine tiles: twice the 4.5 it was");
+                Assert.IsTrue(l.enabled, "lit at ten at night");
+            }
+        }
+
         // ---- the people who stand in the square ----
 
         [UnityTest]

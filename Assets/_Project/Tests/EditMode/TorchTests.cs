@@ -32,7 +32,7 @@ namespace Farm.Tests
                 seen.Add(Mathf.RoundToInt(g.g * 20f));
             }
             Assert.GreaterOrEqual(seen.Count, 8, "the colour moves between red, orange and yellow");
-            Assert.AreEqual(5f, TorchLight.Radius, "five tiles");
+            Assert.AreEqual(10f, TorchLight.Radius, "ten tiles: twice what it was (owner, 2026-10-16)");
         }
 
         [Test]

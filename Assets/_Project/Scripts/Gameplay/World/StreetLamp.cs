@@ -6,7 +6,7 @@ namespace Farm.Gameplay
     // lamp wakes, switched on and off by the time of day.
     public sealed class StreetLamp : MonoBehaviour, IMapBound
     {
-        public const float Radius = 4.5f;
+        public const float Radius = 9f;          // doubled from 4.5 tiles on the owner's word, 2026-10-16
         public const float Intensity = 0.9f;
         public static readonly Color Glow = new Color(1f, 0.78f, 0.42f);
 

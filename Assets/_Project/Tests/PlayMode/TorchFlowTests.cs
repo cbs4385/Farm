@@ -66,7 +66,7 @@ namespace Farm.Tests
             Assert.AreEqual(TorchBurn.Minutes, TorchBurn.Left(session));
             Assert.AreEqual(3, session.Backpack.Count(ItemIds.Torch), "the torch stays in its slot while it burns");
             var light = torch.GetComponentInChildren<Light2D>();
-            Assert.AreEqual(5f, light.pointLightOuterRadius, "five tiles");
+            Assert.AreEqual(10f, light.pointLightOuterRadius, "ten tiles");
             Assert.GreaterOrEqual(torch.CurrentColor.r, 0.9f, "a warm colour");
             session.State.SelectedHotbar = slot;
             for (var i = 0; i < 3; i++) yield return null;
