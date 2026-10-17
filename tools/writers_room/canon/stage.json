@@ -1,0 +1,22 @@
+{
+  "_source": "Checked against EventFlow.cs (EventSteps.Known, Anims, CameraModes, LightingPresets), DialogueVocabulary.cs, NpcDefinition.cs, AudioService.cs, MusicDirector.cs, MapIds, Conditions.cs, IGameQuery.cs, Effects.cs, StoryEffects.cs, Interactions.cs, MythosModule.cs, MythosEffects.cs on 2026-10-16. Update when those change.",
+  "stepTypes": ["say", "dialogue", "move", "face", "wait", "advance", "fadeout", "fadein", "effects", "place", "emote", "expression", "anim", "camera", "sfx", "music", "lighting", "branch", "label", "parallel", "waitFor", "spawn", "despawn", "letterbox", "illustration"],
+  "asyncAllowed": ["move", "emote", "anim", "camera", "lighting"],
+  "parallelAllowed": ["move", "face", "place", "wait", "emote", "anim", "camera", "sfx", "lighting", "spawn", "despawn", "expression"],
+  "anims": ["hop", "jiggle", "nod", "sway", "dance", "wave", "sit", "shrug", "point"],
+  "animsNoOp": ["look"],
+  "emotes": ["heart", "note", "sweat", "exclaim", "question", "ellipsis", "sparkle", "zzz"],
+  "expressions": ["neutral", "happy", "sad", "surprised", "embarrassed", "thinking"],
+  "facing": ["up", "down", "left", "right"],
+  "camera": ["focus", "pan", "shake", "reset"],
+  "lighting": ["day", "dawn", "dusk", "night", "warm", "dim", "reset"],
+  "letterbox": ["on", "off"],
+  "sfx": ["click", "hoe", "water", "plant", "harvest", "coin", "error", "clink", "rustle", "anvil", "shutter", "pageturn", "letter", "questdone", "levelup", "door", "pickup", "heart", "gift", "cast", "splash", "bite", "swordswing", "hit", "chestopen", "rooster", "sleep", "lantern", "step", "cluck", "moo", "baa", "quack", "hover", "stephard", "stepsand", "thunder", "gust", "meow", "bell", "knock"],
+  "music": ["beach", "farm_fall", "farm_night", "farm_spring", "farm_summer", "farm_winter", "festival_fall", "festival_spring", "festival_summer", "festival_winter", "forest", "indoors", "library", "mine", "rain", "saloon", "title", "village", "stop"],
+  "tags": ["funny", "wholesome", "surprise", "mystery"],
+  "tones": ["kind", "honest", "playful", "shy", "curt"],
+  "triggers": ["map", "dawn", "manual"],
+  "maps": ["Farm", "FarmHouse", "Village", "Forest", "Beach", "GeneralStore", "Blacksmith", "Carpenter", "Saloon", "Clinic", "Library", "CommunityHall", "Greenhouse", "Coop", "Barn", "Mine", "Woods", "HomeTilda", "HomeBram", "HomeIone", "HomeMarcus", "HomeOdalys", "HomeWren", "HomeFelix", "HomeJuno", "HomeHazel", "HomePiper", "HomeDorian", "HomeElara"],
+  "conditionAtoms": ["true", "false", "hour", "day", "year", "flag", "var", "season", "weather", "moon", "map", "weekday", "hearts", "has", "quest", "knows", "festival.in", "birthday.in", "farm", "mood", "upgrade", "gold", "shipped", "hall", "recent", "upgraded", "heard", "choice", "storyline", "farmname", "playername", "unseen", "merchant", "rotate", "open", "horror", "keeper", "ritual"],
+  "effectVerbs": ["flag", "unflag", "setvar", "addvar", "gold", "give", "parcel", "take", "toast", "xp", "friend", "met", "wake", "mark", "energy", "learn", "quest.start", "quest.done", "mail", "crows", "event", "topic.done", "book.discussed", "talk.more", "talk.sell", "talk.build", "talk.again", "social.done", "dread", "lore", "standing", "sick", "away", "ritual", "seal", "ending"]
+}

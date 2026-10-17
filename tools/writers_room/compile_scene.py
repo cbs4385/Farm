@@ -101,7 +101,10 @@ def compile_draft(d: dict) -> tuple[dict, dict, str]:
         elif "lighting" in beat:
             steps.append({"type": "lighting", "name": beat["lighting"], "seconds": beat.get("seconds", 1.0)})
         elif "camera" in beat:
-            steps.append({"type": "camera", "target": beat["camera"]})
+            step = {"type": "camera", "name": beat["camera"], "seconds": beat.get("seconds", 0.8)}
+            if beat.get("actor"):
+                step["actor"] = beat["actor"]
+            steps.append(step)
         elif "wait" in beat:
             steps.append({"type": "wait", "seconds": beat["wait"]})
         elif "effects" in beat:

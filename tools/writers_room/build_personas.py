@@ -36,7 +36,7 @@ VILLAGERS = {
     "juno":   ("Juno Hale",           "BIBLE_WAVE2.md",    "Juno Hale",       "Juno Hale"),
     "piper":  ("Piper Vance",         "BIBLE_WAVE2.md",    "Piper Vance",     "Piper Vance"),
     "marcus": ("Marcus Dell",         "BIBLE_ENHANCED.md", "Marcus Dell",     "Marcus Dell"),
-    "odalys": ("Dr. Odalys Penn",     "BIBLE_ENHANCED.md", "Odalys Penn",     "Odalys Penn"),
+    "odalys": ("Dr. Odalys Penn",     "BIBLE_ENHANCED.md", "Dr. Odalys Penn", "Dr. Odalys Penn"),
     "felix":  ("Felix Hartwell",      "BIBLE_ENHANCED.md", "Felix Hartwell",  "Felix Hartwell"),
     "dorian": ("Dorian Lake",         "BIBLE_ENHANCED.md", "Dorian Lake",     "Dorian Lake"),
     "elara":  ("Elara Finch",         "BIBLE_ENHANCED.md", "Elara Finch",     "Elara Finch"),
