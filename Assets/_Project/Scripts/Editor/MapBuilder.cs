@@ -531,7 +531,7 @@ namespace Farm.Editor
             AddSpawn("fromFarm", Center(2, 17));
             AddSpawn("fromForest", Center(25, VillageH - 3));
             AddSpawn("fromBeach", Center(25, 2));
-            AddSpawn("sleepwalk", Center(24, 17));
+            AddSpawn("sleepwalk", Center(22, 17));          // west of the fountain (the middle of the square is blocked)
             AddWarp(Center(0, 17), MapIds.Farm, "fromVillage", new Vector2(1f, 3f));
             AddWarp(Center(25, VillageH - 1), MapIds.Forest, "fromVillage", new Vector2(3f, 1f));
             AddWarp(Center(25, 0), MapIds.Beach, "fromVillage", new Vector2(3f, 1f));

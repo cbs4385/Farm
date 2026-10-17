@@ -77,7 +77,7 @@ namespace Farm.Gameplay
                         Stop(18 * 60, MapIds.Saloon, 7, 4, "up"), NpcHomes.Stop(Nine, NpcIds.Bram)),
                     // Tuesday: the saloon is shut, so the evening is spent in the square, by Tilda.
                     Day("tuesday", "weekday:tue", 3, home,
-                        NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Half5, MapIds.Village, 28, 18, "left"),
+                        NpcHomes.Depart(Eight50, NpcIds.Bram, MapIds.Blacksmith, 6, 4), Stop(Half5, MapIds.Village, 23, 18, "left"),
                         NpcHomes.Stop(Nine, NpcIds.Bram)),
                     // Wednesday: lunch on the bench in the square, beside Marcus (his day off), in silence.
                     Day("wednesday_bench", "weekday:wed && !weather:rain", 3, home,

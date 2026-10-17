@@ -320,7 +320,7 @@ namespace Farm.Tests
                 var forest = s.GetNodes("Forest").Nodes.Select(n => n.TypeId).Distinct().ToList();
                 var beach = s.GetNodes("Beach").Nodes.Select(n => n.TypeId).Distinct().ToList();
                 CollectionAssert.IsSubsetOf(forest, new[] { "hazelnut", "mushroom", "truffle", "wildgarlic", "raspberry", "winterroot" });
-                CollectionAssert.IsSubsetOf(beach, new[] { "seashell", "clam", "pearl" });
+                CollectionAssert.IsSubsetOf(beach, new[] { "seashell", "clam", "pearl", "rock" });          // and rocks, from the beach's own rock table
                 Assert.IsNotEmpty(forest);
                 Assert.IsNotEmpty(beach);
                 Assert.AreEqual(0, s.RunSpawns("Nowhere", Meadow), "a map with no table gets nothing");
@@ -364,7 +364,7 @@ namespace Farm.Tests
             Assert.AreEqual(1, db.Merge(pack));
             var catalog = SpawnCatalog.From(db);
             Assert.AreEqual(1, catalog.For("Woods").Count());
-            Assert.AreEqual(ForageDefaults.CreateTables().First(t => t.Id == "beach.forage").DailyAttempts, catalog.For("Beach").Single().DailyAttempts, "the core beach table stays as it was");
+            Assert.AreEqual(ForageDefaults.CreateTables().First(t => t.Id == "beach.forage").DailyAttempts, catalog.For("Beach").Single(t => t.Id == "beach.forage").DailyAttempts, "the core beach table stays as it was");
         }
 
         [Test]

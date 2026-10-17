@@ -84,8 +84,8 @@ namespace Farm.Tests
             yield return Start(MapIds.Village);
             _s.State.Board.Add(new BoardJob { Id = "j", ItemId = "crop.parsnip", Count = 2, Reward = 90, ExpiresDay = 99 });
             _s.Backpack.Add("crop.parsnip", 2);
-            Player.transform.position = new Vector3(22.5f, 18.5f, 0f);
-            Player.Face(Vector2Int.up);
+            Player.transform.position = new Vector3(Farm.Gameplay.VillageSquare.Board.x + 0.5f, Farm.Gameplay.VillageSquare.Board.y + 1.5f, 0f);          // north of the board, which stands by the pond
+            Player.Face(Vector2Int.down);
             for (var i = 0; i < 4; i++) yield return null;
             yield return Tap(Key.E);
             for (var i = 0; i < 3; i++) yield return null;
